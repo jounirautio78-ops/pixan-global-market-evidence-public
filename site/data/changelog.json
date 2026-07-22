@@ -3,6 +3,45 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-22-worldwide-patent-diligence-v4",
+      "version": "2026.07.22-4",
+      "publishedAt": "2026-07-22T15:50:00+03:00",
+      "titleEn": "Worldwide patent history and finance-grade evidence boundaries",
+      "titleFi": "Maailmanlaajuinen patenttihistoria ja rahoitustarkastuksen evidenssirajat",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Replaced broad coverage headlines with the exact position: 195 sovereign-state research rows, 5 countries with accepted annual numeric observations, 0 accepted official national consumer-retail values, 1 country model and no atlas global estimate.",
+          "textFi": "Korvattiin yleiset peittoväitteet täsmällisellä tilanteella: 195 suvereenin valtion tutkimusriviä, 5 maata hyväksytyillä määrällisillä vuosihavainnoilla, 0 hyväksyttyä virallista kansallista kuluttajavähittäisarvoa, 1 maamalli eikä atlaksen maailmanestimaattia."
+        },
+        {
+          "category": "patent",
+          "textEn": "Added a source-linked 2012–2026 history, 22 official family-publication records, B1-to-B2 claim-count context and official national-register checks for Finland, Australia, South Korea and Russia.",
+          "textFi": "Lisättiin lähteistetty vuosien 2012–2026 historia, 22 virallista perhejulkaisutietuetta, B1–B2-vaatimusmäärien tausta sekä viralliset kansalliset rekisteritarkistukset Suomesta, Australiasta, Etelä-Koreasta ja Venäjältä."
+        },
+        {
+          "category": "legal",
+          "textEn": "Corrected the China item to an applicant-side re-examination of a rejected application—not an infringement lawsuit—and kept the exact decision reasoning unverified; German judgments retain finality and territorial limits.",
+          "textFi": "Korjattiin Kiina-kohta hylätyn hakemuksen hakijapuolen uudelleentarkastukseksi — ei loukkausoikeudenkäynniksi — ja jätettiin päätöksen tarkat perustelut vahvistamatta; Saksan ratkaisuissa näkyvät lainvoimaisuus- ja aluerajat."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Added four prominent maintenance and review alerts for Australia, Finland, European national rights and the United States, distinguishing statutory dates, register dates and internal targets.",
+          "textFi": "Lisättiin neljä näkyvää ylläpito- ja tarkistushälytystä Australialle, Suomelle, Euroopan kansallisille oikeuksille ja Yhdysvalloille erotellen lakisääteiset päivät, rekisteripäivät ja sisäiset tavoitteet."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a counsel-led country-prioritisation and commercialisation framework covering licensing, settlement, assignment, IP finance, litigation funding and hybrid routes without treating market size as royalty base or cash flow.",
+          "textFi": "Lisättiin asiantuntijavetoinen maiden priorisointi- ja kaupallistamiskehys lisensoinnille, sovinnolle, luovutukselle, IP-rahoitukselle, prosessirahoitukselle ja hybridireiteille käsittelemättä markkinakokoa rojaltipohjana tai kassavirtana."
+        },
+        {
+          "category": "usability",
+          "textEn": "Expanded both the full bilingual atlas and the shareable lender/buyer brief with patent JSON/CSV downloads, source dates, limitations and a searchable worldwide family table.",
+          "textFi": "Laajennettiin sekä kaksikielistä koko atlasta että jaettavaa lainanantaja- ja ostajamuistiota patentin JSON/CSV-latauksilla, lähdepäivillä, rajauksilla ja haettavalla maailmanlaajuisella perhetaulukolla."
+        }
+      ]
+    },
+    {
       "id": "2026-07-22-visible-update-version-v3",
       "version": "2026.07.22-3",
       "publishedAt": "2026-07-22T15:02:32+03:00",

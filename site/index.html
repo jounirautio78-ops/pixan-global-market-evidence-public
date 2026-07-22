@@ -7,9 +7,9 @@
   <meta name="theme-color" content="#08131f">
   <title>Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-5">
-  <script defer src="assets/i18n.js?v=2026-07-22-5"></script>
-  <script defer src="assets/app.js?v=2026-07-22-5"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-6">
+  <script defer src="assets/i18n.js?v=2026-07-22-6"></script>
+  <script defer src="assets/app.js?v=2026-07-22-6"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Siirry sisältöön</a>
@@ -35,14 +35,14 @@
   </header>
 
   <nav class="section-nav" aria-label="Päänavigaatio">
-    <div class="nav-inner" role="tablist">
-      <a href="#overview" data-tab="overview" role="tab">Tilannekuva</a>
-      <a href="#market" data-tab="market" role="tab">Markkinan arvo</a>
-      <a href="#countries" data-tab="countries" role="tab">195 maata</a>
-      <a href="#evidence" data-tab="evidence" role="tab">Evidenssi</a>
-      <a href="#legal" data-tab="legal" role="tab">Patentti ja Saksa</a>
-      <a href="#method" data-tab="method" role="tab">Menetelmä</a>
-      <a href="#submit" data-tab="submit" role="tab">Aineistokanava</a>
+    <div class="nav-inner">
+      <a href="#overview" data-tab="overview">Tilannekuva</a>
+      <a href="#market" data-tab="market">Markkinan arvo</a>
+      <a href="#countries" data-tab="countries">195 maata</a>
+      <a href="#evidence" data-tab="evidence">Evidenssi</a>
+      <a href="#legal" data-tab="legal">Patentti ja kaupallistaminen</a>
+      <a href="#method" data-tab="method">Menetelmä</a>
+      <a href="#submit" data-tab="submit">Aineistokanava</a>
     </div>
   </nav>
 
@@ -65,7 +65,7 @@
         <div>
           <strong>Riippumaton tutkimusprojekti</strong>
           <p>Tämä sivusto ei edusta Pixan Oy:tä eikä sen virallista kantaa. Se ei ole tarjous, arvonmääritys, sijoitussuositus, tilintarkastus tai oikeudellinen lausunto.</p>
-          <p class="muted"><span>Viimeksi päivitetty</span> <time id="snapshot-date">—</time> · <span>Versio</span> <code id="site-version">—</code> · <span>Lähdesnapshot</span> <code id="source-commit">—</code></p>
+          <p class="muted"><span>Viimeksi päivitetty</span> <time id="snapshot-date">—</time> · <span>Versio</span> <code id="site-version">—</code> · <span>Vanhan tuonnin lähtötaso</span> <code id="source-commit">—</code></p>
         </div>
       </aside>
     </section>
@@ -96,10 +96,10 @@
       </article>
     </section>
 
-    <section class="tab-panel shell" id="panel-overview" data-panel="overview" aria-labelledby="tab-overview">
+    <section class="tab-panel shell" id="panel-overview" data-panel="overview">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Lender-grade lähtökohta</p>
+          <p class="eyebrow">Due diligence -lähtökohta</p>
           <h2>Yksi numero ei ole maailmanmarkkina</h2>
         </div>
         <p>Atlas kertoo myös sen, mitä emme vielä tiedä. Puuttuva havainto on puuttuva — ei nolla.</p>
@@ -109,8 +109,8 @@
         <article class="panel panel-wide">
           <div class="panel-heading">
             <div>
-              <p class="kicker">Kattavuus lähdetyypeittäin</p>
-              <h3>Maailman evidenssipeitto</h3>
+              <p class="kicker">Tutkimuspeitto lähdetyypeittäin</p>
+              <h3>Maailmanlaajuinen tutkimuspeitto — ei 195 mitattua markkinaa</h3>
             </div>
             <span class="panel-note">Maa voi kuulua useaan luokkaan</span>
           </div>
@@ -179,13 +179,13 @@
         <article class="panel panel-wide market-range-panel">
           <div class="panel-heading">
             <div>
-              <p class="kicker">Ulkopuolinen täsmäytyshaarukka</p>
-              <h3>Vuoden 2025 kaupalliset maailmanmarkkina-arviot</h3>
+              <p class="kicker">Ulkopuoliset vertailupisteet</p>
+              <h3>Vuoden 2025 kaupalliset maailmanmarkkina-arviot erikseen</h3>
             </div>
             <span class="market-status-chip market-status-caution">Ei atlaksen arvio</span>
           </div>
           <div id="market-global-range" class="market-global-range"></div>
-          <p class="panel-note">Julkaisijoiden tuoterajaukset ja menetelmät poikkeavat toisistaan. Haarukka on sanity check, ei vahvistettu maailmanlaajuinen myynti.</p>
+          <p class="panel-note">Julkaisijoiden tuoterajaukset ja menetelmät poikkeavat toisistaan. Pienintä ja suurinta lukua ei yhdistetä tilastolliseksi vaihteluväliksi eikä atlaksen arvioksi.</p>
         </article>
 
         <article class="panel market-readiness-panel">
@@ -225,7 +225,7 @@
       <div class="section-heading market-method-heading">
         <div>
           <p class="eyebrow">Triangulaatio ilman tuplalaskentaa</p>
-          <h2>Kuusi vaihtoehtoista laskentareittiä</h2>
+          <h2>Seitsemän vaihtoehtoista laskentareittiä</h2>
         </div>
         <div class="market-method-intro">
           <p>Menetelmät tuottavat rinnakkaisia low/base/high-arvioita. Niitä verrataan ja painotetaan evidenssin laadulla; niitä ei summata keskenään.</p>
@@ -242,7 +242,7 @@
           <p class="eyebrow">UN 193 + Pyhä istuin + Palestiina</p>
           <h2>195 maan markkina-atlas</h2>
         </div>
-        <p>Valitse maa nähdäksesi nykyisen ankkurin, puutteet, lähteet ja seuraavan tutkimusreitin.</p>
+        <p>Valitse valtio nähdäksesi nykyisen ankkurin, puutteet, lähteet ja seuraavan tutkimusreitin. Erikseen raportoituja markkina-alueita ja territorioita varten rakennetaan päällekkäisyyden estävä erillinen kerros.</p>
       </div>
 
       <div class="toolbar" aria-label="Maataulukon suodattimet">
@@ -316,23 +316,117 @@
     <section class="tab-panel shell" id="panel-legal" data-panel="legal" hidden>
       <div class="section-heading">
         <div>
-          <p class="eyebrow">EP3032975 · julkinen prosessitieto</p>
-          <h2>Patentti- ja Saksa-seuranta</h2>
+          <p class="eyebrow">EP3032975 · full history · public evidence</p>
+          <h2>Patenttihistoria, maailmanlaajuinen perhe ja kaupallistaminen</h2>
         </div>
-        <p>Oikeudellinen näyttö kertoo oikeudesta ja prosessitilasta. Se ei itsessään todista rahaksi muuttunutta korvausta tai vakuusarvoa.</p>
+        <p>Jokainen tieto näyttää lähteen, evidenssitason, prosessin lopullisuuden ja sen, mitä tiedosta ei saa päätellä. Patenttiarvo, yritysarvo, vakuusarvo ja toteutunut kassavirta pidetään erillään.</p>
       </div>
-      <div class="legal-layout">
-        <div class="panel">
-          <div class="panel-heading"><div><p class="kicker">Prosessitila</p><h3>Vahvistetut tapahtumat</h3></div></div>
-          <ol id="legal-timeline" class="timeline"></ol>
-        </div>
-        <aside class="panel legal-summary">
-          <p class="kicker">Tulkintaraja</p>
-          <h3>Vahvistettu ≠ rahaksi realisoitu</h3>
-          <div id="legal-gates" class="legal-gates"></div>
-          <div class="warning-box"><strong>Huomio</strong><p>Tuomioiden täytäntöönpanovakuudet eivät ole Pixanille maksettuja vahingonkorvauksia.</p></div>
+      <div class="patent-trust-strip" aria-label="Patenttiaineiston luottamusperiaatteet">
+        <div><span class="patent-tier patent-tier-official">A</span><p><strong>Virallinen</strong><small>Rekisteri, patenttijulkaisu, tuomio tai säädös.</small></p></div>
+        <div><span class="patent-tier patent-tier-secondary">B</span><p><strong>Sekundäärivahvistus</strong><small>Luotettava tietokanta tai arkistoitu aikalaislähde.</small></p></div>
+        <div><span class="patent-tier patent-tier-lead">C</span><p><strong>Avoin johtolanka</strong><small>Ei muutu väitteeksi ennen alkuperäislähteen varmennusta.</small></p></div>
+      </div>
+
+      <div id="patent-metrics" class="market-summary-grid patent-metrics" aria-live="polite"></div>
+
+      <div class="patent-overview-grid">
+        <article class="panel patent-overview-card">
+          <div class="panel-heading"><div><p class="kicker">Keksintö ja oikeuden identiteetti</p><h3 id="patent-title">—</h3></div><span id="patent-central-status" class="market-status-chip">—</span></div>
+          <p id="patent-invention-summary" class="patent-lead">—</p>
+          <dl id="patent-identifiers" class="patent-identifiers"></dl>
+          <div class="patent-claim-box"><strong>Vaatimusten ydin yleiskielellä</strong><p id="patent-claim-summary">—</p><small id="patent-claim-limit">—</small></div>
+        </article>
+        <aside class="panel patent-boundary-card">
+          <p class="kicker">Luottamusprotokolla</p>
+          <h3>Väite vain sen lähteen kantaman verran</h3>
+          <ul class="check-list patent-boundary-list">
+            <li>Perhejulkaisu ei ole nykyinen kansallinen voimassaolo.</li>
+            <li>Saksan ratkaisu ei ole maailmanlaajuinen loukkaustuomio.</li>
+            <li>Koko markkina ei ole rojaltipohja tai vahingonkorvaus.</li>
+            <li>Prosessin päätös ei ole sama kuin toteutunut kassavirta.</li>
+          </ul>
+          <a class="button button-secondary button-small" href="data/patent-history.json" download>Lataa koko patenttiaineisto JSON</a>
         </aside>
       </div>
+
+      <article class="panel patent-history-panel">
+        <div class="panel-heading">
+          <div><p class="kicker">2012 → 22.7.2026</p><h3>Tässä julkaisussa dokumentoitu julkinen historia</h3></div>
+          <span class="panel-note">Yhtiötausta, hakemukset, väite, valitus ja oikeusprosessit eroteltuina</span>
+        </div>
+        <ol id="patent-timeline" class="timeline patent-timeline"></ol>
+      </article>
+
+      <article class="panel patent-alerts-panel">
+        <div class="panel-heading">
+          <div><p class="kicker">Oikeuksien säilyttäminen ennen kaupallistamista</p><h3>Määräpäivät ja due diligence -hälytykset</h3></div>
+          <span id="patent-alert-count" class="panel-note">—</span>
+        </div>
+        <p class="panel-note patent-alert-intro">Lakisääteiset eräpäivät, rekisterin ilmoittamat in-force-through-päivät ja sisäiset tarkistustavoitteet on merkitty eri tavoin. Tarkista aina virallisesta rekisteristä ennen toimintaa.</p>
+        <div id="patent-alerts" class="patent-alerts"></div>
+      </article>
+
+      <article class="panel patent-family-panel">
+        <div class="panel-heading">
+          <div><p class="kicker">Official family publication ≠ current national status</p><h3>Maailmanlaajuinen patenttiperhe</h3></div>
+          <a class="button button-secondary button-small" href="data/patent-family.csv" download>Lataa perhetaulukko CSV</a>
+        </div>
+        <div class="filter-bar patent-filter-bar">
+          <label class="search-field"><span class="sr-only">Hae maata tai patenttinumeroa</span><input id="patent-family-search" type="search" placeholder="Hae maata tai patenttinumeroa…"></label>
+          <p id="patent-family-count" class="panel-note">—</p>
+        </div>
+        <div class="table-wrap" tabindex="0" aria-label="Maailmanlaajuisen patenttiperheen vieritettävä taulukko">
+          <table class="data-table patent-family-table">
+            <caption class="sr-only">Patenttiperheen viralliset julkaisut ja kansallisen tilan varmennustaso 22.7.2026</caption>
+            <thead><tr><th scope="col">Maa / alue</th><th scope="col">Julkaisu</th><th scope="col">Julkaisupäivä</th><th scope="col">Mitä on vahvistettu</th><th scope="col">Nykyinen kansallinen tila</th><th scope="col"><span class="sr-only">Rekisteri</span></th></tr></thead>
+            <tbody id="patent-family-rows"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel patent-proceedings-panel">
+        <div class="panel-heading"><div><p class="kicker">Menettelytyypit eivät ole sama asia</p><h3>Väite, uudelleentarkastus, mitättömyys ja loukkaus</h3></div></div>
+        <div id="patent-proceedings" class="patent-proceedings"></div>
+      </article>
+
+      <section class="patent-commercialisation" aria-labelledby="patent-commercialisation-title">
+        <div class="section-heading patent-subheading">
+          <div><p class="eyebrow">Evidence first · counsel led</p><h3 id="patent-commercialisation-title">Miten Saksan päätöstä voidaan hyödyntää ja rahavirtaa rakentaa</h3></div>
+          <p>Strategiakehys auttaa priorisoimaan, mutta ei väitä patentin olevan voimassa tai tuotteen loukkaavan missään maassa ilman maakohtaista varmennusta.</p>
+        </div>
+        <article id="patent-positioning" class="panel patent-positioning"></article>
+
+        <div class="patent-strategy-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><p class="kicker">Neljä kovaa porttia</p><h3>Vahvista ennen yhteydenottoa</h3></div></div>
+            <div id="patent-readiness" class="patent-readiness"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><p class="kicker">100 pisteen priorisointi</p><h3>Maavalinnan pisteytys</h3></div></div>
+            <div id="patent-scoring" class="patent-scoring"></div>
+          </article>
+        </div>
+
+        <article class="panel patent-routes-panel">
+          <div class="panel-heading"><div><p class="kicker">Omistus · lisenssi · rahoitus · valvonta</p><h3>Mahdolliset kaupallistamisreitit</h3></div></div>
+          <div id="patent-routes" class="patent-routes"></div>
+        </article>
+
+        <article class="panel patent-sequence-panel">
+          <div class="panel-heading"><div><p class="kicker">Ehdotettu etenemisjärjestys</p><h3>Vahvistuksesta neuvottelukelpoiseen kassavirtapakettiin</h3></div></div>
+          <ol id="patent-sequence" class="patent-sequence"></ol>
+        </article>
+
+        <article class="warning-box patent-guardrails-box">
+          <strong>Mitä dashboard ei saa väittää</strong>
+          <div id="patent-guardrails" class="patent-guardrails"></div>
+        </article>
+      </section>
+
+      <article class="panel patent-sources-panel">
+        <div class="panel-heading"><div><p class="kicker">Auditoitava lähdeketju</p><h3>Patenttiosion lähteet ja niiden rajat</h3></div><span id="patent-source-count" class="panel-note">—</span></div>
+        <div id="patent-sources" class="patent-sources"></div>
+      </article>
     </section>
 
     <section class="tab-panel shell" id="panel-method" data-panel="method" hidden>
