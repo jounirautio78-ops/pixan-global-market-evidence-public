@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "release": {
+    "id": "2026-07-22-bilingual-package-and-request-program-v8",
+    "version": "2026.07.22-8",
+    "publishedAt": "2026-07-22T19:15:00+03:00"
+  },
+  "asOf": "2026-07-22",
+  "translationInputs": [
+    {
+      "path": "source/bank-evidence-register-en.json",
+      "sha256": "494b217097563247044de2be3e43816e756f94f276bd69826a657f8f468ea246"
+    },
+    {
+      "path": "source/bank-deck-en-translations.json",
+      "sha256": "afaed6428570164fffc3dfea41b20dc2c352f020eb38c2df78fa714589f9106f"
+    }
+  ],
+  "sourceArtifacts": [
+    {
+      "id": "short-deck-fi",
+      "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
+      "sha256": "35e4efdac8179bf0d880e04777fb51cdd4c6f829afb0b55ca54d0c423240d2d8"
+    },
+    {
+      "id": "medium-deck-fi",
+      "path": "site/downloads/pixan-bank-deck-medium-fi.pptx",
+      "sha256": "1993c02e005be46493570bc12d1afc4fd52e35dc7c1da27fc9d991b178cc7d0c"
+    },
+    {
+      "id": "large-deck-fi",
+      "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
+      "sha256": "4de89ce32778154519c608977692e8cf26c33e5c4a9075f1fc12feda3d6ca395"
+    },
+    {
+      "id": "evidence-register-fi",
+      "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
+      "sha256": "198a830152e6d55ffeb456d9adc3aa33a6e387e6e1fcf080055e9b607882ce9f"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "short-deck-en",
+      "kind": "pptx",
+      "path": "site/downloads/pixan-bank-deck-short-en.pptx",
+      "sha256": "5d697b507bf6916a49fb28423f72d8a121e6f26a4702463329232853551100c0",
+      "bytes": 50599,
+      "slideCount": 6
+    },
+    {
+      "id": "medium-deck-en",
+      "kind": "pptx",
+      "path": "site/downloads/pixan-bank-deck-medium-en.pptx",
+      "sha256": "8fa883683679fefc61af33bbc6a30eefdd88231c2e6123183abfabe167c6aa8f",
+      "bytes": 73141,
+      "slideCount": 12
+    },
+    {
+      "id": "large-deck-en",
+      "kind": "pptx",
+      "path": "site/downloads/pixan-bank-deck-large-en.pptx",
+      "sha256": "bdb3754143d20bb26400cda801aec4c7f2c79bcf19da7ac1bf320cc09e593239",
+      "bytes": 139837,
+      "slideCount": 30
+    },
+    {
+      "id": "evidence-register-en",
+      "kind": "xlsx",
+      "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
+      "sha256": "a77a94c1b8f4ec7ac45760a482a96428cd9bb7e66a7ac3e6480ea34f459f6d51",
+      "bytes": 23735,
+      "rowCount": 45
+    }
+  ],
+  "generatedBy": {
+    "tool": "@oai/artifact-tool",
+    "toolVersion": "2.8.24",
+    "sourceLocked": true,
+    "byteReproducible": false,
+    "byteReproducibilityNote": "The release locks reviewed output bytes and all inputs. The artifact-tool exporter does not guarantee identical OOXML relationship identifiers across rebuilds.",
+    "executionNote": "The reviewed builders were executed from standard input with only their obsolete Finnish source-hash sentinels replaced by the final locked source hashes; the builder files themselves were not modified.",
+    "builders": [
+      {
+        "name": "build_bank_decks_en.mjs",
+        "sha256": "a611127587bb62cd7cea57198056d99534fc654bb87289966f2a87ee45846dc3"
+      },
+      {
+        "name": "build_evidence_register_en.mjs",
+        "sha256": "abc649e57fd7ee5ebc5136f047682205c6529983466ac4ee5eecabcba3aef8c4"
+      }
+    ],
+    "qualityAssurance": {
+      "translationSourceReview": "pass",
+      "exactSourceAnchorVerification": "pass",
+      "allSlidesRenderedAndReviewed": true,
+      "allWorkbookSheetsRenderedAndReviewed": true,
+      "slideOverflowTests": "pass",
+      "templateFidelityChecks": "pass",
+      "postExportWorkbookRowComparison": "pass",
+      "evidenceRegisterSemanticParity": "pass",
+      "ooxmlSafetyChecks": "pass",
+      "visibleFinnishResidueScan": "pass"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Contributing evidence and research ideas
 
-Marnet, another researcher, or an AI working on their behalf can participate through this public repository without receiving write access. Open a structured GitHub issue for a research idea or evidence proposal, or open a pull request from a fork.
+Marnet, another researcher, or an AI working on their behalf can participate through a structured GitHub issue or pull request. A collaborator who has explicitly received repository write access must still work on a branch and open a pull request; the protected `main` branch and mandatory quality check remain the publication gate.
 
 ## Collaboration contract
 

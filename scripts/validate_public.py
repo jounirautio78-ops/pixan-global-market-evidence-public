@@ -53,6 +53,13 @@ from build_atlas import (
     normalize_phone,
     patent_family_csv_rows,
 )
+from validate_data_request_program import (
+    SOURCE_PATH as DATA_REQUEST_SOURCE_PATH,
+    SOURCE_TEMPLATE_EN as DATA_REQUEST_TEMPLATE_EN,
+    SOURCE_TEMPLATE_FI as DATA_REQUEST_TEMPLATE_FI,
+    validate_outputs as validate_data_request_outputs,
+    validate_program as validate_data_request_program,
+)
 
 
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
@@ -66,6 +73,12 @@ PATENT_FAMILY_CSV_PATH = OUTPUT_DIR / "patent-family.csv"
 CURATED_PATH = ROOT / "source" / "curated.json"
 UPSTREAM_SHA_PATH = ROOT / "source" / "marnet-upstream.sha256"
 FORBIDDEN_RAW_PATH = ROOT / "source" / "marnet-dashboard.json"
+SOCIAL_IMAGE_PATH = OUTPUT_DIR.parent / "assets" / "og-pixan-global-market-evidence.png"
+SOCIAL_IMAGE_URL = (
+    "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/"
+    "assets/og-pixan-global-market-evidence.png"
+)
+SOCIAL_IMAGE_SIZE = (1200, 628)
 
 REQUIRED_TOP_LEVEL_KEYS = {
     "meta",
@@ -85,11 +98,22 @@ PHONE_CONTEXT_RE = re.compile(
     r"(\+?[0-9][0-9 .()\-/]{6,}[0-9])"
 )
 PEM_RE = re.compile(r"-----BEGIN [A-Z0-9 ]*(?:PRIVATE KEY|CERTIFICATE)-----")
-FORBIDDEN_OPERATIONAL_PHRASES = (
-    "complete private attachment package",
-    "private attachment",
-    "send the complete",
-    "action-time confirmation",
+PRIVATE_IDENTIFIER_FINGERPRINTS = frozenset(
+    {
+        (7, "46d7415f6182ece9e933e8e9f780957e449361e0dbe10e34f46c186cad3382a1"),
+        (7, "f910f0bbe95037851d18ca33b91ee7fc9f334c6cfcd02deaf66af4501c8a884c"),
+        (9, "7e6578c2e34b53136741c6efe7799a2dce739651c22404a7894b48d42aa88b41"),
+        (13, "933536a17b00f1b39ba9d3585427bd7232d44960ab35754318c1da8e4cf6c5be"),
+        (15, "34ffed4db76374ed904b437c1e19187c3b469558946f22b88f38317322a4e75e"),
+        (17, "d91ca0a7fbdfbd585109c3d3bab1233a92a1179e10e635f5bf1341efe10876b8"),
+        (22, "9a4f0d4a8cf1a57c06c6aea58dc7494eabd55985b6de748525cae5292004ba25"),
+        (25, "40f45830e7e3e21d88245728fe87f76b2e8919543a502aad248a465487cacee3"),
+        (32, "eba767052e777d1e6ad413884309be77b9016a7ca61f9b83adf9f46c42d0bde9"),
+    }
+)
+JAVASCRIPT_LOCAL_PATH_RE = re.compile(
+    r"(?i)(?:file:(?://|\\/\\/)|/(?:Users|home|private|tmp|var|etc)/|"
+    r"[A-Z]:\\\\(?:Users|home|private|tmp|var|etc)\\\\)"
 )
 SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -133,15 +157,20 @@ EXPECTED_SITE_FILES = {
     "site/assets/app.js",
     "site/assets/downloads.js",
     "site/assets/i18n.js",
+    "site/assets/request-program.js",
     "site/assets/review.js",
     "site/assets/styles.css",
     "site/assets/favicon.svg",
+    "site/assets/og-pixan-global-market-evidence.png",
     "site/data/atlas.json",
     "site/data/countries.csv",
     "site/data/evidence.csv",
     "site/data/changelog.json",
     "site/data/bank-evidence-register.csv",
+    "site/data/bank-evidence-register-en.csv",
     "site/data/bank-package-manifest.json",
+    "site/data/top20-data-request-routes.json",
+    "site/data/top20-data-request-routes.csv",
     "site/data/market-values.json",
     "site/data/market-values.csv",
     "site/data/patent-history.json",
@@ -150,6 +179,12 @@ EXPECTED_SITE_FILES = {
     "site/downloads/pixan-bank-deck-medium-fi.pptx",
     "site/downloads/pixan-bank-deck-large-fi.pptx",
     "site/downloads/pixan-bank-evidence-register-fi.xlsx",
+    "site/downloads/pixan-bank-deck-short-en.pptx",
+    "site/downloads/pixan-bank-deck-medium-en.pptx",
+    "site/downloads/pixan-bank-deck-large-en.pptx",
+    "site/downloads/pixan-bank-evidence-register-en.xlsx",
+    "site/downloads/data-request-template-en.txt",
+    "site/downloads/data-request-template-fi.txt",
 }
 
 PATENT_OUTPUT_TOP_LEVEL_KEYS = {
@@ -195,6 +230,50 @@ def load_json(path: Path) -> Any:
         return json.load(handle)
 
 
+def private_identifier_fingerprint(value: str) -> tuple[int, str]:
+    normalised = re.sub(r"[^a-z0-9]+", "", value.casefold())
+    return len(normalised), hashlib.sha256(normalised.encode("utf-8")).hexdigest()
+
+
+def contains_private_identifier(
+    value: str,
+    fingerprints: frozenset[tuple[int, str]] | None = None,
+) -> bool:
+    if fingerprints is None:
+        fingerprints = PRIVATE_IDENTIFIER_FINGERPRINTS
+    normalised = re.sub(r"[^a-z0-9]+", "", value.casefold())
+    for length, expected in fingerprints:
+        if any(
+            hashlib.sha256(normalised[index:index + length].encode("utf-8")).hexdigest() == expected
+            for index in range(max(0, len(normalised) - length + 1))
+        ):
+            return True
+    return False
+
+
+def validate_social_preview(errors: list[str]) -> None:
+    try:
+        image = SOCIAL_IMAGE_PATH.read_bytes()
+    except FileNotFoundError:
+        errors.append("Social preview image is missing")
+        return
+    if not image.startswith(b"\x89PNG\r\n\x1a\n") or image[12:16] != b"IHDR":
+        errors.append("Social preview must be a valid PNG with an IHDR header")
+        return
+    size = (int.from_bytes(image[16:20], "big"), int.from_bytes(image[20:24], "big"))
+    if size != SOCIAL_IMAGE_SIZE:
+        errors.append(f"Social preview must be {SOCIAL_IMAGE_SIZE[0]}x{SOCIAL_IMAGE_SIZE[1]}, got {size[0]}x{size[1]}")
+    if len(image) > 3_000_000:
+        errors.append("Social preview PNG exceeds the 3 MB publication limit")
+
+    for page_name in ("index.html", "review.html"):
+        page = OUTPUT_DIR.parent.joinpath(page_name).read_text(encoding="utf-8")
+        if page.count(SOCIAL_IMAGE_URL) != 2:
+            errors.append(f"site/{page_name} must bind the reviewed social preview to both Open Graph and Twitter")
+        if '<meta name="twitter:card" content="summary_large_image">' not in page:
+            errors.append(f"site/{page_name} lacks summary_large_image metadata")
+
+
 def walk_strings(value: Any, path: str = "$") -> Iterable[tuple[str, str]]:
     if isinstance(value, dict):
         for key, nested in value.items():
@@ -234,10 +313,23 @@ def scan_public_text(label: str, value: Any, errors: list[str]) -> None:
             errors.append(f"{label}{path}: absolute/local path is forbidden")
         if SECRET_ASSIGNMENT_RE.search(text) or PEM_RE.search(text):
             errors.append(f"{label}{path}: secret-like material is forbidden")
-        lowered = text.lower()
-        for phrase in FORBIDDEN_OPERATIONAL_PHRASES:
-            if phrase in lowered:
-                errors.append(f"{label}{path}: private operational instruction is forbidden")
+        if contains_private_identifier(text):
+            errors.append(f"{label}{path}: private identifier fingerprint is forbidden")
+
+
+def scan_javascript_text(label: str, text: str, errors: list[str]) -> None:
+    for match in EMAIL_RE.finditer(text):
+        if match.group(0).lower() != ALLOWED_EMAIL:
+            errors.append(f"{label}: disallowed email {match.group(0)!r}")
+    for match in PLUS_PHONE_RE.finditer(text):
+        if normalize_phone(match.group(0)) != ALLOWED_PHONE_DIGITS:
+            errors.append(f"{label}: disallowed phone {match.group(0)!r}")
+    if JAVASCRIPT_LOCAL_PATH_RE.search(text):
+        errors.append(f"{label}: absolute/local path is forbidden")
+    if SECRET_ASSIGNMENT_RE.search(text) or PEM_RE.search(text):
+        errors.append(f"{label}: secret-like material is forbidden")
+    if contains_private_identifier(text):
+        errors.append(f"{label}: private identifier fingerprint is forbidden")
 
 
 def validate_meta(atlas: dict[str, Any], curated: dict[str, Any], errors: list[str]) -> None:
@@ -1493,6 +1585,9 @@ def main() -> None:
         CHANGELOG_PATH,
         UPSTREAM_METADATA_PATH,
         UPSTREAM_SHA_PATH,
+        DATA_REQUEST_SOURCE_PATH,
+        DATA_REQUEST_TEMPLATE_EN,
+        DATA_REQUEST_TEMPLATE_FI,
     ):
         if not path.exists():
             errors.append(f"Missing required file: {path.relative_to(ROOT)}")
@@ -1501,6 +1596,7 @@ def main() -> None:
             print(f"ERROR: {error}", file=sys.stderr)
         raise SystemExit(1)
 
+    validate_social_preview(errors)
     atlas = load_json(ATLAS_PATH)
     curated = load_json(CURATED_PATH)
     baseline = load_json(PUBLIC_BASELINE_PATH)
@@ -1511,6 +1607,7 @@ def main() -> None:
     patent_history = load_json(PATENT_HISTORY_JSON_PATH)
     changelog_source = load_json(CHANGELOG_PATH)
     changelog_public = load_json(CHANGELOG_JSON_PATH)
+    data_request_source = load_json(DATA_REQUEST_SOURCE_PATH)
     validate_source_inputs(curated, baseline, metadata, errors)
     if not isinstance(atlas, dict):
         errors.append("atlas.json must contain an object")
@@ -1545,6 +1642,12 @@ def main() -> None:
     else:
         validate_changelog(changelog_source, changelog_public, errors)
 
+    if not isinstance(data_request_source, dict):
+        errors.append("top20-data-request-routes.json must contain an object")
+    else:
+        validate_data_request_program(data_request_source, errors)
+        validate_data_request_outputs(data_request_source, errors)
+
     scan_public_text("atlas", atlas, errors)
     scan_public_text("curated", curated, errors)
     scan_public_text("baseline", baseline, errors)
@@ -1554,13 +1657,18 @@ def main() -> None:
     scan_public_text("patent source", patent_source, errors)
     scan_public_text("patent history", patent_history, errors)
     scan_public_text("changelog source", changelog_source, errors)
+    scan_public_text("data-request source", data_request_source, errors)
+    for path in (ROOT / "README.md", ROOT / "CONTRIBUTING.md", ROOT / "source" / "SOURCE_PROVENANCE.md"):
+        scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
     for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH, MARKET_VALUES_CSV_PATH, PATENT_FAMILY_CSV_PATH):
         scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
     for path in sorted((ROOT / "site").rglob("*")):
-        # JavaScript source contains escaped URL/regex literals such as
-        # `https:\\/\\/`, which resemble Windows drive paths to the data scanner.
-        # Generated JSON/CSV plus rendered text assets remain fully scanned.
-        if path.is_file() and path.suffix.lower() in {".html", ".css", ".json", ".csv", ".svg", ".txt", ".xml"}:
+        if not path.is_file():
+            continue
+        suffix = path.suffix.lower()
+        if suffix == ".js":
+            scan_javascript_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
+        elif suffix in {".html", ".css", ".json", ".csv", ".svg", ".txt", ".xml"}:
             scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
 
     if errors:

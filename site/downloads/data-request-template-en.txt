@@ -1,0 +1,33 @@
+DRAFT — NOT SENT
+
+Subject: Request for existing aggregate records - electronic cigarettes and vaping liquids, [COUNTRY], 2018-2025
+
+Dear [AUTHORITY],
+
+I am conducting independent evidence research on the size and structure of the electronic-cigarette and vaping-liquid market. I do not represent Pixan Oy, any manufacturer, regulator, lender, investor or other market participant, and this request does not state Pixan Oy's official position.
+
+Under [LEGAL BASIS], please provide access to existing aggregate records for 2018-2025 and, if already finalised, 2026 year to date. I am requesting existing tables, database exports or routinely producible record extracts, not the creation of a new analysis.
+
+Where held, please provide the data monthly, or annually if monthly records are unavailable, covering:
+
+1. Products released for domestic consumption, manufacturer or importer shipments, wholesale sales or reported retail sales, clearly identifying which measure is used.
+2. Reusable or complete devices; disposable devices containing liquid; pods or cartridges; refill bottles or other liquids; and nicotine-containing versus nicotine-free products.
+3. Units, total liquid volume in millilitres, net weight, reported or assessable value, excise base and excise collected.
+4. Imports and exports by national tariff code, partner country, value, quantity and statistical unit.
+5. Seizures and destruction separately from lawful-market data.
+6. Active and withdrawn product notifications and the numbers of reporting products and entities.
+7. Definitions, coverage, missing or late reports, suppressed cells, revisions, refunds, returns and exports, and whether the measure represents manufacturer or importer shipments, wholesale sales, retail sell-through or another stage of the supply chain.
+
+CSV, XLSX or JSON is preferred where an existing electronic record is available.
+
+Please provide only aggregate or anonymised information. I do not seek personal data, taxpayer- or company-identifiable information, trade secrets, protected inspection methods or other restricted records.
+
+If part of the request is exempt, please release any reasonably segregable aggregate information and identify the legal basis for withholding the remainder. If another authority holds the relevant records, please transfer the request where permitted or identify that authority. If no responsive record exists for an item, please confirm this.
+
+Please notify me before incurring fees exceeding EUR [FEE LIMIT] or the equivalent.
+
+Kind regards,
+
+[NAME]
+[INDEPENDENT EVIDENCE RESEARCH PROJECT]
+[CONTACT DETAILS]

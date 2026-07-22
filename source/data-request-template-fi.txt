@@ -1,0 +1,33 @@
+LUONNOS — EI LÄHETETTY
+
+Aihe: Tietopyyntö olemassa olevista aggregoiduista tiedoista - sähkösavukkeet ja sähkösavukenesteet, [MAA], 2018-2025
+
+Hyvä vastaanottaja,
+
+Teen riippumatonta selvitystä sähkösavuke- ja sähkösavukenestemarkkinan koosta ja rakenteesta. En edusta Pixan Oy:tä, valmistajaa, viranomaista, rahoittajaa, sijoittajaa tai muuta markkinaosapuolta, eikä pyyntö ilmaise Pixan Oy:n virallista kantaa.
+
+Pyydän [OIKEUSPERUSTA]-säännösten nojalla pääsyä viranomaisella jo oleviin aggregoituihin tietueisiin vuosilta 2018-2025 sekä, jos tiedot ovat jo valmistuneet, vuoden 2026 alusta tähän päivään. Pyyntö koskee olemassa olevia taulukoita, tietokantavientejä tai tavanomaisesti tuotettavia tietueotteita, ei uuden analyysin laatimista.
+
+Pyydän tiedot kuukausitasolla tai, jos sitä ei ole saatavilla, vuositasolla seuraavasti:
+
+1. Kotimaan kulutukseen luovutetut tuotteet, valmistajien tai maahantuojien toimitukset, tukkumyynti tai ilmoitettu vähittäismyynti siten, että käytetty mittausperuste käy selvästi ilmi.
+2. Uudelleenkäytettävät tai täydelliset laitteet, nestettä sisältävät kertakäyttölaitteet, podit tai patruunat, täyttöpullot tai muut nesteet sekä nikotiinilliset ja nikotiinittomat tuotteet.
+3. Kappalemäärä, nesteen kokonaismäärä millilitroina, nettopaino, ilmoitettu tai verotusarvo, valmisteveron peruste ja kannettu vero.
+4. Tuonti ja vienti kansallisen tullinimikkeen, kumppanimaan, arvon, määrän ja tilastoyksikön mukaan.
+5. Takavarikot ja hävitykset erillään laillisen markkinan tiedoista.
+6. Voimassa olevat ja peruutetut tuoteilmoitukset sekä raportoivien tuotteiden ja toimijoiden lukumäärä.
+7. Määritelmät, aineiston kattavuus, puuttuvat tai myöhästyneet ilmoitukset, salatut solut, revisiot, palautukset ja vientioikaisut sekä tieto siitä, kuvaako aineisto valmistajan tai maahantuojan toimituksia, tukkumyyntiä, vähittäismyyntiä vai muuta toimitusketjun vaihetta.
+
+Jos olemassa oleva sähköinen tietue on saatavilla, toivon CSV-, XLSX- tai JSON-muotoa.
+
+Pyydän vain aggregoitua tai anonymisoitua tietoa. En pyydä henkilötietoja, yksittäisen yrityksen tai verovelvollisen tunnistavia tietoja, liikesalaisuuksia, suojattuja tarkastusmenetelmiä tai muuta salassa pidettävää aineistoa.
+
+Jos osa tiedoista on salassa pidettävää, pyydän luovuttamaan eroteltavissa olevan aggregoidun osan ja yksilöimään loppuosan epäämisen oikeusperustan. Jos tiedot ovat toisen viranomaisen hallussa, pyydän siirtämään pyynnön lain sallimissa rajoissa tai ilmoittamaan oikean viranomaisen. Jos jotakin pyydettyä tietuetta ei ole olemassa, pyydän vahvistamaan tämän.
+
+Pyydän ilmoittamaan etukäteen, jos maksut ylittäisivät [MAKSURAJA] euroa.
+
+Ystävällisin terveisin,
+
+[NIMI]
+[RIIPPUMATON EVIDENSSITUTKIMUSHANKE]
+[YHTEYSTIEDOT]

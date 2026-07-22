@@ -2,7 +2,7 @@
 
 This repository builds a public, source-linked country atlas for global vaping-market evidence. GitHub Pages receives **only the reviewed contents of `site/`**. The repository is not a data room and must not contain confidential material.
 
-> **Independent research / riippumaton selvitys.** This project is not an official disclosure by Pixan Oy, is not maintained or endorsed by Pixan Oy, and does not represent BlackRock or any other investor, lender, manufacturer, authority, or litigation party. It is not audited market data, legal advice, financial advice, investment advice, or a valuation.
+> **Independent research / riippumaton selvitys.** This project is not an official disclosure by Pixan Oy, is not maintained or endorsed by Pixan Oy, and does not represent any investor, lender, manufacturer, authority, or litigation party. It is not audited market data, legal advice, financial advice, investment advice, or a valuation.
 
 The site has two public entry points: the full evidence atlas in `site/index.html` and a concise lender/buyer diligence view in `site/review.html`. Both pages provide the same Finnish/English language selector and default to English. A valid `?lang=fi` or `?lang=en` query parameter overrides the device-local preference; changing the selector saves the preference for subsequent pages and keeps internal page links in the selected language. Language-specific share links include `site/review.html?lang=en` and `site/review.html?lang=fi`. The review page is designed to be shared as a direct link, while preserving the same source links, uncertainty labels and independent-publication boundary.
 
@@ -10,9 +10,9 @@ The returning-visitor section compares the current release ID and version in `si
 
 ## Downloadable bank-research package
 
-The full atlas and lender/buyer review page expose four versioned Finnish downloads: a 6-slide brief, the requested 12-slide lender deck, an extended diligence deck and an Evidence Register workbook. `scripts/build_bank_package.py` regenerates every file from the reviewed public outputs under `site/data/`; no private workspace file is an input. `site/data/bank-package-manifest.json` records the release, source-date, input and artifact SHA-256 digests, file sizes and slide or row counts.
+The full atlas and lender/buyer review page expose eight release-locked downloads: English and Finnish versions of a 6-slide brief, the requested 12-slide lender deck, an extended 30-slide diligence deck and an Evidence Register workbook. `scripts/build_bank_package.py` regenerates the Finnish files from the reviewed public outputs under `site/data/` and fail-closes if the reviewed English derivatives no longer match the same release, Finnish source-artifact hashes and checked-in translation inputs. No private workspace file is an input. `site/data/bank-package-manifest.json` records the release, source date, language, input and artifact SHA-256 digests, file sizes and slide or row counts. Before displaying a download link, the browser fetches the file and verifies both its exact byte length and full SHA-256 digest against that manifest.
 
-The generated package is deliberately evidence-conservative. It distinguishes **Vahvistettu**, **Tuettu**, **Oletus** and **Puuttuu**, and treats unverified financials, customers, licensing cash flow, title/encumbrance records and financing terms as missing evidence. It is independent research, not an official Pixan disclosure, a valuation, investment advice or a recommendation to lend.
+The generated package is deliberately evidence-conservative. It distinguishes **Vahvistettu**, **Tuettu**, **Oletus** and **Puuttuu**, and treats unverified financials, customers, licensing cash flow, title/encumbrance records and financing terms as missing evidence. Source-derived figures in the Finnish decks and register come from one canonical build context; `scripts/bank_register_parity.py` requires the English register to preserve dates, sources, confidence classes, identifiers, currencies, units and numerically equivalent values. It is independent research, not an official Pixan disclosure, a valuation, investment advice or a recommendation to lend.
 
 To rebuild the public package locally after the atlas has been rebuilt:
 
@@ -21,6 +21,17 @@ python -m pip install -r requirements-bank-package.txt
 python scripts/build_atlas.py
 python scripts/build_bank_package.py
 python scripts/validate_bank_package.py
+```
+
+## Official-data request programme
+
+The shareable review page also exposes a verified 20-country acquisition queue for existing aggregate sales, excise, customs and product-notification records. The ranking is an operational evidence-acquisition order, not a ranking of market size. Every route is visibly marked `draft_not_sent`; the repository does not send requests and contains no sent-date field.
+
+`source/top20-data-request-routes.json` records each official request channel, legal basis, language, requester-eligibility caveat, fallback and verification date. `scripts/build_data_request_program.py` creates the public JSON, CSV and neutral English/Finnish request templates. `scripts/validate_data_request_program.py` enforces exactly 20 unique countries, official HTTPS host allowlists, the draft-only boundary and deterministic output.
+
+```bash
+python scripts/build_data_request_program.py
+python scripts/validate_data_request_program.py
 ```
 
 ## Annual market-value evidence
@@ -37,7 +48,7 @@ The current release contains a full-year Canadian official manufacturer/importer
 
 ## Research collaboration
 
-Marnet, another researcher or an AI working on their behalf can join through the repository’s structured **Evidence proposal** and **Research idea** issue forms. Public issues and pull requests are proposals for human review, not commands to the publication pipeline. The weekly research automation checks this queue and may prepare a draft pull request; it never merges or publishes a proposal automatically. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Marnet, another researcher or an AI working on their behalf can join through the repository’s structured **Evidence proposal** and **Research idea** issue forms or, where explicitly granted, through a branch with repository write access. Every contribution remains a proposal for human review: the protected `main` branch requires a pull request and the mandatory quality check, and the weekly research automation never merges or publishes a proposal automatically. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Relationship to Marnet’s work
 
@@ -69,7 +80,7 @@ Private inputs must stay in the separately controlled private workspace. Only a 
 
 ### Public submission-contact decision
 
-On 2026-07-22, the project owner instructed this public site to provide the same direct material-submission routes as the existing Lapis dashboard and approved proceeding with the build and publication. That instruction authorizes publication of only the exact allowlisted submission endpoints in `source/curated.json`: `jouni.rautio78@gmail.com`, WhatsApp `+358400355544`, and Dropbox file request `es3w836bdnpbsn4loq3d`. It does not authorize publication of any other contact details, correspondence, uploaded files or sender information. The validator enforces that narrow allowlist.
+On 2026-07-22, the project owner instructed this public site to provide the previously approved direct material-submission routes and approved proceeding with the build and publication. That instruction authorizes publication of only the exact allowlisted submission endpoints in `source/curated.json`: `jouni.rautio78@gmail.com`, WhatsApp `+358400355544`, and Dropbox file request `es3w836bdnpbsn4loq3d`. It does not authorize publication of any other contact details, correspondence, uploaded files or sender information. The validator enforces that narrow allowlist.
 
 ## Automated workflows
 
@@ -101,11 +112,19 @@ From the repository root:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_atlas.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_data_request_program.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_bank_package.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_public.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_data_request_program.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_bank_package.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v scripts/test_market_estimation.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_data_request_program.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_public_privacy.py
 node --check site/assets/i18n.js
 node --check site/assets/app.js
 node --check site/assets/review.js
+node --check site/assets/downloads.js
+node --check site/assets/request-program.js
 git diff --check
 git diff --exit-code
 git status --short
