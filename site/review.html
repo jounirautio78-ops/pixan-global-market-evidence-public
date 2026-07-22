@@ -7,8 +7,9 @@
   <meta name="theme-color" content="#08131f">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css">
-  <script defer src="assets/review.js"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-4">
+  <script defer src="assets/i18n.js?v=2026-07-22-4"></script>
+  <script defer src="assets/review.js?v=2026-07-22-4"></script>
 </head>
 <body class="review-page">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -23,6 +24,10 @@
       </a>
       <div class="header-actions">
         <span class="independent-pill"><span aria-hidden="true"></span> Independent · not a Pixan Oy disclosure</span>
+        <div class="language-switch" role="group" aria-label="Language selection">
+          <button type="button" data-language="fi" aria-pressed="false">FI</button>
+          <button type="button" data-language="en" aria-pressed="true">EN</button>
+        </div>
         <button class="button button-primary button-small no-print" id="copy-review-link" type="button">Copy review link</button>
       </div>
     </div>
@@ -35,6 +40,7 @@
         <h1>A reviewable evidence base—not a market-size promise.</h1>
         <p class="hero-lead">This brief gives a prospective lender, strategic buyer, manufacturer or adviser a direct route into the public evidence supporting the global vaping-market research associated with Pixan. Every conclusion remains subject to independent commercial, legal, patent and financial diligence.</p>
         <div class="hero-actions no-print">
+          <a class="button button-primary" href="index.html#market">Open annual market-value evidence</a>
           <a class="button button-primary" href="index.html#countries">Open the 195-country atlas</a>
           <a class="button button-secondary" href="data/countries.csv" download>Download country CSV</a>
           <a class="button button-secondary" href="data/evidence.csv" download>Download evidence CSV</a>
@@ -59,6 +65,42 @@
         <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
         <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
       </div>
+    </section>
+
+    <section class="shell change-section" aria-labelledby="review-changes-title">
+      <article class="panel change-panel">
+        <div class="change-heading">
+          <div>
+            <p class="kicker">For returning reviewers</p>
+            <h2 id="review-changes-title">What changed since your last visit?</h2>
+          </div>
+          <div class="change-status-actions">
+            <span class="change-badge" id="review-changes-badge">Checking…</span>
+            <button class="button button-ghost button-small change-mark-seen" id="review-changes-mark-seen" type="button" hidden>Mark as seen</button>
+          </div>
+        </div>
+        <div id="review-changes-since-visit" class="change-list" aria-live="polite"></div>
+        <p class="change-local-note">The last release you mark as seen is stored only in this browser. This feature uses no analytics and does not identify you.</p>
+      </article>
+    </section>
+
+    <section class="shell review-section" aria-labelledby="review-market-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Annual value · evidence first</p>
+          <h2 id="review-market-title">What can be quantified today</h2>
+        </div>
+        <p>Official country observations, derived ranges and commercial global estimates are shown separately so a reviewer can see both the number and what it actually measures.</p>
+      </div>
+      <div class="review-grid review-grid-3" id="review-market-metrics">
+        <article class="panel skeleton"><span></span><strong></strong><small></small></article>
+        <article class="panel skeleton"><span></span><strong></strong><small></small></article>
+        <article class="panel skeleton"><span></span><strong></strong><small></small></article>
+      </div>
+      <article class="panel review-market-note">
+        <div id="review-market-note"></div>
+        <a class="button button-secondary button-small no-print" href="index.html#market">Open formulas, annual observations and sources</a>
+      </article>
     </section>
 
     <section class="shell review-section" aria-labelledby="decision-use-title">

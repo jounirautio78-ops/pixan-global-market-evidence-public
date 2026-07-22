@@ -25,6 +25,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CURATED_PATH = ROOT / "source" / "curated.json"
 PUBLIC_BASELINE_PATH = ROOT / "source" / "marnet-public-baseline.json"
 UPSTREAM_METADATA_PATH = ROOT / "source" / "marnet-upstream.metadata.json"
+MARKET_OBSERVATIONS_PATH = ROOT / "source" / "market-observations.json"
+CHANGELOG_PATH = ROOT / "source" / "changelog.json"
 OUTPUT_DIR = ROOT / "site" / "data"
 
 DIMENSIONS = (
@@ -58,6 +60,103 @@ ABSOLUTE_PATH_RE = re.compile(
 SECRET_ASSIGNMENT_RE = re.compile(
     r"(?i)\b(api[_-]?key|access[_-]?token|refresh[_-]?token|client[_-]?secret|password|passwd|authorization|bearer|private[_-]?key|connection[_-]?string)\b\s*[:=]\s*[^\s,;]+"
 )
+
+MARKET_SOURCE_TOP_LEVEL_KEYS = {
+    "schemaVersion",
+    "asOf",
+    "reviewedAt",
+    "modelReadiness",
+    "disclaimerEn",
+    "disclaimerFi",
+    "sources",
+    "observations",
+    "models",
+}
+MARKET_READINESS_KEYS = {
+    "status",
+    "comparableFullYearMarketValueDonors",
+    "minimumRequiredDonors",
+    "reasonEn",
+    "reasonFi",
+}
+MARKET_SOURCE_KEYS = {"sourceId", "publisher", "sourceKind", "pageUrl", "retrievedAt"}
+MARKET_SOURCE_OPTIONAL_KEYS = {"downloadUrl"}
+MARKET_OBSERVATION_KEYS = {
+    "observationId",
+    "countryIso2",
+    "geography",
+    "year",
+    "metric",
+    "value",
+    "unit",
+    "currency",
+    "period",
+    "evidenceStatus",
+    "finality",
+    "productScope",
+    "marketValueBasis",
+    "comparableMarketValue",
+    "atlasEstimate",
+    "sourceIds",
+    "labelEn",
+    "labelFi",
+    "limitationEn",
+    "limitationFi",
+}
+MARKET_MODEL_KEYS = {
+    "modelId",
+    "countryIso2",
+    "year",
+    "labelEn",
+    "labelFi",
+    "evidenceStatus",
+    "confidence",
+    "yearMismatch",
+    "productScope",
+    "marketValueBasis",
+    "comparableMarketValue",
+    "atlasEstimate",
+    "formula",
+    "inputIds",
+    "rangeInputMap",
+    "currency",
+    "low",
+    "central",
+    "high",
+    "exclusions",
+    "limitationEn",
+    "limitationFi",
+}
+MARKET_CSV_FIELDS = [
+    "recordType",
+    "recordId",
+    "countryIso2",
+    "geography",
+    "year",
+    "metric",
+    "evidenceStatus",
+    "finality",
+    "productScope",
+    "marketValueBasis",
+    "comparableMarketValue",
+    "atlasEstimate",
+    "currency",
+    "unit",
+    "value",
+    "low",
+    "central",
+    "high",
+    "confidence",
+    "yearMismatch",
+    "formula",
+    "inputIds",
+    "sourceIds",
+    "exclusions",
+    "labelEn",
+    "labelFi",
+    "limitationEn",
+    "limitationFi",
+]
 
 
 # UN 193 member states plus the Holy See (VA) and the State of Palestine (PS).
@@ -659,7 +758,210 @@ def build() -> dict[str, Any]:
     return atlas
 
 
-def write_outputs(atlas: dict[str, Any]) -> None:
+def _sanitize_market_value(value: Any) -> Any:
+    """Sanitize public text without altering numeric or Boolean semantics."""
+    if isinstance(value, dict):
+        return {key: _sanitize_market_value(nested) for key, nested in value.items()}
+    if isinstance(value, list):
+        return [_sanitize_market_value(nested) for nested in value]
+    if isinstance(value, str):
+        return sanitize_text(value)
+    return value
+
+
+def build_market_values() -> dict[str, Any]:
+    """Build the separately consumable market-value observation dataset."""
+    source = load_json(MARKET_OBSERVATIONS_PATH)
+    if set(source) != MARKET_SOURCE_TOP_LEVEL_KEYS:
+        raise ValueError("market-observations.json has an unexpected top-level schema")
+    if source.get("schemaVersion") != 1:
+        raise ValueError("market-observations.json schemaVersion must be 1")
+
+    readiness = source.get("modelReadiness")
+    if not isinstance(readiness, dict) or set(readiness) != MARKET_READINESS_KEYS:
+        raise ValueError("market-observations.json modelReadiness has an unexpected schema")
+
+    sources = source.get("sources")
+    if not isinstance(sources, list) or not sources:
+        raise ValueError("market-observations.json sources must be a non-empty array")
+    for raw in sources:
+        if not isinstance(raw, dict):
+            raise ValueError("market-observations.json source entries must be objects")
+        keys = set(raw)
+        if not MARKET_SOURCE_KEYS.issubset(keys) or keys - MARKET_SOURCE_KEYS - MARKET_SOURCE_OPTIONAL_KEYS:
+            raise ValueError(f"Unexpected market source schema: {raw.get('sourceId')}")
+        for url_key in ("pageUrl", "downloadUrl"):
+            if url_key in raw and not safe_url(raw[url_key]):
+                raise ValueError(f"Market source {raw.get('sourceId')} has an invalid {url_key}")
+
+    observations = source.get("observations")
+    if not isinstance(observations, list) or not observations:
+        raise ValueError("market-observations.json observations must be a non-empty array")
+    for raw in observations:
+        if not isinstance(raw, dict) or set(raw) != MARKET_OBSERVATION_KEYS:
+            raise ValueError(f"Unexpected market observation schema: {raw.get('observationId') if isinstance(raw, dict) else raw}")
+
+    models = source.get("models")
+    if not isinstance(models, list) or not models:
+        raise ValueError("market-observations.json models must be a non-empty array")
+    for raw in models:
+        if not isinstance(raw, dict) or set(raw) != MARKET_MODEL_KEYS:
+            raise ValueError(f"Unexpected market model schema: {raw.get('modelId') if isinstance(raw, dict) else raw}")
+
+    market_values = {
+        "meta": {
+            "schemaVersion": source["schemaVersion"],
+            "asOf": source["asOf"],
+            "generatedAt": source["reviewedAt"],
+            "modelReadiness": readiness,
+            "disclaimerEn": source["disclaimerEn"],
+            "disclaimerFi": source["disclaimerFi"],
+        },
+        "sources": sources,
+        "observations": observations,
+        "models": models,
+    }
+    market_values = _sanitize_market_value(market_values)
+
+    observations_by_id = {item["observationId"]: item for item in market_values["observations"]}
+    for model in market_values["models"]:
+        if model["formula"] != "volume_litres * 1000 * retail_price_eur_per_ml":
+            raise ValueError(f"Unsupported market model formula: {model['modelId']}")
+        input_ids = model["inputIds"]
+        if any(identifier not in observations_by_id for identifier in input_ids):
+            raise ValueError(f"Market model {model['modelId']} references an unknown observation")
+        volume_inputs = [
+            observations_by_id[identifier]
+            for identifier in input_ids
+            if observations_by_id[identifier]["metric"] == "taxed_substitutes_volume"
+        ]
+        if len(volume_inputs) != 1:
+            raise ValueError(f"Market model {model['modelId']} must have one taxed-volume input")
+        range_map = model["rangeInputMap"]
+        if set(range_map) != {"low", "central", "high"}:
+            raise ValueError(f"Market model {model['modelId']} rangeInputMap is invalid")
+        volume_litres = volume_inputs[0]["value"]
+        for bound in ("low", "central", "high"):
+            price = observations_by_id[range_map[bound]]
+            expected = round(volume_litres * 1000 * price["value"])
+            if model[bound] != expected:
+                raise ValueError(f"Market model {model['modelId']}.{bound} does not match its formula")
+            model[bound] = expected
+
+    return market_values
+
+
+def market_values_csv_rows(market_values: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return the deterministic flattened CSV representation."""
+    rows: list[dict[str, Any]] = []
+    observations_by_id = {item["observationId"]: item for item in market_values["observations"]}
+
+    def bool_cell(value: Any) -> str:
+        if isinstance(value, bool):
+            return "true" if value else "false"
+        return ""
+
+    for item in market_values["observations"]:
+        rows.append(
+            {
+                "recordType": "observation",
+                "recordId": item["observationId"],
+                "countryIso2": item["countryIso2"] or "",
+                "geography": item["geography"],
+                "year": item["year"],
+                "metric": item["metric"],
+                "evidenceStatus": item["evidenceStatus"],
+                "finality": item["finality"],
+                "productScope": item["productScope"],
+                "marketValueBasis": item["marketValueBasis"],
+                "comparableMarketValue": bool_cell(item["comparableMarketValue"]),
+                "atlasEstimate": bool_cell(item["atlasEstimate"]),
+                "currency": item["currency"] or "",
+                "unit": item["unit"],
+                "value": item["value"],
+                "sourceIds": "|".join(item["sourceIds"]),
+                "labelEn": item["labelEn"],
+                "labelFi": item["labelFi"],
+                "limitationEn": item["limitationEn"],
+                "limitationFi": item["limitationFi"],
+            }
+        )
+
+    catalog_by_iso = {item["iso2"]: item for item in COUNTRY_CATALOG}
+    for model in market_values["models"]:
+        source_ids: list[str] = []
+        for input_id in model["inputIds"]:
+            for source_id in observations_by_id[input_id]["sourceIds"]:
+                if source_id not in source_ids:
+                    source_ids.append(source_id)
+        rows.append(
+            {
+                "recordType": "model",
+                "recordId": model["modelId"],
+                "countryIso2": model["countryIso2"],
+                "geography": catalog_by_iso[model["countryIso2"]]["name"],
+                "year": model["year"],
+                "metric": "retail_equivalent_plausibility_range",
+                "evidenceStatus": model["evidenceStatus"],
+                "finality": "modelled",
+                "productScope": model["productScope"],
+                "marketValueBasis": model["marketValueBasis"],
+                "comparableMarketValue": bool_cell(model["comparableMarketValue"]),
+                "atlasEstimate": bool_cell(model["atlasEstimate"]),
+                "currency": model["currency"],
+                "unit": model["currency"],
+                "low": model["low"],
+                "central": model["central"],
+                "high": model["high"],
+                "confidence": model["confidence"],
+                "yearMismatch": bool_cell(model["yearMismatch"]),
+                "formula": model["formula"],
+                "inputIds": "|".join(model["inputIds"]),
+                "sourceIds": "|".join(source_ids),
+                "exclusions": "|".join(model["exclusions"]),
+                "labelEn": model["labelEn"],
+                "labelFi": model["labelFi"],
+                "limitationEn": model["limitationEn"],
+                "limitationFi": model["limitationFi"],
+            }
+        )
+    return rows
+
+
+def build_changelog() -> dict[str, Any]:
+    """Build the public release log used for device-local returning-visitor state."""
+    source = load_json(CHANGELOG_PATH)
+    if set(source) != {"schemaVersion", "asOf", "releases"} or source.get("schemaVersion") != 1:
+        raise ValueError("changelog.json has an unexpected top-level schema")
+    releases = source.get("releases")
+    if not isinstance(releases, list) or not releases:
+        raise ValueError("changelog.json releases must be a non-empty array")
+    release_ids: set[str] = set()
+    previous_timestamp = ""
+    for release in releases:
+        expected = {"id", "version", "publishedAt", "titleEn", "titleFi", "items"}
+        if not isinstance(release, dict) or set(release) != expected:
+            raise ValueError("changelog.json release has an unexpected schema")
+        release_id = release.get("id")
+        if not isinstance(release_id, str) or not release_id or release_id in release_ids:
+            raise ValueError("changelog.json release IDs must be non-empty and unique")
+        release_ids.add(release_id)
+        timestamp = release.get("publishedAt")
+        if not isinstance(timestamp, str) or not timestamp:
+            raise ValueError(f"changelog release {release_id} requires publishedAt")
+        if previous_timestamp and timestamp >= previous_timestamp:
+            raise ValueError("changelog.json releases must be newest first")
+        previous_timestamp = timestamp
+        items = release.get("items")
+        if not isinstance(items, list) or not items:
+            raise ValueError(f"changelog release {release_id} requires at least one item")
+        for item in items:
+            if not isinstance(item, dict) or set(item) != {"category", "textEn", "textFi"}:
+                raise ValueError(f"changelog release {release_id} item has an unexpected schema")
+    return _sanitize_market_value(source)
+
+
+def write_outputs(atlas: dict[str, Any], market_values: dict[str, Any], changelog: dict[str, Any]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     atomic_write_text(
         OUTPUT_DIR / "atlas.json",
@@ -730,13 +1032,31 @@ def write_outputs(atlas: dict[str, Any]) -> None:
     ]
     atomic_write_csv(OUTPUT_DIR / "evidence.csv", evidence_fields, evidence_rows)
 
+    atomic_write_text(
+        OUTPUT_DIR / "market-values.json",
+        json.dumps(market_values, ensure_ascii=False, indent=2) + "\n",
+    )
+    atomic_write_csv(
+        OUTPUT_DIR / "market-values.csv",
+        MARKET_CSV_FIELDS,
+        market_values_csv_rows(market_values),
+    )
+    atomic_write_text(
+        OUTPUT_DIR / "changelog.json",
+        json.dumps(changelog, ensure_ascii=False, indent=2) + "\n",
+    )
+
 
 def main() -> None:
     atlas = build()
-    write_outputs(atlas)
+    market_values = build_market_values()
+    changelog = build_changelog()
+    write_outputs(atlas, market_values, changelog)
     print(
         f"Built {len(atlas['countries'])} countries, "
-        f"{len(atlas['evidence'])} evidence records and {len(atlas['legal'])} legal anchors."
+        f"{len(atlas['evidence'])} evidence records, {len(atlas['legal'])} legal anchors, "
+        f"{len(market_values['observations'])} market observations, {len(market_values['models'])} market model, "
+        f"and {len(changelog['releases'])} changelog release."
     )
 
 

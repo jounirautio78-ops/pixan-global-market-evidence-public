@@ -1,14 +1,15 @@
 <!doctype html>
-<html lang="fi">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Riippumaton julkisiin lähteisiin perustuva sähkötupakka- ja e-nestemarkkinan evidenssikeskus.">
+  <meta name="description" content="Independent public-source evidence center for global vaping-device and e-liquid markets.">
   <meta name="theme-color" content="#08131f">
   <title>Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css">
-  <script defer src="assets/app.js"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-4">
+  <script defer src="assets/i18n.js?v=2026-07-22-4"></script>
+  <script defer src="assets/app.js?v=2026-07-22-4"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Siirry sisältöön</a>
@@ -23,6 +24,10 @@
       </a>
       <div class="header-actions">
         <span class="independent-pill"><span aria-hidden="true"></span> Ei Pixan Oy:n virallinen julkaisu</span>
+        <div class="language-switch" role="group" aria-label="Kielivalinta">
+          <button type="button" data-language="fi" aria-pressed="false">FI</button>
+          <button type="button" data-language="en" aria-pressed="true">EN</button>
+        </div>
         <a class="button button-secondary button-small evaluator-link" href="review.html">Lender / buyer view</a>
         <a class="button button-primary button-small" data-submission-link href="#submit">Toimita aineistoa</a>
       </div>
@@ -32,6 +37,7 @@
   <nav class="section-nav" aria-label="Päänavigaatio">
     <div class="nav-inner" role="tablist">
       <a href="#overview" data-tab="overview" role="tab">Tilannekuva</a>
+      <a href="#market" data-tab="market" role="tab">Markkinan arvo</a>
       <a href="#countries" data-tab="countries" role="tab">195 maata</a>
       <a href="#evidence" data-tab="evidence" role="tab">Evidenssi</a>
       <a href="#legal" data-tab="legal" role="tab">Patentti ja Saksa</a>
@@ -47,8 +53,9 @@
         <h1 id="hero-title">Markkinaväite on hyödyllinen vasta, kun sen voi jäljittää lähteeseen.</h1>
         <p class="hero-lead">Rakennamme 195 maan vertailukelpoista kuvaa sähkötupakka-, laite-, podi- ja e-nestemarkkinoista. Virallinen myynti, verovolyymi, tullivirta ja mallinnus pidetään tarkoituksella erillään.</p>
         <div class="hero-actions">
+          <a class="button button-primary" href="#market">Avaa markkina-arvo ja vuosihavainnot</a>
           <a class="button button-primary" href="#countries">Avaa maakohtainen atlas</a>
-          <a class="button button-secondary" href="review.html">Shareable review brief (EN)</a>
+          <a class="button button-secondary" href="review.html">Shareable review brief</a>
           <a class="button button-secondary" href="data/countries.csv" download>Lataa CSV</a>
           <a class="button button-ghost" href="data/atlas.json" download>Lataa JSON</a>
         </div>
@@ -70,6 +77,23 @@
         <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
         <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
       </div>
+    </section>
+
+    <section class="shell change-section" aria-labelledby="changes-title">
+      <article class="panel change-panel">
+        <div class="change-heading">
+          <div>
+            <p class="kicker">Usein palaaville</p>
+            <h2 id="changes-title">Mitä on muuttunut viime käyntisi jälkeen?</h2>
+          </div>
+          <div class="change-status-actions">
+            <span class="change-badge" id="changes-badge">Tarkistetaan…</span>
+            <button class="button button-ghost button-small change-mark-seen" id="changes-mark-seen" type="button" hidden>Merkitse nähdyksi</button>
+          </div>
+        </div>
+        <div id="changes-since-visit" class="change-list" aria-live="polite"></div>
+        <p class="change-local-note">Viimeisin nähdyksi merkitsemäsi julkaisu tallennetaan vain tähän selaimeen. Sivusto ei käytä tätä toimintoa analytiikkaan eikä tunnista kävijää.</p>
+      </article>
     </section>
 
     <section class="tab-panel shell" id="panel-overview" data-panel="overview" aria-labelledby="tab-overview">
@@ -133,6 +157,83 @@
           </div>
         </article>
       </div>
+    </section>
+
+    <section class="tab-panel shell" id="panel-market" data-panel="market" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Observed · derived · modelled</p>
+          <h2>Vuosittainen markkina-arvo ja laskentareitit</h2>
+        </div>
+        <p>Vahvistetut toimitukset, verotetut määrät, verotuotot ja mallinnetut arviot pidetään erillään. Eri mittareita käytetään rinnakkaiseen tarkistukseen, ei saman myynnin laskemiseen kahdesti.</p>
+      </div>
+
+      <div class="market-summary-grid" id="market-metrics" aria-live="polite">
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+      </div>
+
+      <div class="market-layout">
+        <article class="panel panel-wide market-range-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Ulkopuolinen täsmäytyshaarukka</p>
+              <h3>Vuoden 2025 kaupalliset maailmanmarkkina-arviot</h3>
+            </div>
+            <span class="market-status-chip market-status-caution">Ei atlaksen arvio</span>
+          </div>
+          <div id="market-global-range" class="market-global-range"></div>
+          <p class="panel-note">Julkaisijoiden tuoterajaukset ja menetelmät poikkeavat toisistaan. Haarukka on sanity check, ei vahvistettu maailmanlaajuinen myynti.</p>
+        </article>
+
+        <article class="panel market-readiness-panel">
+          <p class="kicker">Mallin valmius</p>
+          <h3 id="market-readiness-title">Ei vielä estimaattivalmis</h3>
+          <div id="market-readiness" class="market-readiness"></div>
+        </article>
+      </div>
+
+      <article class="panel market-observations-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">Maa × vuosi × mittari</p>
+            <h3>Vahvistetut ja johdetut määrälliset havainnot</h3>
+          </div>
+          <a class="button button-secondary button-small" href="data/market-values.csv" download>Lataa markkina-aineisto</a>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table market-table">
+            <thead>
+              <tr>
+                <th scope="col">Maa / alue</th>
+                <th scope="col">Vuosi</th>
+                <th scope="col">Mittari</th>
+                <th scope="col">Arvo tai määrä</th>
+                <th scope="col">Näytön luonne</th>
+                <th scope="col">Rajaus</th>
+                <th scope="col"><span class="sr-only">Lähde</span></th>
+              </tr>
+            </thead>
+            <tbody id="market-observation-rows"></tbody>
+          </table>
+        </div>
+        <div id="market-empty" class="empty-state" hidden>Markkinahavaintoja ei voitu ladata.</div>
+      </article>
+
+      <div class="section-heading market-method-heading">
+        <div>
+          <p class="eyebrow">Triangulaatio ilman tuplalaskentaa</p>
+          <h2>Kuusi vaihtoehtoista laskentareittiä</h2>
+        </div>
+        <div class="market-method-intro">
+          <p>Menetelmät tuottavat rinnakkaisia low/base/high-arvioita. Niitä verrataan ja painotetaan evidenssin laadulla; niitä ei summata keskenään.</p>
+          <a class="button button-secondary button-small" href="https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/GLOBAL_RESEARCH_ROUTES.md" target="_blank" rel="noreferrer">Avaa maailmanlaajuinen lähdereittisuunnitelma</a>
+        </div>
+      </div>
+      <div class="market-method-grid" id="market-methods"></div>
+      <div id="market-models" class="market-model-grid"></div>
     </section>
 
     <section class="tab-panel shell" id="panel-countries" data-panel="countries" hidden>
@@ -316,14 +417,14 @@
           <label><span>Mittarityyppi *</span>
             <select name="measure" required>
               <option value="">Valitse…</option>
-              <option>Virallinen myynti tai toimitus</option>
-              <option>Vero tai verovolyymi</option>
-              <option>Tullituonti tai -vienti</option>
-              <option>Hintaotos</option>
-              <option>Käyttäjä- tai prevalenssitutkimus</option>
-              <option>Sääntely- tai patenttiasiakirja</option>
-              <option>Malli tai kaupallinen arvio</option>
-              <option>Muu aineisto</option>
+              <option value="official_sales">Virallinen myynti tai toimitus</option>
+              <option value="tax_or_volume">Vero tai verovolyymi</option>
+              <option value="customs">Tullituonti tai -vienti</option>
+              <option value="price_sample">Hintaotos</option>
+              <option value="prevalence">Käyttäjä- tai prevalenssitutkimus</option>
+              <option value="regulatory_or_patent">Sääntely- tai patenttiasiakirja</option>
+              <option value="model">Malli tai kaupallinen arvio</option>
+              <option value="other">Muu aineisto</option>
             </select>
           </label>
           <label><span>Lähettäjä / organisaatio</span><input name="sender" placeholder="Vapaaehtoinen"></label>
