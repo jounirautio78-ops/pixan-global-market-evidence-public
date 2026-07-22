@@ -54,6 +54,13 @@ function reviewUrl(value) {
   }
 }
 
+function reviewFormatDate(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return new Intl.DateTimeFormat(reviewIsFi() ? "fi-FI" : "en-GB", { year: "numeric", month: "long", day: "numeric" }).format(date);
+}
+
 function reviewStatus(value) {
   const status = String(value || "").toLowerCase();
   if (["verified", "confirmed", "official"].includes(status)) return "verified";
@@ -298,10 +305,14 @@ function renderReviewLegal(data) {
 }
 
 function renderReviewMeta(data) {
-  const asOf = data.meta?.asOf || data.meta?.generatedAt || "";
+  const latestRelease = Array.isArray(reviewChangelog?.releases)
+    ? [...reviewChangelog.releases].sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))[0]
+    : null;
+  const asOf = latestRelease?.publishedAt || data.meta?.asOf || data.meta?.generatedAt || "";
   const time = reviewById("review-as-of");
-  time.textContent = asOf || "—";
+  time.textContent = reviewFormatDate(asOf);
   time.dateTime = asOf;
+  reviewById("review-site-version").textContent = latestRelease?.version || "—";
   reviewById("review-source-commit").textContent = String(data.meta?.legacySourceCommit || "—").slice(0, 9);
 }
 

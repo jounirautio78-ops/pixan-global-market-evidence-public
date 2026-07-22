@@ -1038,9 +1038,14 @@ function renderLocalizedView() {
 
 function renderMeta() {
   const snapshot = valueAt(state.data, ["meta.generatedAt", "meta.snapshotDate", "meta.updatedAt"], "");
+  const latestRelease = Array.isArray(state.changelog?.releases)
+    ? [...state.changelog.releases].sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))[0]
+    : null;
+  const updatedAt = latestRelease?.publishedAt || snapshot;
   const sourceCommit = valueAt(state.data, ["meta.sourceCommit", "meta.legacySourceCommit", "sourceAttribution.commit"], "—");
-  byId("snapshot-date").textContent = formatDate(snapshot);
-  byId("snapshot-date").dateTime = snapshot;
+  byId("snapshot-date").textContent = formatDate(updatedAt);
+  byId("snapshot-date").dateTime = updatedAt;
+  byId("site-version").textContent = latestRelease?.version || "—";
   byId("source-commit").textContent = String(sourceCommit).slice(0, 9);
 }
 
