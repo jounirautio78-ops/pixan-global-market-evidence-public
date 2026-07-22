@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "generatedFromPublicDataOnly": true,
+  "release": {
+    "id": "2026-07-22-live-bank-package-v7",
+    "version": "2026.07.22-7",
+    "publishedAt": "2026-07-22T18:10:00+03:00"
+  },
+  "asOf": "2026-07-22",
+  "language": "fi",
+  "publicBoundary": {
+    "en": "Independent public evidence summary. Not Pixan Oy's official position; not an audit, valuation, legal opinion, investment recommendation or lending recommendation.",
+    "fi": "Riippumaton julkinen evidenssikooste. Ei Pixan Oy:n virallinen kanta; ei tilintarkastus, arvonmääritys, oikeudellinen lausunto, sijoitussuositus tai lainasuositus."
+  },
+  "inputs": [
+    {
+      "path": "site/data/atlas.json",
+      "sha256": "0a0d2e80106ceaef8a157bffdc8840dacb02080049a40a6428c239fae5c24dab"
+    },
+    {
+      "path": "site/data/market-values.json",
+      "sha256": "cdb7105ae69f524df86cddc6001c074d82d379a92dfbb69735e1f6fd4d1e6e46"
+    },
+    {
+      "path": "site/data/patent-history.json",
+      "sha256": "6c7851943384b633f6458953e0e21e1d4eb808aaaa67c86ed856c69a8aa746ef"
+    },
+    {
+      "path": "site/data/changelog.json",
+      "sha256": "4f1f640164c67f981bf1c87b2339355c320456dde2c767b000ff09c471775857"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "short-deck",
+      "kind": "pptx",
+      "titleFi": "Suppea pankkidekki",
+      "titleEn": "Short bank deck",
+      "fileName": "pixan-bank-deck-short-fi.pptx",
+      "path": "downloads/pixan-bank-deck-short-fi.pptx",
+      "sha256": "15b0de878e25a71b347efc08930a50f2c43d4ae8337efe44b6047cea85bdb755",
+      "bytes": 160990,
+      "slideCount": 6
+    },
+    {
+      "id": "medium-deck",
+      "kind": "pptx",
+      "titleFi": "Keskikokoinen pankkidekki",
+      "titleEn": "Medium bank deck",
+      "fileName": "pixan-bank-deck-medium-fi.pptx",
+      "path": "downloads/pixan-bank-deck-medium-fi.pptx",
+      "sha256": "34537d6af693f73c39d7ae7e8efa0f6323cd4deec607157344d4554edf90fd8f",
+      "bytes": 234452,
+      "slideCount": 12
+    },
+    {
+      "id": "large-deck",
+      "kind": "pptx",
+      "titleFi": "Laaja pankkidekki",
+      "titleEn": "Large bank deck",
+      "fileName": "pixan-bank-deck-large-fi.pptx",
+      "path": "downloads/pixan-bank-deck-large-fi.pptx",
+      "sha256": "c297dd4826a2d8d56de13efb8123773206ad63b529c5d763b4d67cc074dcc73c",
+      "bytes": 462632,
+      "slideCount": 30
+    },
+    {
+      "id": "evidence-register",
+      "kind": "xlsx",
+      "titleFi": "Evidence Register",
+      "titleEn": "Evidence Register",
+      "fileName": "pixan-bank-evidence-register-fi.xlsx",
+      "path": "downloads/pixan-bank-evidence-register-fi.xlsx",
+      "sha256": "aa1773d4b18e8d27411edd3d90ede4d4b95ed70b489190a4e8e60f0eab8c6b1f",
+      "bytes": 102782,
+      "rowCount": 45
+    }
+  ]
+}

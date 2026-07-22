@@ -131,6 +131,7 @@ EXPECTED_SITE_FILES = {
     "site/index.html",
     "site/review.html",
     "site/assets/app.js",
+    "site/assets/downloads.js",
     "site/assets/i18n.js",
     "site/assets/review.js",
     "site/assets/styles.css",
@@ -139,10 +140,16 @@ EXPECTED_SITE_FILES = {
     "site/data/countries.csv",
     "site/data/evidence.csv",
     "site/data/changelog.json",
+    "site/data/bank-evidence-register.csv",
+    "site/data/bank-package-manifest.json",
     "site/data/market-values.json",
     "site/data/market-values.csv",
     "site/data/patent-history.json",
     "site/data/patent-family.csv",
+    "site/downloads/pixan-bank-deck-short-fi.pptx",
+    "site/downloads/pixan-bank-deck-medium-fi.pptx",
+    "site/downloads/pixan-bank-deck-large-fi.pptx",
+    "site/downloads/pixan-bank-evidence-register-fi.xlsx",
 }
 
 PATENT_OUTPUT_TOP_LEVEL_KEYS = {

@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-22-live-bank-package-v7",
+      "version": "2026.07.22-7",
+      "publishedAt": "2026-07-22T18:10:00+03:00",
+      "titleEn": "Live downloadable bank-research package",
+      "titleFi": "Aina tuore ladattava pankkitutkimuspaketti",
+      "items": [
+        {
+          "category": "usability",
+          "textEn": "Added direct downloads for a 6-slide brief, a 12-slide lender deck, an extended diligence deck and an Evidence Register workbook.",
+          "textFi": "Lisättiin suorat lataukset 6 dian tiivistelmälle, 12 dian rahoittajadekille, laajalle due diligence -dekille ja Evidence Register -työkirjalle."
+        },
+        {
+          "category": "method",
+          "textEn": "All four files are regenerated from the reviewed public dataset whenever the site is built; the manifest exposes the release, source date, file size and SHA-256 digest.",
+          "textFi": "Kaikki neljä tiedostoa muodostetaan uudelleen tarkistetusta julkisesta aineistosta aina sivuston rakentamisen yhteydessä; manifesti näyttää julkaisun, aineistopäivän, tiedostokoon ja SHA-256-tiivisteen."
+        },
+        {
+          "category": "diligence",
+          "textEn": "The decks separate confirmed facts, supported interpretations, assumptions and missing evidence, and explicitly state that the current public corpus is not yet sufficient for a credit decision or valuation.",
+          "textFi": "Dekit erottavat vahvistetut faktat, tuetut tulkinnat, oletukset ja puuttuvan näytön sekä toteavat nimenomaisesti, ettei nykyinen julkinen aineisto vielä riitä luottopäätökseen tai arvonmääritykseen."
+        },
+        {
+          "category": "diligence",
+          "textEn": "The downloadable package is generated from public-source data only and excludes private contracts, shareholder, pledge, loan and investor-interest material.",
+          "textFi": "Ladattava paketti muodostetaan vain julkisista lähteistä, eikä se sisällä yksityisiä sopimus-, osakas-, panttaus-, laina- tai sijoittajakiinnostusta koskevia tietoja."
+        }
+      ]
+    },
+    {
       "id": "2026-07-22-worldwide-patent-diligence-v4",
       "version": "2026.07.22-4",
       "publishedAt": "2026-07-22T15:50:00+03:00",

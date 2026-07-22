@@ -34,11 +34,31 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install bank-package build dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-bank-package.txt
+
       - name: Rebuild generated public files
-        run: python scripts/build_atlas.py
+        run: |
+          python scripts/build_atlas.py
+          python scripts/build_bank_package.py
+
+      - name: Verify deterministic bank-package rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          find site/downloads -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/bank-package-before.sha256
+          sha256sum site/data/bank-package-manifest.json site/data/bank-evidence-register.csv >> /tmp/bank-package-before.sha256
+          python scripts/build_bank_package.py
+          find site/downloads -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/bank-package-after.sha256
+          sha256sum site/data/bank-package-manifest.json site/data/bank-evidence-register.csv >> /tmp/bank-package-after.sha256
+          diff -u /tmp/bank-package-before.sha256 /tmp/bank-package-after.sha256
 
       - name: Validate public-only content
-        run: python scripts/validate_public.py
+        run: |
+          python scripts/test_market_estimation.py
+          python scripts/validate_public.py
+          python scripts/validate_bank_package.py
+          for file in site/assets/*.js; do node --check "$file"; done
 
       - name: Require a clean reviewed rebuild
         shell: bash

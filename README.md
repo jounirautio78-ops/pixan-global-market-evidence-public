@@ -8,6 +8,21 @@ The site has two public entry points: the full evidence atlas in `site/index.htm
 
 The returning-visitor section compares the current release ID and version in `site/data/changelog.json` with the last release explicitly marked as seen in that browser. The value stays in device-local storage only: it is not sent to the repository or an analytics service and does not identify the visitor.
 
+## Downloadable bank-research package
+
+The full atlas and lender/buyer review page expose four versioned Finnish downloads: a 6-slide brief, the requested 12-slide lender deck, an extended diligence deck and an Evidence Register workbook. `scripts/build_bank_package.py` regenerates every file from the reviewed public outputs under `site/data/`; no private workspace file is an input. `site/data/bank-package-manifest.json` records the release, source-date, input and artifact SHA-256 digests, file sizes and slide or row counts.
+
+The generated package is deliberately evidence-conservative. It distinguishes **Vahvistettu**, **Tuettu**, **Oletus** and **Puuttuu**, and treats unverified financials, customers, licensing cash flow, title/encumbrance records and financing terms as missing evidence. It is independent research, not an official Pixan disclosure, a valuation, investment advice or a recommendation to lend.
+
+To rebuild the public package locally after the atlas has been rebuilt:
+
+```bash
+python -m pip install -r requirements-bank-package.txt
+python scripts/build_atlas.py
+python scripts/build_bank_package.py
+python scripts/validate_bank_package.py
+```
+
 ## Annual market-value evidence
 
 Reviewed market observations live in `source/market-observations.json`. The deterministic build emits:
