@@ -7,9 +7,10 @@
   <meta name="theme-color" content="#08131f">
   <title>Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-6">
-  <script defer src="assets/i18n.js?v=2026-07-22-6"></script>
-  <script defer src="assets/app.js?v=2026-07-22-6"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-7">
+  <script defer src="assets/i18n.js?v=2026-07-22-7"></script>
+  <script defer src="assets/downloads.js?v=2026-07-22-7"></script>
+  <script defer src="assets/app.js?v=2026-07-22-7"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Siirry sisältöön</a>
@@ -94,6 +95,34 @@
         <div id="changes-since-visit" class="change-list" aria-live="polite"></div>
         <p class="change-local-note">Viimeisin nähdyksi merkitsemäsi julkaisu tallennetaan vain tähän selaimeen. Sivusto ei käytä tätä toimintoa analytiikkaan eikä tunnista kävijää.</p>
       </article>
+    </section>
+
+    <section class="shell bank-package-section no-print" data-bank-package aria-labelledby="bank-package-title" aria-busy="true">
+      <div class="bank-package-heading">
+        <div>
+          <p class="eyebrow">Julkinen pankki- ja due diligence -paketti</p>
+          <h2 id="bank-package-title">Lataa aina nykyiseen julkaisuun sidotut aineistot</h2>
+          <p>Dekit ja Evidence Register muodostetaan samasta tarkistetusta julkisesta aineistosta. Manifesti näyttää version, aineistopäivän ja tiedostokohtaisen tarkistustiivisteen.</p>
+        </div>
+        <dl class="bank-package-release" data-bank-package-release hidden>
+          <div><dt>Versio</dt><dd data-bank-package-version>—</dd></div>
+          <div><dt>Aineiston päivä</dt><dd data-bank-package-as-of>—</dd></div>
+          <div><dt>Tiedostoja</dt><dd data-bank-package-count>—</dd></div>
+        </dl>
+      </div>
+      <aside class="bank-package-boundary" aria-label="Julkisen pankkipaketin rajaus">
+        <span class="bank-package-boundary-mark" aria-hidden="true">PUBLIC</span>
+        <div>
+          <strong>Vain julkisesta aineistosta · riippumaton julkaisu</strong>
+          <p data-bank-package-boundary>Tämä paketti ei ole Pixan Oy:n julkaisema tai hyväksymä. Se ei ole tarjous, arvonmääritys, sijoitus- tai lainaneuvonta, tilintarkastus eikä oikeudellinen lausunto.</p>
+        </div>
+      </aside>
+      <div class="bank-package-status" data-bank-package-status role="status" aria-live="polite">
+        <span class="bank-package-status-dot" aria-hidden="true"></span>
+        <span>Tarkistetaan nykyisiä latauksia…</span>
+      </div>
+      <div class="bank-package-grid" data-bank-package-artifacts role="list" hidden></div>
+      <p class="bank-package-note" data-bank-package-note hidden>Kaikki ladattavat tiedostot ovat suomenkielisiä. SHA-256-tunniste auttaa varmistamaan, että käytössä on tämän julkaisun tiedosto.</p>
     </section>
 
     <section class="tab-panel shell" id="panel-overview" data-panel="overview">

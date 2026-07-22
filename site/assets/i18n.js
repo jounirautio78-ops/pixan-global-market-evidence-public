@@ -376,7 +376,16 @@
     ["Patentti-JSON", "Patent JSON"],
     ["Patenttiperheen CSV", "Patent-family CSV"],
     ["Pixan Global Market Evidence, etusivu", "Pixan Global Market Evidence, home"],
-    ["Pixan Global Market Evidence, koko atlas", "Pixan Global Market Evidence, full atlas"]
+    ["Pixan Global Market Evidence, koko atlas", "Pixan Global Market Evidence, full atlas"],
+    ["Julkinen pankki- ja due diligence -paketti", "Public bank and due-diligence package"],
+    ["Lataa aina nykyiseen julkaisuun sidotut aineistot", "Download files tied to the current evidence release"],
+    ["Dekit ja Evidence Register muodostetaan samasta tarkistetusta julkisesta aineistosta. Manifesti näyttää version, aineistopäivän ja tiedostokohtaisen tarkistustiivisteen.", "The decks and Evidence Register are generated from the same reviewed public dataset. The manifest exposes the release, data date and file-level integrity hash."],
+    ["Tiedostoja", "Files"],
+    ["Julkisen pankkipaketin rajaus", "Public bank-package boundary"],
+    ["Vain julkisesta aineistosta · riippumaton julkaisu", "Public data only · independent publication"],
+    ["Tämä paketti ei ole Pixan Oy:n julkaisema tai hyväksymä. Se ei ole tarjous, arvonmääritys, sijoitus- tai lainaneuvonta, tilintarkastus eikä oikeudellinen lausunto.", "This package is not issued or endorsed by Pixan Oy. It is not an offer, valuation, investment or lending advice, audit or legal opinion."],
+    ["Tarkistetaan nykyisiä latauksia…", "Checking current downloads…"],
+    ["Kaikki ladattavat tiedostot ovat suomenkielisiä. SHA-256-tunniste auttaa varmistamaan, että käytössä on tämän julkaisun tiedosto.", "All downloadable files are currently in Finnish. The SHA-256 identifier helps confirm that a file belongs to this release."]
   ];
 
   const pairByText = new Map();

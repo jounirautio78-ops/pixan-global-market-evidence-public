@@ -37,11 +37,20 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Build the public atlas
-        run: python scripts/build_atlas.py
+      - name: Install bank-package build dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-bank-package.txt
 
-      - name: Validate the public atlas
-        run: python scripts/validate_public.py
+      - name: Build the public atlas and lender package
+        run: |
+          python scripts/build_atlas.py
+          python scripts/build_bank_package.py
+
+      - name: Validate the public atlas and lender package
+        run: |
+          python scripts/test_market_estimation.py
+          python scripts/validate_public.py
+          python scripts/validate_bank_package.py
+          for file in site/assets/*.js; do node --check "$file"; done
 
       - name: Verify reviewed output and public boundary
         shell: bash

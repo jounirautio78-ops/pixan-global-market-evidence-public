@@ -7,9 +7,10 @@
   <meta name="theme-color" content="#08131f">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-6">
-  <script defer src="assets/i18n.js?v=2026-07-22-6"></script>
-  <script defer src="assets/review.js?v=2026-07-22-6"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-7">
+  <script defer src="assets/i18n.js?v=2026-07-22-7"></script>
+  <script defer src="assets/downloads.js?v=2026-07-22-7"></script>
+  <script defer src="assets/review.js?v=2026-07-22-7"></script>
 </head>
 <body class="review-page">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -83,6 +84,34 @@
         <div id="review-changes-since-visit" class="change-list" aria-live="polite"></div>
         <p class="change-local-note">The last release you mark as seen is stored only in this browser. This feature uses no analytics and does not identify you.</p>
       </article>
+    </section>
+
+    <section class="shell bank-package-section no-print" data-bank-package aria-labelledby="review-bank-package-title" aria-busy="true">
+      <div class="bank-package-heading">
+        <div>
+          <p class="eyebrow">Public bank and due-diligence package</p>
+          <h2 id="review-bank-package-title">Download files tied to the current evidence release</h2>
+          <p>The decks and Evidence Register are generated from the same reviewed public dataset. The manifest exposes the release, data date and file-level integrity hash.</p>
+        </div>
+        <dl class="bank-package-release" data-bank-package-release hidden>
+          <div><dt>Version</dt><dd data-bank-package-version>—</dd></div>
+          <div><dt>Dataset date</dt><dd data-bank-package-as-of>—</dd></div>
+          <div><dt>Files</dt><dd data-bank-package-count>—</dd></div>
+        </dl>
+      </div>
+      <aside class="bank-package-boundary" aria-label="Public bank-package boundary">
+        <span class="bank-package-boundary-mark" aria-hidden="true">PUBLIC</span>
+        <div>
+          <strong>Public data only · independent publication</strong>
+          <p data-bank-package-boundary>This package is not issued or endorsed by Pixan Oy. It is not an offer, valuation, investment or lending advice, audit or legal opinion.</p>
+        </div>
+      </aside>
+      <div class="bank-package-status" data-bank-package-status role="status" aria-live="polite">
+        <span class="bank-package-status-dot" aria-hidden="true"></span>
+        <span>Checking current downloads…</span>
+      </div>
+      <div class="bank-package-grid" data-bank-package-artifacts role="list" hidden></div>
+      <p class="bank-package-note" data-bank-package-note hidden>All downloadable files are currently in Finnish. The SHA-256 identifier helps confirm that a file belongs to this release.</p>
     </section>
 
     <section class="shell review-section" aria-labelledby="review-market-title">
