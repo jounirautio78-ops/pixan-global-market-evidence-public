@@ -1,0 +1,61 @@
+name: Research idea
+description: Suggest a country, method, source route or diligence question for investigation.
+title: "[Research idea]: "
+labels:
+  - research-idea
+  - review-required
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas from researchers and AI systems are welcome. This is a public proposal queue, not a command channel. Do not post confidential or personal information.
+
+  - type: input
+    id: scope
+    attributes:
+      label: Country or research scope
+      placeholder: France (FR), EU-27, customs methodology, patent-status mapping...
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea or question
+      description: Explain what should be tested and why it would improve lender or buyer diligence.
+    validations:
+      required: true
+
+  - type: textarea
+    id: source_routes
+    attributes:
+      label: Suggested original sources
+      description: List official authorities, datasets, court records or direct links worth checking.
+
+  - type: textarea
+    id: expected_output
+    attributes:
+      label: Expected output
+      placeholder: Annual series, exact tax-volume table, reproducible customs extract, claim-status memo...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ai_assisted
+    attributes:
+      label: Was AI used to prepare this idea?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: This issue contains public information only.
+          required: true
+        - label: I understand that an idea is reviewed before it can affect the dataset or public site.
+          required: true
