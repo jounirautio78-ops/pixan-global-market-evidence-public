@@ -1,0 +1,103 @@
+name: Deploy public site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  build:
+    name: Build and package public site
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Build the public atlas
+        run: python scripts/build_atlas.py
+
+      - name: Validate the public atlas
+        run: python scripts/validate_public.py
+
+      - name: Verify reviewed output and public boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f site/index.html
+
+          if find site -type l -print -quit | grep -q .; then
+            echo "::error::The public site must not contain symbolic links."
+            find site -type l -print
+            exit 1
+          fi
+
+          git diff --check
+          git diff --exit-code
+
+          untracked="$(git ls-files --others --exclude-standard)"
+          if [[ -n "$untracked" ]]; then
+            echo "::error::The build produced untracked files. Commit reviewed output or ignore local-only files."
+            printf '%s\n' "$untracked"
+            exit 1
+          fi
+
+          ignored_in_site="$(
+            {
+              git ls-files --others --ignored --exclude-standard -- site
+              git ls-files --cached --ignored --exclude-standard -- site
+            } | sort -u
+          )"
+          if [[ -n "$ignored_in_site" ]]; then
+            echo "::error::The Pages artifact contains ignored files. Ignored files under site/ are still public."
+            printf '%s\n' "$ignored_in_site"
+            exit 1
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload only the public site artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+
+  deploy:
+    name: Deploy reviewed artifact
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
