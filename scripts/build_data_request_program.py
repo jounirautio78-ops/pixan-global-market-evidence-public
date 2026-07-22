@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Build public Top-20 official-data request programme artefacts.
 
-The source programme is a draft research plan. This builder only publishes
-deterministic JSON/CSV and copies the two neutral request templates; it does
-not contact an authority or send a request.
+The source programme combines a planned-route register with a deliberately
+minimal public dispatch record. This builder only publishes deterministic
+JSON/CSV and copies the two neutral draft templates; it does not contact an
+authority or send a request.
 """
 
 from __future__ import annotations
@@ -35,6 +36,10 @@ CSV_FIELDS = [
     "countryEn",
     "countryFi",
     "status",
+    "dispatchState",
+    "sentOn",
+    "publicAuthorityReference",
+    "responseState",
     "rankingType",
     "isMarketSizeRanking",
     "rationaleEn",
@@ -84,6 +89,10 @@ def flatten_route(program: dict[str, Any], route: dict[str, Any]) -> dict[str, A
         "countryEn": route["countryEn"],
         "countryFi": route["countryFi"],
         "status": route["status"],
+        "dispatchState": route["dispatch"]["state"],
+        "sentOn": route["dispatch"]["sentOn"] or "",
+        "publicAuthorityReference": route["dispatch"]["publicAuthorityReference"] or "",
+        "responseState": route["dispatch"]["responseState"],
         "rankingType": program["ranking"]["type"],
         "isMarketSizeRanking": str(program["ranking"]["isMarketSizeRanking"]).lower(),
         "rationaleEn": route["rationaleEn"],

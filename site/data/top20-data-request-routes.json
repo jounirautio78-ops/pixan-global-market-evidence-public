@@ -1,7 +1,7 @@
 {
-  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation, and no request in this file has been sent.",
-  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus, eikä yhtäkään tämän tiedoston pyyntöä ole lähetetty.",
-  "programmeId": "pixan-independent-top20-official-data-request-programme-v1",
+  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records only whether a country route was sent, its calendar date and any public authority reference; it does not identify a sender or recipient or establish delivery, acknowledgement, routing or response.",
+  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo vain, onko maareitti lähetetty, kalenteripäivän ja mahdollisen julkisen viranomaisviitteen; se ei yksilöi lähettäjää tai vastaanottajaa eikä osoita toimitusta, vastaanottokuittausta, reititystä tai vastausta.",
+  "programmeId": "pixan-independent-top20-official-data-request-programme-v2",
   "ranking": {
     "isMarketSizeRanking": false,
     "statementEn": "The order prioritises evidence accessibility, strategic and patent-family relevance, and request feasibility. It is not a ranking of national market size.",
@@ -13,6 +13,12 @@
       "countryEn": "Germany",
       "countryFi": "Saksa",
       "countryIso2": "DE",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Federal Statistical Office, GENESIS table family 73411",
         "nameFi": "Liittovaltion tilastovirasto, GENESIS-tauluperhe 73411",
@@ -68,6 +74,12 @@
       "countryEn": "Canada",
       "countryFi": "Kanada",
       "countryIso2": "CA",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Canada Revenue Agency, vaping product duty records",
         "nameFi": "Kanadan verovirasto, höyrystystuotteiden valmisteverotiedot",
@@ -124,6 +136,12 @@
       "countryEn": "United States",
       "countryFi": "Yhdysvallat",
       "countryIso2": "US",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "U.S. International Trade Commission DataWeb",
         "nameFi": "Yhdysvaltain kansainvälisen kaupan komission DataWeb",
@@ -185,6 +203,12 @@
       "countryEn": "China",
       "countryFi": "Kiina",
       "countryIso2": "CN",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "General Administration of Customs of China",
         "nameFi": "Kiinan tullihallinto",
@@ -240,6 +264,12 @@
       "countryEn": "Poland",
       "countryFi": "Puola",
       "countryIso2": "PL",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-22",
+        "state": "sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Bureau for Chemical Substances product-notification list",
         "nameFi": "Kemikaaliviraston tuoteilmoitusluettelo",
@@ -288,13 +318,19 @@
         "caveatFi": "Julkisen tiedon reitillä ei ilmoiteta kansalaisuusehtoa; puolankielinen pyyntö on suositeltava ja verosalaisuus edellyttää aggregoitua rajausta.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
       "countryEn": "United Kingdom",
       "countryFi": "Yhdistynyt kuningaskunta",
       "countryIso2": "GB",
+      "dispatch": {
+        "publicAuthorityReference": "CEC 261515",
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-16",
+        "state": "sent"
+      },
       "fallbackAuthority": {
         "nameEn": "HM Revenue and Customs vaping duty enquiries",
         "nameFi": "HM Revenue and Customsin höyrystystuoteveron tiedustelut",
@@ -336,20 +372,26 @@
       "requestChannel": {
         "nameEn": "MHRA Freedom of Information route",
         "nameFi": "MHRA:n Freedom of Information -reitti",
-        "url": "https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency"
+        "url": "https://foi-request.mhra.gov.uk/start-now"
       },
       "requesterEligibility": {
         "caveatEn": "Anyone can make a UK FOI request. The Vaping Products Duty begins only in October 2026, so it cannot evidence historical realised duty or sales for 2018-2025.",
         "caveatFi": "Kuka tahansa voi tehdä Yhdistyneen kuningaskunnan FOI-pyynnön. Vaping Products Duty alkaa vasta lokakuussa 2026, joten se ei osoita vuosien 2018-2025 toteutunutta veroa tai myyntiä.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
       "countryEn": "Sweden",
       "countryFi": "Ruotsi",
       "countryIso2": "SE",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Swedish Tax Agency",
         "nameFi": "Ruotsin verovirasto",
@@ -412,6 +454,12 @@
       "countryEn": "Italy",
       "countryFi": "Italia",
       "countryIso2": "IT",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Italian Ministry of Health product and EU-CEG information",
         "nameFi": "Italian terveysministeriön tuote- ja EU-CEG-tiedot",
@@ -467,6 +515,12 @@
       "countryEn": "France",
       "countryFi": "Ranska",
       "countryIso2": "FR",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Commission for Access to Administrative Documents",
         "nameFi": "Hallinnollisten asiakirjojen saatavuuskomissio",
@@ -522,6 +576,12 @@
       "countryEn": "Spain",
       "countryFi": "Espanja",
       "countryIso2": "ES",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Ministry of Finance Model 573 procedure",
         "nameFi": "Valtiovarainministeriön Model 573 -menettely",
@@ -577,6 +637,12 @@
       "countryEn": "Netherlands",
       "countryFi": "Alankomaat",
       "countryIso2": "NL",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "RIVM published tobacco and vaping product data",
         "nameFi": "RIVM:n julkaisema tupakka- ja höyrystystuotedata",
@@ -633,6 +699,12 @@
       "countryEn": "Finland",
       "countryFi": "Suomi",
       "countryIso2": "FI",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-22",
+        "state": "sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Finnish Tax Administration tobacco excise",
         "nameFi": "Verohallinnon tupakkavero",
@@ -682,20 +754,26 @@
       "requestChannel": {
         "nameEn": "Finnish Supervisory Agency registry contact",
         "nameFi": "Lupa- ja valvontaviraston kirjaamo",
-        "url": "https://www.suomi.fi/organisaatio/lupa-ja-valvontavirasto/7ac57107-a30e-4b52-aeb9-50ccdb31ef6d"
+        "url": "https://lvv.fi/yhteystiedot/tietopyynnot-ja-tutkimusluvat"
       },
       "requesterEligibility": {
         "caveatEn": "No nationality or residence condition applies to a public-record request. The national supervisory authority changed in 2026, so route the request to the Finnish Supervisory Agency rather than the former authority.",
         "caveatFi": "Julkisuuspyyntöön ei sovelleta kansalaisuus- tai asuinpaikkaehtoa. Kansallinen valvontaviranomainen vaihtui vuonna 2026, joten pyyntö osoitetaan Lupa- ja valvontavirastolle eikä aiemmalle viranomaiselle.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
       "countryEn": "Denmark",
       "countryFi": "Tanska",
       "countryIso2": "DK",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Danish Safety Technology Authority registries",
         "nameFi": "Tanskan turvallisuusteknologiaviraston rekisterit",
@@ -752,6 +830,12 @@
       "countryEn": "Japan",
       "countryFi": "Japani",
       "countryIso2": "JP",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Japan Customs Trade Statistics",
         "nameFi": "Japanin tullin kauppatilastot",
@@ -807,6 +891,12 @@
       "countryEn": "South Korea",
       "countryFi": "Etelä-Korea",
       "countryIso2": "KR",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Korea Customs Service big-data import statistics",
         "nameFi": "Korean tullipalvelun big data -tuontitilastot",
@@ -862,6 +952,12 @@
       "countryEn": "Australia",
       "countryFi": "Australia",
       "countryIso2": "AU",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Department of Home Affairs and Australian Border Force FOI",
         "nameFi": "Sisäministeriön ja rajaviranomaisen FOI",
@@ -923,6 +1019,12 @@
       "countryEn": "Russia",
       "countryFi": "Venäjä",
       "countryIso2": "RU",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Federal Tax Service excise information",
         "nameFi": "Liittovaltion veropalvelun valmisteverotiedot",
@@ -978,6 +1080,12 @@
       "countryEn": "Brazil",
       "countryFi": "Brasilia",
       "countryIso2": "BR",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Ministry of Development, Industry, Trade and Services, Comex Stat raw data",
         "nameFi": "Kehitys-, teollisuus-, kauppa- ja palveluministeriön Comex Stat -raakadata",
@@ -1033,6 +1141,12 @@
       "countryEn": "Indonesia",
       "countryFi": "Indonesia",
       "countryIso2": "ID",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Statistics Indonesia",
         "nameFi": "Indonesian tilastovirasto",
@@ -1088,6 +1202,12 @@
       "countryEn": "Philippines",
       "countryFi": "Filippiinit",
       "countryIso2": "PH",
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable",
+        "sentOn": null,
+        "state": "draft_not_sent"
+      },
       "fallbackAuthority": {
         "nameEn": "Bureau of Customs eFOI route",
         "nameFi": "Tulliviraston eFOI-reitti",
@@ -1147,7 +1267,7 @@
       "wave": "1B"
     }
   ],
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "scope": {
     "commonFieldsEn": [
       "Month or year and whether the measure is release for domestic consumption, manufacturer/importer shipment, wholesale sale or retail sell-through",
@@ -1184,6 +1304,6 @@
       "Älä pyydä henkilö-, verovelvollis-, yritys-, liikesalaisuus- tai suojattuja valvontatietoja."
     ]
   },
-  "status": "draft_not_sent",
+  "status": "partially_dispatched",
   "verificationDate": "2026-07-22"
 }

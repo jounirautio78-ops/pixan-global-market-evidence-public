@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": {
-    "id": "2026-07-22-bilingual-package-and-request-program-v8",
-    "version": "2026.07.22-8",
+    "id": "2026-07-22-first-authority-requests-v9",
+    "version": "2026.07.22-9",
     "asOf": "2026-07-22",
     "sourceLanguage": "fi",
     "targetLanguage": "en"
@@ -584,8 +584,8 @@
       "targetPattern": "Updated 2026-07-22\\n$1 slides · English"
     },
     "versionMeta": {
-      "sourcePattern": "^Versio 2026\\.07\\.22-8 · 2026-07-22 · (\\d+) / (\\d+)$",
-      "targetPattern": "Version 2026.07.22-8 · 2026-07-22 · $1 / $2"
+      "sourcePattern": "^Versio 2026\\.07\\.22-9 · 2026-07-22 · (\\d+) / (\\d+)$",
+      "targetPattern": "Version 2026.07.22-9 · 2026-07-22 · $1 / $2"
     },
     "footer": {
       "sourcePrefix": "Julkinen riippumaton evidenssikooste ·",

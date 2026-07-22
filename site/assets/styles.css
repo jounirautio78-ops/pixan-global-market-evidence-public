@@ -814,6 +814,7 @@ input::placeholder { color: #667c87; }
 .request-program-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .8rem; }
 .request-program-rank { color: var(--teal); font-family: var(--font-mono); font-size: .68rem; font-weight: 900; letter-spacing: .04em; }
 .request-program-status { padding: .24rem .42rem; border: 1px solid rgba(242, 198, 109, .4); border-radius: 999px; color: var(--amber); font-size: .54rem; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+.request-program-status-sent { border-color: rgba(68, 212, 189, .46); color: var(--teal); background: rgba(68, 212, 189, .08); }
 .request-program-card h3 { margin: .65rem 0 .35rem; font-size: 1rem; }
 .request-program-rationale { min-height: 4.7rem; margin: 0 0 .7rem; color: var(--text-soft); font-size: .7rem; }
 .request-program-meta { margin: 0 0 .8rem; padding: 0; display: grid; list-style: none; border-top: 1px solid var(--line); }

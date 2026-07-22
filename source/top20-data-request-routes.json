@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
-  "programmeId": "pixan-independent-top20-official-data-request-programme-v1",
+  "schemaVersion": 2,
+  "programmeId": "pixan-independent-top20-official-data-request-programme-v2",
   "verificationDate": "2026-07-22",
-  "status": "draft_not_sent",
-  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation, and no request in this file has been sent.",
-  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus, eikä yhtäkään tämän tiedoston pyyntöä ole lähetetty.",
+  "status": "partially_dispatched",
+  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records only whether a country route was sent, its calendar date and any public authority reference; it does not identify a sender or recipient or establish delivery, acknowledgement, routing or response.",
+  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo vain, onko maareitti lähetetty, kalenteripäivän ja mahdollisen julkisen viranomaisviitteen; se ei yksilöi lähettäjää tai vastaanottajaa eikä osoita toimitusta, vastaanottokuittausta, reititystä tai vastausta.",
   "ranking": {
     "type": "operational_evidence_acquisition_order",
     "isMarketSizeRanking": false,
@@ -56,6 +56,12 @@
       "countryEn": "Germany",
       "countryFi": "Saksa",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "Existing official taxed-volume evidence and direct strategic relevance from the German patent proceedings make this the first reconciliation pilot.",
       "rationaleFi": "Olemassa oleva virallinen verotettu määrä ja Saksan patenttiprosessin suora strateginen merkitys tekevät tästä ensimmäisen täsmäytyspilotin.",
       "primaryAuthority": {
@@ -109,6 +115,12 @@
       "countryEn": "Canada",
       "countryFi": "Kanada",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "Health Canada already publishes one of the strongest official manufacturer/importer shipment series, making it an immediate anchor and request-design benchmark.",
       "rationaleFi": "Health Canada julkaisee jo yhden vahvimmista virallisista valmistaja- ja maahantuojatoimitusten sarjoista, joten se toimii välittömänä ankkurina ja pyyntömallin vertailukohtana.",
       "primaryAuthority": {
@@ -162,6 +174,12 @@
       "countryEn": "United States",
       "countryFi": "Yhdysvallat",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A strategically important market with a Pixan-family US publication, compulsory FTC reporting and detailed official tariff data.",
       "rationaleFi": "Strategisesti tärkeä markkina, jossa on Pixan-perheen Yhdysvaltain julkaisu, FTC:n velvoittava raportointi ja yksityiskohtainen virallinen tullidata.",
       "primaryAuthority": {
@@ -221,6 +239,12 @@
       "countryEn": "China",
       "countryFi": "Kiina",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "Global manufacturing relevance, a Pixan-family Chinese publication and an official full-coverage statistical survey justify an early request despite access friction.",
       "rationaleFi": "Globaali valmistusmerkitys, Pixan-perheen Kiinan julkaisu ja virallinen kattava tilastokysely puoltavat varhaista pyyntöä tiedonsaannin kitkasta huolimatta.",
       "primaryAuthority": {
@@ -273,7 +297,13 @@
       "countryIso2": "PL",
       "countryEn": "Poland",
       "countryFi": "Puola",
-      "status": "draft_not_sent",
+      "status": "sent",
+      "dispatch": {
+        "state": "sent",
+        "sentOn": "2026-07-22",
+        "publicAuthorityReference": null,
+        "responseState": "not_publicly_recorded"
+      },
       "rationaleEn": "Pixan-family publication, product-notification data and specific excise routes support a high-value EU reconciliation case.",
       "rationaleFi": "Pixan-perheen julkaisu, tuoteilmoitustiedot ja erilliset valmisteveroreitit tukevat arvokasta EU-täsmäytystä.",
       "primaryAuthority": {
@@ -326,7 +356,13 @@
       "countryIso2": "GB",
       "countryEn": "United Kingdom",
       "countryFi": "Yhdistynyt kuningaskunta",
-      "status": "draft_not_sent",
+      "status": "sent",
+      "dispatch": {
+        "state": "sent",
+        "sentOn": "2026-07-16",
+        "publicAuthorityReference": "CEC 261515",
+        "responseState": "not_publicly_recorded"
+      },
       "rationaleEn": "A mature FOI system, product notifications and a forthcoming dedicated duty create a useful longitudinal route, while current and future tax periods must remain separate.",
       "rationaleFi": "Vakiintunut FOI-järjestelmä, tuoteilmoitukset ja tuleva erillinen vero tarjoavat hyvän aikasarjareitin, mutta nykyiset ja tulevat verokaudet on pidettävä erillään.",
       "primaryAuthority": {
@@ -346,7 +382,7 @@
       "requestChannel": {
         "nameEn": "MHRA Freedom of Information route",
         "nameFi": "MHRA:n Freedom of Information -reitti",
-        "url": "https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency"
+        "url": "https://foi-request.mhra.gov.uk/start-now"
       },
       "legalBasis": {
         "nameEn": "Freedom of Information Act 2000",
@@ -380,6 +416,12 @@
       "countryEn": "Sweden",
       "countryFi": "Ruotsi",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "Mandatory annual brand- and product-type sales reporting and documented enforcement of missing reports make Sweden a strong completeness benchmark.",
       "rationaleFi": "Pakollinen vuosimyyntiraportointi merkin ja tuotetyypin mukaan sekä dokumentoitu puuttuvien raporttien valvonta tekevät Ruotsista vahvan kattavuuden vertailumaan.",
       "primaryAuthority": {
@@ -439,6 +481,12 @@
       "countryEn": "Italy",
       "countryFi": "Italia",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A significant EU market with a specific inhalation-liquid tax and official product lists supports direct volume and registry reconciliation.",
       "rationaleFi": "Merkittävä EU-markkina, erillinen inhalaationesteen vero ja viralliset tuoteluettelot mahdollistavat suoran määrä- ja rekisteritäsmäytyksen.",
       "primaryAuthority": {
@@ -492,6 +540,12 @@
       "countryEn": "France",
       "countryFi": "Ranska",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A large EU market where the EU-CEG record structure contains annual sales fields, with ANSES documenting important completeness limitations.",
       "rationaleFi": "Suuri EU-markkina, jossa EU-CEG-tietorakenne sisältää vuosimyyntikenttiä ja ANSES on dokumentoinut tärkeät kattavuusrajoitteet.",
       "primaryAuthority": {
@@ -545,6 +599,12 @@
       "countryEn": "Spain",
       "countryFi": "Espanja",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A large EU market with a new dedicated e-liquid tax return, allowing a clean prospective official series if the commencement break is explicit.",
       "rationaleFi": "Suuri EU-markkina ja uusi erillinen sähkösavukenesteen veroilmoitus mahdollistavat selkeän tulevan virallisen sarjan, kun aloituskatkos merkitään näkyvästi.",
       "primaryAuthority": {
@@ -598,6 +658,12 @@
       "countryEn": "Netherlands",
       "countryFi": "Alankomaat",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "Public EU-CEG product data and the Woo route enable product-stock, reporting-coverage and possible annual-sales requests.",
       "rationaleFi": "Julkinen EU-CEG-tuotedata ja Woo-reitti mahdollistavat tuotekannan, raportointikattavuuden ja mahdollisen vuosimyynnin pyynnöt.",
       "primaryAuthority": {
@@ -650,7 +716,13 @@
       "countryIso2": "FI",
       "countryEn": "Finland",
       "countryFi": "Suomi",
-      "status": "draft_not_sent",
+      "status": "sent",
+      "dispatch": {
+        "state": "sent",
+        "sentOn": "2026-07-22",
+        "publicAuthorityReference": null,
+        "responseState": "not_publicly_recorded"
+      },
       "rationaleEn": "A Pixan-family Finnish publication and a statutory annual brand/type sales-reporting duty support a direct official evidence route.",
       "rationaleFi": "Pixan-perheen Suomen julkaisu ja lakisääteinen vuosittainen merkki- ja tyyppikohtainen myyntiraportointi tukevat suoraa virallista evidenssireittiä.",
       "primaryAuthority": {
@@ -670,7 +742,7 @@
       "requestChannel": {
         "nameEn": "Finnish Supervisory Agency registry contact",
         "nameFi": "Lupa- ja valvontaviraston kirjaamo",
-        "url": "https://www.suomi.fi/organisaatio/lupa-ja-valvontavirasto/7ac57107-a30e-4b52-aeb9-50ccdb31ef6d"
+        "url": "https://lvv.fi/yhteystiedot/tietopyynnot-ja-tutkimusluvat"
       },
       "legalBasis": {
         "nameEn": "Act on the Openness of Government Activities 621/1999",
@@ -710,6 +782,12 @@
       "countryEn": "Denmark",
       "countryFi": "Tanska",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A Pixan-family Danish publication, mandatory annual EU-CEG sales reporting and downloadable official registries support a strong second-batch route.",
       "rationaleFi": "Pixan-perheen Tanskan julkaisu, pakollinen EU-CEG-vuosimyyntiraportointi ja ladattavat viranomaisrekisterit tukevat vahvaa toista aaltoa.",
       "primaryAuthority": {
@@ -763,6 +841,12 @@
       "countryEn": "Japan",
       "countryFi": "Japani",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A Pixan-family Japanese publication and detailed official customs data justify an early trade-based route, with nicotine-liquid permissions kept separate.",
       "rationaleFi": "Pixan-perheen Japanin julkaisu ja yksityiskohtainen virallinen tullidata puoltavat varhaista kauppapohjaista reittiä, jossa nikotiininesteiden luvat pidetään erillään.",
       "primaryAuthority": {
@@ -816,6 +900,12 @@
       "countryEn": "South Korea",
       "countryFi": "Etelä-Korea",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A Pixan-family Korean publication and detailed HSK10 customs records support a precise device-and-liquid trade route.",
       "rationaleFi": "Pixan-perheen Korean julkaisu ja yksityiskohtaiset HSK10-tullitiedot tukevat tarkkaa laite- ja nestekaupan reittiä.",
       "primaryAuthority": {
@@ -869,6 +959,12 @@
       "countryEn": "Australia",
       "countryFi": "Australia",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A Pixan-family Australian publication and a highly regulated lawful supply route allow notifications, lawful imports and illicit seizures to be measured separately.",
       "rationaleFi": "Pixan-perheen Australian julkaisu ja tarkasti säännelty laillinen toimitusreitti mahdollistavat ilmoitusten, laillisen tuonnin ja laittomien takavarikkojen erillisen mittaamisen.",
       "primaryAuthority": {
@@ -928,6 +1024,12 @@
       "countryEn": "Russia",
       "countryFi": "Venäjä",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A Pixan-family Russian publication and marking-system data may support unit and value evidence, but sanctions, access and legal-status risks require controlled handling.",
       "rationaleFi": "Pixan-perheen Venäjän julkaisu ja merkintäjärjestelmän data voivat tukea kappale- ja arvonäyttöä, mutta pakote-, pääsy- ja oikeudelliset riskit edellyttävät hallittua käsittelyä.",
       "primaryAuthority": {
@@ -981,6 +1083,12 @@
       "countryEn": "Brazil",
       "countryFi": "Brasilia",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "A Pixan-family Brazilian publication and a national prohibition make enforcement and trade evidence relevant, but they cannot be represented as lawful sales.",
       "rationaleFi": "Pixan-perheen Brasilian julkaisu ja kansallinen kielto tekevät valvonta- ja kauppanäytöstä merkityksellistä, mutta niitä ei saa esittää laillisena myyntinä.",
       "primaryAuthority": {
@@ -1034,6 +1142,12 @@
       "countryEn": "Indonesia",
       "countryFi": "Indonesia",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "The excise system distinguishes several vaping-liquid forms and can support direct physical-volume and revenue evidence, subject to local requester eligibility.",
       "rationaleFi": "Valmisteverojärjestelmä erottaa useita höyrystysnesteen muotoja ja voi tuottaa suoraa määrä- ja verotuottonäyttöä paikallisen pyytäjäkelpoisuuden rajoissa.",
       "primaryAuthority": {
@@ -1087,6 +1201,12 @@
       "countryEn": "Philippines",
       "countryFi": "Filippiinit",
       "status": "draft_not_sent",
+      "dispatch": {
+        "state": "draft_not_sent",
+        "sentOn": null,
+        "publicAuthorityReference": null,
+        "responseState": "not_applicable"
+      },
       "rationaleEn": "Excise returns and stamp records can support a direct lawful-market series, while customs records provide a separate enforcement check; citizen eligibility makes this a local-partner route.",
       "rationaleFi": "Valmisteveroilmoitukset ja veromerkkitiedot voivat tukea suoraa laillisen markkinan sarjaa, ja tullitiedot tarjoavat erillisen valvontatarkistuksen; kansalaisuusrajaus tekee tästä paikallisen kumppanin reitin.",
       "primaryAuthority": {

@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-22-first-authority-requests-v9",
+      "version": "2026.07.22-9",
+      "publishedAt": "2026-07-22T23:18:00+03:00",
+      "titleEn": "First official-data requests recorded",
+      "titleFi": "Ensimmäiset virallisen datan pyynnöt kirjattu",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Recorded public dispatch status for the United Kingdom, Finland and Poland; 17 other country routes remain reviewable drafts. No authority response or market value is inferred from dispatch.",
+          "textFi": "Kirjattiin Yhdistyneen kuningaskunnan, Suomen ja Puolan pyyntöjen julkinen lähetystila; 17 muuta maareittiä säilyy tarkistettavina luonnoksina. Lähetyksestä ei päätellä viranomaisvastausta tai markkina-arvoa."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Limited the public tracker to country, dispatch date and an expressly public authority reference where available. Sender and recipient identities, correspondence, mailbox metadata and private message identifiers remain outside the repository.",
+          "textFi": "Rajattiin julkinen seuranta maahan, lähetyspäivään ja saatavilla olevaan nimenomaisesti julkiseen viranomaisviitteeseen. Lähettäjän ja vastaanottajan tiedot, kirjeenvaihto, postilaatikon metadata ja yksityiset viestitunnisteet jäävät repositorion ulkopuolelle."
+        },
+        {
+          "category": "method",
+          "textEn": "Upgraded the request programme to a fail-closed mixed-status schema that requires exactly three recorded sends and 17 drafts, validates privacy-safe dates and references, and keeps reusable request templates marked as unsent drafts.",
+          "textFi": "Päivitettiin pyyntöohjelma sulkeutuvaan sekatilan skeemaan, joka vaatii täsmälleen kolme kirjattua lähetystä ja 17 luonnosta, tarkistaa tietosuojatut päivät ja viitteet sekä pitää uudelleenkäytettävät pyyntöpohjat lähettämättöminä luonnoksina."
+        },
+        {
+          "category": "usability",
+          "textEn": "Replaced the obsolete all-draft banner with a bilingual 3-sent / 17-draft summary and route-level status labels, while keeping planned authority routes distinct from confirmed delivery or response evidence.",
+          "textFi": "Korvattiin vanhentunut kaikki luonnoksia -rajaus kaksikielisellä 3 lähetettyä / 17 luonnosta -yhteenvedolla ja reittikohtaisilla tiloilla pitäen suunnitellut viranomaisreitit erillään vahvistetusta toimitus- tai vastausnäytöstä."
+        }
+      ]
+    },
+    {
       "id": "2026-07-22-bilingual-package-and-request-program-v8",
       "version": "2026.07.22-8",
       "publishedAt": "2026-07-22T19:15:00+03:00",
