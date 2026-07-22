@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Riippumaton julkisiin lähteisiin perustuva sähkötupakka- ja e-nestemarkkinan evidenssikeskus.">
+  <meta name="theme-color" content="#08131f">
+  <title>Pixan Global Market Evidence</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script defer src="assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Siirry sisältöön</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#overview" aria-label="Pixan Global Market Evidence, etusivu">
+        <span class="brand-mark" aria-hidden="true">PX</span>
+        <span>
+          <strong>Global Market Evidence</strong>
+          <small>Independent research center</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <span class="independent-pill"><span aria-hidden="true"></span> Ei Pixan Oy:n virallinen julkaisu</span>
+        <a class="button button-secondary button-small evaluator-link" href="review.html">Lender / buyer view</a>
+        <a class="button button-primary button-small" data-submission-link href="#submit">Toimita aineistoa</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="Päänavigaatio">
+    <div class="nav-inner" role="tablist">
+      <a href="#overview" data-tab="overview" role="tab">Tilannekuva</a>
+      <a href="#countries" data-tab="countries" role="tab">195 maata</a>
+      <a href="#evidence" data-tab="evidence" role="tab">Evidenssi</a>
+      <a href="#legal" data-tab="legal" role="tab">Patentti ja Saksa</a>
+      <a href="#method" data-tab="method" role="tab">Menetelmä</a>
+      <a href="#submit" data-tab="submit" role="tab">Aineistokanava</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Global vape market intelligence · public evidence only</p>
+        <h1 id="hero-title">Markkinaväite on hyödyllinen vasta, kun sen voi jäljittää lähteeseen.</h1>
+        <p class="hero-lead">Rakennamme 195 maan vertailukelpoista kuvaa sähkötupakka-, laite-, podi- ja e-nestemarkkinoista. Virallinen myynti, verovolyymi, tullivirta ja mallinnus pidetään tarkoituksella erillään.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#countries">Avaa maakohtainen atlas</a>
+          <a class="button button-secondary" href="review.html">Shareable review brief (EN)</a>
+          <a class="button button-secondary" href="data/countries.csv" download>Lataa CSV</a>
+          <a class="button button-ghost" href="data/atlas.json" download>Lataa JSON</a>
+        </div>
+      </div>
+      <aside class="disclosure-card" aria-label="Julkaisun rajaus">
+        <div class="disclosure-icon" aria-hidden="true">i</div>
+        <div>
+          <strong>Riippumaton tutkimusprojekti</strong>
+          <p>Tämä sivusto ei edusta Pixan Oy:tä eikä sen virallista kantaa. Se ei ole tarjous, arvonmääritys, sijoitussuositus, tilintarkastus tai oikeudellinen lausunto.</p>
+          <p class="muted">Päivitetty <time id="snapshot-date">—</time> · lähdesnapshot <code id="source-commit">—</code></p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="metrics-band" aria-label="Aineiston päämittarit">
+      <div class="shell metric-grid" id="metric-grid">
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+      </div>
+    </section>
+
+    <section class="tab-panel shell" id="panel-overview" data-panel="overview" aria-labelledby="tab-overview">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Lender-grade lähtökohta</p>
+          <h2>Yksi numero ei ole maailmanmarkkina</h2>
+        </div>
+        <p>Atlas kertoo myös sen, mitä emme vielä tiedä. Puuttuva havainto on puuttuva — ei nolla.</p>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="panel panel-wide">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Kattavuus lähdetyypeittäin</p>
+              <h3>Maailman evidenssipeitto</h3>
+            </div>
+            <span class="panel-note">Maa voi kuulua useaan luokkaan</span>
+          </div>
+          <div id="coverage-bars" class="coverage-bars" aria-live="polite"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Laatu ennen määrää</p>
+              <h3>Todistetasot</h3>
+            </div>
+          </div>
+          <div class="grade-list">
+            <div><span class="grade grade-a">A</span><p><strong>Suora viranomaisankkuri</strong><small>Myynti, toimitus, verototeuma tai verovolyymi.</small></p></div>
+            <div><span class="grade grade-b">B</span><p><strong>Virallinen proxy</strong><small>Tulli- tai muu rajavirta; ei kuluttajamyynti.</small></p></div>
+            <div><span class="grade grade-c">C</span><p><strong>Malli tai täydentävä lähde</strong><small>Oletukset ja vaihteluväli näytettävä.</small></p></div>
+            <div><span class="grade grade-d">D</span><p><strong>Ei hyväksyttyä numeerista ankkuria</strong><small>Tutkimusjono, ei nollamarkkina.</small></p></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Neuvotteluvalmius</p>
+              <h3>Avoimet portit</h3>
+            </div>
+          </div>
+          <div id="readiness-list" class="readiness-list"></div>
+        </article>
+
+        <article class="panel panel-wide">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Tärkein ero</p>
+              <h3>Mitä kukin mittari oikeasti todistaa?</h3>
+            </div>
+          </div>
+          <div class="measure-grid">
+            <div class="measure-card measure-official"><span>01</span><strong>Virallinen myynti / toimitus</strong><p>Lähimpänä markkina-arvoa, mutta toimitusmyynti ei aina ole kassamyyntiä.</p></div>
+            <div class="measure-card measure-tax"><span>02</span><strong>Vero ja verovolyymi</strong><p>Vahva laillisen markkinan ankkuri. Ei automaattisesti sisällä laitteita tai harmaata kauppaa.</p></div>
+            <div class="measure-card measure-customs"><span>03</span><strong>Tullivirta</strong><p>Rajalla mitattu arvo tai määrä. Kotimainen tuotanto, katteet ja varastot puuttuvat.</p></div>
+            <div class="measure-card measure-model"><span>04</span><strong>Mallinnettu vaihteluväli</strong><p>Yhdistää käyttäjät, kulutuksen ja hinnat. Tulos riippuu oletuksista.</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="tab-panel shell" id="panel-countries" data-panel="countries" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">UN 193 + Pyhä istuin + Palestiina</p>
+          <h2>195 maan markkina-atlas</h2>
+        </div>
+        <p>Valitse maa nähdäksesi nykyisen ankkurin, puutteet, lähteet ja seuraavan tutkimusreitin.</p>
+      </div>
+
+      <div class="toolbar" aria-label="Maataulukon suodattimet">
+        <label class="search-field">
+          <span class="sr-only">Hae maata</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="country-search" type="search" placeholder="Hae maata tai ISO-koodia…" autocomplete="off">
+        </label>
+        <label>
+          <span class="sr-only">Alue</span>
+          <select id="region-filter"><option value="">Kaikki alueet</option></select>
+        </label>
+        <label>
+          <span class="sr-only">Todistetaso</span>
+          <select id="grade-filter">
+            <option value="">Kaikki todistetasot</option>
+            <option value="A">A · viranomaisankkuri</option>
+            <option value="B">B · virallinen proxy</option>
+            <option value="C">C · mallinnus</option>
+            <option value="D">D · tutkimusjono</option>
+          </select>
+        </label>
+        <span class="result-count" id="country-count" aria-live="polite">—</span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">Maa</th>
+              <th scope="col">Alue</th>
+              <th scope="col">Paras näyttö</th>
+              <th scope="col">Peitto</th>
+              <th scope="col">Keskeinen havainto</th>
+              <th scope="col"><span class="sr-only">Avaa</span></th>
+            </tr>
+          </thead>
+          <tbody id="country-rows"></tbody>
+        </table>
+      </div>
+      <div id="country-empty" class="empty-state" hidden>Yksikään maa ei vastaa valittuja suodattimia.</div>
+    </section>
+
+    <section class="tab-panel shell" id="panel-evidence" data-panel="evidence" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Claim → source</p>
+          <h2>Evidenssirekisteri</h2>
+        </div>
+        <p>Jokainen julkinen väite sidotaan lähteeseen ja rajaukseen. A-luokka kertoo lähteen virallisuudesta, ei koko maan täydellisestä myyntipeitosta.</p>
+      </div>
+      <div class="toolbar">
+        <label class="search-field">
+          <span class="sr-only">Hae evidenssiä</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="evidence-search" type="search" placeholder="Hae lähdettä, maata tai mittaria…">
+        </label>
+        <label>
+          <span class="sr-only">Lähdeluokka</span>
+          <select id="evidence-grade-filter">
+            <option value="">Kaikki lähdeluokat</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+          </select>
+        </label>
+        <a class="button button-secondary button-small" href="data/evidence.csv" download>Lataa rekisteri</a>
+      </div>
+      <div id="evidence-list" class="evidence-grid"></div>
+      <div id="evidence-empty" class="empty-state" hidden>Hakua vastaavaa evidenssiä ei löytynyt.</div>
+    </section>
+
+    <section class="tab-panel shell" id="panel-legal" data-panel="legal" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EP3032975 · julkinen prosessitieto</p>
+          <h2>Patentti- ja Saksa-seuranta</h2>
+        </div>
+        <p>Oikeudellinen näyttö kertoo oikeudesta ja prosessitilasta. Se ei itsessään todista rahaksi muuttunutta korvausta tai vakuusarvoa.</p>
+      </div>
+      <div class="legal-layout">
+        <div class="panel">
+          <div class="panel-heading"><div><p class="kicker">Prosessitila</p><h3>Vahvistetut tapahtumat</h3></div></div>
+          <ol id="legal-timeline" class="timeline"></ol>
+        </div>
+        <aside class="panel legal-summary">
+          <p class="kicker">Tulkintaraja</p>
+          <h3>Vahvistettu ≠ rahaksi realisoitu</h3>
+          <div id="legal-gates" class="legal-gates"></div>
+          <div class="warning-box"><strong>Huomio</strong><p>Tuomioiden täytäntöönpanovakuudet eivät ole Pixanille maksettuja vahingonkorvauksia.</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="tab-panel shell" id="panel-method" data-panel="method" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Toistettava tutkimusmalli</p>
+          <h2>Menetelmä ja laskentasäännöt</h2>
+        </div>
+        <p>Tavoite ei ole täyttää karttaa hinnalla millä hyvänsä, vaan muodostaa vuosittain päivittyvä ja auditoitava aineistoketju.</p>
+      </div>
+      <div id="method-cards" class="method-grid"></div>
+      <article class="panel formula-panel">
+        <div>
+          <p class="kicker">Täsmäytyskehikko</p>
+          <h3>Näennäinen laillinen kulutus</h3>
+          <p>Käytetään vain, kun kaikki komponentit ovat yhteensopivia samalta ajalta ja samasta tuoteryhmästä.</p>
+        </div>
+        <div class="formula" aria-label="Kotimainen tuotanto plus kulutukseen luovutettu tuonti miinus vienti ja jälleenvienti plus tai miinus varaston muutos">
+          <span>kotimainen tuotanto</span><b>+</b><span>tuonti kulutukseen</span><b>−</b><span>vienti ja jälleenvienti</span><b>±</b><span>varastomuutos</span>
+        </div>
+      </article>
+      <article class="panel rules-panel">
+        <div class="panel-heading"><div><p class="kicker">Koneelliset portit</p><h3>Mitä julkaisuputki ei saa päästää läpi</h3></div></div>
+        <ul id="validation-rules" class="check-list"></ul>
+      </article>
+    </section>
+
+    <section class="tab-panel shell" id="panel-submit" data-panel="submit" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Secure intake · review before publish</p>
+          <h2>Toimita uutta markkina-aineistoa</h2>
+        </div>
+        <p>Alkuperäiset tiedostot vastaanotetaan erilliseen Dropbox-kansioon. Julkiseen dashboardiin päätyy vain tarkistettu, lähteistetty ja turvalliseksi rajattu tieto.</p>
+      </div>
+
+      <div class="submission-grid">
+        <a id="dropbox-link" class="submission-card submission-primary" href="#" target="_blank" rel="noreferrer">
+          <span class="submission-icon" aria-hidden="true">↥</span>
+          <p class="kicker">Suositeltu tiedostoille</p>
+          <h3>Lähetä Dropboxiin</h3>
+          <p>PDF, Excel, Word, CSV, kuvat, sähköpostiviennit ja muut alkuperäiset tiedostot. Lähettäjä ei näe kansion muuta sisältöä.</p>
+          <span class="card-action">Avaa turvallinen tiedostopyyntö <span aria-hidden="true">→</span></span>
+        </a>
+        <a id="whatsapp-link" class="submission-card" href="#" target="_blank" rel="noreferrer">
+          <span class="submission-icon" aria-hidden="true">W</span>
+          <p class="kicker">Nopea yhteydenotto</p>
+          <h3>WhatsApp</h3>
+          <p>Lähetä vihje tai sovi aineiston toimittamisesta. Älä lähetä arkaluonteisia henkilötietoja ilman tarvetta.</p>
+          <span class="card-action">Avaa viesti <span aria-hidden="true">→</span></span>
+        </a>
+        <a id="email-link" class="submission-card" href="#">
+          <span class="submission-icon" aria-hidden="true">@</span>
+          <p class="kicker">Lähdeviitteet ja selitteet</p>
+          <h3>Sähköposti</h3>
+          <p>Kerro maa, vuosi, mittari, lähde ja miksi aineisto on merkityksellinen. Valmis otsikko ja tarkistuslista avautuvat luonnokseen.</p>
+          <span class="card-action">Luo sähköpostiluonnos <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+
+      <form id="cover-note-form" class="panel cover-note" novalidate>
+        <div class="cover-note-heading">
+          <div>
+            <p class="kicker">Paranna aineiston jäljitettävyyttä</p>
+            <h3>Luo tiedostojen mukaan saate</h3>
+            <p>Tiedot käsitellään vain selaimessasi. Painike lataa tekstitiedoston, jonka voit lisätä samaan Dropbox-lähetykseen.</p>
+          </div>
+          <span class="local-only">Ei lähetä tietoja verkkoon</span>
+        </div>
+        <div class="cover-note-grid">
+          <label><span>Maa tai alue *</span><input name="country" required placeholder="Esim. Saksa"></label>
+          <label><span>Aineiston kattama vuosi *</span><input name="period" required placeholder="Esim. 2025 tai 2023–2025"></label>
+          <label><span>Lähteen julkaisija *</span><input name="publisher" required placeholder="Viranomainen, yritys tai tutkimuslaitos"></label>
+          <label><span>Alkuperäinen lähde-URL</span><input name="sourceUrl" type="url" placeholder="https://…"></label>
+          <label><span>Mittarityyppi *</span>
+            <select name="measure" required>
+              <option value="">Valitse…</option>
+              <option>Virallinen myynti tai toimitus</option>
+              <option>Vero tai verovolyymi</option>
+              <option>Tullituonti tai -vienti</option>
+              <option>Hintaotos</option>
+              <option>Käyttäjä- tai prevalenssitutkimus</option>
+              <option>Sääntely- tai patenttiasiakirja</option>
+              <option>Malli tai kaupallinen arvio</option>
+              <option>Muu aineisto</option>
+            </select>
+          </label>
+          <label><span>Lähettäjä / organisaatio</span><input name="sender" placeholder="Vapaaehtoinen"></label>
+          <label class="cover-note-wide"><span>Mitä aineisto todistaa ja mitkä ovat sen rajat? *</span><textarea name="description" required rows="4" placeholder="Kuvaa luku, yksikkö, tuoterajaus ja tunnetut puutteet."></textarea></label>
+        </div>
+        <label class="consent-check"><input name="rights" type="checkbox" required><span>Vakuutan, että saan toimittaa aineiston tarkistettavaksi. Ymmärrän, ettei sitä julkaista automaattisesti.</span></label>
+        <div class="cover-note-actions">
+          <button class="button button-primary" type="submit">Lataa saate .txt</button>
+          <span id="cover-note-status" role="status"></span>
+        </div>
+      </form>
+
+      <div class="intake-flow" aria-label="Aineiston käsittelyprosessi">
+        <div><span>1</span><strong>Vastaanotto</strong><p>Alkuperäinen säilytetään muuttamatta.</p></div>
+        <div><span>2</span><strong>Turvallisuusseula</strong><p>Salaisuudet, henkilötiedot ja julkaisuoikeus tarkistetaan.</p></div>
+        <div><span>3</span><strong>Lähdeauditointi</strong><p>Mittari, ajanjakso, rajaus ja täsmäytys varmistetaan.</p></div>
+        <div><span>4</span><strong>Hyväksytty julkaisu</strong><p>Vain julkinen johdannainen viedään atlas-dataan.</p></div>
+      </div>
+      <div class="warning-box privacy-warning"><strong>Ei automaattijulkaisua</strong><p>Saapuva tiedosto ei koskaan siirry suoraan GitHubiin tai julkiselle sivulle. Luottamuksellinen datahuone ja julkinen evidence-repo ovat erillisiä.</p></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div><strong>Pixan Global Market Evidence</strong><p>Riippumaton, julkisiin lähteisiin perustuva tutkimusprojekti.</p></div>
+      <div><span>Rajaus</span><p>Ei Pixan Oy:n virallinen julkaisu. Ei sijoitus-, laina-, vero- tai oikeudellista neuvontaa.</p></div>
+      <div><span>Data</span><p><a href="data/atlas.json">JSON</a> · <a href="data/countries.csv">maat CSV</a> · <a href="data/evidence.csv">evidenssi CSV</a></p></div>
+    </div>
+  </footer>
+
+  <dialog id="country-dialog" class="country-dialog" aria-labelledby="dialog-country-name">
+    <div class="dialog-header">
+      <div><p class="eyebrow" id="dialog-country-meta">—</p><h2 id="dialog-country-name">—</h2></div>
+      <button class="dialog-close" type="button" aria-label="Sulje">×</button>
+    </div>
+    <div id="dialog-country-body" class="dialog-body"></div>
+  </dialog>
+
+  <div id="load-error" class="load-error" role="alert" hidden>
+    <strong>Dashboard-dataa ei voitu ladata.</strong>
+    <span>Yritä päivittää sivu tai avaa JSON-aineisto suoraan.</span>
+  </div>
+</body>
+</html>

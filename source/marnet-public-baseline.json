@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "countries": [
+    {
+      "sourceName": "United States",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-usa.pdf",
+        "https://www.cdc.gov/statesystem/factsheets/ecigarette/ECigTax.html"
+      ]
+    },
+    {
+      "sourceName": "Canada",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-can.pdf",
+        "https://www.canada.ca/en/department-finance/corporate/transparency/plans-performance/financial-statements/2025.html",
+        "https://www.canada.ca/en/revenue-agency/services/tax/technical-information/excise-duty/rates.html"
+      ]
+    },
+    {
+      "sourceName": "Germany",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-deu.pdf",
+        "https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/01/PD26_026_73.html",
+        "https://www.gesetze-im-internet.de/tabstg_2009/__2.html"
+      ]
+    },
+    {
+      "sourceName": "France",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-fra.pdf",
+        "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000032549341"
+      ]
+    },
+    {
+      "sourceName": "Italy",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-ita.pdf",
+        "https://www.adm.gov.it/portale/documents/20182/242317381/DET+%E2%80%93+74240-2026.pdf/92ecf170-16f0-d012-d0b6-f4630f192dca?t=1769851126925"
+      ]
+    },
+    {
+      "sourceName": "Spain",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-esp.pdf",
+        "https://sede.agenciatributaria.gob.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informes_mensuales_recaudacion_tributaria/2025/IMR_25_12_es_es.pdf",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741#a6-4"
+      ]
+    },
+    {
+      "sourceName": "Poland",
+      "sourceUrls": [
+        "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf",
+        "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-pol.pdf",
+        "https://www.podatki.gov.pl/akcyza/stawki-podatkowe"
+      ]
+    },
+    {
+      "sourceName": "Netherlands",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-nld.pdf",
+        "https://wetten.overheid.nl/jci1.3:c:BWBR0005251&g=2026-04-10&z=2026-04-10"
+      ]
+    },
+    {
+      "sourceName": "Belgium",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-bel.pdf",
+        "https://financien.belgium.be/nl/douane_accijnzen/ondernemingen/accijnzen/algemene_informatie/accijnstarieven",
+        "https://www.ejustice.just.fgov.be/cgi/article_body.pl?language=fr&caller=summary&pub_date=23-12-29&numac=2023048600"
+      ]
+    },
+    {
+      "sourceName": "Luxembourg",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-lux.pdf",
+        "https://guichet.public.lu/fr/entreprises/import-export/intra-ue/echanges-intra-ue/commerce-accises.html"
+      ]
+    },
+    {
+      "sourceName": "Finland",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-fin.pdf",
+        "https://vero2.stat.fi/PXWeb/api/v1/en/Vero/Valmistevero/vvt_010.px",
+        "https://www.vero.fi/yritykset-ja-yhteisot/verot-ja-maksut/valmisteverotus/tupakkavero/"
+      ]
+    },
+    {
+      "sourceName": "Sweden",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-swe.pdf",
+        "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf",
+        "https://www.skatteverket.se/foretagochorganisationer/skatter/punktskatter/nikotinskatt.4.41f1c61d16193087d7fc7fe.html"
+      ]
+    },
+    {
+      "sourceName": "Denmark",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-dnk.pdf",
+        "https://skm.dk/tal-og-metode/satser/satser-og-beloebsgraenser-i-lovgivningen/forbrugsafgiftsloven",
+        "https://skm.dk/tal-og-metode/statistik/indtaegtslister/indtaegtsliste-for-2025"
+      ]
+    },
+    {
+      "sourceName": "Norway",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-nor.pdf"
+      ]
+    },
+    {
+      "sourceName": "Austria",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-aut.pdf",
+        "https://www.parlament.gv.at/fachinfos/budgetdienst/Betrugsbekaempfungspaket-und-Abgabenaenderungsgesetz-2025",
+        "https://www.ris.bka.gv.at/NormDokument.wxe?Abfrage=Bundesnormen&Anlage=&Artikel=&Gesetzesnummer=10004877&Paragraf=4&Uebergangsrecht="
+      ]
+    },
+    {
+      "sourceName": "Switzerland",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-che.pdf",
+        "https://www.bazg.admin.ch/dam/de/sd-web/LOdB10XnvqWr/R-120-3%20Tabaksteuer_01.03.26_Korrektur.pdf"
+      ]
+    },
+    {
+      "sourceName": "United Kingdom",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-gbr.pdf",
+        "https://www.gov.uk/government/publications/introduction-of-vaping-products-duty-from-1-october-2026/introduction-of-vaping-products-duty-from-1-october-2026",
+        "https://www.gov.uk/guidance/how-to-pay-vaping-products-duty"
+      ]
+    },
+    {
+      "sourceName": "China",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-chn.pdf",
+        "https://jsz.mof.gov.cn/zhengcefagui/202210/t20221028_3848463.htm"
+      ]
+    },
+    {
+      "sourceName": "Japan",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-jpn.pdf"
+      ]
+    },
+    {
+      "sourceName": "South Korea",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-kor.pdf"
+      ]
+    },
+    {
+      "sourceName": "Australia",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-aus.pdf"
+      ]
+    },
+    {
+      "sourceName": "Brazil",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-bra.pdf"
+      ]
+    },
+    {
+      "sourceName": "Russia",
+      "sourceUrls": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-rus.pdf"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Health Canada · Vaping sales",
+      "url": "https://health-infobase.canada.ca/substance-use/vaping/sales/",
+      "grade": "A"
+    },
+    {
+      "title": "Statistics Canada · CIMT 2025",
+      "url": "https://www150.statcan.gc.ca/n1/en/catalogue/71-607-X2021004",
+      "grade": "B"
+    },
+    {
+      "title": "Destatis · tabakverotilasto",
+      "url": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/01/PD26_026_73.html",
+      "grade": "A"
+    },
+    {
+      "title": "Verohallinto · valmisteverotilasto",
+      "url": "https://vero2.stat.fi/PXWeb/pxweb/en/Vero/Vero__Valmistevero/vvt_010.px/",
+      "grade": "A"
+    },
+    {
+      "title": "Saksan tupakkaverolaki §2",
+      "url": "https://www.gesetze-im-internet.de/tabstg_2009/__2.html",
+      "grade": "A"
+    },
+    {
+      "title": "EU Tobacco Products Directive 20(7)",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+      "grade": "A"
+    },
+    {
+      "title": "UN Comtrade",
+      "url": "https://comtradeplus.un.org/",
+      "grade": "B"
+    },
+    {
+      "title": "U.S. Census · Merchandise Trade Imports 2025",
+      "url": "https://www.census.gov/foreign-trade/data/IMDB.html",
+      "grade": "B"
+    },
+    {
+      "title": "Eurostat Comext DS-045409",
+      "url": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "grade": "B"
+    },
+    {
+      "title": "Japan Customs / MOF · 2025 revised",
+      "url": "https://www.e-stat.go.jp/en/stat-search/files?bunya_l=16&cycle=1&layout=dataset&page=1&second=1&tclass1=000001013180&tclass2=000001013182&tclass3val=0&toukei=00350300&tstat=000001013141",
+      "grade": "B"
+    },
+    {
+      "title": "Korea Customs Service · 2025 HS6 / HSK10",
+      "url": "https://tradedata.go.kr/cts/index_eng.do",
+      "grade": "B"
+    },
+    {
+      "title": "FTC E-Cigarette Report 2021",
+      "url": "https://www.ftc.gov/reports/e-cigarette-report-2021",
+      "grade": "A"
+    },
+    {
+      "title": "Japan Customs methodology",
+      "url": "https://www.customs.go.jp/toukei/sankou/howto/gaiyou_e.htm",
+      "grade": "B"
+    },
+    {
+      "title": "China Customs · virallinen tilastopalvelu",
+      "url": "https://online.customs.gov.cn/static/pages/guides/002029004002/002029004002.html",
+      "grade": "B"
+    },
+    {
+      "title": "Italia ADM · PLI-PAT ja kuukausiraportin mallipohja",
+      "url": "https://www.adm.gov.it/portale/-/portale-prodotti-liquidi-da-inalazione-pli-e-prodotti-accessori-dei-tabacchi-pat-1",
+      "grade": "A"
+    },
+    {
+      "title": "Italia ADM · vuoden 2025 PLI-verokannat",
+      "url": "https://www.adm.gov.it/portale/documents/20182/208222724/DET+PRE+PUBB+71960.27-01-2025-U.pdf/f08b0d67-49a2-c5ca-074b-2111240054ad?t=1738229866530",
+      "grade": "A"
+    },
+    {
+      "title": "Italian parlamentti · budjettiselvityksen taulukko 17",
+      "url": "https://documenti.camera.it/leg19/dossier/pdf/VQ2750_1.pdf",
+      "grade": "B"
+    },
+    {
+      "title": "Espanja AEAT · vuoden 2025 toteutunut verokertymä",
+      "url": "https://sede.agenciatributaria.gob.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informes_mensuales_recaudacion_tributaria/2025/IMR_25_12_es_es.pdf",
+      "grade": "A"
+    },
+    {
+      "title": "Espanja BOE · Modelo 573",
+      "url": "https://www.boe.es/eli/es/o/2025/01/13/hac86",
+      "grade": "A"
+    },
+    {
+      "title": "Ranska Douane · National 2025 import/export",
+      "url": "https://www.douane.gouv.fr/la-douane/opendata?f%5B0%5D=categorie_opendata_facet%3A458&title=",
+      "grade": "A"
+    },
+    {
+      "title": "ANSES · vaping-ilmoitusrekisteri",
+      "url": "https://www.data.gouv.fr/en/datasets/produits-du-tabac-et-produits-connexes-declares-sur-le-marche-francais/",
+      "grade": "A"
+    },
+    {
+      "title": "ANSES · myyntiraportoinnin kattavuusauditointi",
+      "url": "https://www.anses.fr/fr/system/files/CONSO2018SA0189Ra-2.pdf",
+      "grade": "A"
+    },
+    {
+      "title": "Puolan MF · ZEFIR2/AIS-valmisteverovirta",
+      "url": "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf",
+      "grade": "A"
+    },
+    {
+      "title": "Puolan MF · vuoden 2025 valmisteverototeuma",
+      "url": "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+      "grade": "A"
+    },
+    {
+      "title": "Puolan KAS · kohdennettu valvonta 2025",
+      "url": "https://www.gov.pl/web/kas/kas-zwalcza-oszustwa-zwiazane-z-rynkiem-e-papierosow",
+      "grade": "A"
+    },
+    {
+      "title": "Ruotsin Finansdepartement · Beräkningskonventioner 2026",
+      "url": "https://www.regeringen.se/rapporter/2025/09/berakningskonventioner-2026/",
+      "grade": "A"
+    },
+    {
+      "title": "Ruotsin Skatteverket · Nikotinskatt",
+      "url": "https://www.skatteverket.se/foretagochorganisationer/skatter/punktskatter/nikotinskatt.4.41f1c61d16193087d7fc7fe.html",
+      "grade": "A"
+    },
+    {
+      "title": "Ruotsin FHM · vuotuinen EU-CEG-myyntiraportointi",
+      "url": "https://www.folkhalsomyndigheten.se/anmal-och-rapportera/anmala-ansoka-rapportera-och-registrera-tobaks-och-nikotinprodukter/anmala-ingredienser-i-e-cigaretter-och-pafyllningsbehallare/",
+      "grade": "A"
+    },
+    {
+      "title": "Eurostat Comext · Ruotsi 2025",
+      "url": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "grade": "B"
+    },
+    {
+      "title": "Tanskan Skatteministeriet · Indtægtsliste 2025",
+      "url": "https://skm.dk/tal-og-metode/statistik/indtaegtslister/indtaegtsliste-for-2025",
+      "grade": "A"
+    },
+    {
+      "title": "Tanskan EU-CEG-vuosiraportointi ja tuoterekisteri",
+      "url": "https://www.sik.dk/en/node/355",
+      "grade": "A"
+    },
+    {
+      "title": "Tanskan Skattestyrelsen · riskiperusteiset valvonnat",
+      "url": "https://www.ft.dk/samling/20241/almdel/SAU/bilag/220/3018939.pdf",
+      "grade": "A"
+    },
+    {
+      "title": "Eurostat Comext · Tanska 2025",
+      "url": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "grade": "B"
+    },
+    {
+      "title": "VWS / Bureau Beke · Donkere wolken",
+      "url": "https://www.tweedekamer.nl/downloads/document?id=2026D17119",
+      "grade": "B"
+    },
+    {
+      "title": "CBS StatLine · sähkösavukkeen käyttö 2024",
+      "url": "https://opendata.cbs.nl/statline/#/CBS/nl/dataset/85457NED/table",
+      "grade": "A"
+    },
+    {
+      "title": "Trimbos ScholierenMonitor · 12-16-vuotiaat",
+      "url": "https://cijfers.trimbos.nl/scholierenmonitor/vape-snus-en-waterpijp/cijfers-2023-12-16-jaar-vape-snus-waterpijp/",
+      "grade": "A"
+    },
+    {
+      "title": "Eurostat Comext · Alankomaat 2025",
+      "url": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "grade": "A"
+    }
+  ]
+}

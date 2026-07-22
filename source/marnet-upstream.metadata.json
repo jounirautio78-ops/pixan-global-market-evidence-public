@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "repository": "marnet-collab/pixan-evidence-center",
+  "branch": "main",
+  "path": "data/dashboard.json",
+  "commit": "7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f",
+  "blob": "a79644437a9e5ed37d1468560d5522253d05de93",
+  "sha256": "a394ffd3dbebdf44deb20c204a14ce2621feff4760739dd0eef6739aeff62241",
+  "size": 553324,
+  "immutableUrl": "https://raw.githubusercontent.com/marnet-collab/pixan-evidence-center/7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f/data/dashboard.json",
+  "snapshotMetadataTimestamp": "2026-07-17 16:34 UTC",
+  "verifiedAt": "2026-07-22T08:24:04Z",
+  "publicBaseline": {
+    "path": "source/marnet-public-baseline.json",
+    "sha256": "30e9f9de4f4856004fd0c337c2b3b41b474907f39a9d8dd41a14b83c38a38e7f",
+    "size": 14242,
+    "countries": 23,
+    "evidence": 37,
+    "policy": "Only country identifiers, allowlisted evidence identifiers and grades, and public HTTPS source URLs are retained. Narrative country and evidence text is generated from local curated rules, not copied from upstream. The full upstream snapshot is not stored in this repository."
+  }
+}

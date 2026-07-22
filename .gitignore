@@ -1,0 +1,51 @@
+# Operating-system and editor files
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Local build and temporary output; site/ is intentionally tracked
+build/
+dist/
+tmp/
+.tmp/
+*.log
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
+
+# Private intake and working areas must never be published
+private/
+incoming/
+working/
+source/private/
+source/incoming/
+source/raw/
+# The full Marnet upstream snapshot is identified by metadata/hash only.
+source/marnet-dashboard.json
+source/marnet-upstream-snapshot.json
+
+# Cloud-storage placeholders and metadata
+*.icloud
+.dropbox.cache/

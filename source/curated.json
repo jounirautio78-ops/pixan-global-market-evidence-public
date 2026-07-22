@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "title": "Pixan Global Market Evidence Atlas",
+    "version": "0.1.0",
+    "asOf": "2026-07-22",
+    "legacySourceCommit": "7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f",
+    "reviewedAt": "2026-07-22T08:24:04Z",
+    "disclaimer": "Tämä julkinen aineisto on riippumattomasti jäsennelty lähde- ja markkinaevidenssin kooste. Se ei edusta Pixan Oy:n virallista kantaa. Se ei ole tilintarkastettu markkina- tai yritysarvio, oikeudellinen lausunto, patentin pätevyyttä tai loukkausta koskeva lausunto, sijoitus- tai lainasuositus eikä näyttö Pixan Oy:n osakkeiden tai patenttien vakuusarvosta. Tulli-, vero-, toimitus-, rekisteri- ja malliluvut säilytetään eri mittareina. Jokainen rahoitus-, arvostus- ja oikeudellinen johtopäätös vaatii erillisen ammatillisen tarkastuksen.",
+    "independenceStatement": "Marnetin julkisesta dashboard-snapshotista allowlistattuun baselineen siirretyt tiedot ovat lähteistettyä tausta-aineistoa. Migraatio ei itsessään varmista niiden ajantasaisuutta tai muuta niitä riippumattomasti vahvistetuiksi markkinaluvuiksi. Täyttä upstream-snapshotia ei säilytetä tässä repositoriossa."
+  },
+  "submission": {
+    "dropboxRequestUrl": "https://www.dropbox.com/request/es3w836bdnpbsn4loq3d",
+    "whatsapp": "+358400355544",
+    "whatsappUrl": "https://wa.me/358400355544",
+    "email": "jouni.rautio78@gmail.com",
+    "instruction": "Voit toimittaa alkuperäistä aineistoa. Aineisto käsitellään yksityisesti, eikä sitä julkaista automaattisesti. Julkaisua varten sisältö tarkistetaan erikseen."
+  },
+  "methodology": {
+    "countryUniverse": "UN193+VA+PS",
+    "countryCount": 195,
+    "gradeDefinitions": {
+      "A": "Suora virallinen toteuma: myynti/toimitus, verollinen määrä tai toteutunut tuoteryhmäkohtainen verotuotto.",
+      "B": "Virallinen proxy tai oikeudellinen/administratiivinen ankkuri: tulli, verokanta, raportointivelvollisuus tai rekisteri.",
+      "C": "Malli, ennuste, prevalenssi, valvontaotos tai muu täydentävä lähde.",
+      "D": "Maakohtaista julkista näyttöä ei ole vielä siirretty."
+    },
+    "dimensionDefinitions": {
+      "officialSales": "Virallinen kuluttajamyynti tai valmistaja-/maahantuojatoimitus, mittarityyppi näkyvästi eroteltuna.",
+      "officialVolume": "Virallinen verollinen tai ilmoitettu laillinen määrä.",
+      "taxRevenue": "Toteutunut verotuotto; laskettu veropohja tai yhdistetty tili on vain osittainen.",
+      "customs": "Virallinen tuonti-, vienti- tai jälleenvientisarja; ei kuluttajamyynti.",
+      "model": "Mallinnettu arvio, ennuste tai stressitesti; ei toteuma.",
+      "regulation": "Ajantasainen virallinen sääntely- tai raportointilähde.",
+      "patent": "Virallinen patentti- tai tuomioistuinlähde; ei yksin osoita kansallista voimassaoloa, loukkausta tai korvausta."
+    },
+    "statusDefinitions": {
+      "verified": "Määritelty ulottuvuus on tuettu vähintään yhdellä suoralla julkaistulla lähteellä.",
+      "partial": "Lähde tai proxy on olemassa, mutta rajaus, ajantasaisuus tai kattavuus ei riitä täydelliseen väitteeseen.",
+      "missing": "Julkaistavaa maakohtaista näyttöä ei ole siirretty.",
+      "notApplicable": "Ulottuvuus ei sovellu vahvistetun oikeudellisen markkinakiellon tai muun dokumentoidun syyn vuoksi."
+    }
+  },
+  "readiness": {
+    "status": "research_dataset_not_valuation",
+    "lenderReady": false,
+    "completed": [
+      "195 maan muuttumaton master-universumi",
+      "Legacy-lähteiden whitelistattu public-importti",
+      "Virallinen, proxy- ja mallinäyttö erotettu toisistaan"
+    ],
+    "blockers": [
+      "Useimmista maista puuttuu virallinen vuosittainen laite- ja nestemyynti",
+      "Markkinaevidenssiä ei ole vielä sidottu maakohtaiseen patenttistatukseen ja claim charteihin",
+      "Aineisto ei sisällä riippumatonta IVS-arvonmääritystä eikä realisoitunutta lisenssi- tai vahingonkorvauskassavirtaa"
+    ]
+  },
+  "dimensionOverrides": {
+    "US": {"officialSales": "partial", "customs": "verified", "regulation": "partial"},
+    "CA": {"officialSales": "verified", "officialVolume": "verified", "taxRevenue": "partial", "customs": "verified", "regulation": "verified"},
+    "DE": {"officialVolume": "verified", "taxRevenue": "partial", "customs": "verified", "model": "partial", "regulation": "verified", "patent": "partial"},
+    "FR": {"customs": "verified", "regulation": "partial"},
+    "IT": {"taxRevenue": "partial", "customs": "verified", "model": "partial", "regulation": "verified"},
+    "ES": {"taxRevenue": "partial", "customs": "verified", "model": "partial", "regulation": "verified"},
+    "PL": {"officialVolume": "verified", "taxRevenue": "verified", "customs": "verified", "regulation": "verified"},
+    "NL": {"customs": "verified", "model": "partial", "regulation": "partial"},
+    "BE": {"customs": "verified", "regulation": "partial"},
+    "LU": {"customs": "verified", "regulation": "partial"},
+    "FI": {"officialVolume": "verified", "taxRevenue": "verified", "customs": "verified", "regulation": "verified"},
+    "SE": {"officialVolume": "verified", "taxRevenue": "verified", "customs": "verified", "model": "partial", "regulation": "verified"},
+    "DK": {"taxRevenue": "partial", "customs": "verified", "model": "partial", "regulation": "verified"},
+    "NO": {"regulation": "partial"},
+    "AT": {"customs": "verified", "regulation": "partial"},
+    "CH": {"regulation": "partial"},
+    "GB": {"regulation": "partial"},
+    "CN": {"customs": "partial", "regulation": "partial"},
+    "JP": {"customs": "verified", "regulation": "partial"},
+    "KR": {"customs": "partial", "regulation": "partial"},
+    "AU": {"regulation": "partial"},
+    "BR": {"regulation": "verified"}
+  },
+  "marnetEvidenceWhitelist": [
+    {"title": "Health Canada · Vaping sales", "countries": ["CA"], "claimType": "delivery_sales"},
+    {"title": "Statistics Canada · CIMT 2025", "countries": ["CA"], "claimType": "customs"},
+    {"title": "Destatis · tabakverotilasto", "countries": ["DE"], "claimType": "official_volume"},
+    {"title": "Verohallinto · valmisteverotilasto", "countries": ["FI"], "claimType": "official_volume_tax"},
+    {"title": "Saksan tupakkaverolaki §2", "countries": ["DE"], "claimType": "tax_rate"},
+    {"title": "EU Tobacco Products Directive 20(7)", "countries": ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE"], "claimType": "reporting_rule"},
+    {"title": "UN Comtrade", "countries": ["US", "CA", "JP"], "claimType": "customs"},
+    {"title": "U.S. Census · Merchandise Trade Imports 2025", "countries": ["US"], "claimType": "customs"},
+    {"title": "Eurostat Comext DS-045409", "countries": ["AT", "BE", "DE", "DK", "ES", "FI", "FR", "IT", "LU", "NL", "PL", "SE"], "claimType": "customs"},
+    {"title": "Japan Customs / MOF · 2025 revised", "countries": ["JP"], "claimType": "customs"},
+    {"title": "Korea Customs Service · 2025 HS6 / HSK10", "countries": ["KR"], "claimType": "customs"},
+    {"title": "FTC E-Cigarette Report 2021", "countries": ["US"], "claimType": "historical_sales"},
+    {"title": "Japan Customs methodology", "countries": ["JP"], "claimType": "methodology"},
+    {"title": "China Customs · virallinen tilastopalvelu", "countries": ["CN"], "claimType": "official_access_route"},
+    {"title": "Italia ADM · PLI-PAT ja kuukausiraportin mallipohja", "countries": ["IT"], "claimType": "reporting_schema"},
+    {"title": "Italia ADM · vuoden 2025 PLI-verokannat", "countries": ["IT"], "claimType": "tax_rate"},
+    {"title": "Italian parlamentti · budjettiselvityksen taulukko 17", "countries": ["IT"], "claimType": "official_forecast"},
+    {"title": "Espanja AEAT · vuoden 2025 toteutunut verokertymä", "countries": ["ES"], "claimType": "combined_tax_actual"},
+    {"title": "Espanja BOE · Modelo 573", "countries": ["ES"], "claimType": "reporting_schema"},
+    {"title": "Ranska Douane · National 2025 import/export", "countries": ["FR"], "claimType": "customs"},
+    {"title": "ANSES · vaping-ilmoitusrekisteri", "countries": ["FR"], "claimType": "registry"},
+    {"title": "ANSES · myyntiraportoinnin kattavuusauditointi", "countries": ["FR"], "claimType": "coverage_audit"},
+    {"title": "Puolan MF · ZEFIR2/AIS-valmisteverovirta", "countries": ["PL"], "claimType": "official_volume"},
+    {"title": "Puolan MF · vuoden 2025 valmisteverototeuma", "countries": ["PL"], "claimType": "tax_actual"},
+    {"title": "Puolan KAS · kohdennettu valvonta 2025", "countries": ["PL"], "claimType": "enforcement_sample"},
+    {"title": "Ruotsin Finansdepartement · Beräkningskonventioner 2026", "countries": ["SE"], "claimType": "official_volume_tax"},
+    {"title": "Ruotsin Skatteverket · Nikotinskatt", "countries": ["SE"], "claimType": "tax_rate"},
+    {"title": "Ruotsin FHM · vuotuinen EU-CEG-myyntiraportointi", "countries": ["SE"], "claimType": "reporting_rule"},
+    {"title": "Eurostat Comext · Ruotsi 2025", "countries": ["SE"], "claimType": "customs"},
+    {"title": "Tanskan Skatteministeriet · Indtægtsliste 2025", "countries": ["DK"], "claimType": "combined_tax_actual"},
+    {"title": "Tanskan EU-CEG-vuosiraportointi ja tuoterekisteri", "countries": ["DK"], "claimType": "reporting_registry"},
+    {"title": "Tanskan Skattestyrelsen · riskiperusteiset valvonnat", "countries": ["DK"], "claimType": "enforcement_sample"},
+    {"title": "Eurostat Comext · Tanska 2025", "countries": ["DK"], "claimType": "customs"},
+    {"title": "VWS / Bureau Beke · Donkere wolken", "countries": ["NL"], "claimType": "model"},
+    {"title": "CBS StatLine · sähkösavukkeen käyttö 2024", "countries": ["NL"], "claimType": "prevalence"},
+    {"title": "Trimbos ScholierenMonitor · 12-16-vuotiaat", "countries": ["NL"], "claimType": "prevalence"},
+    {"title": "Eurostat Comext · Alankomaat 2025", "countries": ["NL"], "claimType": "customs"}
+  ],
+  "germanyLegal": [
+    {
+      "legalId": "EP-3032975-B2",
+      "countryIso2": "DE",
+      "authority": "European Patent Office",
+      "recordType": "patent_specification",
+      "reference": "EP 3 032 975 B2",
+      "status": "official_publication",
+      "statement": "EPO:n virallinen julkaisupalvelu sisältää EP 3 032 975 B2 -patenttijulkaisun.",
+      "sourceUrl": "https://data.epo.org/publication-server/rest/v1.2/patents/EP3032975NWB2/document.pdf",
+      "limitation": "Julkaisu ei yksin osoita patentin nykyistä kansallista voimassaoloa, vuosimaksuja, vaatimusten kattavuutta, loukkausta tai saatavaa rahamäärää."
+    },
+    {
+      "legalId": "DE-BPATG-8NI18-24-JUDGMENT",
+      "countryIso2": "DE",
+      "authority": "Bundespatentgericht / Bundesministerium der Justiz und Bundesamt für Justiz",
+      "recordType": "patent_nullity_judgment",
+      "reference": "BPatG 8 Ni 18/24 (EP) · BGH X ZR 21/26",
+      "eventDate": "2026-01-14",
+      "status": "appeal_lodged",
+      "statement": "Saksan virallinen oikeuskäytäntöpalvelu julkaisee Bundespatentgerichtin 14.1.2026 antaman tuomion asiassa 8 Ni 18/24 (EP). Tuomiolauselman mukaan mitättömyyskanne hylättiin; dokumentaatiomerkinnän mukaan ratkaisusta on valitettu Bundesgerichtshofiin asianumerolla X ZR 21/26.",
+      "sourceUrl": "https://www.rechtsprechung-im-internet.de/jportal/?quelle=jlink&docid=JURE269032275&psml=bsjrsprod.psml",
+      "limitation": "Valituksen vuoksi ratkaisu ei ole lainvoimainen. Tuomio ei yksin osoita patentin tulevaa lopputulosta, muiden tuotteiden loukkausta, lisenssituottoa, vahingonkorvauksen määrää tai kassavirtaa."
+    },
+    {
+      "legalId": "DE-LGMUC-7O3341-24-JUDGMENT",
+      "countryIso2": "DE",
+      "authority": "Landgericht München I / Bayerisches Staatsministerium der Justiz",
+      "recordType": "patent_infringement_judgment",
+      "reference": "LG München I, 7 O 3341/24",
+      "eventDate": "2026-04-02",
+      "status": "official_judgment",
+      "statement": "Baijerin virallinen oikeuskäytäntöpalvelu julkaisee Landgericht München I:n 2.4.2026 antaman täyden tuomion asiassa 7 O 3341/24. Tuomiossa tarkasteltujen tuotteiden todettiin loukkaavan EP 3 032 975 B2:n vaatimuksia 1 ja 6 välittömästi ja täydentävien osien osalta välillisesti, ja tuomioistuin määräsi ratkaisussa luetellut oikeusseuraamukset.",
+      "sourceUrl": "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206",
+      "limitation": "Ratkaisu koskee tiettyjä tuotteita ja Saksan aluetta. Lähde ei yksin osoita lainvoimaisuutta, täytäntöönpanoa, toteutunutta vahingonkorvausta tai kassavirtaa eikä muiden tuotteiden, valmistajien tai maiden loukkausta."
+    }
+  ],
+  "sourceAttribution": [
+    {
+      "sourceId": "MARNET-PUBLIC-BASELINE-7AB0C99",
+      "title": "Marnet Pixan Evidence Center public allowlisted baseline",
+      "sourceUrl": "https://github.com/marnet-collab/pixan-evidence-center/tree/7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f",
+      "use": "Julkisesta upstream-snapshotista poimitun, builderin tarvitsemiin kenttiin rajatun markkina- ja evidenssiaineiston lähtötilanne."
+    },
+    {
+      "sourceId": "UN-MEMBER-STATES",
+      "title": "United Nations Member States",
+      "sourceUrl": "https://www.un.org/en/about-us/member-states",
+      "use": "193 YK:n jäsenvaltion master-universumi."
+    },
+    {
+      "sourceId": "UN-OBSERVER-STATES",
+      "title": "United Nations non-member observer states",
+      "sourceUrl": "https://www.un.org/en/about-us/non-member-states",
+      "use": "Pyhä istuin ja Palestiinan valtio täydentävät 195 maan universumin."
+    }
+  ]
+}

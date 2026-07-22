@@ -1,0 +1,5029 @@
+{
+  "meta": {
+    "title": "Pixan Global Market Evidence Atlas",
+    "version": "0.1.0",
+    "asOf": "2026-07-22",
+    "generatedAt": "2026-07-22T08:24:04Z",
+    "legacySourceCommit": "7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f",
+    "disclaimer": "Tämä julkinen aineisto on riippumattomasti jäsennelty lähde- ja markkinaevidenssin kooste. Se ei edusta Pixan Oy:n virallista kantaa. Se ei ole tilintarkastettu markkina- tai yritysarvio, oikeudellinen lausunto, patentin pätevyyttä tai loukkausta koskeva lausunto, sijoitus- tai lainasuositus eikä näyttö Pixan Oy:n osakkeiden tai patenttien vakuusarvosta. Tulli-, vero-, toimitus-, rekisteri- ja malliluvut säilytetään eri mittareina. Jokainen rahoitus-, arvostus- ja oikeudellinen johtopäätös vaatii erillisen ammatillisen tarkastuksen.",
+    "independenceStatement": "Marnetin julkisesta dashboard-snapshotista allowlistattuun baselineen siirretyt tiedot ovat lähteistettyä tausta-aineistoa. Migraatio ei itsessään varmista niiden ajantasaisuutta tai muuta niitä riippumattomasti vahvistetuiksi markkinaluvuiksi. Täyttä upstream-snapshotia ei säilytetä tässä repositoriossa."
+  },
+  "summary": {
+    "countryCount": 195,
+    "universe": "UN193+VA+PS",
+    "gradeCounts": {
+      "A": 5,
+      "B": 13,
+      "C": 19,
+      "D": 158
+    },
+    "dimensionCounts": {
+      "officialSales": {
+        "missing": 193,
+        "notApplicable": 0,
+        "partial": 1,
+        "verified": 1
+      },
+      "officialVolume": {
+        "missing": 190,
+        "notApplicable": 0,
+        "partial": 0,
+        "verified": 5
+      },
+      "taxRevenue": {
+        "missing": 187,
+        "notApplicable": 0,
+        "partial": 5,
+        "verified": 3
+      },
+      "customs": {
+        "missing": 178,
+        "notApplicable": 0,
+        "partial": 2,
+        "verified": 15
+      },
+      "model": {
+        "missing": 189,
+        "notApplicable": 0,
+        "partial": 6,
+        "verified": 0
+      },
+      "regulation": {
+        "missing": 158,
+        "notApplicable": 0,
+        "partial": 28,
+        "verified": 9
+      },
+      "patent": {
+        "missing": 194,
+        "notApplicable": 0,
+        "partial": 1,
+        "verified": 0
+      }
+    },
+    "regionCounts": {
+      "Africa": 54,
+      "Americas": 35,
+      "Asia": 48,
+      "Europe": 44,
+      "Oceania": 14
+    },
+    "evidenceCount": 37,
+    "legalAnchorCount": 3,
+    "legacyCountryCount": 23
+  },
+  "countries": [
+    {
+      "iso2": "DZ",
+      "name": "Algeria",
+      "nameFi": "Algeria",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AO",
+      "name": "Angola",
+      "nameFi": "Angola",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BJ",
+      "name": "Benin",
+      "nameFi": "Benin",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BW",
+      "name": "Botswana",
+      "nameFi": "Botswana",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BF",
+      "name": "Burkina Faso",
+      "nameFi": "Burkina Faso",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BI",
+      "name": "Burundi",
+      "nameFi": "Burundi",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CV",
+      "name": "Cabo Verde",
+      "nameFi": "Kap Verde",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CM",
+      "name": "Cameroon",
+      "nameFi": "Kamerun",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CF",
+      "name": "Central African Republic",
+      "nameFi": "Keski-Afrikan tasavalta",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TD",
+      "name": "Chad",
+      "nameFi": "Tšad",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KM",
+      "name": "Comoros",
+      "nameFi": "Komorit",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CG",
+      "name": "Congo",
+      "nameFi": "Kongon tasavalta",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CD",
+      "name": "Democratic Republic of the Congo",
+      "nameFi": "Kongon demokraattinen tasavalta",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CI",
+      "name": "Côte d'Ivoire",
+      "nameFi": "Norsunluurannikko",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "DJ",
+      "name": "Djibouti",
+      "nameFi": "Djibouti",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "EG",
+      "name": "Egypt",
+      "nameFi": "Egypti",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GQ",
+      "name": "Equatorial Guinea",
+      "nameFi": "Päiväntasaajan Guinea",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ER",
+      "name": "Eritrea",
+      "nameFi": "Eritrea",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SZ",
+      "name": "Eswatini",
+      "nameFi": "Eswatini",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ET",
+      "name": "Ethiopia",
+      "nameFi": "Etiopia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GA",
+      "name": "Gabon",
+      "nameFi": "Gabon",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GM",
+      "name": "Gambia",
+      "nameFi": "Gambia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GH",
+      "name": "Ghana",
+      "nameFi": "Ghana",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GN",
+      "name": "Guinea",
+      "nameFi": "Guinea",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GW",
+      "name": "Guinea-Bissau",
+      "nameFi": "Guinea-Bissau",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KE",
+      "name": "Kenya",
+      "nameFi": "Kenia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LS",
+      "name": "Lesotho",
+      "nameFi": "Lesotho",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LR",
+      "name": "Liberia",
+      "nameFi": "Liberia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LY",
+      "name": "Libya",
+      "nameFi": "Libya",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MG",
+      "name": "Madagascar",
+      "nameFi": "Madagaskar",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MW",
+      "name": "Malawi",
+      "nameFi": "Malawi",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ML",
+      "name": "Mali",
+      "nameFi": "Mali",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MR",
+      "name": "Mauritania",
+      "nameFi": "Mauritania",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MU",
+      "name": "Mauritius",
+      "nameFi": "Mauritius",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MA",
+      "name": "Morocco",
+      "nameFi": "Marokko",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MZ",
+      "name": "Mozambique",
+      "nameFi": "Mosambik",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NA",
+      "name": "Namibia",
+      "nameFi": "Namibia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NE",
+      "name": "Niger",
+      "nameFi": "Niger",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NG",
+      "name": "Nigeria",
+      "nameFi": "Nigeria",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "RW",
+      "name": "Rwanda",
+      "nameFi": "Ruanda",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ST",
+      "name": "Sao Tome and Principe",
+      "nameFi": "São Tomé ja Príncipe",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SN",
+      "name": "Senegal",
+      "nameFi": "Senegal",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SC",
+      "name": "Seychelles",
+      "nameFi": "Seychellit",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SL",
+      "name": "Sierra Leone",
+      "nameFi": "Sierra Leone",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SO",
+      "name": "Somalia",
+      "nameFi": "Somalia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ZA",
+      "name": "South Africa",
+      "nameFi": "Etelä-Afrikka",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SS",
+      "name": "South Sudan",
+      "nameFi": "Etelä-Sudan",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SD",
+      "name": "Sudan",
+      "nameFi": "Sudan",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TZ",
+      "name": "United Republic of Tanzania",
+      "nameFi": "Tansania",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TG",
+      "name": "Togo",
+      "nameFi": "Togo",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TN",
+      "name": "Tunisia",
+      "nameFi": "Tunisia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "UG",
+      "name": "Uganda",
+      "nameFi": "Uganda",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ZM",
+      "name": "Zambia",
+      "nameFi": "Sambia",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ZW",
+      "name": "Zimbabwe",
+      "nameFi": "Zimbabwe",
+      "region": "Africa",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AG",
+      "name": "Antigua and Barbuda",
+      "nameFi": "Antigua ja Barbuda",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AR",
+      "name": "Argentina",
+      "nameFi": "Argentiina",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BS",
+      "name": "Bahamas",
+      "nameFi": "Bahama",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BB",
+      "name": "Barbados",
+      "nameFi": "Barbados",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BZ",
+      "name": "Belize",
+      "nameFi": "Belize",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BO",
+      "name": "Bolivia",
+      "nameFi": "Bolivia",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BR",
+      "name": "Brazil",
+      "nameFi": "Brasilia",
+      "region": "Americas",
+      "bestEvidence": "B",
+      "coveragePercent": 12,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-bra.pdf"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "CA",
+      "name": "Canada",
+      "nameFi": "Kanada",
+      "region": "Americas",
+      "bestEvidence": "A",
+      "coveragePercent": 71,
+      "dimensions": {
+        "officialSales": "verified",
+        "officialVolume": "verified",
+        "taxRevenue": "partial",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-can.pdf",
+        "https://comtradeplus.un.org/",
+        "https://health-infobase.canada.ca/substance-use/vaping/sales/",
+        "https://www.canada.ca/en/department-finance/corporate/transparency/plans-performance/financial-statements/2025.html",
+        "https://www.canada.ca/en/revenue-agency/services/tax/technical-information/excise-duty/rates.html",
+        "https://www150.statcan.gc.ca/n1/en/catalogue/71-607-X2021004"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "CL",
+      "name": "Chile",
+      "nameFi": "Chile",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CO",
+      "name": "Colombia",
+      "nameFi": "Kolumbia",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CR",
+      "name": "Costa Rica",
+      "nameFi": "Costa Rica",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CU",
+      "name": "Cuba",
+      "nameFi": "Kuuba",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "DM",
+      "name": "Dominica",
+      "nameFi": "Dominica",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "DO",
+      "name": "Dominican Republic",
+      "nameFi": "Dominikaaninen tasavalta",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "EC",
+      "name": "Ecuador",
+      "nameFi": "Ecuador",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SV",
+      "name": "El Salvador",
+      "nameFi": "El Salvador",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GD",
+      "name": "Grenada",
+      "nameFi": "Grenada",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GT",
+      "name": "Guatemala",
+      "nameFi": "Guatemala",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GY",
+      "name": "Guyana",
+      "nameFi": "Guyana",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "HT",
+      "name": "Haiti",
+      "nameFi": "Haiti",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "HN",
+      "name": "Honduras",
+      "nameFi": "Honduras",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "JM",
+      "name": "Jamaica",
+      "nameFi": "Jamaika",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MX",
+      "name": "Mexico",
+      "nameFi": "Meksiko",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NI",
+      "name": "Nicaragua",
+      "nameFi": "Nicaragua",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PA",
+      "name": "Panama",
+      "nameFi": "Panama",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PY",
+      "name": "Paraguay",
+      "nameFi": "Paraguay",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PE",
+      "name": "Peru",
+      "nameFi": "Peru",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KN",
+      "name": "Saint Kitts and Nevis",
+      "nameFi": "Saint Kitts ja Nevis",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LC",
+      "name": "Saint Lucia",
+      "nameFi": "Saint Lucia",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "VC",
+      "name": "Saint Vincent and the Grenadines",
+      "nameFi": "Saint Vincent ja Grenadiinit",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SR",
+      "name": "Suriname",
+      "nameFi": "Suriname",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TT",
+      "name": "Trinidad and Tobago",
+      "nameFi": "Trinidad ja Tobago",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "US",
+      "name": "United States of America",
+      "nameFi": "Yhdysvallat",
+      "region": "Americas",
+      "bestEvidence": "B",
+      "coveragePercent": 31,
+      "dimensions": {
+        "officialSales": "partial",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-usa.pdf",
+        "https://comtradeplus.un.org/",
+        "https://www.cdc.gov/statesystem/factsheets/ecigarette/ECigTax.html",
+        "https://www.census.gov/foreign-trade/data/IMDB.html",
+        "https://www.ftc.gov/reports/e-cigarette-report-2021"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "UY",
+      "name": "Uruguay",
+      "nameFi": "Uruguay",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "VE",
+      "name": "Venezuela",
+      "nameFi": "Venezuela",
+      "region": "Americas",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AF",
+      "name": "Afghanistan",
+      "nameFi": "Afganistan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AM",
+      "name": "Armenia",
+      "nameFi": "Armenia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AZ",
+      "name": "Azerbaijan",
+      "nameFi": "Azerbaidžan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BH",
+      "name": "Bahrain",
+      "nameFi": "Bahrain",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BD",
+      "name": "Bangladesh",
+      "nameFi": "Bangladesh",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BT",
+      "name": "Bhutan",
+      "nameFi": "Bhutan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BN",
+      "name": "Brunei Darussalam",
+      "nameFi": "Brunei",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KH",
+      "name": "Cambodia",
+      "nameFi": "Kambodža",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CN",
+      "name": "China",
+      "nameFi": "Kiina",
+      "region": "Asia",
+      "bestEvidence": "B",
+      "coveragePercent": 13,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "partial",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-chn.pdf",
+        "https://jsz.mof.gov.cn/zhengcefagui/202210/t20221028_3848463.htm",
+        "https://online.customs.gov.cn/static/pages/guides/002029004002/002029004002.html"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "CY",
+      "name": "Cyprus",
+      "nameFi": "Kypros",
+      "region": "Asia",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GE",
+      "name": "Georgia",
+      "nameFi": "Georgia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "IN",
+      "name": "India",
+      "nameFi": "Intia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ID",
+      "name": "Indonesia",
+      "nameFi": "Indonesia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "IR",
+      "name": "Iran",
+      "nameFi": "Iran",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "IQ",
+      "name": "Iraq",
+      "nameFi": "Irak",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "IL",
+      "name": "Israel",
+      "nameFi": "Israel",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "JP",
+      "name": "Japan",
+      "nameFi": "Japani",
+      "region": "Asia",
+      "bestEvidence": "B",
+      "coveragePercent": 20,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-jpn.pdf",
+        "https://comtradeplus.un.org/",
+        "https://www.customs.go.jp/toukei/sankou/howto/gaiyou_e.htm",
+        "https://www.e-stat.go.jp/en/stat-search/files?bunya_l=16&cycle=1&layout=dataset&page=1&second=1&tclass1=000001013180&tclass2=000001013182&tclass3val=0&toukei=00350300&tstat=000001013141"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "JO",
+      "name": "Jordan",
+      "nameFi": "Jordania",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KZ",
+      "name": "Kazakhstan",
+      "nameFi": "Kazakstan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KP",
+      "name": "Democratic People's Republic of Korea",
+      "nameFi": "Pohjois-Korea",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KR",
+      "name": "Republic of Korea",
+      "nameFi": "Etelä-Korea",
+      "region": "Asia",
+      "bestEvidence": "B",
+      "coveragePercent": 13,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "partial",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-kor.pdf",
+        "https://tradedata.go.kr/cts/index_eng.do"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "KW",
+      "name": "Kuwait",
+      "nameFi": "Kuwait",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KG",
+      "name": "Kyrgyzstan",
+      "nameFi": "Kirgisia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LA",
+      "name": "Lao People's Democratic Republic",
+      "nameFi": "Laos",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LB",
+      "name": "Lebanon",
+      "nameFi": "Libanon",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MY",
+      "name": "Malaysia",
+      "nameFi": "Malesia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MV",
+      "name": "Maldives",
+      "nameFi": "Malediivit",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MN",
+      "name": "Mongolia",
+      "nameFi": "Mongolia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MM",
+      "name": "Myanmar",
+      "nameFi": "Myanmar",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NP",
+      "name": "Nepal",
+      "nameFi": "Nepal",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "OM",
+      "name": "Oman",
+      "nameFi": "Oman",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PK",
+      "name": "Pakistan",
+      "nameFi": "Pakistan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PS",
+      "name": "State of Palestine",
+      "nameFi": "Palestiinan valtio",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PH",
+      "name": "Philippines",
+      "nameFi": "Filippiinit",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "QA",
+      "name": "Qatar",
+      "nameFi": "Qatar",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SA",
+      "name": "Saudi Arabia",
+      "nameFi": "Saudi-Arabia",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SG",
+      "name": "Singapore",
+      "nameFi": "Singapore",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LK",
+      "name": "Sri Lanka",
+      "nameFi": "Sri Lanka",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SY",
+      "name": "Syrian Arab Republic",
+      "nameFi": "Syyria",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TJ",
+      "name": "Tajikistan",
+      "nameFi": "Tadžikistan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TH",
+      "name": "Thailand",
+      "nameFi": "Thaimaa",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TL",
+      "name": "Timor-Leste",
+      "nameFi": "Itä-Timor",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TR",
+      "name": "Türkiye",
+      "nameFi": "Turkki",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TM",
+      "name": "Turkmenistan",
+      "nameFi": "Turkmenistan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AE",
+      "name": "United Arab Emirates",
+      "nameFi": "Yhdistyneet arabiemiirikunnat",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "UZ",
+      "name": "Uzbekistan",
+      "nameFi": "Uzbekistan",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "VN",
+      "name": "Viet Nam",
+      "nameFi": "Vietnam",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "YE",
+      "name": "Yemen",
+      "nameFi": "Jemen",
+      "region": "Asia",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AL",
+      "name": "Albania",
+      "nameFi": "Albania",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AD",
+      "name": "Andorra",
+      "nameFi": "Andorra",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "AT",
+      "name": "Austria",
+      "nameFi": "Itävalta",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 20,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-aut.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://www.parlament.gv.at/fachinfos/budgetdienst/Betrugsbekaempfungspaket-und-Abgabenaenderungsgesetz-2025",
+        "https://www.ris.bka.gv.at/NormDokument.wxe?Abfrage=Bundesnormen&Anlage=&Artikel=&Gesetzesnummer=10004877&Paragraf=4&Uebergangsrecht="
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "BY",
+      "name": "Belarus",
+      "nameFi": "Valko-Venäjä",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BE",
+      "name": "Belgium",
+      "nameFi": "Belgia",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 20,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-bel.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://financien.belgium.be/nl/douane_accijnzen/ondernemingen/accijnzen/algemene_informatie/accijnstarieven",
+        "https://www.ejustice.just.fgov.be/cgi/article_body.pl?language=fr&caller=summary&pub_date=23-12-29&numac=2023048600"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "BA",
+      "name": "Bosnia and Herzegovina",
+      "nameFi": "Bosnia ja Hertsegovina",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "BG",
+      "name": "Bulgaria",
+      "nameFi": "Bulgaria",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "HR",
+      "name": "Croatia",
+      "nameFi": "Kroatia",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "CZ",
+      "name": "Czechia",
+      "nameFi": "Tšekki",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "DK",
+      "name": "Denmark",
+      "nameFi": "Tanska",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 37,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "partial",
+        "customs": "verified",
+        "model": "partial",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-dnk.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://skm.dk/tal-og-metode/satser/satser-og-beloebsgraenser-i-lovgivningen/forbrugsafgiftsloven",
+        "https://skm.dk/tal-og-metode/statistik/indtaegtslister/indtaegtsliste-for-2025",
+        "https://www.ft.dk/samling/20241/almdel/SAU/bilag/220/3018939.pdf",
+        "https://www.sik.dk/en/node/355"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "EE",
+      "name": "Estonia",
+      "nameFi": "Viro",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "FI",
+      "name": "Finland",
+      "nameFi": "Suomi",
+      "region": "Europe",
+      "bestEvidence": "A",
+      "coveragePercent": 56,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "verified",
+        "taxRevenue": "verified",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-fin.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://vero2.stat.fi/PXWeb/api/v1/en/Vero/Valmistevero/vvt_010.px",
+        "https://vero2.stat.fi/PXWeb/pxweb/en/Vero/Vero__Valmistevero/vvt_010.px/",
+        "https://www.vero.fi/yritykset-ja-yhteisot/verot-ja-maksut/valmisteverotus/tupakkavero/"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "FR",
+      "name": "France",
+      "nameFi": "Ranska",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 20,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-fra.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://www.anses.fr/fr/system/files/CONSO2018SA0189Ra-2.pdf",
+        "https://www.data.gouv.fr/en/datasets/produits-du-tabac-et-produits-connexes-declares-sur-le-marche-francais/",
+        "https://www.douane.gouv.fr/la-douane/opendata?f%5B0%5D=categorie_opendata_facet%3A458&title=",
+        "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000032549341"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "DE",
+      "name": "Germany",
+      "nameFi": "Saksa",
+      "region": "Europe",
+      "bestEvidence": "A",
+      "coveragePercent": 60,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "verified",
+        "taxRevenue": "partial",
+        "customs": "verified",
+        "model": "partial",
+        "regulation": "verified",
+        "patent": "partial"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-deu.pdf",
+        "https://data.epo.org/publication-server/rest/v1.2/patents/EP3032975NWB2/document.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/01/PD26_026_73.html",
+        "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206",
+        "https://www.gesetze-im-internet.de/tabstg_2009/__2.html",
+        "https://www.rechtsprechung-im-internet.de/jportal/?quelle=jlink&docid=JURE269032275&psml=bsjrsprod.psml"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "GR",
+      "name": "Greece",
+      "nameFi": "Kreikka",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "VA",
+      "name": "Holy See",
+      "nameFi": "Pyhä istuin",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "HU",
+      "name": "Hungary",
+      "nameFi": "Unkari",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "IS",
+      "name": "Iceland",
+      "nameFi": "Islanti",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "IE",
+      "name": "Ireland",
+      "nameFi": "Irlanti",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "IT",
+      "name": "Italy",
+      "nameFi": "Italia",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 37,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "partial",
+        "customs": "verified",
+        "model": "partial",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-ita.pdf",
+        "https://documenti.camera.it/leg19/dossier/pdf/VQ2750_1.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://www.adm.gov.it/portale/-/portale-prodotti-liquidi-da-inalazione-pli-e-prodotti-accessori-dei-tabacchi-pat-1",
+        "https://www.adm.gov.it/portale/documents/20182/208222724/DET+PRE+PUBB+71960.27-01-2025-U.pdf/f08b0d67-49a2-c5ca-074b-2111240054ad?t=1738229866530",
+        "https://www.adm.gov.it/portale/documents/20182/242317381/DET+%E2%80%93+74240-2026.pdf/92ecf170-16f0-d012-d0b6-f4630f192dca?t=1769851126925"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "LV",
+      "name": "Latvia",
+      "nameFi": "Latvia",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LI",
+      "name": "Liechtenstein",
+      "nameFi": "Liechtenstein",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LT",
+      "name": "Lithuania",
+      "nameFi": "Liettua",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "LU",
+      "name": "Luxembourg",
+      "nameFi": "Luxemburg",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 20,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-lux.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://guichet.public.lu/fr/entreprises/import-export/intra-ue/echanges-intra-ue/commerce-accises.html"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "MT",
+      "name": "Malta",
+      "nameFi": "Malta",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MD",
+      "name": "Republic of Moldova",
+      "nameFi": "Moldova",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MC",
+      "name": "Monaco",
+      "nameFi": "Monaco",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ME",
+      "name": "Montenegro",
+      "nameFi": "Montenegro",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NL",
+      "name": "Netherlands",
+      "nameFi": "Alankomaat",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 24,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "verified",
+        "model": "partial",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-nld.pdf",
+        "https://cijfers.trimbos.nl/scholierenmonitor/vape-snus-en-waterpijp/cijfers-2023-12-16-jaar-vape-snus-waterpijp/",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://opendata.cbs.nl/statline/#/CBS/nl/dataset/85457NED/table",
+        "https://wetten.overheid.nl/jci1.3:c:BWBR0005251&g=2026-04-10&z=2026-04-10",
+        "https://www.tweedekamer.nl/downloads/document?id=2026D17119"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "MK",
+      "name": "North Macedonia",
+      "nameFi": "Pohjois-Makedonia",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NO",
+      "name": "Norway",
+      "nameFi": "Norja",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-nor.pdf"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "PL",
+      "name": "Poland",
+      "nameFi": "Puola",
+      "region": "Europe",
+      "bestEvidence": "A",
+      "coveragePercent": 56,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "verified",
+        "taxRevenue": "verified",
+        "customs": "verified",
+        "model": "missing",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf",
+        "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-pol.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://www.gov.pl/web/kas/kas-zwalcza-oszustwa-zwiazane-z-rynkiem-e-papierosow",
+        "https://www.podatki.gov.pl/akcyza/stawki-podatkowe"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "PT",
+      "name": "Portugal",
+      "nameFi": "Portugali",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "RO",
+      "name": "Romania",
+      "nameFi": "Romania",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "RU",
+      "name": "Russian Federation",
+      "nameFi": "Venäjä",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-rus.pdf"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "SM",
+      "name": "San Marino",
+      "nameFi": "San Marino",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "RS",
+      "name": "Serbia",
+      "nameFi": "Serbia",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SK",
+      "name": "Slovakia",
+      "nameFi": "Slovakia",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SI",
+      "name": "Slovenia",
+      "nameFi": "Slovenia",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkinen sääntely- tai lähdereitti on tunnistettu; maakohtaista toteutunutta markkinamyyntiä ei ole siirretty.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto ja markkinatäsmäytys.",
+      "sourceLinks": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+      ],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "ES",
+      "name": "Spain",
+      "nameFi": "Espanja",
+      "region": "Europe",
+      "bestEvidence": "B",
+      "coveragePercent": 37,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "partial",
+        "customs": "verified",
+        "model": "partial",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-esp.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://sede.agenciatributaria.gob.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informes_mensuales_recaudacion_tributaria/2025/IMR_25_12_es_es.pdf",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741#a6-4",
+        "https://www.boe.es/eli/es/o/2025/01/13/hac86"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "SE",
+      "name": "Sweden",
+      "nameFi": "Ruotsi",
+      "region": "Europe",
+      "bestEvidence": "A",
+      "coveragePercent": 60,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "verified",
+        "taxRevenue": "verified",
+        "customs": "verified",
+        "model": "partial",
+        "regulation": "verified",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-swe.pdf",
+        "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+        "https://www.folkhalsomyndigheten.se/anmal-och-rapportera/anmala-ansoka-rapportera-och-registrera-tobaks-och-nikotinprodukter/anmala-ingredienser-i-e-cigaretter-och-pafyllningsbehallare/",
+        "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf",
+        "https://www.regeringen.se/rapporter/2025/09/berakningskonventioner-2026/",
+        "https://www.skatteverket.se/foretagochorganisationer/skatter/punktskatter/nikotinskatt.4.41f1c61d16193087d7fc7fe.html"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "CH",
+      "name": "Switzerland",
+      "nameFi": "Sveitsi",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-che.pdf",
+        "https://www.bazg.admin.ch/dam/de/sd-web/LOdB10XnvqWr/R-120-3%20Tabaksteuer_01.03.26_Korrektur.pdf"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "UA",
+      "name": "Ukraine",
+      "nameFi": "Ukraina",
+      "region": "Europe",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "GB",
+      "name": "United Kingdom",
+      "nameFi": "Yhdistynyt kuningaskunta",
+      "region": "Europe",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-gbr.pdf",
+        "https://www.gov.uk/government/publications/introduction-of-vaping-products-duty-from-1-october-2026/introduction-of-vaping-products-duty-from-1-october-2026",
+        "https://www.gov.uk/guidance/how-to-pay-vaping-products-duty"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "AU",
+      "name": "Australia",
+      "nameFi": "Australia",
+      "region": "Oceania",
+      "bestEvidence": "C",
+      "coveragePercent": 6,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "partial",
+        "patent": "missing"
+      },
+      "current": "Julkisia lähdeviitteitä on tunnistettu. Tämä baseline ei siirrä upstreamin vapaamuotoista maakuvausta eikä itsessään osoita vahvistettua vuosimyyntiä.",
+      "missing": "Virallinen vuosittainen laite- ja nestemyynti, verollinen määrä, verotuotto sekä lähteiden välinen markkinatäsmäytys on vahvistettava erikseen.",
+      "sourceLinks": [
+        "https://cdn.who.int/media/docs/default-source/country-profiles/tobacco/gtrc-2025/tobacco-2025-aus.pdf"
+      ],
+      "legacyStatus": "sourceLinksOnly"
+    },
+    {
+      "iso2": "FJ",
+      "name": "Fiji",
+      "nameFi": "Fidži",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "KI",
+      "name": "Kiribati",
+      "nameFi": "Kiribati",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "MH",
+      "name": "Marshall Islands",
+      "nameFi": "Marshallinsaaret",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "FM",
+      "name": "Micronesia (Federated States of)",
+      "nameFi": "Mikronesia",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NR",
+      "name": "Nauru",
+      "nameFi": "Nauru",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "NZ",
+      "name": "New Zealand",
+      "nameFi": "Uusi-Seelanti",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PW",
+      "name": "Palau",
+      "nameFi": "Palau",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "PG",
+      "name": "Papua New Guinea",
+      "nameFi": "Papua-Uusi-Guinea",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "WS",
+      "name": "Samoa",
+      "nameFi": "Samoa",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "SB",
+      "name": "Solomon Islands",
+      "nameFi": "Salomonsaaret",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TO",
+      "name": "Tonga",
+      "nameFi": "Tonga",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "TV",
+      "name": "Tuvalu",
+      "nameFi": "Tuvalu",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    },
+    {
+      "iso2": "VU",
+      "name": "Vanuatu",
+      "nameFi": "Vanuatu",
+      "region": "Oceania",
+      "bestEvidence": "D",
+      "coveragePercent": 0,
+      "dimensions": {
+        "officialSales": "missing",
+        "officialVolume": "missing",
+        "taxRevenue": "missing",
+        "customs": "missing",
+        "model": "missing",
+        "regulation": "missing",
+        "patent": "missing"
+      },
+      "current": "Ei julkista maakohtaista markkinahavaintoa siirretty.",
+      "missing": "Virallinen myynti, määrä, verotuotto, tulli-, sääntely- ja patenttievidenssi.",
+      "sourceLinks": [],
+      "legacyStatus": "notTracked"
+    }
+  ],
+  "evidence": [
+    {
+      "evidenceId": "MARNET-001",
+      "countries": [
+        "CA"
+      ],
+      "grade": "A",
+      "legacyGrade": "A",
+      "claimType": "delivery_sales",
+      "title": "Health Canada · Vaping sales",
+      "coverage": "Kuratoitu maapeitto (1): CA.",
+      "use": "Virallisen toimitusmyynnin ankkuri; tarkista mittari, vuosi ja kattavuus alkuperäislähteestä.",
+      "sourceUrl": "https://health-infobase.canada.ca/substance-use/vaping/sales/",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-002",
+      "countries": [
+        "CA"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "Statistics Canada · CIMT 2025",
+      "coverage": "Kuratoitu maapeitto (1): CA.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://www150.statcan.gc.ca/n1/en/catalogue/71-607-X2021004",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-003",
+      "countries": [
+        "DE"
+      ],
+      "grade": "A",
+      "legacyGrade": "A",
+      "claimType": "official_volume",
+      "title": "Destatis · tabakverotilasto",
+      "coverage": "Kuratoitu maapeitto (1): DE.",
+      "use": "Virallisen määrähavainnon ankkuri; tarkista yksikkö, vuosi ja veropohja alkuperäislähteestä.",
+      "sourceUrl": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/01/PD26_026_73.html",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-004",
+      "countries": [
+        "FI"
+      ],
+      "grade": "A",
+      "legacyGrade": "A",
+      "claimType": "official_volume_tax",
+      "title": "Verohallinto · valmisteverotilasto",
+      "coverage": "Kuratoitu maapeitto (1): FI.",
+      "use": "Virallisen määrä- ja verohavainnon ankkuri; pidä määrä ja verotuotto erillisinä mittareina.",
+      "sourceUrl": "https://vero2.stat.fi/PXWeb/pxweb/en/Vero/Vero__Valmistevero/vvt_010.px/",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-005",
+      "countries": [
+        "DE"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "tax_rate",
+      "title": "Saksan tupakkaverolaki §2",
+      "coverage": "Kuratoitu maapeitto (1): DE.",
+      "use": "Veroasteen sääntelyankkuri; ei toteutunut määrä- tai myyntihavainto.",
+      "sourceUrl": "https://www.gesetze-im-internet.de/tabstg_2009/__2.html",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-006",
+      "countries": [
+        "AT",
+        "BE",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "DK",
+        "EE",
+        "FI",
+        "FR",
+        "DE",
+        "GR",
+        "HU",
+        "IE",
+        "IT",
+        "LV",
+        "LT",
+        "LU",
+        "MT",
+        "NL",
+        "PL",
+        "PT",
+        "RO",
+        "SK",
+        "SI",
+        "ES",
+        "SE"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "reporting_rule",
+      "title": "EU Tobacco Products Directive 20(7)",
+      "coverage": "Kuratoitu maapeitto (27): AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE.",
+      "use": "Raportointivelvoitteen sääntelyankkuri; julkisen toteumatiedon saatavuus tarkistetaan erikseen.",
+      "sourceUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-007",
+      "countries": [
+        "US",
+        "CA",
+        "JP"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "UN Comtrade",
+      "coverage": "Kuratoitu maapeitto (3): US, CA, JP.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://comtradeplus.un.org/",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-008",
+      "countries": [
+        "US"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "U.S. Census · Merchandise Trade Imports 2025",
+      "coverage": "Kuratoitu maapeitto (1): US.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://www.census.gov/foreign-trade/data/IMDB.html",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-009",
+      "countries": [
+        "AT",
+        "BE",
+        "DE",
+        "DK",
+        "ES",
+        "FI",
+        "FR",
+        "IT",
+        "LU",
+        "NL",
+        "PL",
+        "SE"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "Eurostat Comext DS-045409",
+      "coverage": "Kuratoitu maapeitto (12): AT, BE, DE, DK, ES, FI, FR, IT, LU, NL, PL, SE.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-010",
+      "countries": [
+        "JP"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "Japan Customs / MOF · 2025 revised",
+      "coverage": "Kuratoitu maapeitto (1): JP.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://www.e-stat.go.jp/en/stat-search/files?bunya_l=16&cycle=1&layout=dataset&page=1&second=1&tclass1=000001013180&tclass2=000001013182&tclass3val=0&toukei=00350300&tstat=000001013141",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-011",
+      "countries": [
+        "KR"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "Korea Customs Service · 2025 HS6 / HSK10",
+      "coverage": "Kuratoitu maapeitto (1): KR.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://tradedata.go.kr/cts/index_eng.do",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-012",
+      "countries": [
+        "US"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "historical_sales",
+      "title": "FTC E-Cigarette Report 2021",
+      "coverage": "Kuratoitu maapeitto (1): US.",
+      "use": "Historiallinen myyntiankkuri; ajankohta ja mittarin jatkuvuus on tarkistettava erikseen.",
+      "sourceUrl": "https://www.ftc.gov/reports/e-cigarette-report-2021",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-013",
+      "countries": [
+        "JP"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "methodology",
+      "title": "Japan Customs methodology",
+      "coverage": "Kuratoitu maapeitto (1): JP.",
+      "use": "Virallisen tilastomenetelmän ankkuri; varsinainen toteumaluku on haettava erikseen.",
+      "sourceUrl": "https://www.customs.go.jp/toukei/sankou/howto/gaiyou_e.htm",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-014",
+      "countries": [
+        "CN"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "official_access_route",
+      "title": "China Customs · virallinen tilastopalvelu",
+      "coverage": "Kuratoitu maapeitto (1): CN.",
+      "use": "Virallisen tietopalvelun reitti; tarvittava maakohtainen poiminta ja täsmäytys puuttuu.",
+      "sourceUrl": "https://online.customs.gov.cn/static/pages/guides/002029004002/002029004002.html",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-015",
+      "countries": [
+        "IT"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "reporting_schema",
+      "title": "Italia ADM · PLI-PAT ja kuukausiraportin mallipohja",
+      "coverage": "Kuratoitu maapeitto (1): IT.",
+      "use": "Viranomaisraportoinnin tietorakenne; ei sellaisenaan kansallinen toteumasumma.",
+      "sourceUrl": "https://www.adm.gov.it/portale/-/portale-prodotti-liquidi-da-inalazione-pli-e-prodotti-accessori-dei-tabacchi-pat-1",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-016",
+      "countries": [
+        "IT"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "tax_rate",
+      "title": "Italia ADM · vuoden 2025 PLI-verokannat",
+      "coverage": "Kuratoitu maapeitto (1): IT.",
+      "use": "Veroasteen sääntelyankkuri; ei toteutunut määrä- tai myyntihavainto.",
+      "sourceUrl": "https://www.adm.gov.it/portale/documents/20182/208222724/DET+PRE+PUBB+71960.27-01-2025-U.pdf/f08b0d67-49a2-c5ca-074b-2111240054ad?t=1738229866530",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-017",
+      "countries": [
+        "IT"
+      ],
+      "grade": "C",
+      "legacyGrade": "B",
+      "claimType": "official_forecast",
+      "title": "Italian parlamentti · budjettiselvityksen taulukko 17",
+      "coverage": "Kuratoitu maapeitto (1): IT.",
+      "use": "Virallinen ennuste tai budjettioletus; ei toteutunut myynti tai verokertymä.",
+      "sourceUrl": "https://documenti.camera.it/leg19/dossier/pdf/VQ2750_1.pdf",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-018",
+      "countries": [
+        "ES"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "combined_tax_actual",
+      "title": "Espanja AEAT · vuoden 2025 toteutunut verokertymä",
+      "coverage": "Kuratoitu maapeitto (1): ES.",
+      "use": "Yhdistetyn verokertymän ankkuri; tuoteryhmäjako on varmistettava ennen markkinatulkintaa.",
+      "sourceUrl": "https://sede.agenciatributaria.gob.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informes_mensuales_recaudacion_tributaria/2025/IMR_25_12_es_es.pdf",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-019",
+      "countries": [
+        "ES"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "reporting_schema",
+      "title": "Espanja BOE · Modelo 573",
+      "coverage": "Kuratoitu maapeitto (1): ES.",
+      "use": "Viranomaisraportoinnin tietorakenne; ei sellaisenaan kansallinen toteumasumma.",
+      "sourceUrl": "https://www.boe.es/eli/es/o/2025/01/13/hac86",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-020",
+      "countries": [
+        "FR"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "customs",
+      "title": "Ranska Douane · National 2025 import/export",
+      "coverage": "Kuratoitu maapeitto (1): FR.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://www.douane.gouv.fr/la-douane/opendata?f%5B0%5D=categorie_opendata_facet%3A458&title=",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-021",
+      "countries": [
+        "FR"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "registry",
+      "title": "ANSES · vaping-ilmoitusrekisteri",
+      "coverage": "Kuratoitu maapeitto (1): FR.",
+      "use": "Tuote- tai ilmoitusrekisterin ankkuri; rekisteririvejä ei tulkita myyntimääräksi.",
+      "sourceUrl": "https://www.data.gouv.fr/en/datasets/produits-du-tabac-et-produits-connexes-declares-sur-le-marche-francais/",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-022",
+      "countries": [
+        "FR"
+      ],
+      "grade": "C",
+      "legacyGrade": "A",
+      "claimType": "coverage_audit",
+      "title": "ANSES · myyntiraportoinnin kattavuusauditointi",
+      "coverage": "Kuratoitu maapeitto (1): FR.",
+      "use": "Raportoinnin kattavuuden tukihavainto; ei itsenäinen markkinamyyntiluku.",
+      "sourceUrl": "https://www.anses.fr/fr/system/files/CONSO2018SA0189Ra-2.pdf",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-023",
+      "countries": [
+        "PL"
+      ],
+      "grade": "A",
+      "legacyGrade": "A",
+      "claimType": "official_volume",
+      "title": "Puolan MF · ZEFIR2/AIS-valmisteverovirta",
+      "coverage": "Kuratoitu maapeitto (1): PL.",
+      "use": "Virallisen määrähavainnon ankkuri; tarkista yksikkö, vuosi ja veropohja alkuperäislähteestä.",
+      "sourceUrl": "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-024",
+      "countries": [
+        "PL"
+      ],
+      "grade": "A",
+      "legacyGrade": "A",
+      "claimType": "tax_actual",
+      "title": "Puolan MF · vuoden 2025 valmisteverototeuma",
+      "coverage": "Kuratoitu maapeitto (1): PL.",
+      "use": "Toteutuneen virallisen verotuoton ankkuri; ei yksin osoita vähittäismyyntiä tai tuotemäärää.",
+      "sourceUrl": "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-025",
+      "countries": [
+        "PL"
+      ],
+      "grade": "C",
+      "legacyGrade": "A",
+      "claimType": "enforcement_sample",
+      "title": "Puolan KAS · kohdennettu valvonta 2025",
+      "coverage": "Kuratoitu maapeitto (1): PL.",
+      "use": "Kohdennetun valvontaotoksen tukihavainto; osumaprosentti ei ole markkinaosuus.",
+      "sourceUrl": "https://www.gov.pl/web/kas/kas-zwalcza-oszustwa-zwiazane-z-rynkiem-e-papierosow",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-026",
+      "countries": [
+        "SE"
+      ],
+      "grade": "A",
+      "legacyGrade": "A",
+      "claimType": "official_volume_tax",
+      "title": "Ruotsin Finansdepartement · Beräkningskonventioner 2026",
+      "coverage": "Kuratoitu maapeitto (1): SE.",
+      "use": "Virallisen määrä- ja verohavainnon ankkuri; pidä määrä ja verotuotto erillisinä mittareina.",
+      "sourceUrl": "https://www.regeringen.se/rapporter/2025/09/berakningskonventioner-2026/",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-027",
+      "countries": [
+        "SE"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "tax_rate",
+      "title": "Ruotsin Skatteverket · Nikotinskatt",
+      "coverage": "Kuratoitu maapeitto (1): SE.",
+      "use": "Veroasteen sääntelyankkuri; ei toteutunut määrä- tai myyntihavainto.",
+      "sourceUrl": "https://www.skatteverket.se/foretagochorganisationer/skatter/punktskatter/nikotinskatt.4.41f1c61d16193087d7fc7fe.html",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-028",
+      "countries": [
+        "SE"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "reporting_rule",
+      "title": "Ruotsin FHM · vuotuinen EU-CEG-myyntiraportointi",
+      "coverage": "Kuratoitu maapeitto (1): SE.",
+      "use": "Raportointivelvoitteen sääntelyankkuri; julkisen toteumatiedon saatavuus tarkistetaan erikseen.",
+      "sourceUrl": "https://www.folkhalsomyndigheten.se/anmal-och-rapportera/anmala-ansoka-rapportera-och-registrera-tobaks-och-nikotinprodukter/anmala-ingredienser-i-e-cigaretter-och-pafyllningsbehallare/",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-029",
+      "countries": [
+        "SE"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "Eurostat Comext · Ruotsi 2025",
+      "coverage": "Kuratoitu maapeitto (1): SE.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-030",
+      "countries": [
+        "DK"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "combined_tax_actual",
+      "title": "Tanskan Skatteministeriet · Indtægtsliste 2025",
+      "coverage": "Kuratoitu maapeitto (1): DK.",
+      "use": "Yhdistetyn verokertymän ankkuri; tuoteryhmäjako on varmistettava ennen markkinatulkintaa.",
+      "sourceUrl": "https://skm.dk/tal-og-metode/statistik/indtaegtslister/indtaegtsliste-for-2025",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-031",
+      "countries": [
+        "DK"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "reporting_registry",
+      "title": "Tanskan EU-CEG-vuosiraportointi ja tuoterekisteri",
+      "coverage": "Kuratoitu maapeitto (1): DK.",
+      "use": "Viranomaisrekisterin tai raportointikanavan ankkuri; ei sellaisenaan vuosimyyntiä.",
+      "sourceUrl": "https://www.sik.dk/en/node/355",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-032",
+      "countries": [
+        "DK"
+      ],
+      "grade": "C",
+      "legacyGrade": "A",
+      "claimType": "enforcement_sample",
+      "title": "Tanskan Skattestyrelsen · riskiperusteiset valvonnat",
+      "coverage": "Kuratoitu maapeitto (1): DK.",
+      "use": "Kohdennetun valvontaotoksen tukihavainto; osumaprosentti ei ole markkinaosuus.",
+      "sourceUrl": "https://www.ft.dk/samling/20241/almdel/SAU/bilag/220/3018939.pdf",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-033",
+      "countries": [
+        "DK"
+      ],
+      "grade": "B",
+      "legacyGrade": "B",
+      "claimType": "customs",
+      "title": "Eurostat Comext · Tanska 2025",
+      "coverage": "Kuratoitu maapeitto (1): DK.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-034",
+      "countries": [
+        "NL"
+      ],
+      "grade": "C",
+      "legacyGrade": "B",
+      "claimType": "model",
+      "title": "VWS / Bureau Beke · Donkere wolken",
+      "coverage": "Kuratoitu maapeitto (1): NL.",
+      "use": "Mallinnettu markkina-arvio; oletukset ja epävarmuus on pidettävä näkyvissä.",
+      "sourceUrl": "https://www.tweedekamer.nl/downloads/document?id=2026D17119",
+      "sourceKind": "institutional_model",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-035",
+      "countries": [
+        "NL"
+      ],
+      "grade": "C",
+      "legacyGrade": "A",
+      "claimType": "prevalence",
+      "title": "CBS StatLine · sähkösavukkeen käyttö 2024",
+      "coverage": "Kuratoitu maapeitto (1): NL.",
+      "use": "Käyttäjäyleisyyden tukihavainto; ei suora myynti-, määrä- tai veromittari.",
+      "sourceUrl": "https://opendata.cbs.nl/statline/#/CBS/nl/dataset/85457NED/table",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-036",
+      "countries": [
+        "NL"
+      ],
+      "grade": "C",
+      "legacyGrade": "A",
+      "claimType": "prevalence",
+      "title": "Trimbos ScholierenMonitor · 12-16-vuotiaat",
+      "coverage": "Kuratoitu maapeitto (1): NL.",
+      "use": "Käyttäjäyleisyyden tukihavainto; ei suora myynti-, määrä- tai veromittari.",
+      "sourceUrl": "https://cijfers.trimbos.nl/scholierenmonitor/vape-snus-en-waterpijp/cijfers-2023-12-16-jaar-vape-snus-waterpijp/",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "evidenceId": "MARNET-037",
+      "countries": [
+        "NL"
+      ],
+      "grade": "B",
+      "legacyGrade": "A",
+      "claimType": "customs",
+      "title": "Eurostat Comext · Alankomaat 2025",
+      "coverage": "Kuratoitu maapeitto (1): NL.",
+      "use": "Rajakaupan tai tullivirran ankkuri; ei yksin osoita kotimaista kuluttajamyyntiä.",
+      "sourceUrl": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "sourceKind": "official_or_institutional_publication",
+      "origin": "source/marnet-public-baseline.json@7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    }
+  ],
+  "legal": [
+    {
+      "legalId": "EP-3032975-B2",
+      "countryIso2": "DE",
+      "authority": "European Patent Office",
+      "recordType": "patent_specification",
+      "reference": "EP 3 032 975 B2",
+      "status": "official_publication",
+      "statement": "EPO:n virallinen julkaisupalvelu sisältää EP 3 032 975 B2 -patenttijulkaisun.",
+      "limitation": "Julkaisu ei yksin osoita patentin nykyistä kansallista voimassaoloa, vuosimaksuja, vaatimusten kattavuutta, loukkausta tai saatavaa rahamäärää.",
+      "sourceUrl": "https://data.epo.org/publication-server/rest/v1.2/patents/EP3032975NWB2/document.pdf"
+    },
+    {
+      "legalId": "DE-BPATG-8NI18-24-JUDGMENT",
+      "countryIso2": "DE",
+      "authority": "Bundespatentgericht / Bundesministerium der Justiz und Bundesamt für Justiz",
+      "recordType": "patent_nullity_judgment",
+      "reference": "BPatG 8 Ni 18/24 (EP) · BGH X ZR 21/26",
+      "eventDate": "2026-01-14",
+      "status": "appeal_lodged",
+      "statement": "Saksan virallinen oikeuskäytäntöpalvelu julkaisee Bundespatentgerichtin 14.1.2026 antaman tuomion asiassa 8 Ni 18/24 (EP). Tuomiolauselman mukaan mitättömyyskanne hylättiin; dokumentaatiomerkinnän mukaan ratkaisusta on valitettu Bundesgerichtshofiin asianumerolla X ZR 21/26.",
+      "limitation": "Valituksen vuoksi ratkaisu ei ole lainvoimainen. Tuomio ei yksin osoita patentin tulevaa lopputulosta, muiden tuotteiden loukkausta, lisenssituottoa, vahingonkorvauksen määrää tai kassavirtaa.",
+      "sourceUrl": "https://www.rechtsprechung-im-internet.de/jportal/?quelle=jlink&docid=JURE269032275&psml=bsjrsprod.psml"
+    },
+    {
+      "legalId": "DE-LGMUC-7O3341-24-JUDGMENT",
+      "countryIso2": "DE",
+      "authority": "Landgericht München I / Bayerisches Staatsministerium der Justiz",
+      "recordType": "patent_infringement_judgment",
+      "reference": "LG München I, 7 O 3341/24",
+      "eventDate": "2026-04-02",
+      "status": "official_judgment",
+      "statement": "Baijerin virallinen oikeuskäytäntöpalvelu julkaisee Landgericht München I:n 2.4.2026 antaman täyden tuomion asiassa 7 O 3341/24. Tuomiossa tarkasteltujen tuotteiden todettiin loukkaavan EP 3 032 975 B2:n vaatimuksia 1 ja 6 välittömästi ja täydentävien osien osalta välillisesti, ja tuomioistuin määräsi ratkaisussa luetellut oikeusseuraamukset.",
+      "limitation": "Ratkaisu koskee tiettyjä tuotteita ja Saksan aluetta. Lähde ei yksin osoita lainvoimaisuutta, täytäntöönpanoa, toteutunutta vahingonkorvausta tai kassavirtaa eikä muiden tuotteiden, valmistajien tai maiden loukkausta.",
+      "sourceUrl": "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206"
+    }
+  ],
+  "methodology": {
+    "countryUniverse": "UN193+VA+PS",
+    "countryCount": 195,
+    "gradeDefinitions": {
+      "A": "Suora virallinen toteuma: myynti/toimitus, verollinen määrä tai toteutunut tuoteryhmäkohtainen verotuotto.",
+      "B": "Virallinen proxy tai oikeudellinen/administratiivinen ankkuri: tulli, verokanta, raportointivelvollisuus tai rekisteri.",
+      "C": "Malli, ennuste, prevalenssi, valvontaotos tai muu täydentävä lähde.",
+      "D": "Maakohtaista julkista näyttöä ei ole vielä siirretty."
+    },
+    "dimensionDefinitions": {
+      "officialSales": "Virallinen kuluttajamyynti tai valmistaja-/maahantuojatoimitus, mittarityyppi näkyvästi eroteltuna.",
+      "officialVolume": "Virallinen verollinen tai ilmoitettu laillinen määrä.",
+      "taxRevenue": "Toteutunut verotuotto; laskettu veropohja tai yhdistetty tili on vain osittainen.",
+      "customs": "Virallinen tuonti-, vienti- tai jälleenvientisarja; ei kuluttajamyynti.",
+      "model": "Mallinnettu arvio, ennuste tai stressitesti; ei toteuma.",
+      "regulation": "Ajantasainen virallinen sääntely- tai raportointilähde.",
+      "patent": "Virallinen patentti- tai tuomioistuinlähde; ei yksin osoita kansallista voimassaoloa, loukkausta tai korvausta."
+    },
+    "statusDefinitions": {
+      "verified": "Määritelty ulottuvuus on tuettu vähintään yhdellä suoralla julkaistulla lähteellä.",
+      "partial": "Lähde tai proxy on olemassa, mutta rajaus, ajantasaisuus tai kattavuus ei riitä täydelliseen väitteeseen.",
+      "missing": "Julkaistavaa maakohtaista näyttöä ei ole siirretty.",
+      "notApplicable": "Ulottuvuus ei sovellu vahvistetun oikeudellisen markkinakiellon tai muun dokumentoidun syyn vuoksi."
+    }
+  },
+  "submission": {
+    "dropboxRequestUrl": "https://www.dropbox.com/request/es3w836bdnpbsn4loq3d",
+    "whatsapp": "+358400355544",
+    "whatsappUrl": "https://wa.me/358400355544",
+    "email": "jouni.rautio78@gmail.com",
+    "instruction": "Voit toimittaa alkuperäistä aineistoa. Aineisto käsitellään yksityisesti, eikä sitä julkaista automaattisesti. Julkaisua varten sisältö tarkistetaan erikseen."
+  },
+  "readiness": {
+    "status": "research_dataset_not_valuation",
+    "lenderReady": false,
+    "completed": [
+      "195 maan muuttumaton master-universumi",
+      "Legacy-lähteiden whitelistattu public-importti",
+      "Virallinen, proxy- ja mallinäyttö erotettu toisistaan"
+    ],
+    "blockers": [
+      "Useimmista maista puuttuu virallinen vuosittainen laite- ja nestemyynti",
+      "Markkinaevidenssiä ei ole vielä sidottu maakohtaiseen patenttistatukseen ja claim charteihin",
+      "Aineisto ei sisällä riippumatonta IVS-arvonmääritystä eikä realisoitunutta lisenssi- tai vahingonkorvauskassavirtaa"
+    ]
+  },
+  "sourceAttribution": [
+    {
+      "sourceId": "MARNET-PUBLIC-BASELINE-7AB0C99",
+      "title": "Marnet Pixan Evidence Center public allowlisted baseline",
+      "use": "Julkisesta upstream-snapshotista poimitun, builderin tarvitsemiin kenttiin rajatun markkina- ja evidenssiaineiston lähtötilanne.",
+      "sourceUrl": "https://github.com/marnet-collab/pixan-evidence-center/tree/7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f"
+    },
+    {
+      "sourceId": "UN-MEMBER-STATES",
+      "title": "United Nations Member States",
+      "use": "193 YK:n jäsenvaltion master-universumi.",
+      "sourceUrl": "https://www.un.org/en/about-us/member-states"
+    },
+    {
+      "sourceId": "UN-OBSERVER-STATES",
+      "title": "United Nations non-member observer states",
+      "use": "Pyhä istuin ja Palestiinan valtio täydentävät 195 maan universumin.",
+      "sourceUrl": "https://www.un.org/en/about-us/non-member-states"
+    }
+  ]
+}
