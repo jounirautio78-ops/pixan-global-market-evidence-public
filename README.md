@@ -4,7 +4,21 @@ This repository builds a public, source-linked country atlas for global vaping-m
 
 > **Independent research / riippumaton selvitys.** This project is not an official disclosure by Pixan Oy, is not maintained or endorsed by Pixan Oy, and does not represent BlackRock or any other investor, lender, manufacturer, authority, or litigation party. It is not audited market data, legal advice, financial advice, investment advice, or a valuation.
 
-The site has two public entry points: the full Finnish evidence atlas in `site/index.html` and a concise English lender/buyer diligence view in `site/review.html`. The review page is designed to be shared as a direct link, while preserving the same source links, uncertainty labels and independent-publication boundary.
+The site has two public entry points: the full evidence atlas in `site/index.html` and a concise lender/buyer diligence view in `site/review.html`. Both pages provide the same Finnish/English language selector and default to English. A valid `?lang=fi` or `?lang=en` query parameter overrides the device-local preference; changing the selector saves the preference for subsequent pages and keeps internal page links in the selected language. Language-specific share links include `site/review.html?lang=en` and `site/review.html?lang=fi`. The review page is designed to be shared as a direct link, while preserving the same source links, uncertainty labels and independent-publication boundary.
+
+The returning-visitor section compares the current release ID and version in `site/data/changelog.json` with the last release explicitly marked as seen in that browser. The value stays in device-local storage only: it is not sent to the repository or an analytics service and does not identify the visitor.
+
+## Annual market-value evidence
+
+Reviewed market observations live in `source/market-observations.json`. The deterministic build emits:
+
+- `site/data/market-values.json` for the dashboard and programmatic review;
+- `site/data/market-values.csv` for analysts;
+- separate observations, source records and modelled ranges so tax, volume, shipments and retail-equivalent models cannot silently become one blended sales figure.
+
+The current release contains a full-year Canadian official manufacturer/importer shipment value, German taxed-liquid and realised-excise series, three separately labelled external commercial global estimates, and a low-confidence German liquid-only retail-equivalent range. The atlas global estimate remains `not_estimate_ready` until its published donor and independent-method thresholds are met.
+
+`scripts/market_estimation.py` implements the reusable multi-method engine configured by `source/model-config.json`. It supports direct value, taxable-volume, excise-backsolve, apparent-consumption, active-user, product-intensity and comparable-country routes, while treating external global estimates as sanity checks. Alternative routes are evidence-weighted and never added together; primary methods sharing any source ID cannot both enter the consensus even when their evidence-group labels differ. See [`source/GLOBAL_RESEARCH_ROUTES.md`](source/GLOBAL_RESEARCH_ROUTES.md) for the 195-country acquisition sequence, source systems, product segmentation and licensing controls.
 
 ## Research collaboration
 
@@ -73,6 +87,10 @@ From the repository root:
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_atlas.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_public.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v scripts/test_market_estimation.py
+node --check site/assets/i18n.js
+node --check site/assets/app.js
+node --check site/assets/review.js
 git diff --check
 git diff --exit-code
 git status --short

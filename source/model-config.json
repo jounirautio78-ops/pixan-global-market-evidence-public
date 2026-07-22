@@ -1,0 +1,142 @@
+{
+  "configSchemaVersion": 1,
+  "modelId": "pixan-transparent-market-estimation-v1",
+  "modelPurpose": "Produce a transparent annual national retail-market estimate from supplied, cited inputs without adding alternative methods together.",
+  "currencyPolicy": {
+    "singleCurrencyPerRecord": true,
+    "conversionInsideModel": false,
+    "note": "All monetary inputs in one record must already use the declared output currency. Any external currency conversion must be supplied as a cited upstream transformation."
+  },
+  "confidenceTiers": {
+    "high": 0.9,
+    "medium": 0.65,
+    "low": 0.4
+  },
+  "confidenceLabels": {
+    "highAtOrAbove": 0.8,
+    "mediumAtOrAbove": 0.55
+  },
+  "consensus": {
+    "aggregation": "confidence-and-method-weighted median of alternative estimates",
+    "minimumPrimaryMethods": 2,
+    "minimumIndependentEvidenceGroups": 2,
+    "maximumCandidatesPerEvidenceGroup": 1,
+    "standaloneEligibleMethods": [
+      "direct_reported_value"
+    ],
+    "standaloneMinimumConfidenceTier": "high",
+    "lowQuantile": 0.25,
+    "baseQuantile": 0.5,
+    "highQuantile": 0.75,
+    "neverSumAlternativeMethods": true
+  },
+  "methodDefinitions": {
+    "direct_reported_value": {
+      "label": "Direct reported annual market value",
+      "role": "primary",
+      "formula": "reported annual retail-market value",
+      "baseWeight": 1.0,
+      "minimumSources": 1,
+      "requiredInputs": [
+        "reportedMarketValue"
+      ],
+      "notes": "Use only when the cited metric matches the record's national, annual, product and retail-value scope."
+    },
+    "taxable_volume_price_basket": {
+      "label": "Taxable volume multiplied by a retail price basket",
+      "role": "primary",
+      "formula": "taxable volume × retail price per declared unit × scope adjustment factor",
+      "baseWeight": 0.95,
+      "minimumSources": 2,
+      "requiredInputs": [
+        "taxableVolume",
+        "retailPricePerUnit",
+        "scopeAdjustmentFactor",
+        "unit"
+      ],
+      "notes": "The taxable-volume unit and price denominator must be identical. The adjustment factor must be explicit even when it is 1."
+    },
+    "excise_backsolve_price_basket": {
+      "label": "Realised excise back-solved to volume and priced at retail",
+      "role": "primary",
+      "formula": "(realised excise revenue ÷ excise rate per unit) × retail price per unit × scope adjustment factor",
+      "baseWeight": 0.9,
+      "minimumSources": 2,
+      "requiredInputs": [
+        "realisedExciseRevenue",
+        "exciseRatePerUnit",
+        "retailPricePerUnit",
+        "scopeAdjustmentFactor",
+        "unit"
+      ],
+      "notes": "Do not use a combined tax account unless the cited input isolates the relevant products or the adjustment range explicitly reflects the allocation uncertainty."
+    },
+    "customs_apparent_consumption_retail": {
+      "label": "Customs apparent consumption converted to retail value",
+      "role": "primary",
+      "formula": "max(0, imports value + domestic production value − exports value) × retail markup factor × scope adjustment factor",
+      "baseWeight": 0.7,
+      "minimumSources": 2,
+      "requiredInputs": [
+        "importsValue",
+        "domesticProductionValue",
+        "exportsValue",
+        "retailMarkupFactor",
+        "scopeAdjustmentFactor"
+      ],
+      "notes": "All flow inputs must use the same valuation basis. Domestic production and exports must be explicit, including a cited zero where appropriate. Customs value is not consumer sales."
+    },
+    "active_users_annual_spend": {
+      "label": "Active users multiplied by annual spend",
+      "role": "primary",
+      "formula": "active users × annual spend per active user × scope adjustment factor",
+      "baseWeight": 0.65,
+      "minimumSources": 2,
+      "requiredInputs": [
+        "activeUsers",
+        "annualSpendPerUser",
+        "scopeAdjustmentFactor"
+      ],
+      "notes": "The active-user definition, age range and usage period must match the spending measure."
+    },
+    "usage_units_price": {
+      "label": "Users multiplied by annual product usage and retail prices",
+      "role": "primary",
+      "formula": "active users × Σ(disjoint component share × annual units per user × retail price per unit) × scope adjustment factor",
+      "baseWeight": 0.7,
+      "minimumSources": 2,
+      "requiredInputs": [
+        "activeUsers",
+        "components",
+        "scopeAdjustmentFactor"
+      ],
+      "notes": "Every component must represent a disjoint revenue scope. Overlapping representations such as liquid already contained in pods must not be added twice."
+    },
+    "comparable_country_scaling": {
+      "label": "Comparable-country scaling",
+      "role": "primary",
+      "formula": "median across comparables of (comparable market value ÷ comparable scale base) × target scale base × comparability adjustment factor",
+      "baseWeight": 0.55,
+      "minimumSources": 2,
+      "minimumComparables": 2,
+      "requiredInputs": [
+        "targetScaleBase",
+        "scaleMetric",
+        "comparables"
+      ],
+      "notes": "Comparable countries must be distinct from the target and use the same market definition, currency basis or an externally documented conversion, and scale metric."
+    },
+    "external_global_sanity_check": {
+      "label": "External global or regional market-share sanity check",
+      "role": "sanity_check",
+      "formula": "external benchmark market value × target-country share",
+      "baseWeight": 0.3,
+      "minimumSources": 1,
+      "requiredInputs": [
+        "benchmarkMarketValue",
+        "targetCountryShare"
+      ],
+      "notes": "This result is displayed as a cross-check and is never included in the primary consensus."
+    }
+  }
+}

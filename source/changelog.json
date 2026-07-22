@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-07-22",
+  "releases": [
+    {
+      "id": "2026-07-22-bilingual-market-value-v2",
+      "version": "2026.07.22-2",
+      "publishedAt": "2026-07-22T13:00:00+03:00",
+      "titleEn": "Bilingual market-value release",
+      "titleFi": "Kaksikielinen markkina-arvojulkaisu",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added source-linked annual observations for Canada, Finland, Germany, Poland and Sweden, plus a separate external 2025 global commercial range.",
+          "textFi": "Lisättiin lähteistetyt vuosihavainnot Kanadasta, Suomesta, Saksasta, Puolasta ja Ruotsista sekä niistä erillinen ulkoinen vuoden 2025 kaupallinen maailmanmarkkinahaarukka."
+        },
+        {
+          "category": "model",
+          "textEn": "Added a low-confidence Germany liquid-only retail-equivalent range with every input, source, formula and exclusion visible.",
+          "textFi": "Lisättiin matalan luottamuksen Saksan nestemarkkinan vähittäismyyntivastaavuuden vaihteluväli, jonka kaikki syötteet, lähteet, kaava ja poisrajaukset näkyvät."
+        },
+        {
+          "category": "method",
+          "textEn": "Added six alternative estimation routes and a reproducible multi-method engine; alternative results are compared, never added together.",
+          "textFi": "Lisättiin kuusi vaihtoehtoista laskentareittiä ja toistettava monimenetelmämoottori; vaihtoehtoisia tuloksia verrataan, niitä ei summata."
+        },
+        {
+          "category": "language",
+          "textEn": "Added site-wide English and Finnish language selection. English is the default and an explicit choice is remembered in the browser.",
+          "textFi": "Lisättiin koko sivuston englannin ja suomen kielivalinta. Englanti on oletus, ja käyttäjän nimenomainen valinta muistetaan selaimessa."
+        },
+        {
+          "category": "usability",
+          "textEn": "Added a returning-visitor view that shows releases since the last release explicitly marked as seen in the browser, without analytics or visitor identification.",
+          "textFi": "Lisättiin palaavan kävijän näkymä, joka näyttää selaimessa viimeksi nähdyksi merkityn julkaisun jälkeiset julkaisut ilman analytiikkaa tai kävijän tunnistamista."
+        }
+      ]
+    }
+  ]
+}

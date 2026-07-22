@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
 import re
 import sys
 from collections import Counter
@@ -18,6 +19,7 @@ from build_atlas import (
     ABSOLUTE_PATH_RE,
     ALLOWED_EMAIL,
     ALLOWED_PHONE_DIGITS,
+    CHANGELOG_PATH,
     COUNTRY_CATALOG,
     COUNTRY_ISO2,
     DIMENSIONS,
@@ -25,6 +27,14 @@ from build_atlas import (
     EMAIL_RE,
     GRADE_BY_CLAIM_TYPE,
     LEGACY_COUNTRY_TO_ISO2,
+    MARKET_CSV_FIELDS,
+    MARKET_MODEL_KEYS,
+    MARKET_OBSERVATION_KEYS,
+    MARKET_OBSERVATIONS_PATH,
+    MARKET_READINESS_KEYS,
+    MARKET_SOURCE_KEYS,
+    MARKET_SOURCE_OPTIONAL_KEYS,
+    MARKET_SOURCE_TOP_LEVEL_KEYS,
     OUTPUT_DIR,
     PLUS_PHONE_RE,
     PUBLIC_BASELINE_PATH,
@@ -32,7 +42,10 @@ from build_atlas import (
     SECRET_ASSIGNMENT_RE,
     UPSTREAM_METADATA_PATH,
     best_evidence,
+    build_changelog,
+    build_market_values,
     coverage_percent,
+    market_values_csv_rows,
     normalize_phone,
 )
 
@@ -40,6 +53,9 @@ from build_atlas import (
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
 COUNTRIES_CSV_PATH = OUTPUT_DIR / "countries.csv"
 EVIDENCE_CSV_PATH = OUTPUT_DIR / "evidence.csv"
+MARKET_VALUES_JSON_PATH = OUTPUT_DIR / "market-values.json"
+MARKET_VALUES_CSV_PATH = OUTPUT_DIR / "market-values.csv"
+CHANGELOG_JSON_PATH = OUTPUT_DIR / "changelog.json"
 CURATED_PATH = ROOT / "source" / "curated.json"
 UPSTREAM_SHA_PATH = ROOT / "source" / "marnet-upstream.sha256"
 FORBIDDEN_RAW_PATH = ROOT / "source" / "marnet-dashboard.json"
@@ -108,12 +124,32 @@ EXPECTED_SITE_FILES = {
     "site/index.html",
     "site/review.html",
     "site/assets/app.js",
+    "site/assets/i18n.js",
     "site/assets/review.js",
     "site/assets/styles.css",
     "site/assets/favicon.svg",
     "site/data/atlas.json",
     "site/data/countries.csv",
     "site/data/evidence.csv",
+    "site/data/changelog.json",
+    "site/data/market-values.json",
+    "site/data/market-values.csv",
+}
+
+MARKET_OUTPUT_TOP_LEVEL_KEYS = {"meta", "sources", "observations", "models"}
+MARKET_META_KEYS = {
+    "schemaVersion",
+    "asOf",
+    "generatedAt",
+    "modelReadiness",
+    "disclaimerEn",
+    "disclaimerFi",
+}
+MARKET_EVIDENCE_STATUSES = {
+    "official_observed",
+    "official_provisional",
+    "commercial_estimate",
+    "published_price_input",
 }
 
 
@@ -497,6 +533,483 @@ def validate_summary(atlas: dict[str, Any], errors: list[str]) -> None:
         errors.append("summary.legalAnchorCount does not match legal")
 
 
+def validate_market_values(
+    source: dict[str, Any],
+    market_values: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Validate market observations, calculation semantics and source parity."""
+    if set(source) != MARKET_SOURCE_TOP_LEVEL_KEYS:
+        errors.append("market-observations.json must use the exact reviewed top-level schema")
+    if set(market_values) != MARKET_OUTPUT_TOP_LEVEL_KEYS:
+        errors.append("market-values.json must contain exactly meta, sources, observations, and models")
+
+    meta = market_values.get("meta")
+    if not isinstance(meta, dict) or set(meta) != MARKET_META_KEYS:
+        errors.append("market-values.json meta must use the exact reviewed schema")
+        meta = {}
+    if source.get("schemaVersion") != 1 or meta.get("schemaVersion") != 1:
+        errors.append("market-value source and output schemaVersion must be 1")
+    if meta.get("asOf") != source.get("asOf") or meta.get("generatedAt") != source.get("reviewedAt"):
+        errors.append("market-values.json dates must be deterministically derived from the source")
+    for key in ("asOf",):
+        try:
+            date.fromisoformat(str(source.get(key)))
+        except ValueError:
+            errors.append(f"market-observations.json {key} must be an ISO date")
+    if not isinstance(source.get("reviewedAt"), str) or not RFC3339_UTC_RE.fullmatch(source["reviewedAt"]):
+        errors.append("market-observations.json reviewedAt must be an RFC 3339 UTC timestamp")
+    if meta.get("disclaimerEn") != source.get("disclaimerEn") or meta.get("disclaimerFi") != source.get("disclaimerFi"):
+        errors.append("market-values.json disclaimers must match the reviewed source")
+
+    readiness = source.get("modelReadiness")
+    if not isinstance(readiness, dict) or set(readiness) != MARKET_READINESS_KEYS:
+        errors.append("market-observations.json modelReadiness must use the exact reviewed schema")
+        readiness = {}
+    if meta.get("modelReadiness") != readiness:
+        errors.append("market-values.json modelReadiness must match the reviewed source")
+    if (
+        readiness.get("status") != "not_estimate_ready"
+        or readiness.get("comparableFullYearMarketValueDonors") != 1
+        or readiness.get("minimumRequiredDonors") != 3
+    ):
+        errors.append("market model must remain not_estimate_ready with one of three required donors")
+    for key in ("reasonEn", "reasonFi"):
+        if not isinstance(readiness.get(key), str) or not readiness[key].strip():
+            errors.append(f"modelReadiness.{key} must be a non-empty string")
+
+    source_rows = source.get("sources")
+    output_sources = market_values.get("sources")
+    if output_sources != source_rows:
+        errors.append("market-values.json sources must match the reviewed source exactly")
+    if not isinstance(source_rows, list) or not source_rows:
+        errors.append("market-observations.json sources must be a non-empty array")
+        source_rows = []
+    expected_source_urls = {
+        "CA-HC-VAPING-SALES-2024": (
+            "official",
+            "https://health-infobase.canada.ca/substance-use/vaping/sales/",
+            "https://health-infobase.canada.ca/src/data/substance-use/vaping/sales/VPRR%20Data%20-%202026-01-22.zip",
+        ),
+        "DE-DESTATIS-73411-0003": (
+            "official",
+            "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003",
+            "https://genesis.destatis.de/genesisWS/downloads/00/tables/73411-0003_00.csv",
+        ),
+        "FI-TAX-EXCISE-VVT-010-2025": (
+            "official",
+            "https://vero2.stat.fi/PXWeb/api/v1/en/Vero/Valmistevero/vvt_010.px",
+            None,
+        ),
+        "PL-SEJM-I07255-O1": (
+            "official",
+            "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf",
+            None,
+        ),
+        "PL-SEJM-I17526-O1": (
+            "official",
+            "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+            None,
+        ),
+        "SE-GOV-BERAKNINGSKONVENTIONER-2026": (
+            "official",
+            "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf",
+            None,
+        ),
+        "IMARC-GLOBAL-2025": (
+            "commercial_estimate",
+            "https://www.imarcgroup.com/e-cigarette-market",
+            None,
+        ),
+        "GVR-GLOBAL-2025": (
+            "commercial_estimate",
+            "https://www.grandviewresearch.com/industry-analysis/e-cigarette-vaping-market",
+            None,
+        ),
+        "FORTUNE-GLOBAL-2025": (
+            "commercial_estimate",
+            "https://www.fortunebusinessinsights.com/e-cigarette-and-vaping-market-114882",
+            None,
+        ),
+        "INTASTE-GERMANFLAVOURS-2026": (
+            "retail_listing",
+            "https://www.intaste.de/pfefferminz-liquid-germanflavours-liquid",
+            None,
+        ),
+        "INTASTE-SAMURAI-2026": (
+            "retail_listing",
+            "https://www.intaste.de/anstand-liquid-samurai-liquid",
+            None,
+        ),
+        "INTASTE-REVOLTAGE-2026": (
+            "retail_listing",
+            "https://www.intaste.de/tobacco-vanilla-nikotinsalz-revoltage-liquid",
+            None,
+        ),
+    }
+    source_by_id: dict[str, dict[str, Any]] = {}
+    for index, item in enumerate(source_rows):
+        path = f"market sources[{index}]"
+        if not isinstance(item, dict):
+            errors.append(f"{path} must be an object")
+            continue
+        keys = set(item)
+        if not MARKET_SOURCE_KEYS.issubset(keys) or keys - MARKET_SOURCE_KEYS - MARKET_SOURCE_OPTIONAL_KEYS:
+            errors.append(f"{path} uses an unexpected schema")
+        source_id = item.get("sourceId")
+        if not isinstance(source_id, str) or not source_id:
+            errors.append(f"{path}.sourceId must be a non-empty string")
+            continue
+        if source_id in source_by_id:
+            errors.append(f"market sources contain duplicate sourceId {source_id}")
+        source_by_id[source_id] = item
+        if not is_https_url(item.get("pageUrl")):
+            errors.append(f"{path}.pageUrl must be a public HTTPS URL")
+        if "downloadUrl" in item and not is_https_url(item.get("downloadUrl")):
+            errors.append(f"{path}.downloadUrl must be a public HTTPS URL")
+        try:
+            retrieved = date.fromisoformat(str(item.get("retrievedAt")))
+            as_of = date.fromisoformat(str(source.get("asOf")))
+            if retrieved > as_of:
+                errors.append(f"{path}.retrievedAt cannot be later than asOf")
+        except ValueError:
+            errors.append(f"{path}.retrievedAt must be an ISO date")
+    if set(source_by_id) != set(expected_source_urls):
+        errors.append("market sources must match the exact reviewed source ID set")
+    for source_id, (source_kind, page_url, download_url) in expected_source_urls.items():
+        item = source_by_id.get(source_id, {})
+        if item.get("sourceKind") != source_kind or item.get("pageUrl") != page_url:
+            errors.append(f"market source {source_id} must retain its reviewed kind and page URL")
+        if item.get("downloadUrl") != download_url:
+            errors.append(f"market source {source_id} must retain its reviewed download URL")
+
+    observations = source.get("observations")
+    output_observations = market_values.get("observations")
+    if output_observations != observations:
+        errors.append("market-values.json observations must match the reviewed source exactly")
+    if not isinstance(observations, list) or not observations:
+        errors.append("market-observations.json observations must be a non-empty array")
+        observations = []
+    observations_by_id: dict[str, dict[str, Any]] = {}
+    expected_observations = {
+        "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", True),
+        "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-UNITS": ("CA", 2024, "manufacturer_importer_shipments_units", 118901910, "unit", "official_observed", "published", "physical_units_not_market_value", False),
+        "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-LITRES": ("CA", 2024, "manufacturer_importer_shipments_liquid_volume", 1251843, "litre", "official_observed", "published", "physical_volume_not_market_value", False),
+        "DE-2023-TAXED-LIQUID-VOLUME-L": ("DE", 2023, "taxed_substitutes_volume", 1241000, "litre", "official_observed", "final", "taxed_physical_volume_not_retail_market_value", False),
+        "DE-2023-SUBSTITUTES-EXCISE-RECEIPTS": ("DE", 2023, "substitutes_excise_receipts", 201000000, "EUR", "official_observed", "final", "excise_receipts_not_retail_market_value", False),
+        "DE-2024-TAXED-LIQUID-VOLUME-L": ("DE", 2024, "taxed_substitutes_volume", 1284000, "litre", "official_observed", "final", "taxed_physical_volume_not_retail_market_value", False),
+        "DE-2024-SUBSTITUTES-EXCISE-RECEIPTS": ("DE", 2024, "substitutes_excise_receipts", 266000000, "EUR", "official_observed", "final", "excise_receipts_not_retail_market_value", False),
+        "DE-2025-TAXED-LIQUID-VOLUME-L": ("DE", 2025, "taxed_substitutes_volume", 1518000, "litre", "official_provisional", "provisional", "taxed_physical_volume_not_retail_market_value", False),
+        "DE-2025-SUBSTITUTES-EXCISE-RECEIPTS": ("DE", 2025, "substitutes_excise_receipts", 404000000, "EUR", "official_provisional", "provisional", "excise_receipts_not_retail_market_value", False),
+        "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("FI", 2025, "nicotine_e_liquid_taxed_volume", 11801.062, "litre", "official_observed", "published", "taxed_physical_volume_not_retail_market_value", False),
+        "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("FI", 2025, "nicotine_e_liquid_excise_receipts", 3540319, "EUR", "official_observed", "published", "excise_receipts_not_retail_market_value", False),
+        "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2023, "reported_e_liquid_volume", 805441, "litre", "official_observed", "official_response", "official_reported_physical_volume_not_retail_market_value", False),
+        "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("PL", 2025, "e_liquid_excise_amount", 993100000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
+        "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("PL", 2025, "vaping_device_excise_amount", 175300000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("PL", 2025, "vaping_component_sets_excise_amount", 2500000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
+        "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("SE", 2024, "nicotine_e_liquid_taxed_volume", 26000, "litre", "official_observed", "official_rounded", "taxed_physical_volume_not_retail_market_value", False),
+        "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("SE", 2024, "nicotine_e_liquid_excise_receipts", 80000000, "SEK", "official_observed", "official_rounded", "excise_receipts_not_retail_market_value", False),
+        "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE": (None, 2025, "commercial_market_estimate", 26000000000, "USD", "commercial_estimate", "external_estimate", "external_non_comparable_reference_not_atlas_estimate", False),
+        "GLOBAL-2025-GVR-COMMERCIAL-ESTIMATE": (None, 2025, "commercial_market_estimate", 45700000000, "USD", "commercial_estimate", "external_estimate", "external_non_comparable_reference_not_atlas_estimate", False),
+        "GLOBAL-2025-FORTUNE-COMMERCIAL-ESTIMATE": (None, 2025, "commercial_market_estimate", 46320000000, "USD", "commercial_estimate", "external_estimate", "external_non_comparable_reference_not_atlas_estimate", False),
+        "DE-2026-RETAIL-PRICE-LOW-EUR-PER-ML": ("DE", 2026, "retail_price_input", 0.44, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
+        "DE-2026-RETAIL-PRICE-BASE-EUR-PER-ML": ("DE", 2026, "retail_price_input", 0.79, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
+        "DE-2026-RETAIL-PRICE-HIGH-EUR-PER-ML": ("DE", 2026, "retail_price_input", 1.09, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
+    }
+    for index, item in enumerate(observations):
+        path = f"market observations[{index}]"
+        if not isinstance(item, dict) or set(item) != MARKET_OBSERVATION_KEYS:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        observation_id = item.get("observationId")
+        if not isinstance(observation_id, str) or not observation_id:
+            errors.append(f"{path}.observationId must be a non-empty string")
+            continue
+        if observation_id in observations_by_id:
+            errors.append(f"market observations contain duplicate ID {observation_id}")
+        observations_by_id[observation_id] = item
+        value = item.get("value")
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+            errors.append(f"{path}.value must be a positive finite number")
+        if item.get("countryIso2") is not None and item.get("countryIso2") not in COUNTRY_ISO2:
+            errors.append(f"{path}.countryIso2 must be null or a UN195 country")
+        if item.get("evidenceStatus") not in MARKET_EVIDENCE_STATUSES:
+            errors.append(f"{path}.evidenceStatus is invalid")
+        for key in ("geography", "metric", "unit", "period", "finality", "productScope", "marketValueBasis", "labelEn", "labelFi", "limitationEn", "limitationFi"):
+            if not isinstance(item.get(key), str) or not item[key].strip():
+                errors.append(f"{path}.{key} must be a non-empty string")
+        for key in ("comparableMarketValue", "atlasEstimate"):
+            if not isinstance(item.get(key), bool):
+                errors.append(f"{path}.{key} must be Boolean")
+        item_source_ids = item.get("sourceIds")
+        if not isinstance(item_source_ids, list) or not item_source_ids or len(item_source_ids) != len(set(item_source_ids)):
+            errors.append(f"{path}.sourceIds must be a non-empty unique array")
+        elif any(source_id not in source_by_id for source_id in item_source_ids):
+            errors.append(f"{path}.sourceIds references an unknown source")
+
+        if item.get("metric") in {
+            "taxed_substitutes_volume",
+            "substitutes_excise_receipts",
+            "nicotine_e_liquid_taxed_volume",
+            "nicotine_e_liquid_excise_receipts",
+            "reported_e_liquid_volume",
+            "e_liquid_excise_amount",
+            "vaping_device_excise_amount",
+            "vaping_component_sets_excise_amount",
+        }:
+            allowed_basis = {
+                "taxed_physical_volume_not_retail_market_value",
+                "excise_receipts_not_retail_market_value",
+                "official_reported_physical_volume_not_retail_market_value",
+                "official_tax_amount_not_retail_market_value",
+            }
+            if item.get("marketValueBasis") not in allowed_basis or item.get("comparableMarketValue") or item.get("atlasEstimate"):
+                errors.append(f"{path}: taxed volume or excise must never be labelled retail market value")
+        if item.get("metric") == "commercial_market_estimate":
+            if (
+                item.get("evidenceStatus") != "commercial_estimate"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+                or item.get("marketValueBasis") != "external_non_comparable_reference_not_atlas_estimate"
+            ):
+                errors.append(f"{path}: external estimates must remain non-observed, non-comparable references")
+        if item.get("metric") == "retail_price_input" and item.get("evidenceStatus") != "published_price_input":
+            errors.append(f"{path}: a retail listing must remain a price input, not observed market value")
+        if observation_id == "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE":
+            limitation = str(item.get("limitationEn", ""))
+            if (
+                item.get("productScope")
+                != "publisher_defined_global_e_cigarette_market_including_next_generation_and_htp_products"
+                or "heated-tobacco" not in limitation
+                or "IQOS" not in limitation
+                or "Glo" not in limitation
+            ):
+                errors.append(f"{path}: IMARC scope must explicitly disclose included HTP products")
+
+    if set(observations_by_id) != set(expected_observations):
+        errors.append("market observations must match the exact reviewed observation ID set")
+    for observation_id, expected in expected_observations.items():
+        item = observations_by_id.get(observation_id, {})
+        actual = (
+            item.get("countryIso2"),
+            item.get("year"),
+            item.get("metric"),
+            item.get("value"),
+            item.get("unit"),
+            item.get("evidenceStatus"),
+            item.get("finality"),
+            item.get("marketValueBasis"),
+            item.get("comparableMarketValue"),
+        )
+        if actual != expected:
+            errors.append(f"market observation {observation_id} differs from its reviewed fact tuple")
+
+    expected_scope_sources = {
+        "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
+        "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
+        "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
+        "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("e_liquid_only", "PL-SEJM-I17526-O1"),
+        "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("vaping_devices_only", "PL-SEJM-I17526-O1"),
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("vaping_component_sets_only", "PL-SEJM-I17526-O1"),
+        "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
+        "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
+    }
+    for observation_id, (product_scope, source_id) in expected_scope_sources.items():
+        item = observations_by_id.get(observation_id, {})
+        if item.get("productScope") != product_scope or item.get("sourceIds") != [source_id]:
+            errors.append(f"market observation {observation_id} must retain its conservative scope and official source")
+    for observation_id in (
+        "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L",
+        "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS",
+    ):
+        if "nicotine-free full-year value is suppressed" not in str(observations_by_id.get(observation_id, {}).get("limitationEn", "")):
+            errors.append(f"market observation {observation_id} must disclose suppressed nicotine-free full-year data")
+    for observation_id in (
+        "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L",
+        "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS",
+    ):
+        item = observations_by_id.get(observation_id, {})
+        if item.get("finality") != "official_rounded" or "Table 7.5" not in str(item.get("limitationEn", "")):
+            errors.append(f"market observation {observation_id} must remain a rounded Table 7.5 figure")
+
+    donor_count = sum(
+        1
+        for item in observations
+        if isinstance(item, dict)
+        and item.get("comparableMarketValue") is True
+        and item.get("period") == "calendar_year"
+    )
+    if donor_count != readiness.get("comparableFullYearMarketValueDonors"):
+        errors.append("modelReadiness donor count must equal comparable full-year monetary observations")
+
+    models = source.get("models")
+    output_models = market_values.get("models")
+    if output_models != models:
+        errors.append("market-values.json models must match the reviewed source exactly")
+    if not isinstance(models, list) or len(models) != 1:
+        errors.append("market-observations.json must contain exactly one reviewed model")
+        models = []
+    for index, model in enumerate(models):
+        path = f"market models[{index}]"
+        if not isinstance(model, dict) or set(model) != MARKET_MODEL_KEYS:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        if model.get("modelId") != "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE":
+            errors.append(f"{path}.modelId is not the reviewed model")
+        if (
+            model.get("countryIso2") != "DE"
+            or model.get("year") != 2025
+            or model.get("evidenceStatus") != "modelled"
+            or model.get("confidence") != "low"
+            or model.get("yearMismatch") is not True
+            or model.get("productScope") != "taxed_substitutes_for_tobacco_liquid_only"
+            or model.get("marketValueBasis") != "retail_equivalent_plausibility_range_not_observed_sales"
+            or model.get("comparableMarketValue") is not False
+            or model.get("atlasEstimate") is not True
+        ):
+            errors.append(f"{path} must remain a low-confidence, year-mismatched, modelled liquid-only range")
+        if model.get("formula") != "volume_litres * 1000 * retail_price_eur_per_ml":
+            errors.append(f"{path}.formula is invalid")
+        input_ids = model.get("inputIds")
+        if not isinstance(input_ids, list) or len(input_ids) != 4 or len(input_ids) != len(set(input_ids)):
+            errors.append(f"{path}.inputIds must retain four unique observation IDs")
+            input_ids = []
+        if any(identifier not in observations_by_id for identifier in input_ids):
+            errors.append(f"{path}.inputIds references an unknown observation")
+        range_map = model.get("rangeInputMap")
+        if not isinstance(range_map, dict) or set(range_map) != {"low", "central", "high"}:
+            errors.append(f"{path}.rangeInputMap must contain exactly low, central, and high")
+            range_map = {}
+        if any(identifier not in input_ids for identifier in range_map.values()):
+            errors.append(f"{path}.rangeInputMap values must be retained in inputIds")
+        required_exclusions = {"devices", "illicit_and_untaxed_sales", "nicotine_free_products_where_not_taxed"}
+        exclusions = model.get("exclusions")
+        if not isinstance(exclusions, list) or not required_exclusions.issubset(set(exclusions)):
+            errors.append(f"{path}.exclusions must retain the material excluded categories")
+
+        volume = observations_by_id.get("DE-2025-TAXED-LIQUID-VOLUME-L", {}).get("value")
+        expected_range: dict[str, int] = {}
+        if isinstance(volume, (int, float)) and not isinstance(volume, bool):
+            for bound in ("low", "central", "high"):
+                price = observations_by_id.get(range_map.get(bound), {}).get("value")
+                if isinstance(price, (int, float)) and not isinstance(price, bool):
+                    expected_range[bound] = round(volume * 1000 * price)
+        if expected_range != {"low": 667920000, "central": 1199220000, "high": 1654620000}:
+            errors.append(f"{path}: model inputs do not reproduce the reviewed plausibility range")
+        for bound, expected_value in expected_range.items():
+            if model.get(bound) != expected_value:
+                errors.append(f"{path}.{bound} must equal the deterministic formula result")
+        if not (model.get("low", 0) < model.get("central", 0) < model.get("high", 0)):
+            errors.append(f"{path}: model range must be ordered low < central < high")
+        if "not observed sales" not in str(model.get("limitationEn", "")).lower():
+            errors.append(f"{path}.limitationEn must explicitly say the range is not observed sales")
+        if "ei havaittua myynti" not in str(model.get("limitationFi", "")).lower():
+            errors.append(f"{path}.limitationFi must explicitly say the range is not observed sales")
+
+    try:
+        expected_output = build_market_values()
+    except (KeyError, TypeError, ValueError) as error:
+        errors.append(f"market-value deterministic build rejected its source: {error}")
+    else:
+        if market_values != expected_output:
+            errors.append("market-values.json differs from the deterministic reviewed build")
+
+
+def validate_market_values_csv(market_values: dict[str, Any], errors: list[str]) -> None:
+    try:
+        with MARKET_VALUES_CSV_PATH.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            fieldnames = reader.fieldnames
+            actual_rows = list(reader)
+    except FileNotFoundError:
+        errors.append("site/data/market-values.csv is missing")
+        return
+    if fieldnames != MARKET_CSV_FIELDS:
+        errors.append("market-values.csv columns differ from the reviewed schema")
+
+    expected_rows = market_values_csv_rows(market_values)
+    normalized_expected = [
+        {
+            field: "" if row.get(field) is None else str(row.get(field, ""))
+            for field in MARKET_CSV_FIELDS
+        }
+        for row in expected_rows
+    ]
+    if actual_rows != normalized_expected:
+        errors.append("market-values.csv differs from market-values.json deterministic parity")
+    record_ids = [row.get("recordId", "") for row in actual_rows]
+    if len(record_ids) != len(set(record_ids)) or any(not record_id for record_id in record_ids):
+        errors.append("market-values.csv recordId values must be unique and non-empty")
+
+
+def validate_changelog(source: dict[str, Any], public: dict[str, Any], errors: list[str]) -> None:
+    """Validate deterministic release metadata used only for device-local visit comparison."""
+    if set(source) != {"schemaVersion", "asOf", "releases"} or source.get("schemaVersion") != 1:
+        errors.append("source/changelog.json must use schemaVersion 1 and the exact top-level schema")
+    if public != source:
+        errors.append("site/data/changelog.json must match the reviewed source exactly")
+    try:
+        as_of = date.fromisoformat(str(source.get("asOf")))
+    except ValueError:
+        errors.append("source/changelog.json asOf must be an ISO date")
+        as_of = None
+    releases = source.get("releases")
+    if not isinstance(releases, list) or not releases:
+        errors.append("source/changelog.json releases must be a non-empty array")
+        releases = []
+    release_ids: list[str] = []
+    timestamps: list[datetime] = []
+    allowed_categories = {"market_data", "model", "method", "language", "usability"}
+    for index, release in enumerate(releases):
+        path = f"changelog releases[{index}]"
+        expected = {"id", "version", "publishedAt", "titleEn", "titleFi", "items"}
+        if not isinstance(release, dict) or set(release) != expected:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        release_id = release.get("id")
+        if not isinstance(release_id, str) or not release_id.strip():
+            errors.append(f"{path}.id must be a non-empty string")
+        else:
+            release_ids.append(release_id)
+        for key in ("version", "titleEn", "titleFi"):
+            if not isinstance(release.get(key), str) or not release[key].strip():
+                errors.append(f"{path}.{key} must be a non-empty string")
+        try:
+            timestamp = datetime.fromisoformat(str(release.get("publishedAt")))
+            if timestamp.tzinfo is None:
+                raise ValueError
+            timestamps.append(timestamp)
+            if as_of and timestamp.date() > as_of:
+                errors.append(f"{path}.publishedAt cannot be later than asOf")
+        except ValueError:
+            errors.append(f"{path}.publishedAt must be an offset-aware ISO timestamp")
+        items = release.get("items")
+        if not isinstance(items, list) or not items:
+            errors.append(f"{path}.items must be a non-empty array")
+            continue
+        for item_index, item in enumerate(items):
+            item_path = f"{path}.items[{item_index}]"
+            if not isinstance(item, dict) or set(item) != {"category", "textEn", "textFi"}:
+                errors.append(f"{item_path} must use the exact reviewed schema")
+                continue
+            if item.get("category") not in allowed_categories:
+                errors.append(f"{item_path}.category is not allowlisted")
+            for key in ("textEn", "textFi"):
+                if not isinstance(item.get(key), str) or not item[key].strip():
+                    errors.append(f"{item_path}.{key} must be a non-empty string")
+    if len(release_ids) != len(set(release_ids)):
+        errors.append("changelog release IDs must be unique")
+    if timestamps != sorted(timestamps, reverse=True):
+        errors.append("changelog releases must be ordered newest first")
+    try:
+        expected_public = build_changelog()
+    except (KeyError, TypeError, ValueError) as error:
+        errors.append(f"changelog deterministic build rejected its source: {error}")
+    else:
+        if public != expected_public:
+            errors.append("site/data/changelog.json differs from the deterministic reviewed build")
+
+
 def validate_csv_parity(atlas: dict[str, Any], errors: list[str]) -> None:
     try:
         with COUNTRIES_CSV_PATH.open("r", encoding="utf-8", newline="") as handle:
@@ -558,8 +1071,13 @@ def main() -> None:
         ATLAS_PATH,
         COUNTRIES_CSV_PATH,
         EVIDENCE_CSV_PATH,
+        MARKET_VALUES_JSON_PATH,
+        MARKET_VALUES_CSV_PATH,
+        CHANGELOG_JSON_PATH,
         CURATED_PATH,
         PUBLIC_BASELINE_PATH,
+        MARKET_OBSERVATIONS_PATH,
+        CHANGELOG_PATH,
         UPSTREAM_METADATA_PATH,
         UPSTREAM_SHA_PATH,
     ):
@@ -574,6 +1092,10 @@ def main() -> None:
     curated = load_json(CURATED_PATH)
     baseline = load_json(PUBLIC_BASELINE_PATH)
     metadata = load_json(UPSTREAM_METADATA_PATH)
+    market_source = load_json(MARKET_OBSERVATIONS_PATH)
+    market_values = load_json(MARKET_VALUES_JSON_PATH)
+    changelog_source = load_json(CHANGELOG_PATH)
+    changelog_public = load_json(CHANGELOG_JSON_PATH)
     validate_source_inputs(curated, baseline, metadata, errors)
     if not isinstance(atlas, dict):
         errors.append("atlas.json must contain an object")
@@ -589,11 +1111,27 @@ def main() -> None:
         validate_summary(atlas, errors)
         validate_csv_parity(atlas, errors)
 
+    if not isinstance(market_source, dict):
+        errors.append("market-observations.json must contain an object")
+    elif not isinstance(market_values, dict):
+        errors.append("market-values.json must contain an object")
+    else:
+        validate_market_values(market_source, market_values, errors)
+        validate_market_values_csv(market_values, errors)
+
+    if not isinstance(changelog_source, dict) or not isinstance(changelog_public, dict):
+        errors.append("source and public changelog files must contain objects")
+    else:
+        validate_changelog(changelog_source, changelog_public, errors)
+
     scan_public_text("atlas", atlas, errors)
     scan_public_text("curated", curated, errors)
     scan_public_text("baseline", baseline, errors)
     scan_public_text("metadata", metadata, errors)
-    for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH):
+    scan_public_text("market source", market_source, errors)
+    scan_public_text("market values", market_values, errors)
+    scan_public_text("changelog source", changelog_source, errors)
+    for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH, MARKET_VALUES_CSV_PATH):
         scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
     for path in sorted((ROOT / "site").rglob("*")):
         # JavaScript source contains escaped URL/regex literals such as
