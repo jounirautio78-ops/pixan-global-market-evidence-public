@@ -10,13 +10,13 @@
     US: ["ftc.gov", "usitc.gov", "fda.gov", "cbp.gov"],
     CN: ["stats.gov.cn", "customs.gov.cn", "samr.gov.cn"],
     PL: ["gov.pl"],
-    GB: ["gov.uk"],
+    GB: ["gov.uk", "mhra.gov.uk"],
     SE: ["folkhalsomyndigheten.se", "skatteverket.se", "tullverket.se"],
     IT: ["adm.gov.it", "salute.gov.it"],
     FR: ["anses.fr", "cada.fr", "gouv.fr", "insee.fr"],
     ES: ["gob.es"],
     NL: ["rijksoverheid.nl", "rivm.nl", "belastingdienst.nl"],
-    FI: ["suomi.fi", "vero.fi", "finlex.fi", "tulli.fi"],
+    FI: ["lvv.fi", "suomi.fi", "vero.fi", "finlex.fi", "tulli.fi"],
     DK: ["erhvervsstyrelsen.dk", "sik.dk", "skat.dk"],
     JP: ["mof.go.jp", "customs.go.jp", "mhlw.go.jp"],
     KR: ["customs.go.kr", "open.go.kr", "go.kr"],
@@ -30,6 +30,34 @@
     "access_token", "api_key", "apikey", "authorization", "key", "password",
     "secret", "sig", "signature", "token", "x-amz-credential", "x-amz-signature"
   ]);
+  const PRIVATE_METADATA_KEYS = new Set([
+    "acknowledgedon", "acknowledgementon", "acknowledgmenton", "bcc", "body", "cc",
+    "conversationid", "correspondence", "deliveredon", "email", "emailaddress", "from",
+    "gmailid", "header", "headers", "messageid", "missiveid", "mobile", "phone",
+    "phonenumber", "receivedon", "recipient", "recipientemail", "recipientidentity",
+    "recipientname", "sender", "senderemail", "senderidentity", "sendername", "senttime",
+    "senttimestamp", "subject", "telephone", "threadid", "to"
+  ]);
+  const EXPECTED_DISPATCH = {
+    GB: {
+      state: "sent",
+      sentOn: "2026-07-16",
+      publicAuthorityReference: "CEC 261515",
+      responseState: "not_publicly_recorded"
+    },
+    FI: {
+      state: "sent",
+      sentOn: "2026-07-22",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    PL: {
+      state: "sent",
+      sentOn: "2026-07-22",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    }
+  };
 
   let programme = null;
 
@@ -61,14 +89,22 @@
     }
   }
 
-  function containsSentDateKey(value) {
-    if (Array.isArray(value)) return value.some(containsSentDateKey);
+  function containsPrivateMetadataKey(value) {
+    if (Array.isArray(value)) return value.some(containsPrivateMetadataKey);
     if (!value || typeof value !== "object") return false;
     return Object.entries(value).some(([key, item]) => {
       const normalized = key.toLowerCase().replace(/[^a-z]/g, "");
-      const forbidden = normalized.includes("sent") && (normalized.includes("date") || normalized.endsWith("at"));
-      return forbidden || containsSentDateKey(item);
+      return PRIVATE_METADATA_KEYS.has(normalized) || containsPrivateMetadataKey(item);
     });
+  }
+
+  function validIsoDate(value) {
+    if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const [year, month, day] = value.split("-").map(Number);
+    const parsed = new Date(Date.UTC(year, month - 1, day));
+    return parsed.getUTCFullYear() === year
+      && parsed.getUTCMonth() === month - 1
+      && parsed.getUTCDate() === day;
   }
 
   function exactKeys(value, expected, label) {
@@ -95,10 +131,10 @@
       "schemaVersion", "programmeId", "verificationDate", "status",
       "independenceNoticeEn", "independenceNoticeFi", "ranking", "scope", "routes"
     ], "programme");
-    if (!raw || raw.schemaVersion !== 1 || raw.status !== "draft_not_sent") {
+    if (!raw || raw.schemaVersion !== 2 || raw.status !== "partially_dispatched") {
       throw new Error("unsupported request programme");
     }
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(raw.verificationDate || "")) {
+    if (!validIsoDate(raw.verificationDate)) {
       throw new Error("invalid verification date");
     }
     if (!raw.ranking || raw.ranking.type !== "operational_evidence_acquisition_order"
@@ -116,22 +152,53 @@
         raw.scope.commonFieldsEn, raw.scope.commonFieldsFi].every(textArray)) {
       throw new Error("programme metadata has invalid field types");
     }
-    if (containsSentDateKey(raw)) throw new Error("sent-date fields are forbidden");
+    if (containsPrivateMetadataKey(raw)) throw new Error("private correspondence metadata is forbidden");
+    const publicNotices = `${raw.independenceNoticeEn}\n${raw.independenceNoticeFi}`.toLowerCase();
+    if (publicNotices.includes("no request has been sent")
+      || publicNotices.includes("yhtäkään pyyntöä ei ole lähetetty")) {
+      throw new Error("false all-draft claim");
+    }
     if (!Array.isArray(raw.routes) || raw.routes.length !== 20) {
       throw new Error("expected exactly 20 routes");
     }
 
     const countries = new Set();
     const ranks = new Set();
+    const sentCountries = new Set();
     for (const route of raw.routes) {
       exactKeys(route, [
         "operationalRank", "priorityCode", "wave", "countryIso2", "countryEn", "countryFi",
-        "status", "rationaleEn", "rationaleFi", "primaryAuthority", "recordsRequestedEn",
+        "status", "dispatch", "rationaleEn", "rationaleFi", "primaryAuthority", "recordsRequestedEn",
         "recordsRequestedFi", "requestChannel", "legalBasis", "languages",
         "requesterEligibility", "fallbackAuthority", "officialSources"
       ], "route");
-      if (!route || route.status !== "draft_not_sent" || !/^[A-Z]{2}$/.test(route.countryIso2 || "")) {
+      if (!route || !["sent", "draft_not_sent"].includes(route.status)
+        || !/^[A-Z]{2}$/.test(route.countryIso2 || "")) {
         throw new Error("invalid route status or country");
+      }
+      exactKeys(route.dispatch, ["state", "sentOn", "publicAuthorityReference", "responseState"], "dispatch");
+      const expectedDispatch = EXPECTED_DISPATCH[route.countryIso2] || {
+        state: "draft_not_sent",
+        sentOn: null,
+        publicAuthorityReference: null,
+        responseState: "not_applicable"
+      };
+      if (route.status !== route.dispatch.state
+        || route.dispatch.state !== expectedDispatch.state
+        || route.dispatch.sentOn !== expectedDispatch.sentOn
+        || route.dispatch.publicAuthorityReference !== expectedDispatch.publicAuthorityReference
+        || route.dispatch.responseState !== expectedDispatch.responseState) {
+        throw new Error("dispatch tracking differs from the approved public record");
+      }
+      if (route.status === "sent") {
+        sentCountries.add(route.countryIso2);
+        if (!validIsoDate(route.dispatch.sentOn) || route.dispatch.sentOn > raw.verificationDate) {
+          throw new Error("invalid public dispatch date");
+        }
+        if (route.dispatch.publicAuthorityReference !== null
+          && !/^[A-Z0-9][A-Z0-9 ./_-]{2,39}$/.test(route.dispatch.publicAuthorityReference)) {
+          throw new Error("unsafe public authority reference");
+        }
       }
       if (!Number.isInteger(route.operationalRank) || route.operationalRank < 1 || route.operationalRank > 20) {
         throw new Error("invalid operational rank");
@@ -185,6 +252,9 @@
       || Object.keys(OFFICIAL_HOSTS).some((iso) => !countries.has(iso))) {
       throw new Error("country set differs from the official-domain allowlist");
     }
+    if (sentCountries.size !== 3 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
+      throw new Error("sent country set must be exactly FI, GB and PL");
+    }
     return raw;
   }
 
@@ -198,11 +268,17 @@
     const card = element("article", "request-program-card");
     card.dataset.wave = route.wave || "";
     card.dataset.local = route.requesterEligibility?.localRequester || "";
+    card.dataset.status = route.status;
 
     const head = element("div", "request-program-card-head");
+    const sent = route.status === "sent";
     head.append(
       element("span", "request-program-rank", `#${String(route.operationalRank).padStart(2, "0")} · ${route.priorityCode}`),
-      element("span", "request-program-status", l("Luonnos — ei lähetetty", "Draft — not sent"))
+      element(
+        "span",
+        sent ? "request-program-status request-program-status-sent" : "request-program-status",
+        sent ? l("Lähetetty", "Sent") : l("Luonnos — ei lähetetty", "Draft — not sent")
+      )
     );
 
     const title = element("h3", "", isFi() ? route.countryFi : route.countryEn);
@@ -210,11 +286,11 @@
     const meta = element("ul", "request-program-meta");
     meta.append(
       metadata(
-        l("Ensisijainen viranomainen", "Primary authority"),
+        l("Suunniteltu ensisijainen viranomainen", "Planned primary authority"),
         isFi() ? route.primaryAuthority.nameFi : route.primaryAuthority.nameEn
       ),
       metadata(
-        l("Virallinen kanava", "Official channel"),
+        l("Suunniteltu virallinen kanava", "Planned official channel"),
         isFi() ? route.requestChannel.nameFi : route.requestChannel.nameEn
       ),
       metadata(
@@ -228,6 +304,15 @@
               : l("Paikallista pyytäjää ei tunnistettu vaadittavan", "No local-requester requirement identified")
       )
     );
+    if (sent) {
+      meta.append(metadata(l("Julkinen lähetystieto", "Public dispatch record"), route.dispatch.sentOn));
+      if (route.dispatch.publicAuthorityReference) {
+        meta.append(metadata(
+          l("Julkinen viranomaisviite", "Public authority reference"),
+          route.dispatch.publicAuthorityReference
+        ));
+      }
+    }
 
     const caveat = element(
       "p",
@@ -254,7 +339,11 @@
       sourceLinks.append(sourceLink);
     }
     sources.append(sourceLinks);
-    const link = element("a", "button button-secondary button-small request-program-link", l("Avaa virallinen kanava", "Open official channel"));
+    const link = element(
+      "a",
+      "button button-secondary button-small request-program-link",
+      l("Avaa suunniteltu virallinen kanava", "Open planned official channel")
+    );
     link.href = route.requestChannel.url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
@@ -273,12 +362,14 @@
     grid.hidden = false;
 
     const status = root.querySelector("[data-request-program-status]");
+    const sentCount = routes.filter((route) => route.status === "sent").length;
+    const draftCount = routes.length - sentCount;
     status.className = "bank-package-status bank-package-status-ready";
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `20 luonnosreittiä tarkistettu ${programme.verificationDate}; yhtäkään pyyntöä ei ole lähetetty.`,
-        `20 draft routes verified on ${programme.verificationDate}; no request has been sent.`
+        `${sentCount} lähetetty · ${draftCount} luonnosta · tarkistettu ${programme.verificationDate}.`,
+        `${sentCount} sent · ${draftCount} drafts · verified ${programme.verificationDate}.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

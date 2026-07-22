@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "release": {
-    "id": "2026-07-22-bilingual-package-and-request-program-v8",
-    "version": "2026.07.22-8",
-    "publishedAt": "2026-07-22T19:15:00+03:00"
+    "id": "2026-07-22-first-authority-requests-v9",
+    "version": "2026.07.22-9",
+    "publishedAt": "2026-07-22T23:18:00+03:00"
   },
   "asOf": "2026-07-22",
   "translationInputs": [
@@ -13,29 +13,29 @@
     },
     {
       "path": "source/bank-deck-en-translations.json",
-      "sha256": "afaed6428570164fffc3dfea41b20dc2c352f020eb38c2df78fa714589f9106f"
+      "sha256": "06be935c0febd57b080d0e6394676069ee023af62ac896ee0184ffe074bcfdc7"
     }
   ],
   "sourceArtifacts": [
     {
       "id": "short-deck-fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "35e4efdac8179bf0d880e04777fb51cdd4c6f829afb0b55ca54d0c423240d2d8"
+      "sha256": "3c9d618b40272ae0b6800ca23533a0c888cf331ec1d39539a06fd63f08befd63"
     },
     {
       "id": "medium-deck-fi",
       "path": "site/downloads/pixan-bank-deck-medium-fi.pptx",
-      "sha256": "1993c02e005be46493570bc12d1afc4fd52e35dc7c1da27fc9d991b178cc7d0c"
+      "sha256": "10180130a83a08df7001272590858b5f0169de60d07b33cda8a1cb16b6d7847b"
     },
     {
       "id": "large-deck-fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "4de89ce32778154519c608977692e8cf26c33e5c4a9075f1fc12feda3d6ca395"
+      "sha256": "7edc81980258f05da09db6657bf42ab7cee1980860c1f163d39f4c1c48a53677"
     },
     {
       "id": "evidence-register-fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "198a830152e6d55ffeb456d9adc3aa33a6e387e6e1fcf080055e9b607882ce9f"
+      "sha256": "012504aa004fa8f2672afb8bf01d14453df93fba51bb69001758f58e992d82ca"
     }
   ],
   "artifacts": [
@@ -43,32 +43,32 @@
       "id": "short-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "5d697b507bf6916a49fb28423f72d8a121e6f26a4702463329232853551100c0",
-      "bytes": 50599,
+      "sha256": "63cbb7653278951687e5a8a6d07e1f6b6004efdd8f15ac03b66c8bb8c53dff75",
+      "bytes": 50580,
       "slideCount": 6
     },
     {
       "id": "medium-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-medium-en.pptx",
-      "sha256": "8fa883683679fefc61af33bbc6a30eefdd88231c2e6123183abfabe167c6aa8f",
-      "bytes": 73141,
+      "sha256": "7fe2f4419987050278e89bbc819636004977bb3c62b26a7a645f91fee74856e4",
+      "bytes": 73135,
       "slideCount": 12
     },
     {
       "id": "large-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "bdb3754143d20bb26400cda801aec4c7f2c79bcf19da7ac1bf320cc09e593239",
-      "bytes": 139837,
+      "sha256": "8dc1175fce39f72e0569a43dfbaa0cdf6f00c418353be55b2d54b4bfb056cc37",
+      "bytes": 139847,
       "slideCount": 30
     },
     {
       "id": "evidence-register-en",
       "kind": "xlsx",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "a77a94c1b8f4ec7ac45760a482a96428cd9bb7e66a7ac3e6480ea34f459f6d51",
-      "bytes": 23735,
+      "sha256": "e62a55d5006436a6d42eaaf1ba7c057355a00287bdc069134ecd7df46c91b449",
+      "bytes": 23733,
       "rowCount": 45
     }
   ],
@@ -78,7 +78,7 @@
     "sourceLocked": true,
     "byteReproducible": false,
     "byteReproducibilityNote": "The release locks reviewed output bytes and all inputs. The artifact-tool exporter does not guarantee identical OOXML relationship identifiers across rebuilds.",
-    "executionNote": "The reviewed builders were executed from standard input with only their obsolete Finnish source-hash sentinels replaced by the final locked source hashes; the builder files themselves were not modified.",
+    "executionNote": "The reviewed builders were executed from standard input with their obsolete Finnish source-hash sentinels replaced by the final locked source hashes and the workbook summary version advanced from v8 to v9; the builder files themselves were not modified.",
     "builders": [
       {
         "name": "build_bank_decks_en.mjs",

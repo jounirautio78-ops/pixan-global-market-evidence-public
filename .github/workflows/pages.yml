@@ -43,13 +43,17 @@ jobs:
       - name: Build the public atlas and lender package
         run: |
           python scripts/build_atlas.py
+          python scripts/build_data_request_program.py
           python scripts/build_bank_package.py
 
       - name: Validate the public atlas and lender package
         run: |
           python scripts/test_market_estimation.py
+          python scripts/test_data_request_program.py
+          python scripts/validate_data_request_program.py
           python scripts/validate_public.py
           python scripts/validate_bank_package.py
+          python scripts/test_public_privacy.py
           for file in site/assets/*.js; do node --check "$file"; done
 
       - name: Verify reviewed output and public boundary

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the draft-only data-request publication boundary."""
+"""Mutation tests for the privacy-safe public data-request tracking boundary."""
 
 from __future__ import annotations
 
@@ -19,6 +19,11 @@ class DataRequestBoundaryTests(unittest.TestCase):
         errors: list[str] = []
         validate_program(candidate, errors)
         self.assertTrue(errors, "mutated programme unexpectedly passed validation")
+
+    def test_approved_public_tracking_passes(self) -> None:
+        errors: list[str] = []
+        validate_program(copy.deepcopy(self.program), errors)
+        self.assertEqual(errors, [])
 
     def test_rejects_top_level_sent_flag(self) -> None:
         self.assert_rejected(lambda item: item.__setitem__("sent", True))
@@ -44,8 +49,63 @@ class DataRequestBoundaryTests(unittest.TestCase):
     def test_rejects_string_instead_of_languages_array(self) -> None:
         self.assert_rejected(lambda item: item["routes"][0].__setitem__("languages", "en"))
 
-    def test_rejects_sent_status(self) -> None:
+    def test_rejects_wrong_sent_country_set(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "DE")
+            route["status"] = "sent"
+            route["dispatch"] = {
+                "state": "sent",
+                "sentOn": "2026-07-22",
+                "publicAuthorityReference": None,
+                "responseState": "not_publicly_recorded",
+            }
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_status_dispatch_mismatch(self) -> None:
         self.assert_rejected(lambda item: item["routes"][0].__setitem__("status", "sent"))
+
+    def test_rejects_future_sent_date(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "FI")
+            route["dispatch"]["sentOn"] = "2026-07-23"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_unsafe_public_reference(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "GB")
+            route["dispatch"]["publicAuthorityReference"] = "private@example.com"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_private_recipient_metadata(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "FI")
+            route["dispatch"]["recipientEmail"] = "private@example.com"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_private_message_identifier(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "PL")
+            route["dispatch"]["messageId"] = "private-message-id"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_acknowledgement_metadata(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "GB")
+            route["dispatch"]["acknowledgedOn"] = "2026-07-17"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_unapproved_response_state(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "GB")
+            route["dispatch"]["responseState"] = "acknowledged"
+
+        self.assert_rejected(mutate)
 
 
 if __name__ == "__main__":

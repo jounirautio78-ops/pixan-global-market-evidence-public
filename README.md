@@ -25,9 +25,9 @@ python scripts/validate_bank_package.py
 
 ## Official-data request programme
 
-The shareable review page also exposes a verified 20-country acquisition queue for existing aggregate sales, excise, customs and product-notification records. The ranking is an operational evidence-acquisition order, not a ranking of market size. Every route is visibly marked `draft_not_sent`; the repository does not send requests and contains no sent-date field.
+The shareable review page exposes a verified 20-country planned-route queue for existing aggregate sales, excise, customs and product-notification records. The ranking is an operational evidence-acquisition order, not a ranking of market size. Its privacy-safe public ledger marks exactly three country routes `sent` and 17 `draft_not_sent`. A sent marker records only the country route, calendar date and any allowlisted public authority reference; it does not establish delivery, acknowledgement, routing to the listed authority or a response. The repository itself does not send requests, and the downloadable request templates remain visibly `DRAFT — NOT SENT`.
 
-`source/top20-data-request-routes.json` records each official request channel, legal basis, language, requester-eligibility caveat, fallback and verification date. `scripts/build_data_request_program.py` creates the public JSON, CSV and neutral English/Finnish request templates. `scripts/validate_data_request_program.py` enforces exactly 20 unique countries, official HTTPS host allowlists, the draft-only boundary and deterministic output.
+`source/top20-data-request-routes.json` records each planned official request channel, legal basis, language, requester-eligibility caveat, fallback, verification date and exact schema-v2 dispatch object. `scripts/build_data_request_program.py` creates the public JSON, privacy-safe tracking CSV and neutral English/Finnish request templates. `scripts/validate_data_request_program.py` enforces exactly 20 unique countries, the FI/GB/PL sent set, approved calendar dates and public reference, official HTTPS host allowlists, rejection of private correspondence metadata and deterministic output.
 
 ```bash
 python scripts/build_data_request_program.py

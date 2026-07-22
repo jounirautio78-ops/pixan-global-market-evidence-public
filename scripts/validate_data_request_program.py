@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+from datetime import date
 import hashlib
 import io
 import json
@@ -14,6 +15,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from build_data_request_program import (
+    CSV_FIELDS,
     OUTPUT_CSV,
     OUTPUT_JSON,
     OUTPUT_TEMPLATE_EN,
@@ -29,17 +31,38 @@ from build_data_request_program import (
 
 
 EXPECTED_DATE = "2026-07-22"
-EXPECTED_STATUS = "draft_not_sent"
+EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 LOCAL_REQUESTER_VALUES = {"not_required", "recommended", "conditional", "required"}
-SENT_DATE_KEYS = {
-    "sentat",
-    "sentdate",
-    "datesent",
-    "requestsentat",
-    "requestsentdate",
-    "lastsentat",
-    "lastsentdate",
+ROUTE_STATUS_VALUES = {"draft_not_sent", "sent"}
+RESPONSE_STATE_VALUES = {"not_applicable", "not_publicly_recorded"}
+EXPECTED_DISPATCH = {
+    "GB": {
+        "state": "sent",
+        "sentOn": "2026-07-16",
+        "publicAuthorityReference": "CEC 261515",
+        "responseState": "not_publicly_recorded",
+    },
+    "FI": {
+        "state": "sent",
+        "sentOn": "2026-07-22",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "PL": {
+        "state": "sent",
+        "sentOn": "2026-07-22",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+}
+PRIVATE_METADATA_KEYS = {
+    "acknowledgedon", "acknowledgementon", "acknowledgmenton", "bcc", "body", "cc",
+    "conversationid", "correspondence", "deliveredon", "email", "emailaddress", "from",
+    "gmailid", "header", "headers", "messageid", "missiveid", "mobile", "phone",
+    "phonenumber", "receivedon", "recipient", "recipientemail", "recipientidentity",
+    "recipientname", "sender", "senderemail", "senderidentity", "sendername", "senttime",
+    "senttimestamp", "subject", "telephone", "threadid", "to",
 }
 FORBIDDEN_PUBLIC_TEXT = ("/users/", "file://")
 PRIVATE_IDENTIFIER_FINGERPRINTS = frozenset(
@@ -74,7 +97,7 @@ SCOPE_KEYS = {
 }
 ROUTE_KEYS = {
     "operationalRank", "priorityCode", "wave", "countryIso2", "countryEn", "countryFi",
-    "status", "rationaleEn", "rationaleFi", "primaryAuthority", "recordsRequestedEn",
+    "status", "dispatch", "rationaleEn", "rationaleFi", "primaryAuthority", "recordsRequestedEn",
     "recordsRequestedFi", "requestChannel", "legalBasis", "languages",
     "requesterEligibility", "fallbackAuthority", "officialSources",
 }
@@ -82,6 +105,7 @@ AUTHORITY_KEYS = {"nameEn", "nameFi"}
 LINKED_AUTHORITY_KEYS = {"nameEn", "nameFi", "url"}
 ELIGIBILITY_KEYS = {"localRequester", "caveatEn", "caveatFi"}
 SOURCE_KEYS = {"labelEn", "labelFi", "url", "verifiedOn"}
+DISPATCH_KEYS = {"state", "sentOn", "publicAuthorityReference", "responseState"}
 
 OFFICIAL_HOSTS = {
     "DE": {"bund.de", "destatis.de", "zoll.de"},
@@ -89,13 +113,13 @@ OFFICIAL_HOSTS = {
     "US": {"ftc.gov", "usitc.gov", "fda.gov", "cbp.gov"},
     "CN": {"stats.gov.cn", "customs.gov.cn", "samr.gov.cn"},
     "PL": {"gov.pl"},
-    "GB": {"gov.uk"},
+    "GB": {"gov.uk", "mhra.gov.uk"},
     "SE": {"folkhalsomyndigheten.se", "skatteverket.se", "tullverket.se"},
     "IT": {"adm.gov.it", "salute.gov.it"},
     "FR": {"anses.fr", "cada.fr", "gouv.fr", "insee.fr"},
     "ES": {"gob.es"},
     "NL": {"rijksoverheid.nl", "rivm.nl", "belastingdienst.nl"},
-    "FI": {"suomi.fi", "vero.fi", "finlex.fi", "tulli.fi"},
+    "FI": {"lvv.fi", "suomi.fi", "vero.fi", "finlex.fi", "tulli.fi"},
     "DK": {"erhvervsstyrelsen.dk", "sik.dk", "skat.dk"},
     "JP": {"mof.go.jp", "customs.go.jp", "mhlw.go.jp"},
     "KR": {"customs.go.kr", "open.go.kr", "go.kr"},
@@ -123,16 +147,25 @@ def strings(value: Any):
             yield from strings(item)
 
 
-def find_sent_date_keys(value: Any, path: str = "root"):
+def find_private_metadata_keys(value: Any, path: str = "root"):
     if isinstance(value, dict):
         for key, item in value.items():
             normalised = re.sub(r"[^a-z]", "", key.casefold())
-            if normalised in SENT_DATE_KEYS:
+            if normalised in PRIVATE_METADATA_KEYS:
                 yield f"{path}.{key}"
-            yield from find_sent_date_keys(item, f"{path}.{key}")
+            yield from find_private_metadata_keys(item, f"{path}.{key}")
     elif isinstance(value, list):
         for index, item in enumerate(value):
-            yield from find_sent_date_keys(item, f"{path}[{index}]")
+            yield from find_private_metadata_keys(item, f"{path}[{index}]")
+
+
+def valid_iso_date(value: Any) -> bool:
+    if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        return False
+    try:
+        return date.fromisoformat(value).isoformat() == value
+    except ValueError:
+        return False
 
 
 def route_urls(route: dict[str, Any]) -> list[str]:
@@ -177,14 +210,14 @@ def require_text_list(value: Any, label: str, errors: list[str]) -> bool:
 def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     if not require_exact_keys(program, TOP_LEVEL_KEYS, "programme", errors):
         return
-    if program.get("schemaVersion") != 1:
-        errors.append("schemaVersion must be 1")
+    if program.get("schemaVersion") != 2:
+        errors.append("schemaVersion must be 2")
     for field in ("programmeId", "independenceNoticeEn", "independenceNoticeFi"):
         require_text(program.get(field), field, errors)
-    if program.get("verificationDate") != EXPECTED_DATE:
+    if not valid_iso_date(program.get("verificationDate")) or program.get("verificationDate") != EXPECTED_DATE:
         errors.append(f"verificationDate must be {EXPECTED_DATE}")
-    if program.get("status") != EXPECTED_STATUS:
-        errors.append(f"programme status must be {EXPECTED_STATUS}")
+    if program.get("status") != EXPECTED_PROGRAMME_STATUS:
+        errors.append(f"programme status must be {EXPECTED_PROGRAMME_STATUS}")
     ranking = program.get("ranking", {})
     if not require_exact_keys(ranking, RANKING_KEYS, "ranking", errors):
         return
@@ -230,13 +263,44 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     if len(set(priorities)) != 20:
         errors.append("priorityCode values must be unique")
 
+    sent_countries: set[str] = set()
     for route in routes:
         iso = route.get("countryIso2", "?")
         label = f"route {iso}"
         if not require_exact_keys(route, ROUTE_KEYS, label, errors):
             continue
-        if route.get("status") != EXPECTED_STATUS:
-            errors.append(f"{label}: status must be {EXPECTED_STATUS}")
+        if route.get("status") not in ROUTE_STATUS_VALUES:
+            errors.append(f"{label}: status must be sent or draft_not_sent")
+        dispatch = route.get("dispatch")
+        if require_exact_keys(dispatch, DISPATCH_KEYS, f"{label}.dispatch", errors):
+            if dispatch.get("state") not in ROUTE_STATUS_VALUES:
+                errors.append(f"{label}: invalid dispatch state")
+            if dispatch.get("responseState") not in RESPONSE_STATE_VALUES:
+                errors.append(f"{label}: invalid response state")
+            if route.get("status") != dispatch.get("state"):
+                errors.append(f"{label}: route status and dispatch state must match")
+            expected_dispatch = EXPECTED_DISPATCH.get(iso, {
+                "state": "draft_not_sent",
+                "sentOn": None,
+                "publicAuthorityReference": None,
+                "responseState": "not_applicable",
+            })
+            if dispatch != expected_dispatch:
+                errors.append(f"{label}: dispatch tracking differs from the approved public record")
+            if dispatch.get("state") == "sent":
+                sent_countries.add(iso)
+                if not valid_iso_date(dispatch.get("sentOn")):
+                    errors.append(f"{label}: sentOn must be an ISO calendar date")
+                elif dispatch["sentOn"] > EXPECTED_DATE:
+                    errors.append(f"{label}: sentOn cannot be after verificationDate")
+                reference = dispatch.get("publicAuthorityReference")
+                if reference is not None and (
+                    not isinstance(reference, str)
+                    or not re.fullmatch(r"[A-Z0-9][A-Z0-9 ./_-]{2,39}", reference)
+                ):
+                    errors.append(f"{label}: publicAuthorityReference is unsafe")
+            elif any(dispatch.get(field) is not None for field in ("sentOn", "publicAuthorityReference")):
+                errors.append(f"{label}: draft route cannot expose dispatch data")
         for field in (
             "countryEn",
             "countryFi",
@@ -314,14 +378,20 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
             elif not official_host(host, allowed_hosts):
                 errors.append(f"{label}: URL host is not on the country official-domain allowlist: {host}")
 
-    sent_date_paths = list(find_sent_date_keys(program))
-    if sent_date_paths:
-        errors.append("sent-date fields are forbidden: " + ", ".join(sent_date_paths))
+    if sent_countries != set(EXPECTED_DISPATCH):
+        errors.append("sent country set must be exactly FI, GB and PL")
+    if sum(route.get("status") == "sent" for route in routes) != 3:
+        errors.append("programme must contain exactly 3 sent routes and 17 drafts")
+    private_metadata_paths = list(find_private_metadata_keys(program))
+    if private_metadata_paths:
+        errors.append("private correspondence metadata is forbidden: " + ", ".join(private_metadata_paths))
     programme_strings = list(strings(program))
     combined = "\n".join(programme_strings).casefold()
     for phrase in FORBIDDEN_PUBLIC_TEXT:
         if phrase in combined:
             errors.append(f"public programme contains forbidden text {phrase!r}")
+    if "no request has been sent" in combined or "yhtäkään pyyntöä ei ole lähetetty" in combined:
+        errors.append("public programme contains a false all-draft claim")
     if any(contains_private_identifier(value) for value in programme_strings):
         errors.append("public programme contains a private identifier fingerprint")
 
@@ -335,8 +405,8 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
         published = read_json(OUTPUT_JSON)
         if published != normalised_program(program):
             errors.append("published JSON differs semantically from source")
-        if list(find_sent_date_keys(published)):
-            errors.append("published JSON contains a sent-date field")
+        if list(find_private_metadata_keys(published)):
+            errors.append("published JSON contains private correspondence metadata")
 
     if not OUTPUT_CSV.exists() or OUTPUT_CSV.read_bytes() != expected_csv:
         errors.append("site/data/top20-data-request-routes.csv is missing or stale")
@@ -344,12 +414,19 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
         rows = list(csv.DictReader(io.StringIO(OUTPUT_CSV.read_text(encoding="utf-8"))))
         if len(rows) != 20 or len({row["countryIso2"] for row in rows}) != 20:
             errors.append("published CSV must contain exactly 20 unique countries")
-        if any(row["status"] != EXPECTED_STATUS for row in rows):
-            errors.append("published CSV contains a status other than draft_not_sent")
+        if rows and list(rows[0]) != CSV_FIELDS:
+            errors.append("published CSV columns differ from the privacy-safe tracking schema")
+        if {row["countryIso2"] for row in rows if row["status"] == "sent"} != set(EXPECTED_DISPATCH):
+            errors.append("published CSV sent country set must be exactly FI, GB and PL")
+        if any(row["status"] not in ROUTE_STATUS_VALUES for row in rows):
+            errors.append("published CSV contains an unsupported status")
         if any(row["isMarketSizeRanking"] != "false" for row in rows):
             errors.append("published CSV must mark isMarketSizeRanking=false")
-        if any("sent" in header.casefold() and "date" in header.casefold() for header in (rows[0] if rows else {})):
-            errors.append("published CSV contains a sent-date column")
+        if any(
+            re.sub(r"[^a-z]", "", header.casefold()) in PRIVATE_METADATA_KEYS
+            for header in (rows[0] if rows else {})
+        ):
+            errors.append("published CSV contains a private correspondence metadata column")
 
     template_pairs = (
         (
@@ -396,8 +473,8 @@ def main() -> int:
         return 1
 
     print(
-        "PASS: 20 unique draft_not_sent country routes; operational ranking, "
-        "official HTTPS URLs, requester caveats, no sent dates, and generated files verified."
+        "PASS: schema v2 with 3 sent and 17 draft country routes; privacy-safe dispatch tracking, "
+        "operational ranking, official HTTPS URLs, requester caveats, and generated files verified."
     )
     return 0
 
