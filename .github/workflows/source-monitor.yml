@@ -1,0 +1,198 @@
+name: Monitor Marnet public snapshot
+
+on:
+  schedule:
+    - cron: "23 6 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: source-monitor-marnet-upstream
+  cancel-in-progress: true
+
+jobs:
+  compare:
+    name: Compare upstream snapshot hash
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.snapshot.outputs.changed }}
+      baseline_sha: ${{ steps.snapshot.outputs.baseline_sha }}
+      remote_sha: ${{ steps.snapshot.outputs.remote_sha }}
+      baseline_bytes: ${{ steps.snapshot.outputs.baseline_bytes }}
+      remote_bytes: ${{ steps.snapshot.outputs.remote_bytes }}
+      baseline_commit: ${{ steps.snapshot.outputs.baseline_commit }}
+      upstream_commit: ${{ steps.snapshot.outputs.upstream_commit }}
+      upstream_url: ${{ steps.snapshot.outputs.upstream_url }}
+    steps:
+      - name: Check out the frozen baseline
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Resolve, validate, and hash the upstream snapshot
+        id: snapshot
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          METADATA_FILE: source/marnet-upstream.metadata.json
+          SHA256_FILE: source/marnet-upstream.sha256
+        run: |
+          set -euo pipefail
+
+          test -f "$METADATA_FILE"
+          test -f "$SHA256_FILE"
+          python3 -m json.tool "$METADATA_FILE" >/dev/null
+
+          upstream_repository="$(jq -er '.repository' "$METADATA_FILE")"
+          upstream_branch="$(jq -er '.branch' "$METADATA_FILE")"
+          upstream_path="$(jq -er '.path' "$METADATA_FILE")"
+          baseline_commit="$(jq -er '.commit' "$METADATA_FILE")"
+          baseline_sha="$(jq -er '.sha256' "$METADATA_FILE")"
+          baseline_bytes="$(jq -er '.size' "$METADATA_FILE")"
+
+          if [[ "$upstream_repository" != "marnet-collab/pixan-evidence-center" || "$upstream_branch" != "main" || "$upstream_path" != "data/dashboard.json" ]]; then
+            echo "::error::Unexpected upstream source metadata."
+            exit 1
+          fi
+          if [[ ! "$baseline_commit" =~ ^[0-9a-f]{40}$ || ! "$baseline_sha" =~ ^[0-9a-f]{64}$ || ! "$baseline_bytes" =~ ^[0-9]+$ ]]; then
+            echo "::error::Recorded upstream commit, hash, or byte size is invalid."
+            exit 1
+          fi
+          expected_sidecar="${baseline_sha}  ${upstream_path}"
+          if [[ "$(tr -d '\r\n' < "$SHA256_FILE")" != "$expected_sidecar" ]]; then
+            echo "::error::SHA-256 sidecar does not match source metadata."
+            exit 1
+          fi
+
+          upstream_commit="$(
+            gh api "repos/$upstream_repository/commits/$upstream_branch" --jq .sha
+          )"
+          if [[ ! "$upstream_commit" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::Could not resolve a full upstream commit SHA."
+            exit 1
+          fi
+
+          upstream_url="https://raw.githubusercontent.com/${upstream_repository}/${upstream_commit}/${upstream_path}"
+          remote_file="$RUNNER_TEMP/marnet-upstream-snapshot.json"
+
+          curl \
+            --fail \
+            --location \
+            --silent \
+            --show-error \
+            --proto '=https' \
+            --tlsv1.2 \
+            --retry 2 \
+            --retry-all-errors \
+            --max-time 30 \
+            --max-filesize 10000000 \
+            --output "$remote_file" \
+            "$upstream_url"
+
+          python3 -m json.tool "$remote_file" >/dev/null
+
+          remote_sha="$(sha256sum "$remote_file" | awk '{print $1}')"
+          remote_bytes="$(wc -c < "$remote_file" | tr -d '[:space:]')"
+
+          changed=false
+          if [[ "$baseline_sha" != "$remote_sha" || "$baseline_bytes" != "$remote_bytes" ]]; then
+            changed=true
+          fi
+
+          printf 'changed=%s\n' "$changed" >> "$GITHUB_OUTPUT"
+          printf 'baseline_sha=%s\n' "$baseline_sha" >> "$GITHUB_OUTPUT"
+          printf 'remote_sha=%s\n' "$remote_sha" >> "$GITHUB_OUTPUT"
+          printf 'baseline_bytes=%s\n' "$baseline_bytes" >> "$GITHUB_OUTPUT"
+          printf 'remote_bytes=%s\n' "$remote_bytes" >> "$GITHUB_OUTPUT"
+          printf 'baseline_commit=%s\n' "$baseline_commit" >> "$GITHUB_OUTPUT"
+          printf 'upstream_commit=%s\n' "$upstream_commit" >> "$GITHUB_OUTPUT"
+          printf 'upstream_url=%s\n' "$upstream_url" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "### Marnet snapshot monitor"
+            echo
+            echo "Recorded commit: \`$baseline_commit\`"
+            echo "Current upstream commit: \`$upstream_commit\`"
+            echo
+            echo "| Item | Recorded full-upstream baseline | Current upstream |"
+            echo "| --- | ---: | ---: |"
+            echo "| SHA-256 | \`$baseline_sha\` | \`$remote_sha\` |"
+            echo "| Bytes | $baseline_bytes | $remote_bytes |"
+            echo "| Review required | **$changed** | **$changed** |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  report:
+    name: Open or update a human-review issue
+    needs: compare
+    if: needs.compare.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Report the changed immutable snapshot
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: "Source monitor: Marnet dashboard snapshot changed"
+          BASELINE_SHA: ${{ needs.compare.outputs.baseline_sha }}
+          REMOTE_SHA: ${{ needs.compare.outputs.remote_sha }}
+          BASELINE_BYTES: ${{ needs.compare.outputs.baseline_bytes }}
+          REMOTE_BYTES: ${{ needs.compare.outputs.remote_bytes }}
+          BASELINE_COMMIT: ${{ needs.compare.outputs.baseline_commit }}
+          UPSTREAM_COMMIT: ${{ needs.compare.outputs.upstream_commit }}
+          UPSTREAM_URL: ${{ needs.compare.outputs.upstream_url }}
+        run: |
+          set -euo pipefail
+
+          checked_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          commit_url="https://github.com/marnet-collab/pixan-evidence-center/commit/${UPSTREAM_COMMIT}"
+          run_url="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          body="$(printf '%s\n\n- Checked: `%s`\n- Recorded full-upstream commit: `%s`\n- Current upstream commit: `%s` (%s)\n- Recorded full-upstream SHA-256: `%s` (%s bytes)\n- Current upstream SHA-256: `%s` (%s bytes)\n- Immutable current upstream snapshot: %s\n- Workflow run: %s\n\n%s\n\n%s\n' \
+            'The weekly read-only monitor detected a change in Marnet’s public dashboard snapshot.' \
+            "$checked_at" \
+            "$BASELINE_COMMIT" \
+            "$UPSTREAM_COMMIT" \
+            "$commit_url" \
+            "$BASELINE_SHA" \
+            "$BASELINE_BYTES" \
+            "$REMOTE_SHA" \
+            "$REMOTE_BYTES" \
+            "$UPSTREAM_URL" \
+            "$run_url" \
+            '**Human action required:** review the upstream diff, redistribution rights, personal-data boundary, and provenance. If suitable, regenerate only the minimal allowlisted `source/marnet-public-baseline.json`, update the upstream hash/metadata sidecars in a normal pull request, rebuild, validate, and review the generated site diff. Never commit the full upstream snapshot.' \
+            'This monitor downloads the immutable snapshot only to temporary runner storage. It does not copy upstream data into the repository, create commits or pull requests, or trigger a Pages deployment.')"
+
+          issue_record="$(
+            gh issue list \
+              --repo "$GITHUB_REPOSITORY" \
+              --state all \
+              --limit 100 \
+              --json number,title,state |
+              jq -r --arg title "$ISSUE_TITLE" '[.[] | select(.title == $title)][0] | if . then "\(.number)\t\(.state)" else "" end'
+          )"
+
+          if [[ -n "$issue_record" ]]; then
+            issue_number="${issue_record%%$'\t'*}"
+            issue_state="${issue_record#*$'\t'}"
+            if [[ "$issue_state" == "CLOSED" ]]; then
+              gh issue reopen "$issue_number" --repo "$GITHUB_REPOSITORY"
+            fi
+            gh issue edit "$issue_number" \
+              --repo "$GITHUB_REPOSITORY" \
+              --body "$body"
+            echo "Updated issue #$issue_number." >> "$GITHUB_STEP_SUMMARY"
+          else
+            issue_url="$(
+              gh issue create \
+                --repo "$GITHUB_REPOSITORY" \
+                --title "$ISSUE_TITLE" \
+                --body "$body"
+            )"
+            echo "Opened $issue_url." >> "$GITHUB_STEP_SUMMARY"
+          fi
