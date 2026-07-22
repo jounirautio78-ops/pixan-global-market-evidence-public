@@ -1,0 +1,1189 @@
+{
+  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation, and no request in this file has been sent.",
+  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus, eikä yhtäkään tämän tiedoston pyyntöä ole lähetetty.",
+  "programmeId": "pixan-independent-top20-official-data-request-programme-v1",
+  "ranking": {
+    "isMarketSizeRanking": false,
+    "statementEn": "The order prioritises evidence accessibility, strategic and patent-family relevance, and request feasibility. It is not a ranking of national market size.",
+    "statementFi": "Järjestys painottaa näytön saatavuutta, strategista ja patenttiperherelevanssia sekä pyynnön toteutettavuutta. Se ei ole maiden markkinakokoluokitus.",
+    "type": "operational_evidence_acquisition_order"
+  },
+  "routes": [
+    {
+      "countryEn": "Germany",
+      "countryFi": "Saksa",
+      "countryIso2": "DE",
+      "fallbackAuthority": {
+        "nameEn": "Federal Statistical Office, GENESIS table family 73411",
+        "nameFi": "Liittovaltion tilastovirasto, GENESIS-tauluperhe 73411",
+        "url": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2025/01/PD25_035_73.html?templateQueryString=rauchen"
+      },
+      "languages": [
+        "de"
+      ],
+      "legalBasis": {
+        "nameEn": "Federal Freedom of Information Act (IFG)",
+        "nameFi": "Liittovaltion tiedonsaantilaki (IFG)"
+      },
+      "officialSources": [
+        {
+          "labelEn": "German Customs general enquiries",
+          "labelFi": "Saksan tullin yleiset tiedustelut",
+          "url": "https://www.zoll.de/EN/Contact/Enquiries/General-enquiries/general-enquiries_node.html",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 1,
+      "primaryAuthority": {
+        "nameEn": "German Customs and Federal Statistical Office",
+        "nameFi": "Saksan tulli ja liittovaltion tilastovirasto"
+      },
+      "priorityCode": "A1",
+      "rationaleEn": "Existing official taxed-volume evidence and direct strategic relevance from the German patent proceedings make this the first reconciliation pilot.",
+      "rationaleFi": "Olemassa oleva virallinen verotettu määrä ja Saksan patenttiprosessin suora strateginen merkitys tekevät tästä ensimmäisen täsmäytyspilotin.",
+      "recordsRequestedEn": [
+        "Monthly and annual taxed litres of substitutes for tobacco products, excise revenue, refunds, exports and reporting-entity counts",
+        "Imports and exports of devices and liquids by national tariff code, value, quantity and unit",
+        "Seizures separately, with definitions and revision metadata"
+      ],
+      "recordsRequestedFi": [
+        "Tupakan korvaavien tuotteiden kuukausittaiset ja vuosittaiset verotetut litrat, verotuotto, palautukset, vienti ja raportoivien toimijoiden määrä",
+        "Laitteiden ja nesteiden tuonti ja vienti kansallisen tullinimikkeen, arvon, määrän ja yksikön mukaan",
+        "Takavarikot erikseen sekä määritelmät ja revisiotiedot"
+      ],
+      "requestChannel": {
+        "nameEn": "Federal freedom-of-information request service",
+        "nameFi": "Liittovaltion tietopyyntöpalvelu",
+        "url": "https://verwaltung.bund.de/leistungsverzeichnis/DE/leistung/99064008001000/herausgeber/LeiKa-103285007/region/000000000000"
+      },
+      "requesterEligibility": {
+        "caveatEn": "No nationality or residence restriction was identified on the official federal route; German wording is recommended and exemptions and fees still apply.",
+        "caveatFi": "Viralliselta liittovaltion reitiltä ei tunnistettu kansalaisuus- tai asuinpaikkarajausta; saksankielinen pyyntö on suositeltava, ja poikkeukset sekä maksut voivat silti soveltua.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Canada",
+      "countryFi": "Kanada",
+      "countryIso2": "CA",
+      "fallbackAuthority": {
+        "nameEn": "Canada Revenue Agency, vaping product duty records",
+        "nameFi": "Kanadan verovirasto, höyrystystuotteiden valmisteverotiedot",
+        "url": "https://www.canada.ca/en/revenue-agency/corporate/about-canada-revenue-agency-cra/access-information-privacy-canada-revenue-agency/step-2-make-access-information-personal-information-request.html"
+      },
+      "languages": [
+        "en",
+        "fr"
+      ],
+      "legalBasis": {
+        "nameEn": "Access to Information Act",
+        "nameFi": "Access to Information Act"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Health Canada vaping product sales data",
+          "labelFi": "Health Canadan höyrystystuotteiden myyntiaineisto",
+          "url": "https://health-infobase.canada.ca/substance-use/vaping/sales/",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 2,
+      "primaryAuthority": {
+        "nameEn": "Health Canada",
+        "nameFi": "Health Canada"
+      },
+      "priorityCode": "A2",
+      "rationaleEn": "Health Canada already publishes one of the strongest official manufacturer/importer shipment series, making it an immediate anchor and request-design benchmark.",
+      "rationaleFi": "Health Canada julkaisee jo yhden vahvimmista virallisista valmistaja- ja maahantuojatoimitusten sarjoista, joten se toimii välittömänä ankkurina ja pyyntömallin vertailukohtana.",
+      "recordsRequestedEn": [
+        "Machine-readable semi-annual manufacturer/importer shipment records by province, category, units, liquid volume and reported value",
+        "Reporting coverage, suppressed cells, revisions and audit or quality-control metadata",
+        "A clear statement that the measure is shipment data rather than retail sell-through"
+      ],
+      "recordsRequestedFi": [
+        "Koneluettava puolivuosittainen valmistaja- ja maahantuojatoimitusten aineisto maakunnan, tuoteryhmän, kappaleiden, nestemäärän ja ilmoitetun arvon mukaan",
+        "Raportoinnin kattavuus, salatut solut, revisiot ja tarkastus- tai laadunvalvontatiedot",
+        "Selkeä vahvistus siitä, että mittari kuvaa toimituksia eikä vähittäismyyntiä"
+      ],
+      "requestChannel": {
+        "nameEn": "Health Canada Access to Information and Privacy Division",
+        "nameFi": "Health Canadan tiedonsaanti- ja tietosuojayksikkö",
+        "url": "https://www.canada.ca/en/health-canada/corporate/contact-us/access-information-privacy-division.html"
+      },
+      "requesterEligibility": {
+        "caveatEn": "A formal request is limited to Canadian citizens, permanent residents, and persons or corporations present in Canada; use an eligible local requester if needed. The published dataset needs no request.",
+        "caveatFi": "Muodollisen pyynnön voivat tehdä Kanadan kansalaiset, pysyvät asukkaat sekä Kanadassa olevat henkilöt tai yhtiöt; käytä tarvittaessa kelpoista paikallista pyytäjää. Julkinen aineisto ei vaadi pyyntöä.",
+        "localRequester": "conditional"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "United States",
+      "countryFi": "Yhdysvallat",
+      "countryIso2": "US",
+      "fallbackAuthority": {
+        "nameEn": "U.S. International Trade Commission DataWeb",
+        "nameFi": "Yhdysvaltain kansainvälisen kaupan komission DataWeb",
+        "url": "https://www.usitc.gov/applications/dataweb/about"
+      },
+      "languages": [
+        "en"
+      ],
+      "legalBasis": {
+        "nameEn": "Freedom of Information Act, 5 U.S.C. § 552",
+        "nameFi": "Freedom of Information Act, 5 U.S.C. § 552"
+      },
+      "officialSources": [
+        {
+          "labelEn": "FTC E-Cigarette Report for 2021",
+          "labelFi": "FTC:n sähkösavukeraportti vuodelta 2021",
+          "url": "https://www.ftc.gov/reports/e-cigarette-report-2021",
+          "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "FDA Center for Tobacco Products FOIA",
+          "labelFi": "FDA:n tupakkatuotekeskuksen FOIA",
+          "url": "https://www.fda.gov/tobacco-products/about-center-tobacco-products-ctp/ctp-freedom-information-act",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 3,
+      "primaryAuthority": {
+        "nameEn": "Federal Trade Commission",
+        "nameFi": "Yhdysvaltain kauppakomissio"
+      },
+      "priorityCode": "A3",
+      "rationaleEn": "A strategically important market with a Pixan-family US publication, compulsory FTC reporting and detailed official tariff data.",
+      "rationaleFi": "Strategisesti tärkeä markkina, jossa on Pixan-perheen Yhdysvaltain julkaisu, FTC:n velvoittava raportointi ja yksityiskohtainen virallinen tullidata.",
+      "recordsRequestedEn": [
+        "Existing post-2021 aggregate and anonymised tables derived from compulsory Section 6(b) e-cigarette reporting",
+        "Reported sales, units and product-category definitions, participating-company coverage and revisions",
+        "No company-confidential submissions or company-identifiable data"
+      ],
+      "recordsRequestedFi": [
+        "Olemassa olevat vuoden 2021 jälkeiset aggregoidut ja anonymisoidut taulukot, jotka perustuvat velvoittavaan 6(b)-raportointiin",
+        "Ilmoitettu myynti, kappaleet, tuoteryhmien määritelmät, yrityskattavuus ja revisiot",
+        "Ei yrityssalaisia ilmoituksia tai yrityksen tunnistavia tietoja"
+      ],
+      "requestChannel": {
+        "nameEn": "FTC Freedom of Information Act office",
+        "nameFi": "FTC:n FOIA-toimisto",
+        "url": "https://www.ftc.gov/foia"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Any person may file a federal FOIA request; confidential business information remains exempt, so the request must stay aggregate and anonymised.",
+        "caveatFi": "Kuka tahansa voi tehdä liittovaltion FOIA-pyynnön; luottamuksellinen yritystieto on edelleen poikkeuksen piirissä, joten pyyntö on pidettävä aggregoituna ja anonymisoituna.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "China",
+      "countryFi": "Kiina",
+      "countryIso2": "CN",
+      "fallbackAuthority": {
+        "nameEn": "General Administration of Customs of China",
+        "nameFi": "Kiinan tullihallinto",
+        "url": "https://english.customs.gov.cn/Statistics/Statistics"
+      },
+      "languages": [
+        "zh"
+      ],
+      "legalBasis": {
+        "nameEn": "Regulations of the People's Republic of China on Open Government Information",
+        "nameFi": "Kiinan kansantasavallan julkisen hallintotiedon säädökset"
+      },
+      "officialSources": [
+        {
+          "labelEn": "NBS e-cigarette statistical survey description",
+          "labelFi": "NBS:n sähkösavukkeiden tilastokyselyn kuvaus",
+          "url": "https://www.stats.gov.cn/fw/bmdcxmsp/bmzd/202402/t20240205_1947271.html",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 4,
+      "primaryAuthority": {
+        "nameEn": "National Bureau of Statistics of China",
+        "nameFi": "Kiinan kansallinen tilastovirasto"
+      },
+      "priorityCode": "A4",
+      "rationaleEn": "Global manufacturing relevance, a Pixan-family Chinese publication and an official full-coverage statistical survey justify an early request despite access friction.",
+      "rationaleFi": "Globaali valmistusmerkitys, Pixan-perheen Kiinan julkaisu ja virallinen kattava tilastokysely puoltavat varhaista pyyntöä tiedonsaannin kitkasta huolimatta.",
+      "recordsRequestedEn": [
+        "Existing aggregate annual e-cigarette survey tables for production, transaction value, inventory, domestic sales, exports and output value",
+        "Product-category definitions, survey coverage, respondent counts, missingness and revisions",
+        "Aggregate release only; no respondent-identifiable records"
+      ],
+      "recordsRequestedFi": [
+        "Olemassa olevat aggregoidut vuotuiset sähkösavukekyselyn taulukot tuotannosta, transaktioarvosta, varastosta, kotimaan myynnistä, viennistä ja tuotantoarvosta",
+        "Tuoteryhmien määritelmät, kyselyn kattavuus, vastaajamäärä, puuttuvat tiedot ja revisiot",
+        "Vain aggregoitu luovutus, ei vastaajan tunnistavia tietueita"
+      ],
+      "requestChannel": {
+        "nameEn": "NBS open-government-information request form",
+        "nameFi": "NBS:n julkisen tiedon pyyntölomake",
+        "url": "https://www.stats.gov.cn/statsinfo/ysqgk/applyform_add.html"
+      },
+      "requesterEligibility": {
+        "caveatEn": "The official form and appeal process are Chinese-language and may require locally usable identity and contact details. The NBS states that the underlying survey data are not currently public, so an aggregate-only refusal or partial release is possible.",
+        "caveatFi": "Virallinen lomake ja muutoksenhakuprosessi ovat kiinankielisiä ja voivat edellyttää paikallisesti käytettäviä henkilöllisyys- ja yhteystietoja. NBS ilmoittaa, ettei kyselyaineisto ole tällä hetkellä julkinen, joten aggregaattipyyntö voidaan evätä tai täyttää vain osittain.",
+        "localRequester": "recommended"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Poland",
+      "countryFi": "Puola",
+      "countryIso2": "PL",
+      "fallbackAuthority": {
+        "nameEn": "Bureau for Chemical Substances product-notification list",
+        "nameFi": "Kemikaaliviraston tuoteilmoitusluettelo",
+        "url": "https://www.gov.pl/web/chemikalia/Papierosy-elektroniczne-i-pojemniki-zapasowe"
+      },
+      "languages": [
+        "pl"
+      ],
+      "legalBasis": {
+        "nameEn": "Act of 6 September 2001 on Access to Public Information",
+        "nameFi": "Laki julkisen tiedon saatavuudesta 6.9.2001"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Polish e-cigarette liquid excise guidance",
+          "labelFi": "Puolan sähkösavukenesteen valmistevero-ohje",
+          "url": "https://www.gov.pl/web/finanse/kazdy-plyn-do-e-papierosow-podlega-akcyzie",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 5,
+      "primaryAuthority": {
+        "nameEn": "Polish Ministry of Finance",
+        "nameFi": "Puolan valtiovarainministeriö"
+      },
+      "priorityCode": "A5",
+      "rationaleEn": "Pixan-family publication, product-notification data and specific excise routes support a high-value EU reconciliation case.",
+      "rationaleFi": "Pixan-perheen julkaisu, tuoteilmoitustiedot ja erilliset valmisteveroreitit tukevat arvokasta EU-täsmäytystä.",
+      "recordsRequestedEn": [
+        "Monthly and annual excise-declared millilitres and revenue for e-cigarette liquids",
+        "Domestic release, intra-EU acquisition and import separately, including tax stamps, taxpayers, refunds and exports",
+        "The 2025 disposable-device surcharge or equivalent category separately where held"
+      ],
+      "recordsRequestedFi": [
+        "Sähkösavukenesteiden kuukausittaiset ja vuosittaiset valmisteveroilmoitetut millilitrat ja verotuotto",
+        "Kotimaan kulutukseen luovutus, EU-sisähankinta ja tuonti erikseen sekä veromerkit, verovelvolliset, palautukset ja vienti",
+        "Vuoden 2025 kertakäyttölaitelisä tai vastaava tuoteryhmä erikseen, jos tieto on hallussa"
+      ],
+      "requestChannel": {
+        "nameEn": "Ministry of Finance public-information request service",
+        "nameFi": "Valtiovarainministeriön julkisen tiedon pyyntöpalvelu",
+        "url": "https://www.gov.pl/web/finanse/uzyskaj-informacje-publiczna"
+      },
+      "requesterEligibility": {
+        "caveatEn": "The public-information route is open without a stated nationality condition; Polish wording is recommended and tax secrecy requires aggregate-only framing.",
+        "caveatFi": "Julkisen tiedon reitillä ei ilmoiteta kansalaisuusehtoa; puolankielinen pyyntö on suositeltava ja verosalaisuus edellyttää aggregoitua rajausta.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "United Kingdom",
+      "countryFi": "Yhdistynyt kuningaskunta",
+      "countryIso2": "GB",
+      "fallbackAuthority": {
+        "nameEn": "HM Revenue and Customs vaping duty enquiries",
+        "nameFi": "HM Revenue and Customsin höyrystystuoteveron tiedustelut",
+        "url": "https://www.gov.uk/find-hmrc-contacts/excise-warehousing-excise-goods-movements-and-alcohol-duties-enquiries"
+      },
+      "languages": [
+        "en"
+      ],
+      "legalBasis": {
+        "nameEn": "Freedom of Information Act 2000",
+        "nameFi": "Freedom of Information Act 2000"
+      },
+      "officialSources": [
+        {
+          "labelEn": "MHRA FOI disclosure log",
+          "labelFi": "MHRA:n FOI-julkistusloki",
+          "url": "https://www.gov.uk/government/collections/mhra-freedom-of-information-foi-disclosure-log",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 6,
+      "primaryAuthority": {
+        "nameEn": "Medicines and Healthcare products Regulatory Agency",
+        "nameFi": "Lääke- ja terveydenhuollon tuotevirasto"
+      },
+      "priorityCode": "A6",
+      "rationaleEn": "A mature FOI system, product notifications and a forthcoming dedicated duty create a useful longitudinal route, while current and future tax periods must remain separate.",
+      "rationaleFi": "Vakiintunut FOI-järjestelmä, tuoteilmoitukset ja tuleva erillinen vero tarjoavat hyvän aikasarjareitin, mutta nykyiset ja tulevat verokaudet on pidettävä erillään.",
+      "recordsRequestedEn": [
+        "Snapshots and counts of active and withdrawn ECIG notifications by product type",
+        "Aggregate annual sales-volume reports under Regulation 32 where held, with units or millilitres",
+        "Reporting coverage, missingness, revisions and the reported supply-chain stage"
+      ],
+      "recordsRequestedFi": [
+        "Aktiivisten ja peruutettujen ECIG-ilmoitusten tilannekuvat ja määrät tuotetyypeittäin",
+        "Regulation 32:n mukaiset aggregoidut vuotuiset myyntimääräraportit, jos hallussa, kappaleina tai millilitroina",
+        "Raportoinnin kattavuus, puuttuvat tiedot, revisiot ja ilmoitettu toimitusketjun vaihe"
+      ],
+      "requestChannel": {
+        "nameEn": "MHRA Freedom of Information route",
+        "nameFi": "MHRA:n Freedom of Information -reitti",
+        "url": "https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Anyone can make a UK FOI request. The Vaping Products Duty begins only in October 2026, so it cannot evidence historical realised duty or sales for 2018-2025.",
+        "caveatFi": "Kuka tahansa voi tehdä Yhdistyneen kuningaskunnan FOI-pyynnön. Vaping Products Duty alkaa vasta lokakuussa 2026, joten se ei osoita vuosien 2018-2025 toteutunutta veroa tai myyntiä.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Sweden",
+      "countryFi": "Ruotsi",
+      "countryIso2": "SE",
+      "fallbackAuthority": {
+        "nameEn": "Swedish Tax Agency",
+        "nameFi": "Ruotsin verovirasto",
+        "url": "https://www4.skatteverket.se/rattsligvagledning/edition/2026.12/366196.html"
+      },
+      "languages": [
+        "sv",
+        "en"
+      ],
+      "legalBasis": {
+        "nameEn": "Principle of public access and the Public Access to Information and Secrecy Act (2009:400)",
+        "nameFi": "Julkisuusperiaate ja julkisuus- ja salassapitolaki (2009:400)"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Annual manufacturer/importer reporting requirement",
+          "labelFi": "Valmistajien ja maahantuojien vuosiraportointivaatimus",
+          "url": "https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/living-conditions-and-lifestyle/andtg/legal-requirements/e-cigarettes-refill-containers/requirements-on-electronic-cigarettes-and-refill-containers/notification-on-electronic-cigarettes-and-refill-containers/",
+          "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "2025 market-surveillance follow-up",
+          "labelFi": "Vuoden 2025 markkinavalvonnan seuranta",
+          "url": "https://www.folkhalsomyndigheten.se/publikationer-och-material/publikationsarkiv/u/uppfoljning-av-program-for-marknadskontroll-2025-tobak-och-liknande-produkter/?pub=155021",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 7,
+      "primaryAuthority": {
+        "nameEn": "Public Health Agency of Sweden",
+        "nameFi": "Ruotsin kansanterveysviranomainen"
+      },
+      "priorityCode": "A7",
+      "rationaleEn": "Mandatory annual brand- and product-type sales reporting and documented enforcement of missing reports make Sweden a strong completeness benchmark.",
+      "rationaleFi": "Pakollinen vuosimyyntiraportointi merkin ja tuotetyypin mukaan sekä dokumentoitu puuttuvien raporttien valvonta tekevät Ruotsista vahvan kattavuuden vertailumaan.",
+      "recordsRequestedEn": [
+        "Aggregate annual sales volumes by product type in units and millilitres",
+        "Numbers of reporting entities and products, late or missing reports and suppressed cells",
+        "Revisions and market prohibitions connected with annual-reporting non-compliance"
+      ],
+      "recordsRequestedFi": [
+        "Aggregoidut vuotuiset myyntimäärät tuotetyypeittäin kappaleina ja millilitroina",
+        "Raportoivien toimijoiden ja tuotteiden määrät, myöhästyneet tai puuttuvat raportit ja salatut solut",
+        "Revisiot ja vuosiraportoinnin laiminlyöntiin liittyvät markkinakiellot"
+      ],
+      "requestChannel": {
+        "nameEn": "Public Health Agency data-order service",
+        "nameFi": "Kansanterveysviranomaisen datan tilauspalvelu",
+        "url": "https://www.folkhalsomyndigheten.se/folkhalsorapportering-statistik/bestall-vara-data/"
+      },
+      "requesterEligibility": {
+        "caveatEn": "No local-requester condition was identified; start with aggregate product-type data because brand-level material may trigger confidentiality review.",
+        "caveatFi": "Paikallisen pyytäjän ehtoa ei tunnistettu; aloita aggregoidusta tuotetyyppidatasta, koska merkkikohtainen aineisto voi johtaa salassapitoarvioon.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Italy",
+      "countryFi": "Italia",
+      "countryIso2": "IT",
+      "fallbackAuthority": {
+        "nameEn": "Italian Ministry of Health product and EU-CEG information",
+        "nameFi": "Italian terveysministeriön tuote- ja EU-CEG-tiedot",
+        "url": "https://www.salute.gov.it/new/it/tema/fumo-prodotti-del-tabacco-sigarette-elettroniche/ingredienti-prodotti-tabacco-e-sigarette/"
+      },
+      "languages": [
+        "it"
+      ],
+      "legalBasis": {
+        "nameEn": "Legislative Decree 33/2013, Article 5(2), subject to Article 5-bis",
+        "nameFi": "Lainsäädäntöasetus 33/2013, 5 artiklan 2 kohta, 5-bis artiklan rajoituksin"
+      },
+      "officialSources": [
+        {
+          "labelEn": "ADM inhalation-product circulars and lists",
+          "labelFi": "ADM:n inhalaatiotuotteiden kiertokirjeet ja luettelot",
+          "url": "https://www.adm.gov.it/portale/circolari_tabacco_inalazione",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 8,
+      "primaryAuthority": {
+        "nameEn": "Customs and Monopolies Agency",
+        "nameFi": "Tulli- ja monopolivirasto"
+      },
+      "priorityCode": "A8",
+      "rationaleEn": "A significant EU market with a specific inhalation-liquid tax and official product lists supports direct volume and registry reconciliation.",
+      "rationaleFi": "Merkittävä EU-markkina, erillinen inhalaationesteen vero ja viralliset tuoteluettelot mahdollistavat suoran määrä- ja rekisteritäsmäytyksen.",
+      "recordsRequestedEn": [
+        "Monthly tax-declared millilitres for inhalation liquids, separately with and without nicotine",
+        "Domestic release, imports and intra-EU acquisitions, tax revenue, refunds and exports",
+        "Registered product and licence counts with definitions and revisions"
+      ],
+      "recordsRequestedFi": [
+        "Inhalaationesteiden kuukausittaiset veroilmoitetut millilitrat erikseen nikotiinilla ja ilman nikotiinia",
+        "Kotimaan kulutukseen luovutus, tuonti ja EU-sisähankinta, verotuotto, palautukset ja vienti",
+        "Rekisteröityjen tuotteiden ja toimilupien määrät sekä määritelmät ja revisiot"
+      ],
+      "requestChannel": {
+        "nameEn": "ADM generalised civic-access request",
+        "nameFi": "ADM:n yleistetty julkisuuspyyntö",
+        "url": "https://www.adm.gov.it/portale/-/accesso-civico-generalizzato"
+      },
+      "requesterEligibility": {
+        "caveatEn": "No local-requester condition was identified for generalised civic access; Italian wording is recommended and taxpayer-level records must be excluded.",
+        "caveatFi": "Yleistetyssä julkisuuspyynnössä ei tunnistettu paikallisen pyytäjän ehtoa; italiankielinen pyyntö on suositeltava ja verovelvolliskohtaiset tiedot on rajattava pois.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "France",
+      "countryFi": "Ranska",
+      "countryIso2": "FR",
+      "fallbackAuthority": {
+        "nameEn": "Commission for Access to Administrative Documents",
+        "nameFi": "Hallinnollisten asiakirjojen saatavuuskomissio",
+        "url": "https://www.cada.fr/particulier/les-modalites-de-communication"
+      },
+      "languages": [
+        "fr"
+      ],
+      "legalBasis": {
+        "nameEn": "Code des relations entre le public et l'administration, Book III",
+        "nameFi": "Hallinnon ja yleisön välisiä suhteita koskeva laki, III kirja"
+      },
+      "officialSources": [
+        {
+          "labelEn": "ANSES vaping-products information",
+          "labelFi": "ANSES:n höyrystystuotteiden tiedot",
+          "url": "https://www.anses.fr/fr/content/produits-du-vapotage",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 9,
+      "primaryAuthority": {
+        "nameEn": "French Agency for Food, Environmental and Occupational Health and Safety",
+        "nameFi": "Ranskan elintarvike-, ympäristö- ja työterveysvirasto"
+      },
+      "priorityCode": "A9",
+      "rationaleEn": "A large EU market where the EU-CEG record structure contains annual sales fields, with ANSES documenting important completeness limitations.",
+      "rationaleFi": "Suuri EU-markkina, jossa EU-CEG-tietorakenne sisältää vuosimyyntikenttiä ja ANSES on dokumentoinut tärkeät kattavuusrajoitteet.",
+      "recordsRequestedEn": [
+        "Aggregate annual EU-CEG-reported units or millilitres by product category and presentation",
+        "Active and withdrawn products and numbers of reporting entities",
+        "Missing, incomplete or late annual sales reports, suppressed cells and revisions"
+      ],
+      "recordsRequestedFi": [
+        "Aggregoidut vuosittaiset EU-CEG-ilmoitetut kappaleet tai millilitrat tuoteryhmän ja esitysmuodon mukaan",
+        "Aktiiviset ja peruutetut tuotteet sekä raportoivien toimijoiden määrä",
+        "Puuttuvat, epätäydelliset tai myöhästyneet vuosimyyntiraportit, salatut solut ja revisiot"
+      ],
+      "requestChannel": {
+        "nameEn": "ANSES administrative-record access contact",
+        "nameFi": "ANSES:n hallinnollisten asiakirjojen tietopyyntöyhteys",
+        "url": "https://www.anses.fr/en/content/legal-information"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Administrative documents can be requested regardless of nationality; French wording is recommended and an adverse or silent decision may be referred to CADA.",
+        "caveatFi": "Hallinnollisia asiakirjoja voi pyytää kansalaisuudesta riippumatta; ranskankielinen pyyntö on suositeltava ja kielteinen tai puuttuva ratkaisu voidaan saattaa CADA:n käsiteltäväksi.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Spain",
+      "countryFi": "Espanja",
+      "countryIso2": "ES",
+      "fallbackAuthority": {
+        "nameEn": "Ministry of Finance Model 573 procedure",
+        "nameFi": "Valtiovarainministeriön Model 573 -menettely",
+        "url": "https://www.hacienda.gob.es/es-ES/El%20Ministerio/Paginas/Procedimientos%20administrativos/ProcAdministrativos.aspx?idProcAdmin=2339"
+      },
+      "languages": [
+        "es"
+      ],
+      "legalBasis": {
+        "nameEn": "Law 19/2013 on transparency, access to public information and good governance",
+        "nameFi": "Laki 19/2013 avoimuudesta, julkisen tiedon saatavuudesta ja hyvästä hallinnosta"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Law 7/2024 introducing the tax framework",
+          "labelFi": "Verokehyksen käyttöön ottanut laki 7/2024",
+          "url": "https://www.hacienda.gob.es/DocLeyes/REPOSITORIO%20NORMATIVA/89310.htm",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 10,
+      "primaryAuthority": {
+        "nameEn": "Spanish Tax Agency and Ministry of Finance",
+        "nameFi": "Espanjan verovirasto ja valtiovarainministeriö"
+      },
+      "priorityCode": "A10",
+      "rationaleEn": "A large EU market with a new dedicated e-liquid tax return, allowing a clean prospective official series if the commencement break is explicit.",
+      "rationaleFi": "Suuri EU-markkina ja uusi erillinen sähkösavukenesteen veroilmoitus mahdollistavat selkeän tulevan virallisen sarjan, kun aloituskatkos merkitään näkyvästi.",
+      "recordsRequestedEn": [
+        "Monthly Model 573 aggregates from commencement by tax heading, millilitres or kilograms, tax base and revenue",
+        "Filer counts, refunds and opening-stock declaration aggregates",
+        "Definitions and a clear statement that the new tax series does not backfill 2018-2024"
+      ],
+      "recordsRequestedFi": [
+        "Model 573:n kuukausiaggregaatit veron alkamisesta alkaen veroluokan, millilitrojen tai kilogrammojen, veropohjan ja verotuoton mukaan",
+        "Ilmoittajien määrä, palautukset ja aloitusvaraston ilmoitusaggregaatit",
+        "Määritelmät ja selkeä vahvistus siitä, ettei uusi verosarja täydennä vuosia 2018-2024 takautuvasti"
+      ],
+      "requestChannel": {
+        "nameEn": "Spanish Transparency Portal access request",
+        "nameFi": "Espanjan avoimuusportaalin tietopyyntö",
+        "url": "https://transparencia.gob.es/derecho-acceso/solicite-informacion-publica"
+      },
+      "requesterEligibility": {
+        "caveatEn": "The right is open generally, but the electronic portal requires Cl@ve authentication; postal, registry or consular filing is the non-local alternative.",
+        "caveatFi": "Oikeus on yleinen, mutta sähköinen portaali edellyttää Cl@ve-tunnistautumista; posti-, rekisteri- tai konsulaattitoimitus on vaihtoehto ilman paikallista tunnistetta.",
+        "localRequester": "conditional"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Netherlands",
+      "countryFi": "Alankomaat",
+      "countryIso2": "NL",
+      "fallbackAuthority": {
+        "nameEn": "RIVM published tobacco and vaping product data",
+        "nameFi": "RIVM:n julkaisema tupakka- ja höyrystystuotedata",
+        "url": "https://www.rivm.nl/tabak/wat-zit-er-in-producten"
+      },
+      "languages": [
+        "nl",
+        "en"
+      ],
+      "legalBasis": {
+        "nameEn": "Open Government Act (Wet open overheid, Woo)",
+        "nameFi": "Avoimen hallinnon laki (Wet open overheid, Woo)"
+      },
+      "officialSources": [
+        {
+          "labelEn": "RIVM product-submission information",
+          "labelFi": "RIVM:n tuoteilmoitustiedot",
+          "url": "https://www.rivm.nl/en/tobacco/information-for-suppliers/submit-product-information",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 11,
+      "primaryAuthority": {
+        "nameEn": "National Institute for Public Health and the Environment and Ministry of Health",
+        "nameFi": "Kansallinen kansanterveys- ja ympäristöinstituutti sekä terveysministeriö"
+      },
+      "priorityCode": "A11",
+      "rationaleEn": "Public EU-CEG product data and the Woo route enable product-stock, reporting-coverage and possible annual-sales requests.",
+      "rationaleFi": "Julkinen EU-CEG-tuotedata ja Woo-reitti mahdollistavat tuotekannan, raportointikattavuuden ja mahdollisen vuosimyynnin pyynnöt.",
+      "recordsRequestedEn": [
+        "Active and withdrawn EU-CEG products by category and reporting year",
+        "Aggregate annual EU-CEG sales units or millilitres where held",
+        "Reporting entities, missingness, revisions and underlying aggregate tables from commissioned official market studies"
+      ],
+      "recordsRequestedFi": [
+        "Aktiiviset ja peruutetut EU-CEG-tuotteet tuoteryhmän ja raportointivuoden mukaan",
+        "Aggregoidut vuotuiset EU-CEG-myyntikappaleet tai millilitrat, jos tieto on hallussa",
+        "Raportoivat toimijat, puuttuvat tiedot, revisiot ja viranomaisten tilaamien markkinatutkimusten taustalla olevat aggregaattitaulukot"
+      ],
+      "requestChannel": {
+        "nameEn": "Open Government Act request guidance",
+        "nameFi": "Avoimen hallinnon lain pyyntöohje",
+        "url": "https://www.rijksoverheid.nl/vraag-en-antwoord/wet-open-overheid-woo/hoe-dien-ik-een-woo-verzoek-in"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Anyone may submit a Woo request; Dutch wording and a tightly described existing-record request will reduce routing and clarification delays.",
+        "caveatFi": "Kuka tahansa voi tehdä Woo-pyynnön; hollanninkielinen ja tarkasti olemassa oleviin tietueisiin rajattu pyyntö vähentää siirto- ja täsmennysviiveitä.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Finland",
+      "countryFi": "Suomi",
+      "countryIso2": "FI",
+      "fallbackAuthority": {
+        "nameEn": "Finnish Tax Administration tobacco excise",
+        "nameFi": "Verohallinnon tupakkavero",
+        "url": "https://www.vero.fi/yritykset-ja-yhteisot/verot-ja-maksut/valmisteverotus/tupakkavero/"
+      },
+      "languages": [
+        "fi",
+        "sv",
+        "en"
+      ],
+      "legalBasis": {
+        "nameEn": "Act on the Openness of Government Activities 621/1999",
+        "nameFi": "Laki viranomaisten toiminnan julkisuudesta 621/1999"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Finnish Tobacco Act 549/2016",
+          "labelFi": "Tupakkalaki 549/2016",
+          "url": "https://www.finlex.fi/en/legislation/translations/2016/eng/549",
+          "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "2025 amendment establishing the 2026 authority change",
+          "labelFi": "Vuoden 2025 muutos, jolla vuoden 2026 viranomaisvaihdos toteutettiin",
+          "url": "https://finlex.fi/en/legislation/collection/2025/717",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 12,
+      "primaryAuthority": {
+        "nameEn": "Finnish Supervisory Agency",
+        "nameFi": "Lupa- ja valvontavirasto"
+      },
+      "priorityCode": "A12",
+      "rationaleEn": "A Pixan-family Finnish publication and a statutory annual brand/type sales-reporting duty support a direct official evidence route.",
+      "rationaleFi": "Pixan-perheen Suomen julkaisu ja lakisääteinen vuosittainen merkki- ja tyyppikohtainen myyntiraportointi tukevat suoraa virallista evidenssireittiä.",
+      "recordsRequestedEn": [
+        "Aggregate annual sales volumes by product type in units and millilitres under section 27 of the Tobacco Act",
+        "Reporting-entity and product counts, missing or late submissions, suppressed cells and revisions",
+        "A separate Tax Administration extract of excise-declared millilitres, revenue, refunds and exports"
+      ],
+      "recordsRequestedFi": [
+        "Tupakkalain 27 §:n mukaiset aggregoidut vuotuiset myyntimäärät tuotetyypeittäin kappaleina ja millilitroina",
+        "Raportoivien toimijoiden ja tuotteiden määrät, puuttuvat tai myöhästyneet ilmoitukset, salatut solut ja revisiot",
+        "Verohallinnolta erillinen ote valmisteveroilmoitetuista millilitroista, verotuotosta, palautuksista ja viennistä"
+      ],
+      "requestChannel": {
+        "nameEn": "Finnish Supervisory Agency registry contact",
+        "nameFi": "Lupa- ja valvontaviraston kirjaamo",
+        "url": "https://www.suomi.fi/organisaatio/lupa-ja-valvontavirasto/7ac57107-a30e-4b52-aeb9-50ccdb31ef6d"
+      },
+      "requesterEligibility": {
+        "caveatEn": "No nationality or residence condition applies to a public-record request. The national supervisory authority changed in 2026, so route the request to the Finnish Supervisory Agency rather than the former authority.",
+        "caveatFi": "Julkisuuspyyntöön ei sovelleta kansalaisuus- tai asuinpaikkaehtoa. Kansallinen valvontaviranomainen vaihtui vuonna 2026, joten pyyntö osoitetaan Lupa- ja valvontavirastolle eikä aiemmalle viranomaiselle.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1A"
+    },
+    {
+      "countryEn": "Denmark",
+      "countryFi": "Tanska",
+      "countryIso2": "DK",
+      "fallbackAuthority": {
+        "nameEn": "Danish Safety Technology Authority registries",
+        "nameFi": "Tanskan turvallisuusteknologiaviraston rekisterit",
+        "url": "https://www.sik.dk/en/registre"
+      },
+      "languages": [
+        "da",
+        "en"
+      ],
+      "legalBasis": {
+        "nameEn": "Access to Public Administration Files Act (Offentlighedsloven)",
+        "nameFi": "Hallinnon asiakirjajulkisuuslaki (Offentlighedsloven)"
+      },
+      "officialSources": [
+        {
+          "labelEn": "EU-CEG annual sales reporting requirement",
+          "labelFi": "EU-CEG-vuosimyyntiraportoinnin vaatimus",
+          "url": "https://www.sik.dk/en/node/936",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 13,
+      "primaryAuthority": {
+        "nameEn": "Danish Business Authority and Danish Safety Technology Authority",
+        "nameFi": "Tanskan yritysvirasto ja turvallisuusteknologiavirasto"
+      },
+      "priorityCode": "B1",
+      "rationaleEn": "A Pixan-family Danish publication, mandatory annual EU-CEG sales reporting and downloadable official registries support a strong second-batch route.",
+      "rationaleFi": "Pixan-perheen Tanskan julkaisu, pakollinen EU-CEG-vuosimyyntiraportointi ja ladattavat viranomaisrekisterit tukevat vahvaa toista aaltoa.",
+      "recordsRequestedEn": [
+        "Aggregate annual EU-CEG sales by product category in units and millilitres",
+        "Reporting-product and entity counts, late or missing reports, suppressed cells and revisions",
+        "Downloadable dated snapshots of product, retailer and distance-sales registries"
+      ],
+      "recordsRequestedFi": [
+        "Aggregoidut vuotuiset EU-CEG-myynnit tuoteryhmittäin kappaleina ja millilitroina",
+        "Raportoivien tuotteiden ja toimijoiden määrät, myöhästyneet tai puuttuvat raportit, salatut solut ja revisiot",
+        "Ladattavat päivätyt tilannekuvat tuote-, vähittäismyyjä- ja etämyyntirekistereistä"
+      ],
+      "requestChannel": {
+        "nameEn": "Danish Business Authority access-to-documents contact",
+        "nameFi": "Tanskan yritysviraston asiakirjapyyntöyhteys",
+        "url": "https://erhvervsstyrelsen.dk/presse-kontakt"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Any person may request access without a nationality or residence requirement; Danish wording is recommended for authority routing.",
+        "caveatFi": "Kuka tahansa voi pyytää tietoja ilman kansalaisuus- tai asuinpaikkavaatimusta; tanskankielinen pyyntö on suositeltava viranomaisreititystä varten.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    },
+    {
+      "countryEn": "Japan",
+      "countryFi": "Japani",
+      "countryIso2": "JP",
+      "fallbackAuthority": {
+        "nameEn": "Japan Customs Trade Statistics",
+        "nameFi": "Japanin tullin kauppatilastot",
+        "url": "https://www.customs.go.jp/toukei/srch/indexe.htm"
+      },
+      "languages": [
+        "ja"
+      ],
+      "legalBasis": {
+        "nameEn": "Act on Access to Information Held by Administrative Organs",
+        "nameFi": "Hallintoelinten hallussa olevien tietojen saatavuutta koskeva laki"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Ministry of Health information-disclosure route",
+          "labelFi": "Terveysministeriön tiedonluovutusreitti",
+          "url": "https://www.mhlw.go.jp/jouhou/koukai01/index.html",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 14,
+      "primaryAuthority": {
+        "nameEn": "Japan Customs and Ministry of Finance",
+        "nameFi": "Japanin tulli ja valtiovarainministeriö"
+      },
+      "priorityCode": "B2",
+      "rationaleEn": "A Pixan-family Japanese publication and detailed official customs data justify an early trade-based route, with nicotine-liquid permissions kept separate.",
+      "rationaleFi": "Pixan-perheen Japanin julkaisu ja yksityiskohtainen virallinen tullidata puoltavat varhaista kauppapohjaista reittiä, jossa nikotiininesteiden luvat pidetään erillään.",
+      "recordsRequestedEn": [
+        "Monthly trade for HS 8543.40 and relevant national nine-digit device and liquid codes by partner, value, quantity and unit",
+        "Classification descriptions and time-series breaks, especially before HS 2022",
+        "From the health ministry separately: aggregate counts and recorded quantities of nicotine-liquid import confirmations or permissions"
+      ],
+      "recordsRequestedFi": [
+        "HS 8543.40:n ja asiaankuuluvien kansallisten yhdeksännumeroisten laite- ja nestekoodien kuukausikauppa kumppanin, arvon, määrän ja yksikön mukaan",
+        "Luokittelukuvaukset ja aikasarjakatkokset, erityisesti ennen HS 2022:ta",
+        "Terveysministeriöltä erikseen nikotiininesteiden tuontivahvistusten tai lupien aggregoidut määrät ja kirjatut volyymit"
+      ],
+      "requestChannel": {
+        "nameEn": "Ministry of Finance information-disclosure procedure",
+        "nameFi": "Valtiovarainministeriön tiedonluovutusmenettely",
+        "url": "https://www.mof.go.jp/application-contact/procedure/disclosure_etc/disclosure/index.htm"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Any person may request disclosure, but filing is in Japanese, generally in writing or by post, and carries an administrative fee; local language support is recommended.",
+        "caveatFi": "Kuka tahansa voi pyytää tietoja, mutta hakemus tehdään japaniksi, yleensä kirjallisesti tai postitse, ja siitä peritään hallinnollinen maksu; paikallinen kielituki on suositeltava.",
+        "localRequester": "recommended"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    },
+    {
+      "countryEn": "South Korea",
+      "countryFi": "Etelä-Korea",
+      "countryIso2": "KR",
+      "fallbackAuthority": {
+        "nameEn": "Korea Customs Service big-data import statistics",
+        "nameFi": "Korean tullipalvelun big data -tuontitilastot",
+        "url": "https://bigdata.customs.go.kr/web/anaySrvc/selectImpStat.do"
+      },
+      "languages": [
+        "ko"
+      ],
+      "legalBasis": {
+        "nameEn": "Official Information Disclosure Act",
+        "nameFi": "Virallisten tietojen julkistamislaki"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Korea Customs disclosure procedure and fees",
+          "labelFi": "Korean tullin tiedonluovutusmenettely ja maksut",
+          "url": "https://www.customs.go.kr/kcs/cm/cntnts/cntntsView.do?cntntsId=803&mi=3066",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 15,
+      "primaryAuthority": {
+        "nameEn": "Korea Customs Service",
+        "nameFi": "Korean tullipalvelu"
+      },
+      "priorityCode": "B3",
+      "rationaleEn": "A Pixan-family Korean publication and detailed HSK10 customs records support a precise device-and-liquid trade route.",
+      "rationaleFi": "Pixan-perheen Korean julkaisu ja yksityiskohtaiset HSK10-tullitiedot tukevat tarkkaa laite- ja nestekaupan reittiä.",
+      "recordsRequestedEn": [
+        "Monthly HSK10 trade for 85434010 and every national code expressly covering vaping devices or liquids",
+        "Value, quantity, statistical unit, origin or partner, and reported versus estimated flags",
+        "Seizures separately, with code definitions and classification changes"
+      ],
+      "recordsRequestedFi": [
+        "HSK10-koodin 85434010 ja kaikkien sähkösavukelaitteita tai -nesteitä nimenomaisesti kattavien kansallisten koodien kuukausikauppa",
+        "Arvo, määrä, tilastoyksikkö, alkuperä tai kumppani sekä ilmoitettu- ja arvioitu-merkinnät",
+        "Takavarikot erikseen sekä koodimääritelmät ja luokitusmuutokset"
+      ],
+      "requestChannel": {
+        "nameEn": "Korea Customs Service information-disclosure route",
+        "nameFi": "Korean tullipalvelun tiedonluovutusreitti",
+        "url": "https://www.customs.go.kr/kcs/cm/cntnts/cntntsView.do?cntntsId=805&mi=3069"
+      },
+      "requesterEligibility": {
+        "caveatEn": "The disclosure route proceeds through the Korean open.go.kr system and may require locally usable authentication; Korean-language and local filing support are recommended.",
+        "caveatFi": "Tiedonluovutusreitti kulkee Korean open.go.kr-järjestelmän kautta ja voi edellyttää paikallisesti käytettävää tunnistautumista; korean kieli ja paikallinen hakutuki ovat suositeltavia.",
+        "localRequester": "recommended"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    },
+    {
+      "countryEn": "Australia",
+      "countryFi": "Australia",
+      "countryIso2": "AU",
+      "fallbackAuthority": {
+        "nameEn": "Department of Home Affairs and Australian Border Force FOI",
+        "nameFi": "Sisäministeriön ja rajaviranomaisen FOI",
+        "url": "https://www.homeaffairs.gov.au/access-and-accountability/freedom-of-information"
+      },
+      "languages": [
+        "en"
+      ],
+      "legalBasis": {
+        "nameEn": "Freedom of Information Act 1982",
+        "nameFi": "Freedom of Information Act 1982"
+      },
+      "officialSources": [
+        {
+          "labelEn": "TGA notified vape list",
+          "labelFi": "TGA:n ilmoitettujen höyrystystuotteiden luettelo",
+          "url": "https://www.tga.gov.au/products/unapproved-therapeutic-goods/therapeutic-vaping-goods/vaping-hub/notified-vape-list-goods-smoking-cessation-or-nicotine-dependence",
+          "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "Australian Information Commissioner FOI eligibility guidance",
+          "labelFi": "Australian tietosuojavaltuutetun FOI-kelpoisuusohje",
+          "url": "https://www.oaic.gov.au/freedom-of-information/freedom-of-information-guidance-for-government-agencies/foi-guidelines/part-3-processing-and-deciding-requests-foi-access",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 16,
+      "primaryAuthority": {
+        "nameEn": "Therapeutic Goods Administration",
+        "nameFi": "Australian lääkevalvontaviranomainen"
+      },
+      "priorityCode": "B4",
+      "rationaleEn": "A Pixan-family Australian publication and a highly regulated lawful supply route allow notifications, lawful imports and illicit seizures to be measured separately.",
+      "rationaleFi": "Pixan-perheen Australian julkaisu ja tarkasti säännelty laillinen toimitusreitti mahdollistavat ilmoitusten, laillisen tuonnin ja laittomien takavarikkojen erillisen mittaamisen.",
+      "recordsRequestedEn": [
+        "Dated notified-vape-list snapshots and counts of products, sponsors and permitted importers",
+        "Aggregate notification, import or lawful pharmacy-supply quantities where held",
+        "Large-quantity surrender notifications, while keeping enforcement and lawful-market measures separate"
+      ],
+      "recordsRequestedFi": [
+        "Päivätyt notified vape list -tilannekuvat sekä tuotteiden, sponsoreiden ja sallittujen maahantuojien määrät",
+        "Aggregoidut ilmoitus-, tuonti- tai laillisen apteekkitoimituksen määrät, jos tieto on hallussa",
+        "Suurten määrien luovutusilmoitukset siten, että valvonta ja laillinen markkina pidetään erillään"
+      ],
+      "requestChannel": {
+        "nameEn": "TGA Freedom of Information route",
+        "nameFi": "TGA:n Freedom of Information -reitti",
+        "url": "https://www.tga.gov.au/about-tga/freedom-information-foi"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Any person may make an Australian FOI request without a residence or citizenship condition; commercial-confidentiality exemptions may still limit product-level data.",
+        "caveatFi": "Kuka tahansa voi tehdä Australian FOI-pyynnön ilman asuinpaikka- tai kansalaisuusehtoa; kaupallisen luottamuksellisuuden poikkeukset voivat silti rajoittaa tuotetason tietoja.",
+        "localRequester": "not_required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    },
+    {
+      "countryEn": "Russia",
+      "countryFi": "Venäjä",
+      "countryIso2": "RU",
+      "fallbackAuthority": {
+        "nameEn": "Federal Tax Service excise information",
+        "nameFi": "Liittovaltion veropalvelun valmisteverotiedot",
+        "url": "https://www.nalog.gov.ru/rn77/taxation/taxes/akciz/"
+      },
+      "languages": [
+        "ru"
+      ],
+      "legalBasis": {
+        "nameEn": "Federal Laws 8-FZ and 59-FZ",
+        "nameFi": "Liittovaltion lait 8-FZ ja 59-FZ"
+      },
+      "officialSources": [
+        {
+          "labelEn": "FNS marking-system tax-base guidance",
+          "labelFi": "FNS:n merkintäjärjestelmän veropohjaohje",
+          "url": "https://www.nalog.gov.ru/rn77/news/tax_doc_news/14947890/",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 17,
+      "primaryAuthority": {
+        "nameEn": "Federal Tax Service of Russia",
+        "nameFi": "Venäjän liittovaltion veropalvelu"
+      },
+      "priorityCode": "B5",
+      "rationaleEn": "A Pixan-family Russian publication and marking-system data may support unit and value evidence, but sanctions, access and legal-status risks require controlled handling.",
+      "rationaleFi": "Pixan-perheen Venäjän julkaisu ja merkintäjärjestelmän data voivat tukea kappale- ja arvonäyttöä, mutta pakote-, pääsy- ja oikeudelliset riskit edellyttävät hallittua käsittelyä.",
+      "recordsRequestedEn": [
+        "Aggregate monthly retail withdrawals from the state marking system for nicotine liquids and electronic devices, in units and value",
+        "Excise base, excise revenue, filer and marking counts, refunds and exports",
+        "Customs imports and seizures separately, with definitions and coverage"
+      ],
+      "recordsRequestedFi": [
+        "Valtion merkintäjärjestelmän aggregoidut kuukausittaiset vähittäismyynnistä poistot nikotiininesteille ja sähkölaitteille kappaleina ja arvona",
+        "Valmisteveron peruste, verotuotto, ilmoittajien ja merkintöjen määrät, palautukset ja vienti",
+        "Tullituonti ja takavarikot erikseen sekä määritelmät ja kattavuus"
+      ],
+      "requestChannel": {
+        "nameEn": "Federal Tax Service request route",
+        "nameFi": "Liittovaltion veropalvelun pyyntöreitti",
+        "url": "https://www.nalog.gov.ru/rn77/apply_fts/obr/"
+      },
+      "requesterEligibility": {
+        "caveatEn": "Electronic filing requires the ESIA system and will likely need local support. Perform sanctions, export-control, legal and payment-channel checks before any contact; this programme does not authorise contact.",
+        "caveatFi": "Sähköinen hakemus edellyttää ESIA-järjestelmää ja todennäköisesti paikallista tukea. Tee pakote-, vientivalvonta-, oikeudellinen ja maksukanava-arvio ennen yhteydenottoa; tämä ohjelma ei valtuuta yhteydenottoon.",
+        "localRequester": "conditional"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    },
+    {
+      "countryEn": "Brazil",
+      "countryFi": "Brasilia",
+      "countryIso2": "BR",
+      "fallbackAuthority": {
+        "nameEn": "Ministry of Development, Industry, Trade and Services, Comex Stat raw data",
+        "nameFi": "Kehitys-, teollisuus-, kauppa- ja palveluministeriön Comex Stat -raakadata",
+        "url": "https://www.gov.br/mdic/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta"
+      },
+      "languages": [
+        "pt"
+      ],
+      "legalBasis": {
+        "nameEn": "Access to Information Law 12.527/2011",
+        "nameFi": "Tiedonsaantilaki 12.527/2011"
+      },
+      "officialSources": [
+        {
+          "labelEn": "ANVISA 2024 prohibition decision",
+          "labelFi": "ANVISA:n vuoden 2024 kieltopäätös",
+          "url": "https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2024/anvisa-atualiza-regulacao-de-cigarro-eletronico-e-mantem-proibicao",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 18,
+      "primaryAuthority": {
+        "nameEn": "Brazilian Health Regulatory Agency and Federal Revenue Service",
+        "nameFi": "Brasilian terveysvalvontavirasto ja liittovaltion verohallinto"
+      },
+      "priorityCode": "B6",
+      "rationaleEn": "A Pixan-family Brazilian publication and a national prohibition make enforcement and trade evidence relevant, but they cannot be represented as lawful sales.",
+      "rationaleFi": "Pixan-perheen Brasilian julkaisu ja kansallinen kielto tekevät valvonta- ja kauppanäytöstä merkityksellistä, mutta niitä ei saa esittää laillisena myyntinä.",
+      "recordsRequestedEn": [
+        "Monthly seizures and destruction by state or port, units, weight and recorded or estimated value",
+        "Enforcement actions and methodology, without protected operational detail",
+        "Official NCM trade records where present, explicitly labelled as trade or enforcement rather than lawful domestic sales"
+      ],
+      "recordsRequestedFi": [
+        "Kuukausittaiset takavarikot ja hävitykset osavaltion tai sataman, kappaleiden, painon ja kirjatun tai arvioidun arvon mukaan",
+        "Valvontatoimet ja menetelmä ilman suojattuja operatiivisia yksityiskohtia",
+        "Viralliset NCM-kauppatiedot, jos niitä on, nimenomaisesti kauppa- tai valvontatietoina eikä laillisena kotimaan myyntinä"
+      ],
+      "requestChannel": {
+        "nameEn": "Fala.BR access-to-information service",
+        "nameFi": "Fala.BR-tietopyyntöpalvelu",
+        "url": "https://www.gov.br/pt-br/servicos/registrar-solicitacao-de-acesso-a-informacao-na-plataforma-fala.br"
+      },
+      "requesterEligibility": {
+        "caveatEn": "The right is available broadly, but Fala.BR requires Gov.BR authentication. Local filing support is recommended, and prohibition means that seizures or imports must never be treated as lawful retail sales.",
+        "caveatFi": "Oikeus on laaja, mutta Fala.BR edellyttää Gov.BR-tunnistautumista. Paikallinen hakutuki on suositeltava, eikä kiellon vuoksi takavarikkoja tai tuontia saa koskaan käsitellä laillisena vähittäismyyntinä.",
+        "localRequester": "recommended"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    },
+    {
+      "countryEn": "Indonesia",
+      "countryFi": "Indonesia",
+      "countryIso2": "ID",
+      "fallbackAuthority": {
+        "nameEn": "Statistics Indonesia",
+        "nameFi": "Indonesian tilastovirasto",
+        "url": "https://www.bps.go.id/"
+      },
+      "languages": [
+        "id"
+      ],
+      "legalBasis": {
+        "nameEn": "Law 14/2008 on Public Information Disclosure",
+        "nameFi": "Laki 14/2008 julkisen tiedon luovuttamisesta"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Ministry of Finance excise definition regulation",
+          "labelFi": "Valtiovarainministeriön valmisteveromääritelmiä koskeva säädös",
+          "url": "https://jdih.kemenkeu.go.id/dok/63-pmk-03-2022/view",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 19,
+      "primaryAuthority": {
+        "nameEn": "Directorate General of Customs and Excise",
+        "nameFi": "Indonesian tulli- ja valmisteverohallinto"
+      },
+      "priorityCode": "B7",
+      "rationaleEn": "The excise system distinguishes several vaping-liquid forms and can support direct physical-volume and revenue evidence, subject to local requester eligibility.",
+      "rationaleFi": "Valmisteverojärjestelmä erottaa useita höyrystysnesteen muotoja ja voi tuottaa suoraa määrä- ja verotuottonäyttöä paikallisen pyytäjäkelpoisuuden rajoissa.",
+      "recordsRequestedEn": [
+        "Monthly and annual excise releases for open-system, closed-system and cartridge or pod liquids in millilitres, cartridges or grams as recorded",
+        "Excise stamps, manufacturer and importer counts, revenue, refunds and exports",
+        "Imports and seizures separately, including nicotine and nicotine-free separation where held"
+      ],
+      "recordsRequestedFi": [
+        "Avoimen järjestelmän, suljetun järjestelmän sekä patruuna- tai podinesteiden kuukausittaiset ja vuosittaiset valmisteverolliset luovutukset kirjattuina millilitroina, patruunoina tai grammoina",
+        "Valmisteveromerkit, valmistajien ja maahantuojien määrät, verotuotto, palautukset ja vienti",
+        "Tuonti ja takavarikot erikseen sekä nikotiinillisten ja nikotiinittomien erottelu, jos tieto on hallussa"
+      ],
+      "requestChannel": {
+        "nameEn": "Customs and Excise PPID information service",
+        "nameFi": "Tulli- ja valmisteverohallinnon PPID-tietopalvelu",
+        "url": "https://www.beacukai.go.id/halaman-utama-ppid"
+      },
+      "requesterEligibility": {
+        "caveatEn": "A formal PPID requester must be an Indonesian citizen or Indonesian legal entity. Use an eligible local partner and preserve the independent-research, aggregate-only scope.",
+        "caveatFi": "Muodollisen PPID-pyytäjän on oltava Indonesian kansalainen tai indonesialainen oikeushenkilö. Käytä kelpoista paikallista kumppania ja säilytä riippumattoman tutkimuksen aggregoitu rajaus.",
+        "localRequester": "required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    },
+    {
+      "countryEn": "Philippines",
+      "countryFi": "Filippiinit",
+      "countryIso2": "PH",
+      "fallbackAuthority": {
+        "nameEn": "Bureau of Customs eFOI route",
+        "nameFi": "Tulliviraston eFOI-reitti",
+        "url": "https://www.foi.gov.ph/agencies/boc/"
+      },
+      "languages": [
+        "en",
+        "fil"
+      ],
+      "legalBasis": {
+        "nameEn": "Executive Order No. 2, series of 2016",
+        "nameFi": "Toimeenpanomääräys nro 2, vuosi 2016"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Bureau of Internal Revenue FOI page",
+          "labelFi": "Filippiinien veroviraston FOI-sivu",
+          "url": "https://www.bir.gov.ph/foi",
+          "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "Philippine eFOI eligibility and process FAQ",
+          "labelFi": "Filippiinien eFOI-kelpoisuus- ja prosessiohje",
+          "url": "https://www.foi.gov.ph/faqs/",
+          "verifiedOn": "2026-07-22"
+        }
+      ],
+      "operationalRank": 20,
+      "primaryAuthority": {
+        "nameEn": "Bureau of Internal Revenue",
+        "nameFi": "Filippiinien verovirasto"
+      },
+      "priorityCode": "B8",
+      "rationaleEn": "Excise returns and stamp records can support a direct lawful-market series, while customs records provide a separate enforcement check; citizen eligibility makes this a local-partner route.",
+      "rationaleFi": "Valmisteveroilmoitukset ja veromerkkitiedot voivat tukea suoraa laillisen markkinan sarjaa, ja tullitiedot tarjoavat erillisen valvontatarkistuksen; kansalaisuusrajaus tekee tästä paikallisen kumppanin reitin.",
+      "recordsRequestedEn": [
+        "Monthly aggregate Form 2200-T excise base, units or millilitres and revenue by vaping-product category",
+        "Excise stamps ordered and issued, registered brand and manufacturer counts, refunds and exports",
+        "From Customs separately: imports and seizures in units, weight and recorded value"
+      ],
+      "recordsRequestedFi": [
+        "Form 2200-T:n kuukausittainen aggregoitu valmisteveropohja, kappaleet tai millilitrat ja verotuotto höyrystystuoteryhmittäin",
+        "Tilatut ja myönnetyt valmisteveromerkit, rekisteröityjen merkkien ja valmistajien määrät, palautukset ja vienti",
+        "Tullilta erikseen tuonti ja takavarikot kappaleina, painona ja kirjattuna arvona"
+      ],
+      "requestChannel": {
+        "nameEn": "Philippine eFOI portal, Bureau of Internal Revenue",
+        "nameFi": "Filippiinien eFOI-portaali, verovirasto",
+        "url": "https://www.foi.gov.ph/agencies/bir/"
+      },
+      "requesterEligibility": {
+        "caveatEn": "The eFOI programme is available to Filipino citizens and requires valid identification. Use an eligible local requester and do not treat that person as a Pixan representative.",
+        "caveatFi": "eFOI-ohjelma on Filippiinien kansalaisten käytettävissä ja edellyttää voimassa olevaa henkilöllisyystodistusta. Käytä kelpoista paikallista pyytäjää äläkä esitä häntä Pixanin edustajana.",
+        "localRequester": "required"
+      },
+      "status": "draft_not_sent",
+      "wave": "1B"
+    }
+  ],
+  "schemaVersion": 1,
+  "scope": {
+    "commonFieldsEn": [
+      "Month or year and whether the measure is release for domestic consumption, manufacturer/importer shipment, wholesale sale or retail sell-through",
+      "Reusable or complete device, liquid-containing disposable, pod or cartridge, refill bottle or other liquid, and nicotine-containing versus nicotine-free",
+      "Units, millilitres, net weight, reported or assessable value, excise base, excise collected, refunds and exports",
+      "Reporting entities and products, active and withdrawn notifications, missing or late reports, suppressed cells and revisions"
+    ],
+    "commonFieldsFi": [
+      "Kuukausi tai vuosi sekä tieto siitä, onko mittari kotimaan kulutukseen luovutus, valmistaja- tai maahantuojatoimitus, tukkumyynti vai vähittäismyynti",
+      "Uudelleenkäytettävä tai täydellinen laite, nestettä sisältävä kertakäyttölaite, podi tai patruuna, täyttöpullo tai muu neste sekä nikotiinillinen ja nikotiiniton",
+      "Kappaleet, millilitrat, nettopaino, ilmoitettu tai verotusarvo, veropohja, kannettu valmistevero, palautukset ja vienti",
+      "Raportoivat toimijat ja tuotteet, aktiiviset ja peruutetut ilmoitukset, puuttuvat tai myöhästyneet raportit, salatut solut ja revisiot"
+    ],
+    "period": "2018-2025",
+    "preferredFormats": [
+      "CSV",
+      "XLSX",
+      "JSON"
+    ],
+    "provisional2026En": "Request 2026 year-to-date data only where the authority already holds a finalised series.",
+    "provisional2026Fi": "Pyydä vuoden 2026 alusta kertyneet tiedot vain, jos viranomaisella on jo valmis sarja.",
+    "requestPrinciplesEn": [
+      "Request existing aggregate records or routinely producible database extracts, not a new analysis.",
+      "Keep lawful-market data, cross-border trade, seizures and destruction separate.",
+      "Do not add tax, shipment, customs or retail measures together without a documented reconciliation.",
+      "Request definitions, coverage, missingness, suppression, revisions and the measured supply-chain stage.",
+      "Do not request personal, taxpayer-identifiable, company-identifiable, trade-secret or protected enforcement information."
+    ],
+    "requestPrinciplesFi": [
+      "Pyydä olemassa olevia aggregoituja tietueita tai tavanomaisesti tuotettavia tietokantaotteita, ei uutta analyysiä.",
+      "Pidä laillisen markkinan tiedot, rajat ylittävä kauppa, takavarikot ja hävitykset erillään.",
+      "Älä laske vero-, toimitus-, tulli- tai vähittäismyyntimittareita yhteen ilman dokumentoitua täsmäytystä.",
+      "Pyydä määritelmät, kattavuus, puuttuvat tiedot, salaukset, revisiot ja mitattu toimitusketjun vaihe.",
+      "Älä pyydä henkilö-, verovelvollis-, yritys-, liikesalaisuus- tai suojattuja valvontatietoja."
+    ]
+  },
+  "status": "draft_not_sent",
+  "verificationDate": "2026-07-22"
+}

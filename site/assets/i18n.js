@@ -385,7 +385,27 @@
     ["Vain julkisesta aineistosta · riippumaton julkaisu", "Public data only · independent publication"],
     ["Tämä paketti ei ole Pixan Oy:n julkaisema tai hyväksymä. Se ei ole tarjous, arvonmääritys, sijoitus- tai lainaneuvonta, tilintarkastus eikä oikeudellinen lausunto.", "This package is not issued or endorsed by Pixan Oy. It is not an offer, valuation, investment or lending advice, audit or legal opinion."],
     ["Tarkistetaan nykyisiä latauksia…", "Checking current downloads…"],
-    ["Kaikki ladattavat tiedostot ovat suomenkielisiä. SHA-256-tunniste auttaa varmistamaan, että käytössä on tämän julkaisun tiedosto.", "All downloadable files are currently in Finnish. The SHA-256 identifier helps confirm that a file belongs to this release."]
+    ["Englannin- ja suomenkieliset tiedostot on lukittu samaan julkaisuun. Selain tarkistaa jokaisen tiedoston koon ja koko SHA-256-tiivisteen ennen latauslinkin näyttämistä.", "English and Finnish files are release-locked together. The browser verifies every file's size and full SHA-256 digest before showing its download link."],
+    ["EP3032975 · koko historia · julkinen evidenssi", "EP3032975 · full history · public evidence"],
+    ["Virallinen perhejulkaisu ≠ nykyinen kansallinen tila", "Official family publication ≠ current national status"],
+    ["Evidenssi ensin · oikeudellisen neuvonannon ohjaama", "Evidence first · counsel led"],
+    ["Virallisen datan hankinta · vain luonnokset", "Official-data acquisition · drafts only"],
+    ["20 maan tietopyyntöohjelma", "20-country data-request programme"],
+    ["Tarkistetut viralliset reitit olemassa olevien aggregoitujen myynti-, valmistevero-, tulli- ja tuoteilmoitustietojen pyytämiseksi. Järjestys on operatiivinen — ei markkinakokoluokitus.", "Verified official routes for existing aggregate sales, excise, customs and product-notification records. The ranking is operational—not a market-size ranking."],
+    ["Tietopyyntöjen tilarajaus", "Data-request status boundary"],
+    ["Yhtäkään pyyntöä ei ole lähetetty", "No request has been sent"],
+    ["Jokainen reitti ja malli on tarkistettava luonnos. Lähettäminen edellyttää erillistä hyväksyntää, pyyntöön oikeutettua tahoa sekä maakohtaista oikeus- ja maksutarkistusta.", "Every route and template is a reviewable draft. Sending requires a separate approval, an eligible requester and a country-specific legal and fee check."],
+    ["Lataa reittitaulukko CSV", "Download route table CSV"],
+    ["Lataa englanninkielinen pyyntömalli", "Download English request template"],
+    ["Lataa suomenkielinen pyyntömalli", "Download Finnish request template"],
+    ["Tarkistetaan virallisia pyyntöreittejä…", "Checking official request routes…"],
+    ["Vero-, myynti-, tulli- ja takavarikkosarjat voivat mitata samoja tuotteita toimitusketjun eri kohdissa, eikä niitä saa summata mekaanisesti.", "Tax, sales, customs and seizure series may measure the same goods at different stages and must not be added mechanically."],
+    ["Luonnos — ei lähetetty", "Draft — not sent"],
+    ["Ensisijainen viranomainen", "Primary authority"],
+    ["Virallinen kanava", "Official channel"],
+    ["Pyyntökelpoisuus", "Requester eligibility"],
+    ["Tarkistettu", "Verified"],
+    ["Virallisia reittejä ei voitu ladata.", "Official request routes could not be loaded."]
   ];
 
   const pairByText = new Map();

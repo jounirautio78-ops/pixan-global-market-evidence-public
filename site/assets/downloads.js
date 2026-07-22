@@ -4,37 +4,48 @@
   const roots = [...document.querySelectorAll("[data-bank-package]")];
   if (!roots.length) return;
 
-  const EXPECTED = [
+  const expectedArtifacts = (language) => [
     {
-      id: "short-deck",
-      path: "downloads/pixan-bank-deck-short-fi.pptx",
+      id: `short-deck-${language}`,
+      baseId: "short-deck",
+      language,
+      path: `downloads/pixan-bank-deck-short-${language}.pptx`,
       countKey: "slideCount",
       expectedCount: 6,
       marker: "06"
     },
     {
-      id: "medium-deck",
-      path: "downloads/pixan-bank-deck-medium-fi.pptx",
+      id: `medium-deck-${language}`,
+      baseId: "medium-deck",
+      language,
+      path: `downloads/pixan-bank-deck-medium-${language}.pptx`,
       countKey: "slideCount",
       expectedCount: 12,
       marker: "12"
     },
     {
-      id: "large-deck",
-      path: "downloads/pixan-bank-deck-large-fi.pptx",
+      id: `large-deck-${language}`,
+      baseId: "large-deck",
+      language,
+      path: `downloads/pixan-bank-deck-large-${language}.pptx`,
       countKey: "slideCount",
-      marker: "L"
+      expectedCount: 30,
+      marker: "30"
     },
     {
-      id: "evidence-register",
-      path: "downloads/pixan-bank-evidence-register-fi.xlsx",
+      id: `evidence-register-${language}`,
+      baseId: "evidence-register",
+      language,
+      path: `downloads/pixan-bank-evidence-register-${language}.xlsx`,
       countKey: "rowCount",
       marker: "XLSX"
     }
   ];
+  const EXPECTED = [...expectedArtifacts("en"), ...expectedArtifacts("fi")];
   const EXPECTED_BY_PATH = new Map(EXPECTED.map((item) => [item.path, item]));
   let manifest = null;
   let loadError = null;
+  const verifiedObjectUrls = [];
 
   function isFi() {
     return window.SiteI18n?.isFinnish?.() ?? document.documentElement.lang === "fi";
@@ -70,6 +81,7 @@
     const expected = EXPECTED_BY_PATH.get(path);
     const id = nonEmpty(raw.id) ? raw.id.trim() : expected?.id;
     if (!expected || id !== expected.id) throw new Error("unexpected artifact path or ID");
+    if (raw.language !== expected.language) throw new Error("unexpected artifact language");
 
     const sha256 = String(raw.sha256 || raw.sha || "").trim().toLowerCase();
     const bytes = Number(raw.bytes ?? raw.size);
@@ -84,6 +96,8 @@
     return {
       ...raw,
       id,
+      baseId: expected.baseId,
+      language: expected.language,
       path,
       fileName,
       sha256,
@@ -96,7 +110,7 @@
 
   function normalizeManifest(raw) {
     if (!raw || typeof raw !== "object") throw new Error("invalid manifest");
-    if (raw.schemaVersion !== 1 || raw.generatedFromPublicDataOnly !== true) {
+    if (raw.schemaVersion !== 2 || raw.generatedFromPublicDataOnly !== true) {
       throw new Error("unsupported manifest boundary");
     }
 
@@ -110,7 +124,10 @@
     if (Number.isNaN(new Date(release.publishedAt).valueOf())) throw new Error("invalid release timestamp");
     if (!nonEmpty(raw.asOf) || !/^\d{4}-\d{2}-\d{2}$/.test(raw.asOf)) throw new Error("invalid dataset date");
     if (Number.isNaN(new Date(`${raw.asOf}T12:00:00Z`).valueOf())) throw new Error("invalid dataset date");
-    if (raw.language !== "fi") throw new Error("unexpected package language");
+    if (!Array.isArray(raw.languages) || raw.languages.length !== 2
+      || !raw.languages.includes("en") || !raw.languages.includes("fi")) {
+      throw new Error("unexpected package languages");
+    }
     if (!raw.publicBoundary || !nonEmpty(raw.publicBoundary.fi) || !nonEmpty(raw.publicBoundary.en)) {
       throw new Error("missing public boundary");
     }
@@ -134,6 +151,35 @@
       release,
       artifacts: EXPECTED.map((item) => byId.get(item.id))
     };
+  }
+
+  async function sha256Hex(bytes) {
+    if (!globalThis.crypto?.subtle) throw new Error("Web Crypto SHA-256 is unavailable");
+    const digest = await globalThis.crypto.subtle.digest("SHA-256", bytes);
+    return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function verifyArtifact(artifact) {
+    const url = new URL(artifact.path, document.baseURI);
+    url.searchParams.set("sha", artifact.sha256);
+    const response = await fetch(url.href, { cache: "no-store", credentials: "same-origin" });
+    if (!response.ok) throw new Error(`${artifact.fileName} HTTP ${response.status}`);
+    const bytes = await response.arrayBuffer();
+    if (bytes.byteLength !== artifact.bytes) throw new Error(`${artifact.fileName} size mismatch`);
+    if (await sha256Hex(bytes) !== artifact.sha256) throw new Error(`${artifact.fileName} SHA-256 mismatch`);
+    const contentType = artifact.path.endsWith(".xlsx")
+      ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      : "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+    const verifiedUrl = URL.createObjectURL(new Blob([bytes], { type: contentType }));
+    verifiedObjectUrls.push(verifiedUrl);
+    return { ...artifact, verifiedUrl };
+  }
+
+  async function verifyArtifacts(packageManifest) {
+    const results = await Promise.allSettled(packageManifest.artifacts.map(verifyArtifact));
+    const failure = results.find((result) => result.status === "rejected");
+    if (failure) throw failure.reason;
+    return { ...packageManifest, artifacts: results.map((result) => result.value) };
   }
 
   function formatDate(value) {
@@ -173,7 +219,7 @@
       "large-deck": l("Laaja pankkidekki", "Extended bank deck"),
       "evidence-register": "Evidence Register"
     };
-    return fallback[artifact.id];
+    return fallback[artifact.baseId];
   }
 
   function artifactDescription(artifact) {
@@ -195,7 +241,7 @@
         "Claim-level evidence, sources, calculations, assumptions, confidence and gaps."
       )
     };
-    return descriptions[artifact.id];
+    return descriptions[artifact.baseId];
   }
 
   function countLabel(artifact) {
@@ -221,7 +267,7 @@
     const badges = element("div", "bank-package-badges");
     badges.append(
       element("span", "bank-package-format", artifact.path.endsWith(".xlsx") ? "XLSX" : "PPTX"),
-      element("span", "bank-package-language", l("Suomeksi", "Finnish"))
+      element("span", "bank-package-language", artifact.language === "fi" ? "Suomi" : "English")
     );
     top.append(marker, badges);
 
@@ -239,15 +285,14 @@
     hashRow.append(hashLabel, hash);
     metadata.append(hashRow);
 
-    const url = new URL(artifact.path, document.baseURI);
-    url.searchParams.set("sha", artifact.sha256.slice(0, 16));
     const link = element(
       "a",
       "button button-primary bank-package-download",
-      artifact.id === "evidence-register" ? l("Lataa Evidence Register", "Download Evidence Register") : l("Lataa dekki", "Download deck")
+      artifact.baseId === "evidence-register" ? l("Lataa Evidence Register", "Download Evidence Register") : l("Lataa dekki", "Download deck")
     );
-    link.href = url.href;
+    link.href = artifact.verifiedUrl;
     link.download = artifact.fileName;
+    link.dataset.sha256 = artifact.sha256;
     link.setAttribute("aria-label", `${link.textContent}: ${artifactTitle(artifact)}, ${countLabel(artifact)}`);
     const filename = element("small", "bank-package-filename", artifact.fileName);
 
@@ -266,7 +311,13 @@
     boundary.textContent = isFi() ? manifest.publicBoundary.fi : manifest.publicBoundary.en;
 
     const grid = root.querySelector("[data-bank-package-artifacts]");
-    grid.replaceChildren(...manifest.artifacts.map(renderArtifact));
+    const preferredLanguage = isFi() ? "fi" : "en";
+    const orderedArtifacts = [...manifest.artifacts].sort((left, right) => {
+      const leftPreferred = left.language === preferredLanguage ? 0 : 1;
+      const rightPreferred = right.language === preferredLanguage ? 0 : 1;
+      return leftPreferred - rightPreferred;
+    });
+    grid.replaceChildren(...orderedArtifacts.map(renderArtifact));
     grid.hidden = false;
 
     const note = root.querySelector("[data-bank-package-note]");
@@ -277,8 +328,8 @@
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `${manifest.artifacts.length} tiedostoa tarkistettu julkaisumanifestia vasten.`,
-        `${manifest.artifacts.length} files verified against the release manifest.`
+        `${manifest.artifacts.length} tiedoston koko ja SHA-256 tarkistettu tässä selaimessa.`,
+        `${manifest.artifacts.length} files size- and SHA-256-verified in this browser.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");
@@ -322,8 +373,9 @@
         credentials: "same-origin"
       });
       if (!response.ok) throw new Error(`Bank package manifest HTTP ${response.status}`);
-      manifest = normalizeManifest(await response.json());
+      manifest = await verifyArtifacts(normalizeManifest(await response.json()));
     } catch (error) {
+      verifiedObjectUrls.splice(0).forEach((url) => URL.revokeObjectURL(url));
       loadError = error;
       console.warn("Bank package downloads unavailable", error);
     }
@@ -331,5 +383,8 @@
   }
 
   document.addEventListener("pixan:languagechange", render);
+  window.addEventListener("pagehide", () => {
+    verifiedObjectUrls.splice(0).forEach((url) => URL.revokeObjectURL(url));
+  }, { once: true });
   load();
 })();

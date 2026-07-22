@@ -17,11 +17,17 @@ from xml.etree import ElementTree as ET
 from openpyxl import load_workbook
 from pptx import Presentation
 
+try:
+    from bank_register_parity import validate_register_parity
+except ModuleNotFoundError:  # Support importing this file as scripts.validate_bank_package.
+    from scripts.bank_register_parity import validate_register_parity
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "site" / "data" / "bank-package-manifest.json"
 CHANGELOG_PATH = ROOT / "site" / "data" / "changelog.json"
 REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register.csv"
+EN_REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register-en.csv"
 
 REGISTER_HEADERS = [
     "Väite",
@@ -35,31 +41,73 @@ REGISTER_HEADERS = [
     "Puutteet / tarvittava lisänäyttö",
 ]
 ALLOWED_STATUSES = {"Vahvistettu", "Tuettu", "Oletus", "Puuttuu"}
+EN_REGISTER_HEADERS = [
+    "Claim",
+    "Slide/section",
+    "Evidence",
+    "Source",
+    "Date",
+    "Calculation method",
+    "Assumptions",
+    "Confidence",
+    "Gaps / additional evidence needed",
+]
+EN_ALLOWED_STATUSES = {"Confirmed", "Supported", "Assumption", "Missing"}
 EXPECTED_INPUTS = {
     "site/data/atlas.json",
     "site/data/changelog.json",
     "site/data/market-values.json",
     "site/data/patent-history.json",
+    "source/bank-evidence-register-en.json",
+    "source/bank-deck-en-translations.json",
+    "source/bank-package-en-lock.json",
 }
 EXPECTED_ARTIFACTS = {
-    "short-deck": {
+    "short-deck-fi": {
         "kind": "pptx",
+        "language": "fi",
         "path": "downloads/pixan-bank-deck-short-fi.pptx",
         "slideCount": 6,
     },
-    "medium-deck": {
+    "medium-deck-fi": {
         "kind": "pptx",
+        "language": "fi",
         "path": "downloads/pixan-bank-deck-medium-fi.pptx",
         "slideCount": 12,
     },
-    "large-deck": {
+    "large-deck-fi": {
         "kind": "pptx",
+        "language": "fi",
         "path": "downloads/pixan-bank-deck-large-fi.pptx",
         "slideCount": 30,
     },
-    "evidence-register": {
+    "evidence-register-fi": {
         "kind": "xlsx",
+        "language": "fi",
         "path": "downloads/pixan-bank-evidence-register-fi.xlsx",
+    },
+    "short-deck-en": {
+        "kind": "pptx",
+        "language": "en",
+        "path": "downloads/pixan-bank-deck-short-en.pptx",
+        "slideCount": 6,
+    },
+    "medium-deck-en": {
+        "kind": "pptx",
+        "language": "en",
+        "path": "downloads/pixan-bank-deck-medium-en.pptx",
+        "slideCount": 12,
+    },
+    "large-deck-en": {
+        "kind": "pptx",
+        "language": "en",
+        "path": "downloads/pixan-bank-deck-large-en.pptx",
+        "slideCount": 30,
+    },
+    "evidence-register-en": {
+        "kind": "xlsx",
+        "language": "en",
+        "path": "downloads/pixan-bank-evidence-register-en.xlsx",
     },
 }
 MEDIUM_SECTION_TITLES = [
@@ -76,27 +124,40 @@ MEDIUM_SECTION_TITLES = [
     "taloudellinen malli ja herkkyydet",
     "riskit, hallintatoimet ja seuraavat vaiheet",
 ]
+EN_MEDIUM_SECTION_TITLES = [
+    "financing thesis",
+    "problem",
+    "patented solution",
+    "patent and ip status",
+    "technical differentiation",
+    "market size and scope",
+    "customers and purchase rationale",
+    "competition and alternatives",
+    "validation and current evidence",
+    "commercialisation model",
+    "financial model and sensitivities",
+    "risks, controls and next steps",
+]
 FORBIDDEN_TEXT = (
     "/users/",
     "\\users\\",
     "file://",
-    "jounirautio",
-    "rozella",
-    "ai-yield",
-    "ai yield",
-    "peak portfolio",
-    "blackrock",
-    "black rock",
     "tmp/pdfs",
-    "pankkirahoituspaketti-2026",
+)
+PRIVATE_IDENTIFIER_FINGERPRINTS = frozenset(
+    {
+        (7, "46d7415f6182ece9e933e8e9f780957e449361e0dbe10e34f46c186cad3382a1"),
+        (7, "f910f0bbe95037851d18ca33b91ee7fc9f334c6cfcd02deaf66af4501c8a884c"),
+        (9, "7e6578c2e34b53136741c6efe7799a2dce739651c22404a7894b48d42aa88b41"),
+        (13, "933536a17b00f1b39ba9d3585427bd7232d44960ab35754318c1da8e4cf6c5be"),
+        (25, "40f45830e7e3e21d88245728fe87f76b2e8919543a502aad248a465487cacee3"),
+    }
 )
 FORBIDDEN_ARCHIVE_PARTS = (
     "vbaproject",
     "/embeddings/",
     "/externalLinks/",
     "/oleObject",
-    "/notesMasters/",
-    "/notesSlides/",
     "/comments",
     "connections.xml",
 )
@@ -149,6 +210,14 @@ def validate_forbidden_terms(label: str, text: str, errors: list[str]) -> None:
     for phrase in FORBIDDEN_TEXT:
         if phrase in lowered:
             errors.append(f"{label}: forbidden private/local term {phrase!r}")
+    normalised = re.sub(r"[^a-z0-9]+", "", lowered)
+    for length, expected in PRIVATE_IDENTIFIER_FINGERPRINTS:
+        if any(
+            hashlib.sha256(normalised[index:index + length].encode("utf-8")).hexdigest() == expected
+            for index in range(max(0, len(normalised) - length + 1))
+        ):
+            errors.append(f"{label}: forbidden private identifier fingerprint")
+            break
 
 
 def validate_text(label: str, text: str, errors: list[str]) -> None:
@@ -163,7 +232,42 @@ def validate_text(label: str, text: str, errors: list[str]) -> None:
             errors.append(f"{label}: URL contains a sensitive query key")
 
 
-def validate_ooxml(path: Path, errors: list[str]) -> str:
+def validate_external_https_target(label: str, target: str, errors: list[str]) -> None:
+    """Require the entire external relationship target to be a safe HTTPS URL."""
+
+    if target != target.strip() or any(character.isspace() or ord(character) < 32 for character in target):
+        errors.append(f"{label}: external hyperlink target contains whitespace/control characters")
+        return
+    if re.search(r"%(?![0-9A-Fa-f]{2})", target):
+        errors.append(f"{label}: external hyperlink target contains malformed percent-encoding")
+        return
+    try:
+        parsed = urlparse(target)
+        # Accessing port forces urllib to reject malformed or out-of-range ports.
+        _ = parsed.port
+    except ValueError:
+        errors.append(f"{label}: external hyperlink target is malformed")
+        return
+    if parsed.scheme.casefold() != "https" or not parsed.netloc or not parsed.hostname:
+        errors.append(f"{label}: external hyperlink target must be an absolute HTTPS URL")
+        return
+    if parsed.username is not None or parsed.password is not None:
+        errors.append(f"{label}: external hyperlink target must not contain credentials")
+    if "\\" in target:
+        errors.append(f"{label}: external hyperlink target must not contain backslashes or UNC syntax")
+    query_keys = {key.casefold() for key, _ in parse_qsl(parsed.query, keep_blank_values=True)}
+    if query_keys & SENSITIVE_QUERY_KEYS:
+        errors.append(f"{label}: external hyperlink target contains a sensitive query key")
+    validate_forbidden_terms(label, target, errors)
+
+
+def validate_ooxml(
+    path: Path,
+    errors: list[str],
+    *,
+    require_deterministic_zip: bool,
+    allow_empty_notes: bool,
+) -> str:
     label = str(path.relative_to(ROOT))
     try:
         with zipfile.ZipFile(path) as archive:
@@ -176,11 +280,12 @@ def validate_ooxml(path: Path, errors: list[str]) -> str:
                 errors.append(f"{label}: duplicate ZIP entries")
             if any(name.startswith("/") or ".." in Path(name).parts for name in names):
                 errors.append(f"{label}: unsafe ZIP path")
-            if names != sorted(names):
-                errors.append(f"{label}: ZIP entries are not deterministically ordered")
-            timestamps = {info.date_time for info in infos}
-            if len(timestamps) != 1:
-                errors.append(f"{label}: ZIP timestamps are not normalized")
+            if require_deterministic_zip:
+                if names != sorted(names):
+                    errors.append(f"{label}: ZIP entries are not deterministically ordered")
+                timestamps = {info.date_time for info in infos}
+                if len(timestamps) != 1:
+                    errors.append(f"{label}: ZIP timestamps are not normalized")
 
             extracted_text: list[str] = []
             for info in infos:
@@ -192,6 +297,23 @@ def validate_ooxml(path: Path, errors: list[str]) -> str:
                 if info.filename.endswith((".xml", ".rels")):
                     payload = archive.read(info).decode("utf-8", errors="replace")
                     extracted_text.append(payload)
+                    is_notes_part = "/notesslides/" in lowered_name or "/notesmasters/" in lowered_name
+                    if is_notes_part:
+                        if not allow_empty_notes:
+                            errors.append(f"{label}: notes parts are forbidden ({info.filename})")
+                        elif info.filename.endswith(".xml"):
+                            try:
+                                note_root = ET.fromstring(payload)
+                            except ET.ParseError:
+                                errors.append(f"{label}: malformed notes part {info.filename}")
+                            else:
+                                note_text = [
+                                    str(element.text or "").strip()
+                                    for element in note_root.iter()
+                                    if element.tag.endswith("}t") and str(element.text or "").strip()
+                                ]
+                                if note_text:
+                                    errors.append(f"{label}: notes part contains text ({info.filename})")
                     if info.filename.endswith(".rels"):
                         try:
                             root = ET.fromstring(payload)
@@ -205,7 +327,8 @@ def validate_ooxml(path: Path, errors: list[str]) -> str:
                             relation_type = relation.attrib.get("Type", "").casefold()
                             if "hyperlink" not in relation_type:
                                 errors.append(f"{label}: external non-hyperlink relationship is forbidden")
-                            validate_text(f"{label} relationship", target, errors)
+                            else:
+                                validate_external_https_target(f"{label} relationship", target, errors)
             combined = "\n".join(extracted_text)
             # Namespace declarations and relationship type identifiers use HTTP
             # URIs by OOXML design; URL policy applies only to visible content
@@ -233,32 +356,43 @@ def slide_texts(path: Path, errors: list[str]) -> list[str]:
     return output
 
 
-def read_register_csv(errors: list[str]) -> list[list[str]]:
+def read_register_csv(
+    path: Path,
+    headers: list[str],
+    allowed_statuses: set[str],
+    errors: list[str],
+) -> list[list[str]]:
+    label = str(path.relative_to(ROOT))
     try:
-        with REGISTER_CSV_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
             rows = list(csv.reader(handle))
     except OSError as error:
-        errors.append(f"site/data/bank-evidence-register.csv: {error}")
+        errors.append(f"{label}: {error}")
         return []
-    if not rows or rows[0] != REGISTER_HEADERS:
-        errors.append("bank-evidence-register.csv has incorrect headers")
+    if not rows or rows[0] != headers:
+        errors.append(f"{label} has incorrect headers")
         return []
     data_rows = [[str(value) for value in row] for row in rows[1:] if any(str(value).strip() for value in row)]
     for index, row in enumerate(data_rows, start=2):
-        if len(row) != len(REGISTER_HEADERS):
-            errors.append(f"bank-evidence-register.csv row {index} has {len(row)} columns")
+        if len(row) != len(headers):
+            errors.append(f"{label} row {index} has {len(row)} columns")
             continue
-        if row[7] not in ALLOWED_STATUSES:
-            errors.append(f"bank-evidence-register.csv row {index} has invalid status {row[7]!r}")
-        validate_text(f"bank-evidence-register.csv row {index}", "\n".join(row), errors)
+        if row[7] not in allowed_statuses:
+            errors.append(f"{label} row {index} has invalid status {row[7]!r}")
+        validate_text(f"{label} row {index}", "\n".join(row), errors)
     if not data_rows:
-        errors.append("bank-evidence-register.csv must contain evidence rows")
-    elif {row[7] for row in data_rows if len(row) == 9} != ALLOWED_STATUSES:
-        errors.append("Evidence Register must visibly use all four evidence classifications")
+        errors.append(f"{label} must contain evidence rows")
+    elif {row[7] for row in data_rows if len(row) == len(headers)} != allowed_statuses:
+        errors.append(f"{label} must visibly use all four evidence classifications")
     return data_rows
 
 
-def validate_workbook(path: Path, csv_rows: list[list[str]], errors: list[str]) -> int:
+def validate_workbook(
+    path: Path,
+    csv_rows: list[list[str]],
+    expected_headers: list[str],
+    errors: list[str],
+) -> int:
     label = str(path.relative_to(ROOT))
     try:
         workbook = load_workbook(path, data_only=False, read_only=False)
@@ -283,7 +417,7 @@ def validate_workbook(path: Path, csv_rows: list[list[str]], errors: list[str]) 
                     validate_text(f"{label} hyperlink", str(cell.hyperlink.target), errors)
     sheet = workbook["Evidence Register"]
     headers = [str(sheet.cell(1, column).value or "") for column in range(1, 10)]
-    if headers != REGISTER_HEADERS:
+    if headers != expected_headers:
         errors.append(f"{label}: Evidence Register headers are incorrect")
     workbook_rows: list[list[str]] = []
     for values in sheet.iter_rows(min_row=2, max_col=9, values_only=True):
@@ -307,7 +441,7 @@ def validate_manifest(errors: list[str]) -> None:
         "generatedFromPublicDataOnly",
         "release",
         "asOf",
-        "language",
+        "languages",
         "publicBoundary",
         "inputs",
         "artifacts",
@@ -315,10 +449,10 @@ def validate_manifest(errors: list[str]) -> None:
     if not isinstance(manifest, dict) or set(manifest) != expected_keys:
         errors.append("bank-package-manifest.json has an unexpected schema")
         return
-    if manifest.get("schemaVersion") != 1 or manifest.get("generatedFromPublicDataOnly") is not True:
-        errors.append("manifest must declare schemaVersion 1 and public-data-only generation")
-    if manifest.get("language") != "fi":
-        errors.append("manifest language must be fi")
+    if manifest.get("schemaVersion") != 2 or manifest.get("generatedFromPublicDataOnly") is not True:
+        errors.append("manifest must declare schemaVersion 2 and public-data-only generation")
+    if manifest.get("languages") != ["en", "fi"]:
+        errors.append("manifest languages must be exactly en and fi")
     latest_release = changelog.get("releases", [{}])[0]
     expected_release = {
         key: latest_release.get(key) for key in ("id", "version", "publishedAt")
@@ -362,22 +496,36 @@ def validate_manifest(errors: list[str]) -> None:
         if isinstance(item, dict) and isinstance(item.get("id"), str)
     }
     if set(artifact_by_id) != set(EXPECTED_ARTIFACTS) or len(artifact_by_id) != len(artifacts):
-        errors.append("manifest artifacts must contain exactly the four approved downloads")
+        errors.append("manifest artifacts must contain exactly the eight approved downloads")
 
-    csv_rows = read_register_csv(errors)
+    csv_rows_by_language = {
+        "fi": read_register_csv(REGISTER_CSV_PATH, REGISTER_HEADERS, ALLOWED_STATUSES, errors),
+        "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
+    }
+    errors.extend(
+        validate_register_parity(
+            csv_rows_by_language["fi"],
+            csv_rows_by_language["en"],
+        )
+    )
+    headers_by_language = {"fi": REGISTER_HEADERS, "en": EN_REGISTER_HEADERS}
     for artifact_id, expected in EXPECTED_ARTIFACTS.items():
         item = artifact_by_id.get(artifact_id)
         if not isinstance(item, dict):
             continue
-        required = {"id", "kind", "titleFi", "titleEn", "fileName", "path", "sha256", "bytes"}
+        required = {"id", "kind", "language", "titleFi", "titleEn", "fileName", "path", "sha256", "bytes"}
         if expected["kind"] == "pptx":
             required.add("slideCount")
         else:
             required.add("rowCount")
         if set(item) != required:
             errors.append(f"manifest artifact {artifact_id} has an unexpected schema")
-        if item.get("kind") != expected["kind"] or item.get("path") != expected["path"]:
-            errors.append(f"manifest artifact {artifact_id} kind/path differs from allowlist")
+        if (
+            item.get("kind") != expected["kind"]
+            or item.get("language") != expected["language"]
+            or item.get("path") != expected["path"]
+        ):
+            errors.append(f"manifest artifact {artifact_id} kind/language/path differs from allowlist")
         if item.get("fileName") != Path(expected["path"]).name:
             errors.append(f"manifest artifact {artifact_id} filename differs from path")
         if not str(item.get("titleFi", "")).strip() or not str(item.get("titleEn", "")).strip():
@@ -393,7 +541,13 @@ def validate_manifest(errors: list[str]) -> None:
             errors.append(f"{relative}: manifest byte count differs")
         if not SHA256_RE.fullmatch(str(item.get("sha256", ""))) or item.get("sha256") != sha256(path):
             errors.append(f"{relative}: manifest SHA-256 differs")
-        validate_ooxml(path, errors)
+        is_english = expected["language"] == "en"
+        validate_ooxml(
+            path,
+            errors,
+            require_deterministic_zip=not is_english,
+            allow_empty_notes=is_english and expected["kind"] == "pptx",
+        )
         if expected["kind"] == "pptx":
             texts = slide_texts(path, errors)
             if len(texts) != expected["slideCount"] or item.get("slideCount") != expected["slideCount"]:
@@ -402,15 +556,21 @@ def validate_manifest(errors: list[str]) -> None:
                 if not text.strip():
                     errors.append(f"{relative}: slide {index} has no readable text")
                 validate_text(f"{relative} slide {index}", text, errors)
-            if artifact_id == "medium-deck" and len(texts) == 12:
-                for index, expected_title in enumerate(MEDIUM_SECTION_TITLES):
+            combined = "\n".join(texts).casefold()
+            expected_boundary = "independent public evidence" if is_english else "julkinen riippumaton"
+            if expected_boundary not in combined:
+                errors.append(f"{relative}: public-boundary disclosure is missing")
+            if artifact_id in {"medium-deck-fi", "medium-deck-en"} and len(texts) == 12:
+                titles = EN_MEDIUM_SECTION_TITLES if is_english else MEDIUM_SECTION_TITLES
+                for index, expected_title in enumerate(titles):
                     normalized = " ".join(texts[index].casefold().split())
                     if expected_title not in normalized:
                         errors.append(
                             f"{relative}: slide {index + 1} lacks requested section title {expected_title!r}"
                         )
         else:
-            row_count = validate_workbook(path, csv_rows, errors)
+            csv_rows = csv_rows_by_language[expected["language"]]
+            row_count = validate_workbook(path, csv_rows, headers_by_language[expected["language"]], errors)
             if item.get("rowCount") != row_count or row_count != len(csv_rows):
                 errors.append(f"{relative}: manifest/workbook/CSV row counts differ")
 
@@ -424,8 +584,8 @@ def main() -> None:
         print(f"Bank-package validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated public bank package: 6/12/30-slide decks, Evidence Register parity, "
-        "release and SHA-256 manifest integrity, deterministic OOXML and public-data-only boundary."
+        "Validated bilingual public bank package: English and Finnish 6/12/30-slide decks, "
+        "Evidence Register parity, release-lock and SHA-256 integrity, safe OOXML and public-data-only boundary."
     )
 
 

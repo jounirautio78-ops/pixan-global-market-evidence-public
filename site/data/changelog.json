@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-22-bilingual-package-and-request-program-v8",
+      "version": "2026.07.22-8",
+      "publishedAt": "2026-07-22T19:15:00+03:00",
+      "titleEn": "Bilingual lender package and official-data request programme",
+      "titleFi": "Kaksikielinen rahoittajapaketti ja virallisen datan pyyntöohjelma",
+      "items": [
+        {
+          "category": "language",
+          "textEn": "Added English 6-, 12- and 30-slide lender decks and an English Evidence Register alongside the Finnish files.",
+          "textFi": "Lisättiin suomenkielisten tiedostojen rinnalle englanninkieliset 6, 12 ja 30 dian rahoittajadekit sekä englanninkielinen Evidence Register."
+        },
+        {
+          "category": "method",
+          "textEn": "Bound every downloadable file to the same public release with file-level SHA-256 checks; a stale or incomplete bilingual package blocks publication.",
+          "textFi": "Sidottiin jokainen ladattava tiedosto samaan julkiseen julkaisuun tiedostokohtaisilla SHA-256-tarkistuksilla; vanhentunut tai puutteellinen kaksikielinen paketti estää julkaisun."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Added a verified 20-country programme for requesting existing aggregate sales, excise, customs and product-notification records through official channels. Every route is a draft and no request has been sent.",
+          "textFi": "Lisättiin tarkistettu 20 maan ohjelma olemassa olevien aggregoitujen myynti-, valmistevero-, tulli- ja tuoteilmoitustietojen pyytämiseksi virallisia kanavia pitkin. Kaikki reitit ovat luonnoksia, eikä yhtäkään pyyntöä ole lähetetty."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Reinforced the public/private boundary: shareholder, pledge, loan, contract, named-interest, privileged legal and raw technical material remains outside the public repository.",
+          "textFi": "Vahvistettiin julkisen ja yksityisen aineiston raja: osakas-, panttaus-, laina-, sopimus-, nimetty kiinnostus-, salassa pidettävä oikeudellinen ja tekninen raaka-aineisto jää julkisen repositorion ulkopuolelle."
+        }
+      ]
+    },
+    {
       "id": "2026-07-22-live-bank-package-v7",
       "version": "2026.07.22-7",
       "publishedAt": "2026-07-22T18:10:00+03:00",
