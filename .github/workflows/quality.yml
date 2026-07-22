@@ -1,0 +1,68 @@
+name: Validate public evidence site
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  quality:
+    name: Rebuild, validate, and compare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Rebuild generated public files
+        run: python scripts/build_atlas.py
+
+      - name: Validate public-only content
+        run: python scripts/validate_public.py
+
+      - name: Require a clean reviewed rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git diff --check
+          git diff --exit-code
+
+          untracked="$(git ls-files --others --exclude-standard)"
+          if [[ -n "$untracked" ]]; then
+            echo "::error::The build produced untracked files."
+            printf '%s\n' "$untracked"
+            exit 1
+          fi
+
+          ignored_in_site="$(
+            {
+              git ls-files --others --ignored --exclude-standard -- site
+              git ls-files --cached --ignored --exclude-standard -- site
+            } | sort -u
+          )"
+          if [[ -n "$ignored_in_site" ]]; then
+            echo "::error::Ignored files under site/ would still enter the public Pages artifact."
+            printf '%s\n' "$ignored_in_site"
+            exit 1
+          fi
