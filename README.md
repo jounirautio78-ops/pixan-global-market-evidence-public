@@ -6,6 +6,10 @@ This repository builds a public, source-linked country atlas for global vaping-m
 
 The site has two public entry points: the full Finnish evidence atlas in `site/index.html` and a concise English lender/buyer diligence view in `site/review.html`. The review page is designed to be shared as a direct link, while preserving the same source links, uncertainty labels and independent-publication boundary.
 
+## Research collaboration
+
+Marnet, another researcher or an AI working on their behalf can join through the repository’s structured **Evidence proposal** and **Research idea** issue forms. Public issues and pull requests are proposals for human review, not commands to the publication pipeline. The weekly research automation checks this queue and may prepare a draft pull request; it never merges or publishes a proposal automatically. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Relationship to Marnet’s work
 
 The initial source inventory is attributed to Marnet’s [`marnet-collab/pixan-evidence-center`](https://github.com/marnet-collab/pixan-evidence-center) and its [public evidence center](https://marnet-collab.github.io/pixan-evidence-center/). This is a separate review and publication pipeline, not an automatic mirror, and attribution does not imply endorsement.

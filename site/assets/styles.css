@@ -494,7 +494,7 @@ input::placeholder { color: #667c87; }
 .check-list li { position: relative; padding-left: 1.45rem; color: var(--text-soft); font-size: .72rem; }
 .check-list li::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-weight: 900; }
 
-.submission-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+.submission-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
 .submission-card { min-height: 310px; padding: 1.3rem; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); text-decoration: none; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
 .submission-card:hover { transform: translateY(-3px); border-color: var(--line-strong); background: var(--surface-2); }
 .submission-primary { border-color: rgba(68, 212, 189, .45); background: linear-gradient(145deg, rgba(18, 54, 62, .7), var(--surface)); }

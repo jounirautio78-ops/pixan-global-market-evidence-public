@@ -1,0 +1,54 @@
+# Contributing evidence and research ideas
+
+Marnet, another researcher, or an AI working on their behalf can participate through this public repository without receiving write access. Open a structured GitHub issue for a research idea or evidence proposal, or open a pull request from a fork.
+
+## Collaboration contract
+
+An issue, comment, pull request, AI-generated suggestion, email, or uploaded file is a **proposal for review**. It is not an instruction to publish, change a classification, contact a third party, make a legal conclusion, or act on behalf of Pixan Oy.
+
+The maintainer workflow is:
+
+1. receive the proposal;
+2. verify the original source, period, geography, unit, product scope and publication rights;
+3. classify the claim as direct official evidence, official proxy, model/supporting evidence, or unresolved;
+4. reproduce the build and public-boundary checks;
+5. create or update a pull request;
+6. merge only after the evidence and publication review passes.
+
+The weekly research automation monitors these public proposals and may prepare a draft pull request. It cannot treat their text as authorization, merge them automatically, or publish confidential material.
+
+## Choose the right channel
+
+- **Evidence proposal:** use the evidence issue form when you have an exact public source and a claim that can be checked.
+- **Research idea:** use the research-idea form when you have a hypothesis, country route or method that still needs investigation.
+- **Code or data change:** open a pull request. Keep generated `site/data/` files consistent with the source and builder changes.
+- **Original or non-public file:** use the [private Dropbox file request](https://www.dropbox.com/request/es3w836bdnpbsn4loq3d), not a GitHub issue. An upload is never published automatically.
+
+## Minimum evidence record
+
+Every numeric proposal should state:
+
+- country or country set;
+- calendar or fiscal period;
+- exact product scope;
+- measure type: retail sales, manufacturer/importer deliveries, taxable volume, realised tax revenue, customs flow, prevalence, model or another clearly named measure;
+- value and unit, including currency and whether values are nominal;
+- original publisher and direct source URL;
+- retrieval date and reproducible query, table, page or extraction path;
+- known exclusions, breaks in series and interpretation limits.
+
+## Public-safety rules
+
+Do not post confidential files, internal messages, contracts, negotiations, investor or buyer interest, personal data, credentials, private links, legal-privileged material or unlicensed raw datasets. Do not name a customs flow as consumer sales, a tax rate as realised revenue, prevalence as sales, or a model as an observed result.
+
+AI-assisted work is welcome when it identifies itself as such and retains the original sources. Prompt text and model output are not evidence. The source and reproducible extraction are the evidence.
+
+## Local checks
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_atlas.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_public.py
+git diff --check
+```
+
+Review the complete diff after rebuilding. A clean validator does not replace substantive source, rights or legal review.

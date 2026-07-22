@@ -1,0 +1,110 @@
+name: Evidence proposal
+description: Propose a public, reproducible country-market or legal source for review.
+title: "[Evidence]: "
+labels:
+  - evidence-proposal
+  - review-required
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a public issue. Do not include confidential material, personal data, internal correspondence, negotiations or private links. Use the private Dropbox file request for non-public originals.
+
+  - type: input
+    id: countries
+    attributes:
+      label: Country or countries
+      description: Use country names and ISO-2 codes when known.
+      placeholder: Germany (DE)
+    validations:
+      required: true
+
+  - type: input
+    id: period
+    attributes:
+      label: Period
+      description: State the exact calendar or fiscal period.
+      placeholder: Calendar year 2025
+    validations:
+      required: true
+
+  - type: dropdown
+    id: measure
+    attributes:
+      label: Measure type
+      options:
+        - Official retail sales or deliveries
+        - Official taxable or reported volume
+        - Realised tax revenue
+        - Customs import, export or re-export
+        - Regulatory reporting or registry
+        - Patent or court record
+        - Prevalence or user survey
+        - Model or forecast
+        - Other clearly defined measure
+    validations:
+      required: true
+
+  - type: textarea
+    id: claim
+    attributes:
+      label: Exact proposed claim
+      description: Include value, unit, currency, product scope and whether the observation is direct, derived or modeled.
+      placeholder: State only what the source directly supports.
+    validations:
+      required: true
+
+  - type: input
+    id: publisher
+    attributes:
+      label: Original publisher
+      placeholder: Authority, court, statistics office or research institution
+    validations:
+      required: true
+
+  - type: input
+    id: source_url
+    attributes:
+      label: Direct public source URL
+      description: Link to the exact table, document or record when possible, not only a portal homepage.
+      placeholder: https://...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction path
+      description: Give table, page, query parameters, product codes, filters, formula and retrieval date.
+    validations:
+      required: true
+
+  - type: textarea
+    id: limitations
+    attributes:
+      label: Known limitations
+      description: State exclusions, breaks, proxies, uncertainty and what must not be inferred.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ai_assisted
+    attributes:
+      label: Was AI used to prepare this proposal?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Public-review confirmations
+      options:
+        - label: I have not included confidential material, personal data, internal negotiations or private links.
+          required: true
+        - label: I understand that this proposal is not a command or authorization to publish and may be rejected or reclassified.
+          required: true
+        - label: I have linked the original source and described a reproducible extraction path.
+          required: true
