@@ -157,6 +157,7 @@ const MEASURE_LABELS = {
 const state = {
   data: null,
   marketData: null,
+  patentData: null,
   changelog: null,
   changeView: null,
   tab: "overview",
@@ -165,6 +166,7 @@ const state = {
   grade: "",
   evidenceQuery: "",
   evidenceGrade: "",
+  patentQuery: "",
   openCountry: null
 };
 
@@ -190,7 +192,9 @@ function formatDate(value) {
   if (!value) return "—";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return String(value);
-  return new Intl.DateTimeFormat(isFi() ? "fi-FI" : "en-GB", { year: "numeric", month: "long", day: "numeric" }).format(date);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(value))) options.timeZone = "UTC";
+  return new Intl.DateTimeFormat(isFi() ? "fi-FI" : "en-GB", options).format(date);
 }
 
 function valueAt(source, paths, fallback = undefined) {
@@ -261,18 +265,18 @@ function sourceLinksOf(country) {
 
 function renderMetrics() {
   const list = countries();
-  const grades = list.reduce((acc, country) => {
-    const grade = gradeOf(country);
-    acc[grade] = (acc[grade] || 0) + 1;
-    return acc;
-  }, {});
-  const official = list.filter((country) => ["confirmed", "partial"].includes(normalizeDimension(country.dimensions?.officialSales)) || normalizeDimension(country.dimensions?.officialVolume) === "confirmed" || normalizeDimension(country.dimensions?.taxRevenue) === "confirmed").length;
-  const sourced = list.filter((country) => gradeOf(country) !== "D").length;
+  const quantified = new Set(marketObservations()
+    .filter((item) => item.countryIso2 && !["commercial_estimate", "published_price_input"].includes(item.evidenceStatus))
+    .map((item) => item.countryIso2));
+  const officialRetail = new Set(marketObservations()
+    .filter((item) => item.countryIso2 && item.metric === "consumer_retail_market_value" && String(item.evidenceStatus).startsWith("official_"))
+    .map((item) => item.countryIso2));
+  const modelled = new Set(marketModels().map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
-    { label: l("Maailman universumi", "Country universe"), value: list.length, note: l("UN 193 + Pyhä istuin + Palestiina", "UN 193 + Holy See + State of Palestine") },
-    { label: l("Viranomaisankkuri", "Direct official anchor"), value: grades.A || 0, note: l("A-lähde ei tarkoita täydellistä markkinapeittoa", "Grade A does not mean complete market coverage") },
-    { label: l("Numeerinen reitti", "Sourced numeric route"), value: sourced, note: l("A-, B- tai C-tason havainto", "Grade A, B or C evidence") },
-    { label: l("Myynti / vero / volyymi", "Sales / tax / volume"), value: official, note: l("Vähintään osittainen viranomaisreitti", "At least a partial official route") }
+    { label: l("Tutkimusmaailma", "Research universe"), value: `${list.length} / 195`, note: l("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets") },
+    { label: l("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), value: `${quantified.size} / 195`, note: l("Hyväksyttyjä maakohtaisia raha-, vero- tai määräarvoja", "Accepted country-level monetary, tax or volume records") },
+    { label: l("Virallinen kuluttajamarkkina-arvo", "Official consumer-retail value"), value: `${officialRetail.size} / 195`, note: l("Valmistaja- tai toimitusarvo ei ole kuluttajamyyntiä", "Manufacturer or shipment value is not consumer retail") },
+    { label: l("Atlaksen maamalli", "Atlas country model"), value: `${modelled.size} / 195`, note: l("Saksan nesteskenaario; matala luottamus, ei laitteita", "Germany liquid scenario; low confidence, excludes devices") }
   ];
   const grid = byId("metric-grid");
   grid.replaceChildren();
@@ -338,7 +342,8 @@ const MARKET_METHODS = {
     { code: "03", title: "Verotulo ÷ verokanta", text: "Toteutuneesta verosta johdetaan verollinen määrä ja siitä hintakorilla markkina-arvon vaihteluväli." },
     { code: "04", title: "Näennäiskulutus", text: "Kotimainen tuotanto + tuonti − vienti ± varastomuutos, erikseen laitteille ja nesteille, sitten kanavakohtainen kate." },
     { code: "05", title: "Käyttäjät × vuosikulutus", text: "Aktiiviset käyttäjät kerrotaan vuotuisella kulutuksella tai rahankäytöllä ja oikaistaan PPP:llä sekä valuuttakurssilla." },
-    { code: "06", title: "Tuoteintensiteetti", text: "Käyttäjät × ml-, podi- ja laitekulutus × hinnat. Laillinen ja laiton osuus sekä saatavuus käsitellään erillisinä oletuksina." }
+    { code: "06", title: "Tuoteintensiteetti", text: "Käyttäjät × ml-, podi- ja laitekulutus × hinnat. Laillinen ja laiton osuus sekä saatavuus käsitellään erillisinä oletuksina." },
+    { code: "07", title: "Vertailumaiden skaalaus", text: "Vain yhteensopivia luovuttajamaita skaalataan väestöllä, käyttäjillä, ostovoimalla, sääntelyllä ja kanavarakenteella; tulos validoidaan suoria havaintoja vasten." }
   ],
   en: [
     { code: "01", title: "Direct official monetary value", text: "Authority-published retail sales or manufacturer/importer shipments, retaining the original transaction level." },
@@ -346,7 +351,8 @@ const MARKET_METHODS = {
     { code: "03", title: "Excise receipts ÷ tax rate", text: "Infer the taxed quantity from realised receipts, then apply a price basket to produce a value range." },
     { code: "04", title: "Apparent consumption", text: "Domestic production + imports − exports ± inventory change, separately for devices and liquids, followed by channel mark-ups." },
     { code: "05", title: "Users × annual spend", text: "Active users multiplied by annual consumption or spend, adjusted with purchasing-power and exchange-rate inputs." },
-    { code: "06", title: "Product-intensity model", text: "Users × annual ml, pod and device intensity × prices, with legal, illicit and availability shares as separate assumptions." }
+    { code: "06", title: "Product-intensity model", text: "Users × annual ml, pod and device intensity × prices, with legal, illicit and availability shares as separate assumptions." },
+    { code: "07", title: "Comparable-country scaling", text: "Scale only compatible donor markets using population, users, purchasing power, regulation and channel structure, then validate against direct observations." }
   ]
 };
 
@@ -427,15 +433,14 @@ function marketSourceLink(record, label = l("Lähde ↗", "Source ↗")) {
 
 function renderMarketMetrics() {
   const readiness = state.marketData?.meta?.modelReadiness || {};
-  const commercial = marketObservations().filter((item) => item.metric === "commercial_market_estimate" && item.currency === "USD" && Number(item.year) === 2025);
-  const low = commercial.length ? Math.min(...commercial.map((item) => Number(item.value))) : null;
-  const high = commercial.length ? Math.max(...commercial.map((item) => Number(item.value))) : null;
   const official = marketObservations().filter((item) => String(item.evidenceStatus).startsWith("official_"));
+  const quantified = new Set(official.map((item) => item.countryIso2).filter(Boolean));
+  const officialRetail = new Set(official.filter((item) => item.metric === "consumer_retail_market_value").map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
     [l("Atlaksen maailmanarvio", "Atlas global estimate"), l("Ei vielä julkaistu", "Not yet released"), l("Evidenssiraja ei vielä täyty", "Evidence threshold is not yet met")],
-    [l("Ulkoinen 2025-haarukka", "External 2025 range"), low !== null && high !== null ? `${formatMarketValue(low, "USD", "USD")}–${formatMarketValue(high, "USD", "USD")}` : "—", l("3 kaupallista, eri tavoin rajattua arviota", "3 commercial estimates with different scopes")],
-    [l("Vertailukelpoiset luovuttajamarkkinat", "Comparable donor markets"), `${readiness.comparableFullYearMarketValueDonors || 0} / ${readiness.minimumRequiredDonors || 3}`, l("Vaatimus ennen maiden välistä estimaattia", "Required before cross-country estimation")],
-    [l("Viralliset määrälliset havainnot", "Official quantitative records"), official.length, l("Raha, määrä ja vero pidetään erillään", "Money, quantity and tax remain separate")]
+    [l("Määrällisesti dokumentoidut maat", "Quantified countries"), `${quantified.size} / 195`, l("Raha, vero tai määrä; ei aina kuluttajamyynti", "Money, tax or volume; not always consumer retail")],
+    [l("Virallinen kuluttajavähittäisarvo", "Official consumer-retail values"), `${officialRetail.size} / 195`, l("Vertailukelpoinen kansallinen koko vuoden arvo", "Comparable national full-year value")],
+    [l("Vertailukelpoiset luovuttajamarkkinat", "Comparable donor markets"), `${readiness.comparableFullYearMarketValueDonors || 0} / ${readiness.minimumRequiredDonors || 3}`, l(`${official.length} virallista määrällistä tietuetta säilytetään erillään`, `${official.length} official quantitative records remain separate`)]
   ];
   const host = byId("market-metrics");
   host.replaceChildren(...metrics.map(([label, value, note]) => {
@@ -867,20 +872,122 @@ function renderEvidence() {
   byId("evidence-empty").hidden = list.length !== 0;
 }
 
-function renderLegal() {
-  const timeline = Array.isArray(state.data?.legal?.timeline) ? state.data.legal.timeline : Array.isArray(state.data?.legal) ? state.data.legal : [];
-  const host = byId("legal-timeline");
+function patentText(item, key) {
+  if (!item) return "";
+  return isFi() ? item[`${key}Fi`] || item[key] || item[`${key}En`] || "" : item[`${key}En`] || item[key] || item[`${key}Fi`] || "";
+}
+
+function normalizePatentSearch(value) {
+  return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+const PATENT_ENUM_LABELS = {
+  jurisdictionCategory: {
+    national_phase: ["kansallinen vaihe", "national phase"],
+    validated_ep_publication: ["EP-validointijulkaisu", "EP validation publication"],
+    regional_patent: ["alueellinen patentti", "regional patent"],
+    national_priority_grant: ["kansallinen prioriteettipatentti", "national priority grant"],
+    international_application: ["kansainvälinen hakemus", "international application"]
+  },
+  proceedingType: {
+    opposition_and_appeal: ["väite ja valitus", "opposition and appeal"],
+    review_request: ["hakemuksen uudelleentarkastus", "application re-examination"],
+    patent_nullity: ["mitättömyyskanne", "patent nullity"],
+    patent_infringement: ["patenttiloukkaus", "patent infringement"]
+  },
+  outcomeStatus: {
+    closed_patent_maintained_amended: ["päättynyt · patentti pysytetty muutettuna", "closed · patent maintained as amended"],
+    unverified: ["tarkka lopputulos vahvistamatta", "exact outcome unverified"],
+    appeal_pending: ["valitus vireillä", "appeal pending"],
+    official_judgment_finality_unverified: ["virallinen tuomio · lainvoimaisuus avoin", "official judgment · finality unverified"]
+  },
+  alertStatus: {
+    confirm_now: ["vahvista heti", "confirm now"],
+    action_required: ["toimenpide vaaditaan", "action required"],
+    verify_payment: ["vahvista maksu", "verify payment"],
+    ongoing: ["täsmäytys käynnissä", "reconciliation ongoing"]
+  },
+  dateType: {
+    statutory_due: ["lakisääteinen eräpäivä", "statutory due date"],
+    payment_window_end: ["normaalimaksuikkunan loppu", "ordinary payment-window end"],
+    register_in_force_through: ["rekisterin in-force-through-päivä", "register in-force-through date"],
+    internal_review_target: ["sisäinen tarkistustavoite", "internal review target"]
+  },
+  sourceKind: {
+    official_register: ["virallinen rekisteri", "official register"],
+    official_family_register: ["virallinen perherekisteri", "official family register"],
+    official_register_route: ["virallinen rekisterireitti", "official register route"],
+    official_register_documents: ["viralliset rekisteriasiakirjat", "official register documents"],
+    official_patent_publication: ["virallinen patenttijulkaisu", "official patent publication"],
+    official_judgment: ["virallinen tuomio", "official judgment"],
+    official_guidance: ["viranomaisohje", "official guidance"],
+    official_legislation: ["virallinen säädös", "official legislation"],
+    official_treaty_text: ["virallinen sopimusteksti", "official treaty text"],
+    official_company_register: ["virallinen yhtiörekisteri", "official company register"],
+    official_national_register: ["virallinen kansallinen rekisteri", "official national register"],
+    official_national_api: ["virallinen kansallinen API", "official national API"],
+    official_national_register_route: ["virallinen kansallinen rekisterireitti", "official national register route"],
+    official_national_fee_route: ["virallinen maksureitti", "official fee route"],
+    official_national_assignment_route: ["virallinen siirtotietoreitti", "official assignment route"],
+    secondary_litigation_database: ["sekundäärinen prosessitietokanta", "secondary proceeding database"],
+    secondary_archived_company_page: ["arkistoitu yhtiösivu", "archived company page"],
+    secondary_interview: ["aikalaishaastattelu", "contemporaneous interview"]
+  }
+};
+
+function patentEnum(group, value) {
+  const labels = PATENT_ENUM_LABELS[group]?.[value];
+  if (labels) return l(...labels);
+  return String(value || "—").replaceAll("_", " ");
+}
+
+function patentTier(tier) {
+  const values = {
+    official: ["Virallinen", "Official", "patent-tier-official", "A"],
+    secondary: ["Sekundäärinen", "Secondary", "patent-tier-secondary", "B"],
+    lead: ["Johtolanka", "Open lead", "patent-tier-lead", "C"]
+  };
+  const value = values[tier] || values.lead;
+  const badge = node("span", `patent-tier ${value[2]}`);
+  badge.append(node("b", "", value[3]), node("span", "", isFi() ? value[0] : value[1]));
+  return badge;
+}
+
+function patentSourceMap() {
+  return new Map((state.patentData?.sources || []).map((item) => [item.sourceId, item]));
+}
+
+function appendPatentSources(host, sourceIds, options = {}) {
+  const map = patentSourceMap();
+  const wrap = node("div", options.compact ? "patent-source-links patent-source-links-compact" : "patent-source-links");
+  for (const sourceId of sourceIds || []) {
+    const source = map.get(sourceId);
+    const url = safeExternalUrl(source?.url);
+    if (!source || !url) continue;
+    const link = node("a", "", options.ids ? sourceId : source.title);
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.title = patentText(source, "limitation");
+    wrap.append(link);
+  }
+  if (wrap.childElementCount) host.append(wrap);
+}
+
+function renderPatentFallback() {
+  const timeline = Array.isArray(state.data?.legal) ? state.data.legal : [];
+  const host = byId("patent-timeline");
   host.replaceChildren();
   for (const item of timeline) {
     const li = node("li");
     li.append(
-      node("time", "", item.date || item.eventDate || item.period || "—"),
-      node("strong", "", item.title || item.event || item.reference || item.authority || ""),
-      node("p", "", isFi() ? item.detail || item.description || item.statement || "" : LEGAL_EN[item.legalId] || "Official legal record; verify its current procedural status and jurisdictional scope before reliance.")
+      node("time", "", item.eventDate || "—"),
+      node("strong", "", item.reference || item.authority || ""),
+      node("p", "", isFi() ? item.statement || "" : LEGAL_EN[item.legalId] || "Official legal record; verify current status and scope.")
     );
-    const url = safeExternalUrl(item.url || item.sourceUrl);
+    const url = safeExternalUrl(item.sourceUrl);
     if (url) {
-      const link = node("a", "", l("Virallinen lähde →", "Official source →"));
+      const link = node("a", "", l("Avaa lähde →", "Open source →"));
       link.href = url;
       link.target = "_blank";
       link.rel = "noreferrer";
@@ -888,25 +995,229 @@ function renderLegal() {
     }
     host.append(li);
   }
-  if (!timeline.length) host.append(node("li", "", l("Prosessitietoa ei voitu ladata.", "Procedural records could not be loaded.")));
+  byId("patent-title").textContent = "EP3032975B2";
+  byId("patent-invention-summary").textContent = l("Laajennettua patenttiaineistoa ei voitu ladata.", "The expanded patent dataset could not be loaded.");
+  byId("patent-alerts").replaceChildren();
+  byId("patent-family-rows").replaceChildren();
+  byId("patent-proceedings").replaceChildren();
+}
 
-  const gates = isFi() ? [
-    { label: "Saksan mitättömyysasia", status: "valitus vireillä" },
-    { label: "Loukkaustuomio", status: "vahvistettu" },
-    { label: "Euromääräinen korvaus", status: "ei julkinen" },
-    { label: "Toteutunut kassavirta", status: "ei vahvistettu" }
-  ] : [
-    { label: "German nullity action", status: "appeal pending" },
-    { label: "Infringement judgment", status: "verified record" },
-    { label: "Monetary damages", status: "not public" },
-    { label: "Realised cash flow", status: "not verified" }
+function renderLegal() {
+  const data = state.patentData;
+  if (!data) {
+    renderPatentFallback();
+    return;
+  }
+
+  const summary = data.summary || {};
+  const metricValues = [
+    [l("Aikajanatapahtumat", "Timeline events"), summary.timelineEventCount || 0, l("Jokaisella päivämäärällä lähde ja rajaus", "Every date has a source and limitation")],
+    [l("Perhejulkaisut", "Family records"), summary.familyRecordCount || 0, l("Ei sama kuin aktiiviset patentit", "Not the same as active patents")],
+    [l("Viralliset lähteet", "Official sources"), summary.officialSourceCount || 0, l("Rekisterit, tuomiot, säädökset ja ohjeet", "Registers, judgments, legislation and guidance")],
+    [l("Prosessit", "Proceedings"), summary.proceedingCount || 0, l(`${summary.unresolvedProceedingCount || 0} avoin tai ei-lainvoimainen`, `${summary.unresolvedProceedingCount || 0} open or non-final`)],
+    [l("Due diligence -hälytykset", "Diligence alerts"), summary.diligenceAlertCount || 0, l("Määräpäivät ja sisäiset tarkistustavoitteet eroteltu", "Deadlines and internal review targets are distinguished")]
   ];
-  const gatesHost = byId("legal-gates");
-  gatesHost.replaceChildren();
-  for (const gate of gates) {
-    const row = node("div", "legal-gate");
-    row.append(node("span", "", gate.label || gate.title), node("span", "", gate.status || gate.state));
-    gatesHost.append(row);
+  const metricsHost = byId("patent-metrics");
+  metricsHost.replaceChildren(...metricValues.map(([label, value, note]) => {
+    const card = node("article", "metric-card");
+    card.append(node("span", "", label), node("strong", "", value), node("small", "", note));
+    return card;
+  }));
+
+  const patent = data.patent || {};
+  byId("patent-title").textContent = patent.title || "EP3032975B2";
+  byId("patent-central-status").textContent = patentText(patent, "epCentralStatus");
+  byId("patent-invention-summary").textContent = patentText(patent, "inventionSummary");
+  byId("patent-claim-summary").textContent = patentText(patent, "claimScopeSummary");
+  byId("patent-claim-limit").textContent = patentText(patent, "claimScopeLimitation");
+  const identifiers = [
+    [l("Keksijä", "Inventor"), patent.inventor],
+    [l("EPO:n kirjaama haltija", "Proprietor recorded by EPO"), patent.recordedProprietor],
+    [l("Varhaisin prioriteetti", "Earliest priority"), `${patent.earliestPriorityNumber} · ${patent.earliestPriorityDate}`],
+    ["PCT", patent.pctApplication],
+    [l("Kansainvälinen julkaisu", "International publication"), patent.woPublication],
+    [l("Eurooppapatentti", "European patent"), `${patent.epApplication} · ${patent.epPublication}`]
+  ];
+  const identifiersHost = byId("patent-identifiers");
+  identifiersHost.replaceChildren();
+  for (const [label, value] of identifiers) identifiersHost.append(node("dt", "", label), node("dd", "", value || "—"));
+
+  const timelineHost = byId("patent-timeline");
+  timelineHost.replaceChildren();
+  for (const item of data.timeline || []) {
+    const li = node("li", `patent-event patent-event-${item.historyType || "other"}`);
+    const meta = node("div", "patent-event-meta");
+    meta.append(node("time", "", formatDate(item.date)), patentTier(item.evidenceTier), node("span", "patent-geography", item.geography));
+    li.append(meta, node("strong", "", patentText(item, "title")), node("p", "", patentText(item, "detail")));
+    const limit = node("small", "patent-limit", patentText(item, "limitation"));
+    li.append(limit);
+    appendPatentSources(li, item.sourceIds, { compact: true });
+    timelineHost.append(li);
+  }
+
+  const alertHost = byId("patent-alerts");
+  alertHost.replaceChildren();
+  byId("patent-alert-count").textContent = l(`${data.diligenceAlerts?.length || 0} avointa tarkistusta`, `${data.diligenceAlerts?.length || 0} open checks`);
+  for (const item of data.diligenceAlerts || []) {
+    const card = node("article", `patent-alert patent-alert-${item.priority}`);
+    const top = node("div", "patent-alert-top");
+    top.append(
+      node("span", `patent-alert-priority patent-alert-priority-${item.priority}`, String(item.priority || "").toUpperCase()),
+      node("strong", "", item.jurisdictionCode),
+      node("span", "patent-alert-status", patentEnum("alertStatus", item.status))
+    );
+    const dateLine = node("p", "patent-alert-date");
+    dateLine.append(node("time", "", formatDate(item.targetDate)), node("span", "", patentEnum("dateType", item.dateType)));
+    const action = node("div", "patent-alert-action");
+    action.append(node("strong", "", l("Vastuullinen seuraava toimi", "Accountable next action")), node("p", "", patentText(item, "action")));
+    card.append(top, node("h4", "", patentText(item, "title")), dateLine, node("p", "", patentText(item, "detail")), action, node("small", "patent-limit", patentText(item, "limitation")));
+    appendPatentSources(card, item.sourceIds, { compact: true });
+    alertHost.append(card);
+  }
+
+  const query = normalizePatentSearch(state.patentQuery);
+  const family = (data.familyMembers || []).filter((item) => !query || normalizePatentSearch([
+    item.jurisdictionCode,
+    patentText(item, "jurisdiction"),
+    item.applicationNumber,
+    item.publicationNumber,
+    patentText(item, "centralRecordStatus"),
+    patentText(item, "currentNationalStatus")
+  ].join(" ")).includes(query));
+  byId("patent-family-count").textContent = l(`${family.length} / ${data.familyMembers.length} riviä`, `${family.length} / ${data.familyMembers.length} records`);
+  const familyHost = byId("patent-family-rows");
+  familyHost.replaceChildren();
+  for (const item of family) {
+    const tr = node("tr");
+    const jurisdiction = node("td");
+    jurisdiction.append(node("strong", "", patentText(item, "jurisdiction")), node("small", "", `${item.jurisdictionCode} · ${patentEnum("jurisdictionCategory", item.jurisdictionCategory)}`));
+    const publication = node("td");
+    publication.append(node("code", "", item.publicationNumber), node("small", "", item.applicationNumber));
+    const confirmed = node("td");
+    confirmed.append(node("span", `patent-verification ${item.verificationLevel}`, patentText(item, "centralRecordStatus")));
+    const current = node("td");
+    current.append(node("span", item.verificationLevel === "official_national_record" ? "patent-current-verified" : "patent-current-open", patentText(item, "currentNationalStatus")), node("small", "", patentText(item, "limitation")));
+    const citedSources = (item.sourceIds || []).map((sourceId) => patentSourceMap().get(sourceId)).filter(Boolean);
+    const checked = citedSources.map((source) => source.retrievedAt).filter(Boolean).sort().at(-1);
+    if (checked) current.append(node("small", "patent-checked", `${l("Tarkistettu", "Checked")} ${formatDate(checked)}`));
+    appendPatentSources(current, item.sourceIds, { compact: true, ids: true });
+    const action = node("td");
+    const url = safeExternalUrl(item.registerUrl);
+    if (url) {
+      const link = node("a", "row-action patent-row-link", "↗");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.title = l("Avaa rekisterireitti", "Open register route");
+      action.append(link);
+    }
+    tr.append(jurisdiction, publication, node("td", "", formatDate(item.publicationDate)), confirmed, current, action);
+    familyHost.append(tr);
+  }
+  if (!family.length) {
+    const tr = node("tr");
+    const td = node("td", "empty-state", l("Hakua vastaavaa perhejulkaisua ei löytynyt.", "No family record matched the search."));
+    td.colSpan = 6;
+    tr.append(td);
+    familyHost.append(tr);
+  }
+
+  const proceedingsHost = byId("patent-proceedings");
+  proceedingsHost.replaceChildren();
+  for (const item of data.proceedings || []) {
+    const card = node("article", `patent-proceeding patent-proceeding-${item.evidenceTier}`);
+    const top = node("div", "patent-proceeding-top");
+    top.append(patentTier(item.evidenceTier), node("span", "patent-proceeding-status", patentEnum("outcomeStatus", item.outcomeStatus)));
+    card.append(top, node("p", "kicker", `${item.jurisdictionCode} · ${patentEnum("proceedingType", item.proceedingType)}`), node("h4", "", patentText(item, "title")), node("code", "patent-reference", item.reference));
+    card.append(node("p", "", patentText(item, "detail")));
+    const finality = node("div", "patent-finality");
+    finality.append(node("strong", "", l("Lopullisuus", "Finality")), node("span", "", patentText(item, "finality")));
+    card.append(finality, node("small", "patent-limit", patentText(item, "limitation")));
+    appendPatentSources(card, item.sourceIds, { compact: true });
+    proceedingsHost.append(card);
+  }
+
+  const monetisation = data.monetisation || {};
+  const positioning = monetisation.positioning || {};
+  const positioningHost = byId("patent-positioning");
+  positioningHost.replaceChildren(node("p", "kicker", l("Saksan ratkaisun oikea käyttö", "Proper use of the German decision")), node("h3", "", patentText(positioning, "title")), node("p", "", patentText(positioning, "detail")));
+  appendPatentSources(positioningHost, positioning.sourceIds, { compact: true });
+
+  const readinessHost = byId("patent-readiness");
+  readinessHost.replaceChildren();
+  for (const [index, item] of (monetisation.readinessChecks || []).entries()) {
+    const row = node("article", "patent-readiness-item");
+    row.append(node("span", "patent-step", String(index + 1).padStart(2, "0")), node("h4", "", patentText(item, "title")), node("p", "", patentText(item, "detail")), node("strong", "", patentText(item, "gate")));
+    appendPatentSources(row, item.sourceIds, { compact: true, ids: true });
+    readinessHost.append(row);
+  }
+
+  const scoringHost = byId("patent-scoring");
+  scoringHost.replaceChildren();
+  for (const item of monetisation.countryScoring || []) {
+    const row = node("article", "patent-score-item");
+    const heading = node("div", "patent-score-heading");
+    heading.append(node("h4", "", patentText(item, "title")), node("strong", "", `${item.weightPercent}%`));
+    const track = node("div", "patent-score-track");
+    const fill = node("span");
+    fill.style.width = `${item.weightPercent}%`;
+    track.append(fill);
+    row.append(heading, track, node("p", "", patentText(item, "detail")), node("small", "", patentText(item, "minimumEvidence")));
+    scoringHost.append(row);
+  }
+
+  const routesHost = byId("patent-routes");
+  routesHost.replaceChildren();
+  for (const item of monetisation.revenueRoutes || []) {
+    const card = node("article", "patent-route-card");
+    card.append(node("span", "patent-route-id", item.routeId), node("h4", "", patentText(item, "title")), node("p", "", patentText(item, "detail")));
+    const need = node("div", "patent-route-note");
+    need.append(node("strong", "", l("Näyttö ennen käyttöä", "Evidence before use")), node("p", "", patentText(item, "evidenceNeeded")));
+    const risk = node("div", "patent-route-note patent-route-risk");
+    risk.append(node("strong", "", l("Pääriski", "Main risk")), node("p", "", patentText(item, "mainRisk")));
+    card.append(need, risk);
+    appendPatentSources(card, item.sourceIds, { compact: true, ids: true });
+    routesHost.append(card);
+  }
+
+  const sequenceHost = byId("patent-sequence");
+  sequenceHost.replaceChildren();
+  for (const item of monetisation.sequence || []) {
+    const li = node("li");
+    li.append(node("h4", "", patentText(item, "title")), node("p", "", patentText(item, "detail")), node("strong", "", patentText(item, "output")));
+    appendPatentSources(li, item.sourceIds, { compact: true, ids: true });
+    sequenceHost.append(li);
+  }
+
+  const guardrailsHost = byId("patent-guardrails");
+  guardrailsHost.replaceChildren();
+  for (const item of monetisation.guardrails || []) {
+    const row = node("div", "patent-guardrail");
+    row.append(node("span", "", "×"), node("p", "", patentText(item, "text")));
+    guardrailsHost.append(row);
+  }
+
+  byId("patent-source-count").textContent = l(`${data.sources.length} lähdettä`, `${data.sources.length} sources`);
+  const sourcesHost = byId("patent-sources");
+  sourcesHost.replaceChildren();
+  for (const source of data.sources || []) {
+    const details = node("details", `patent-source patent-source-${source.evidenceTier}`);
+    const summaryNode = node("summary");
+    summaryNode.append(patentTier(source.evidenceTier), node("span", "", source.title), node("code", "", source.sourceId));
+    const body = node("div", "patent-source-body");
+    body.append(node("p", "", patentText(source, "scope")), node("small", "patent-limit", patentText(source, "limitation")));
+    const url = safeExternalUrl(source.url);
+    if (url) {
+      const link = node("a", "", l("Avaa alkuperäinen lähde →", "Open original source →"));
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      body.append(link);
+    }
+    const meta = node("p", "patent-source-meta", `${source.publisher} · ${patentEnum("sourceKind", source.sourceKind)} · ${l("haettu", "retrieved")} ${formatDate(source.retrievedAt)}`);
+    body.append(meta);
+    details.append(summaryNode, body);
+    sourcesHost.append(details);
   }
 }
 
@@ -979,7 +1290,10 @@ function setTab(tab, options = {}) {
   const allowed = new Set(["overview", "market", "countries", "evidence", "legal", "method", "submit"]);
   state.tab = allowed.has(tab) ? tab : "overview";
   document.querySelectorAll("[data-panel]").forEach((panel) => { panel.hidden = panel.dataset.panel !== state.tab; });
-  document.querySelectorAll("[data-tab]").forEach((link) => link.setAttribute("aria-selected", String(link.dataset.tab === state.tab)));
+  document.querySelectorAll("[data-tab]").forEach((link) => {
+    if (link.dataset.tab === state.tab) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
   if (options.updateHash !== false) {
     const url = new URL(location.href);
     url.hash = state.tab;
@@ -1002,6 +1316,7 @@ function bindEvents() {
   byId("grade-filter").addEventListener("change", (event) => { state.grade = event.target.value; renderCountries(); });
   byId("evidence-search").addEventListener("input", (event) => { state.evidenceQuery = event.target.value; renderEvidence(); });
   byId("evidence-grade-filter").addEventListener("change", (event) => { state.evidenceGrade = event.target.value; renderEvidence(); });
+  byId("patent-family-search").addEventListener("input", (event) => { state.patentQuery = event.target.value; renderLegal(); });
   byId("cover-note-form").addEventListener("submit", createCoverNote);
   byId("changes-mark-seen").addEventListener("click", markChangesSeen);
   byId("country-dialog").querySelector(".dialog-close").addEventListener("click", () => { state.openCountry = null; byId("country-dialog").close(); });
@@ -1050,9 +1365,10 @@ function renderMeta() {
 }
 
 async function loadData() {
-  const [atlasResult, marketResult, changelogResult] = await Promise.allSettled([
+  const [atlasResult, marketResult, patentResult, changelogResult] = await Promise.allSettled([
     fetch("data/atlas.json", { cache: "no-store" }),
     fetch("data/market-values.json", { cache: "no-store" }),
+    fetch("data/patent-history.json", { cache: "no-store" }),
     fetch("data/changelog.json", { cache: "no-store" })
   ]);
   if (atlasResult.status !== "fulfilled" || !atlasResult.value.ok) throw new Error(`Atlas HTTP ${atlasResult.status === "fulfilled" ? atlasResult.value.status : "network error"}`);
@@ -1068,6 +1384,16 @@ async function loadData() {
   } catch (error) {
     state.marketData = null;
     console.warn("Optional market-value dataset unavailable", error);
+  }
+
+  try {
+    if (patentResult.status !== "fulfilled" || !patentResult.value.ok) throw new Error(`HTTP ${patentResult.status === "fulfilled" ? patentResult.value.status : "network error"}`);
+    const patentData = await patentResult.value.json();
+    if (!Array.isArray(patentData.timeline) || !Array.isArray(patentData.familyMembers) || !Array.isArray(patentData.proceedings) || !Array.isArray(patentData.diligenceAlerts) || !Array.isArray(patentData.sources)) throw new Error("schema validation failed");
+    state.patentData = patentData;
+  } catch (error) {
+    state.patentData = null;
+    console.warn("Optional patent-history dataset unavailable", error);
   }
 
   try {

@@ -13,6 +13,19 @@ Every monetary result must retain the year, currency, product segments, low/base
 
 ## Common 195-country base layer
 
+The public master currently indexes the 193 UN members plus the Holy See and the State of Palestine. This is the **sovereign-state research universe**, not a claim that every commercially separate market geography is already represented or quantified.
+
+Worldwide commercial research also requires a second, non-additive **market-geography overlay** for ISO-coded territories and other separately reported customs or statistical markets, including Hong Kong, Macao, Taiwan, Puerto Rico, Greenland, the Faroe Islands and Caribbean and Pacific territories. These must be called market geographies rather than additional countries. Before any global roll-up, each overlay record must retain:
+
+- `parentState` and political/statistical relationship;
+- `customsTerritory` and separate reporting status;
+- `includedInParentSeries` and `overlapGroup`;
+- `includedInGlobalRollup` with an explicit double-counting lock;
+- population, currency, tax, regulation and source-period compatibility;
+- a clear missing/observed/derived/modelled evidence state.
+
+The target overlay is the 249 ISO 3166-1 assigned geographies plus a separately governed Kosovo research row. It must not be added to the 195-state universe mechanically: parent totals, customs unions and territorial series must be reconciled first.
+
 ### WHO Global Health Observatory
 
 - [GHO OData API](https://www.who.int/data/gho/info/gho-odata-api) and [API endpoint](https://ghoapi.azureedge.net/api/)

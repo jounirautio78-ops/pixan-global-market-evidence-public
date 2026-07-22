@@ -26,6 +26,7 @@ CURATED_PATH = ROOT / "source" / "curated.json"
 PUBLIC_BASELINE_PATH = ROOT / "source" / "marnet-public-baseline.json"
 UPSTREAM_METADATA_PATH = ROOT / "source" / "marnet-upstream.metadata.json"
 MARKET_OBSERVATIONS_PATH = ROOT / "source" / "market-observations.json"
+PATENT_HISTORY_PATH = ROOT / "source" / "patent-history.json"
 CHANGELOG_PATH = ROOT / "source" / "changelog.json"
 OUTPUT_DIR = ROOT / "site" / "data"
 
@@ -154,6 +155,40 @@ MARKET_CSV_FIELDS = [
     "exclusions",
     "labelEn",
     "labelFi",
+    "limitationEn",
+    "limitationFi",
+]
+
+PATENT_SOURCE_TOP_LEVEL_KEYS = {
+    "schemaVersion",
+    "asOf",
+    "reviewedAt",
+    "disclaimerEn",
+    "disclaimerFi",
+    "patent",
+    "sources",
+    "timeline",
+    "familyMembers",
+    "proceedings",
+    "diligenceAlerts",
+    "monetisation",
+}
+PATENT_FAMILY_CSV_FIELDS = [
+    "jurisdictionCode",
+    "jurisdictionEn",
+    "jurisdictionFi",
+    "jurisdictionCategory",
+    "applicationNumber",
+    "publicationNumber",
+    "publicationDate",
+    "recordType",
+    "centralRecordStatusEn",
+    "centralRecordStatusFi",
+    "currentNationalStatusEn",
+    "currentNationalStatusFi",
+    "verificationLevel",
+    "sourceIds",
+    "registerUrl",
     "limitationEn",
     "limitationFi",
 ]
@@ -928,6 +963,113 @@ def market_values_csv_rows(market_values: dict[str, Any]) -> list[dict[str, Any]
     return rows
 
 
+def build_patent_history() -> dict[str, Any]:
+    """Build the separately consumable patent-history and strategy dataset."""
+    source = load_json(PATENT_HISTORY_PATH)
+    if set(source) != PATENT_SOURCE_TOP_LEVEL_KEYS or source.get("schemaVersion") != 1:
+        raise ValueError("patent-history.json has an unexpected top-level schema")
+
+    for key in ("asOf", "reviewedAt", "disclaimerEn", "disclaimerFi"):
+        if not isinstance(source.get(key), str) or not source[key].strip():
+            raise ValueError(f"patent-history.json requires a non-empty {key}")
+
+    patent = source.get("patent")
+    if not isinstance(patent, dict):
+        raise ValueError("patent-history.json patent must be an object")
+
+    sources = source.get("sources")
+    if not isinstance(sources, list) or not sources:
+        raise ValueError("patent-history.json sources must be a non-empty array")
+    source_ids: set[str] = set()
+    for raw in sources:
+        if not isinstance(raw, dict) or not raw.get("sourceId"):
+            raise ValueError("patent-history.json source entries require sourceId")
+        if raw["sourceId"] in source_ids:
+            raise ValueError(f"Duplicate patent source ID: {raw['sourceId']}")
+        source_ids.add(raw["sourceId"])
+        if not safe_url(raw.get("url")):
+            raise ValueError(f"Patent source {raw['sourceId']} has an invalid URL")
+
+    for array_key in ("timeline", "familyMembers", "proceedings", "diligenceAlerts"):
+        records = source.get(array_key)
+        if not isinstance(records, list) or not records:
+            raise ValueError(f"patent-history.json {array_key} must be a non-empty array")
+        for raw in records:
+            if not isinstance(raw, dict):
+                raise ValueError(f"patent-history.json {array_key} entries must be objects")
+            referenced_sources = raw.get("sourceIds")
+            if not isinstance(referenced_sources, list) or not referenced_sources:
+                raise ValueError(f"patent-history.json {array_key} entry requires sourceIds")
+            unknown = set(referenced_sources) - source_ids
+            if unknown:
+                raise ValueError(f"patent-history.json {array_key} references unknown sources {sorted(unknown)}")
+            if array_key == "familyMembers" and not safe_url(raw.get("registerUrl")):
+                raise ValueError(f"Patent family record {raw.get('memberId')} has an invalid registerUrl")
+
+    monetisation = source.get("monetisation")
+    if not isinstance(monetisation, dict):
+        raise ValueError("patent-history.json monetisation must be an object")
+
+    output = {
+        "meta": {
+            "schemaVersion": source["schemaVersion"],
+            "asOf": source["asOf"],
+            "generatedAt": source["reviewedAt"],
+            "disclaimerEn": source["disclaimerEn"],
+            "disclaimerFi": source["disclaimerFi"],
+        },
+        "patent": patent,
+        "summary": {
+            "timelineEventCount": len(source["timeline"]),
+            "familyRecordCount": len(source["familyMembers"]),
+            "officialSourceCount": sum(1 for item in sources if item.get("evidenceTier") == "official"),
+            "proceedingCount": len(source["proceedings"]),
+            "diligenceAlertCount": len(source["diligenceAlerts"]),
+            "unresolvedProceedingCount": sum(
+                1
+                for item in source["proceedings"]
+                if item.get("outcomeStatus")
+                in {"unverified", "pending", "appeal_pending", "official_judgment_finality_unverified"}
+            ),
+        },
+        "sources": sources,
+        "timeline": source["timeline"],
+        "familyMembers": source["familyMembers"],
+        "proceedings": source["proceedings"],
+        "diligenceAlerts": source["diligenceAlerts"],
+        "monetisation": monetisation,
+    }
+    return _sanitize_market_value(output)
+
+
+def patent_family_csv_rows(patent_history: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return the deterministic flattened patent-family inventory."""
+    rows: list[dict[str, Any]] = []
+    for item in patent_history["familyMembers"]:
+        rows.append(
+            {
+                "jurisdictionCode": item["jurisdictionCode"],
+                "jurisdictionEn": item["jurisdictionEn"],
+                "jurisdictionFi": item["jurisdictionFi"],
+                "jurisdictionCategory": item["jurisdictionCategory"],
+                "applicationNumber": item["applicationNumber"],
+                "publicationNumber": item["publicationNumber"],
+                "publicationDate": item["publicationDate"],
+                "recordType": item["recordType"],
+                "centralRecordStatusEn": item["centralRecordStatusEn"],
+                "centralRecordStatusFi": item["centralRecordStatusFi"],
+                "currentNationalStatusEn": item["currentNationalStatusEn"],
+                "currentNationalStatusFi": item["currentNationalStatusFi"],
+                "verificationLevel": item["verificationLevel"],
+                "sourceIds": "|".join(item["sourceIds"]),
+                "registerUrl": item["registerUrl"],
+                "limitationEn": item["limitationEn"],
+                "limitationFi": item["limitationFi"],
+            }
+        )
+    return rows
+
+
 def build_changelog() -> dict[str, Any]:
     """Build the public release log used for device-local returning-visitor state."""
     source = load_json(CHANGELOG_PATH)
@@ -961,7 +1103,12 @@ def build_changelog() -> dict[str, Any]:
     return _sanitize_market_value(source)
 
 
-def write_outputs(atlas: dict[str, Any], market_values: dict[str, Any], changelog: dict[str, Any]) -> None:
+def write_outputs(
+    atlas: dict[str, Any],
+    market_values: dict[str, Any],
+    patent_history: dict[str, Any],
+    changelog: dict[str, Any],
+) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     atomic_write_text(
         OUTPUT_DIR / "atlas.json",
@@ -1042,6 +1189,15 @@ def write_outputs(atlas: dict[str, Any], market_values: dict[str, Any], changelo
         market_values_csv_rows(market_values),
     )
     atomic_write_text(
+        OUTPUT_DIR / "patent-history.json",
+        json.dumps(patent_history, ensure_ascii=False, indent=2) + "\n",
+    )
+    atomic_write_csv(
+        OUTPUT_DIR / "patent-family.csv",
+        PATENT_FAMILY_CSV_FIELDS,
+        patent_family_csv_rows(patent_history),
+    )
+    atomic_write_text(
         OUTPUT_DIR / "changelog.json",
         json.dumps(changelog, ensure_ascii=False, indent=2) + "\n",
     )
@@ -1050,12 +1206,14 @@ def write_outputs(atlas: dict[str, Any], market_values: dict[str, Any], changelo
 def main() -> None:
     atlas = build()
     market_values = build_market_values()
+    patent_history = build_patent_history()
     changelog = build_changelog()
-    write_outputs(atlas, market_values, changelog)
+    write_outputs(atlas, market_values, patent_history, changelog)
     print(
         f"Built {len(atlas['countries'])} countries, "
         f"{len(atlas['evidence'])} evidence records, {len(atlas['legal'])} legal anchors, "
         f"{len(market_values['observations'])} market observations, {len(market_values['models'])} market model, "
+        f"{len(patent_history['familyMembers'])} patent-family records, {len(patent_history['proceedings'])} proceedings, "
         f"and {len(changelog['releases'])} changelog release."
     )
 

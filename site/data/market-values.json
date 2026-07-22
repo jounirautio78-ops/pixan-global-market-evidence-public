@@ -5,10 +5,10 @@
     "generatedAt": "2026-07-22T00:00:00Z",
     "modelReadiness": {
       "status": "not_estimate_ready",
-      "comparableFullYearMarketValueDonors": 1,
+      "comparableFullYearMarketValueDonors": 0,
       "minimumRequiredDonors": 3,
-      "reasonEn": "Only Canada currently supplies a complete official full-year monetary observation suitable as a national market-value proxy. At least three comparable donor markets are required before a cross-country atlas estimate is released.",
-      "reasonFi": "Vain Kanadasta on nyt kattava virallinen koko vuoden rahamääräinen havainto, jota voidaan käyttää kansallisen markkina-arvon korvikkeena. Maailmanlaajuinen maamalli julkaistaan vasta, kun vertailukelpoisia luovuttajamarkkinoita on vähintään kolme."
+      "reasonEn": "Canada supplies an official full-year manufacturer/importer shipment-value proxy, but it is not a comparable consumer-retail market value. No comparable full-year retail-value donor is accepted yet. A cross-country atlas estimate requires at least three compatible donors plus regional and regulatory-archetype coverage and direct validation in major economies.",
+      "reasonFi": "Kanadasta on virallinen koko vuoden valmistaja- ja maahantuojatoimitusten arvon korvike, mutta se ei ole vertailukelpoinen kuluttajavähittäismarkkinan arvo. Yhtään vertailukelpoista koko vuoden vähittäisarvon luovuttajamarkkinaa ei ole vielä hyväksytty. Maiden välinen atlasestimaatti vaatii vähintään kolme yhteensopivaa luovuttajaa sekä alue- ja sääntelytyyppien peiton ja suoran validoinnin suurissa talouksissa."
     },
     "disclaimerEn": "Observed shipments, taxed volumes, excise receipts, commercial estimates, retail price inputs and modelled ranges are different measures. They must not be added or presented as one observed retail market value.",
     "disclaimerFi": "Havaitut toimitukset, verotetut määrät, valmisteverotulot, kaupalliset arviot, vähittäishintasyötteet ja mallinnetut vaihteluvälit ovat eri mittareita. Niitä ei saa laskea yhteen tai esittää yhtenä havaittuna vähittäismarkkina-arvona."
@@ -116,7 +116,7 @@
       "finality": "published",
       "productScope": "all_reported_vaping_product_categories",
       "marketValueBasis": "manufacturer_importer_shipments_value_not_retail_sales",
-      "comparableMarketValue": true,
+      "comparableMarketValue": false,
       "atlasEstimate": false,
       "sourceIds": [
         "CA-HC-VAPING-SALES-2024"

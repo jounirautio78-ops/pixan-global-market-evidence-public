@@ -7,9 +7,9 @@
   <meta name="theme-color" content="#08131f">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-5">
-  <script defer src="assets/i18n.js?v=2026-07-22-5"></script>
-  <script defer src="assets/review.js?v=2026-07-22-5"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-6">
+  <script defer src="assets/i18n.js?v=2026-07-22-6"></script>
+  <script defer src="assets/review.js?v=2026-07-22-6"></script>
 </head>
 <body class="review-page">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -44,6 +44,7 @@
           <a class="button button-primary" href="index.html#countries">Open the 195-country atlas</a>
           <a class="button button-secondary" href="data/countries.csv" download>Download country CSV</a>
           <a class="button button-secondary" href="data/evidence.csv" download>Download evidence CSV</a>
+          <a class="button button-secondary" href="data/patent-history.json" download>Download patent JSON</a>
           <button class="button button-ghost" id="print-review" type="button">Print / save as PDF</button>
         </div>
         <p class="review-copy-status" id="copy-review-status" role="status" aria-live="polite"></p>
@@ -53,7 +54,7 @@
         <div>
           <strong>Independent research boundary</strong>
           <p>This site is not issued, maintained or endorsed by Pixan Oy and does not state Pixan Oy’s official position. It is not an offer, valuation, fairness opinion, investment recommendation, audit or legal opinion.</p>
-          <p class="muted"><span>Last updated</span> <time id="review-as-of">—</time> · <span>Version</span> <code id="review-site-version">—</code> · <span>Source baseline</span> <code id="review-source-commit">—</code></p>
+          <p class="muted"><span>Last updated</span> <time id="review-as-of">—</time> · <span>Version</span> <code id="review-site-version">—</code> · <span>Legacy import baseline</span> <code id="review-source-commit">—</code></p>
         </div>
       </aside>
     </section>
@@ -116,9 +117,9 @@
           <p class="kicker">Established in this release</p>
           <h3>What can be reviewed now</h3>
           <ul class="check-list">
-            <li>A fixed 195-country universe and a consistent evidence taxonomy.</li>
+            <li>A fixed 195-sovereign-state research universe and a consistent evidence taxonomy; this is not 195 quantified markets.</li>
             <li>Source-linked official, customs, tax, regulatory and model routes.</li>
-            <li>Official German patent and court anchors with process-status limits.</li>
+            <li>A 22-record patent-family publication inventory, four nationally verified status records and official German court anchors with explicit limits.</li>
           </ul>
         </article>
         <article class="panel review-panel-caution">
@@ -162,22 +163,34 @@
     <section class="shell review-section" aria-labelledby="germany-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Germany · official records only</p>
-          <h2 id="germany-title">Patent and court-process anchors</h2>
+          <p class="eyebrow">Worldwide patent evidence · status before value</p>
+          <h2 id="germany-title">Patent family, national checks and proceedings</h2>
         </div>
-        <p>The legal records are included as diligence anchors. They do not by themselves establish valuation, enforceability in other countries, damages or cash proceeds.</p>
+        <p>Family publications, nationally verified status, court decisions and review proceedings are different evidence types. None of them alone establishes patent value, collateral value, worldwide infringement, damages or cash proceeds.</p>
+      </div>
+      <div class="review-grid review-grid-3" id="review-patent-metrics">
+        <article class="panel skeleton"><span></span><strong></strong><small></small></article>
+        <article class="panel skeleton"><span></span><strong></strong><small></small></article>
+        <article class="panel skeleton"><span></span><strong></strong><small></small></article>
       </div>
       <div class="review-grid review-grid-2">
         <article class="panel">
-          <ol id="review-legal" class="timeline"></ol>
+          <div class="panel-heading"><div><p class="kicker">National register checks</p><h3>Verified status in this release</h3></div></div>
+          <div id="review-patent-status" class="review-patent-status"></div>
         </article>
-        <aside class="panel legal-summary">
-          <p class="kicker">Appeal status</p>
-          <h3>BPatG judgment: appeal lodged</h3>
-          <p>The official Federal Patent Court record notes an appeal under docket <strong>X ZR 21/26</strong>. The filing deadline is therefore no longer the operative uncertainty; the appeal is pending unless an official later record shows disposition or withdrawal.</p>
-          <p class="muted">The public docket alone does not disclose service dates, briefing extensions, hearing dates or a final outcome. Those points require current German counsel or an updated official court record.</p>
-          <a class="button button-secondary button-small no-print" href="index.html#legal">Open full legal view</a>
-        </aside>
+        <article class="panel">
+          <div class="panel-heading"><div><p class="kicker">Preserve the rights first</p><h3>Immediate diligence alerts</h3></div></div>
+          <div id="review-patent-alerts" class="review-patent-alerts"></div>
+        </article>
+      </div>
+      <article class="panel review-patent-proceedings-panel">
+        <div class="panel-heading"><div><p class="kicker">Finality and territorial limits shown</p><h3>Opposition, China re-examination and German proceedings</h3></div></div>
+        <div id="review-patent-proceedings" class="review-patent-proceedings"></div>
+      </article>
+      <div class="hero-actions no-print review-patent-actions">
+        <a class="button button-primary" href="index.html#legal">Open full patent and commercialisation view</a>
+        <a class="button button-secondary" href="data/patent-history.json" download>Download patent JSON</a>
+        <a class="button button-secondary" href="data/patent-family.csv" download>Download patent-family CSV</a>
       </div>
     </section>
 
@@ -221,7 +234,7 @@
     <div class="shell footer-grid">
       <div><strong>Pixan Global Market Evidence</strong><p>Independent public-source research. Not an official Pixan Oy publication.</p></div>
       <div><span>Review boundary</span><p>Not an offer, valuation, audit, legal opinion, financing commitment or evidence of investor interest.</p></div>
-      <div><span>Machine-readable evidence</span><p><a href="data/atlas.json">JSON</a> · <a href="data/countries.csv">Countries CSV</a> · <a href="data/evidence.csv">Evidence CSV</a></p></div>
+      <div><span>Machine-readable evidence</span><p><a href="data/atlas.json">Atlas JSON</a> · <a href="data/countries.csv">Countries CSV</a> · <a href="data/evidence.csv">Evidence CSV</a> · <a href="data/patent-history.json">Patent JSON</a> · <a href="data/patent-family.csv">Patent-family CSV</a></p></div>
     </div>
   </footer>
 </body>

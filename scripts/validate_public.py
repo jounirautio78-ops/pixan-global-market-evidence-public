@@ -36,6 +36,9 @@ from build_atlas import (
     MARKET_SOURCE_OPTIONAL_KEYS,
     MARKET_SOURCE_TOP_LEVEL_KEYS,
     OUTPUT_DIR,
+    PATENT_FAMILY_CSV_FIELDS,
+    PATENT_HISTORY_PATH,
+    PATENT_SOURCE_TOP_LEVEL_KEYS,
     PLUS_PHONE_RE,
     PUBLIC_BASELINE_PATH,
     ROOT,
@@ -44,9 +47,11 @@ from build_atlas import (
     best_evidence,
     build_changelog,
     build_market_values,
+    build_patent_history,
     coverage_percent,
     market_values_csv_rows,
     normalize_phone,
+    patent_family_csv_rows,
 )
 
 
@@ -56,6 +61,8 @@ EVIDENCE_CSV_PATH = OUTPUT_DIR / "evidence.csv"
 MARKET_VALUES_JSON_PATH = OUTPUT_DIR / "market-values.json"
 MARKET_VALUES_CSV_PATH = OUTPUT_DIR / "market-values.csv"
 CHANGELOG_JSON_PATH = OUTPUT_DIR / "changelog.json"
+PATENT_HISTORY_JSON_PATH = OUTPUT_DIR / "patent-history.json"
+PATENT_FAMILY_CSV_PATH = OUTPUT_DIR / "patent-family.csv"
 CURATED_PATH = ROOT / "source" / "curated.json"
 UPSTREAM_SHA_PATH = ROOT / "source" / "marnet-upstream.sha256"
 FORBIDDEN_RAW_PATH = ROOT / "source" / "marnet-dashboard.json"
@@ -134,6 +141,29 @@ EXPECTED_SITE_FILES = {
     "site/data/changelog.json",
     "site/data/market-values.json",
     "site/data/market-values.csv",
+    "site/data/patent-history.json",
+    "site/data/patent-family.csv",
+}
+
+PATENT_OUTPUT_TOP_LEVEL_KEYS = {
+    "meta",
+    "patent",
+    "summary",
+    "sources",
+    "timeline",
+    "familyMembers",
+    "proceedings",
+    "diligenceAlerts",
+    "monetisation",
+}
+PATENT_META_KEYS = {"schemaVersion", "asOf", "generatedAt", "disclaimerEn", "disclaimerFi"}
+PATENT_EVIDENCE_TIERS = {"official", "secondary", "lead"}
+PATENT_VERIFICATION_LEVELS = {
+    "official_central_status",
+    "official_family_record",
+    "official_national_record",
+    "secondary_record",
+    "unverified_lead",
 }
 
 MARKET_OUTPUT_TOP_LEVEL_KEYS = {"meta", "sources", "observations", "models"}
@@ -570,10 +600,10 @@ def validate_market_values(
         errors.append("market-values.json modelReadiness must match the reviewed source")
     if (
         readiness.get("status") != "not_estimate_ready"
-        or readiness.get("comparableFullYearMarketValueDonors") != 1
+        or readiness.get("comparableFullYearMarketValueDonors") != 0
         or readiness.get("minimumRequiredDonors") != 3
     ):
-        errors.append("market model must remain not_estimate_ready with one of three required donors")
+        errors.append("market model must remain not_estimate_ready with zero of three minimum comparable retail-value donors")
     for key in ("reasonEn", "reasonFi"):
         if not isinstance(readiness.get(key), str) or not readiness[key].strip():
             errors.append(f"modelReadiness.{key} must be a non-empty string")
@@ -692,7 +722,7 @@ def validate_market_values(
         observations = []
     observations_by_id: dict[str, dict[str, Any]] = {}
     expected_observations = {
-        "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", True),
+        "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-UNITS": ("CA", 2024, "manufacturer_importer_shipments_units", 118901910, "unit", "official_observed", "published", "physical_units_not_market_value", False),
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-LITRES": ("CA", 2024, "manufacturer_importer_shipments_liquid_volume", 1251843, "litre", "official_observed", "published", "physical_volume_not_market_value", False),
         "DE-2023-TAXED-LIQUID-VOLUME-L": ("DE", 2023, "taxed_substitutes_volume", 1241000, "litre", "official_observed", "final", "taxed_physical_volume_not_retail_market_value", False),
@@ -942,6 +972,379 @@ def validate_market_values_csv(market_values: dict[str, Any], errors: list[str])
         errors.append("market-values.csv recordId values must be unique and non-empty")
 
 
+def validate_patent_history(
+    source: dict[str, Any],
+    public: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Validate patent chronology, evidence tiers, family scope and strategy limits."""
+    if set(source) != PATENT_SOURCE_TOP_LEVEL_KEYS or source.get("schemaVersion") != 1:
+        errors.append("source/patent-history.json must use schemaVersion 1 and the exact reviewed top-level schema")
+    if set(public) != PATENT_OUTPUT_TOP_LEVEL_KEYS:
+        errors.append("site/data/patent-history.json uses an unexpected top-level schema")
+
+    meta = public.get("meta")
+    if not isinstance(meta, dict) or set(meta) != PATENT_META_KEYS:
+        errors.append("patent-history public meta must use the exact reviewed schema")
+        meta = {}
+    if meta.get("schemaVersion") != 1 or meta.get("asOf") != source.get("asOf") or meta.get("generatedAt") != source.get("reviewedAt"):
+        errors.append("patent-history public dates and schema must be deterministically derived")
+    try:
+        as_of = date.fromisoformat(str(source.get("asOf")))
+    except ValueError:
+        errors.append("source/patent-history.json asOf must be an ISO date")
+        as_of = None
+    if not isinstance(source.get("reviewedAt"), str) or not RFC3339_UTC_RE.fullmatch(source["reviewedAt"]):
+        errors.append("source/patent-history.json reviewedAt must be an RFC 3339 UTC timestamp")
+    if meta.get("disclaimerEn") != source.get("disclaimerEn") or meta.get("disclaimerFi") != source.get("disclaimerFi"):
+        errors.append("patent-history disclaimers must match the reviewed source")
+    combined_disclaimer = f"{source.get('disclaimerEn', '')} {source.get('disclaimerFi', '')}".lower()
+    for term in ("not legal advice", "ei ole oikeudellinen neuvonta", "national status", "kansallinen voimassaolo", "cash flow", "kassavirta"):
+        if term not in combined_disclaimer:
+            errors.append(f"patent-history disclaimer must contain {term!r}")
+
+    source_keys = {
+        "sourceId", "publisher", "title", "sourceKind", "evidenceTier", "url", "retrievedAt",
+        "scopeEn", "scopeFi", "limitationEn", "limitationFi",
+    }
+    sources = source.get("sources")
+    if public.get("sources") != sources:
+        errors.append("patent-history public sources must match the reviewed source exactly")
+    if not isinstance(sources, list) or not sources:
+        errors.append("patent-history sources must be a non-empty array")
+        sources = []
+    sources_by_id: dict[str, dict[str, Any]] = {}
+    for index, item in enumerate(sources):
+        path = f"patent sources[{index}]"
+        if not isinstance(item, dict) or set(item) != source_keys:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        source_id = item.get("sourceId")
+        if not isinstance(source_id, str) or not source_id:
+            errors.append(f"{path}.sourceId must be a non-empty string")
+            continue
+        if source_id in sources_by_id:
+            errors.append(f"patent sources contain duplicate sourceId {source_id}")
+        sources_by_id[source_id] = item
+        if item.get("evidenceTier") not in PATENT_EVIDENCE_TIERS:
+            errors.append(f"{path}.evidenceTier is invalid")
+        if not is_https_url(item.get("url")):
+            errors.append(f"{path}.url must be a public HTTPS URL")
+        try:
+            retrieved = date.fromisoformat(str(item.get("retrievedAt")))
+            if as_of and retrieved > as_of:
+                errors.append(f"{path}.retrievedAt cannot be later than asOf")
+        except ValueError:
+            errors.append(f"{path}.retrievedAt must be an ISO date")
+        for key in ("publisher", "title", "sourceKind", "scopeEn", "scopeFi", "limitationEn", "limitationFi"):
+            if not isinstance(item.get(key), str) or not item[key].strip():
+                errors.append(f"{path}.{key} must be a non-empty string")
+
+    required_source_ids = {
+        "EPO-REGISTER-MAIN",
+        "EPO-REGISTER-EVENT",
+        "EPO-REGISTER-DOCLIST",
+        "EPO-REGISTER-FAMILY",
+        "EPO-B1-SPECIFICATION",
+        "EPO-B2-SPECIFICATION",
+        "DE-BPATG-8NI18-24",
+        "DE-LGMUC-7O3341-24",
+        "RPX-CN-225669",
+        "CNIPA-PUBLIC-QUERY-GUIDANCE",
+        "CNIPA-REEXAMINATION-GUIDANCE",
+        "PRH-FI-REGISTER",
+        "IPAU-PATENT-API",
+        "ROSPATENT-REGISTER",
+        "KIPRIS-REGISTER",
+        "USPTO-PATENT-CENTER",
+        "USPTO-MAINTENANCE",
+        "USPTO-ASSIGNMENT",
+        "WIPO-IP-VALUATION",
+        "WIPO-IP-FINANCE",
+    }
+    missing_sources = required_source_ids - set(sources_by_id)
+    if missing_sources:
+        errors.append(f"patent-history is missing required source anchors {sorted(missing_sources)}")
+    for source_id in required_source_ids - {"RPX-CN-225669"}:
+        if sources_by_id.get(source_id, {}).get("evidenceTier") != "official":
+            errors.append(f"patent source {source_id} must remain official")
+    if sources_by_id.get("RPX-CN-225669", {}).get("evidenceTier") != "secondary":
+        errors.append("China RPX docket must remain a secondary source")
+
+    patent_keys = {
+        "title", "familyLabel", "inventionSummaryEn", "inventionSummaryFi", "claimScopeSummaryEn",
+        "claimScopeSummaryFi", "claimScopeLimitationEn", "claimScopeLimitationFi", "inventor",
+        "recordedProprietor", "earliestPriorityNumber", "earliestPriorityDate", "pctApplication",
+        "woPublication", "epApplication", "epPublication", "epCentralStatusEn", "epCentralStatusFi",
+        "epCentralStatusDate", "sourceIds",
+    }
+    patent = source.get("patent")
+    if public.get("patent") != patent:
+        errors.append("patent summary must match the reviewed source exactly")
+    if not isinstance(patent, dict) or set(patent) != patent_keys:
+        errors.append("patent summary must use the exact reviewed schema")
+        patent = {}
+    expected_identity = {
+        "inventor": "Mika Kananen",
+        "recordedProprietor": "Pixan Oy",
+        "earliestPriorityNumber": "FI20135829",
+        "earliestPriorityDate": "2013-08-14",
+        "pctApplication": "PCT/FI2014/050624",
+        "woPublication": "WO2015022448A1",
+        "epApplication": "EP14836345.0",
+        "epPublication": "EP3032975B2",
+    }
+    for key, value in expected_identity.items():
+        if patent.get(key) != value:
+            errors.append(f"patent.{key} must retain the reviewed identity {value}")
+    if patent.get("epCentralStatusDate") != "2024-04-24":
+        errors.append("patent.epCentralStatusDate must record the B2 publication on 2024-04-24")
+
+    timeline_keys = {
+        "eventId", "date", "historyType", "geography", "titleEn", "titleFi", "detailEn", "detailFi",
+        "evidenceTier", "sourceIds", "limitationEn", "limitationFi",
+    }
+    family_keys = {
+        "memberId", "jurisdictionCode", "jurisdictionEn", "jurisdictionFi", "jurisdictionCategory",
+        "applicationNumber", "publicationNumber", "publicationDate", "recordType", "centralRecordStatusEn",
+        "centralRecordStatusFi", "currentNationalStatusEn", "currentNationalStatusFi", "verificationLevel",
+        "sourceIds", "registerUrl", "limitationEn", "limitationFi",
+    }
+    proceeding_keys = {
+        "proceedingId", "jurisdictionCode", "forum", "proceedingType", "reference", "eventDate",
+        "titleEn", "titleFi", "detailEn", "detailFi", "outcomeStatus", "finalityEn", "finalityFi",
+        "evidenceTier", "patentNumbers", "sourceIds", "limitationEn", "limitationFi",
+    }
+
+    def validate_references(path: str, item: dict[str, Any]) -> None:
+        refs = item.get("sourceIds")
+        if not isinstance(refs, list) or not refs:
+            errors.append(f"{path}.sourceIds must be a non-empty array")
+            return
+        unknown = set(refs) - set(sources_by_id)
+        if unknown:
+            errors.append(f"{path}.sourceIds contains unknown IDs {sorted(unknown)}")
+        tier = item.get("evidenceTier")
+        if tier not in PATENT_EVIDENCE_TIERS:
+            errors.append(f"{path}.evidenceTier is invalid")
+        if tier == "official" and any(sources_by_id.get(ref, {}).get("evidenceTier") != "official" for ref in refs):
+            errors.append(f"{path} cannot be official when any cited source is non-official")
+
+    timeline = source.get("timeline")
+    if public.get("timeline") != timeline:
+        errors.append("patent public timeline must match the reviewed source exactly")
+    if not isinstance(timeline, list) or not timeline:
+        errors.append("patent timeline must be a non-empty array")
+        timeline = []
+    timeline_ids: list[str] = []
+    prior_date = ""
+    for index, item in enumerate(timeline):
+        path = f"patent timeline[{index}]"
+        if not isinstance(item, dict) or set(item) != timeline_keys:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        timeline_ids.append(str(item.get("eventId", "")))
+        event_date = str(item.get("date", ""))
+        try:
+            date.fromisoformat(event_date)
+        except ValueError:
+            errors.append(f"{path}.date must be an ISO date")
+        if prior_date and event_date < prior_date:
+            errors.append("patent timeline must be chronological")
+        prior_date = event_date
+        validate_references(path, item)
+    if len(timeline_ids) != len(set(timeline_ids)) or any(not item for item in timeline_ids):
+        errors.append("patent timeline eventId values must be unique and non-empty")
+
+    family = source.get("familyMembers")
+    if public.get("familyMembers") != family:
+        errors.append("patent public familyMembers must match the reviewed source exactly")
+    if not isinstance(family, list) or len(family) < 20:
+        errors.append("patent familyMembers must contain at least the 20 official EPO-family publication records")
+        family = []
+    member_ids: list[str] = []
+    jurisdictions: set[str] = set()
+    for index, item in enumerate(family):
+        path = f"patent familyMembers[{index}]"
+        if not isinstance(item, dict) or set(item) != family_keys:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        member_ids.append(str(item.get("memberId", "")))
+        jurisdictions.add(str(item.get("jurisdictionCode", "")))
+        if item.get("verificationLevel") not in PATENT_VERIFICATION_LEVELS:
+            errors.append(f"{path}.verificationLevel is invalid")
+        if not is_https_url(item.get("registerUrl")):
+            errors.append(f"{path}.registerUrl must be a public HTTPS URL")
+        refs = item.get("sourceIds")
+        if not isinstance(refs, list) or not refs or set(refs) - set(sources_by_id):
+            errors.append(f"{path}.sourceIds must reference known sources")
+        national_status = f"{item.get('currentNationalStatusEn', '')} {item.get('currentNationalStatusFi', '')}".lower()
+        if item.get("verificationLevel") == "official_family_record" and item.get("jurisdictionCode") != "WO" and not (
+            "not independently verified" in national_status and "ei ole riippumattomasti vahvistettu" in national_status
+        ):
+            errors.append(f"{path} must not imply current national status from a family publication record")
+    if len(member_ids) != len(set(member_ids)) or any(not item for item in member_ids):
+        errors.append("patent family memberId values must be unique and non-empty")
+    if not {"FI", "WO", "EP", "US", "CN", "JP", "KR", "AU", "CA", "BR"}.issubset(jurisdictions):
+        errors.append("patent family inventory is missing core EPO-family jurisdictions")
+
+    proceedings = source.get("proceedings")
+    if public.get("proceedings") != proceedings:
+        errors.append("patent public proceedings must match the reviewed source exactly")
+    if not isinstance(proceedings, list) or len(proceedings) < 4:
+        errors.append("patent proceedings must contain EPO, China-lead and German records")
+        proceedings = []
+    proceedings_by_id: dict[str, dict[str, Any]] = {}
+    for index, item in enumerate(proceedings):
+        path = f"patent proceedings[{index}]"
+        if not isinstance(item, dict) or set(item) != proceeding_keys:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        proceeding_id = str(item.get("proceedingId", ""))
+        if not proceeding_id or proceeding_id in proceedings_by_id:
+            errors.append(f"{path}.proceedingId must be unique and non-empty")
+        proceedings_by_id[proceeding_id] = item
+        validate_references(path, item)
+        if not isinstance(item.get("patentNumbers"), list) or not item["patentNumbers"]:
+            errors.append(f"{path}.patentNumbers must be a non-empty array")
+    required_proceedings = {"EPO-OPPOSITION-APPEAL", "CN-PRB-225669", "DE-BPATG-8NI18-24", "DE-LGMUC-7O3341-24"}
+    if required_proceedings - set(proceedings_by_id):
+        errors.append("patent proceedings are missing required reviewed anchors")
+    china = proceedings_by_id.get("CN-PRB-225669", {})
+    if china.get("evidenceTier") != "secondary" or china.get("outcomeStatus") != "unverified":
+        errors.append("China PRB 225669 must remain secondary with an unverified outcome")
+    china_text = f"{china.get('detailEn', '')} {china.get('detailFi', '')} {china.get('limitationEn', '')} {china.get('limitationFi', '')}".lower()
+    for term in ("review request", "rejected application", "not an infringement judgment", "loukkaustuomio", "later", "official decision"):
+        if term not in china_text:
+            errors.append(f"China PRB record must preserve the limitation {term!r}")
+    german_nullity = proceedings_by_id.get("DE-BPATG-8NI18-24", {})
+    if german_nullity.get("outcomeStatus") != "appeal_pending" or "X ZR 21/26" not in str(german_nullity.get("reference", "")):
+        errors.append("German nullity proceeding must retain the pending BGH appeal X ZR 21/26")
+
+    alert_keys = {
+        "alertId", "jurisdictionCode", "targetDate", "dateType", "priority", "status",
+        "titleEn", "titleFi", "detailEn", "detailFi", "actionEn", "actionFi", "evidenceTier",
+        "sourceIds", "limitationEn", "limitationFi",
+    }
+    allowed_alert_date_types = {
+        "statutory_due", "payment_window_end", "register_in_force_through", "internal_review_target"
+    }
+    allowed_alert_priorities = {"critical", "high", "medium"}
+    allowed_alert_statuses = {"confirm_now", "action_required", "verify_payment", "ongoing"}
+    alerts = source.get("diligenceAlerts")
+    if public.get("diligenceAlerts") != alerts:
+        errors.append("patent public diligenceAlerts must match the reviewed source exactly")
+    if not isinstance(alerts, list) or not alerts:
+        errors.append("patent diligenceAlerts must be a non-empty array")
+        alerts = []
+    alert_ids: list[str] = []
+    for index, item in enumerate(alerts):
+        path = f"patent diligenceAlerts[{index}]"
+        if not isinstance(item, dict) or set(item) != alert_keys:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        alert_ids.append(str(item.get("alertId", "")))
+        if item.get("dateType") not in allowed_alert_date_types:
+            errors.append(f"{path}.dateType is invalid")
+        if item.get("priority") not in allowed_alert_priorities:
+            errors.append(f"{path}.priority is invalid")
+        if item.get("status") not in allowed_alert_statuses:
+            errors.append(f"{path}.status is invalid")
+        try:
+            target_date = date.fromisoformat(str(item.get("targetDate", "")))
+            if as_of and target_date < as_of:
+                errors.append(f"{path}.targetDate cannot precede the dataset asOf date")
+        except ValueError:
+            errors.append(f"{path}.targetDate must be an ISO date")
+        validate_references(path, item)
+        for key in ("titleEn", "titleFi", "detailEn", "detailFi", "actionEn", "actionFi", "limitationEn", "limitationFi"):
+            if not isinstance(item.get(key), str) or not item[key].strip():
+                errors.append(f"{path}.{key} must be a non-empty string")
+    if len(alert_ids) != len(set(alert_ids)) or any(not alert_id for alert_id in alert_ids):
+        errors.append("patent diligence alertId values must be unique and non-empty")
+    required_alerts = {"AU-RENEWAL-CONFIRM-2026", "FI-YEAR14-FEE-2026", "EP-NATIONAL-RECONCILIATION-2026", "US-MAINTENANCE-2026"}
+    if required_alerts - set(alert_ids):
+        errors.append("patent diligence alerts are missing required maintenance checkpoints")
+
+    monetisation = source.get("monetisation")
+    if public.get("monetisation") != monetisation:
+        errors.append("patent public monetisation must match the reviewed source exactly")
+    required_monetisation_keys = {"positioning", "readinessChecks", "countryScoring", "revenueRoutes", "sequence", "guardrails"}
+    if not isinstance(monetisation, dict) or set(monetisation) != required_monetisation_keys:
+        errors.append("patent monetisation must use the exact reviewed schema")
+        monetisation = {}
+    weights = [item.get("weightPercent") for item in monetisation.get("countryScoring", []) if isinstance(item, dict)]
+    if not weights or any(not isinstance(value, int) or isinstance(value, bool) or value <= 0 for value in weights) or sum(weights) != 100:
+        errors.append("patent country-scoring weights must be positive integers summing to 100")
+    guardrail_text = " ".join(
+        f"{item.get('textEn', '')} {item.get('textFi', '')}" for item in monetisation.get("guardrails", []) if isinstance(item, dict)
+    ).lower()
+    for term in ("germany", "saksa", "product-specific", "tuotekohtai", "national status", "kansallista voimassaolo", "counsel", "asiantuntija"):
+        if term not in guardrail_text:
+            errors.append(f"patent monetisation guardrails must contain {term!r}")
+    for section in ("readinessChecks", "countryScoring", "revenueRoutes", "sequence", "guardrails"):
+        records = monetisation.get(section)
+        if not isinstance(records, list) or not records:
+            errors.append(f"patent monetisation.{section} must be a non-empty array")
+            continue
+        for index, item in enumerate(records):
+            if not isinstance(item, dict):
+                errors.append(f"patent monetisation.{section}[{index}] must be an object")
+                continue
+            refs = item.get("sourceIds")
+            if not isinstance(refs, list) or not refs or set(refs) - set(sources_by_id):
+                errors.append(f"patent monetisation.{section}[{index}].sourceIds must reference known sources")
+    positioning = monetisation.get("positioning")
+    if not isinstance(positioning, dict) or not isinstance(positioning.get("sourceIds"), list) or set(positioning.get("sourceIds", [])) - set(sources_by_id):
+        errors.append("patent monetisation.positioning must reference known sources")
+
+    summary = public.get("summary")
+    expected_summary = {
+        "timelineEventCount": len(timeline),
+        "familyRecordCount": len(family),
+        "officialSourceCount": sum(1 for item in sources if isinstance(item, dict) and item.get("evidenceTier") == "official"),
+        "proceedingCount": len(proceedings),
+        "diligenceAlertCount": len(alerts),
+        "unresolvedProceedingCount": sum(
+            1
+            for item in proceedings
+            if isinstance(item, dict)
+            and item.get("outcomeStatus")
+            in {"unverified", "pending", "appeal_pending", "official_judgment_finality_unverified"}
+        ),
+    }
+    if summary != expected_summary:
+        errors.append("patent-history summary does not match its records")
+
+    try:
+        expected_public = build_patent_history()
+    except (KeyError, TypeError, ValueError) as error:
+        errors.append(f"patent-history deterministic build rejected its source: {error}")
+    else:
+        if public != expected_public:
+            errors.append("patent-history public JSON differs from the deterministic reviewed build")
+
+
+def validate_patent_family_csv(patent_history: dict[str, Any], errors: list[str]) -> None:
+    try:
+        with PATENT_FAMILY_CSV_PATH.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            fieldnames = reader.fieldnames
+            actual_rows = list(reader)
+    except FileNotFoundError:
+        errors.append("site/data/patent-family.csv is missing")
+        return
+    if fieldnames != PATENT_FAMILY_CSV_FIELDS:
+        errors.append("patent-family.csv columns differ from the reviewed schema")
+    expected_rows = patent_family_csv_rows(patent_history)
+    normalized_expected = [
+        {field: "" if row.get(field) is None else str(row.get(field, "")) for field in PATENT_FAMILY_CSV_FIELDS}
+        for row in expected_rows
+    ]
+    if actual_rows != normalized_expected:
+        errors.append("patent-family.csv differs from patent-history.json deterministic parity")
+
+
 def validate_changelog(source: dict[str, Any], public: dict[str, Any], errors: list[str]) -> None:
     """Validate deterministic release metadata used only for device-local visit comparison."""
     if set(source) != {"schemaVersion", "asOf", "releases"} or source.get("schemaVersion") != 1:
@@ -959,7 +1362,7 @@ def validate_changelog(source: dict[str, Any], public: dict[str, Any], errors: l
         releases = []
     release_ids: list[str] = []
     timestamps: list[datetime] = []
-    allowed_categories = {"market_data", "model", "method", "language", "usability"}
+    allowed_categories = {"market_data", "model", "method", "language", "usability", "patent", "legal", "diligence"}
     for index, release in enumerate(releases):
         path = f"changelog releases[{index}]"
         expected = {"id", "version", "publishedAt", "titleEn", "titleFi", "items"}
@@ -1073,10 +1476,13 @@ def main() -> None:
         EVIDENCE_CSV_PATH,
         MARKET_VALUES_JSON_PATH,
         MARKET_VALUES_CSV_PATH,
+        PATENT_HISTORY_JSON_PATH,
+        PATENT_FAMILY_CSV_PATH,
         CHANGELOG_JSON_PATH,
         CURATED_PATH,
         PUBLIC_BASELINE_PATH,
         MARKET_OBSERVATIONS_PATH,
+        PATENT_HISTORY_PATH,
         CHANGELOG_PATH,
         UPSTREAM_METADATA_PATH,
         UPSTREAM_SHA_PATH,
@@ -1094,6 +1500,8 @@ def main() -> None:
     metadata = load_json(UPSTREAM_METADATA_PATH)
     market_source = load_json(MARKET_OBSERVATIONS_PATH)
     market_values = load_json(MARKET_VALUES_JSON_PATH)
+    patent_source = load_json(PATENT_HISTORY_PATH)
+    patent_history = load_json(PATENT_HISTORY_JSON_PATH)
     changelog_source = load_json(CHANGELOG_PATH)
     changelog_public = load_json(CHANGELOG_JSON_PATH)
     validate_source_inputs(curated, baseline, metadata, errors)
@@ -1119,6 +1527,12 @@ def main() -> None:
         validate_market_values(market_source, market_values, errors)
         validate_market_values_csv(market_values, errors)
 
+    if not isinstance(patent_source, dict) or not isinstance(patent_history, dict):
+        errors.append("source and public patent-history files must contain objects")
+    else:
+        validate_patent_history(patent_source, patent_history, errors)
+        validate_patent_family_csv(patent_history, errors)
+
     if not isinstance(changelog_source, dict) or not isinstance(changelog_public, dict):
         errors.append("source and public changelog files must contain objects")
     else:
@@ -1130,8 +1544,10 @@ def main() -> None:
     scan_public_text("metadata", metadata, errors)
     scan_public_text("market source", market_source, errors)
     scan_public_text("market values", market_values, errors)
+    scan_public_text("patent source", patent_source, errors)
+    scan_public_text("patent history", patent_history, errors)
     scan_public_text("changelog source", changelog_source, errors)
-    for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH, MARKET_VALUES_CSV_PATH):
+    for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH, MARKET_VALUES_CSV_PATH, PATENT_FAMILY_CSV_PATH):
         scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
     for path in sorted((ROOT / "site").rglob("*")):
         # JavaScript source contains escaped URL/regex literals such as

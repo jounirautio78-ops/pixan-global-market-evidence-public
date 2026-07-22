@@ -33,6 +33,7 @@ const REVIEW_LEGAL_SUMMARIES = {
 
 let reviewData = null;
 let reviewMarketData = null;
+let reviewPatentData = null;
 let reviewChangelog = null;
 let reviewChangeView = null;
 
@@ -58,7 +59,9 @@ function reviewFormatDate(value) {
   if (!value) return "—";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return String(value);
-  return new Intl.DateTimeFormat(reviewIsFi() ? "fi-FI" : "en-GB", { year: "numeric", month: "long", day: "numeric" }).format(date);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(value))) options.timeZone = "UTC";
+  return new Intl.DateTimeFormat(reviewIsFi() ? "fi-FI" : "en-GB", options).format(date);
 }
 
 function reviewStatus(value) {
@@ -70,16 +73,16 @@ function reviewStatus(value) {
 
 function renderReviewMetrics(data) {
   const countries = data.countries;
-  const grades = countries.reduce((counts, country) => {
-    const grade = ["A", "B", "C", "D"].includes(country.bestEvidence) ? country.bestEvidence : "D";
-    counts[grade] = (counts[grade] || 0) + 1;
-    return counts;
-  }, {});
+  const observations = Array.isArray(reviewMarketData?.observations) ? reviewMarketData.observations : [];
+  const official = observations.filter((item) => String(item.evidenceStatus || "").startsWith("official_"));
+  const quantified = new Set(official.map((item) => item.countryIso2).filter(Boolean));
+  const officialRetail = new Set(official.filter((item) => item.metric === "consumer_retail_market_value").map((item) => item.countryIso2).filter(Boolean));
+  const modelled = new Set((reviewMarketData?.models || []).map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
-    [reviewL("Maauniversumi", "Country universe"), countries.length, reviewL("UN 193 + Pyhä istuin + Palestiinan valtio", "UN 193 + Holy See + State of Palestine")],
-    [reviewL("Suora viranomaisankkuri", "Direct official anchor"), grades.A || 0, reviewL("Vähintään yksi suora virallinen myynti-, määrä- tai verohavainto", "At least one direct official sales, volume or tax observation")],
-    [reviewL("Lähteistetty reitti", "Sourced route"), (grades.A || 0) + (grades.B || 0) + (grades.C || 0), reviewL("A-, B- tai C-evidenssi; ei välttämättä vuosittaista vähittäismyyntiä", "A, B or C evidence; not necessarily annual retail sales")],
-    [reviewL("Evidenssihavainnot", "Evidence records"), data.evidence.length, reviewL("Jokainen havainto säilyttää julkisen lähdelinkin ja väitetyypin", "Each record retains a public source link and claim type")]
+    [reviewL("Tutkimusmaailma", "Research universe"), `${countries.length} / 195`, reviewL("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets")],
+    [reviewL("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), `${quantified.size} / 195`, reviewL("Raha-, vero- tai määräarvoja; mittarit pidetään erillään", "Monetary, tax or volume records; measures remain separate")],
+    [reviewL("Virallinen kuluttajavähittäisarvo", "Official consumer-retail value"), `${officialRetail.size} / 195`, reviewL("Toimitusarvo ei ole kuluttajamyyntiä", "Shipment value is not consumer retail")],
+    [reviewL("Atlaksen maamalli", "Atlas country model"), `${modelled.size} / 195`, reviewL("Saksan nesteskenaario; matala luottamus", "Germany liquid scenario; low confidence")]
   ];
   const host = reviewById("review-metrics");
   host.replaceChildren(...metrics.map(([label, value, note]) => {
@@ -105,16 +108,16 @@ function renderReviewMarket(market) {
   const observations = Array.isArray(market?.observations) ? market.observations : [];
   const models = Array.isArray(market?.models) ? market.models : [];
   const commercial = observations.filter((item) => item.metric === "commercial_market_estimate" && item.currency === "USD" && Number(item.year) === 2025);
-  const low = commercial.length ? Math.min(...commercial.map((item) => Number(item.value))) : null;
-  const high = commercial.length ? Math.max(...commercial.map((item) => Number(item.value))) : null;
   const canada = observations.find((item) => item.observationId === "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
   const germany = models.find((item) => item.modelId === "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE");
-  const cards = [
-    {
-      label: reviewL("Ulkoinen maailmanmarkkinahaarukka · 2025", "External global range · 2025"),
-      value: low !== null && high !== null ? `${reviewMarketFormat(low, "USD")}–${reviewMarketFormat(high, "USD")}` : "—",
-      note: reviewL("Kolme kaupallista arviota; eri rajaukset, ei atlaksen arvio", "Three commercial estimates; different scopes, not the atlas estimate")
-    },
+  const sourceMap = new Map((market?.sources || []).map((source) => [source.sourceId, source]));
+  const cards = commercial.map((item) => ({
+    label: reviewIsFi() ? item.labelFi : item.labelEn,
+    value: reviewMarketFormat(item.value, item.currency),
+    note: reviewIsFi() ? item.limitationFi : item.limitationEn,
+    url: reviewUrl(sourceMap.get(item.sourceIds?.[0])?.pageUrl)
+  }));
+  cards.push(
     {
       label: reviewL("Kanada · 2024 virallinen toimitusarvo", "Canada · 2024 official shipment value"),
       value: canada ? reviewMarketFormat(canada.value, canada.currency) : "—",
@@ -125,11 +128,18 @@ function renderReviewMarket(market) {
       value: germany ? `${reviewMarketFormat(germany.low, germany.currency)}–${reviewMarketFormat(germany.high, germany.currency)}` : "—",
       note: reviewL("Verotettu neste × 2026 hintakori; matala luottamus, ei laitteita", "Taxed liquid × 2026 price basket; low confidence, excludes devices")
     }
-  ];
+  );
   const host = reviewById("review-market-metrics");
   host.replaceChildren(...cards.map((item) => {
     const card = reviewNode("article", "panel review-market-card");
     card.append(reviewNode("span", "kicker", item.label), reviewNode("strong", "", item.value), reviewNode("small", "", item.note));
+    if (item.url) {
+      const link = reviewNode("a", "", reviewL("Avaa julkaisijan lähde →", "Open publisher source →"));
+      link.href = item.url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      card.append(link);
+    }
     return card;
   }));
 
@@ -282,25 +292,80 @@ function renderReviewBlockers(data) {
   if (!blockers.length) host.append(reviewNode("p", "muted", reviewL("Valmiustietoa ei ollut saatavilla.", "No readiness record was available.")));
 }
 
-function renderReviewLegal(data) {
-  const host = reviewById("review-legal");
-  const items = Array.isArray(data.legal) ? data.legal : [];
-  host.replaceChildren(...items.map((item) => {
-    const li = reviewNode("li");
-    li.append(
-      reviewNode("time", "", item.eventDate || reviewL("Virallinen asiakirja", "Official record")),
-      reviewNode("strong", "", item.reference || item.authority),
-      reviewNode("p", "", reviewIsFi() ? item.statement || "" : REVIEW_LEGAL_SUMMARIES[item.legalId] || "Official legal record; verify its current status and scope.")
-    );
-    const url = reviewUrl(item.sourceUrl);
-    if (url) {
-      const link = reviewNode("a", "", reviewL("Avaa virallinen lähde →", "Open official source →"));
-      link.href = url;
-      link.target = "_blank";
-      link.rel = "noreferrer";
-      li.append(link);
-    }
-    return li;
+function reviewPatentText(item, key) {
+  if (!item) return "";
+  return reviewIsFi() ? item[`${key}Fi`] || item[key] || item[`${key}En`] || "" : item[`${key}En`] || item[key] || item[`${key}Fi`] || "";
+}
+
+function reviewPatentLinks(host, sourceIds) {
+  const map = new Map((reviewPatentData?.sources || []).map((source) => [source.sourceId, source]));
+  const wrap = reviewNode("div", "patent-source-links patent-source-links-compact");
+  for (const sourceId of sourceIds || []) {
+    const source = map.get(sourceId);
+    const url = reviewUrl(source?.url);
+    if (!source || !url) continue;
+    const link = reviewNode("a", "", sourceId);
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.title = reviewPatentText(source, "limitation");
+    wrap.append(link);
+  }
+  if (wrap.childElementCount) host.append(wrap);
+}
+
+function renderReviewPatent() {
+  const data = reviewPatentData;
+  const metricsHost = reviewById("review-patent-metrics");
+  const statusHost = reviewById("review-patent-status");
+  const alertsHost = reviewById("review-patent-alerts");
+  const proceedingsHost = reviewById("review-patent-proceedings");
+  if (!data) {
+    const unavailable = reviewNode("article", "panel review-market-card");
+    unavailable.append(reviewNode("span", "kicker", reviewL("Patenttiaineisto", "Patent data")), reviewNode("strong", "", reviewL("Ei saatavilla", "Unavailable")), reviewNode("small", "", reviewL("Käytä koko atlaksen virallisia Saksan ankkureita ja tarkista rekisterit suoraan.", "Use the full atlas's official German anchors and check registers directly.")));
+    metricsHost.replaceChildren(unavailable);
+    statusHost.replaceChildren();
+    alertsHost.replaceChildren();
+    proceedingsHost.replaceChildren();
+    return;
+  }
+
+  const verifiedNational = (data.familyMembers || []).filter((item) => item.verificationLevel === "official_national_record");
+  const metrics = [
+    [reviewL("Perhejulkaisut", "Family publication records"), data.summary?.familyRecordCount || 0, reviewL("Julkaisu ei yksin ole nykyinen kansallinen oikeus", "A publication alone is not a current national right")],
+    [reviewL("Kansallisesti vahvistetut", "National status verified"), verifiedNational.length, reviewL("Suomi, Australia, Etelä-Korea ja Venäjä tässä julkaisussa", "Finland, Australia, South Korea and Russia in this release")],
+    [reviewL("Avoimet määräpäivät", "Open diligence alerts"), data.summary?.diligenceAlertCount || 0, reviewL(`${data.summary?.unresolvedProceedingCount || 0} prosessin lopputulos tai lainvoimaisuus avoin`, `${data.summary?.unresolvedProceedingCount || 0} proceeding outcomes or finality points remain open`)]
+  ];
+  metricsHost.replaceChildren(...metrics.map(([label, value, note]) => {
+    const card = reviewNode("article", "panel review-market-card");
+    card.append(reviewNode("span", "kicker", label), reviewNode("strong", "", value), reviewNode("small", "", note));
+    return card;
+  }));
+
+  statusHost.replaceChildren(...verifiedNational.map((item) => {
+    const row = reviewNode("article", "review-patent-status-item");
+    row.append(reviewNode("strong", "", `${reviewPatentText(item, "jurisdiction")} · ${item.publicationNumber}`), reviewNode("p", "", reviewPatentText(item, "currentNationalStatus")), reviewNode("small", "", reviewPatentText(item, "limitation")));
+    reviewPatentLinks(row, item.sourceIds);
+    return row;
+  }));
+
+  alertsHost.replaceChildren(...(data.diligenceAlerts || []).map((item) => {
+    const row = reviewNode("article", `review-patent-alert review-patent-alert-${item.priority}`);
+    const meta = reviewNode("div", "review-patent-alert-meta");
+    meta.append(reviewNode("strong", "", item.jurisdictionCode), reviewNode("time", "", reviewFormatDate(item.targetDate)), reviewNode("span", "", String(item.priority).toUpperCase()));
+    row.append(meta, reviewNode("h4", "", reviewPatentText(item, "title")), reviewNode("p", "", reviewPatentText(item, "detail")), reviewNode("small", "", reviewPatentText(item, "limitation")));
+    reviewPatentLinks(row, item.sourceIds);
+    return row;
+  }));
+
+  proceedingsHost.replaceChildren(...(data.proceedings || []).map((item) => {
+    const row = reviewNode("article", "review-patent-proceeding");
+    row.append(reviewNode("span", "kicker", `${item.jurisdictionCode} · ${item.reference}`), reviewNode("h4", "", reviewPatentText(item, "title")), reviewNode("p", "", reviewPatentText(item, "detail")));
+    const finality = reviewNode("p", "review-patent-finality");
+    finality.append(reviewNode("strong", "", reviewL("Lopullisuus: ", "Finality: ")), document.createTextNode(reviewPatentText(item, "finality")));
+    row.append(finality, reviewNode("small", "", reviewPatentText(item, "limitation")));
+    reviewPatentLinks(row, item.sourceIds);
+    return row;
   }));
 }
 
@@ -332,9 +397,9 @@ function renderReview(data) {
   renderReviewGrades(data);
   renderReviewDimensions(data);
   renderReviewBlockers(data);
-  renderReviewLegal(data);
   if (reviewMarketData) renderReviewMarket(reviewMarketData);
   else renderReviewMarketUnavailable();
+  renderReviewPatent();
   renderReviewChanges();
 }
 
@@ -347,9 +412,10 @@ async function initReview() {
     if (reviewData) renderReview(reviewData);
   });
   try {
-    const [atlasResult, marketResult, changelogResult] = await Promise.allSettled([
+    const [atlasResult, marketResult, patentResult, changelogResult] = await Promise.allSettled([
       fetch("data/atlas.json", { cache: "no-store" }),
       fetch("data/market-values.json", { cache: "no-store" }),
+      fetch("data/patent-history.json", { cache: "no-store" }),
       fetch("data/changelog.json", { cache: "no-store" })
     ]);
     if (atlasResult.status !== "fulfilled" || !atlasResult.value.ok) throw new Error(`Atlas HTTP ${atlasResult.status === "fulfilled" ? atlasResult.value.status : "network error"}`);
@@ -367,6 +433,16 @@ async function initReview() {
     } catch (error) {
       reviewMarketData = null;
       console.warn("Optional market-value dataset unavailable", error);
+    }
+
+    try {
+      if (patentResult.status !== "fulfilled" || !patentResult.value.ok) throw new Error(`HTTP ${patentResult.status === "fulfilled" ? patentResult.value.status : "network error"}`);
+      const patentData = await patentResult.value.json();
+      if (!Array.isArray(patentData.familyMembers) || !Array.isArray(patentData.proceedings) || !Array.isArray(patentData.diligenceAlerts) || !Array.isArray(patentData.sources)) throw new Error("schema validation failed");
+      reviewPatentData = patentData;
+    } catch (error) {
+      reviewPatentData = null;
+      console.warn("Optional patent-history dataset unavailable", error);
     }
 
     try {
