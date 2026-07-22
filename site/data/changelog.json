@@ -3,6 +3,20 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-22-visible-update-version-v3",
+      "version": "2026.07.22-3",
+      "publishedAt": "2026-07-22T15:02:32+03:00",
+      "titleEn": "Visible update date and release version",
+      "titleFi": "Näkyvä päivityspäivä ja julkaisun versionumero",
+      "items": [
+        {
+          "category": "usability",
+          "textEn": "Added the latest verified site-update date and release version to both the full atlas and lender/buyer review view.",
+          "textFi": "Lisättiin viimeisin vahvistettu sivuston päivityspäivä ja julkaisun versionumero sekä koko atlakseen että lainanantajan ja ostajan tarkistusnäkymään."
+        }
+      ]
+    },
+    {
       "id": "2026-07-22-bilingual-market-value-v2",
       "version": "2026.07.22-2",
       "publishedAt": "2026-07-22T13:00:00+03:00",
