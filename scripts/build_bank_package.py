@@ -1891,10 +1891,23 @@ def add_footer(slide, ctx: dict[str, Any], page: int, source_ids: str = "") -> N
     add_text(slide, str(page), 12.45, 7.15, 0.45, 0.22, size=9, color=MUTED, align=PP_ALIGN.RIGHT)
 
 
-def add_slide_title(slide, title: str, section: str, ctx: dict[str, Any], page: int, sources: str = "") -> None:
+def add_slide_title(
+    slide,
+    title: str,
+    section: str,
+    ctx: dict[str, Any],
+    page: int,
+    sources: str = "",
+    *,
+    two_line: bool = False,
+) -> None:
     add_text(slide, section.upper(), 0.55, 0.32, 3.8, 0.28, size=10, color=TEAL, bold=True)
-    add_text(slide, title, 0.55, 0.68, 12.15, 0.6, size=34, color=NAVY, bold=True)
-    add_rect(slide, 0.55, 1.34, 1.05, 0.055, TEAL)
+    if two_line:
+        add_text(slide, title, 0.55, 0.68, 12.15, 0.88, size=30, color=NAVY, bold=True)
+        add_rect(slide, 0.55, 1.58, 1.05, 0.055, TEAL)
+    else:
+        add_text(slide, title, 0.55, 0.68, 12.15, 0.6, size=34, color=NAVY, bold=True)
+        add_rect(slide, 0.55, 1.34, 1.05, 0.055, TEAL)
     add_footer(slide, ctx, page, sources)
 
 
@@ -1921,7 +1934,15 @@ def add_bullets(slide, bullets: list[str], x: float, y: float, w: float, h: floa
 
 def add_metric(slide, value: str, label: str, x: float, y: float, w: float, color: str = TEAL) -> None:
     add_rect(slide, x, y, w, 1.5, LIGHT, LINE, True)
-    add_text(slide, value, x + 0.18, y + 0.18, w - 0.36, 0.58, size=27, color=color, bold=True)
+    # Keep long range/currency values on one line so the metric label retains
+    # its own vertical band in both PowerPoint and LibreOffice.
+    if len(value) <= 15:
+        value_size = 27
+    elif len(value) <= 21:
+        value_size = 22.5
+    else:
+        value_size = 19.5
+    add_text(slide, value, x + 0.18, y + 0.18, w - 0.36, 0.58, size=value_size, color=color, bold=True)
     add_text(slide, label, x + 0.18, y + 0.82, w - 0.36, 0.48, size=14, color=MUTED)
 
 
@@ -2036,10 +2057,25 @@ def slide_metrics(prs: Presentation, ctx: dict[str, Any], page: int, title: str,
     add_callout(slide, "Tulkinta", note, 0.62, 4.96, 11.95, 1.25, PALE)
 
 
-def slide_table(prs: Presentation, ctx: dict[str, Any], page: int, title: str, section: str, headers: list[str], rows: list[list[str]], takeaway: str, sources: str, widths: list[float] | None = None) -> None:
+def slide_table(
+    prs: Presentation,
+    ctx: dict[str, Any],
+    page: int,
+    title: str,
+    section: str,
+    headers: list[str],
+    rows: list[list[str]],
+    takeaway: str,
+    sources: str,
+    widths: list[float] | None = None,
+    *,
+    two_line_title: bool = False,
+) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_slide_title(slide, title, section, ctx, page, sources)
-    add_table(slide, headers, rows, 0.58, 1.68, 12.15, 4.35, widths, font_size=13.2)
+    add_slide_title(slide, title, section, ctx, page, sources, two_line=two_line_title)
+    table_y = 1.88 if two_line_title else 1.68
+    table_h = 4.15 if two_line_title else 4.35
+    add_table(slide, headers, rows, 0.58, table_y, 12.15, table_h, widths, font_size=13.2)
     add_text(slide, takeaway, 0.66, 6.19, 11.9, 0.55, size=17, color=BLUE, bold=True)
 
 
@@ -2934,7 +2970,8 @@ def build_medium_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 11, "Taloudellinen malli on rakennettava lähteistä, ei markkinaosuusoletuksesta", "11 · Taloudellinen malli ja herkkyydet",
                 ["Silta", "Todennettava syöte", "Nykytila"],
                 [["Kokonaismarkkina", "Yhteismitallinen maakohtainen myynti", f"{v['retail_donors']} retail-luovuttajaa"], ["Kohdistettava myynti", "Voimassaolo × tuote × aika × maa", "Puuttuu"], ["Rojaltipohja", "Claim-mapped net sales", "Puuttuu"], ["Kassavirta", "Sopimusehdot, kulut, verot, viive", "Puuttuu"], ["Vakuusarvo", "Downside-realisointi ja kontrolli", "Puuttuu"]],
-                "Näytä downside/base/upside vasta, kun jokainen sillan syöte on dokumentoitu.", "WIPO IP valuation; Market-values", [2.5, 5.7, 1.8] )
+                "Näytä downside/base/upside vasta, kun jokainen sillan syöte on dokumentoitu.", "WIPO IP valuation; Market-values", [2.5, 5.7, 1.8],
+                two_line_title=True )
     closing_slide(prs, ctx, 12, "Rahoituspäätös vasta neljän kriittisen aukon sulkeuduttua",
                   ["1. Asiamiehen allekirjoittama omistus-, rasite-, maksu- ja oikeusmatriisi.", "2. Priorisoitujen tuotteiden claim chartit ja dokumentoitu relevantti myynti.", "3. Toteutuneet tai sopimuspohjaiset kassavirrat sekä auditoidut taloustiedot.", "4. Riippumaton arvonmääritys ja downside-vakuusanalyysi.", "Seuraava päätös: hyväksytäänkö 90 päivän kontrolloitu diligence-vaihe?"], "Evidence Register; WIPO" )
     add_text(prs.slides[-1], "12 · Riskit, hallintatoimet ja seuraavat vaiheet", 0.64, 0.82, 8.7, 0.28, size=12, color=TEAL, bold=True)

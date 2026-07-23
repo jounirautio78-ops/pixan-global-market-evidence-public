@@ -6,7 +6,7 @@
 
   const EXPECTED_OUTREACH = new Map([
     ["ecig-global-market-database", "sent"],
-    ["euromonitor-passport-nicotine", "sent"],
+    ["euromonitor-passport-nicotine", "administrative_qualification_received"],
     ["niq-rms-pilot", "blocked_not_submitted"],
     ["circana-us-tobacco-pilot", "submitted_confirmation_received"]
   ]);
@@ -48,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.23-2"
+      || raw.version !== "2026.07.23-3"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -118,6 +118,10 @@
   function outreachLabel(state) {
     const labels = {
       sent: l("Pyyntö lähetetty", "Request sent"),
+      administrative_qualification_received: l(
+        "Täsmennys lähetetty · ohjaus odottaa",
+        "Clarification sent · routing pending"
+      ),
       blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
       submitted_confirmation_received: l("Vastaanotto vahvistettu", "Submission confirmed")
     };
@@ -204,7 +208,8 @@
     const publicPrices = programme.items.filter((item) => item.priceType === "public_list_price").length;
     const quotes = programme.items.length - publicPrices;
     const submitted = programme.outreach.filter((item) =>
-      ["sent", "submitted_confirmation_received"].includes(item.state)).length;
+      ["sent", "administrative_qualification_received", "submitted_confirmation_received"]
+        .includes(item.state)).length;
     const blocked = programme.outreach.filter((item) => item.state === "blocked_not_submitted").length;
     const status = root.querySelector("[data-paid-data-status]");
     status.className = "bank-package-status bank-package-status-ready";

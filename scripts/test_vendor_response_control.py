@@ -8,7 +8,7 @@ from decimal import Decimal
 import unittest
 from unittest.mock import patch
 
-from build_vendor_response_control import load_source, score_vendor
+from build_vendor_response_control import load_source, normalised, score_vendor
 from public_privacy_guard import private_identifier_fingerprint
 from validate_vendor_response_control import validate_source
 
@@ -22,6 +22,34 @@ class VendorResponseControlTests(unittest.TestCase):
         errors: list[str] = []
         validate_source(copy.deepcopy(self.source), errors)
         self.assertEqual(errors, [])
+
+    def test_administrative_reply_is_not_substantive_evidence(self) -> None:
+        candidate = normalised(copy.deepcopy(self.source))
+        vendor = next(
+            item
+            for item in candidate["vendors"]
+            if item["vendorId"] == "euromonitor-passport-nicotine"
+        )
+        self.assertEqual(
+            vendor["responseState"],
+            "administrative_qualification_received",
+        )
+        self.assertEqual(
+            vendor["publicStatusEn"],
+            "Administrative qualification request received; clarification sent; "
+            "substantive response pending",
+        )
+        self.assertEqual(
+            vendor["publicStatusFi"],
+            "Hallinnollinen lisätietopyyntö vastaanotettu; täsmennys lähetetty; "
+            "sisällöllinen vastaus odottaa",
+        )
+        self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
+        self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
+        self.assertEqual(vendor["scoringState"], "not_scored")
+        self.assertIsNone(vendor["weightedScore"])
+        self.assertFalse(vendor["purchaseAuthorised"])
+        self.assertEqual(candidate["summary"]["substantiveResponses"], 0)
 
     def test_missing_mandatory_evidence_is_not_scored(self) -> None:
         candidate = copy.deepcopy(self.source)

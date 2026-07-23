@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "programmeId": "pixan-independent-paid-data-procurement-v1",
   "asOf": "2026-07-23",
-  "version": "2026.07.23-2",
+  "version": "2026.07.23-3",
   "status": "decision_support_only_no_purchase_authorised",
   "publicBoundaryEn": "Independent procurement analysis. No purchase, subscription, commitment, vendor endorsement or Pixan Oy approval is stated or authorised.",
   "publicBoundaryFi": "Riippumaton hankinta-analyysi. Mitään ostoa, tilausta, sitoumusta, toimittajasuositusta tai Pixan Oy:n hyväksyntää ei väitetä eikä ole valtuutettu.",
@@ -20,10 +20,10 @@
     },
     {
       "itemId": "euromonitor-passport-nicotine",
-      "state": "sent",
+      "state": "administrative_qualification_received",
       "recordedOn": "2026-07-23",
-      "noteEn": "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
-      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta."
+      "noteEn": "Administrative qualification questions were received; clarification was sent and routing is pending. No sample, quote, data, method, coverage, licence, price or commitment.",
+      "noteFi": "Hallinnolliset taustatietokysymykset vastaanotettiin; täsmennys lähetettiin ja ohjaus oikealle tiimille odottaa. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta."
     },
     {
       "itemId": "niq-rms-pilot",

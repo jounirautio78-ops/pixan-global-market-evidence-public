@@ -96,6 +96,14 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         errors = self.validate_mutation("D14", "RESPONSE RECEIVED · READY FOR PURCHASE")
         self.assertTrue(any("public state" in error for error in errors), errors)
 
+    def test_rejects_overstated_euromonitor_state(self) -> None:
+        errors = self.validate_mutation("D15", "SAMPLE AND QUOTE RECEIVED")
+        self.assertTrue(any("public state" in error for error in errors), errors)
+
+    def test_rejects_overstated_euromonitor_boundary_note(self) -> None:
+        errors = self.validate_mutation("X15", "Commercial evidence received")
+        self.assertTrue(any("boundary differs" in error for error in errors), errors)
+
     def test_rejects_unsupported_public_boundary_note(self) -> None:
         errors = self.validate_mutation("X14", "Unsupported commercial claim")
         self.assertTrue(any("boundary differs" in error for error in errors), errors)

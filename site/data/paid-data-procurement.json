@@ -457,10 +457,10 @@
     },
     {
       "itemId": "euromonitor-passport-nicotine",
-      "noteEn": "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
-      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+      "noteEn": "Administrative qualification questions were received; clarification was sent and routing is pending. No sample, quote, data, method, coverage, licence, price or commitment.",
+      "noteFi": "Hallinnolliset taustatietokysymykset vastaanotettiin; täsmennys lähetettiin ja ohjaus oikealle tiimille odottaa. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
       "recordedOn": "2026-07-23",
-      "state": "sent"
+      "state": "administrative_qualification_received"
     },
     {
       "itemId": "niq-rms-pilot",
@@ -543,7 +543,7 @@
       "id": "licence_block"
     }
   ],
-  "version": "2026.07.23-2",
+  "version": "2026.07.23-3",
   "weights": [
     {
       "id": "annualSalesFit",
