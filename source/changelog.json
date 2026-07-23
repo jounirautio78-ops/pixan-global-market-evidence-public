@@ -3,6 +3,30 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-23-administrative-vendor-reply-v14",
+      "version": "2026.07.23-14",
+      "publishedAt": "2026-07-23T20:18:21+03:00",
+      "titleEn": "Administrative vendor request and clarification recorded without evidence claim",
+      "titleFi": "Hallinnollinen toimittajapyyntö ja täsmennys kirjattu ilman evidenssiväitettä",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Recorded a privacy-safe administrative qualification request and the fact that a clarification was sent on the Euromonitor route. The public record contains no correspondence, personal details, private identifiers, commercial terms or vendor files.",
+          "textFi": "Kirjattiin Euromonitor-reitille tietosuojattu hallinnollinen lisätietopyyntö ja täsmennyksen lähetys. Julkinen merkintä ei sisällä kirjeenvaihtoa, henkilötietoja, yksityisiä tunnisteita, kaupallisia ehtoja tai toimittajatiedostoja."
+        },
+        {
+          "category": "method",
+          "textEn": "An administrative qualification request or clarification is not counted as a substantive response or evidence. All seven evidence indicators remain missing, the route remains NOT SCORED and no weighted result is shown.",
+          "textFi": "Hallinnollista lisätietopyyntöä tai täsmennystä ei lasketa sisällölliseksi vastaukseksi tai evidenssiksi. Kaikki seitsemän evidenssi-indikaattoria ovat edelleen puuttuvia, reitti säilyy EI PISTEYTETTY -tilassa eikä painotettua tulosta esitetä."
+        },
+        {
+          "category": "market_data",
+          "textEn": "The controlled summary remains four tracked vendors, zero substantive responses, zero vendor samples scored and zero purchase authorisations. No sample, methodology, coverage matrix, quote, reconciliation, transaction-use right or complete commercial terms have been established by this reply.",
+          "textFi": "Valvottu yhteenveto säilyy neljässä seuratussa toimittajassa, nollassa sisällöllisessä vastauksessa, nollassa pisteytetyssä toimittajanäytteessä ja nollassa ostovaltuutuksessa. Tämä vastaus ei osoita näytettä, menetelmää, peittomatriisia, tarjousta, täsmäytystä, transaktiokäyttöoikeutta tai täydellisiä kaupallisia ehtoja."
+        }
+      ]
+    },
+    {
       "id": "2026-07-23-vendor-response-control-v13",
       "version": "2026.07.23-13",
       "publishedAt": "2026-07-23T18:56:34+03:00",

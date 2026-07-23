@@ -845,6 +845,11 @@ input::placeholder { color: #667c87; }
   background: rgba(238, 174, 72, .08);
   color: var(--amber);
 }
+.paid-data-outreach-administrative_qualification_received {
+  border-color: rgba(110, 185, 239, .42);
+  background: rgba(110, 185, 239, .08);
+  color: var(--blue);
+}
 .paid-data-outreach-date { margin-top: .2rem !important; font-family: var(--font-mono); }
 .paid-data-price { color: var(--teal) !important; font-family: var(--font-mono); }
 .paid-data-score strong { color: var(--amber) !important; font-family: var(--font-mono); font-size: 1rem; }

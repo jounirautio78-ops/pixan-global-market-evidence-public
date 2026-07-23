@@ -6,7 +6,7 @@
 
   const EXPECTED_STATES = new Map([
     ["ecig-global-market-database", ["request_sent", "pending"]],
-    ["euromonitor-passport-nicotine", ["request_sent", "pending"]],
+    ["euromonitor-passport-nicotine", ["request_sent", "administrative_qualification_received"]],
     ["niq-rms-pilot", ["not_submitted_terms_gate", "not_submitted"]],
     ["circana-us-tobacco-pilot", ["submission_confirmed", "pending"]]
   ]);
@@ -72,7 +72,7 @@
     if (!raw || raw.schemaVersion !== 1
       || raw.controlId !== "vendor-response-control-public"
       || raw.status !== "public_status_only_no_purchase_authorised"
-      || raw.version !== "2026.07.23-13"
+      || raw.version !== "2026.07.23-14"
       || !validDate(raw.asOf)
       || raw.scoreScale?.minimum !== 0
       || raw.scoreScale?.maximum !== 5

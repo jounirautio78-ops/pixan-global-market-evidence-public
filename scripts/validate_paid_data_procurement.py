@@ -64,7 +64,7 @@ PRICE_TYPES = {"public_list_price", "vendor_quote"}
 OUTREACH_KEYS = {"itemId", "state", "recordedOn", "noteEn", "noteFi"}
 EXPECTED_OUTREACH = {
     "ecig-global-market-database": "sent",
-    "euromonitor-passport-nicotine": "sent",
+    "euromonitor-passport-nicotine": "administrative_qualification_received",
     "niq-rms-pilot": "blocked_not_submitted",
     "circana-us-tobacco-pilot": "submitted_confirmation_received",
 }
@@ -74,8 +74,8 @@ EXPECTED_OUTREACH_NOTES = {
         "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
     ),
     "euromonitor-passport-nicotine": (
-        "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
-        "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+        "Administrative qualification questions were received; clarification was sent and routing is pending. No sample, quote, data, method, coverage, licence, price or commitment.",
+        "Hallinnolliset taustatietokysymykset vastaanotettiin; täsmennys lähetettiin ja ohjaus oikealle tiimille odottaa. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
     ),
     "niq-rms-pilot": (
         "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
@@ -110,7 +110,7 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-EXPECTED_XLSX_SHA256 = "aaa6c72fbdb61850ff2fb015ee718f8cf032043ef9f42aeaa7f026d612010064"
+EXPECTED_XLSX_SHA256 = "2bc607b7b3d36913ac6df34bc49cde929c948a9ccd6a9f58049539124e55f051"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
@@ -125,10 +125,10 @@ EXPECTED_RESPONSE_ROWS = (
         "euromonitor-passport-nicotine",
         "Euromonitor International",
         "Passport Nicotine / e-vapour country series",
-        "REQUEST SENT · RESPONSE PENDING\nFI: PYYNTÖ LÄHETETTY · VASTAUS ODOTTAA",
+        "ADMINISTRATIVE QUALIFICATION RECEIVED · CLARIFICATION SENT · ROUTING PENDING\nFI: HALLINNOLLINEN TAUSTAKYSELY VASTAANOTETTU · TÄSMENNYS LÄHETETTY · OHJAUS ODOTTAA",
         None,
         "='Sources'!C9",
-        "Status only. No response content or unlicensed data.",
+        "Status only. Administrative qualification received; clarification sent; no sample, quote, data, method, coverage, licence, price or commitment.",
     ),
     (
         "niq-rms-pilot",
@@ -217,7 +217,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         return
     if source.get("status") != "decision_support_only_no_purchase_authorised":
         errors.append("source must state that no purchase is authorised")
-    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.23-2":
+    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.23-3":
         errors.append("source date or version is invalid")
 
     weights = source.get("weights")

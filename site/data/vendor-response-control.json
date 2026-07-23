@@ -209,8 +209,8 @@
       "evidenceReceivedCount": 0,
       "mandatoryGatePassCount": 0,
       "product": "Passport Nicotine / e-vapour country series",
-      "publicStatusEn": "Request sent; response pending",
-      "publicStatusFi": "Pyyntö lähetetty; vastaus odottaa",
+      "publicStatusEn": "Administrative qualification request received; clarification sent; substantive response pending",
+      "publicStatusFi": "Hallinnollinen lisätietopyyntö vastaanotettu; täsmennys lähetetty; sisällöllinen vastaus odottaa",
       "purchaseAuthorised": false,
       "receivedEvidence": {
         "coverageMatrix": false,
@@ -222,7 +222,7 @@
         "transactionUseRights": false
       },
       "requestState": "request_sent",
-      "responseState": "pending",
+      "responseState": "administrative_qualification_received",
       "scoringState": "not_scored",
       "vendor": "Euromonitor International",
       "vendorId": "euromonitor-passport-nicotine",
@@ -293,5 +293,5 @@
       "weightedScore": null
     }
   ],
-  "version": "2026.07.23-13"
+  "version": "2026.07.23-14"
 }

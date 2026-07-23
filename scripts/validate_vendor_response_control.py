@@ -78,9 +78,15 @@ EXPECTED_VENDORS = {
         "vendor": "Euromonitor International",
         "product": "Passport Nicotine / e-vapour country series",
         "requestState": "request_sent",
-        "responseState": "pending",
-        "publicStatusEn": "Request sent; response pending",
-        "publicStatusFi": "Pyyntö lähetetty; vastaus odottaa",
+        "responseState": "administrative_qualification_received",
+        "publicStatusEn": (
+            "Administrative qualification request received; clarification sent; "
+            "substantive response pending"
+        ),
+        "publicStatusFi": (
+            "Hallinnollinen lisätietopyyntö vastaanotettu; täsmennys lähetetty; "
+            "sisällöllinen vastaus odottaa"
+        ),
     },
     "niq-rms-pilot": {
         "vendor": "NielsenIQ",
@@ -202,7 +208,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.23-13" or not valid_date(source.get("asOf")):
+    if source.get("version") != "2026.07.23-14" or not valid_date(source.get("asOf")):
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
