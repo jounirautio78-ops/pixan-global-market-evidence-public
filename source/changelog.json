@@ -1,7 +1,36 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-22",
+  "asOf": "2026-07-24",
   "releases": [
+    {
+      "id": "2026-07-24-donor-market-sprint-v17",
+      "version": "2026.07.24-17",
+      "publishedAt": "2026-07-24T01:12:32+03:00",
+      "titleEn": "New Zealand annual-return evidence, EU benchmark and donor acceptance ledger",
+      "titleFi": "Uuden-Seelannin vuosi-ilmoitusevidenssi, EU-vertailuarvo ja luovuttajahyväksynnän rekisteri",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added official New Zealand headline observations for 2022–2024, a 29-file 2024 reconciliation (NZD 280,684,512.81 raw sum; NZD 274,180,410.21 conservatively identified vaping rows) and a European Commission-published EUR 4.99 billion 2023 EU benchmark. Every value retains its original product, channel, transaction-level and quality-warning boundary.",
+          "textFi": "Lisättiin Uuden-Seelannin viralliset otsikkotason havainnot vuosilta 2022–2024, vuoden 2024 kaikkien 29 tiedoston täsmäytys (raakasumma 280 684 512,81 NZD; varovaisesti tunnistettujen sähkötupakkarivien summa 274 180 410,21 NZD) sekä Euroopan komission julkaisema EU:n vuoden 2023 vertailuarvo 4,99 miljardia euroa. Jokaisessa luvussa säilytetään alkuperäinen tuote-, kanava-, tapahtumataso- ja laatuvaroitusraja."
+        },
+        {
+          "category": "method",
+          "textEn": "Published a ten-criterion donor-market acceptance protocol and applied it consistently to New Zealand, the EU, Canada and Germany. None passes every criterion, so the global-estimate gate remains 0/3 and no atlas global value is released.",
+          "textFi": "Julkaistiin kymmenen ehdon luovuttajamarkkinoiden hyväksyntäprotokolla ja sovellettiin sitä yhdenmukaisesti Uuteen-Seelantiin, EU:hun, Kanadaan ja Saksaan. Yksikään ei läpäise kaikkia ehtoja, joten maailmanestimaatin portti pysyy tasolla 0/3 eikä atlaksen maailmanarvoa julkaista."
+        },
+        {
+          "category": "usability",
+          "textEn": "Added bilingual, fail-closed donor-candidate ledgers to the Evidence Center and the lender/buyer Review. Each card exposes passed, failed and open criteria, source links, the decision reason and the exact next evidence needed.",
+          "textFi": "Lisättiin kaksikieliset, varovaisuusperiaatteella toimivat luovuttajaehdokkaiden rekisterit Evidenssikeskukseen sekä lainanantajan ja ostajan tarkistusnäkymään. Jokainen kortti näyttää läpäistyt, hylätyt ja avoimet ehdot, lähdelinkit, päätösperusteen ja täsmällisen seuraavan tarvittavan näytön."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Only reviewed public aggregates, source URLs and methodology enter the public repository. Respondent-level New Zealand workbooks, business identifiers and any unlicensed raw data remain outside the publication package. The atlas and patent facts are unchanged; their original source-retrieval dates remain visible.",
+          "textFi": "Julkiseen repositorioon viedään vain tarkistetut julkiset koontiluvut, lähdeosoitteet ja menetelmä. Uuden-Seelannin vastaajakohtaiset työkirjat, yritystunnisteet ja lisensoimaton raakadata jäävät julkaisupaketin ulkopuolelle. Atlaksen ja patentin faktat eivät muutu, ja niiden alkuperäiset lähteiden hakupäivät pysyvät näkyvissä."
+        }
+      ]
+    },
     {
       "id": "2026-07-23-decision-cockpit-audit-trail-v16",
       "version": "2026.07.23-16",

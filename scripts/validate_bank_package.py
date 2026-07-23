@@ -28,6 +28,7 @@ MANIFEST_PATH = ROOT / "site" / "data" / "bank-package-manifest.json"
 CHANGELOG_PATH = ROOT / "site" / "data" / "changelog.json"
 REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register.csv"
 EN_REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register-en.csv"
+MARKET_VALUES_PATH = ROOT / "site" / "data" / "market-values.json"
 
 REGISTER_HEADERS = [
     "Väite",
@@ -61,6 +62,7 @@ EXPECTED_INPUTS = {
     "source/bank-evidence-register-en.json",
     "source/bank-deck-en-translations.json",
     "source/bank-package-en-lock.json",
+    "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
 }
 EXPECTED_ARTIFACTS = {
     "short-deck-fi": {
@@ -176,6 +178,94 @@ SENSITIVE_QUERY_KEYS = {
     "x-amz-signature",
 }
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def validate_v17_market_bindings(errors: list[str]) -> None:
+    try:
+        market = load_json(MARKET_VALUES_PATH)
+    except ValueError as error:
+        errors.append(str(error))
+        return
+    observations = market.get("observations")
+    sources = market.get("sources")
+    if not isinstance(observations, list) or len(observations) != 29:
+        errors.append("v17 bank package requires exactly 29 market observations")
+        return
+    if not isinstance(sources, list) or len(sources) != 17:
+        errors.append("v17 bank package requires exactly 17 market sources")
+    observation_by_id = {
+        item.get("observationId"): item
+        for item in observations
+        if isinstance(item, dict) and isinstance(item.get("observationId"), str)
+    }
+    if len(observation_by_id) != len(observations):
+        errors.append("market observations must have unique string observationId values")
+        return
+    official = [
+        item
+        for item in observations
+        if isinstance(item.get("countryIso2"), str)
+        and str(item.get("evidenceStatus", "")).startswith("official")
+    ]
+    if len(official) != 20 or {item["countryIso2"] for item in official} != {
+        "CA", "DE", "FI", "NZ", "PL", "SE"
+    }:
+        errors.append("v17 bank package requires 20 official records across six reviewed countries")
+
+    exact_observations = {
+        "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": (
+            280_000_000,
+            "official_provisional",
+            "official_lower_bound_with_quality_warning",
+        ),
+        "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM": (
+            280_684_512.81,
+            "derived_official_files",
+            "reproduced_raw_file_sum_with_quality_warning",
+        ),
+        "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM": (
+            274_180_410.21,
+            "derived_official_files",
+            "keyword_classified_raw_file_sum_with_quality_warning",
+        ),
+        "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK": (
+            4_990_000_000,
+            "institutional_supported",
+            "published_secondary_benchmark",
+        ),
+    }
+    for observation_id, (value, status, finality) in exact_observations.items():
+        item = observation_by_id.get(observation_id)
+        if (
+            not isinstance(item, dict)
+            or item.get("value") != value
+            or item.get("evidenceStatus") != status
+            or item.get("finality") != finality
+            or item.get("comparableMarketValue") is not False
+            or item.get("atlasEstimate") is not False
+        ):
+            errors.append(f"v17 reviewed observation binding differs: {observation_id}")
+
+    protocol = market.get("donorProtocol")
+    criteria = protocol.get("criteria") if isinstance(protocol, dict) else None
+    candidates = market.get("donorCandidates")
+    readiness = market.get("meta", {}).get("modelReadiness", {})
+    if (
+        not isinstance(criteria, list)
+        or [item.get("criterionId") for item in criteria] != [f"D{index}" for index in range(1, 11)]
+    ):
+        errors.append("donor protocol must contain ordered criteria D1-D10")
+    if (
+        not isinstance(candidates, list)
+        or len(candidates) != 4
+        or any(item.get("decision") != "not_accepted" for item in candidates)
+    ):
+        errors.append("all four reviewed donor candidates must remain not accepted")
+    if (
+        readiness.get("comparableFullYearMarketValueDonors") != 0
+        or readiness.get("minimumRequiredDonors") != 3
+    ):
+        errors.append("accepted-donor gate must remain 0/3")
 
 
 def sha256(path: Path) -> str:
@@ -461,6 +551,12 @@ def validate_manifest(errors: list[str]) -> None:
         errors.append("manifest release must match the newest public changelog release")
     if manifest.get("asOf") != changelog.get("asOf"):
         errors.append("manifest asOf must match the public changelog")
+    if (
+        expected_release.get("id") != "2026-07-24-donor-market-sprint-v17"
+        or expected_release.get("version") != "2026.07.24-17"
+        or manifest.get("asOf") != "2026-07-24"
+    ):
+        errors.append("bank package must be locked to release 2026.07.24-17 as of 2026-07-24")
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
         errors.append("manifest publicBoundary must contain exactly en and fi")
@@ -502,6 +598,29 @@ def validate_manifest(errors: list[str]) -> None:
         "fi": read_register_csv(REGISTER_CSV_PATH, REGISTER_HEADERS, ALLOWED_STATUSES, errors),
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
+    if any(len(rows) != 49 for rows in csv_rows_by_language.values()):
+        errors.append("both v17 Evidence Registers must contain exactly 49 reviewed rows")
+    register_markers = {
+        "fi": (
+            "280 684 512,81",
+            "264 561 055,05",
+            "274 180 410,21",
+            "4,99 mrd",
+            "D1–D10",
+        ),
+        "en": (
+            "280,684,512.81",
+            "264,561,055.05",
+            "274,180,410.21",
+            "4.99 billion",
+            "D1–D10",
+        ),
+    }
+    for language, rows in csv_rows_by_language.items():
+        joined = "\n".join("\t".join(row) for row in rows)
+        for marker in register_markers[language]:
+            if marker not in joined:
+                errors.append(f"{language} Evidence Register lacks v17 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -560,6 +679,14 @@ def validate_manifest(errors: list[str]) -> None:
             expected_boundary = "independent public evidence" if is_english else "julkinen riippumaton"
             if expected_boundary not in combined:
                 errors.append(f"{relative}: public-boundary disclosure is missing")
+            v17_deck_markers = (
+                ("280,685 milj. nzd", "264,561 milj. nzd", "4,99 mrd eur", "0/3", "d1–d10")
+                if not is_english
+                else ("nzd 280.685m", "nzd 264.561m", "eur 4.99bn", "0/3", "d1–d10")
+            )
+            for marker in v17_deck_markers:
+                if marker not in combined:
+                    errors.append(f"{relative}: v17 market marker is missing: {marker!r}")
             if artifact_id in {"medium-deck-fi", "medium-deck-en"} and len(texts) == 12:
                 titles = EN_MEDIUM_SECTION_TITLES if is_english else MEDIUM_SECTION_TITLES
                 for index, expected_title in enumerate(titles):
@@ -577,6 +704,7 @@ def validate_manifest(errors: list[str]) -> None:
 
 def main() -> None:
     errors: list[str] = []
+    validate_v17_market_bindings(errors)
     validate_manifest(errors)
     if errors:
         for error in errors:

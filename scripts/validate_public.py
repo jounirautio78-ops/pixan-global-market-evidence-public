@@ -14,6 +14,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any, Iterable
 from urllib.parse import parse_qsl, urlparse
+from zoneinfo import ZoneInfo
 
 from public_privacy_guard import (
     PRIVATE_IDENTIFIER_FINGERPRINTS,
@@ -33,6 +34,9 @@ from build_atlas import (
     GRADE_BY_CLAIM_TYPE,
     LEGACY_COUNTRY_TO_ISO2,
     MARKET_CSV_FIELDS,
+    MARKET_DONOR_CANDIDATE_KEYS,
+    MARKET_DONOR_CRITERION_KEYS,
+    MARKET_DONOR_PROTOCOL_KEYS,
     MARKET_MODEL_KEYS,
     MARKET_OBSERVATION_KEYS,
     MARKET_OBSERVATIONS_PATH,
@@ -234,7 +238,14 @@ PATENT_VERIFICATION_LEVELS = {
     "unverified_lead",
 }
 
-MARKET_OUTPUT_TOP_LEVEL_KEYS = {"meta", "sources", "observations", "models"}
+MARKET_OUTPUT_TOP_LEVEL_KEYS = {
+    "meta",
+    "donorProtocol",
+    "donorCandidates",
+    "sources",
+    "observations",
+    "models",
+}
 MARKET_META_KEYS = {
     "schemaVersion",
     "asOf",
@@ -246,6 +257,8 @@ MARKET_META_KEYS = {
 MARKET_EVIDENCE_STATUSES = {
     "official_observed",
     "official_provisional",
+    "derived_official_files",
+    "institutional_supported",
     "commercial_estimate",
     "published_price_input",
 }
@@ -395,8 +408,11 @@ def validate_meta(atlas: dict[str, Any], curated: dict[str, Any], errors: list[s
         errors.append("atlas meta.generatedAt must equal curated meta.reviewedAt for a deterministic build")
     else:
         try:
-            if date.fromisoformat(str(curated_meta.get("asOf"))) > datetime.fromisoformat(reviewed_at[:-1] + "+00:00").date():
-                errors.append("curated meta.asOf cannot be later than meta.reviewedAt")
+            reviewed_business_date = datetime.fromisoformat(
+                reviewed_at[:-1] + "+00:00"
+            ).astimezone(ZoneInfo("Asia/Nicosia")).date()
+            if date.fromisoformat(str(curated_meta.get("asOf"))) > reviewed_business_date:
+                errors.append("curated meta.asOf cannot be later than the Nicosia business date of meta.reviewedAt")
         except ValueError:
             errors.append("curated meta.asOf must be an ISO date")
 
@@ -711,7 +727,10 @@ def validate_market_values(
     if set(source) != MARKET_SOURCE_TOP_LEVEL_KEYS:
         errors.append("market-observations.json must use the exact reviewed top-level schema")
     if set(market_values) != MARKET_OUTPUT_TOP_LEVEL_KEYS:
-        errors.append("market-values.json must contain exactly meta, sources, observations, and models")
+        errors.append(
+            "market-values.json must contain exactly meta, donorProtocol, donorCandidates, "
+            "sources, observations, and models"
+        )
 
     meta = market_values.get("meta")
     if not isinstance(meta, dict) or set(meta) != MARKET_META_KEYS:
@@ -746,6 +765,39 @@ def validate_market_values(
     for key in ("reasonEn", "reasonFi"):
         if not isinstance(readiness.get(key), str) or not readiness[key].strip():
             errors.append(f"modelReadiness.{key} must be a non-empty string")
+
+    donor_protocol = source.get("donorProtocol")
+    if not isinstance(donor_protocol, dict) or set(donor_protocol) != MARKET_DONOR_PROTOCOL_KEYS:
+        errors.append("market-observations.json donorProtocol must use the exact reviewed schema")
+        donor_protocol = {}
+    if market_values.get("donorProtocol") != donor_protocol:
+        errors.append("market-values.json donorProtocol must match the reviewed source")
+    if donor_protocol.get("protocolVersion") != "1.0":
+        errors.append("donorProtocol.protocolVersion must remain 1.0")
+    for key in ("acceptanceRuleEn", "acceptanceRuleFi"):
+        if not isinstance(donor_protocol.get(key), str) or not donor_protocol[key].strip():
+            errors.append(f"donorProtocol.{key} must be a non-empty string")
+    donor_criteria = donor_protocol.get("criteria")
+    if not isinstance(donor_criteria, list) or len(donor_criteria) != 10:
+        errors.append("donorProtocol.criteria must contain exactly ten acceptance criteria")
+        donor_criteria = []
+    criterion_ids: list[str] = []
+    for index, item in enumerate(donor_criteria):
+        path = f"donorProtocol.criteria[{index}]"
+        if not isinstance(item, dict) or set(item) != MARKET_DONOR_CRITERION_KEYS:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        criterion_id = item.get("criterionId")
+        if not isinstance(criterion_id, str) or not criterion_id:
+            errors.append(f"{path}.criterionId must be a non-empty string")
+        else:
+            criterion_ids.append(criterion_id)
+        for key in ("titleEn", "titleFi", "requirementEn", "requirementFi"):
+            if not isinstance(item.get(key), str) or not item[key].strip():
+                errors.append(f"{path}.{key} must be a non-empty string")
+    expected_criterion_ids = [f"D{index}" for index in range(1, 11)]
+    if criterion_ids != expected_criterion_ids:
+        errors.append("donorProtocol criterion IDs must remain ordered D1 through D10")
 
     source_rows = source.get("sources")
     output_sources = market_values.get("sources")
@@ -783,6 +835,31 @@ def validate_market_values(
         "SE-GOV-BERAKNINGSKONVENTIONER-2026": (
             "official",
             "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf",
+            None,
+        ),
+        "NZ-MOH-ANNUAL-RETURNS-2022": (
+            "official",
+            "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2022",
+            None,
+        ),
+        "NZ-MOH-ANNUAL-RETURNS-2023": (
+            "official",
+            "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2023",
+            None,
+        ),
+        "NZ-MOH-ANNUAL-RETURNS-2024": (
+            "official",
+            "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
+            None,
+        ),
+        "EU-EC-SWD-2025-560": (
+            "official_secondary",
+            "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=SWD%3A2025%3A0560%3AFIN",
+            None,
+        ),
+        "EU-EC-SWD-2026-111": (
+            "official_secondary",
+            "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=SWD%3A2026%3A111%3AFIN",
             None,
         ),
         "IMARC-GLOBAL-2025": (
@@ -864,6 +941,12 @@ def validate_market_values(
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-UNITS": ("CA", 2024, "manufacturer_importer_shipments_units", 118901910, "unit", "official_observed", "published", "physical_units_not_market_value", False),
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-LITRES": ("CA", 2024, "manufacturer_importer_shipments_liquid_volume", 1251843, "litre", "official_observed", "published", "physical_volume_not_market_value", False),
+        "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE": ("NZ", 2022, "official_reported_revenue_mixed_supply_stages", 404000000, "NZD", "official_provisional", "official_approximation_with_significant_quality_warning", "mixed_supply_stage_revenue_incomplete_not_retail_market_value", False),
+        "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND": ("NZ", 2023, "official_reported_revenue_mixed_supply_stages", 374000000, "NZD", "official_provisional", "official_lower_bound_with_quality_warning", "mixed_supply_stage_revenue_incomplete_not_retail_market_value", False),
+        "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": ("NZ", 2024, "official_specialist_retail_sales_lower_bound", 280000000, "NZD", "official_provisional", "official_lower_bound_with_quality_warning", "specialist_vape_retailer_sales_incomplete_lower_bound_mixed_notifiable_products", False),
+        "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM": ("NZ", 2024, "derived_official_workbook_sales_raw_sum", 280684512.81, "NZD", "derived_official_files", "reproduced_raw_file_sum_with_quality_warning", "raw_workbook_sum_not_cleaned_or_complete_national_market", False),
+        "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM": ("NZ", 2024, "derived_identified_vaping_product_sales_raw_sum", 274180410.21, "NZD", "derived_official_files", "keyword_classified_raw_file_sum_with_quality_warning", "conservative_text_classification_raw_sum_not_donor", False),
+        "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK": (None, 2023, "institutional_market_value_benchmark", 4990000000, "EUR", "institutional_supported", "published_secondary_benchmark", "external_study_benchmark_published_by_official_institution_not_donor", False),
         "DE-2023-TAXED-LIQUID-VOLUME-L": ("DE", 2023, "taxed_substitutes_volume", 1241000, "litre", "official_observed", "final", "taxed_physical_volume_not_retail_market_value", False),
         "DE-2023-SUBSTITUTES-EXCISE-RECEIPTS": ("DE", 2023, "substitutes_excise_receipts", 201000000, "EUR", "official_observed", "final", "excise_receipts_not_retail_market_value", False),
         "DE-2024-TAXED-LIQUID-VOLUME-L": ("DE", 2024, "taxed_substitutes_volume", 1284000, "litre", "official_observed", "final", "taxed_physical_volume_not_retail_market_value", False),
@@ -942,6 +1025,35 @@ def validate_market_values(
                 or item.get("marketValueBasis") != "external_non_comparable_reference_not_atlas_estimate"
             ):
                 errors.append(f"{path}: external estimates must remain non-observed, non-comparable references")
+        if item.get("metric") in {
+            "official_reported_revenue_mixed_supply_stages",
+            "official_specialist_retail_sales_lower_bound",
+        }:
+            if (
+                item.get("evidenceStatus") != "official_provisional"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+            ):
+                errors.append(f"{path}: New Zealand quality-warning values must remain provisional and donor-ineligible")
+        if item.get("metric") in {
+            "derived_official_workbook_sales_raw_sum",
+            "derived_identified_vaping_product_sales_raw_sum",
+        }:
+            if (
+                item.get("evidenceStatus") != "derived_official_files"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+            ):
+                errors.append(f"{path}: reproduced New Zealand file sums must remain derived, non-comparable and donor-ineligible")
+        if item.get("metric") == "institutional_market_value_benchmark":
+            if (
+                item.get("evidenceStatus") != "institutional_supported"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+                or item.get("marketValueBasis")
+                != "external_study_benchmark_published_by_official_institution_not_donor"
+            ):
+                errors.append(f"{path}: institutional secondary values must remain supported, non-observed benchmarks")
         if item.get("metric") == "retail_price_input" and item.get("evidenceStatus") != "published_price_input":
             errors.append(f"{path}: a retail listing must remain a price input, not observed market value")
         if observation_id == "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE":
@@ -974,6 +1086,11 @@ def validate_market_values(
             errors.append(f"market observation {observation_id} differs from its reviewed fact tuple")
 
     expected_scope_sources = {
+        "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE": ("all_notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products", "NZ-MOH-ANNUAL-RETURNS-2022"),
+        "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND": ("regulated_notifiable_products_including_heated_tobacco", "NZ-MOH-ANNUAL-RETURNS-2023"),
+        "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": ("notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products", "NZ-MOH-ANNUAL-RETURNS-2024"),
+        "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM": ("specialist_retail_product_rows_including_vaping_and_adjacent_notifiable_products", "NZ-MOH-ANNUAL-RETURNS-2024"),
+        "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM": ("specialist_retail_rows_with_product_type_text_identified_as_vaping", "NZ-MOH-ANNUAL-RETURNS-2024"),
         "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
         "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
         "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
@@ -987,6 +1104,31 @@ def validate_market_values(
         item = observations_by_id.get(observation_id, {})
         if item.get("productScope") != product_scope or item.get("sourceIds") != [source_id]:
             errors.append(f"market observation {observation_id} must retain its conservative scope and official source")
+    nz_raw_sum = observations_by_id.get("NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM", {})
+    if (
+        "29 official XLSX files" not in str(nz_raw_sum.get("limitationEn", ""))
+        or "95,144 exact repeated row signatures" not in str(nz_raw_sum.get("limitationEn", ""))
+        or "264,561,055.05" not in str(nz_raw_sum.get("limitationEn", ""))
+    ):
+        errors.append("New Zealand raw-file reconciliation must retain its file count and repeated-row sensitivity boundary")
+    nz_vaping_sum = observations_by_id.get("NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM", {})
+    if (
+        "274,180,410.21" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "2,137,085.24" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "4,367,017.37" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "258,327,110.88" not in str(nz_vaping_sum.get("limitationEn", ""))
+    ):
+        errors.append("New Zealand vaping classification must retain its partition and repeated-row sensitivity boundary")
+    eu_benchmark = observations_by_id.get("EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK", {})
+    if (
+        eu_benchmark.get("productScope")
+        != "external_study_e_cigarettes_including_devices_closed_refills_and_open_system_liquids"
+        or eu_benchmark.get("sourceIds") != ["EU-EC-SWD-2025-560", "EU-EC-SWD-2026-111"]
+        or "external study" not in str(eu_benchmark.get("limitationEn", "")).lower()
+        or "euromonitor international" not in str(eu_benchmark.get("limitationEn", "")).lower()
+        or "cyprus, luxembourg and malta" not in str(eu_benchmark.get("limitationEn", "")).lower()
+    ):
+        errors.append("EU 2023 benchmark must retain its commercial source attribution, missing-country boundary and both Commission sources")
     for observation_id in (
         "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L",
         "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS",
@@ -1074,6 +1216,125 @@ def validate_market_values(
             errors.append(f"{path}.limitationEn must explicitly say the range is not observed sales")
         if "ei havaittua myynti" not in str(model.get("limitationFi", "")).lower():
             errors.append(f"{path}.limitationFi must explicitly say the range is not observed sales")
+
+    donor_candidates = source.get("donorCandidates")
+    if market_values.get("donorCandidates") != donor_candidates:
+        errors.append("market-values.json donorCandidates must match the reviewed source")
+    if not isinstance(donor_candidates, list) or not donor_candidates:
+        errors.append("market-observations.json donorCandidates must be a non-empty array")
+        donor_candidates = []
+    candidate_ids: set[str] = set()
+    candidate_by_id: dict[str, dict[str, Any]] = {}
+    accepted_candidates = 0
+    known_reference_ids = set(observations_by_id) | {
+        item.get("modelId") for item in models if isinstance(item, dict)
+    }
+    all_criterion_ids = set(expected_criterion_ids)
+    for index, item in enumerate(donor_candidates):
+        path = f"donorCandidates[{index}]"
+        if not isinstance(item, dict) or set(item) != MARKET_DONOR_CANDIDATE_KEYS:
+            errors.append(f"{path} must use the exact reviewed schema")
+            continue
+        candidate_id = item.get("candidateId")
+        if not isinstance(candidate_id, str) or not candidate_id:
+            errors.append(f"{path}.candidateId must be a non-empty string")
+        elif candidate_id in candidate_ids:
+            errors.append(f"donorCandidates contains duplicate ID {candidate_id}")
+        else:
+            candidate_ids.add(candidate_id)
+            candidate_by_id[candidate_id] = item
+        if item.get("countryIso2") is not None and item.get("countryIso2") not in COUNTRY_ISO2:
+            errors.append(f"{path}.countryIso2 must be null or a UN195 country")
+        if isinstance(item.get("year"), bool) or not isinstance(item.get("year"), int):
+            errors.append(f"{path}.year must be an integer")
+        if item.get("referenceType") not in {"observation", "model"}:
+            errors.append(f"{path}.referenceType is invalid")
+        if item.get("referenceId") not in known_reference_ids:
+            errors.append(f"{path}.referenceId must identify a reviewed observation or model")
+        decision = item.get("decision")
+        if decision not in {"accepted", "not_accepted"}:
+            errors.append(f"{path}.decision is invalid")
+        for key in (
+            "geography",
+            "headlineEn",
+            "headlineFi",
+            "decisionReasonEn",
+            "decisionReasonFi",
+            "nextEvidenceEn",
+            "nextEvidenceFi",
+        ):
+            if not isinstance(item.get(key), str) or not item[key].strip():
+                errors.append(f"{path}.{key} must be a non-empty string")
+        buckets: list[list[str]] = []
+        for key in ("passedCriteria", "failedCriteria", "openCriteria"):
+            values = item.get(key)
+            if (
+                not isinstance(values, list)
+                or len(values) != len(set(values))
+                or any(value not in all_criterion_ids for value in values)
+            ):
+                errors.append(f"{path}.{key} must be a unique criterion-ID array")
+                values = []
+            buckets.append(values)
+        flattened = [value for values in buckets for value in values]
+        if len(flattened) != len(set(flattened)) or set(flattened) != all_criterion_ids:
+            errors.append(f"{path} criterion buckets must partition D1 through D10 exactly")
+        source_ids = item.get("sourceIds")
+        if (
+            not isinstance(source_ids, list)
+            or not source_ids
+            or len(source_ids) != len(set(source_ids))
+            or any(source_id not in source_by_id for source_id in source_ids)
+        ):
+            errors.append(f"{path}.sourceIds must reference reviewed market sources")
+        if decision == "accepted":
+            accepted_candidates += 1
+            if item.get("failedCriteria") or item.get("openCriteria") or set(item.get("passedCriteria", [])) != all_criterion_ids:
+                errors.append(f"{path}: an accepted donor must pass all ten criteria")
+        elif not item.get("failedCriteria"):
+            errors.append(f"{path}: a rejected donor must expose at least one failed criterion")
+    if accepted_candidates != readiness.get("comparableFullYearMarketValueDonors"):
+        errors.append("accepted donor-candidate count must equal modelReadiness donor count")
+    expected_candidate_tests = {
+        "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND": (
+            "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND",
+            {"D1", "D2", "D6", "D7", "D9"},
+            {"D4", "D5"},
+            {"D3", "D8", "D10"},
+        ),
+        "EU-2023-COMMISSION-BENCHMARK": (
+            "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK",
+            {"D1", "D3", "D4"},
+            {"D7", "D9"},
+            {"D2", "D5", "D6", "D8", "D10"},
+        ),
+        "CA-2024-OFFICIAL-SHIPMENT-PROXY": (
+            "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
+            {"D1", "D3", "D4", "D7", "D9"},
+            {"D2"},
+            {"D5", "D6", "D8", "D10"},
+        ),
+        "DE-2025-LIQUID-RETAIL-MODEL": (
+            "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE",
+            {"D4", "D6", "D7", "D9"},
+            {"D1", "D2", "D3", "D10"},
+            {"D5", "D8"},
+        ),
+    }
+    if candidate_ids != set(expected_candidate_tests):
+        errors.append("donorCandidates must retain the four reviewed candidate tests")
+    for candidate_id, (reference_id, passed, failed, open_items) in expected_candidate_tests.items():
+        candidate = candidate_by_id.get(candidate_id, {})
+        actual = (
+            candidate.get("referenceId"),
+            candidate.get("decision"),
+            set(candidate.get("passedCriteria", [])),
+            set(candidate.get("failedCriteria", [])),
+            set(candidate.get("openCriteria", [])),
+        )
+        expected = (reference_id, "not_accepted", passed, failed, open_items)
+        if actual != expected:
+            errors.append(f"donor candidate {candidate_id} differs from its reviewed criterion test")
 
     try:
         expected_output = build_market_values()

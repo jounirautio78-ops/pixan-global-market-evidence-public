@@ -18,13 +18,13 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-16">
-  <script defer src="assets/i18n.js?v=2026-07-23-16"></script>
-  <script defer src="assets/downloads.js?v=2026-07-23-16"></script>
-  <script defer src="assets/paid-data.js?v=2026-07-23-16"></script>
-  <script defer src="assets/vendor-response.js?v=2026-07-23-16"></script>
-  <script defer src="assets/request-program.js?v=2026-07-23-16"></script>
-  <script defer src="assets/review.js?v=2026-07-23-16"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-24-17">
+  <script defer src="assets/i18n.js?v=2026-07-24-17"></script>
+  <script defer src="assets/downloads.js?v=2026-07-24-17"></script>
+  <script defer src="assets/paid-data.js?v=2026-07-24-17"></script>
+  <script defer src="assets/vendor-response.js?v=2026-07-24-17"></script>
+  <script defer src="assets/request-program.js?v=2026-07-24-17"></script>
+  <script defer src="assets/review.js?v=2026-07-24-17"></script>
 </head>
 <body class="review-page" data-review-view="review">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -384,6 +384,22 @@
         <div id="review-market-note"></div>
         <a class="button button-secondary button-small no-print" href="index.html#market">Open formulas, annual observations and sources</a>
       </article>
+      <section class="panel donor-ledger review-donor-ledger" id="review-donor-ledger" aria-labelledby="review-donor-ledger-title" aria-busy="true">
+        <div class="donor-ledger-heading">
+          <div>
+            <p class="kicker">Donor-market acceptance gate</p>
+            <h3 id="review-donor-ledger-title">Why each candidate is accepted—or not accepted</h3>
+          </div>
+          <span class="market-status-chip donor-protocol-version" id="review-donor-protocol-version">Protocol —</span>
+        </div>
+        <aside class="donor-ledger-rule" aria-label="Donor-market acceptance rule">
+          <strong id="review-donor-gate-rule">The 0/3 gate changes only when a candidate passes every criterion.</strong>
+          <p id="review-donor-rule">Checking the acceptance rule…</p>
+        </aside>
+        <div class="donor-ledger-summary" id="review-donor-summary" aria-live="polite"></div>
+        <div class="donor-candidate-grid" id="review-donor-candidates"></div>
+        <p class="donor-ledger-status" id="review-donor-status" role="status" aria-live="polite">Checking donor-market candidates…</p>
+      </section>
     </section>
 
     <section id="review-calculation-audit" class="shell review-section calculation-audit-section" data-review-surface="review" aria-labelledby="review-calculation-audit-title" aria-busy="true">

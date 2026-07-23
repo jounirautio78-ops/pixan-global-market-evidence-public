@@ -1326,6 +1326,182 @@ input::placeholder { color: #667c87; }
 .market-readiness-meter { height: 8px; overflow: hidden; border-radius: 999px; background: #102636; }
 .market-readiness-meter span { display: block; height: 100%; border-radius: inherit; background: var(--amber); }
 .market-readiness p { color: var(--text-soft); font-size: .82rem; }
+.donor-ledger { margin-bottom: 1rem; border-color: rgba(242, 198, 109, .32); }
+.review-donor-ledger { margin-top: 1rem; }
+.donor-ledger-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.donor-ledger-heading h3 { margin: 0; }
+.donor-protocol-version { flex: 0 0 auto; }
+.donor-ledger-rule {
+  margin: 1rem 0;
+  padding: .9rem 1rem;
+  border: 1px solid rgba(242, 198, 109, .28);
+  border-radius: var(--radius-small);
+  background: rgba(242, 198, 109, .06);
+}
+.donor-ledger-rule strong { color: var(--amber); }
+.donor-ledger-rule p { margin: .3rem 0 0; color: var(--text-soft); font-size: .82rem; }
+.donor-ledger-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+.donor-ledger-summary:empty { display: none; }
+.donor-summary-item {
+  min-width: 0;
+  padding: .78rem .85rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .018);
+}
+.donor-summary-item span, .donor-summary-item small { display: block; }
+.donor-summary-item span {
+  color: var(--muted);
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.donor-summary-item strong {
+  display: block;
+  margin-top: .22rem;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+.donor-summary-item small { margin-top: .2rem; color: var(--text-soft); line-height: 1.4; }
+.donor-candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .85rem;
+}
+.donor-candidate-card {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, .018);
+}
+.donor-candidate-card[data-decision="accepted"] { border-color: rgba(116, 214, 154, .35); }
+.donor-candidate-card[data-decision="not_accepted"] { border-color: rgba(242, 198, 109, .28); }
+.donor-candidate-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: .8rem;
+}
+.donor-candidate-head h4 { margin: .12rem 0 0; font-size: 1rem; }
+.donor-candidate-meta {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  overflow-wrap: anywhere;
+}
+.donor-decision-chip {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  padding: .34rem .52rem;
+  border: 1px solid rgba(242, 198, 109, .35);
+  border-radius: 999px;
+  background: rgba(242, 198, 109, .08);
+  color: var(--amber);
+  font-size: .64rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.donor-decision-chip[data-decision="accepted"] {
+  border-color: rgba(116, 214, 154, .35);
+  background: rgba(116, 214, 154, .08);
+  color: var(--green);
+}
+.donor-candidate-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin: .8rem 0;
+}
+.donor-count-chip {
+  padding: .25rem .42rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-soft);
+  font-size: .65rem;
+  font-weight: 800;
+}
+.donor-count-passed { border-color: rgba(116, 214, 154, .25); color: var(--green); }
+.donor-count-failed { border-color: rgba(239, 129, 120, .3); color: var(--red); }
+.donor-count-open { border-color: rgba(242, 198, 109, .28); color: var(--amber); }
+.donor-candidate-copy {
+  margin: .65rem 0 0;
+  color: var(--text-soft);
+  font-size: .8rem;
+}
+.donor-candidate-copy strong { color: var(--text); }
+.donor-record-warning { color: var(--red); }
+.donor-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .65rem;
+  margin-top: .8rem;
+}
+.donor-source-links a, .donor-source-missing {
+  color: var(--teal);
+  font-size: .7rem;
+  overflow-wrap: anywhere;
+}
+.donor-source-missing { color: var(--muted); }
+.donor-criteria-details {
+  margin-top: .9rem;
+  border-top: 1px solid var(--line);
+}
+.donor-criteria-details summary {
+  padding: .75rem 0 .15rem;
+  color: var(--text);
+  font-size: .75rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+.donor-criteria-list {
+  margin-top: .55rem;
+  display: grid;
+  gap: .45rem;
+}
+.donor-criterion-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .55rem;
+  padding: .58rem .62rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.donor-criterion-mark {
+  width: 1.3rem;
+  height: 1.3rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--amber);
+  font-size: .66rem;
+  font-weight: 900;
+}
+.donor-criterion-row[data-status="passed"] .donor-criterion-mark { color: var(--green); }
+.donor-criterion-row[data-status="failed"] .donor-criterion-mark { color: var(--red); }
+.donor-criterion-row strong, .donor-criterion-row small { display: block; }
+.donor-criterion-row strong { font-size: .72rem; }
+.donor-criterion-row small { margin-top: .14rem; color: var(--muted); line-height: 1.4; }
+.donor-ledger-status { margin: .85rem 0 0; color: var(--muted); font-size: .72rem; }
+.donor-ledger-status[data-state="error"] { color: var(--red); }
 .market-observations-panel { margin-bottom: 2.25rem; }
 .data-table.market-table { min-width: 1180px; }
 .market-table tbody tr { cursor: default; }
@@ -1349,7 +1525,9 @@ input::placeholder { color: #667c87; }
 .market-evidence-badge[data-status="derived"] { background: rgba(245, 190, 84, .1); color: #f4c96e; }
 .market-evidence-chip { display: inline-flex; width: max-content; padding: .28rem .48rem; border-radius: 999px; background: rgba(66, 211, 183, .09); color: var(--teal); font-size: .65rem; font-weight: 850; text-transform: uppercase; }
 .market-evidence-commercial_estimate, .market-evidence-published_price_input { background: rgba(98, 174, 255, .1); color: #91c8ff; }
+.market-evidence-institutional_supported { background: rgba(110, 185, 239, .1); color: var(--blue); }
 .market-evidence-official_provisional { background: rgba(245, 190, 84, .1); color: #f4c96e; }
+.market-evidence-derived_official_files { background: rgba(245, 190, 84, .1); color: #f4c96e; }
 .market-method-heading { margin-top: 1rem; }
 .market-method-intro { max-width: 560px; display: grid; justify-items: start; gap: .8rem; }
 .market-method-intro p { margin: 0; color: var(--text-soft); font-size: .9rem; }
@@ -1779,6 +1957,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .patent-routes, .patent-guardrails { grid-template-columns: 1fr; }
   .patent-source summary { grid-template-columns: auto 1fr; }
   .patent-source summary code { grid-column: 2; }
+  .donor-candidate-grid { grid-template-columns: 1fr; }
   .market-model-grid { grid-template-columns: 1fr; }
   .review-market-note { align-items: flex-start; flex-direction: column; }
   .change-release { grid-template-columns: 1fr; gap: .35rem; }
@@ -1816,8 +1995,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 @media (max-width: 520px) {
-  .workspace-view-link { padding-inline: .72rem; }
-  .workspace-view-link[aria-current="page"]::after { right: .72rem; left: .72rem; }
+  .workspace-view-link { padding-inline: .45rem; font-size: .68rem; }
+  .workspace-view-link[aria-current="page"]::after { right: .45rem; left: .45rem; }
   .cockpit-boundary { align-items: flex-start; flex-direction: column; }
   .calculation-audit-summary, .source-freshness-summary { grid-template-columns: 1fr; }
   .bank-package-section { padding-block: 2.3rem 1rem; }
@@ -1836,6 +2015,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .patent-identifiers dt { padding-bottom: .1rem; border-bottom: 0; }
   .patent-identifiers dd { padding-top: .1rem; }
   .patent-sequence { grid-template-columns: 1fr; }
+  .donor-ledger-heading { flex-direction: column; }
+  .donor-ledger-summary { grid-template-columns: 1fr; }
+  .donor-candidate-head { grid-template-columns: 1fr; }
   .market-summary-grid, .market-method-grid { grid-template-columns: 1fr; }
   .market-model-values { grid-template-columns: 1fr; }
   .market-model-range { grid-template-columns: 1fr; }
@@ -1881,6 +2063,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .review-page .brand, .review-page .brand small, .review-page .muted, .review-page p, .review-page small { color: #233642 !important; }
   .review-page .grade { border: 1px solid currentColor; }
   .review-page .no-print { display: none !important; }
+  .donor-ledger { break-inside: auto; }
+  .donor-candidate-card, .donor-ledger-rule, .donor-summary-item { break-inside: avoid; }
+  .donor-criteria-details:not([open]) > :not(summary) { display: block !important; }
   .bank-package-section { display: none !important; }
   .review-page a { text-decoration: none; }
   .review-page .patent-source-links a[href^="http"]::after { content: " · " attr(href); color: #555; font-size: .55rem; overflow-wrap: anywhere; }

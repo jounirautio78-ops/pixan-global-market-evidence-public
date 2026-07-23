@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v16 review-experience publication gates."""
+"""Mutation tests for the v17 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -63,7 +63,7 @@ class ReviewExperienceTests(unittest.TestCase):
         official["metric"] = "consumer_retail_market_value"
         self.assert_data_rejected(
             market=market,
-            needle="must not be relabelled consumer-retail value",
+            needle="must retain one official incomplete retail lower bound",
         )
 
     def test_rejects_changed_germany_output(self) -> None:
@@ -80,7 +80,7 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_future_retrieval_date(self) -> None:
         market = copy.deepcopy(self.market)
-        market["sources"][0]["retrievedAt"] = "2026-07-23"
+        market["sources"][0]["retrievedAt"] = "2026-07-25"
         self.assert_data_rejected(
             market=market,
             needle="retrievedAt cannot be later than market asOf",
@@ -92,6 +92,14 @@ class ReviewExperienceTests(unittest.TestCase):
         self.assert_data_rejected(
             market=market,
             needle="donor gate must remain blocked at 0/3",
+        )
+
+    def test_rejects_declared_donor_candidate_acceptance(self) -> None:
+        market = copy.deepcopy(self.market)
+        market["donorCandidates"][0]["decision"] = "accepted"
+        self.assert_data_rejected(
+            market=market,
+            needle="donor candidates must all remain not accepted",
         )
 
     def test_rejects_process_response_as_public_reference(self) -> None:
@@ -106,7 +114,12 @@ class ReviewExperienceTests(unittest.TestCase):
     def test_rejects_missing_cockpit_hook(self) -> None:
         mutated = self.review_html.replace('id="decision-cockpit"', 'id="removed-cockpit"', 1)
         errors = validate_review_structure(mutated, self.index_html, self.review_js, self.i18n_js)
-        self.assertTrue(any("required v16 hooks" in error for error in errors), errors)
+        self.assertTrue(any("required v17 hooks" in error for error in errors), errors)
+
+    def test_rejects_missing_donor_hook(self) -> None:
+        mutated = self.index_html.replace('id="market-donor-ledger"', 'id="removed-donor-ledger"', 1)
+        errors = validate_review_structure(self.review_html, mutated, self.review_js, self.i18n_js)
+        self.assertTrue(any("required v17 donor hooks" in error for error in errors), errors)
 
     def test_rejects_wall_clock_freshness(self) -> None:
         mutated = self.review_js.replace(

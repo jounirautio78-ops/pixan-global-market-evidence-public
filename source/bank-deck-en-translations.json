@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "release": {
-    "id": "2026-07-23-decision-cockpit-audit-trail-v16",
-    "version": "2026.07.23-16",
-    "asOf": "2026-07-22",
+    "id": "2026-07-24-donor-market-sprint-v17",
+    "version": "2026.07.24-17",
+    "asOf": "2026-07-24",
     "sourceLanguage": "fi",
     "targetLanguage": "en"
   },
@@ -577,23 +577,55 @@
     "Mitätöintikanne hylättiin; valitus vireillä (14.1.2026)": "Nullity action dismissed; appeal pending (14 January 2026)",
     "Virallinen tuomio hylkäsi EP3032975B2:n Saksan osaa koskevan mitättömyyskanteen. Virallinen rekisteri mainitsee valituksen liittovaltion ylimpään tuomioistuimeen asianumerolla X ZR 21/26. Ei lainvoimainen BGH-valituksen ollessa vireillä.": "The official judgment dismissed the nullity action concerning the German part of EP3032975B2. The official register records an appeal to the Federal Court of Justice under case number X ZR 21/26. Not final while the BGH appeal is pending.",
     "Tarkasteltujen tuotteiden todettiin loukkaavan patenttia (2.4.2026)": "The products examined were found to infringe the patent (2 April 2026)",
-    "Virallinen tuomio katsoi tarkasteltujen tuotteiden loukkaavan vaatimuksia 1 ja 6 välittömästi ja täydentävien osien osalta välillisesti sekä määräsi tuomiossa luetellut oikeusseuraamukset. Virallinen tuomio on saatavilla; valitustilaa, lainvoimaisuutta ja täytäntöönpanoa ei ole tässä julkaisussa riippumattomasti vahvistettu.": "The official judgment found that the products examined directly infringed claims 1 and 6 and indirectly infringed them in relation to supplementary components, and ordered the remedies listed in the judgment. The official judgment is available; appeal status, finality and enforcement have not been independently confirmed in this publication."
+    "Virallinen tuomio katsoi tarkasteltujen tuotteiden loukkaavan vaatimuksia 1 ja 6 välittömästi ja täydentävien osien osalta välillisesti sekä määräsi tuomiossa luetellut oikeusseuraamukset. Virallinen tuomio on saatavilla; valitustilaa, lainvoimaisuutta ja täytäntöönpanoa ei ole tässä julkaisussa riippumattomasti vahvistettu.": "The official judgment found that the products examined directly infringed claims 1 and 6 and indirectly infringed them in relation to supplementary components, and ordered the remedies listed in the judgment. The official judgment is available; appeal status, finality and enforcement have not been independently confirmed in this publication.",
+    "2026.07.24-17": "2026.07.24-17",
+    "virallista vuosihavaintoa 6 maasta": "official annual observations from 6 countries",
+    "≥ 280 milj. NZD": "≥ NZD 280m",
+    "Uusi-Seelanti 2024: virallinen retail-alaraja": "New Zealand 2024: official retail lower bound",
+    "4,99 mrd EUR": "EUR 4.99bn",
+    "EU 2023: komission julkaisema vertailuarvo": "EU 2023: Commission-published benchmark",
+    "4/4 ehdokasta hylättiin D1–D10-protokollassa; hyväksytty donor-portti on 0/3.": "4/4 candidates failed the D1–D10 protocol; the accepted-donor gate is 0/3.",
+    "Uuden-Seelannin luku on puutteellinen erikoisvähittäiskaupan alaraja ja EU-luku ulkopuoliseen tutkimukseen perustuva tuettu vertailuarvo. Kaupallinen 26,0–46,32 mrd USD haarukka on vain sanity check; mittareita ei summata.": "The New Zealand figure is an incomplete specialist-retail lower bound, and the EU figure is a supported benchmark based on an external study. The commercial USD 26.0–46.32bn range is only a reasonableness check; the measures are not summed.",
+    "4/4 ehdokasta ei läpäissyt D1–D10-protokollaa; hyväksytty donor-portti on 0/3.": "4/4 candidates failed the D1–D10 protocol; the accepted-donor gate is 0/3.",
+    "Uuden-Seelannin luku on alaraja ja EU-luku tuettu institutionaalinen vertailuarvo. Kaupallinen 26,0–46,32 mrd USD haarukka ja Saksan 667,92 milj. EUR–1 654,62 milj. EUR nestemalli ovat ristiintarkistuksia, eivät atlaksen maailmanestimaatti.": "The New Zealand figure is a lower bound, and the EU figure is a supported institutional benchmark. The commercial USD 26.0–46.32bn range and Germany's EUR 667.92m–1,654.62m liquid model are cross-checks, not the atlas's global estimate.",
+    "6 maan viralliset luvut": "official figures from 6 countries",
+    "0/3 retail-luovuttajaa; 4 ehdokasta hylätty D1–D10": "0/3 retail-value donors; 4 candidates failed D1–D10",
+    "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 20 virallista vuosihavaintoa 6 maasta, mutta luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 20 official annual observations from 6 countries, but the donor gate is 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
+    "20 virallista havaintoa 6 maasta mittaavat eri asioita": "20 official observations from 6 countries measure different things",
+    "Uusi-Seelanti": "New Zealand",
+    "vähintään 280 milj. NZD; puutteellinen erikoisvähittäiskaupan alaraja": "at least NZD 280m; incomplete specialist-retail lower bound",
+    "EU-komission vertailuarvo 2023": "EU Commission benchmark 2023",
+    "EU:n vertailuarvo tukee mittaluokan ristiintarkistusta; kaupallinen haarukka on leveä, koska tuoterajaukset ja metodit voivat poiketa.": "The EU benchmark supports a scale cross-check; the commercial range is wide because product scopes and methods may differ.",
+    "EU-luku perustuu ulkopuoliseen tutkimukseen eikä ole kansallinen luovuttajamarkkina. Arvioita verrataan, ei summata tai käytetä automaattisesti rojaltipohjana.": "The EU figure is based on an external study and is not a national donor market. The estimates are compared, not summed or used automatically as a royalty base.",
+    "Nykyinen hyväksytty donor-portti on 0/3; kaikki 4 ehdokasta jäivät ulkopuolelle.": "The current accepted-donor gate is 0/3; all 4 candidates remain outside the count.",
+    "•  Jokaisen ehdokkaan on läpäistävä kaikki 10 ehtoa (D1–D10).\n•  Uusi-Seelantin alaraja, EU:n vertailuarvo, Kanadan toimitusproxy ja Saksan nestemalli hylättiin luovuttajina näkyvin syin.\n•  Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä.": "•  Every candidate must pass all 10 criteria (D1–D10).\n•  New Zealand's lower bound, the EU benchmark, Canada's shipment proxy and Germany's liquid model were rejected as donors for disclosed reasons.\n•  Coverage across regions and regulatory types, plus direct validation in major economies, is still required.",
+    "280,685 milj. NZD": "NZD 280.685m",
+    "264,561 milj. NZD": "NZD 264.561m",
+    "274,18 milj. NZD": "NZD 274.18m",
+    "Uusi-Seelanti 2024: 29 tiedoston raakasumma": "New Zealand 2024: raw sum from 29 files",
+    "Uuden-Seelannin raakasumma täsmää viralliseen ≥280 milj. NZD otsikkoon. Täsmälleen toistuvien rivien poistamisen 264,561 milj. NZD herkkyys ei ole korjattu estimaatti; tunnistettu vaping-raakasumma on 274,18 milj. NZD. EU-luku on tuettu vertailuarvo ja kaupallinen 26,0–46,32 mrd USD vain sanity check; mittareita ei summata.": "New Zealand's raw sum reconciles to the official ≥NZD 280m headline. The NZD 264.561m sensitivity from removing exact repeated rows is not a corrected estimate; the identified-vaping raw sum is NZD 274.18m. The EU figure is a supported benchmark, and the commercial USD 26.0–46.32bn range is only a reasonableness check; the measures are not summed.",
+    "Uuden-Seelannin raakasumma täsmää viralliseen ≥280 milj. NZD otsikkoon; 264,561 milj. NZD toistoriviherkkyys ei ole korjattu estimaatti ja tunnistettu vaping-raakasumma on 274,18 milj. NZD. EU-luku on tuettu institutionaalinen vertailuarvo. Kaupallinen 26,0–46,32 mrd USD haarukka ja Saksan 667,92 milj. EUR–1 654,62 milj. EUR nestemalli ovat ristiintarkistuksia, eivät atlaksen maailmanestimaatti.": "New Zealand's raw sum reconciles to the official ≥NZD 280m headline; the NZD 264.561m repeated-row sensitivity is not a corrected estimate, and the identified-vaping raw sum is NZD 274.18m. The EU figure is a supported institutional benchmark. The commercial USD 26.0–46.32bn range and Germany's EUR 667.92m–1,654.62m liquid model are cross-checks, not the atlas's global estimate.",
+    "otsikko vähintään 280 milj. NZD; 280,685 milj. NZD 29 tiedoston raakasumma; 264,561 milj. NZD toistorivien poistamisen herkkyys, ei korjattu estimaatti": "headline at least NZD 280m; NZD 280.685m raw sum from 29 files; NZD 264.561m sensitivity from removing repeated rows, not a corrected estimate",
+    "•  Jokaisen ehdokkaan on läpäistävä kaikki 10 ehtoa (D1–D10).\n•  Uusi-Seelantin 280,685 milj. NZD raakasumma ja 264,561 milj. NZD toistoriviherkkyys eivät ole puhdistettu estimaatti; EU:n vertailuarvo, Kanadan toimitusproxy ja Saksan nestemalli hylättiin myös luovuttajina.\n•  Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä.": "•  Every candidate must pass all 10 criteria (D1–D10).\n•  New Zealand's NZD 280.685m raw sum and NZD 264.561m repeated-row sensitivity are not a cleaned estimate; the EU benchmark, Canada's shipment proxy and Germany's liquid model were also rejected as donors.\n•  Coverage across regions and regulatory types, plus direct validation in major economies, is still required.",
+    "Uuden-Seelannin raakasumma täsmää viralliseen ≥280 milj. NZD otsikkoon. Täsmälleen toistuvien rivien poistamisen 264,561 milj. NZD herkkyys ei ole korjattu estimaatti; tunnistettu vaping-raakasumma on 274,18 milj. NZD. EU-luku on kaupalliseen Euromonitor 2025 -aineistoon perustuva tuettu vertailuarvo; Kypros, Luxemburg ja Malta puuttuvat. Kaupallinen 26,0–46,32 mrd USD on vain sanity check; mittareita ei summata.": "New Zealand's raw sum reconciles to the official ≥NZD 280m headline. The NZD 264.561m sensitivity from removing exact repeated rows is not a corrected estimate; the identified-vaping raw sum is NZD 274.18m. The EU figure is a supported benchmark based on commercial Euromonitor 2025 data; Cyprus, Luxembourg and Malta are missing. The commercial USD 26.0–46.32bn range is only a reasonableness check; the measures are not summed.",
+    "Uuden-Seelannin raakasumma täsmää viralliseen ≥280 milj. NZD otsikkoon; 264,561 milj. NZD toistoriviherkkyys ei ole korjattu estimaatti ja tunnistettu vaping-raakasumma on 274,18 milj. NZD. EU-luku on kaupalliseen Euromonitor 2025 -aineistoon perustuva tuettu institutionaalinen vertailuarvo; Kypros, Luxemburg ja Malta puuttuvat. Kaupallinen 26,0–46,32 mrd USD haarukka ja Saksan 667,92 milj. EUR–1 654,62 milj. EUR nestemalli ovat ristiintarkistuksia, eivät atlaksen maailmanestimaatti.": "New Zealand's raw sum reconciles to the official ≥NZD 280m headline; the NZD 264.561m repeated-row sensitivity is not a corrected estimate, and the identified-vaping raw sum is NZD 274.18m. The EU figure is a supported institutional benchmark based on commercial Euromonitor 2025 data; Cyprus, Luxembourg and Malta are missing. The commercial USD 26.0–46.32bn range and Germany's EUR 667.92m–1,654.62m liquid model are cross-checks, not the atlas's global estimate.",
+    "EU-luku perustuu kaupalliseen Euromonitor 2025 -aineistoon; Kypros, Luxemburg ja Malta puuttuvat. Se ei ole kansallinen luovuttajamarkkina. Arvioita verrataan, ei summata tai käytetä automaattisesti rojaltipohjana.": "The EU figure is based on commercial Euromonitor 2025 data; Cyprus, Luxembourg and Malta are missing. It is not a national donor market. The estimates are compared, not summed or used automatically as a royalty base."
   },
   "deterministicRules": {
     "coverMeta": {
-      "sourcePattern": "^Päivitetty 2026-07-22\\n(\\d+) diaa · suomeksi$",
-      "targetPattern": "Updated 2026-07-22\\n$1 slides · English"
+      "sourcePattern": "^Päivitetty 2026-07-24\\n(\\d+) diaa · suomeksi$",
+      "targetPattern": "Updated 2026-07-24\\n$1 slides · English"
     },
     "versionMeta": {
-      "sourcePattern": "^Versio 2026\\.07\\.23-10 · 2026-07-22 · (\\d+) / (\\d+)$",
-      "targetPattern": "Version 2026.07.23-16 · 2026-07-22 · $1 / $2"
+      "sourcePattern": "^Versio 2026\\.07\\.24-17 · 2026-07-24 · (\\d+) / (\\d+)$",
+      "targetPattern": "Version 2026.07.24-17 · 2026-07-24 · $1 / $2"
     },
     "footer": {
       "sourcePrefix": "Julkinen riippumaton evidenssikooste ·",
       "replacements": [
         [
-          "2026.07.23-10",
-          "2026.07.23-16"
+          "2026.07.24-17",
+          "2026.07.24-17"
         ],
         [
           "Saksa — viralliset tuomiot",

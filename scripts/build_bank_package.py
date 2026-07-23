@@ -2,9 +2,10 @@
 """Build the public, bilingual Pixan bank diligence package.
 
 The builder deliberately reads only the repository's sanitised public data in
-``site/data``.  It must never be pointed at a private data room. Finnish OOXML
-outputs are rebuilt deterministically; reviewed English derivatives are bound
-to the same release and Finnish source hashes through a fail-closed lock.
+``site/data`` and the explicit public New Zealand reconciliation note. It must
+never be pointed at a private data room. Finnish OOXML outputs are rebuilt
+deterministically; reviewed English derivatives are bound to the same release
+and Finnish source hashes through a fail-closed lock.
 """
 
 from __future__ import annotations
@@ -45,12 +46,14 @@ except ModuleNotFoundError:  # Support importing this file as scripts.build_bank
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "site" / "data"
 DOWNLOAD_DIR = ROOT / "site" / "downloads"
+NZ_RECONCILIATION_SOURCE = ROOT / "source" / "NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md"
 
 INPUT_FILES = (
     DATA_DIR / "atlas.json",
     DATA_DIR / "market-values.json",
     DATA_DIR / "patent-history.json",
     DATA_DIR / "changelog.json",
+    NZ_RECONCILIATION_SOURCE,
 )
 
 OUTPUTS = {
@@ -237,7 +240,15 @@ def fi_cardinal(value: int) -> str:
 
 
 def fi_elative_cardinal(value: int) -> str:
-    words = {0: "nollasta", 1: "yhdestä", 2: "kahdesta", 3: "kolmesta", 4: "neljästä", 5: "viidestä"}
+    words = {
+        0: "nollasta",
+        1: "yhdestä",
+        2: "kahdesta",
+        3: "kolmesta",
+        4: "neljästä",
+        5: "viidestä",
+        6: "kuudesta",
+    }
     return words.get(value, str(value))
 
 
@@ -481,19 +492,39 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     patent = patent_history["patent"]
     observations = list(ctx["market"]["observations"])
     observations_by_id = unique_index(observations, "observationId", "market observation")
-    unique_index(ctx["market"]["models"], "modelId", "market model")
+    models_by_id = unique_index(ctx["market"]["models"], "modelId", "market model")
     unique_index(patent_history["proceedings"], "proceedingId", "patent proceeding")
     unique_index(patent_history["diligenceAlerts"], "alertId", "diligence alert")
     unique_index(patent_history["familyMembers"], "publicationNumber", "patent family member")
     unique_index(patent_history["monetisation"]["sequence"], "phaseId", "monetisation phase")
     market_sources = unique_index(ctx["market"]["sources"], "sourceId", "market source")
     patent_sources = unique_index(patent_history["sources"], "sourceId", "patent source")
+    expected_market_counts = ctx.get("_regression_expected_market_counts", (29, 17))
+    if (
+        not isinstance(expected_market_counts, tuple)
+        or len(expected_market_counts) != 2
+        or len(observations) != expected_market_counts[0]
+        or len(market_sources) != expected_market_counts[1]
+    ):
+        raise ValueError(
+            "Bank package v17 requires the reviewed market observation and source counts"
+        )
     source_id_collisions = sorted(set(market_sources) & set(patent_sources))
     if source_id_collisions:
         raise ValueError(
             "Market and patent source ids must be globally unique: " + ", ".join(source_id_collisions)
         )
     atlas_by_iso = unique_index(ctx["atlas"]["countries"], "iso2", "atlas country")
+    for source_id, expected_kind in {
+        "NZ-MOH-ANNUAL-RETURNS-2024": "official",
+        "EU-EC-SWD-2025-560": "official_secondary",
+        "EU-EC-SWD-2026-111": "official_secondary",
+    }.items():
+        source = market_sources.get(source_id)
+        if source is None or source.get("sourceKind") != expected_kind:
+            raise ValueError(
+                f"Market source {source_id} must exist with sourceKind {expected_kind!r}"
+            )
 
     def require_source_ids(item: dict[str, Any], source_map: dict[str, Any], label: str) -> None:
         source_ids = item.get("sourceIds")
@@ -580,6 +611,12 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             (item for item in market_observations(country, metric) if observation_year(item) == year),
             f"{year} {country} {metric} observation",
         )
+
+    def market_observation_by_id(observation_id: str) -> dict[str, Any]:
+        item = observations_by_id.get(observation_id)
+        if item is None:
+            raise ValueError(f"Required market observation is missing: {observation_id}")
+        return item
 
     def proceeding(
         jurisdiction: str,
@@ -727,6 +764,27 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         }
     )
     official_country_names_fi = [country_name(code) for code in official_country_codes]
+    official_observations = [
+        item
+        for item in observations
+        if item.get("countryIso2") in official_country_codes
+        and str(item.get("evidenceStatus", "")).startswith("official")
+    ]
+    expected_official_observation_count = ctx.get(
+        "_regression_expected_official_observation_count",
+        20,
+    )
+    if len(official_observations) != expected_official_observation_count or official_country_codes != [
+        "CA",
+        "DE",
+        "FI",
+        "NZ",
+        "PL",
+        "SE",
+    ]:
+        raise ValueError(
+            "Bank package v17 requires 20 official records across CA, DE, FI, NZ, PL and SE"
+        )
 
     ca_value = market_observation("CA", "manufacturer_importer_shipments_value")
     ca_year = observation_year(ca_value)
@@ -829,6 +887,154 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     pl_excise = market_observation("PL", "e_liquid_excise_amount")
     se_volume = market_observation("SE", "nicotine_e_liquid_taxed_volume")
     se_excise = market_observation("SE", "nicotine_e_liquid_excise_receipts")
+    nz_retail_lower_bound = market_observation_by_id(
+        "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND"
+    )
+    require_observation(
+        nz_retail_lower_bound,
+        "New Zealand specialist-retail lower bound",
+        country="NZ",
+        geography="New Zealand",
+        metric="official_specialist_retail_sales_lower_bound",
+        period="calendar_year",
+        unit="NZD",
+        currency="NZD",
+        evidence_status="official_provisional",
+        finality="official_lower_bound_with_quality_warning",
+    )
+    if (
+        observation_year(nz_retail_lower_bound) != 2024
+        or float(nz_retail_lower_bound["value"]) != 280_000_000
+        or nz_retail_lower_bound.get("marketValueBasis")
+        != "specialist_vape_retailer_sales_incomplete_lower_bound_mixed_notifiable_products"
+        or nz_retail_lower_bound.get("comparableMarketValue") is not False
+        or nz_retail_lower_bound.get("atlasEstimate") is not False
+    ):
+        raise ValueError("New Zealand lower-bound observation differs from the reviewed v17 fact")
+
+    nz_workbook_raw_sum = market_observation_by_id(
+        "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM"
+    )
+    require_observation(
+        nz_workbook_raw_sum,
+        "New Zealand 29-workbook raw sum",
+        country="NZ",
+        geography="New Zealand",
+        metric="derived_official_workbook_sales_raw_sum",
+        period="calendar_year",
+        unit="NZD",
+        currency="NZD",
+        evidence_status="derived_official_files",
+        finality="reproduced_raw_file_sum_with_quality_warning",
+    )
+    if (
+        observation_year(nz_workbook_raw_sum) != 2024
+        or not math.isclose(float(nz_workbook_raw_sum["value"]), 280_684_512.81, rel_tol=0, abs_tol=0.005)
+        or nz_workbook_raw_sum.get("marketValueBasis")
+        != "raw_workbook_sum_not_cleaned_or_complete_national_market"
+        or nz_workbook_raw_sum.get("comparableMarketValue") is not False
+        or nz_workbook_raw_sum.get("atlasEstimate") is not False
+    ):
+        raise ValueError("New Zealand raw-workbook sum differs from the reviewed v17 reconciliation")
+    raw_limit = str(nz_workbook_raw_sum.get("limitationEn") or "")
+    raw_file_count = int(
+        required_match(r"all (\d+) official XLSX files", raw_limit, "New Zealand raw file count").group(1)
+    )
+    raw_numeric_cell_count = int(
+        required_match(
+            r"([\d,]+) numeric Total sales cells",
+            raw_limit,
+            "New Zealand numeric Total sales cell count",
+        ).group(1).replace(",", "")
+    )
+    raw_repeated_signature_count = int(
+        required_match(
+            r"([\d,]+) exact repeated row signatures",
+            raw_limit,
+            "New Zealand repeated-row signature count",
+        ).group(1).replace(",", "")
+    )
+    raw_dedup_sensitivity = float(
+        required_match(
+            r"produce NZD ([\d,]+\.\d{2})",
+            raw_limit,
+            "New Zealand exact-row-deduplication sensitivity",
+        ).group(1).replace(",", "")
+    )
+    if (
+        raw_file_count != 29
+        or raw_numeric_cell_count != 612_765
+        or raw_repeated_signature_count != 95_144
+        or not math.isclose(raw_dedup_sensitivity, 264_561_055.05, rel_tol=0, abs_tol=0.005)
+    ):
+        raise ValueError("New Zealand raw-workbook reconciliation metadata differs")
+
+    nz_identified_vaping_raw_sum = market_observation_by_id(
+        "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM"
+    )
+    require_observation(
+        nz_identified_vaping_raw_sum,
+        "New Zealand identified-vaping raw sum",
+        country="NZ",
+        geography="New Zealand",
+        metric="derived_identified_vaping_product_sales_raw_sum",
+        period="calendar_year",
+        unit="NZD",
+        currency="NZD",
+        evidence_status="derived_official_files",
+        finality="keyword_classified_raw_file_sum_with_quality_warning",
+    )
+    if (
+        observation_year(nz_identified_vaping_raw_sum) != 2024
+        or not math.isclose(
+            float(nz_identified_vaping_raw_sum["value"]),
+            274_180_410.21,
+            rel_tol=0,
+            abs_tol=0.005,
+        )
+        or nz_identified_vaping_raw_sum.get("marketValueBasis")
+        != "conservative_text_classification_raw_sum_not_donor"
+        or nz_identified_vaping_raw_sum.get("comparableMarketValue") is not False
+        or nz_identified_vaping_raw_sum.get("atlasEstimate") is not False
+    ):
+        raise ValueError("New Zealand identified-vaping raw sum differs from the reviewed v17 reconciliation")
+    vaping_limit = str(nz_identified_vaping_raw_sum.get("limitationEn") or "")
+    vaping_amounts = [
+        float(value.replace(",", ""))
+        for value in re.findall(r"NZD ([\d,]+\.\d{2})", vaping_limit)
+    ]
+    if vaping_amounts != [
+        274_180_410.21,
+        2_137_085.24,
+        4_367_017.37,
+        258_327_110.88,
+    ]:
+        raise ValueError("New Zealand identified-vaping split or sensitivity differs")
+
+    eu_market_benchmark = market_observation_by_id(
+        "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK"
+    )
+    require_observation(
+        eu_market_benchmark,
+        "European Commission market benchmark",
+        country=None,
+        geography="European Union",
+        metric="institutional_market_value_benchmark",
+        period="calendar_year",
+        unit="EUR",
+        currency="EUR",
+        evidence_status="institutional_supported",
+        finality="published_secondary_benchmark",
+    )
+    if (
+        observation_year(eu_market_benchmark) != 2023
+        or float(eu_market_benchmark["value"]) != 4_990_000_000
+        or eu_market_benchmark.get("marketValueBasis")
+        != "external_study_benchmark_published_by_official_institution_not_donor"
+        or eu_market_benchmark.get("comparableMarketValue") is not False
+        or eu_market_benchmark.get("atlasEstimate") is not False
+    ):
+        raise ValueError("European Commission benchmark differs from the reviewed v17 fact")
     national_observation_schemas = (
         (fi_volume, "Finland taxed-liquid volume", "FI", "Finland", "nicotine_e_liquid_taxed_volume", "litre", None, "published"),
         (fi_excise, "Finland liquid-excise receipt", "FI", "Finland", "nicotine_e_liquid_excise_receipts", "EUR", "EUR", "published"),
@@ -994,6 +1200,74 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     if len(global_years) != 1 or global_currencies != {"USD"}:
         raise ValueError("Commercial global estimates must share one explicit year and USD currency")
 
+    donor_protocol = ctx["market"].get("donorProtocol")
+    donor_candidates = ctx["market"].get("donorCandidates")
+    if not isinstance(donor_protocol, dict) or set(donor_protocol) != {
+        "protocolVersion",
+        "acceptanceRuleEn",
+        "acceptanceRuleFi",
+        "criteria",
+    }:
+        raise ValueError("Donor protocol has an unexpected schema")
+    donor_criteria = donor_protocol.get("criteria")
+    expected_criterion_ids = [f"D{index}" for index in range(1, 11)]
+    if (
+        not isinstance(donor_criteria, list)
+        or [item.get("criterionId") for item in donor_criteria] != expected_criterion_ids
+    ):
+        raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
+    if not isinstance(donor_candidates, list) or len(donor_candidates) != 4:
+        raise ValueError("Bank package v17 requires exactly four reviewed donor candidates")
+    candidate_ids = {
+        "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
+        "EU-2023-COMMISSION-BENCHMARK",
+        "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+        "DE-2025-LIQUID-RETAIL-MODEL",
+    }
+    if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
+        raise ValueError("Donor-candidate identities differ from the reviewed v17 set")
+    for candidate in donor_candidates:
+        if candidate.get("decision") != "not_accepted":
+            raise ValueError("Every v17 donor candidate must remain outside the accepted count")
+        passed = candidate.get("passedCriteria")
+        failed = candidate.get("failedCriteria")
+        open_criteria = candidate.get("openCriteria")
+        if (
+            not all(isinstance(values, list) for values in (passed, failed, open_criteria))
+            or not failed
+            or set(passed) | set(failed) | set(open_criteria) != set(expected_criterion_ids)
+            or len(passed) + len(failed) + len(open_criteria) != len(expected_criterion_ids)
+        ):
+            raise ValueError(
+                f"Donor candidate {candidate.get('candidateId')!r} does not expose one "
+                "non-overlapping D1-D10 decision with at least one failed criterion"
+            )
+        source_ids = candidate.get("sourceIds")
+        if (
+            not isinstance(source_ids, list)
+            or not source_ids
+            or any(source_id not in market_sources for source_id in source_ids)
+        ):
+            raise ValueError(
+                f"Donor candidate {candidate.get('candidateId')!r} has invalid sourceIds"
+            )
+        reference_id = candidate.get("referenceId")
+        if candidate.get("referenceType") == "observation":
+            if reference_id not in observations_by_id:
+                raise ValueError(f"Donor candidate refers to unknown observation {reference_id!r}")
+        elif candidate.get("referenceType") == "model":
+            if reference_id not in models_by_id:
+                raise ValueError(f"Donor candidate refers to unknown model {reference_id!r}")
+        else:
+            raise ValueError("Donor candidate referenceType must be observation or model")
+    readiness = ctx["market"]["meta"].get("modelReadiness")
+    if (
+        not isinstance(readiness, dict)
+        or readiness.get("comparableFullYearMarketValueDonors") != 0
+        or readiness.get("minimumRequiredDonors") != 3
+    ):
+        raise ValueError("Model-readiness gate must remain 0/3 for bank package v17")
+
     alerts = list(patent_history["diligenceAlerts"])
     for item in alerts:
         require_source_ids(item, patent_sources, f"diligence alert {item.get('alertId')!r}")
@@ -1035,12 +1309,6 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("Patent alert summary count differs from diligenceAlerts")
 
     market_country_rows: list[list[str]] = []
-    official_observations = [
-        item
-        for item in observations
-        if item.get("countryIso2") in official_country_codes
-        and str(item.get("evidenceStatus", "")).startswith("official")
-    ]
     for code in official_country_codes:
         country_items = [item for item in official_observations if item.get("countryIso2") == code]
         shipment_values = [item for item in country_items if item.get("metric") == "manufacturer_importer_shipments_value"]
@@ -1073,12 +1341,29 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
                 f"{format_millions(liquid_volumes[-1]['value'], fi_unit(liquid_volumes[-1]['unit']))} "
                 "verotettua nestettä"
             )
-        else:
+        elif liquid_volumes:
             liquid = required_single(liquid_volumes, f"{code} liquid-volume observation")
             excise = required_single(liquid_excise, f"{code} liquid-excise observation")
             summary_text = (
                 f"{format_compact_local_number(liquid['value'], maximum_decimals=3)} {fi_unit(liquid['unit'])}; "
                 f"{format_millions(excise['value'], excise['currency'])} valmisteveroa"
+            )
+        else:
+            retail_lower_bounds = [
+                item
+                for item in country_items
+                if item.get("metric") == "official_specialist_retail_sales_lower_bound"
+            ]
+            lower_bound = required_single(
+                retail_lower_bounds,
+                f"{code} official specialist-retail lower-bound observation",
+            )
+            summary_text = (
+                f"otsikko vähintään {format_millions(lower_bound['value'], lower_bound['currency'])}; "
+                f"{format_millions(nz_workbook_raw_sum['value'], nz_workbook_raw_sum['currency'])} "
+                f"{raw_file_count} tiedoston raakasumma; "
+                f"{format_millions(raw_dedup_sensitivity, nz_workbook_raw_sum['currency'])} "
+                "toistorivien poistamisen herkkyys, ei korjattu estimaatti"
             )
         market_country_rows.append([country_name(code), year_label(country_items), summary_text])
 
@@ -1118,9 +1403,15 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "official_country_codes": official_country_codes,
         "official_country_names_fi": official_country_names_fi,
         "official_country_count": len(official_country_codes),
+        "official_observation_count": len(official_observations),
         "retail_donors": int(ctx["market"]["meta"]["modelReadiness"]["comparableFullYearMarketValueDonors"]),
         "minimum_required_donors": int(ctx["market"]["meta"]["modelReadiness"]["minimumRequiredDonors"]),
         "market_readiness": ctx["market"]["meta"]["modelReadiness"],
+        "donor_protocol": donor_protocol,
+        "donor_criteria": donor_criteria,
+        "donor_criterion_count": len(donor_criteria),
+        "donor_candidates": donor_candidates,
+        "donor_candidate_count": len(donor_candidates),
         "country_name": country_name,
         "ca_value_observation": ca_value,
         "ca_units_observation": ca_units,
@@ -1134,6 +1425,18 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "pl_excise_observation": pl_excise,
         "se_volume_observation": se_volume,
         "se_excise_observation": se_excise,
+        "nz_retail_lower_bound": nz_retail_lower_bound,
+        "nz_workbook_raw_sum": nz_workbook_raw_sum,
+        "nz_identified_vaping_raw_sum": nz_identified_vaping_raw_sum,
+        "nz_raw_file_count": raw_file_count,
+        "nz_raw_numeric_cell_count": raw_numeric_cell_count,
+        "nz_raw_repeated_signature_count": raw_repeated_signature_count,
+        "nz_raw_dedup_sensitivity": raw_dedup_sensitivity,
+        "nz_identified_vaping_amount": vaping_amounts[0],
+        "nz_adjacent_amount": vaping_amounts[1],
+        "nz_unresolved_amount": vaping_amounts[2],
+        "nz_vaping_dedup_sensitivity": vaping_amounts[3],
+        "eu_market_benchmark": eu_market_benchmark,
         "model": model,
         "model_prices": model_prices,
         "model_price_year": next(iter(model_price_years)),
@@ -1206,6 +1509,10 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
     pl_volume = facts["pl_volume_observation"]
     pl_excise = facts["pl_excise_observation"]
     se_volume = facts["se_volume_observation"]
+    nz_retail_lower_bound = facts["nz_retail_lower_bound"]
+    nz_workbook_raw_sum = facts["nz_workbook_raw_sum"]
+    nz_identified_vaping_raw_sum = facts["nz_identified_vaping_raw_sum"]
+    eu_market_benchmark = facts["eu_market_benchmark"]
     epo_proceeding = facts["epo_proceeding"]
     de_nullity = facts["de_nullity"]
     de_infringement = facts["de_infringement"]
@@ -1401,24 +1708,81 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
         row(
             f"Hyväksyttyjä vuosittaisia virallisia määrähavaintoja on {fi_elative_cardinal(facts['official_country_count'])} maasta.",
             "Markkinan koko",
-            f"Maat: {fi_join(official_country_names_fi)}.",
+            f"Hyväksytyt maat ovat {fi_join(official_country_names_fi)}. "
+            f"{facts['official_observation_count']} virallista tietuetta sisältävät eri tapahtumatasoja, "
+            "valuuttoja ja tuoterajauksia.",
             "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
             as_of,
-            "Uniikit maat virallisiksi luokitelluista vuosihavainnoista.",
-            "Mittarit eivät ole keskenään samanlaisia.",
+            "Uniikit maat vuosihavainnoista, joiden evidenceStatus alkaa official_.",
+            "Virallinen julkaisu ei tee mittareista automaattisesti vertailukelpoisia maiden välillä.",
             "Vahvistettu",
             "Tarvitaan vertailukelpoiset laite- ja nestemyyntisarjat muista maista.",
         ),
         row(
             f"Hyväksyttyjä virallisia koko vuoden kansallisia kuluttajavähittäisarvon luovuttajamarkkinoita on {fi_cardinal(facts['retail_donors'])}.",
             "Markkinan koko",
-            f"comparableFullYearMarketValueDonors = {facts['retail_donors']}.",
-            "site/data/market-values.json (modelReadiness)",
+            f"comparableFullYearMarketValueDonors = {facts['retail_donors']}. "
+            f"Neljä ehdokastestiä on julkaistu saman 10 ehdon protokollan mukaan.",
+            "site/data/market-values.json (modelReadiness, donorProtocol ja donorCandidates)",
             as_of,
-            "Yhteensopivien koko vuoden kuluttajavähittäisarvojen hyväksyntäkriteeri.",
-            "Toimitus-, vero- ja määräluvut eivät ole vähittäisarvoja.",
+            "Ehdokas lasketaan luovuttajaksi vain, jos D1–D10 täyttyvät kaikki; hylätty tai avoin ehto pitää sen lukumäärän ulkopuolella.",
+            "Virallisia alarajoja, institutionaalisia vertailuarvoja, toimitusarvoja, verotuloja, fyysisiä määriä ja malleja ei nimetä uudelleen täydelliseksi kuluttajavähittäisarvoksi.",
             "Vahvistettu",
-            "Hanki vähintään kolme yhteensopivaa luovuttajamarkkinaa sekä alue- ja sääntelytyyppien peitto.",
+            "Tarvitaan vähintään kolme hyväksyttyä luovuttajaa sekä alue- ja sääntelytyyppien peitto.",
+        ),
+        row(
+            "Uuden-Seelannin vuoden 2024 erikoistuneiden sähkötupakkakauppiaiden myynniksi ilmoitettiin vähintään 280 milj. NZD.",
+            "Markkinan koko",
+            "Terveysministeriö julkaisee virallisen kuluttajavähittäismyynnin alarajan, joka perustuu vain puutteellisiin erikoistuneiden sähkötupakkakauppiaiden myynteihin. "
+            "Yleisvähittäiskauppa puuttuu, viereisiä ilmoitusvelvollisia tuotteita sisältyy eikä ministeriö suosittele aineistoa perusteelliseen tutkimukseen.",
+            sources(*nz_retail_lower_bound["sourceIds"]),
+            str(observation_year(nz_retail_lower_bound)),
+            "Virallista vähintään-otsikkolukua käytetään suoraan; ei ekstrapolointia eikä muiden palautustyyppien yhteenlaskua.",
+            "Luku on alaraja, ei koko maan sähkötupakkamarkkinan arvo.",
+            "Vahvistettu",
+            "Hanki täydellinen valtakunnallinen vain sähkötupakkatuotteita koskeva vähittäiskaupan koonti, GST-perusta ja riippumaton täsmäytys.",
+        ),
+        row(
+            "Uuden-Seelannin 29 virallisen vuoden 2024 XLSX-tiedoston 612 765 numeerisen Total sales -solun raakasumma on 280 684 512,81 NZD.",
+            "Markkinan koko",
+            "Raakasumma täsmää ministeriön vähintään 280 milj. NZD otsikkolukuun. "
+            f"Aineistossa on {format_local_number(facts['nz_raw_repeated_signature_count'])} täsmälleen toistuvaa "
+            f"riviallekirjoitusta; niiden ensimmäisen esiintymän jälkeinen poistaminen antaisi "
+            f"{format_local_number(facts['nz_raw_dedup_sensitivity'], 2)} NZD, mutta toistojen merkitystä ei ole vahvistettu.",
+            sources(*nz_workbook_raw_sum["sourceIds"]) + " ; source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
+            as_of,
+            "Kaikkien 29 virallisen XLSX-tiedoston numeeristen Total sales -solujen suora summa; ei deduplikointia, puhdistusta tai ekstrapolointia.",
+            "Toistuvat rivit säilytetään raakasummassa, koska niiden liiketoiminnallista merkitystä ei tunneta.",
+            "Tuettu",
+            "Raakasumma ei ole puhdistettu kansallinen markkina-arvo. Yleisvähittäiskauppa, puuttuvat ilmoitukset ja GST-käsittely ovat avoimia.",
+        ),
+        row(
+            "Varovainen tekstiluokitus tunnistaa Uuden-Seelannin vuoden 2024 sähkötupakkatuoterivien raakasummaksi 274 180 410,21 NZD.",
+            "Markkinan koko",
+            f"Viereisiksi ilmoitusvelvollisiksi tuotteiksi tunnistettiin {format_local_number(facts['nz_adjacent_amount'], 2)} NZD "
+            f"ja ratkaisemattomaksi tuotetyypiksi {format_local_number(facts['nz_unresolved_amount'], 2)} NZD. "
+            f"Sähkötupakkarivien toistorivien poistamisen herkkyys on "
+            f"{format_local_number(facts['nz_vaping_dedup_sensitivity'], 2)} NZD, mutta se ei ole korjattu estimaatti.",
+            sources(*nz_identified_vaping_raw_sum["sourceIds"]) + " ; source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
+            as_of,
+            "Konservatiivinen Product type -tekstiluokitus virallisten XLSX-tiedostojen tuoteriveille; luokittelu- ja toistoriviherkkyys raportoidaan erikseen.",
+            "Tuotetyyppikentän virheet ja ratkaisemattomat rivit estävät kattavan sähkötupakkamarkkinan tulkinnan.",
+            "Tuettu",
+            "Hanki viranomaisen tuotekoodisanasto, toistorivien semantiikka, täydellinen kanavapeitto ja GST-perusta. Luku ei kelpaa luovuttajaksi.",
+        ),
+        row(
+            "Euroopan komissio julkaisee vuoden 2023 EU:n sähkötupakkamarkkinan 4,99 mrd euron vertailuarvon.",
+            "Markkinan koko",
+            "SWD(2026) 111:n fyysisen PDF:n sivun 25 alaviite 83 nimeää seuraavien sivujen taulukoiden lähteeksi "
+            "Euromonitor International Tobacco 2025 -aineiston; fyysisen sivun 27 taulukko 4 raportoi 4,99 mrd euroa. "
+            "SWD(2025) 560:n fyysinen sivu 161 kuvaa lähes 5 mrd euron koonnin, joka sisältää laitteet ja nesteet, "
+            "myös nikotiinittomat; sivu 162 ilmoittaa Kyproksen, Luxemburgin ja Maltan tiedot puuttuviksi.",
+            sources(*eu_market_benchmark["sourceIds"]),
+            str(observation_year(eu_market_benchmark)),
+            "Kahden Euroopan komission valmisteluasiakirjan taulukko-, sivu- ja lähdeviitteiden ristiinvertailu; lukuja ei summata.",
+            "Komissio julkaisee vertailuarvon, mutta sen pohjana on kaupallinen Euromonitor-aineisto. Täysi menetelmä, veroperusta ja uudelleenkäytettävä maadata eivät ole julkisia, ja kolmesta EU-maasta ei ole tietoa.",
+            "Tuettu",
+            "Hanki lisensoitu maataulukko ja menetelmä, tapahtumamääritelmä, kanavapeitto, veroperusta sekä riippumaton täsmäytys; täydennä Kypros, Luxemburg ja Malta.",
         ),
         row(
             "Kanadan vuoden "
@@ -1809,13 +2173,14 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
         row(
             "Maailmanlaajuista atlasestimaattia ei ole hyväksytty julkaistavaksi.",
             "Markkinan koko",
-            f"{fi_cardinal(facts['retail_donors']).capitalize()} vertailukelpoista vähittäisarvoluovuttajaa alittaa "
-            f"{fi_cardinal(facts['minimum_required_donors'])}n luovuttajan minimikynnyksen.",
-            "site/data/market-values.json (modelReadiness)",
+            f"{fi_cardinal(facts['retail_donors']).capitalize()} hyväksyttyä luovuttajamarkkinaa alittaa "
+            f"{fi_cardinal(facts['minimum_required_donors'])}n luovuttajan minimikynnyksen. "
+            "Julkaistuissa Uuden-Seelannin, EU:n, Kanadan ja Saksan ehdokastesteissä jokaisessa on vähintään yksi hylätty ehto.",
+            "site/data/market-values.json (modelReadiness, donorProtocol ja donorCandidates)",
             as_of,
-            "Hard gate: vähintään "
-            f"{fi_cardinal(facts['minimum_required_donors'])} yhteensopivaa luovuttajaa + alueellinen validointi.",
-            "Kaupallisia globaaliarvioita käytetään vain sanity check -haarukkana.",
+            "Hard gate: jokaisen luovuttajan on läpäistävä D1–D10, ja lisäksi tarvitaan vähintään "
+            f"{fi_cardinal(facts['minimum_required_donors'])} yhteensopivaa luovuttajaa sekä alueellinen validointi.",
+            "Viralliset alarajat ja ulkoiset vertailuarvot ovat hyödyllisiä ristiintarkistuksia mutta niitä ei lasketa hyväksytyiksi luovuttajiksi.",
             "Vahvistettu",
             "Älä esitä yhtä maailmanlukua ennen metodin porttien täyttymistä.",
         ),
@@ -1904,7 +2269,7 @@ def add_slide_title(
     add_text(slide, section.upper(), 0.55, 0.32, 3.8, 0.28, size=10, color=TEAL, bold=True)
     if two_line:
         add_text(slide, title, 0.55, 0.68, 12.15, 0.88, size=30, color=NAVY, bold=True)
-        add_rect(slide, 0.55, 1.58, 1.05, 0.055, TEAL)
+        add_rect(slide, 0.55, 1.70, 1.05, 0.055, TEAL)
     else:
         add_text(slide, title, 0.55, 0.68, 12.15, 0.6, size=34, color=NAVY, bold=True)
         add_rect(slide, 0.55, 1.34, 1.05, 0.055, TEAL)
@@ -2118,6 +2483,9 @@ def common_values(ctx: dict[str, Any]) -> dict[str, Any]:
     global_values = facts["global_values"]
     global_currency = facts["global_currency"]
     market_sources = facts["market_source_map"]
+    nz_retail_lower_bound = facts["nz_retail_lower_bound"]
+    nz_workbook_raw_sum = facts["nz_workbook_raw_sum"]
+    eu_market_benchmark = facts["eu_market_benchmark"]
 
     if {item.get("currency") for item in model_prices.values()} != {model["currency"]}:
         raise ValueError("Germany model price currencies differ from the model currency")
@@ -2153,6 +2521,15 @@ def common_values(ctx: dict[str, Any]) -> dict[str, Any]:
         model["confidence"], model["confidence"]
     )
     grade_labels = facts["grade_labels"]
+    eu_market_benchmark_display = (
+        format_compact_local_number(
+            eu_market_benchmark["value"] / 1_000_000_000,
+            minimum_decimals=2,
+            maximum_decimals=2,
+            grouped=False,
+        )
+        + f" mrd {eu_market_benchmark['currency']}"
+    )
 
     return {
         **facts,
@@ -2170,6 +2547,37 @@ def common_values(ctx: dict[str, Any]) -> dict[str, Any]:
             for item in (ca_value, ca_units, ca_litres)
             for source_id in item["sourceIds"]
         ),
+        "nz_country": facts["country_name"](nz_retail_lower_bound["countryIso2"]),
+        "nz_year": observation_year(nz_retail_lower_bound),
+        "nz_retail_lower_bound": (
+            f"≥ {format_millions(nz_retail_lower_bound['value'], nz_retail_lower_bound['currency'])}"
+        ),
+        "nz_scope": nz_retail_lower_bound["limitationFi"],
+        "nz_publishers": unique_strings(
+            concise_publisher(market_sources[source_id]["publisher"])
+            for source_id in nz_retail_lower_bound["sourceIds"]
+        ),
+        "nz_workbook_raw_sum": format_millions(
+            nz_workbook_raw_sum["value"],
+            nz_workbook_raw_sum["currency"],
+        ),
+        "nz_raw_dedup_sensitivity": format_millions(
+            facts["nz_raw_dedup_sensitivity"],
+            nz_workbook_raw_sum["currency"],
+        ),
+        "nz_identified_vaping_raw_sum": format_millions(
+            facts["nz_identified_vaping_amount"],
+            nz_workbook_raw_sum["currency"],
+        ),
+        "eu_year": observation_year(eu_market_benchmark),
+        "eu_market_benchmark": eu_market_benchmark_display,
+        "eu_scope": eu_market_benchmark["limitationFi"],
+        "eu_publishers": unique_strings(
+            concise_publisher(market_sources[source_id]["publisher"])
+            for source_id in eu_market_benchmark["sourceIds"]
+        ),
+        "donor_protocol_label": "D1–D10",
+        "donor_gate": f"{facts['retail_donors']}/{facts['minimum_required_donors']}",
         "de_country": facts["country_name"](model["countryIso2"]),
         "de_rows": de_rows,
         "de_years": year_label(de_volumes),
@@ -2251,9 +2659,9 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
         exact.extend(
             (4, value)
             for value in (
-                str(v["atlas_country_count"]),
-                str(v["official_country_count"]),
-                str(v["retail_donors"]),
+                str(v["official_observation_count"]),
+                v["nz_workbook_raw_sum"],
+                v["eu_market_benchmark"],
             )
         )
         contains.extend(
@@ -2263,10 +2671,12 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
                 (2, str(v["b2_claim_count"])),
                 (3, v["ep_publication"]),
                 (4, v["global_range"]),
-                (4, v["ca_value"]),
-                (4, v["de_latest"]),
-                (4, str(v["de_latest_year"])),
-                (4, v["de_latest_finality"]),
+                (4, v["donor_gate"]),
+                (4, v["donor_protocol_label"]),
+                (4, str(v["donor_candidate_count"])),
+                (4, str(v["official_country_count"])),
+                (4, v["nz_raw_dedup_sensitivity"]),
+                (4, v["nz_identified_vaping_raw_sum"]),
             )
         )
     elif deck_kind == "medium":
@@ -2276,9 +2686,19 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
         )
         exact.extend(
             (6, value)
-            for value in (str(v["atlas_country_count"]), str(v["official_country_count"]), v["global_range"])
+            for value in (
+                str(v["official_observation_count"]),
+                v["nz_workbook_raw_sum"],
+                v["eu_market_benchmark"],
+            )
         )
-        exact.append((11, f"{v['retail_donors']} retail-luovuttajaa"))
+        exact.append(
+            (
+                11,
+                f"{v['donor_gate']} retail-luovuttajaa; "
+                f"{v['donor_candidate_count']} ehdokasta hylätty {v['donor_protocol_label']}",
+            )
+        )
         contains.extend(
             (slide, value)
             for slide, value in (
@@ -2288,9 +2708,13 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
                 (4, v["ep_publication"]),
                 (5, v["infringement_claims_fi"]),
                 (5, v["de_infringement"]["reference"]),
-                (6, str(v["global_year"])),
+                (6, v["global_range"]),
                 (6, v["de_model"]),
-                (6, str(v["retail_donors"])),
+                (6, v["donor_gate"]),
+                (6, v["donor_protocol_label"]),
+                (6, str(v["official_country_count"])),
+                (6, v["nz_raw_dedup_sensitivity"]),
+                (6, v["nz_identified_vaping_raw_sum"]),
                 (9, str(v["official_country_count"])),
             )
         )
@@ -2337,13 +2761,20 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
             exact.extend(((16, value), (16, label)))
         for value, label in v["global_metrics"]:
             exact.extend(((17, value), (17, label)))
+        exact.extend(
+            (
+                (17, v["eu_market_benchmark"]),
+                (17, f"EU-komission vertailuarvo {v['eu_year']}"),
+            )
+        )
         contains.extend(
             (slide, value)
             for slide, value in (
                 (2, v["ep_publication"]),
                 (2, str(v["german_official_proceeding_count"])),
-                (2, str(v["atlas_country_count"])),
-                (2, str(v["retail_donors"])),
+                (2, str(v["official_observation_count"])),
+                (2, str(v["official_country_count"])),
+                (2, v["donor_gate"]),
                 (6, fi_cardinal(v["b2_claim_count"])),
                 (6, v["ep_publication"]),
                 (10, v["cn_grant"]["publicationNumber"]),
@@ -2364,12 +2795,18 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
                 (12, str(v["atlas_evidence_count"])),
                 (12, str(v["un_member_count"])),
                 (13, str(v["official_country_count"])),
+                (13, str(v["official_observation_count"])),
                 (14, str(v["ca_year"])),
                 (16, str(v["model"]["year"])),
                 (16, str(v["model_price_year"])),
                 (16, v["model"]["limitationFi"]),
                 (18, str(v["minimum_required_donors"])),
                 (18, str(v["retail_donors"])),
+                (18, str(v["donor_candidate_count"])),
+                (18, v["donor_protocol_label"]),
+                (18, v["donor_gate"]),
+                (18, v["nz_workbook_raw_sum"]),
+                (18, v["nz_raw_dedup_sensitivity"]),
             )
         )
     else:
@@ -2507,6 +2944,18 @@ def regression_check_finnish_deck_fact_binding(ctx: dict[str, Any]) -> None:
         model = selected_model(large_ctx)
         volume = observation(large_ctx, model["inputIds"][0])
         model["central"] = volume["value"] * 1_000 * central_price["value"]
+        large_ctx["_regression_expected_market_counts"] = (
+            len(large_ctx["market"]["observations"]),
+            len(large_ctx["market"]["sources"]),
+        )
+        large_ctx["_regression_expected_official_observation_count"] = len(
+            [
+                item
+                for item in large_ctx["market"]["observations"]
+                if isinstance(item.get("countryIso2"), str)
+                and str(item.get("evidenceStatus", "")).startswith("official")
+            ]
+        )
 
         legal_source = copy.deepcopy(
             required_single(
@@ -2903,10 +3352,28 @@ def build_short_deck(ctx: dict[str, Any], path: Path) -> None:
     )
     slide_metrics(
         prs, ctx, 4, "Markkina-aineisto on läpinäkyvä mutta ei vielä valmis globaaliksi arvoksi", "Markkina",
-        [(str(v["atlas_country_count"]), "maan tutkimusuniversumi"), (str(v["official_country_count"]), "maata virallisilla vuosihavainnoilla"), (str(v["retail_donors"]), "hyväksyttyä retail-arvon luovuttajaa")],
-        f"Kaupallinen {v['global_range']} haarukka on sanity check — ei atlaksen oma maailmanestimaatti.",
-        f"{v['ca_country']}: {v['ca_value']} toimitusarvo. {v['de_country']}: {v['de_latest']} verotettua nestettä vuonna {v['de_latest_year']} ({v['de_latest_finality']}). Mittareita ei summata keskenään.",
-        v["market_sources"],
+        [
+            (
+                str(v["official_observation_count"]),
+                f"virallista vuosihavaintoa {v['official_country_count']} maasta",
+            ),
+            (
+                v["nz_workbook_raw_sum"],
+                f"{v['nz_country']} {v['nz_year']}: {v['nz_raw_file_count']} tiedoston raakasumma",
+            ),
+            (
+                v["eu_market_benchmark"],
+                f"EU {v['eu_year']}: komission julkaisema vertailuarvo",
+            ),
+        ],
+        f"{v['donor_candidate_count']}/{v['donor_candidate_count']} ehdokasta hylättiin "
+        f"{v['donor_protocol_label']}-protokollassa; hyväksytty donor-portti on {v['donor_gate']}.",
+        f"Uuden-Seelannin raakasumma täsmää viralliseen ≥280 milj. NZD otsikkoon. Täsmälleen "
+        f"toistuvien rivien poistamisen {v['nz_raw_dedup_sensitivity']} herkkyys ei ole korjattu "
+        f"estimaatti; tunnistettu vaping-raakasumma on {v['nz_identified_vaping_raw_sum']}. EU-luku "
+        "on kaupalliseen Euromonitor 2025 -aineistoon perustuva tuettu vertailuarvo; Kypros, Luxemburg "
+        f"ja Malta puuttuvat. Kaupallinen {v['global_range']} on vain sanity check; mittareita ei summata.",
+        f"{v['market_sources']}; {'; '.join(v['eu_publishers'])}; {v['global_sources']}",
     )
     slide_table(
         prs, ctx, 5, "Puutteet ovat rajattavissa konkreettiseksi työohjelmaksi", "Riskit ja näyttö",
@@ -2950,9 +3417,28 @@ def build_medium_deck(ctx: dict[str, Any], path: Path) -> None:
                 ["Patenttiselitys antaa teknisen hypoteesin ja dokumentoidun suojatekstin.", f"{v['de_country']}: ratkaisu tukee tiettyjen tuotteiden ja vaatimusten {v['infringement_claims_fi']} kytkentää.", "Riippumattomat testit, teardown-dossierit ja muiden maiden claim chartit puuttuvat julkisesta aineistosta."],
                 "Todistusketju", "Näyte → hallussapitoketju → teardown → mittausdata → claim chart → asiamiehen tarkastus → relevantti myynti.", f"{v['ep_publication']}; {v['de_infringement']['reference']}" )
     slide_metrics(prs, ctx, 6, "Markkinakoko on tällä hetkellä haarukka ja havaintokokoelma — ei yksi luku", "6 · Markkinan koko ja rajaus",
-                  [(str(v["atlas_country_count"]), "maan tutkimusrivit"), (str(v["official_country_count"]), "maata vuosihavainnoilla"), (v["global_range"], f"kaupallinen globaali {v['global_year']} haarukka")],
-                  f"{v['de_country']}: nestemallin luottamustaso on {v['de_model_confidence_fi']} ja vaihteluväli {v['de_model']}; sitä ei saa esittää havaittuna myyntinä.",
-                  f"Hyväksyttyjä virallisia kansallisia consumer-retail-arvoja on {v['retail_donors']}. Atlas ei julkaise omaa maailmanestimaattia ennen metodisten porttien täyttymistä.", f"Market-values; {v['global_sources']}" )
+                  [
+                      (
+                          str(v["official_observation_count"]),
+                          f"virallista vuosihavaintoa {v['official_country_count']} maasta",
+                      ),
+                      (
+                          v["nz_workbook_raw_sum"],
+                          f"{v['nz_country']} {v['nz_year']}: {v['nz_raw_file_count']} tiedoston raakasumma",
+                      ),
+                      (
+                          v["eu_market_benchmark"],
+                          f"EU {v['eu_year']}: komission julkaisema vertailuarvo",
+                      ),
+                  ],
+                  f"{v['donor_candidate_count']}/{v['donor_candidate_count']} ehdokasta ei läpäissyt "
+                  f"{v['donor_protocol_label']}-protokollaa; hyväksytty donor-portti on {v['donor_gate']}.",
+                  f"Uuden-Seelannin raakasumma täsmää viralliseen ≥280 milj. NZD otsikkoon; "
+                  f"{v['nz_raw_dedup_sensitivity']} toistoriviherkkyys ei ole korjattu estimaatti ja "
+                  f"tunnistettu vaping-raakasumma on {v['nz_identified_vaping_raw_sum']}. EU-luku on "
+                  "kaupalliseen Euromonitor 2025 -aineistoon perustuva tuettu institutionaalinen vertailuarvo; "
+                  f"Kypros, Luxemburg ja Malta puuttuvat. Kaupallinen {v['global_range']} haarukka ja "
+                  f"Saksan {v['de_model']} nestemalli ovat ristiintarkistuksia, eivät atlaksen maailmanestimaatti.", f"Market-values; {v['global_sources']}; {'; '.join(v['eu_publishers'])}" )
     slide_claim(prs, ctx, 7, "Asiakkuus on vielä validoitava kolmessa eri päätöksentekologiikassa", "7 · Asiakkaat ja ostoperuste",
                 "Mahdolliset segmentit ovat valmistajat, teknologiatoimittajat sekä IP-rahoittajat tai ostajat.",
                 ["Valmistaja ostaa toimintarauhaa, oikeusvarmuutta tai teknologiaa — jos relevantti tuote ja alue osoitetaan.", "Teknologiatoimittaja arvioi integroitavuutta, vapautta toimia ja yksikkötaloutta.", "Rahoittaja arvioi omistusta, realisoitavaa kassavirtaa, kontrollia ja downside-arvoa."],
@@ -2972,7 +3458,7 @@ def build_medium_deck(ctx: dict[str, Any], path: Path) -> None:
                   "Vasta toteutunut sopimus tai saaminen luo kassavirtanäyttöä.", "WIPO licensing; dispute resolution; IPscore" )
     slide_table(prs, ctx, 11, "Taloudellinen malli on rakennettava lähteistä, ei markkinaosuusoletuksesta", "11 · Taloudellinen malli ja herkkyydet",
                 ["Silta", "Todennettava syöte", "Nykytila"],
-                [["Kokonaismarkkina", "Yhteismitallinen maakohtainen myynti", f"{v['retail_donors']} retail-luovuttajaa"], ["Kohdistettava myynti", "Voimassaolo × tuote × aika × maa", "Puuttuu"], ["Rojaltipohja", "Claim-mapped net sales", "Puuttuu"], ["Kassavirta", "Sopimusehdot, kulut, verot, viive", "Puuttuu"], ["Vakuusarvo", "Downside-realisointi ja kontrolli", "Puuttuu"]],
+                [["Kokonaismarkkina", "Yhteismitallinen maakohtainen myynti", f"{v['donor_gate']} retail-luovuttajaa; {v['donor_candidate_count']} ehdokasta hylätty {v['donor_protocol_label']}"], ["Kohdistettava myynti", "Voimassaolo × tuote × aika × maa", "Puuttuu"], ["Rojaltipohja", "Claim-mapped net sales", "Puuttuu"], ["Kassavirta", "Sopimusehdot, kulut, verot, viive", "Puuttuu"], ["Vakuusarvo", "Downside-realisointi ja kontrolli", "Puuttuu"]],
                 "Näytä downside/base/upside vasta, kun jokainen sillan syöte on dokumentoitu.", "WIPO IP valuation; Market-values", [2.5, 5.7, 1.8],
                 two_line_title=True )
     closing_slide(prs, ctx, 12, "Rahoituspäätös vasta neljän kriittisen aukon sulkeuduttua",
@@ -2993,7 +3479,7 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     cover_slide(prs, ctx, "Laaja 30 dian tutkija- ja rahoituspäätöspaketti", 30)
     slide_claim(prs, ctx, 2, "Rahoitettavuus on mahdollisuus, ei nykyinen johtopäätös", "Rahoitusteesi",
                 "Viralliset patentti- ja oikeuslähteet oikeuttavat jatkodiligencen; ne eivät vielä osoita vakuusarvoa tai takaisinmaksua.",
-                [f"EPO:n muutettu {v['ep_publication']} ja {v['de_country']}n {fi_cardinal(v['german_official_proceeding_count'])} virallista ratkaisua muodostavat oikeusnäytön ankkurin.", f"Markkina-aineisto kattaa {v['atlas_country_count']} maan tutkimusrungon, mutta yhteismitallisia retail-luovuttajia on {v['retail_donors']}.", "Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen."],
+                [f"EPO:n muutettu {v['ep_publication']} ja {v['de_country']}n {fi_cardinal(v['german_official_proceeding_count'])} virallista ratkaisua muodostavat oikeusnäytön ankkurin.", f"Markkina-aineistossa on {v['official_observation_count']} virallista vuosihavaintoa {v['official_country_count']} maasta, mutta luovuttajaportti on {v['donor_gate']}.", "Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen."],
                 "Suositus", "Avaa 90 päivän ehdollinen diligence, ei lopullista luottopäätöstä.", f"EPO; {v['de_country']} — viralliset tuomiot; WIPO" )
     slide_table(prs, ctx, 3, "Kolme perustetta jatkaa — ja kolme rajaa olla kiirehtimättä", "Rahoitusteesi",
                 ["Vahva signaali", "Mitä se tukee", "Mitä se ei todista"],
@@ -3050,10 +3536,11 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
                   [(str(v["grade_counts"][grade]), f"{grade}-luokan maata") for grade in v["grade_labels"]],
                   f"{v['atlas_evidence_count']} evidenssimerkintää; universumin YK-osuus on {v['un_member_count']} jäsenvaltiota.",
                   f"Luokat {v['grade_range']} kuvaavat evidenssikypsyyttä, eivät markkinan kokoa tai kaupallista houkuttelevuutta.", "UN; Atlas" )
-    slide_table(prs, ctx, 13, f"Viralliset havainnot {v['official_country_count']} maasta mittaavat eri asioita", "Markkina",
+    slide_table(prs, ctx, 13, f"{v['official_observation_count']} virallista havaintoa {v['official_country_count']} maasta mittaavat eri asioita", "Markkina",
                 ["Maa", "Vuosi", "Virallinen havainto"],
                 v["market_country_rows"],
-                "Litroja, toimitusarvoja ja valmisteveroja ei summata yhdeksi markkinaksi.", v["market_sources"], [1.6,2.1,8.3] )
+                "Litroja, toimitusarvoja ja valmisteveroja ei summata yhdeksi markkinaksi.", v["market_sources"], [1.6,2.1,8.3],
+                two_line_title=True )
     slide_metrics(prs, ctx, 14, f"{v['ca_country']} on vahva toimitusmyynnin ankkuri, ei retail-arvon luovuttaja", v["ca_country"],
                   [(v["ca_value"], "valmistaja-/maahantuojatoimitukset"), (v["ca_units"], "raportoitua yksikkömäärää"), (v["ca_litres"], "raportoitua nestettä")],
                   v["ca_scope"],
@@ -3068,13 +3555,16 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
                   f"Kaava: {model['formula']}.",
                   model["limitationFi"], "; ".join(unique_strings(concise_publisher(v["market_source_map"][source_id]["publisher"]) for source_id in v["model_source_ids"])) )
     slide_metrics(prs, ctx, 17, "Kaupalliset globaaliarviot ovat sanity check, eivät oma estimaatti", "Globaali markkina",
-                  v["global_metrics"],
-                  "Haarukka on leveä, koska tuoterajaukset ja metodit voivat poiketa.",
-                  "Arvioita verrataan keskenään. Niitä ei summata, eikä haarukkaa käytetä automaattisesti rojaltipohjana.", v["global_sources"] )
+                  [
+                      *v["global_metrics"],
+                      (v["eu_market_benchmark"], f"EU-komission vertailuarvo {v['eu_year']}"),
+                  ],
+                  "EU:n vertailuarvo tukee mittaluokan ristiintarkistusta; kaupallinen haarukka on leveä, koska tuoterajaukset ja metodit voivat poiketa.",
+                  "EU-luku perustuu kaupalliseen Euromonitor 2025 -aineistoon; Kypros, Luxemburg ja Malta puuttuvat. Se ei ole kansallinen luovuttajamarkkina. Arvioita verrataan, ei summata tai käytetä automaattisesti rojaltipohjana.", f"{v['global_sources']}; {'; '.join(v['eu_publishers'])}" )
     slide_claim(prs, ctx, 18, f"Hyväksyttävä maailmanestimaatti tarvitsee vähintään {v['minimum_required_donors']} yhteensopivaa luovuttajaa", "Metodi",
-                f"Nykyinen comparable consumer-retail donor count on {v['retail_donors']}; hard gate ei täyty.",
-                ["Sama tuoterajaus ja kalenterivuosi.", "Kuluttajavähittäisarvo, ei toimitus-, vero- tai volyymiproxy.", "Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa."],
-                "Vasta sitten", "Trianguloi kysyntä-, vero-, tulli-, yritys- ja hintamenetelmät. Vertaa tuloksia; älä lisää vaihtoehtoisia arvioita yhteen.", "Market-values modelReadiness" )
+                f"Nykyinen hyväksytty donor-portti on {v['donor_gate']}; kaikki {v['donor_candidate_count']} ehdokasta jäivät ulkopuolelle.",
+                [f"Jokaisen ehdokkaan on läpäistävä kaikki {v['donor_criterion_count']} ehtoa ({v['donor_protocol_label']}).", f"{v['nz_country']}n {v['nz_workbook_raw_sum']} raakasumma ja {v['nz_raw_dedup_sensitivity']} toistoriviherkkyys eivät ole puhdistettu estimaatti; EU:n vertailuarvo, Kanadan toimitusproxy ja Saksan nestemalli hylättiin myös luovuttajina.", "Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä."],
+                "Vasta sitten", "Trianguloi kysyntä-, vero-, tulli-, yritys- ja hintamenetelmät. Vertaa tuloksia; älä lisää vaihtoehtoisia arvioita yhteen.", "Market-values modelReadiness, donorProtocol ja donorCandidates" )
     slide_table(prs, ctx, 19, "Markkinan ja patentin väliin tarvitaan viisi läpinäkyvää suodatinta", "Arvosilta",
                 ["Taso", "Suodatin", "Näyttö"],
                 [["1. Kokonaismarkkina", "Tuote- ja mittarirajaus", "Osittainen"], ["2. Oikeusalue", "Voimassa oleva operative claim", "Puuttuu globaalisti"], ["3. Relevantit tuotteet", "Claim chart", f"Rajattu näyttö: {v['de_country']}"], ["4. Relevantti myynti", "Tuote × maa × aika × net sales", "Puuttuu"], ["5. Kassavirta", "Rojalti/sovinto − kulut − verot − viive", "Puuttuu"]],
@@ -3369,13 +3859,16 @@ def write_csv(rows: list[dict[str, str]], path: Path) -> None:
         writer.writerows(rows)
 
 
-def read_english_register_source() -> list[list[str]]:
+def read_english_register_source(expected_row_count: int) -> list[list[str]]:
     payload = read_json(EN_REGISTER_SOURCE)
     if set(payload) != {"headers", "rows"} or payload.get("headers") != EN_REGISTER_HEADERS:
         raise ValueError("English Evidence Register source has an unexpected schema")
     rows = payload.get("rows")
-    if not isinstance(rows, list) or len(rows) != 45:
-        raise ValueError("English Evidence Register source must contain exactly 45 rows")
+    if not isinstance(rows, list) or len(rows) != expected_row_count:
+        raise ValueError(
+            "English Evidence Register source must contain exactly "
+            f"{expected_row_count} rows, matching the Finnish register"
+        )
     normalised: list[list[str]] = []
     for index, row in enumerate(rows, start=1):
         if not isinstance(row, list) or len(row) != len(EN_REGISTER_HEADERS):
@@ -3675,7 +4168,7 @@ def build_all() -> dict[str, Any]:
     ctx = build_context()
     regression_check_finnish_deck_fact_binding(ctx)
     rows = evidence_rows(ctx)
-    english_rows = read_english_register_source()
+    english_rows = read_english_register_source(len(rows))
     parity_errors = validate_register_parity(
         [[row[header] for header in REGISTER_HEADERS] for row in rows],
         english_rows,

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the v16 decision, audit and freshness views."""
+"""Fail-closed validation for the v17 decision, donor, audit and freshness views."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DATA = SITE / "data"
 
-EXPECTED_OFFICIAL_COUNTRIES = {"CA", "DE", "FI", "PL", "SE"}
+EXPECTED_OFFICIAL_COUNTRIES = {"CA", "DE", "FI", "NZ", "PL", "SE"}
 EXPECTED_PROCESS_STATES = {
     "DE": "receipt_and_ifg_forwarding_confirmed",
     "DK": "automated_receipt_acknowledged",
@@ -56,6 +56,13 @@ REQUIRED_REVIEW_IDS = {
     "review-source-freshness-summary",
     "review-source-freshness-table",
     "review-source-freshness-list",
+    "review-donor-ledger",
+    "review-donor-protocol-version",
+    "review-donor-gate-rule",
+    "review-donor-rule",
+    "review-donor-summary",
+    "review-donor-candidates",
+    "review-donor-status",
 }
 REQUIRED_REVIEW_FUNCTIONS = {
     "applyReviewView",
@@ -65,6 +72,9 @@ REQUIRED_REVIEW_FUNCTIONS = {
     "renderReviewCalculationAuditUnavailable",
     "renderReviewSourceFreshness",
     "renderReviewSourceFreshnessUnavailable",
+    "assessReviewDonorLedger",
+    "renderReviewDonorLedger",
+    "renderReviewDonorLedgerUnavailable",
 }
 REQUIRED_I18N_EN = {
     "Workspace views",
@@ -80,6 +90,8 @@ REQUIRED_I18N_EN = {
     "Market source",
     "Substantive staleness",
     "No automatic publication, spending or external action",
+    "Donor-market acceptance gate",
+    "The 0/3 gate changes only when a candidate passes every criterion.",
 }
 
 
@@ -115,28 +127,28 @@ def validate_review_data(
     countries = atlas.get("countries")
     evidence = atlas.get("evidence")
     if not isinstance(countries, list) or len(countries) != 195:
-        errors.append("Decision Cockpit requires exactly 195 country records for v16")
+        errors.append("Decision Cockpit requires exactly 195 country records for v17")
     if not isinstance(evidence, list) or len(evidence) != 37:
-        errors.append("Decision Cockpit requires exactly 37 atlas evidence records for v16")
+        errors.append("Decision Cockpit requires exactly 37 atlas evidence records for v17")
         evidence = []
     for item in evidence:
         if any(key in item for key in ("retrievedAt", "reviewedAt", "verifiedAt", "lastVerifiedAt")):
-            errors.append("Atlas item-level freshness must remain undated unless the v16 ledger and release claim are updated")
+            errors.append("Atlas item-level freshness must remain undated unless the v17 ledger and release claim are updated")
             break
     blockers = atlas.get("readiness", {}).get("blockers")
     if not isinstance(blockers, list) or len(blockers) < 3:
         errors.append("Decision Cockpit requires three explicit readiness blockers")
     if atlas.get("readiness", {}).get("lenderReady") is not False:
-        errors.append("v16 Decision Cockpit must remain HOLD while lenderReady is false")
+        errors.append("v17 Decision Cockpit must remain HOLD while lenderReady is false")
 
     sources = market.get("sources")
     observations = market.get("observations")
     models = market.get("models")
-    if not isinstance(sources, list) or len(sources) != 12:
-        errors.append("Freshness ledger requires exactly 12 reviewed market sources for v16")
+    if not isinstance(sources, list) or len(sources) != 17:
+        errors.append("Freshness ledger requires exactly 17 reviewed market sources for v17")
         sources = []
-    if not isinstance(observations, list) or len(observations) != 23:
-        errors.append("v16 market baseline must contain exactly 23 observations")
+    if not isinstance(observations, list) or len(observations) != 29:
+        errors.append("v17 market baseline must contain exactly 29 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -190,16 +202,23 @@ def validate_review_data(
         if str(item.get("evidenceStatus", "")).startswith("official_")
     ]
     official_countries = {item.get("countryIso2") for item in official}
-    if len(official) != 17 or official_countries != EXPECTED_OFFICIAL_COUNTRIES:
+    if len(official) != 20 or official_countries != EXPECTED_OFFICIAL_COUNTRIES:
         errors.append(
-            "v16 official numeric baseline must remain 17 observations across CA, DE, FI, PL and SE"
+            "v17 official numeric baseline must remain 20 observations across CA, DE, FI, NZ, PL and SE"
         )
     official_retail = [
         item for item in official
-        if item.get("metric") == "consumer_retail_market_value"
+        if item.get("metric") in {
+            "consumer_retail_market_value",
+            "official_specialist_retail_sales_lower_bound",
+        }
     ]
-    if official_retail:
-        errors.append("Official shipment, tax or volume observations must not be relabelled consumer-retail value")
+    if (
+        len(official_retail) != 1
+        or official_retail[0].get("observationId") != "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND"
+        or official_retail[0].get("comparableMarketValue") is not False
+    ):
+        errors.append("v17 must retain one official incomplete retail lower bound and no accepted retail donor")
 
     readiness = market.get("meta", {}).get("modelReadiness", {})
     declared_donors = readiness.get("comparableFullYearMarketValueDonors")
@@ -209,7 +228,29 @@ def validate_review_data(
         if item.get("comparableMarketValue") is True and item.get("period") == "calendar_year"
     ]
     if declared_donors != 0 or len(computed_donors) != 0 or required_donors != 3:
-        errors.append("Global-estimate donor gate must remain blocked at 0/3 for v16")
+        errors.append("Global-estimate donor gate must remain blocked at 0/3 for v17")
+    protocol = market.get("donorProtocol")
+    candidates = market.get("donorCandidates")
+    if (
+        not isinstance(protocol, dict)
+        or protocol.get("protocolVersion") != "1.0"
+        or not isinstance(protocol.get("criteria"), list)
+        or len(protocol["criteria"]) != 10
+    ):
+        errors.append("v17 donor protocol must expose version 1.0 and ten criteria")
+    if not isinstance(candidates, list) or len(candidates) != 4:
+        errors.append("v17 donor ledger must contain exactly four reviewed candidates")
+        candidates = []
+    if any(item.get("decision") != "not_accepted" for item in candidates):
+        errors.append("v17 donor candidates must all remain not accepted")
+    candidate_ids = {item.get("candidateId") for item in candidates}
+    if candidate_ids != {
+        "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
+        "EU-2023-COMMISSION-BENCHMARK",
+        "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+        "DE-2025-LIQUID-RETAIL-MODEL",
+    }:
+        errors.append("v17 donor ledger must retain the reviewed NZ, EU, Canada and Germany candidates")
 
     germany_models = [item for item in models if item.get("modelId") == GERMANY_MODEL_ID]
     if len(germany_models) != 1:
@@ -254,8 +295,8 @@ def validate_review_data(
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
             "latest_period": 9,
-            "previous_full_year": 2,
-            "historical_only": 1,
+            "previous_full_year": 3,
+            "historical_only": 5,
         }:
             errors.append(f"Unexpected deterministic freshness buckets: {freshness_counts}")
 
@@ -263,7 +304,7 @@ def validate_review_data(
     proceedings = patent.get("proceedings")
     alerts = patent.get("diligenceAlerts")
     if not isinstance(family_members, list) or len(family_members) != 22:
-        errors.append("v16 patent baseline must contain 22 family records")
+        errors.append("v17 patent baseline must contain 22 family records")
         family_members = []
     national = [
         item for item in family_members
@@ -272,11 +313,11 @@ def validate_review_data(
     if len(national) != 4:
         errors.append("Only four official_national_record rows may count as nationally verified")
     if not isinstance(proceedings, list) or len(proceedings) != 4:
-        errors.append("v16 patent baseline must contain four proceedings")
+        errors.append("v17 patent baseline must contain four proceedings")
     if patent.get("summary", {}).get("unresolvedProceedingCount") != 3:
-        errors.append("v16 patent baseline must retain three unresolved proceedings")
+        errors.append("v17 patent baseline must retain three unresolved proceedings")
     if not isinstance(alerts, list) or len(alerts) != 4:
-        errors.append("v16 patent baseline must contain four diligence alerts")
+        errors.append("v17 patent baseline must contain four diligence alerts")
 
     routes = requests.get("routes")
     if not isinstance(routes, list) or len(routes) != 20:
@@ -348,7 +389,20 @@ def validate_review_structure(
         errors.append(f"review.html contains duplicate element IDs: {duplicate_ids}")
     missing_ids = REQUIRED_REVIEW_IDS - ids
     if missing_ids:
-        errors.append(f"review.html lacks required v16 hooks: {sorted(missing_ids)}")
+        errors.append(f"review.html lacks required v17 hooks: {sorted(missing_ids)}")
+    required_index_ids = {
+        "market-donor-ledger",
+        "market-donor-protocol-version",
+        "market-donor-gate-rule",
+        "market-donor-rule",
+        "market-donor-summary",
+        "market-donor-candidates",
+        "market-donor-status",
+    }
+    index_ids = set(re.findall(r"""\bid=["']([^"']+)["']""", index_html))
+    missing_index_ids = required_index_ids - index_ids
+    if missing_index_ids:
+        errors.append(f"index.html lacks required v17 donor hooks: {sorted(missing_index_ids)}")
 
     body_match = re.search(r"<body\b[^>]*>", review_html, flags=re.IGNORECASE)
     body_tag = body_match.group(0) if body_match else ""
@@ -369,10 +423,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-23-16") < 7:
-        errors.append("review.html asset cache-busters must all use the v16 release")
-    if index_html.count("2026-07-23-16") < 4:
-        errors.append("index.html asset cache-busters must all use the v16 release")
+    if review_html.count("2026-07-24-17") < 7:
+        errors.append("review.html asset cache-busters must all use the v17 release")
+    if index_html.count("2026-07-24-17") < 4:
+        errors.append("index.html asset cache-busters must all use the v17 release")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -387,11 +441,19 @@ def validate_review_structure(
         errors.append("Decision Cockpit must compute official consumer-retail evidence from the canonical metric")
     if "model.formula" not in review_js or "arithmeticPass" not in review_js:
         errors.append("Calculation audit must reconcile the canonical formula and outputs")
+    for required_market_hook in (
+        "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM",
+        "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK",
+        "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
+        "source/EU_2023_E_CIGARETTE_BENCHMARK_RECONCILIATION.md",
+    ):
+        if required_market_hook not in review_js:
+            errors.append(f"review.js lacks required v17 reconciliation hook {required_market_hook}")
 
     lowered_public = f"{review_html}\n{index_html}\n{review_js}".lower()
     for forbidden_claim in ("fresh today", "current worldwide patent", "official global retail value"):
         if forbidden_claim in lowered_public:
-            errors.append(f"Unsupported v16 public claim found: {forbidden_claim!r}")
+            errors.append(f"Unsupported v17 public claim found: {forbidden_claim!r}")
     named_investor_pattern = re.compile(
         r"\b\x62\x6c\x61\x63\x6b\s*\x72\x6f\x63\x6b\b",
         flags=re.IGNORECASE,
@@ -438,8 +500,8 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v16 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
-        "waterfall, deterministic 12-source ledger, separated operations view and required UI hooks."
+        "Validated v17 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "waterfall, deterministic 17-source ledger, separated operations view and required UI hooks."
     )
 
 

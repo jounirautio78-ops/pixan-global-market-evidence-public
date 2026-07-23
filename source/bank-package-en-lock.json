@@ -1,41 +1,41 @@
 {
   "schemaVersion": 1,
   "release": {
-    "id": "2026-07-23-decision-cockpit-audit-trail-v16",
-    "version": "2026.07.23-16",
-    "publishedAt": "2026-07-23T22:01:19+03:00"
+    "id": "2026-07-24-donor-market-sprint-v17",
+    "version": "2026.07.24-17",
+    "publishedAt": "2026-07-24T01:12:32+03:00"
   },
-  "asOf": "2026-07-22",
+  "asOf": "2026-07-24",
   "translationInputs": [
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "494b217097563247044de2be3e43816e756f94f276bd69826a657f8f468ea246"
+      "sha256": "71a6f9fe04eaa96c07cf105401b473742e65bb368f13fbf842ab6aa4228f88fc"
     },
     {
       "path": "source/bank-deck-en-translations.json",
-      "sha256": "e7bab7fb36659186278ef8728449128b897482c5561475343a42d5cfbccc380d"
+      "sha256": "a840b5098e0df7aee9b45e3697824a7640cb000d275047a3a3cdbb3e1043ae2f"
     }
   ],
   "sourceArtifacts": [
     {
       "id": "short-deck-fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "cf92f924f8636b4c2e84de130e8e96cb29bfc1f7fcbc61741aaa472f2f0277ac"
+      "sha256": "dcfdcc1bfc3055e940bae7d6521d1aafe12125573c295e4bb6dddd040f25cd1e"
     },
     {
       "id": "medium-deck-fi",
       "path": "site/downloads/pixan-bank-deck-medium-fi.pptx",
-      "sha256": "84fd0c4765f8cb4b5d985e3f4a33f4d60d727621a57dc86be96328b5cac44f3e"
+      "sha256": "381ad617af73d5a8be80c354aa8c7c1272b10a4a9d623585bd57cdcc187879cf"
     },
     {
       "id": "large-deck-fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "858bd3f09d42ca2ccc454e8b0ac93ae874759d56e790e111324ce65f2f652609"
+      "sha256": "3796e464a205ac13f1d1636081c0be4de6e339fce9adaac604d313308283a666"
     },
     {
       "id": "evidence-register-fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "a1bf5b5014e5d0ed22d985b78452c39123c597a8c9db3269e370399bb5fd6b63"
+      "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
     }
   ],
   "artifacts": [
@@ -43,33 +43,33 @@
       "id": "short-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "ff07df15e3e857533b9e7110129f56fe610299639b56a542e07a388202d0732c",
-      "bytes": 50627,
+      "sha256": "04799215ef72cf1b2d6eba434ee56497dcf26c7351adb5660914ebe76571f53f",
+      "bytes": 50881,
       "slideCount": 6
     },
     {
       "id": "medium-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-medium-en.pptx",
-      "sha256": "92a191d21cfc69a293342fcfbb60bc64a8eb546d4d0529fcc27dbb33cbb7c918",
-      "bytes": 73278,
+      "sha256": "d0ab5f1f61fcc9d5a4221f2ce062df5227ccce8f29c0c4ef9000db4cb25bf946",
+      "bytes": 73494,
       "slideCount": 12
     },
     {
       "id": "large-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "e518aa7fde0967f169fd61cb8b9b665d3d8b5e387710dc5b6af0a36a8ca8a03e",
-      "bytes": 139874,
+      "sha256": "90c6a77486256f18c80bfb9929ba16390a3d446ff7d9c2f3b4fcbea207c317cb",
+      "bytes": 140461,
       "slideCount": 30
     },
     {
       "id": "evidence-register-en",
       "kind": "xlsx",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "317141d886dbfc7ebaeeb9ba5f6bfdcf2df1efb2e453c64fd2e838a594074ce6",
-      "bytes": 23735,
-      "rowCount": 45
+      "sha256": "53fc7e999277ff16aa0a6e10bb85493c9f11d97351e95c1420d3da2b6605933e",
+      "bytes": 25965,
+      "rowCount": 49
     }
   ],
   "generatedBy": {
@@ -78,15 +78,15 @@
     "sourceLocked": true,
     "byteReproducible": false,
     "byteReproducibilityNote": "The release locks reviewed output bytes and all inputs. The artifact-tool exporter does not guarantee identical OOXML relationship identifiers across rebuilds.",
-    "executionNote": "The reviewed builders were rerun against the v16 Finnish source artifacts. Their source-hash sentinels and all visible version metadata were advanced to the locked v16 release; content remained bound to the reviewed public inputs.",
+    "executionNote": "The reviewed builders were rerun against the v17 Finnish source artifacts. The English package now includes the 29-file New Zealand reconciliation, repeated-row sensitivities, the sharpened Euromonitor source boundary, four rejected donor candidates and the unchanged 0/3 gate.",
     "builders": [
       {
         "name": "build_bank_decks_en.mjs",
-        "sha256": "aaf42f82fbd07c81afae8859c5d94ac6f1cfbde38538937e41862c2cb7bc4262"
+        "sha256": "4052293ac34bd3d1a5f2ffa5690420ac73fa69f38eeb0d4a9fb6fc6287f3548e"
       },
       {
         "name": "build_evidence_register_en.mjs",
-        "sha256": "2407589a309af1f77ada09d0682a9e38c88deda042af7090fe383d9a3590f5b0"
+        "sha256": "2d9490902f88c2f0cf29c4882f4b7631d198a8f8805afbc3f505ec9743e69241"
       }
     ],
     "qualityAssurance": {
