@@ -46,6 +46,10 @@ CSV_FIELDS = [
     "decisionFi",
     "conditionsEn",
     "conditionsFi",
+    "outreachState",
+    "outreachOn",
+    "outreachNoteEn",
+    "outreachNoteFi",
     "alternativeGroup",
     "sourceUrls",
     "verifiedOn",
@@ -70,6 +74,10 @@ def score_item(item: dict[str, Any], weights: list[dict[str, Any]]) -> float:
 def normalised(source: dict[str, Any]) -> dict[str, Any]:
     result = copy.deepcopy(source)
     result["items"] = sorted(result["items"], key=lambda item: item["rank"])
+    item_ranks = {item["itemId"]: item["rank"] for item in result["items"]}
+    result["outreach"] = sorted(
+        result["outreach"], key=lambda item: item_ranks[item["itemId"]]
+    )
     for item in result["items"]:
         item["weightedScore"] = score_item(item, result["weights"])
     return result
@@ -83,10 +91,14 @@ def render_json(source: dict[str, Any]) -> bytes:
 
 def render_csv(source: dict[str, Any]) -> bytes:
     programme = normalised(source)
+    outreach_by_item = {
+        outreach["itemId"]: outreach for outreach in programme["outreach"]
+    }
     buffer = io.StringIO(newline="")
     writer = csv.DictWriter(buffer, fieldnames=CSV_FIELDS, lineterminator="\n")
     writer.writeheader()
     for item in programme["items"]:
+        outreach = outreach_by_item.get(item["itemId"])
         writer.writerow(
             {
                 "rank": item["rank"],
@@ -108,6 +120,10 @@ def render_csv(source: dict[str, Any]) -> bytes:
                 "decisionFi": item["decisionFi"],
                 "conditionsEn": item["conditionsEn"],
                 "conditionsFi": item["conditionsFi"],
+                "outreachState": outreach["state"] if outreach else "not_started",
+                "outreachOn": outreach["recordedOn"] if outreach else "",
+                "outreachNoteEn": outreach["noteEn"] if outreach else "",
+                "outreachNoteFi": outreach["noteFi"] if outreach else "",
                 "alternativeGroup": item["alternativeGroup"] or "",
                 "sourceUrls": " | ".join(item["sourceUrls"]),
                 "verifiedOn": item["verifiedOn"],

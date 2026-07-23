@@ -45,6 +45,12 @@
       publicAuthorityReference: null,
       responseState: "not_publicly_recorded"
     },
+    CA: {
+      state: "sent",
+      sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
     GB: {
       state: "sent",
       sentOn: "2026-07-16",
@@ -296,8 +302,8 @@
       || Object.keys(OFFICIAL_HOSTS).some((iso) => !countries.has(iso))) {
       throw new Error("country set differs from the official-domain allowlist");
     }
-    if (sentCountries.size !== 10 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
-      throw new Error("sent country set differs from the approved 10-country public record");
+    if (sentCountries.size !== 11 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
+      throw new Error("sent country set differs from the approved 11-country public record");
     }
     return raw;
   }

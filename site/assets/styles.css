@@ -826,6 +826,26 @@ input::placeholder { color: #667c87; }
 .paid-data-table td:nth-child(5) { min-width: 120px; text-align: center; }
 .paid-data-table td:nth-child(6) { min-width: 145px; }
 .paid-data-priority > strong { margin-top: .45rem !important; }
+.paid-data-outreach {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: .55rem;
+  padding: .22rem .42rem;
+  border: 1px solid rgba(81, 216, 190, .38);
+  border-radius: 999px;
+  background: rgba(81, 216, 190, .08);
+  color: var(--teal);
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+.paid-data-outreach-blocked_not_submitted {
+  border-color: rgba(238, 174, 72, .42);
+  background: rgba(238, 174, 72, .08);
+  color: var(--amber);
+}
+.paid-data-outreach-date { margin-top: .2rem !important; font-family: var(--font-mono); }
 .paid-data-price { color: var(--teal) !important; font-family: var(--font-mono); }
 .paid-data-score strong { color: var(--amber) !important; font-family: var(--font-mono); font-size: 1rem; }
 

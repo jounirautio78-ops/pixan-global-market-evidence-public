@@ -447,6 +447,36 @@
       "weightedScore": 2.3
     }
   ],
+  "outreach": [
+    {
+      "itemId": "ecig-global-market-database",
+      "noteEn": "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
+      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+      "recordedOn": "2026-07-23",
+      "state": "sent"
+    },
+    {
+      "itemId": "euromonitor-passport-nicotine",
+      "noteEn": "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
+      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+      "recordedOn": "2026-07-23",
+      "state": "sent"
+    },
+    {
+      "itemId": "niq-rms-pilot",
+      "noteEn": "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
+      "noteFi": "Ei lähetetty: käytettävissä oleva lomake edellyttää käyttöehtojen hyväksymistä. Ehtoja ei hyväksytty.",
+      "recordedOn": "2026-07-23",
+      "state": "blocked_not_submitted"
+    },
+    {
+      "itemId": "circana-us-tobacco-pilot",
+      "noteEn": "The official form accepted a free sample and non-binding quote request. Response pending; no purchase or other commitment.",
+      "noteFi": "Virallinen lomake vastaanotti maksuttoman näyte- ja ei-sitovan tarjouspyynnön. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+      "recordedOn": "2026-07-23",
+      "state": "submitted_confirmation_received"
+    }
+  ],
   "packageOptions": [
     {
       "contentsEn": "ECigIntelligence Global Market Database only, if the sample, method and transaction-use licence pass.",
@@ -513,7 +543,7 @@
       "id": "licence_block"
     }
   ],
-  "version": "2026.07.23-1",
+  "version": "2026.07.23-2",
   "weights": [
     {
       "id": "annualSalesFit",

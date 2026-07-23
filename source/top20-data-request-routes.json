@@ -114,12 +114,12 @@
       "countryIso2": "CA",
       "countryEn": "Canada",
       "countryFi": "Kanada",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "Health Canada already publishes one of the strongest official manufacturer/importer shipment series, making it an immediate anchor and request-design benchmark.",
       "rationaleFi": "Health Canada julkaisee jo yhden vahvimmista virallisista valmistaja- ja maahantuojatoimitusten sarjoista, joten se toimii välittömänä ankkurina ja pyyntömallin vertailukohtana.",
