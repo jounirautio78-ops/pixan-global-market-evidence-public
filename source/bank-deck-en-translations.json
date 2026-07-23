@@ -584,8 +584,8 @@
       "targetPattern": "Updated 2026-07-22\\n$1 slides · English"
     },
     "versionMeta": {
-      "sourcePattern": "^Versio 2026\\.07\\.22-9 · 2026-07-22 · (\\d+) / (\\d+)$",
-      "targetPattern": "Version 2026.07.22-9 · 2026-07-22 · $1 / $2"
+      "sourcePattern": "^Versio 2026\\.07\\.23-10 · 2026-07-22 · (\\d+) / (\\d+)$",
+      "targetPattern": "Version 2026.07.23-10 · 2026-07-22 · $1 / $2"
     },
     "footer": {
       "sourcePrefix": "Julkinen riippumaton evidenssikooste ·",

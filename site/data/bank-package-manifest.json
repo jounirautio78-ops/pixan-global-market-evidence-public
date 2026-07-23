@@ -2,9 +2,9 @@
   "schemaVersion": 2,
   "generatedFromPublicDataOnly": true,
   "release": {
-    "id": "2026-07-22-first-authority-requests-v9",
-    "version": "2026.07.22-9",
-    "publishedAt": "2026-07-22T23:18:00+03:00"
+    "id": "2026-07-23-public-bankability-gates-v10",
+    "version": "2026.07.23-10",
+    "publishedAt": "2026-07-23T11:20:00+03:00"
   },
   "asOf": "2026-07-22",
   "languages": [
@@ -30,7 +30,7 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "23900283e4015d8afeba30b35cca81dab164c05c72e82e4833ac4e3424c98771"
+      "sha256": "2569905d56c4075321626253b5a5476bcca1f037a8e593e839db43a49d13b52d"
     },
     {
       "path": "source/bank-evidence-register-en.json",
@@ -38,11 +38,11 @@
     },
     {
       "path": "source/bank-deck-en-translations.json",
-      "sha256": "06be935c0febd57b080d0e6394676069ee023af62ac896ee0184ffe074bcfdc7"
+      "sha256": "cbfddbccb469221301f9ca26127c1d2d8763dca3087db9f3f87ed2de5972e76a"
     },
     {
       "path": "source/bank-package-en-lock.json",
-      "sha256": "128a74811884408712c7784251120f9b15bd2b7b89f093551f7f7731b81348ad"
+      "sha256": "c49048a66c01ba0fd3d276a8c829a829682c4c00dab0e8f31e15430d6480dd1a"
     }
   ],
   "artifacts": [
@@ -54,8 +54,8 @@
       "titleEn": "Concise bank deck (English)",
       "fileName": "pixan-bank-deck-short-en.pptx",
       "path": "downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "63cbb7653278951687e5a8a6d07e1f6b6004efdd8f15ac03b66c8bb8c53dff75",
-      "bytes": 50580,
+      "sha256": "1c68ff71edaba1d32fba8d31986d25758aaada515f8f8b5b9362822006ae3ac0",
+      "bytes": 50596,
       "slideCount": 6
     },
     {
@@ -66,8 +66,8 @@
       "titleEn": "Core bank deck (English)",
       "fileName": "pixan-bank-deck-medium-en.pptx",
       "path": "downloads/pixan-bank-deck-medium-en.pptx",
-      "sha256": "7fe2f4419987050278e89bbc819636004977bb3c62b26a7a645f91fee74856e4",
-      "bytes": 73135,
+      "sha256": "6bf8bc5a4d3bb665aa58616b8d4976bc07fe19853f48abd26a4674327c29b08c",
+      "bytes": 73162,
       "slideCount": 12
     },
     {
@@ -78,8 +78,8 @@
       "titleEn": "Extended bank deck (English)",
       "fileName": "pixan-bank-deck-large-en.pptx",
       "path": "downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "8dc1175fce39f72e0569a43dfbaa0cdf6f00c418353be55b2d54b4bfb056cc37",
-      "bytes": 139847,
+      "sha256": "ddb76090b72fda64bfe0ad7cfb537ecf3c62372d62b97213c6ece1bf37969083",
+      "bytes": 139865,
       "slideCount": 30
     },
     {
@@ -90,8 +90,8 @@
       "titleEn": "Evidence Register (English)",
       "fileName": "pixan-bank-evidence-register-en.xlsx",
       "path": "downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "e62a55d5006436a6d42eaaf1ba7c057355a00287bdc069134ecd7df46c91b449",
-      "bytes": 23733,
+      "sha256": "6a53ffc45a2a1cfe2e35f0039b0113c26f4c4ecff4fbe7558cbba6c9a459b5d1",
+      "bytes": 23734,
       "rowCount": 45
     },
     {
@@ -102,8 +102,8 @@
       "titleEn": "Concise bank deck (Finnish)",
       "fileName": "pixan-bank-deck-short-fi.pptx",
       "path": "downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "3c9d618b40272ae0b6800ca23533a0c888cf331ec1d39539a06fd63f08befd63",
-      "bytes": 161036,
+      "sha256": "e7d7c8455a66cc1f3c02c0f28fed5234404ec4fb6b7b1b1b2dcb1dd020f858cf",
+      "bytes": 161042,
       "slideCount": 6
     },
     {
@@ -114,8 +114,8 @@
       "titleEn": "Core bank deck (Finnish)",
       "fileName": "pixan-bank-deck-medium-fi.pptx",
       "path": "downloads/pixan-bank-deck-medium-fi.pptx",
-      "sha256": "10180130a83a08df7001272590858b5f0169de60d07b33cda8a1cb16b6d7847b",
-      "bytes": 234546,
+      "sha256": "c888a327e8274b11b1e73c4f090d8b34e39ca319becfed5a9aabbd4f0141b0ea",
+      "bytes": 234558,
       "slideCount": 12
     },
     {
@@ -126,8 +126,8 @@
       "titleEn": "Extended bank deck (Finnish)",
       "fileName": "pixan-bank-deck-large-fi.pptx",
       "path": "downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "7edc81980258f05da09db6657bf42ab7cee1980860c1f163d39f4c1c48a53677",
-      "bytes": 467466,
+      "sha256": "b672e39c4cb1251f2d15664566bdc1e7b67ad760b906c8aa01cdc92f0ef20394",
+      "bytes": 467496,
       "slideCount": 30
     },
     {
@@ -138,8 +138,8 @@
       "titleEn": "Evidence Register (Finnish)",
       "fileName": "pixan-bank-evidence-register-fi.xlsx",
       "path": "downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "012504aa004fa8f2672afb8bf01d14453df93fba51bb69001758f58e992d82ca",
-      "bytes": 103395,
+      "sha256": "ac55d0429ab0746df23497c9268e12ea2d314d267948b497045b30bf3666d983",
+      "bytes": 103396,
       "rowCount": 45
     }
   ]

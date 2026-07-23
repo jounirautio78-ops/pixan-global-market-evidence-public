@@ -828,6 +828,147 @@ input::placeholder { color: #667c87; }
 .request-program-source-links a { color: var(--text-soft); font-size: .62rem; overflow-wrap: anywhere; }
 .request-program-link { margin-top: auto; }
 
+.bankability-section { scroll-margin-top: 132px; }
+.bankability-boundary {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  padding: .82rem 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: .85rem;
+  border: 1px solid rgba(242, 198, 109, .28);
+  border-radius: var(--radius-small);
+  background: linear-gradient(125deg, rgba(242, 198, 109, .08), rgba(13, 28, 41, .9) 45%);
+}
+.bankability-boundary::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 180px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(242, 198, 109, .035));
+}
+.bankability-boundary-mark {
+  padding: .34rem .48rem;
+  border: 1px solid rgba(242, 198, 109, .4);
+  border-radius: 7px;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+.bankability-boundary strong { color: var(--amber); font-size: .74rem; }
+.bankability-boundary p { max-width: 1020px; margin: .2rem 0 0; color: var(--text-soft); font-size: .71rem; }
+.transaction-path-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+.transaction-path-card {
+  min-width: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--amber);
+  border-radius: var(--radius-small);
+  background: linear-gradient(145deg, rgba(13, 28, 41, .96), rgba(8, 21, 31, .94));
+}
+.transaction-path-card:nth-child(2) { border-top-color: var(--blue); }
+.transaction-path-card:nth-child(3) { border-top-color: var(--teal); }
+.transaction-path-head { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
+.transaction-path-code { color: rgba(242, 247, 248, .2); font-family: var(--font-mono); font-size: 1.6rem; font-weight: 900; line-height: 1; }
+.transaction-path-status {
+  padding: .26rem .5rem;
+  border: 1px solid rgba(242, 198, 109, .44);
+  border-radius: 999px;
+  color: var(--amber);
+  background: rgba(242, 198, 109, .07);
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+.transaction-path-card h3 { margin: .75rem 0 .4rem; font-size: 1.08rem; }
+.transaction-path-purpose { min-height: 3.9rem; margin: 0 0 .8rem; color: var(--text-soft); font-size: .74rem; }
+.transaction-path-gate-label { color: var(--muted); font-size: .58rem; letter-spacing: .07em; text-transform: uppercase; }
+.transaction-path-gates { margin: .55rem 0 .9rem; padding: 0; display: grid; gap: .48rem; list-style: none; }
+.transaction-path-gates li { position: relative; padding-left: 1rem; color: var(--text-soft); font-size: .69rem; line-height: 1.45; }
+.transaction-path-gates li::before { content: "◇"; position: absolute; left: 0; color: var(--amber); font-weight: 900; }
+.transaction-path-foot { margin: auto 0 0; padding-top: .72rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .61rem; }
+.bankability-matrix-heading { margin-top: 3.2rem; }
+.bankability-matrix-status {
+  margin-bottom: .75rem;
+  padding: .62rem .75rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: rgba(255,255,255,.018);
+  font-size: .67rem;
+}
+.bankability-matrix-status[data-state="ready"] { border-color: rgba(116, 214, 154, .28); color: var(--green); }
+.bankability-matrix-status[data-state="caution"] { border-color: rgba(242, 198, 109, .34); color: var(--amber); }
+.bankability-matrix-status[data-state="error"] { border-color: rgba(239, 129, 120, .38); color: var(--red); }
+.bankability-matrix-wrap { border-radius: var(--radius-small); }
+.bankability-matrix { min-width: 1480px; width: 100%; border-collapse: collapse; }
+.bankability-matrix caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.bankability-matrix th {
+  padding: .72rem;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--muted);
+  background: rgba(7, 18, 27, .98);
+  font-size: .59rem;
+  letter-spacing: .055em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.bankability-matrix td {
+  min-width: 180px;
+  padding: .78rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-soft);
+  font-size: .68rem;
+  line-height: 1.45;
+  vertical-align: top;
+}
+.bankability-matrix tbody tr:nth-child(even) { background: rgba(255,255,255,.012); }
+.bankability-matrix tbody tr:hover { background: rgba(68, 212, 189, .025); }
+.bankability-matrix td:first-child { min-width: 135px; }
+.bankability-matrix td:nth-child(2) { min-width: 215px; }
+.bankability-matrix td:nth-child(6) { min-width: 300px; }
+.bankability-matrix td > strong { display: block; margin: .35rem 0 .25rem; color: var(--text); }
+.bankability-matrix td > p { margin: .3rem 0; color: var(--text-soft); }
+.bankability-matrix td > small { display: block; color: var(--muted); font-size: .6rem; line-height: 1.4; }
+.bankability-matrix td > code { display: block; margin-top: .35rem; color: var(--amber); font-size: .58rem; overflow-wrap: anywhere; }
+.bankability-country-cell strong { font-size: .83rem; }
+.bankability-country-cell code { color: var(--teal) !important; }
+.bankability-rank { display: block; color: var(--teal); font-family: var(--font-mono); font-size: .58rem; font-weight: 900; letter-spacing: .04em; }
+.bankability-market-head { display: flex; align-items: center; gap: .55rem; }
+.bankability-market-head strong { color: var(--text); font-family: var(--font-mono); font-size: .78rem; }
+.bankability-dimension-chips { margin-top: .55rem; display: flex; flex-wrap: wrap; gap: .3rem; }
+.bankability-dimension-chip {
+  padding: .24rem .36rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .28rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .54rem;
+  white-space: nowrap;
+}
+.bankability-dimension-chip i { width: 5px; height: 5px; display: block; border-radius: 50%; background: var(--muted); }
+.bankability-dimension-verified { border-color: rgba(116, 214, 154, .25); color: var(--green); }
+.bankability-dimension-verified i { background: var(--green); }
+.bankability-dimension-partial { border-color: rgba(242, 198, 109, .28); color: var(--amber); }
+.bankability-dimension-partial i { background: var(--amber); }
+.bankability-request-cell .request-program-status { display: inline-flex; }
+.bankability-right-cell small { margin-top: .4rem; }
+.bankability-claim-cell strong { color: var(--amber) !important; }
+.bankability-next-gate p { margin-bottom: .5rem !important; }
+.bankability-next-gate p strong { color: var(--teal); }
+.bankability-matrix-note { margin: .72rem 0 0; color: var(--muted); font-size: .63rem; }
+
 .market-summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
 .market-layout { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(280px, .8fr); gap: 1rem; margin-bottom: 1rem; }
 .market-status-chip { display: inline-flex; align-items: center; width: max-content; padding: .35rem .55rem; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--muted); font-size: .68rem; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
@@ -1074,6 +1215,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width: 980px) {
   .bank-package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .request-program-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .transaction-path-grid { grid-template-columns: 1fr; }
+  .transaction-path-purpose { min-height: 0; }
   .patent-overview-grid, .patent-strategy-grid { grid-template-columns: 1fr; }
   .patent-routes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .patent-sequence { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1152,6 +1295,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .bank-package-release > div:first-child { border-top: 0; }
   .bank-package-release dd { margin-top: 0; text-align: right; }
   .bank-package-boundary { grid-template-columns: 1fr; align-items: start; }
+  .bankability-boundary { grid-template-columns: 1fr; align-items: start; }
   .patent-identifiers { grid-template-columns: 1fr; }
   .patent-identifiers dt { padding-bottom: .1rem; border-bottom: 0; }
   .patent-identifiers dd { padding-top: .1rem; }

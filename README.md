@@ -8,6 +8,14 @@ The site has two public entry points: the full evidence atlas in `site/index.htm
 
 The returning-visitor section compares the current release ID and version in `site/data/changelog.json` with the last release explicitly marked as seen in that browser. The value stays in device-local storage only: it is not sent to the repository or an analytics service and does not identify the visitor.
 
+The changelog's top-level `asOf` is the reviewed evidence date shared with the atlas, market and patent datasets. A release's `publishedAt` is the later publication timestamp for site or presentation changes and may therefore be later than `asOf`; the two dates must not be presented as the same concept.
+
+## Public bankability gates
+
+The shareable review page includes a public-safe [bankability section](site/review.html#bankability) with three analytical transaction paths: share-backed financing, IP-backed corporate financing, and strategic sale or licensing. Every path is visibly marked **HOLD**. The cards describe only the evidence gates that a controlled private professional review would need to close; they do not report private diligence outcomes, active negotiations, financing availability, buyer or lender interest, transaction authority, terms, value, or a recommendation.
+
+The same section builds a Top 10 market/right matrix in the browser from the already reviewed `site/data/atlas.json`, `site/data/patent-history.json` and `site/data/top20-data-request-routes.json`. It keeps evidence-readiness grades, official market-measure routes, request status, family publications, current national status, product claim charts and enforcement evidence in separate fields. A family publication is never presented as current national status, a missing family row is not evidence that no right exists, and German court records retain their product, territory, procedure and finality limits. The matrix cannot send or approve a data request.
+
 ## Downloadable bank-research package
 
 The full atlas and lender/buyer review page expose eight release-locked downloads: English and Finnish versions of a 6-slide brief, the requested 12-slide lender deck, an extended 30-slide diligence deck and an Evidence Register workbook. `scripts/build_bank_package.py` regenerates the Finnish files from the reviewed public outputs under `site/data/` and fail-closes if the reviewed English derivatives no longer match the same release, Finnish source-artifact hashes and checked-in translation inputs. No private workspace file is an input. `site/data/bank-package-manifest.json` records the release, source date, language, input and artifact SHA-256 digests, file sizes and slide or row counts. Before displaying a download link, the browser fetches the file and verifies both its exact byte length and full SHA-256 digest against that manifest.

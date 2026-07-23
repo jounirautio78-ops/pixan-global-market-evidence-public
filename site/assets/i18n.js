@@ -192,6 +192,7 @@
     ["Avaa 195 maan atlas", "Open the 195-country atlas"],
     ["Lataa maat CSV", "Download country CSV"],
     ["Lataa evidenssi CSV", "Download evidence CSV"],
+    ["Avaa rahoituskelpoisuusportit", "Open bankability gates"],
     ["Tulosta / tallenna PDF", "Print / save as PDF"],
     ["Tärkeä rajaus", "Important disclosure"],
     ["Riippumattoman tutkimuksen raja", "Independent research boundary"],
@@ -410,7 +411,26 @@
     ["Avaa suunniteltu virallinen kanava", "Open planned official channel"],
     ["Pyyntökelpoisuus", "Requester eligibility"],
     ["Tarkistettu", "Verified"],
-    ["Virallisia reittejä ei voitu ladata.", "Official request routes could not be loaded."]
+    ["Virallisia reittejä ei voitu ladata.", "Official request routes could not be loaded."],
+    ["Julkinen rahoituskelpoisuussprintti · päätösportit, ei transaktionäyttö", "Public bankability sprint · decision gates, not transaction evidence"],
+    ["Kolme transaktiopolkua säilyy HOLD-tilassa", "Three transaction paths remain on HOLD"],
+    ["Julkinen aineisto voi jäsentää tarkastuskysymyksiä, mutta se ei osoita rahoitustapausta, vakuusarvoa, transaktioehtoja tai ostajakiinnostusta.", "The public dataset can structure diligence questions, but it cannot establish a financing case, collateral value, transaction terms or buyer interest."],
+    ["Julkisen transaktiopolun rajaus", "Public transaction-path boundary"],
+    ["JULKINEN PORTTI", "PUBLIC GATE"],
+    ["Vain analyyttiset reitit — aktiivista prosessia ei väitetä", "Analytical routes only — no active process is stated"],
+    ["Nämä polut eivät osoita tarjousta, rahoitussitoumusta, myyntimandaattia, lisensointikampanjaa, neuvottelua tai kolmannen osapuolen kiinnostusta. Yksityinen näyttö voi muuttaa porttia vasta hallitun ammatillisen tarkastuksen jälkeen.", "These paths do not indicate an offer, financing commitment, sale mandate, licensing campaign, negotiation or third-party interest. Private evidence may change a gate only after controlled professional review."],
+    ["Top 10 evidenssihankinnan prioriteetit", "Top 10 evidence-acquisition priorities"],
+    ["Markkinaevidenssi ja kansallisen oikeuden tila rinnakkain", "Market evidence and national-right status side by side"],
+    ["Taulukko yhdistää nykyisen operatiivisen pyyntöjärjestyksen, maa-atlaksen, patenttiperheinventaarion ja prosessitiedot. Se ei muuta perhejulkaisua nykyiseksi kansalliseksi oikeudeksi.", "The table joins the existing operational request ranking, country atlas, patent-family inventory and proceeding records. It does not turn a family publication into current national status."],
+    ["Tarkistetaan yhdistettyä julkista evidenssiä…", "Checking the joined public evidence…"],
+    ["Top 10 operatiivista evidenssihankinnan reittiä yhdistettynä nykyiseen julkiseen markkina- ja patenttistatusevidenssiin", "Top 10 operational evidence-acquisition routes joined to current public market and patent-status evidence"],
+    ["Prioriteetti / maa", "Priority / country"],
+    ["Markkinaevidenssi", "Market evidence"],
+    ["Pyynnön tila", "Request status"],
+    ["Kansallisen oikeuden evidenssi", "National-right evidence"],
+    ["Vaatimus- / täytäntöönpanoevidenssi", "Claim / enforcement evidence"],
+    ["Seuraava evidenssiportti", "Next evidence gate"],
+    ["A–D-luokat ja peittoprosentit kuvaavat evidenssivalmiutta, eivät markkinakokoa tai markkinaosuutta. ”Ei vahvistettu” tarkoittaa puutetta tässä tarkistetussa julkisessa aineistossa — ei näyttöä siitä, ettei oikeutta tai markkinaa ole.", "A–D grades and coverage percentages describe evidence readiness, not market size or market share. “Not established” means missing from this reviewed public dataset—not proof that no right or market exists."]
   ];
 
   const pairByText = new Map();
