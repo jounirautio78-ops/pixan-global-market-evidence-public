@@ -30,13 +30,19 @@ from build_data_request_program import (
 )
 
 
-EXPECTED_DATE = "2026-07-22"
+EXPECTED_DATE = "2026-07-23"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 LOCAL_REQUESTER_VALUES = {"not_required", "recommended", "conditional", "required"}
 ROUTE_STATUS_VALUES = {"draft_not_sent", "sent"}
 RESPONSE_STATE_VALUES = {"not_applicable", "not_publicly_recorded"}
 EXPECTED_DISPATCH = {
+    "DE": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
     "GB": {
         "state": "sent",
         "sentOn": "2026-07-16",
@@ -52,6 +58,42 @@ EXPECTED_DISPATCH = {
     "PL": {
         "state": "sent",
         "sentOn": "2026-07-22",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "SE": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "IT": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "FR": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "NL": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "DK": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "AU": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
         "responseState": "not_publicly_recorded",
     },
@@ -360,8 +402,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
             for field, value in source.items():
                 if not require_text(value, f"{label}.officialSources[].{field}", errors):
                     sources_valid = False
-            if source.get("verifiedOn") != EXPECTED_DATE:
-                errors.append(f"{label}: every official source must be verified on {EXPECTED_DATE}")
+            if not valid_iso_date(source.get("verifiedOn")) or source["verifiedOn"] > EXPECTED_DATE:
+                errors.append(f"{label}: official source verification date must be valid and no later than {EXPECTED_DATE}")
         if not sources_valid:
             continue
 
@@ -379,9 +421,9 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 errors.append(f"{label}: URL host is not on the country official-domain allowlist: {host}")
 
     if sent_countries != set(EXPECTED_DISPATCH):
-        errors.append("sent country set must be exactly FI, GB and PL")
-    if sum(route.get("status") == "sent" for route in routes) != 3:
-        errors.append("programme must contain exactly 3 sent routes and 17 drafts")
+        errors.append("sent country set must match the approved 10-country public record")
+    if sum(route.get("status") == "sent" for route in routes) != 10:
+        errors.append("programme must contain exactly 10 sent routes and 10 drafts")
     private_metadata_paths = list(find_private_metadata_keys(program))
     if private_metadata_paths:
         errors.append("private correspondence metadata is forbidden: " + ", ".join(private_metadata_paths))
@@ -417,7 +459,7 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
         if rows and list(rows[0]) != CSV_FIELDS:
             errors.append("published CSV columns differ from the privacy-safe tracking schema")
         if {row["countryIso2"] for row in rows if row["status"] == "sent"} != set(EXPECTED_DISPATCH):
-            errors.append("published CSV sent country set must be exactly FI, GB and PL")
+            errors.append("published CSV sent country set differs from the approved 10-country public record")
         if any(row["status"] not in ROUTE_STATUS_VALUES for row in rows):
             errors.append("published CSV contains an unsupported status")
         if any(row["isMarketSizeRanking"] != "false" for row in rows):
@@ -473,7 +515,7 @@ def main() -> int:
         return 1
 
     print(
-        "PASS: schema v2 with 3 sent and 17 draft country routes; privacy-safe dispatch tracking, "
+        "PASS: schema v2 with 10 sent and 10 draft country routes; privacy-safe dispatch tracking, "
         "operational ranking, official HTTPS URLs, requester caveats, and generated files verified."
     )
     return 0

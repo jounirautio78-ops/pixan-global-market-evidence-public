@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "programmeId": "pixan-independent-top20-official-data-request-programme-v2",
-  "verificationDate": "2026-07-22",
+  "verificationDate": "2026-07-23",
   "status": "partially_dispatched",
   "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records only whether a country route was sent, its calendar date and any public authority reference; it does not identify a sender or recipient or establish delivery, acknowledgement, routing or response.",
   "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo vain, onko maareitti lähetetty, kalenteripäivän ja mahdollisen julkisen viranomaisviitteen; se ei yksilöi lähettäjää tai vastaanottajaa eikä osoita toimitusta, vastaanottokuittausta, reititystä tai vastausta.",
@@ -55,12 +55,12 @@
       "countryIso2": "DE",
       "countryEn": "Germany",
       "countryFi": "Saksa",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "Existing official taxed-volume evidence and direct strategic relevance from the German patent proceedings make this the first reconciliation pilot.",
       "rationaleFi": "Olemassa oleva virallinen verotettu määrä ja Saksan patenttiprosessin suora strateginen merkitys tekevät tästä ensimmäisen täsmäytyspilotin.",
@@ -415,12 +415,12 @@
       "countryIso2": "SE",
       "countryEn": "Sweden",
       "countryFi": "Ruotsi",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "Mandatory annual brand- and product-type sales reporting and documented enforcement of missing reports make Sweden a strong completeness benchmark.",
       "rationaleFi": "Pakollinen vuosimyyntiraportointi merkin ja tuotetyypin mukaan sekä dokumentoitu puuttuvien raporttien valvonta tekevät Ruotsista vahvan kattavuuden vertailumaan.",
@@ -480,12 +480,12 @@
       "countryIso2": "IT",
       "countryEn": "Italy",
       "countryFi": "Italia",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "A significant EU market with a specific inhalation-liquid tax and official product lists supports direct volume and registry reconciliation.",
       "rationaleFi": "Merkittävä EU-markkina, erillinen inhalaationesteen vero ja viralliset tuoteluettelot mahdollistavat suoran määrä- ja rekisteritäsmäytyksen.",
@@ -539,12 +539,12 @@
       "countryIso2": "FR",
       "countryEn": "France",
       "countryFi": "Ranska",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "A large EU market where the EU-CEG record structure contains annual sales fields, with ANSES documenting important completeness limitations.",
       "rationaleFi": "Suuri EU-markkina, jossa EU-CEG-tietorakenne sisältää vuosimyyntikenttiä ja ANSES on dokumentoinut tärkeät kattavuusrajoitteet.",
@@ -657,12 +657,12 @@
       "countryIso2": "NL",
       "countryEn": "Netherlands",
       "countryFi": "Alankomaat",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "Public EU-CEG product data and the Woo route enable product-stock, reporting-coverage and possible annual-sales requests.",
       "rationaleFi": "Julkinen EU-CEG-tuotedata ja Woo-reitti mahdollistavat tuotekannan, raportointikattavuuden ja mahdollisen vuosimyynnin pyynnöt.",
@@ -781,12 +781,12 @@
       "countryIso2": "DK",
       "countryEn": "Denmark",
       "countryFi": "Tanska",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "A Pixan-family Danish publication, mandatory annual EU-CEG sales reporting and downloadable official registries support a strong second-batch route.",
       "rationaleFi": "Pixan-perheen Tanskan julkaisu, pakollinen EU-CEG-vuosimyyntiraportointi ja ladattavat viranomaisrekisterit tukevat vahvaa toista aaltoa.",
@@ -958,12 +958,12 @@
       "countryIso2": "AU",
       "countryEn": "Australia",
       "countryFi": "Australia",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "A Pixan-family Australian publication and a highly regulated lawful supply route allow notifications, lawful imports and illicit seizures to be measured separately.",
       "rationaleFi": "Pixan-perheen Australian julkaisu ja tarkasti säännelty laillinen toimitusreitti mahdollistavat ilmoitusten, laillisen tuonnin ja laittomien takavarikkojen erillisen mittaamisen.",

@@ -18,11 +18,12 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-10">
-  <script defer src="assets/i18n.js?v=2026-07-23-10"></script>
-  <script defer src="assets/downloads.js?v=2026-07-23-10"></script>
-  <script defer src="assets/request-program.js?v=2026-07-23-10"></script>
-  <script defer src="assets/review.js?v=2026-07-23-10"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-11">
+  <script defer src="assets/i18n.js?v=2026-07-23-11"></script>
+  <script defer src="assets/downloads.js?v=2026-07-23-11"></script>
+  <script defer src="assets/paid-data.js?v=2026-07-23-11"></script>
+  <script defer src="assets/request-program.js?v=2026-07-23-11"></script>
+  <script defer src="assets/review.js?v=2026-07-23-11"></script>
 </head>
 <body class="review-page">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -127,6 +128,51 @@
       <p class="bank-package-note" data-bank-package-note hidden>English and Finnish files are release-locked together. The browser verifies every file's size and full SHA-256 digest before showing its download link.</p>
     </section>
 
+    <section id="paid-data" class="shell review-section paid-data-section no-print" data-paid-data aria-labelledby="paid-data-title" aria-busy="true">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Paid evidence procurement · decision support</p>
+          <h2 id="paid-data-title">What should Pixan consider funding—and in what order?</h2>
+        </div>
+        <p>The shortlist prioritises a reviewable annual country-market series, then observed retail validation and only then narrower risk and parameter gaps.</p>
+      </div>
+      <aside class="bank-package-boundary" aria-label="Paid-data procurement boundary">
+        <span class="bank-package-boundary-mark" aria-hidden="true">NO SPEND</span>
+        <div>
+          <strong>No purchase, subscription or vendor commitment is authorised</strong>
+          <p>Prices are dated public page observations or marked Quote. Every purchase remains conditional on a sample, methodology, official-data reconciliation and written lender/M&amp;A data-room rights. Raw paid data must not be published here without a separate licence.</p>
+          <small class="paid-data-meta" data-paid-data-meta>—</small>
+        </div>
+      </aside>
+      <div class="paid-data-package-grid" data-paid-data-packages hidden></div>
+      <div class="request-program-actions" data-paid-data-actions hidden>
+        <a class="button button-primary button-small" href="downloads/pixan-paid-data-procurement-fi-en.xlsx" download>Download decision workbook XLSX</a>
+        <a class="button button-secondary button-small" href="data/paid-data-procurement.csv" download>Download shortlist CSV</a>
+        <a class="button button-secondary button-small" href="data/paid-data-procurement.json" download>Download source JSON</a>
+      </div>
+      <div class="bank-package-status" data-paid-data-status role="status" aria-live="polite">
+        <span class="bank-package-status-dot" aria-hidden="true"></span>
+        <span>Checking the paid-data procurement shortlist…</span>
+      </div>
+      <div class="table-wrap bankability-matrix-wrap" data-paid-data-table hidden>
+        <table class="bankability-matrix paid-data-table">
+          <caption>Prioritised paid-data procurement shortlist</caption>
+          <thead>
+            <tr>
+              <th scope="col">Priority / vendor</th>
+              <th scope="col">Evidence role and coverage</th>
+              <th scope="col">Price status</th>
+              <th scope="col">Decision and conditions</th>
+              <th scope="col">Transparent score</th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody data-paid-data-items></tbody>
+        </table>
+      </div>
+      <p class="bank-package-note" data-paid-data-note hidden>The weighted score uses six visible criteria in the workbook. It is a procurement aid—not an investment rating, accuracy certification or permission to buy. Choose at most one global master unless a sample proves material non-overlap.</p>
+    </section>
+
     <section class="shell review-section request-program-section no-print" data-request-program aria-labelledby="request-program-title" aria-busy="true">
       <div class="section-heading">
         <div>
@@ -138,7 +184,7 @@
       <aside class="bank-package-boundary" data-request-program-boundary aria-label="Data-request status boundary" hidden>
         <span class="bank-package-boundary-mark" aria-hidden="true">STATUS</span>
         <div>
-          <strong>3 sent · 17 drafts</strong>
+          <strong>10 sent · 10 drafts</strong>
           <p>Public tracking shows only the country route, calendar date and any public authority reference. It does not establish delivery, acknowledgement, routing to the listed authority or a response. Downloadable templates remain DRAFT — NOT SENT.</p>
         </div>
       </aside>

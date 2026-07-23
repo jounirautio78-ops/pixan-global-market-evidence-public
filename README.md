@@ -33,13 +33,26 @@ python scripts/validate_bank_package.py
 
 ## Official-data request programme
 
-The shareable review page exposes a verified 20-country planned-route queue for existing aggregate sales, excise, customs and product-notification records. The ranking is an operational evidence-acquisition order, not a ranking of market size. Its privacy-safe public ledger marks exactly three country routes `sent` and 17 `draft_not_sent`. A sent marker records only the country route, calendar date and any allowlisted public authority reference; it does not establish delivery, acknowledgement, routing to the listed authority or a response. The repository itself does not send requests, and the downloadable request templates remain visibly `DRAFT — NOT SENT`.
+The shareable review page exposes a verified 20-country planned-route queue for existing aggregate sales, excise, customs and product-notification records. The ranking is an operational evidence-acquisition order, not a ranking of market size. Its privacy-safe public ledger marks exactly 10 country routes `sent` and 10 `draft_not_sent`: Australia, Denmark, Finland, France, Germany, Italy, the Netherlands, Poland, Sweden and the United Kingdom are the recorded sent routes. A sent marker records only the country route, calendar date and any allowlisted public authority reference; it does not establish delivery, acknowledgement, routing to the listed authority or a response. The repository itself does not send requests, and the downloadable request templates remain visibly `DRAFT — NOT SENT`.
 
-`source/top20-data-request-routes.json` records each planned official request channel, legal basis, language, requester-eligibility caveat, fallback, verification date and exact schema-v2 dispatch object. `scripts/build_data_request_program.py` creates the public JSON, privacy-safe tracking CSV and neutral English/Finnish request templates. `scripts/validate_data_request_program.py` enforces exactly 20 unique countries, the FI/GB/PL sent set, approved calendar dates and public reference, official HTTPS host allowlists, rejection of private correspondence metadata and deterministic output.
+`source/top20-data-request-routes.json` records each planned official request channel, legal basis, language, requester-eligibility caveat, fallback, verification date and exact schema-v2 dispatch object. `scripts/build_data_request_program.py` creates the public JSON, privacy-safe tracking CSV and neutral English/Finnish request templates. `scripts/validate_data_request_program.py` enforces exactly 20 unique countries, the reviewed 10-country sent set, approved calendar dates and public reference, official HTTPS host allowlists, rejection of private correspondence metadata and deterministic output.
 
 ```bash
 python scripts/build_data_request_program.py
 python scripts/validate_data_request_program.py
+```
+
+## Paid-data procurement shortlist
+
+The review page includes a bilingual, prioritised shortlist of commercial data that could close identified evidence gaps. It is a procurement decision aid, not market data, a purchase recommendation, a vendor endorsement or evidence of Pixan Oy approval. No spend is authorised.
+
+The recommended sequence is to request samples and transaction-use quotes from ECigIntelligence and Euromonitor in parallel, buy at most one global master unless material non-overlap is demonstrated, and then use a tightly scoped NIQ/Circana POS pilot to validate selected countries. Public list prices are dated page observations; `Quote` means no reliable project price was identified. Every option remains subject to the sample, methodology, official-anchor reconciliation and written lender/M&A data-room licence gates in the downloadable workbook.
+
+`source/paid-data-procurement.json` is the canonical public decision record. `scripts/build_paid_data_procurement.py` regenerates the public JSON and CSV. The reviewed bilingual XLSX is created with the workspace spreadsheet runtime and `scripts/validate_paid_data_procurement.py` checks exact source parity, scoring formulas, no-purchase boundaries, safe HTTPS sources and OOXML safety before publication.
+
+```bash
+python scripts/build_paid_data_procurement.py
+python scripts/validate_paid_data_procurement.py
 ```
 
 ## Annual market-value evidence
@@ -121,9 +134,11 @@ From the repository root:
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_atlas.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_data_request_program.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_paid_data_procurement.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_bank_package.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_public.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_data_request_program.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_paid_data_procurement.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_bank_package.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v scripts/test_market_estimation.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_data_request_program.py
@@ -133,6 +148,7 @@ node --check site/assets/app.js
 node --check site/assets/review.js
 node --check site/assets/downloads.js
 node --check site/assets/request-program.js
+node --check site/assets/paid-data.js
 git diff --check
 git diff --exit-code
 git status --short

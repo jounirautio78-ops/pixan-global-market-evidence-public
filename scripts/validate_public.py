@@ -72,6 +72,7 @@ PATENT_HISTORY_JSON_PATH = OUTPUT_DIR / "patent-history.json"
 PATENT_FAMILY_CSV_PATH = OUTPUT_DIR / "patent-family.csv"
 CURATED_PATH = ROOT / "source" / "curated.json"
 UPSTREAM_SHA_PATH = ROOT / "source" / "marnet-upstream.sha256"
+PAID_DATA_SOURCE_PATH = ROOT / "source" / "paid-data-procurement.json"
 FORBIDDEN_RAW_PATH = ROOT / "source" / "marnet-dashboard.json"
 SOCIAL_IMAGE_PATH = OUTPUT_DIR.parent / "assets" / "og-pixan-global-market-evidence.png"
 SOCIAL_IMAGE_URL = (
@@ -157,6 +158,7 @@ EXPECTED_SITE_FILES = {
     "site/assets/app.js",
     "site/assets/downloads.js",
     "site/assets/i18n.js",
+    "site/assets/paid-data.js",
     "site/assets/request-program.js",
     "site/assets/review.js",
     "site/assets/styles.css",
@@ -171,6 +173,8 @@ EXPECTED_SITE_FILES = {
     "site/data/bank-package-manifest.json",
     "site/data/top20-data-request-routes.json",
     "site/data/top20-data-request-routes.csv",
+    "site/data/paid-data-procurement.json",
+    "site/data/paid-data-procurement.csv",
     "site/data/market-values.json",
     "site/data/market-values.csv",
     "site/data/patent-history.json",
@@ -185,6 +189,7 @@ EXPECTED_SITE_FILES = {
     "site/downloads/pixan-bank-evidence-register-en.xlsx",
     "site/downloads/data-request-template-en.txt",
     "site/downloads/data-request-template-fi.txt",
+    "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
 }
 
 PATENT_OUTPUT_TOP_LEVEL_KEYS = {
@@ -1584,6 +1589,7 @@ def main() -> None:
         UPSTREAM_METADATA_PATH,
         UPSTREAM_SHA_PATH,
         DATA_REQUEST_SOURCE_PATH,
+        PAID_DATA_SOURCE_PATH,
         DATA_REQUEST_TEMPLATE_EN,
         DATA_REQUEST_TEMPLATE_FI,
     ):
@@ -1606,6 +1612,7 @@ def main() -> None:
     changelog_source = load_json(CHANGELOG_PATH)
     changelog_public = load_json(CHANGELOG_JSON_PATH)
     data_request_source = load_json(DATA_REQUEST_SOURCE_PATH)
+    paid_data_source = load_json(PAID_DATA_SOURCE_PATH)
     validate_source_inputs(curated, baseline, metadata, errors)
     if not isinstance(atlas, dict):
         errors.append("atlas.json must contain an object")
@@ -1656,6 +1663,7 @@ def main() -> None:
     scan_public_text("patent history", patent_history, errors)
     scan_public_text("changelog source", changelog_source, errors)
     scan_public_text("data-request source", data_request_source, errors)
+    scan_public_text("paid-data procurement source", paid_data_source, errors)
     for path in (ROOT / "README.md", ROOT / "CONTRIBUTING.md", ROOT / "source" / "SOURCE_PROVENANCE.md"):
         scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
     for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH, MARKET_VALUES_CSV_PATH, PATENT_FAMILY_CSV_PATH):

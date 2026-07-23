@@ -796,6 +796,39 @@ input::placeholder { color: #667c87; }
 .bank-package-filename { display: block; margin-top: .55rem; color: var(--muted); font-family: var(--font-mono); font-size: .55rem; line-height: 1.35; text-align: center; overflow-wrap: anywhere; }
 .bank-package-note { margin: .8rem 0 0; color: var(--muted); font-size: .64rem; }
 
+.paid-data-section { scroll-margin-top: 132px; }
+.paid-data-meta { display: block; margin-top: .35rem; color: var(--muted); font-family: var(--font-mono); font-size: .58rem; }
+.paid-data-package-grid { margin-bottom: 1rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+.paid-data-package {
+  min-width: 0;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: start;
+  gap: .38rem .7rem;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--teal);
+  border-radius: var(--radius-small);
+  background: linear-gradient(145deg, rgba(13, 28, 41, .96), rgba(8, 21, 31, .94));
+}
+.paid-data-package:nth-child(2) { border-top-color: var(--blue); }
+.paid-data-package:nth-child(3) { border-top-color: var(--amber); }
+.paid-data-package-rank { grid-row: 1 / span 4; color: rgba(242,247,248,.18); font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; line-height: 1; }
+.paid-data-package h3 { margin: 0; font-size: .96rem; }
+.paid-data-package p { min-height: 3.9rem; margin: 0; color: var(--text-soft); font-size: .7rem; }
+.paid-data-package strong { color: var(--teal); font-family: var(--font-mono); font-size: .72rem; }
+.paid-data-package small { color: var(--muted); font-size: .6rem; line-height: 1.4; }
+.paid-data-table { min-width: 1420px; }
+.paid-data-table td:first-child { min-width: 205px; }
+.paid-data-table td:nth-child(2) { min-width: 325px; }
+.paid-data-table td:nth-child(3) { min-width: 190px; }
+.paid-data-table td:nth-child(4) { min-width: 360px; }
+.paid-data-table td:nth-child(5) { min-width: 120px; text-align: center; }
+.paid-data-table td:nth-child(6) { min-width: 145px; }
+.paid-data-priority > strong { margin-top: .45rem !important; }
+.paid-data-price { color: var(--teal) !important; font-family: var(--font-mono); }
+.paid-data-score strong { color: var(--amber) !important; font-family: var(--font-mono); font-size: 1rem; }
+
 .request-program-section { scroll-margin-top: 132px; }
 .request-program-actions { margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: .55rem; }
 .request-program-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; }
@@ -1214,6 +1247,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 @media (max-width: 980px) {
   .bank-package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .paid-data-package-grid { grid-template-columns: 1fr; }
   .request-program-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .transaction-path-grid { grid-template-columns: 1fr; }
   .transaction-path-purpose { min-height: 0; }

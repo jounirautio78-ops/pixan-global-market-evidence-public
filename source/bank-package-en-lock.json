@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "release": {
-    "id": "2026-07-23-public-bankability-gates-v10",
-    "version": "2026.07.23-10",
-    "publishedAt": "2026-07-23T11:20:00+03:00"
+    "id": "2026-07-23-paid-data-procurement-v11",
+    "version": "2026.07.23-11",
+    "publishedAt": "2026-07-23T14:05:00+03:00"
   },
   "asOf": "2026-07-22",
   "translationInputs": [
@@ -13,29 +13,29 @@
     },
     {
       "path": "source/bank-deck-en-translations.json",
-      "sha256": "cbfddbccb469221301f9ca26127c1d2d8763dca3087db9f3f87ed2de5972e76a"
+      "sha256": "e20c6f1d81eb9cea9114669d63fdd49e0ddfc060b6ca040e710774cd92fb6535"
     }
   ],
   "sourceArtifacts": [
     {
       "id": "short-deck-fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "e7d7c8455a66cc1f3c02c0f28fed5234404ec4fb6b7b1b1b2dcb1dd020f858cf"
+      "sha256": "7f3d1aafebadcadbd6bbd1be4a313e64110edfdb243e91ee418327c6ffb6cb62"
     },
     {
       "id": "medium-deck-fi",
       "path": "site/downloads/pixan-bank-deck-medium-fi.pptx",
-      "sha256": "c888a327e8274b11b1e73c4f090d8b34e39ca319becfed5a9aabbd4f0141b0ea"
+      "sha256": "01ae2613fbcebdfcf53e04994b610b53e7f5910e432fd745ca7422c459be8ffc"
     },
     {
       "id": "large-deck-fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "b672e39c4cb1251f2d15664566bdc1e7b67ad760b906c8aa01cdc92f0ef20394"
+      "sha256": "d66aee9200b6e1ddfdec72a1504785f88f7f0fd6758886f313a0d24e057170fe"
     },
     {
       "id": "evidence-register-fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "ac55d0429ab0746df23497c9268e12ea2d314d267948b497045b30bf3666d983"
+      "sha256": "5ba235bce48d5f65d174c7d5e0c292e04c892a4856798b89a83c70760fb8b0dd"
     }
   ],
   "artifacts": [
@@ -43,32 +43,32 @@
       "id": "short-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "1c68ff71edaba1d32fba8d31986d25758aaada515f8f8b5b9362822006ae3ac0",
-      "bytes": 50596,
+      "sha256": "ec6fadd59f309d240763c3eb89950e68dbe46f478eb34d6f79a6297cb535cf2c",
+      "bytes": 50606,
       "slideCount": 6
     },
     {
       "id": "medium-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-medium-en.pptx",
-      "sha256": "6bf8bc5a4d3bb665aa58616b8d4976bc07fe19853f48abd26a4674327c29b08c",
-      "bytes": 73162,
+      "sha256": "1a8a90781837b631b1c317101dd29defd7034fd695305f69f338bd81c53e4da6",
+      "bytes": 73142,
       "slideCount": 12
     },
     {
       "id": "large-deck-en",
       "kind": "pptx",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "ddb76090b72fda64bfe0ad7cfb537ecf3c62372d62b97213c6ece1bf37969083",
-      "bytes": 139865,
+      "sha256": "b8222a7ece4ba533b3e48cae110e7489919d361979ef01de6de2478d63b25fa5",
+      "bytes": 139879,
       "slideCount": 30
     },
     {
       "id": "evidence-register-en",
       "kind": "xlsx",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "6a53ffc45a2a1cfe2e35f0039b0113c26f4c4ecff4fbe7558cbba6c9a459b5d1",
-      "bytes": 23734,
+      "sha256": "b7e2e2d9bdb58aba4814b7ddd1ed75f38d0ae57375d14b34a502029cdd176ac7",
+      "bytes": 23738,
       "rowCount": 45
     }
   ],
@@ -78,15 +78,15 @@
     "sourceLocked": true,
     "byteReproducible": false,
     "byteReproducibilityNote": "The release locks reviewed output bytes and all inputs. The artifact-tool exporter does not guarantee identical OOXML relationship identifiers across rebuilds.",
-    "executionNote": "The reviewed builders were rerun against the v10 Finnish source artifacts. Their source-hash sentinels, deck starters and visible version metadata were advanced to the locked v10 release; content remained bound to the reviewed public inputs.",
+    "executionNote": "The reviewed builders were rerun against the v11 Finnish source artifacts. Their source-hash sentinels and all visible version metadata were advanced to the locked v11 release; content remained bound to the reviewed public inputs.",
     "builders": [
       {
         "name": "build_bank_decks_en.mjs",
-        "sha256": "fc8440ac8ede71aaf20c1aced79b3226878b46a925a919a3b0a1e80dd6e93bb3"
+        "sha256": "f145e33f5bb2d7a3561465f54eabe8ff149e92568f46d78bf99717388413c933"
       },
       {
         "name": "build_evidence_register_en.mjs",
-        "sha256": "717614d6a7abb08e1885833d29a119c7c16e2738a01311fc54d022bdae90b26c"
+        "sha256": "0050ba7330254e264b610c20cc6eb350db3e920c32bae51ee2349d1a729f6416"
       }
     ],
     "qualityAssurance": {

@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-23-paid-data-procurement-v11",
+      "version": "2026.07.23-11",
+      "publishedAt": "2026-07-23T14:05:00+03:00",
+      "titleEn": "Prioritised paid-data procurement and expanded official requests",
+      "titleFi": "Priorisoitu maksullisen datan hankinta ja laajennetut viranomaispyynnöt",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added an 11-item paid-data procurement shortlist that prioritises one reviewable global country-market master before selected-country retail POS validation. ECigIntelligence and Euromonitor are alternative global masters, not an automatic double purchase.",
+          "textFi": "Lisättiin 11 kohteen maksullisen datan hankintalista, jossa yksi tarkistettava globaali maakohtainen pääaineisto asetetaan ennen valittujen maiden vähittäismyynnin POS-varmennusta. ECigIntelligence ja Euromonitor ovat vaihtoehtoisia pääaineistoja, eivät automaattinen kaksoisosto."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Added a bilingual downloadable procurement workbook with transparent weights, three package options and mandatory sample, method, official-anchor, freshness, licence and commercial stop/go gates. No spend is authorised.",
+          "textFi": "Lisättiin kaksikielinen ladattava hankintatyökirja, jossa on läpinäkyvät painot, kolme pakettivaihtoehtoa sekä pakolliset näyte-, menetelmä-, virallisen ankkurin, tuoreuden, lisenssin ja kaupalliset stop/go-portit. Ostovaltuutta ei ole."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Updated the privacy-safe official-request ledger to 10 sent country routes and 10 drafts after requests to Australia, Denmark, France, Germany, Italy, the Netherlands and Sweden. A sent route still does not establish delivery, acknowledgement or a response.",
+          "textFi": "Päivitettiin tietosuojattu viranomaispyyntöjen seuranta 10 lähetettyyn maareittiin ja 10 luonnokseen Australiaan, Alankomaihin, Ranskaan, Ruotsiin, Saksaan, Tanskaan ja Italiaan tehtyjen pyyntöjen jälkeen. Lähetetty reitti ei edelleenkään osoita toimitusta, vastaanottokuittausta tai vastausta."
+        },
+        {
+          "category": "method",
+          "textEn": "Kept paid vendor raw data outside the public repository and made lender/M&A data-room sharing rights a written pre-purchase condition. Public list prices remain dated observations; quote-only items have no invented price.",
+          "textFi": "Pidettiin toimittajien maksullinen raakadata julkisen repositorion ulkopuolella ja asetettiin kirjalliset rahoittaja-/M&A-datahuoneoikeudet oston ennakkoehdoksi. Julkiset listahinnat säilyvät päivättyinä havaintoina, eikä tarjouskohteille keksitä hintaa."
+        }
+      ]
+    },
+    {
       "id": "2026-07-23-public-bankability-gates-v10",
       "version": "2026.07.23-10",
       "publishedAt": "2026-07-23T11:20:00+03:00",

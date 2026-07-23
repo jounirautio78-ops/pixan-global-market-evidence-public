@@ -39,6 +39,12 @@
     "senttimestamp", "subject", "telephone", "threadid", "to"
   ]);
   const EXPECTED_DISPATCH = {
+    DE: {
+      state: "sent",
+      sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
     GB: {
       state: "sent",
       sentOn: "2026-07-16",
@@ -54,6 +60,42 @@
     PL: {
       state: "sent",
       sentOn: "2026-07-22",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    SE: {
+      state: "sent",
+      sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    IT: {
+      state: "sent",
+      sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    FR: {
+      state: "sent",
+      sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    NL: {
+      state: "sent",
+      sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    DK: {
+      state: "sent",
+      sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    AU: {
+      state: "sent",
+      sentOn: "2026-07-23",
       publicAuthorityReference: null,
       responseState: "not_publicly_recorded"
     }
@@ -245,15 +287,17 @@
       for (const source of route.officialSources || []) {
         exactKeys(source, ["labelEn", "labelFi", "url", "verifiedOn"], "official source");
         if (!Object.values(source).every(nonEmptyText)) throw new Error("official source has invalid field types");
-        if (source.verifiedOn !== raw.verificationDate) throw new Error("official source verification date differs");
+        if (!validIsoDate(source.verifiedOn) || source.verifiedOn > raw.verificationDate) {
+          throw new Error("official source verification date is invalid or after programme verification");
+        }
       }
     }
     if (countries.size !== Object.keys(OFFICIAL_HOSTS).length
       || Object.keys(OFFICIAL_HOSTS).some((iso) => !countries.has(iso))) {
       throw new Error("country set differs from the official-domain allowlist");
     }
-    if (sentCountries.size !== 3 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
-      throw new Error("sent country set must be exactly FI, GB and PL");
+    if (sentCountries.size !== 10 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
+      throw new Error("sent country set differs from the approved 10-country public record");
     }
     return raw;
   }

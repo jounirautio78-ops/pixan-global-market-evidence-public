@@ -51,11 +51,11 @@ class DataRequestBoundaryTests(unittest.TestCase):
 
     def test_rejects_wrong_sent_country_set(self) -> None:
         def mutate(item) -> None:
-            route = next(route for route in item["routes"] if route["countryIso2"] == "DE")
+            route = next(route for route in item["routes"] if route["countryIso2"] == "CA")
             route["status"] = "sent"
             route["dispatch"] = {
                 "state": "sent",
-                "sentOn": "2026-07-22",
+                "sentOn": "2026-07-23",
                 "publicAuthorityReference": None,
                 "responseState": "not_publicly_recorded",
             }
@@ -63,12 +63,16 @@ class DataRequestBoundaryTests(unittest.TestCase):
         self.assert_rejected(mutate)
 
     def test_rejects_status_dispatch_mismatch(self) -> None:
-        self.assert_rejected(lambda item: item["routes"][0].__setitem__("status", "sent"))
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "CA")
+            route["status"] = "sent"
+
+        self.assert_rejected(mutate)
 
     def test_rejects_future_sent_date(self) -> None:
         def mutate(item) -> None:
             route = next(route for route in item["routes"] if route["countryIso2"] == "FI")
-            route["dispatch"]["sentOn"] = "2026-07-23"
+            route["dispatch"]["sentOn"] = "2026-07-24"
 
         self.assert_rejected(mutate)
 

@@ -15,9 +15,9 @@
       "countryIso2": "DE",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "Federal Statistical Office, GENESIS table family 73411",
@@ -67,7 +67,7 @@
         "caveatFi": "Viralliselta liittovaltion reitiltä ei tunnistettu kansalaisuus- tai asuinpaikkarajausta; saksankielinen pyyntö on suositeltava, ja poikkeukset sekä maksut voivat silti soveltua.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
@@ -388,9 +388,9 @@
       "countryIso2": "SE",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "Swedish Tax Agency",
@@ -447,7 +447,7 @@
         "caveatFi": "Paikallisen pyytäjän ehtoa ei tunnistettu; aloita aggregoidusta tuotetyyppidatasta, koska merkkikohtainen aineisto voi johtaa salassapitoarvioon.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
@@ -456,9 +456,9 @@
       "countryIso2": "IT",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "Italian Ministry of Health product and EU-CEG information",
@@ -508,7 +508,7 @@
         "caveatFi": "Yleistetyssä julkisuuspyynnössä ei tunnistettu paikallisen pyytäjän ehtoa; italiankielinen pyyntö on suositeltava ja verovelvolliskohtaiset tiedot on rajattava pois.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
@@ -517,9 +517,9 @@
       "countryIso2": "FR",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "Commission for Access to Administrative Documents",
@@ -569,7 +569,7 @@
         "caveatFi": "Hallinnollisia asiakirjoja voi pyytää kansalaisuudesta riippumatta; ranskankielinen pyyntö on suositeltava ja kielteinen tai puuttuva ratkaisu voidaan saattaa CADA:n käsiteltäväksi.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
@@ -639,9 +639,9 @@
       "countryIso2": "NL",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "RIVM published tobacco and vaping product data",
@@ -692,7 +692,7 @@
         "caveatFi": "Kuka tahansa voi tehdä Woo-pyynnön; hollanninkielinen ja tarkasti olemassa oleviin tietueisiin rajattu pyyntö vähentää siirto- ja täsmennysviiveitä.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
@@ -770,9 +770,9 @@
       "countryIso2": "DK",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "Danish Safety Technology Authority registries",
@@ -823,7 +823,7 @@
         "caveatFi": "Kuka tahansa voi pyytää tietoja ilman kansalaisuus- tai asuinpaikkavaatimusta; tanskankielinen pyyntö on suositeltava viranomaisreititystä varten.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1B"
     },
     {
@@ -954,9 +954,9 @@
       "countryIso2": "AU",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "Department of Home Affairs and Australian Border Force FOI",
@@ -1012,7 +1012,7 @@
         "caveatFi": "Kuka tahansa voi tehdä Australian FOI-pyynnön ilman asuinpaikka- tai kansalaisuusehtoa; kaupallisen luottamuksellisuuden poikkeukset voivat silti rajoittaa tuotetason tietoja.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1B"
     },
     {
@@ -1305,5 +1305,5 @@
     ]
   },
   "status": "partially_dispatched",
-  "verificationDate": "2026-07-22"
+  "verificationDate": "2026-07-23"
 }
