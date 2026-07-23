@@ -4,7 +4,9 @@ This repository builds a public, source-linked country atlas for global vaping-m
 
 > **Independent research / riippumaton selvitys.** This project is not an official disclosure by Pixan Oy, is not maintained or endorsed by Pixan Oy, and does not represent any investor, lender, manufacturer, authority, or litigation party. It is not audited market data, legal advice, financial advice, investment advice, or a valuation.
 
-The site has two public entry points: the full evidence atlas in `site/index.html` and a concise lender/buyer diligence view in `site/review.html`. Both pages provide the same Finnish/English language selector and default to English. A valid `?lang=fi` or `?lang=en` query parameter overrides the device-local preference; changing the selector saves the preference for subsequent pages and keeps internal page links in the selected language. Language-specific share links include `site/review.html?lang=en` and `site/review.html?lang=fi`. The review page is designed to be shared as a direct link, while preserving the same source links, uncertainty labels and independent-publication boundary.
+The site has three shareable public views: the five-minute decision review at `site/review.html?view=review`, the full Evidence Center in `site/index.html`, and Research Operations at `site/review.html?view=operations`. The review and operations modes are normal query-addressable links on one validated page, so public procurement, vendor-response and authority-request controls remain isolated from the external decision narrative without creating a separate publication pipeline. Every page defaults to English and provides the same Finnish/English selector. A valid `?lang=fi` or `?lang=en` query parameter overrides the device-local preference; changing the selector saves the preference for subsequent pages and preserves both the selected language and review mode in internal links.
+
+The five-minute review opens with a fail-closed Decision Cockpit derived from the reviewed atlas, market, patent and request-programme JSON. It keeps supported facts, unsupported conclusions and the three current readiness blockers separate, and remains **HOLD — research dataset, not a valuation** while `readiness.lenderReady` is false. The same view exposes a reproducible Germany calculation waterfall and a deterministic 12-source market ledger. The waterfall must reconcile the committed formula and all three outputs before displaying them. The ledger keeps retrieval date and latest observation year separate, never treats a download date as proof of substantive currency, and labels the atlas's item-level source dates as undated where they are not recorded.
 
 The returning-visitor section compares the current release ID and version in `site/data/changelog.json` with the last release explicitly marked as seen in that browser. The value stays in device-local storage only: it is not sent to the repository or an analytics service and does not identify the visitor.
 
@@ -158,6 +160,8 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_paid_data_procurement.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_vendor_response_control.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_bank_package.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v scripts/test_market_estimation.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_review_experience.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_review_experience.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_data_request_program.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_vendor_response_control.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_paid_data_procurement_privacy.py
