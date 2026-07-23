@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": {
-    "id": "2026-07-23-administrative-vendor-reply-v14",
-    "version": "2026.07.23-14",
+    "id": "2026-07-23-authority-process-responses-v15",
+    "version": "2026.07.23-15",
     "asOf": "2026-07-22",
     "sourceLanguage": "fi",
     "targetLanguage": "en"
@@ -13,7 +13,7 @@
     "failClosedRule": "The builder verifies every source shape anchor, exact source string and table cell before mutation."
   },
   "exactTranslations": {
-    "2026.07.23-10": "2026.07.23-14",
+    "2026.07.23-10": "2026.07.23-15",
     "PIXAN · JULKINEN EVIDENSSIPAKETTI": "PIXAN · PUBLIC EVIDENCE PACKAGE",
     "Patentista pankkikelpoiseksi\ntodistelupaketiksi": "From patent to a lender-ready\nevidence package",
     "Aineiston tila": "Evidence status",
@@ -586,14 +586,14 @@
     },
     "versionMeta": {
       "sourcePattern": "^Versio 2026\\.07\\.23-10 · 2026-07-22 · (\\d+) / (\\d+)$",
-      "targetPattern": "Version 2026.07.23-14 · 2026-07-22 · $1 / $2"
+      "targetPattern": "Version 2026.07.23-15 · 2026-07-22 · $1 / $2"
     },
     "footer": {
       "sourcePrefix": "Julkinen riippumaton evidenssikooste ·",
       "replacements": [
         [
           "2026.07.23-10",
-          "2026.07.23-14"
+          "2026.07.23-15"
         ],
         [
           "Saksa — viralliset tuomiot",

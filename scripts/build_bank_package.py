@@ -2913,6 +2913,7 @@ def build_short_deck(ctx: dict[str, Any], path: Path) -> None:
         ["Puutuva näyttö", "Miksi ratkaiseva", "Seuraava todiste"],
         [["Koko perheen kansallinen tila", "Määrittää toteuttamiskelpoiset oikeudet", "Asiamiehen allekirjoittama maamatriisi"], ["Tuote–vaatimusvertailut", "Rajaa relevantin myynnin", "Näytteet, teardown, claim chart"], ["Kassavirta ja sopimukset", "Määrittää takaisinmaksun", "Sopimukset, laskut, maksut"], ["Riippumaton arvonmääritys", "Määrittää skenaariot ja downside-riskin", "IVS-yhteensopiva arvio"]],
         "Pankkikelpoisuus paranee eniten, kun nämä neljä aukkoa suljetaan ennen arvokeskustelua.", "Evidence Register; WIPO IP valuation", [2.7, 3.7, 4.8],
+        two_line_title=True,
     )
     closing_slide(
         prs, ctx, 6, "Ehdollinen eteneminen: 90 päivän diligence ennen rahoituspäätöstä",
@@ -2959,11 +2960,13 @@ def build_medium_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 8, "Kilpailu on erotettava vaihtoehtoisista teknologioista ja patenttiriskistä", "8 · Kilpailu ja vaihtoehdot",
                 ["Vertailutaso", "Kysymys", "Nykytila"],
                 [["Tuoteratkaisut", "Ratkaiseeko tuote saman ongelman eri tavalla?", "Puuttuu"], ["Patenttiperheet", "Onko suojan päällekkäisyys tai FTO-riski?", "Puuttuu"], ["Kaupalliset vaihtoehdot", "Lisenssi, luovutus, sovinto vai oma käyttö?", "Oletus"], ["Ei-patentoidut vaihtoehdot", "Voiko suorituskyvyn saavuttaa kiertämällä vaatimukset?", "Puuttuu"]],
-                "Kilpailija-analyysi on pankin teknologia-arvioinnin olennainen avoin työpaketti.", "Evidence Register; EPO; WIPO", [2.6, 5.6, 2.1] )
+                "Kilpailija-analyysi on pankin teknologia-arvioinnin olennainen avoin työpaketti.", "Evidence Register; EPO; WIPO", [2.6, 5.6, 2.1],
+                two_line_title=True )
     slide_table(prs, ctx, 9, "Validoinnin vahvuus on epätasainen ja siksi näkyvästi luokiteltu", "9 · Validointi ja nykyinen näyttö",
                 ["Väitealue", "Luokitus", "Mitä on", "Mitä puuttuu"],
                 [["Patenttiydin", "Vahvistettu", "EPO-rekisteri ja B2", "Maakohtainen statusmatriisi"], [f"{v['de_country']}n prosessit", "Vahvistettu", f"{fi_cardinal(v['german_official_proceeding_count']).capitalize()} virallista ratkaisua", "Lopullisuus, täytäntöönpano, kassa"], ["Markkinahavainnot", "Vahvistettu", f"{v['official_country_count']} maan viralliset luvut", "Yhteismitallinen retail-arvo"], ["Tekninen testaus", "Puuttuu", "Patenttiselitys", "Riippumaton testi ja raakadata"], ["Kaupallinen näyttö", "Puuttuu", "Kaupallistamiskehys", "Asiakkaat, sopimukset, maksut"]],
-                "Todistettu oikeusnäyttö ei korvaa teknistä, kaupallista tai taloudellista validointia.", "Evidence Register", [2.5, 1.8, 3.8, 4.4] )
+                "Todistettu oikeusnäyttö ei korvaa teknistä, kaupallista tai taloudellista validointia.", "Evidence Register", [2.5, 1.8, 3.8, 4.4],
+                two_line_title=True )
     slide_process(prs, ctx, 10, "Kaupallistaminen etenee porttien kautta, ei massaväitteillä", "10 · Kaupallistamismalli",
                   [("Oikeusmatriisi", "Vahvista maa, haltija, maksu, rasite, operative claims ja määräpäivät."), ("Tuotedossier", "Hanki näyte, dokumentoi ketju ja tee asiamiehen tarkastama claim chart."), ("Kohdepisteytys", "Arvioi oikeus, näyttö, myynti, vastapuoli, kustannus ja täytäntöönpano."), ("Rajattu pilotti", "Testaa lisenssi-, sovinto-, luovutus- tai rahoitusreitti auditoitavin ehdoin.")],
                   "Vasta toteutunut sopimus tai saaminen luo kassavirtanäyttöä.", "WIPO licensing; dispute resolution; IPscore" )
@@ -2995,7 +2998,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 3, "Kolme perustetta jatkaa — ja kolme rajaa olla kiirehtimättä", "Rahoitusteesi",
                 ["Vahva signaali", "Mitä se tukee", "Mitä se ei todista"],
                 [[v["epo_proceeding"]["titleFi"], "Dokumentoitu patenttiydin", "Kansallinen voimassaolo"], [v["de_nullity"]["titleFi"], "Pätevyyden kansallinen signaali", "Lainvoima tai globaali pätevyys"], [v["de_infringement"]["titleFi"], "Tuote- ja claim-kohtainen signaali", "Muu tuote, maa tai maksettu korvaus"]],
-                "Pankin tulee hinnoitella vain se osa näytöstä, jonka omistus, toteutettavuus ja kassavirta on vahvistettu.", f"EPO; {v['german_references']}", [3.1,4.6,4.6] )
+                "Pankin tulee hinnoitella vain se osa näytöstä, jonka omistus, toteutettavuus ja kassavirta on vahvistettu.", f"EPO; {v['german_references']}", [3.1,4.6,4.6],
+                two_line_title=True )
     slide_claim(prs, ctx, 4, "Todennusketju katkeaa tällä hetkellä ennen kassavirtaa", "Ongelma",
                 "Patentti → voimassa oleva maaoikeus → relevantti tuote → relevantti myynti → sopimus tai tuomio → maksu → velanhoito.",
                 ["Ketjun alku on osin vahvistettu virallisilla lähteillä.", f"Tuote- ja myyntikytkentä on vahvistettu vain rajatusti: {v['de_country']}, {v['de_infringement']['reference']}.", "Sopimus-, maksu-, yhtiötalous- ja vakuusarvonäyttö puuttuu julkisesta paketista."],
@@ -3007,7 +3011,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 6, f"B2-tekstin {fi_cardinal(v['b2_claim_count'])} vaatimusta ovat arvioinnin lähtöpiste", "Patentti",
                 ["Elementti", "Julkinen kuvaus", "Diligence-testi"],
                 [["Ohjain / menetelmä", "Sähköisen höyrystimen hallinta", "Mikä tuoteversio ja maa?"], ["Resistanssin mittaus", "Lämmityselementin resistanssi", "Miten ja milloin mitataan?"], ["Tallennetut arvot", "Resistanssi–teho-kytkentä", "Missä data sijaitsee?"], ["Ei-proportionaalisuus", "Tehosuhteen määritelty luonne", "Täyttyykö vaatimuspiirre?"], ["Säätörajat", "Minimi ja tallennettu maksimi", "Miten käyttöliittymä toteuttaa rajat?"]],
-                "Jokainen vaatimuspiirre on osoitettava todisteella; ominaisuusluettelo ei yksin riitä.", v["ep_publication"], [2.2,5.9,3.1] )
+                "Jokainen vaatimuspiirre on osoitettava todisteella; ominaisuusluettelo ei yksin riitä.", v["ep_publication"], [2.2,5.9,3.1],
+                two_line_title=True )
     slide_metrics(prs, ctx, 7, "IP-historian ydintapahtumat ovat virallisesti jäljitettävissä", "Patentti",
                   [(v["priority_date_fi"], "varhaisin prioriteetti"), (v["b2_date_fi"], "B2-julkaisu"), (str(v["b2_claim_count"]), "muutettua vaatimusta")],
                   v["epo_proceeding"]["finalityFi"],
@@ -3030,7 +3035,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
                         f"{v['de_infringement']['detailFi']} {v['de_infringement']['finalityFi']}",
                     ],
                 ],
-                f"{v['de_country']}n näyttö ei automaattisesti siirry toiseen tuotteeseen, vastapuoleen tai valtioon.", f"Viralliset tuomiot: {v['german_references']}", [3.6,4.2,5.2] )
+                f"{v['de_country']}n näyttö ei automaattisesti siirry toiseen tuotteeseen, vastapuoleen tai valtioon.", f"Viralliset tuomiot: {v['german_references']}", [3.6,4.2,5.2],
+                two_line_title=True )
     slide_claim(prs, ctx, 10, f"{v['country_name']('CN')}n asia ei ole loukkausvoitto", "Oikeudellinen näyttö",
                 "Julkinen sekundäärinen docket-tieto viittaa hylätyn hakemuksen hakijapuolen uudelleentarkastukseen.",
                 [f"Menettely luokitellaan {v['cn_review']['proceedingType'].replace('_', ' ')} -asiaksi.", "Virallista päätöstä ja tarkkoja perusteluja ei saatu julkiseen pakettiin.", f"{v['cn_grant']['publicationNumber']} julkaistiin myöhemmin myönnettynä {v['cn_grant_date_fi']}."],
@@ -3038,7 +3044,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 11, f"{fi_cardinal(v['alert_count']).capitalize()} ajankohtaista IP-hälytystä vaatii dokumentoidun omistajan", "Riskit",
                 ["Maa / alue", "Päivä", "Toimi"],
                 v["alert_rows"],
-                "Määräpäivävalvonta on vakuusarvon operatiivinen kontrolli, ei hallinnollinen sivuseikka.", v["alert_sources"], [2.4,2.0,7.1] )
+                "Määräpäivävalvonta on vakuusarvon operatiivinen kontrolli, ei hallinnollinen sivuseikka.", v["alert_sources"], [2.4,2.0,7.1],
+                two_line_title=True )
     slide_metrics(prs, ctx, 12, f"Atlas: {v['atlas_country_count']} maata ({v['atlas_universe']}); tutkimusrunko ei ole markkina-arvo", "Markkina",
                   [(str(v["grade_counts"][grade]), f"{grade}-luokan maata") for grade in v["grade_labels"]],
                   f"{v['atlas_evidence_count']} evidenssimerkintää; universumin YK-osuus on {v['un_member_count']} jäsenvaltiota.",
@@ -3054,7 +3061,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 15, f"{v['de_country']}n virallinen nestemäärä kasvoi, mutta arvo vaatii hintaoletuksen", v["de_country"],
                 ["Vuosi", "Verotettu neste", "Valmistevero", "Lopullisuus"],
                 v["de_rows"],
-                "Verotettu nestemäärä ei sisällä laitteita, verotonta tai laitonta kauppaa eikä ole retail-arvo.", "; ".join(unique_strings(concise_publisher(v["market_source_map"][source_id]["publisher"]) for item in v["de_volume_observations"] + v["de_excise_observations"] for source_id in item["sourceIds"])), [1.4,2.3,2.1,1.8] )
+                "Verotettu nestemäärä ei sisällä laitteita, verotonta tai laitonta kauppaa eikä ole retail-arvo.", "; ".join(unique_strings(concise_publisher(v["market_source_map"][source_id]["publisher"]) for item in v["de_volume_observations"] + v["de_excise_observations"] for source_id in item["sourceIds"])), [1.4,2.3,2.1,1.8],
+                two_line_title=True )
     slide_metrics(prs, ctx, 16, f"{v['de_country']}n mallihaitari näyttää herkkyyden — ei havaittua myyntiä", "Mallinnus",
                   v["de_model_metrics"],
                   f"Kaava: {model['formula']}.",
@@ -3070,7 +3078,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 19, "Markkinan ja patentin väliin tarvitaan viisi läpinäkyvää suodatinta", "Arvosilta",
                 ["Taso", "Suodatin", "Näyttö"],
                 [["1. Kokonaismarkkina", "Tuote- ja mittarirajaus", "Osittainen"], ["2. Oikeusalue", "Voimassa oleva operative claim", "Puuttuu globaalisti"], ["3. Relevantit tuotteet", "Claim chart", f"Rajattu näyttö: {v['de_country']}"], ["4. Relevantti myynti", "Tuote × maa × aika × net sales", "Puuttuu"], ["5. Kassavirta", "Rojalti/sovinto − kulut − verot − viive", "Puuttuu"]],
-                "Vain alimman tason kassavirta voi palvella velkaa; ylempi markkina ei sellaisenaan voi.", "WIPO valuation; Evidence Register", [2.1,4.1,4.6] )
+                "Vain alimman tason kassavirta voi palvella velkaa; ylempi markkina ei sellaisenaan voi.", "WIPO valuation; Evidence Register", [2.1,4.1,4.6],
+                two_line_title=True )
     slide_claim(prs, ctx, 20, "Mahdolliset asiakkaat ovat hypoteeseja, eivät vielä näyttöä", "Asiakkaat",
                 "Segmentointi johdetaan kaupallistamisreiteistä: valmistajat, teknologiatoimittajat sekä IP-rahoittajat ja ostajat.",
                 ["Valmistajalle arvo voi olla lisenssi, toimintarauha tai sovinto.", "Teknologiatoimittajalle arvo voi olla integroitava toiminto tai oikeusasema.", "Rahoittajalle arvo on kontrolloitava, realisoitava kassavirta ja downside-suoja."],
@@ -3078,7 +3087,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 21, "Kilpailukartta on rakennettava neljälle rinnakkaiselle tasolle", "Kilpailu",
                 ["Taso", "Analyysi", "Tuotos"],
                 [["Tuotteet", "Toiminto, arkkitehtuuri, hinta, markkina", "Vertailumatriisi"], ["Patentit", "Claims, prior art, status, FTO", "Patenttilandscape"], ["Kiertoratkaisut", "Voiko suorituskyvyn toteuttaa eri tavalla?", "Design-around-arvio"], ["Kaupallinen vaihtoehto", "Lisenssi, hankinta, oma kehitys, riitely", "Buy/build/license/litigate-malli"]],
-                "Tekninen etu ei ole uskottava ennen kuin vaihtoehdot on kuvattu ja lähteistetty.", "Evidence Register; EPO" , [2.0,5.3,3.5] )
+                "Tekninen etu ei ole uskottava ennen kuin vaihtoehdot on kuvattu ja lähteistetty.", "Evidence Register; EPO" , [2.0,5.3,3.5],
+                two_line_title=True )
     slide_process(prs, ctx, 22, "Tuotevalidointi rakentuu katkeamattomaksi todisteketjuksi", "Tekninen validointi",
                   [("Näyte", "Osta oikeasta maasta ja ajankohdasta; dokumentoi myyjä, tuoteversio ja sarjatiedot."), ("Hallussapitoketju", "Tallenna vastaanotto, säilytys, avaaminen, kuvaus ja tiedostojen hashit."), ("Teardown ja testi", "Tee riippumaton mittausprotokolla, raakadata ja toistettavuustesti."), ("Claim chart", "Mapita jokainen vaatimuspiirre todisteeseen ja asiamiehen johtopäätökseen.")],
                   "Markkinamyynti voidaan kohdistaa vasta, kun tuoteidentiteetti ja claim-kytkentä ovat hallittuja.", f"{v['ep_publication']}; {v['de_infringement']['reference']}" )
@@ -3088,7 +3098,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 24, "Kaupallistamisreitit eroavat kassavirran, kontrollin ja riskin suhteen", "Kaupallistaminen",
                 ["Reitti", "Kassavirta", "Keskeinen riski"],
                 [["Lisenssi", "Upfront + jatkuva rojalti", "Rojaltipohjan auditointi"], ["Sovinto", "Kertamaksu / vaiheistus", "Ei automaattista ennakkotapausta"], ["Luovutus", "Kauppahinta", "Luovutetaan tuleva upside"], ["IP-rahoitus", "Velka tai revenue share", "Vakuusarvo ja kontrollit"], ["Prosessirahoitus", "Kuluihin sidottu pääoma", "Korkea kustannus ja lopputulosriski"]],
-                "Valitse reitti vasta, kun oikeus, vastapuoli, kassavirta ja downside on todennettu.", "WIPO licensing; IP Finance; TPLF mapping", [2.1,4.1,5.2] )
+                "Valitse reitti vasta, kun oikeus, vastapuoli, kassavirta ja downside on todennettu.", "WIPO licensing; IP Finance; TPLF mapping", [2.1,4.1,5.2],
+                two_line_title=True )
     slide_table(prs, ctx, 25, "Taloudellinen malli alkaa todennettavista syötteistä", "Taloudellinen malli",
                 ["Syöte", "Lähde", "Status"],
                 [["Maakohtainen relevantti myynti", "Viranomainen / vastapuolen disclosure", "Puuttuu"], ["Claim-mapped osuus", "Asiamiehen tuotedossier", "Puuttuu"], ["Rojalti tai vahinko", "Sopimus / oikeudellinen analyysi", "Puuttuu"], ["Ajoitus ja perittävyys", "Prosessi- ja vastapuolianalyysi", "Puuttuu"], ["Kulut ja verot", "Budjetti / veroasiantuntija", "Puuttuu"], ["Diskontto ja downside", "Riippumaton arvonmääritys", "Puuttuu"]],
@@ -3100,11 +3111,13 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_table(prs, ctx, 27, "Viisi kysymystä määrittää pankin seuraavan päätöksen", "Tutkijan kysymykset",
                 ["#", "Kysymys", "Vaadittu vastaus"],
                 [["1", "Mitä tarkalleen omistetaan ja missä se on voimassa?", "Allekirjoitettu oikeusmatriisi"], ["2", "Mikä tuote täyttää mitkä vaatimuspiirteet?", "Claim chart + riippumaton testi"], ["3", "Mikä on todennettu relevantti myynti?", "Tuote–maa–aika-net sales"], ["4", "Mistä ja milloin velanhoitokassa syntyy?", "Sopimukset, maksut, ennuste"], ["5", "Mitä vakuus realisoi downside-tilanteessa?", "Riippumaton arvo + toteutuspolku"]],
-                "Jos yksikin vastaus jää olennaisesti auki, rahoitus on rakennettava ehdolliseksi ja vaiheistetuksi.", "Evidence Register", [0.7,5.2,6.5] )
+                "Jos yksikin vastaus jää olennaisesti auki, rahoitus on rakennettava ehdolliseksi ja vaiheistetuksi.", "Evidence Register", [0.7,5.2,6.5],
+                two_line_title=True )
     slide_table(prs, ctx, 28, "Puuttuva aineisto priorisoituu vaikutuksen, ei helppouden mukaan", "Aineistopyynnöt",
                 ["Prioriteetti", "Aineisto", "Päätösvaikutus"],
                 [["1", "Omistus, siirrot, rasitteet, vuosimaksut", "Olemassa oleva ja kontrolloitava oikeus"], ["2", "Tuotenäytteet, testit ja claim chartit", "Tekninen osuvuus"], ["3", "Relevantti myynti ja vastapuolidata", "Rojaltipohja"], ["4", "Sopimukset, saatavat ja maksut", "Velanhoitokyky"], ["5", "Tilinpäätös, velat, budjetti ja rahoitustarve", "Yhtiö- ja luottoriski"], ["6", "Riippumaton IP-/yritysarvonmääritys", "Vakuus ja hinta"]],
-                "Julkinen paketti näyttää aukot; luottamuksellinen näyttö kuuluu pääsyrajattuun datahuoneeseen.", "Evidence Register", [1.2,5.0,5.4] )
+                "Julkinen paketti näyttää aukot; luottamuksellinen näyttö kuuluu pääsyrajattuun datahuoneeseen.", "Evidence Register", [1.2,5.0,5.4],
+                two_line_title=True )
     slide_process(prs, ctx, 29, "90 päivän ohjelma muuttaa aukot päätöskelpoisiksi kontrolleiksi", "Seuraavat vaiheet",
                   [("0–30 päivää", "Oikeusmatriisi, määräpäivät, omistus- ja rasiteselvitys sekä yhtiöaineiston indeksi."), ("31–60 päivää", "Tuotedossierit, claim chartit, priorisoitu markkinamyynti ja asiakasvalidointi."), ("61–90 päivää", "Kassavirtamalli, riippumaton arvonmääritys, downside ja term sheet -vaihtoehdot."), ("Päätösportti", "Hyväksy, rajaa, vaiheista tai hylkää rahoitus näkyvillä ehdoilla ja stop-kriteereillä.")],
                   "Paketti päivitetään samasta julkisesta lähdedatasta jokaisessa sivustojulkaisussa.", "Evidence Register; changelog" )

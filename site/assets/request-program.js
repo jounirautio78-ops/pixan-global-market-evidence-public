@@ -38,12 +38,30 @@
     "recipientname", "sender", "senderemail", "senderidentity", "sendername", "senttime",
     "senttimestamp", "subject", "telephone", "threadid", "to"
   ]);
+  const PROCESS_RESPONSE_LABELS = {
+    receipt_and_ifg_forwarding_confirmed: {
+      en: "Receipt and forwarding to the competent IFG unit confirmed — process only; no data received",
+      fi: "Vastaanotto ja ohjaus toimivaltaiseen IFG-yksikköön vahvistettu — vain prosessitieto; ei dataa"
+    },
+    registered_processing_notice_received: {
+      en: "Registered; delay / possible-fee notice received — no fee accepted; no data received",
+      fi: "Kirjattu diaariin; viive-/mahdollinen maksu -ilmoitus saatu — maksua ei hyväksytty; ei dataa"
+    },
+    automated_receipt_acknowledged: {
+      en: "Automated receipt acknowledgement — process only; no data received",
+      fi: "Automaattinen vastaanottokuittaus — vain prosessitieto; ei dataa"
+    },
+    automated_route_correction_received: {
+      en: "Automated route correction — public-record service identified; no data received",
+      fi: "Automaattinen reittikorjaus — julkisuuspyyntöpalvelu tunnistettu; ei dataa"
+    }
+  };
   const EXPECTED_DISPATCH = {
     DE: {
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: "receipt_and_ifg_forwarding_confirmed"
     },
     CA: {
       state: "sent",
@@ -61,7 +79,7 @@
       state: "sent",
       sentOn: "2026-07-22",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: "registered_processing_notice_received"
     },
     PL: {
       state: "sent",
@@ -73,7 +91,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: "automated_route_correction_received"
     },
     IT: {
       state: "sent",
@@ -97,7 +115,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: "automated_receipt_acknowledged"
     },
     AU: {
       state: "sent",
@@ -144,6 +162,15 @@
       const normalized = key.toLowerCase().replace(/[^a-z]/g, "");
       return PRIVATE_METADATA_KEYS.has(normalized) || containsPrivateMetadataKey(item);
     });
+  }
+
+  function containsEmailAddress(value) {
+    if (typeof value === "string") {
+      return /\b[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)+\b/i.test(value);
+    }
+    if (Array.isArray(value)) return value.some(containsEmailAddress);
+    if (!value || typeof value !== "object") return false;
+    return Object.values(value).some(containsEmailAddress);
   }
 
   function validIsoDate(value) {
@@ -201,10 +228,19 @@
       throw new Error("programme metadata has invalid field types");
     }
     if (containsPrivateMetadataKey(raw)) throw new Error("private correspondence metadata is forbidden");
+    if (containsEmailAddress(raw)) throw new Error("email addresses are forbidden in public request tracking");
     const publicNotices = `${raw.independenceNoticeEn}\n${raw.independenceNoticeFi}`.toLowerCase();
     if (publicNotices.includes("no request has been sent")
       || publicNotices.includes("yhtäkään pyyntöä ei ole lähetetty")) {
       throw new Error("false all-draft claim");
+    }
+    if (!raw.independenceNoticeEn.toLowerCase().includes("privacy-safe categorical process state")
+      || !raw.independenceNoticeEn.toLowerCase().includes("substantive data")
+      || !raw.independenceNoticeEn.toLowerCase().includes("fee commitment")
+      || !raw.independenceNoticeFi.toLowerCase().includes("tietosuojatun kategorisen prosessitilan")
+      || !raw.independenceNoticeFi.toLowerCase().includes("sisällöllisenä datana")
+      || !raw.independenceNoticeFi.toLowerCase().includes("maksusitoumuksena")) {
+      throw new Error("process-response boundary is missing");
     }
     if (!Array.isArray(raw.routes) || raw.routes.length !== 20) {
       throw new Error("expected exactly 20 routes");
@@ -213,6 +249,7 @@
     const countries = new Set();
     const ranks = new Set();
     const sentCountries = new Set();
+    const processResponseCountries = new Set();
     for (const route of raw.routes) {
       exactKeys(route, [
         "operationalRank", "priorityCode", "wave", "countryIso2", "countryEn", "countryFi",
@@ -237,6 +274,12 @@
         || route.dispatch.publicAuthorityReference !== expectedDispatch.publicAuthorityReference
         || route.dispatch.responseState !== expectedDispatch.responseState) {
         throw new Error("dispatch tracking differs from the approved public record");
+      }
+      if (Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)) {
+        processResponseCountries.add(route.countryIso2);
+        if (route.dispatch.publicAuthorityReference !== null) {
+          throw new Error("process response cannot expose a correspondence reference");
+        }
       }
       if (route.status === "sent") {
         sentCountries.add(route.countryIso2);
@@ -305,6 +348,10 @@
     if (sentCountries.size !== 11 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
       throw new Error("sent country set differs from the approved 11-country public record");
     }
+    if (processResponseCountries.size !== 4
+      || !["DE", "FI", "DK", "SE"].every((iso) => processResponseCountries.has(iso))) {
+      throw new Error("process-response country set differs from the approved four-country record");
+    }
     return raw;
   }
 
@@ -312,6 +359,12 @@
     const row = element("li");
     row.append(element("span", "", label), element("strong", "", value));
     return row;
+  }
+
+  function processStatusText(responseState) {
+    const label = PROCESS_RESPONSE_LABELS[responseState];
+    if (label) return isFi() ? label.fi : label.en;
+    return l("Ei julkista prosessivastausta kirjattu", "No public process response recorded");
   }
 
   function renderRoute(route) {
@@ -356,6 +409,10 @@
     );
     if (sent) {
       meta.append(metadata(l("Julkinen lähetystieto", "Public dispatch record"), route.dispatch.sentOn));
+      meta.append(metadata(
+        l("Julkinen prosessitila", "Public process status"),
+        processStatusText(route.dispatch.responseState)
+      ));
       if (route.dispatch.publicAuthorityReference) {
         meta.append(metadata(
           l("Julkinen viranomaisviite", "Public authority reference"),
@@ -414,12 +471,15 @@
     const status = root.querySelector("[data-request-program-status]");
     const sentCount = routes.filter((route) => route.status === "sent").length;
     const draftCount = routes.length - sentCount;
+    const processResponseCount = routes.filter(
+      (route) => Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)
+    ).length;
     status.className = "bank-package-status bank-package-status-ready";
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `${sentCount} lähetetty · ${draftCount} luonnosta · tarkistettu ${programme.verificationDate}.`,
-        `${sentCount} sent · ${draftCount} drafts · verified ${programme.verificationDate}.`
+        `${sentCount} lähetetty · ${draftCount} luonnosta · ${processResponseCount} prosessivastausta · 0 sisällöllistä datavastausta · tarkistettu ${programme.verificationDate}.`,
+        `${sentCount} sent · ${draftCount} drafts · ${processResponseCount} process responses · 0 substantive data responses · verified ${programme.verificationDate}.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

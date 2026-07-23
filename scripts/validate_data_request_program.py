@@ -35,13 +35,24 @@ EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 LOCAL_REQUESTER_VALUES = {"not_required", "recommended", "conditional", "required"}
 ROUTE_STATUS_VALUES = {"draft_not_sent", "sent"}
-RESPONSE_STATE_VALUES = {"not_applicable", "not_publicly_recorded"}
+PROCESS_RESPONSE_STATE_VALUES = {
+    "receipt_and_ifg_forwarding_confirmed",
+    "registered_processing_notice_received",
+    "automated_receipt_acknowledged",
+    "automated_route_correction_received",
+}
+RESPONSE_STATE_VALUES = {
+    "not_applicable",
+    "not_publicly_recorded",
+    *PROCESS_RESPONSE_STATE_VALUES,
+}
+EXPECTED_PROCESS_RESPONSE_COUNTRIES = {"DE", "FI", "DK", "SE"}
 EXPECTED_DISPATCH = {
     "DE": {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
+        "responseState": "receipt_and_ifg_forwarding_confirmed",
     },
     "CA": {
         "state": "sent",
@@ -59,7 +70,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-22",
         "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
+        "responseState": "registered_processing_notice_received",
     },
     "PL": {
         "state": "sent",
@@ -71,7 +82,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
+        "responseState": "automated_route_correction_received",
     },
     "IT": {
         "state": "sent",
@@ -95,7 +106,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
+        "responseState": "automated_receipt_acknowledged",
     },
     "AU": {
         "state": "sent",
@@ -113,6 +124,15 @@ PRIVATE_METADATA_KEYS = {
     "senttimestamp", "subject", "telephone", "threadid", "to",
 }
 FORBIDDEN_PUBLIC_TEXT = ("/users/", "file://")
+FORBIDDEN_PROCESS_OVERSTATEMENTS = (
+    "market data received",
+    "substantive data response received",
+    "a fee was accepted",
+    "markkinadata saatu",
+    "sisällöllinen datavastaus saatu",
+    "maksu hyväksyttiin",
+)
+EMAIL_ADDRESS_RE = re.compile(r"(?i)\b[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)+\b")
 PRIVATE_IDENTIFIER_FINGERPRINTS = frozenset(
     {
         (7, "46d7415f6182ece9e933e8e9f780957e449361e0dbe10e34f46c186cad3382a1"),
@@ -312,6 +332,7 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         errors.append("priorityCode values must be unique")
 
     sent_countries: set[str] = set()
+    process_response_countries: set[str] = set()
     for route in routes:
         iso = route.get("countryIso2", "?")
         label = f"route {iso}"
@@ -325,6 +346,10 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 errors.append(f"{label}: invalid dispatch state")
             if dispatch.get("responseState") not in RESPONSE_STATE_VALUES:
                 errors.append(f"{label}: invalid response state")
+            if dispatch.get("responseState") in PROCESS_RESPONSE_STATE_VALUES:
+                process_response_countries.add(iso)
+                if dispatch.get("publicAuthorityReference") is not None:
+                    errors.append(f"{label}: process response must not expose a correspondence reference")
             if route.get("status") != dispatch.get("state"):
                 errors.append(f"{label}: route status and dispatch state must match")
             expected_dispatch = EXPECTED_DISPATCH.get(iso, {
@@ -430,6 +455,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         errors.append("sent country set must match the approved 11-country public record")
     if sum(route.get("status") == "sent" for route in routes) != 11:
         errors.append("programme must contain exactly 11 sent routes and 9 drafts")
+    if process_response_countries != EXPECTED_PROCESS_RESPONSE_COUNTRIES:
+        errors.append("process-response country set must match the approved four-country public record")
     private_metadata_paths = list(find_private_metadata_keys(program))
     if private_metadata_paths:
         errors.append("private correspondence metadata is forbidden: " + ", ".join(private_metadata_paths))
@@ -438,10 +465,29 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     for phrase in FORBIDDEN_PUBLIC_TEXT:
         if phrase in combined:
             errors.append(f"public programme contains forbidden text {phrase!r}")
+    for phrase in FORBIDDEN_PROCESS_OVERSTATEMENTS:
+        if phrase in combined:
+            errors.append(f"public programme overstates a process response: {phrase!r}")
     if "no request has been sent" in combined or "yhtäkään pyyntöä ei ole lähetetty" in combined:
         errors.append("public programme contains a false all-draft claim")
+    if any(EMAIL_ADDRESS_RE.search(value) for value in programme_strings):
+        errors.append("public programme contains an email address")
     if any(contains_private_identifier(value) for value in programme_strings):
         errors.append("public programme contains a private identifier fingerprint")
+    notice_en = str(program.get("independenceNoticeEn", "")).casefold()
+    notice_fi = str(program.get("independenceNoticeFi", "")).casefold()
+    if not all(term in notice_en for term in (
+        "privacy-safe categorical process state",
+        "substantive data",
+        "fee commitment",
+    )):
+        errors.append("English independence notice must distinguish process state from substantive data and fee commitment")
+    if not all(term in notice_fi for term in (
+        "tietosuojatun kategorisen prosessitilan",
+        "sisällöllisenä datana",
+        "maksusitoumuksena",
+    )):
+        errors.append("Finnish independence notice must distinguish process state from substantive data and fee commitment")
 
 
 def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
@@ -465,9 +511,22 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
         if rows and list(rows[0]) != CSV_FIELDS:
             errors.append("published CSV columns differ from the privacy-safe tracking schema")
         if {row["countryIso2"] for row in rows if row["status"] == "sent"} != set(EXPECTED_DISPATCH):
-            errors.append("published CSV sent country set differs from the approved 10-country public record")
+            errors.append("published CSV sent country set differs from the approved 11-country public record")
         if any(row["status"] not in ROUTE_STATUS_VALUES for row in rows):
             errors.append("published CSV contains an unsupported status")
+        if any(row["responseState"] not in RESPONSE_STATE_VALUES for row in rows):
+            errors.append("published CSV contains an unsupported response state")
+        if {
+            row["countryIso2"] for row in rows
+            if row["responseState"] in PROCESS_RESPONSE_STATE_VALUES
+        } != EXPECTED_PROCESS_RESPONSE_COUNTRIES:
+            errors.append("published CSV process-response country set differs from the approved four-country record")
+        if any(
+            row["publicAuthorityReference"]
+            for row in rows
+            if row["responseState"] in PROCESS_RESPONSE_STATE_VALUES
+        ):
+            errors.append("published CSV exposes a process-response correspondence reference")
         if any(row["isMarketSizeRanking"] != "false" for row in rows):
             errors.append("published CSV must mark isMarketSizeRanking=false")
         if any(
@@ -521,8 +580,9 @@ def main() -> int:
         return 1
 
     print(
-        "PASS: schema v2 with 11 sent and 9 draft country routes; privacy-safe dispatch tracking, "
-        "operational ranking, official HTTPS URLs, requester caveats, and generated files verified."
+        "PASS: schema v2 with 11 sent, 9 draft and 4 privacy-safe process-response country routes; "
+        "0 substantive data responses, operational ranking, official HTTPS URLs, requester caveats, "
+        "and generated files verified."
     )
     return 0
 

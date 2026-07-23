@@ -1,6 +1,6 @@
 {
-  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records only whether a country route was sent, its calendar date and any public authority reference; it does not identify a sender or recipient or establish delivery, acknowledgement, routing or response.",
-  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo vain, onko maareitti lähetetty, kalenteripäivän ja mahdollisen julkisen viranomaisviitteen; se ei yksilöi lähettäjää tai vastaanottajaa eikä osoita toimitusta, vastaanottokuittausta, reititystä tai vastausta.",
+  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process state. It does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
+  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessitilan. Se ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
   "programmeId": "pixan-independent-top20-official-data-request-programme-v2",
   "ranking": {
     "isMarketSizeRanking": false,
@@ -15,7 +15,7 @@
       "countryIso2": "DE",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_publicly_recorded",
+        "responseState": "receipt_and_ifg_forwarding_confirmed",
         "sentOn": "2026-07-23",
         "state": "sent"
       },
@@ -388,7 +388,7 @@
       "countryIso2": "SE",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_publicly_recorded",
+        "responseState": "automated_route_correction_received",
         "sentOn": "2026-07-23",
         "state": "sent"
       },
@@ -438,9 +438,9 @@
         "Revisiot ja vuosiraportoinnin laiminlyöntiin liittyvät markkinakiellot"
       ],
       "requestChannel": {
-        "nameEn": "Public Health Agency data-order service",
-        "nameFi": "Kansanterveysviranomaisen datan tilauspalvelu",
-        "url": "https://www.folkhalsomyndigheten.se/folkhalsorapportering-statistik/bestall-vara-data/"
+        "nameEn": "Public Health Agency public-record request service",
+        "nameFi": "Kansanterveysviranomaisen julkisuuspyyntöpalvelu",
+        "url": "https://www.folkhalsomyndigheten.se/om-folkhalsomyndigheten/kontakta-folkhalsomyndigheten/ta-del-av-allman-handling/"
       },
       "requesterEligibility": {
         "caveatEn": "No local-requester condition was identified; start with aggregate product-type data because brand-level material may trigger confidentiality review.",
@@ -701,7 +701,7 @@
       "countryIso2": "FI",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_publicly_recorded",
+        "responseState": "registered_processing_notice_received",
         "sentOn": "2026-07-22",
         "state": "sent"
       },
@@ -770,7 +770,7 @@
       "countryIso2": "DK",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_publicly_recorded",
+        "responseState": "automated_receipt_acknowledged",
         "sentOn": "2026-07-23",
         "state": "sent"
       },
