@@ -18,11 +18,11 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-22-9">
-  <script defer src="assets/i18n.js?v=2026-07-22-9"></script>
-  <script defer src="assets/downloads.js?v=2026-07-22-9"></script>
-  <script defer src="assets/request-program.js?v=2026-07-22-9"></script>
-  <script defer src="assets/review.js?v=2026-07-22-9"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-10">
+  <script defer src="assets/i18n.js?v=2026-07-23-10"></script>
+  <script defer src="assets/downloads.js?v=2026-07-23-10"></script>
+  <script defer src="assets/request-program.js?v=2026-07-23-10"></script>
+  <script defer src="assets/review.js?v=2026-07-23-10"></script>
 </head>
 <body class="review-page">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -55,6 +55,7 @@
         <div class="hero-actions no-print">
           <a class="button button-primary" href="index.html#market">Open annual market-value evidence</a>
           <a class="button button-primary" href="index.html#countries">Open the 195-country atlas</a>
+          <a class="button button-primary" href="#bankability">Open bankability gates</a>
           <a class="button button-secondary" href="data/countries.csv" download>Download country CSV</a>
           <a class="button button-secondary" href="data/evidence.csv" download>Download evidence CSV</a>
           <a class="button button-secondary" href="data/patent-history.json" download>Download patent JSON</a>
@@ -152,6 +153,50 @@
       </div>
       <div class="request-program-grid" data-request-program-routes hidden></div>
       <p class="bank-package-note" data-request-program-note hidden>Tax, sales, customs and seizure series may measure the same goods at different stages and must not be added mechanically.</p>
+    </section>
+
+    <section id="bankability" class="shell review-section bankability-section" aria-labelledby="bankability-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Public bankability sprint · decision gates, not transaction evidence</p>
+          <h2 id="bankability-title">Three transaction paths remain on HOLD</h2>
+        </div>
+        <p>The public dataset can structure diligence questions, but it cannot establish a financing case, collateral value, transaction terms or buyer interest.</p>
+      </div>
+      <aside class="bankability-boundary" aria-label="Public transaction-path boundary">
+        <span class="bankability-boundary-mark" aria-hidden="true">PUBLIC GATE</span>
+        <div>
+          <strong>Analytical routes only — no active process is stated</strong>
+          <p>These paths do not indicate an offer, financing commitment, sale mandate, licensing campaign, negotiation or third-party interest. Private evidence may change a gate only after controlled professional review.</p>
+        </div>
+      </aside>
+      <div class="transaction-path-grid" id="review-transaction-paths"></div>
+
+      <div class="section-heading bankability-matrix-heading">
+        <div>
+          <p class="eyebrow">Top 10 evidence-acquisition priorities</p>
+          <h2>Market evidence and national-right status side by side</h2>
+        </div>
+        <p>The table joins the existing operational request ranking, country atlas, patent-family inventory and proceeding records. It does not turn a family publication into current national status.</p>
+      </div>
+      <div class="bankability-matrix-status" id="review-top10-matrix-status" role="status" aria-live="polite">Checking the joined public evidence…</div>
+      <div class="table-wrap bankability-matrix-wrap" id="review-top10-matrix-wrap" hidden>
+        <table class="bankability-matrix">
+          <caption>Top 10 operational evidence-acquisition routes joined to current public market and patent-status evidence</caption>
+          <thead>
+            <tr>
+              <th scope="col">Priority / country</th>
+              <th scope="col">Market evidence</th>
+              <th scope="col">Request status</th>
+              <th scope="col">National-right evidence</th>
+              <th scope="col">Claim / enforcement evidence</th>
+              <th scope="col">Next evidence gate</th>
+            </tr>
+          </thead>
+          <tbody id="review-top10-matrix"></tbody>
+        </table>
+      </div>
+      <p class="bankability-matrix-note">A–D grades and coverage percentages describe evidence readiness, not market size or market share. “Not established” means missing from this reviewed public dataset—not proof that no right or market exists.</p>
     </section>
 
     <section class="shell review-section" aria-labelledby="review-market-title">

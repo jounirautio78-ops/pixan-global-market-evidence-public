@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-23-public-bankability-gates-v10",
+      "version": "2026.07.23-10",
+      "publishedAt": "2026-07-23T11:20:00+03:00",
+      "titleEn": "Public bankability gates and Top 10 market-right matrix",
+      "titleFi": "Julkiset rahoituskelpoisuusportit ja Top 10 markkina–oikeusmatriisi",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Added three public transaction-path views for share-backed financing, IP-backed corporate financing and a strategic sale or licensing route. Every path remains explicitly on HOLD until its private professional-diligence gates are closed.",
+          "textFi": "Lisättiin kolme julkista transaktiopolkua osakepanttirahoitukselle, IP-vakuudelliselle yritysrahoitukselle sekä strategiselle myynnille tai lisensoinnille. Jokainen polku säilyy nimenomaisesti HOLD-tilassa, kunnes sen yksityisen ammatillisen tarkastuksen portit on suljettu."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Added a Top 10 matrix joining the existing operational data-request ranking to the country atlas, patent-family inventory and proceeding records while preserving market measures, family publications and current national status as separate evidence.",
+          "textFi": "Lisättiin Top 10 -matriisi, joka yhdistää nykyisen operatiivisen tietopyyntöjärjestyksen maa-atlakseen, patenttiperheinventaarioon ja prosessitietoihin pitäen markkinamittarit, perhejulkaisut ja nykyisen kansallisen tilan erillisinä evidensseinä."
+        },
+        {
+          "category": "legal",
+          "textEn": "Made missing country-specific product claim charts and current national-register checks visible as separate gates. A missing family row is not treated as evidence that no right exists, and the German decisions retain their product, territory and finality limits.",
+          "textFi": "Tuotiin puuttuvat maakohtaiset tuotteen claim chartit ja nykyisen kansallisen rekisteritilan tarkistukset näkyviksi erillisiksi porteiksi. Puuttuva perherivi ei osoita, ettei oikeutta ole, ja Saksan ratkaisut säilyttävät tuote-, alue- ja lainvoimaisuusrajansa."
+        },
+        {
+          "category": "method",
+          "textEn": "Kept the bankability view public-safe: it states no active transaction, offer, financing commitment, mandate, negotiation, third-party interest, valuation or private-diligence outcome.",
+          "textFi": "Pidettiin rahoituskelpoisuusnäkymä julkaisukelpoisena: se ei väitä aktiivista transaktiota, tarjousta, rahoitussitoumusta, mandaattia, neuvottelua, kolmannen osapuolen kiinnostusta, arvonmääritystä tai yksityisen tarkastuksen tulosta."
+        }
+      ]
+    },
+    {
       "id": "2026-07-22-first-authority-requests-v9",
       "version": "2026.07.22-9",
       "publishedAt": "2026-07-22T23:18:00+03:00",

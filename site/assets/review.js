@@ -31,10 +31,63 @@ const REVIEW_LEGAL_SUMMARIES = {
   "DE-LGMUC-7O3341-24-JUDGMENT": "The Munich Regional Court I judgment dated 2 April 2026 found infringement by the products examined in case 7 O 3341/24 and ordered the remedies listed in that judgment. The record does not by itself establish finality, enforcement, damages paid or relevance to other products or countries."
 };
 
+const REVIEW_TRANSACTION_PATHS = [
+  {
+    code: "01",
+    title: ["Osakepanttirahoitus", "Share-backed financing"],
+    purpose: [
+      "Arvioi, voidaanko rahoitus rakentaa vahvistetun osakeomistuksen, takaisinmaksukyvyn ja realisoitavan vakuuspolun varaan.",
+      "Tests whether financing can be supported by verified share title, repayment capacity and a realisable collateral path."
+    ],
+    gates: [
+      ["Ajantasainen osakeluettelo, omistusketju sekä siirto- ja panttausrajoitukset on vahvistettu hallitussa yksityisessä tarkastuksessa.", "Current cap table, title chain and transfer or pledge restrictions verified in controlled private diligence."],
+      ["Auditoidut taloustiedot, rahoitustarve ja ensisijainen takaisinmaksulähde on dokumentoitu.", "Audited financial information, funding need and primary repayment source documented."],
+      ["Riippumaton arvonmääritys sekä lainanantajan downside-, likviditeetti- ja toteutettavuusanalyysi on tehty.", "Independent valuation plus lender downside, liquidity and realisation analysis completed."],
+      ["Ehdot, vakuusasiakirjat ja hyväksynnät on käsitelty hallitussa datahuoneessa.", "Terms, security documents and approvals reviewed in a controlled data room."]
+    ]
+  },
+  {
+    code: "02",
+    title: ["IP-vakuudellinen yritysrahoitus", "IP-backed corporate financing"],
+    purpose: [
+      "Arvioi, onko patenttioikeuksilla tai todennettavalla IP-kassavirralla lainanantajalle käyttökelpoinen downside-arvo.",
+      "Tests whether patent rights or documented IP cash flow can support a lender-relevant downside case."
+    ],
+    gates: [
+      ["Asiantuntijan allekirjoittama maakohtainen oikeus-, omistus-, rasite-, maksu- ja vaatimusmatriisi on valmis.", "Counsel-signed country matrix for rights, title, encumbrances, fees and operative claims completed."],
+      ["Priorisoiduista tuotteista on hallussapitoketju, tekninen purku, riippumaton mittaus ja asiantuntijan tarkastama claim chart.", "Prioritised products have chain of custody, teardown, independent measurement and counsel-reviewed claim charts."],
+      ["Toteutunut tai sopimuspohjainen kassavirta ja riippumaton IP-arvonmääritys on dokumentoitu.", "Realised or contract-based cash flow and an independent IP valuation documented."],
+      ["Vakuuden perustaminen, etusija, täytäntöönpano ja realisointikulut on vahvistettu soveltuvissa valtioissa.", "Perfection, priority, enforcement and realisation costs confirmed in the relevant jurisdictions."]
+    ]
+  },
+  {
+    code: "03",
+    title: ["Strateginen myynti tai lisensointi", "Strategic sale or licensing"],
+    purpose: [
+      "Arvioi, voidaanko oikeuksista ja niiden kaupallisesta merkityksestä rakentaa ostajalle tai lisenssinsaajalle tarkistettava tapaus.",
+      "Tests whether the rights and their commercial relevance can form a reviewable case for a buyer or licensee."
+    ],
+    gates: [
+      ["Transaktiovaltuus, myytävä tai lisensoitava oikeuspaketti ja maantieteellinen laajuus on vahvistettu.", "Transaction authority, rights package and geographic scope verified."],
+      ["Maa-, tuote- ja vaatimuskohtainen yhteys perustuu ajantasaisiin rekistereihin ja tuotekohtaiseen näyttöön.", "Country, product and claim mapping is grounded in current registers and product-specific evidence."],
+      ["Asiakas-, sopimus-, lisenssi-, vahingonkorvaus- tai vertailukauppanäyttö on dokumentoitu eikä oletettu.", "Customer, contract, licence, damages or comparable-transaction evidence is documented rather than assumed."],
+      ["Yhteydenotot, salassapito, kilpailuoikeus ja neuvotteluaineisto on hyväksytty hallitussa prosessissa.", "Outreach, confidentiality, competition-law and negotiation materials approved through a controlled process."]
+    ]
+  }
+];
+
+const REVIEW_MATRIX_DIMENSIONS = {
+  officialSales: ["myynti", "sales"],
+  officialVolume: ["määrä", "volume"],
+  taxRevenue: ["vero", "tax"],
+  customs: ["tulli", "customs"]
+};
+
 let reviewData = null;
 let reviewMarketData = null;
 let reviewPatentData = null;
 let reviewChangelog = null;
+let reviewRequestData = null;
 let reviewChangeView = null;
 
 const reviewById = (id) => document.getElementById(id);
@@ -292,6 +345,261 @@ function renderReviewBlockers(data) {
   if (!blockers.length) host.append(reviewNode("p", "muted", reviewL("Valmiustietoa ei ollut saatavilla.", "No readiness record was available.")));
 }
 
+function renderReviewTransactionPaths() {
+  const host = reviewById("review-transaction-paths");
+  if (!host) return;
+  host.replaceChildren(...REVIEW_TRANSACTION_PATHS.map((path) => {
+    const card = reviewNode("article", "transaction-path-card");
+    const head = reviewNode("div", "transaction-path-head");
+    head.append(
+      reviewNode("span", "transaction-path-code", path.code),
+      reviewNode("span", "transaction-path-status", "HOLD")
+    );
+    const gates = reviewNode("ul", "transaction-path-gates");
+    for (const gate of path.gates) gates.append(reviewNode("li", "", reviewL(...gate)));
+    card.append(
+      head,
+      reviewNode("h3", "", reviewL(...path.title)),
+      reviewNode("p", "transaction-path-purpose", reviewL(...path.purpose)),
+      reviewNode("strong", "transaction-path-gate-label", reviewL("Vapautusportit", "Release gates")),
+      gates,
+      reviewNode(
+        "p",
+        "transaction-path-foot",
+        reviewL(
+          "Julkinen tila: HOLD. Tämä sivu ei tallenna yksityisen tarkastuksen tulosta tai transaktiotilaa.",
+          "Public status: HOLD. This page does not record private-diligence outcomes or transaction status."
+        )
+      )
+    );
+    return card;
+  }));
+}
+
+function reviewMatrixEvidenceCell(country) {
+  const cell = reviewNode("td", "bankability-market-cell");
+  if (!country) {
+    cell.append(reviewNode("strong", "", reviewL("Ei maadatariviä", "No country-data row")));
+    return cell;
+  }
+  const headline = reviewNode("div", "bankability-market-head");
+  headline.append(
+    reviewNode("span", `grade grade-${String(country.bestEvidence || "D").toLowerCase()}`, country.bestEvidence || "D"),
+    reviewNode("strong", "", `${Number(country.coveragePercent) || 0}%`)
+  );
+  const chips = reviewNode("div", "bankability-dimension-chips");
+  for (const [key, labels] of Object.entries(REVIEW_MATRIX_DIMENSIONS)) {
+    const status = reviewStatus(country.dimensions?.[key]);
+    const chip = reviewNode("span", `bankability-dimension-chip bankability-dimension-${status}`);
+    chip.append(
+      reviewNode("i", "", ""),
+      document.createTextNode(`${reviewL(...labels)} · ${reviewL(
+        status === "verified" ? "vahvistettu" : status === "partial" ? "osittainen" : "puuttuu",
+        status === "verified" ? "verified" : status === "partial" ? "partial" : "missing"
+      )}`)
+    );
+    chips.append(chip);
+  }
+  cell.append(
+    headline,
+    reviewNode("small", "", reviewL("Evidenssivalmius; ei markkinaosuus", "Evidence readiness; not market share")),
+    chips
+  );
+  return cell;
+}
+
+function reviewMatrixRequestCell(route) {
+  const cell = reviewNode("td", "bankability-request-cell");
+  const sent = route.status === "sent";
+  cell.append(
+    reviewNode(
+      "span",
+      sent ? "request-program-status request-program-status-sent" : "request-program-status",
+      sent ? reviewL("Lähetetty", "Sent") : reviewL("Luonnos — ei lähetetty", "Draft — not sent")
+    ),
+    reviewNode("strong", "", reviewIsFi() ? route.primaryAuthority.nameFi : route.primaryAuthority.nameEn)
+  );
+  if (sent) {
+    cell.append(reviewNode("small", "", `${reviewL("Julkinen päivä", "Public date")}: ${route.dispatch.sentOn}`));
+    if (route.dispatch.publicAuthorityReference) {
+      cell.append(reviewNode("code", "", `${reviewL("Viite", "Reference")}: ${route.dispatch.publicAuthorityReference}`));
+    }
+  } else {
+    cell.append(reviewNode("small", "", reviewL("Tämä sivu ei hyväksy tai lähetä pyyntöä.", "This page does not approve or send the request.")));
+  }
+  return cell;
+}
+
+function reviewMatrixRightCell(route, familyMember, proceedings) {
+  const cell = reviewNode("td", "bankability-right-cell");
+  if (route.countryIso2 === "DE" && proceedings.length) {
+    cell.append(
+      reviewNode("strong", "", "EP3032975B2 · DE"),
+      reviewNode(
+        "p",
+        "",
+        reviewL(
+          "Saksan osa yksilöidään virallisissa kansallisissa ratkaisuissa. Nykyistä kansallista rekisteritilaa, omistusta, maksuja ja rasitteita ei ole tässä vahvistettu.",
+          "The German part is identified in official national decisions. Current national register status, title, fees and encumbrances are not established here."
+        )
+      ),
+      reviewNode("small", "", reviewL("Tuomioistuinasiakirja ei ole kansallinen voimassaolotodistus tai arvonmääritys.", "A court record is not a national-status certificate or valuation."))
+    );
+    return cell;
+  }
+  if (!familyMember) {
+    cell.append(
+      reviewNode("strong", "", reviewL("Ei vahvistettu", "Not established")),
+      reviewNode(
+        "p",
+        "",
+        reviewL(
+          "Nykyisessä julkisessa perheinventaariossa ei ole tämän maan riviä. Tämä ei osoita, ettei oikeutta ole.",
+          "The current public family inventory has no row for this country. This is not evidence that no right exists."
+        )
+      )
+    );
+    return cell;
+  }
+  cell.append(
+    reviewNode("strong", "", familyMember.publicationNumber || familyMember.applicationNumber || route.countryIso2),
+    reviewNode("p", "", reviewPatentText(familyMember, "currentNationalStatus") || reviewL("Nykyinen kansallinen tila vahvistamatta.", "Current national status not verified.")),
+    reviewNode("small", "", reviewPatentText(familyMember, "limitation"))
+  );
+  return cell;
+}
+
+function reviewMatrixClaimCell(route, proceedings) {
+  const cell = reviewNode("td", "bankability-claim-cell");
+  if (route.countryIso2 === "DE" && proceedings.length) {
+    cell.append(
+      reviewNode("strong", "", reviewL("Viralliset kansalliset ratkaisut", "Official national decisions")),
+      reviewNode(
+        "p",
+        "",
+        reviewL(
+          "Ratkaisut koskevat käsiteltyjä tuotteita ja Saksan aluetta. Julkinen tuote–vaatimusvertailu puuttuu; lainvoimaisuus, täytäntöönpano ja maksetut korvaukset eivät ole kokonaan vahvistettuja.",
+          "The decisions concern the examined products and Germany. A public product-to-claim chart is missing; finality, enforcement and damages paid are not fully established."
+        )
+      )
+    );
+    return cell;
+  }
+  if (route.countryIso2 === "CN" && proceedings.length) {
+    cell.append(
+      reviewNode("strong", "", reviewL("Hakijapuolen uudelleentarkastus", "Applicant-side re-examination")),
+      reviewNode(
+        "p",
+        "",
+        reviewL(
+          "Ei loukkausasia. Virallisen päätöksen perustelut ja julkinen tuote–vaatimusvertailu puuttuvat.",
+          "Not an infringement case. The official decision reasoning and a public product-to-claim chart are missing."
+        )
+      )
+    );
+    return cell;
+  }
+  cell.append(
+    reviewNode("strong", "", reviewL("Puuttuu", "Missing")),
+    reviewNode(
+      "p",
+      "",
+      reviewL(
+        "Julkinen aineisto ei sisällä maakohtaista tuotteen ja vaatimusten kartoitusta tai täytäntöönpanojohtopäätöstä.",
+        "The public evidence contains no country-specific product-to-claim mapping or enforcement conclusion."
+      )
+    )
+  );
+  return cell;
+}
+
+function reviewMatrixNextGateCell(route, familyMember, proceedings) {
+  const cell = reviewNode("td", "bankability-next-gate");
+  const marketAction = route.status === "sent"
+    ? reviewL(
+      "Kirjaa ja tarkista mahdollinen viranomaisvastaus, määritelmät, kattavuus, puutteet ja revisiot ennen julkista käyttöä.",
+      "Record and review any authority response, definitions, coverage, missingness and revisions before public use."
+    )
+    : reviewL(
+      `Tee ihmistarkistus suunnitellulle ${route.primaryAuthority.nameFi} -pyynnölle; tämä sivu ei lähetä sitä.`,
+      `Human-review the planned ${route.primaryAuthority.nameEn} request; this page does not send it.`
+    );
+  let rightsAction;
+  if (route.countryIso2 === "DE" && proceedings.length) {
+    rightsAction = reviewL(
+      "Hanki tuore Saksan oikeus-, omistus-, maksu- ja prosessin lopullisuustarkistus sekä asiantuntijan tarkastama tuotekohtainen claim chart.",
+      "Obtain a fresh German rights, title, fee and proceeding-finality check plus a counsel-reviewed product claim chart."
+    );
+  } else if (familyMember) {
+    rightsAction = reviewL(
+      "Hanki tuore virallinen kansallinen ote voimassaolosta, omistuksesta, maksuista, rasitteista ja käytettävistä vaatimuksista.",
+      "Obtain a fresh official national extract covering status, title, fees, encumbrances and operative claims."
+    );
+  } else {
+    rightsAction = reviewL(
+      "Vahvista ensin virallisesta kansallisesta rekisteristä, onko nykyinen oikeus olemassa, ennen markkinaevidenssin kohdistamista.",
+      "First establish from the official national register whether a current right exists before attributing market evidence."
+    );
+  }
+  const market = reviewNode("p");
+  market.append(reviewNode("strong", "", reviewL("Markkina: ", "Market: ")), document.createTextNode(marketAction));
+  const rights = reviewNode("p");
+  rights.append(reviewNode("strong", "", reviewL("Oikeus: ", "Right: ")), document.createTextNode(rightsAction));
+  cell.append(market, rights);
+  return cell;
+}
+
+function renderReviewTop10Matrix() {
+  const status = reviewById("review-top10-matrix-status");
+  const wrap = reviewById("review-top10-matrix-wrap");
+  const host = reviewById("review-top10-matrix");
+  if (!status || !wrap || !host) return;
+  const routes = Array.isArray(reviewRequestData?.routes)
+    ? [...reviewRequestData.routes].sort((a, b) => a.operationalRank - b.operationalRank).slice(0, 10)
+    : [];
+  if (!reviewData || routes.length !== 10) {
+    host.replaceChildren();
+    wrap.hidden = true;
+    status.dataset.state = "error";
+    status.textContent = reviewL("Top 10 -matriisia ei voitu muodostaa tarkistetusta aineistosta.", "The Top 10 matrix could not be built from the reviewed data.");
+    return;
+  }
+  const countryMap = new Map(reviewData.countries.map((country) => [country.iso2, country]));
+  const familyMap = new Map((reviewPatentData?.familyMembers || []).map((item) => [item.jurisdictionCode, item]));
+  const proceedingsMap = new Map();
+  for (const proceeding of reviewPatentData?.proceedings || []) {
+    if (!proceedingsMap.has(proceeding.jurisdictionCode)) proceedingsMap.set(proceeding.jurisdictionCode, []);
+    proceedingsMap.get(proceeding.jurisdictionCode).push(proceeding);
+  }
+
+  const rows = routes.map((route) => {
+    const row = reviewNode("tr");
+    const priority = reviewNode("td", "bankability-country-cell");
+    priority.append(
+      reviewNode("span", "bankability-rank", `#${String(route.operationalRank).padStart(2, "0")} · ${route.priorityCode}`),
+      reviewNode("strong", "", reviewIsFi() ? route.countryFi : route.countryEn),
+      reviewNode("code", "", route.countryIso2)
+    );
+    const familyMember = familyMap.get(route.countryIso2);
+    const proceedings = proceedingsMap.get(route.countryIso2) || [];
+    row.append(
+      priority,
+      reviewMatrixEvidenceCell(countryMap.get(route.countryIso2)),
+      reviewMatrixRequestCell(route),
+      reviewMatrixRightCell(route, familyMember, proceedings),
+      reviewMatrixClaimCell(route, proceedings),
+      reviewMatrixNextGateCell(route, familyMember, proceedings)
+    );
+    return row;
+  });
+  host.replaceChildren(...rows);
+  wrap.hidden = false;
+  status.dataset.state = reviewPatentData ? "ready" : "caution";
+  status.textContent = reviewPatentData
+    ? reviewL("10 reittiä yhdistetty · puuttuva näyttö säilytetty puuttuvana", "10 routes joined · missing evidence preserved as missing")
+    : reviewL("Markkina- ja pyyntödata yhdistetty; patenttiaineisto ei ollut saatavilla.", "Market and request data joined; patent data was unavailable.");
+}
+
 function reviewPatentText(item, key) {
   if (!item) return "";
   return reviewIsFi() ? item[`${key}Fi`] || item[key] || item[`${key}En`] || "" : item[`${key}En`] || item[key] || item[`${key}Fi`] || "";
@@ -397,6 +705,8 @@ function renderReview(data) {
   renderReviewGrades(data);
   renderReviewDimensions(data);
   renderReviewBlockers(data);
+  renderReviewTransactionPaths();
+  renderReviewTop10Matrix();
   if (reviewMarketData) renderReviewMarket(reviewMarketData);
   else renderReviewMarketUnavailable();
   renderReviewPatent();
@@ -412,11 +722,12 @@ async function initReview() {
     if (reviewData) renderReview(reviewData);
   });
   try {
-    const [atlasResult, marketResult, patentResult, changelogResult] = await Promise.allSettled([
+    const [atlasResult, marketResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
       fetch("data/atlas.json", { cache: "no-store" }),
       fetch("data/market-values.json", { cache: "no-store" }),
       fetch("data/patent-history.json", { cache: "no-store" }),
-      fetch("data/changelog.json", { cache: "no-store" })
+      fetch("data/changelog.json", { cache: "no-store" }),
+      fetch("data/top20-data-request-routes.json", { cache: "no-store" })
     ]);
     if (atlasResult.status !== "fulfilled" || !atlasResult.value.ok) throw new Error(`Atlas HTTP ${atlasResult.status === "fulfilled" ? atlasResult.value.status : "network error"}`);
     const data = await atlasResult.value.json();
@@ -453,6 +764,22 @@ async function initReview() {
     } catch (error) {
       reviewChangelog = null;
       console.warn("Optional changelog unavailable", error);
+    }
+
+    try {
+      if (requestResult.status !== "fulfilled" || !requestResult.value.ok) throw new Error(`HTTP ${requestResult.status === "fulfilled" ? requestResult.value.status : "network error"}`);
+      const requestData = await requestResult.value.json();
+      const routes = Array.isArray(requestData.routes) ? requestData.routes : [];
+      const ranked = [...routes].sort((a, b) => a.operationalRank - b.operationalRank);
+      const uniqueCountries = new Set(routes.map((route) => route.countryIso2));
+      if (requestData.schemaVersion !== 2 || routes.length !== 20 || uniqueCountries.size !== 20
+        || ranked.slice(0, 10).some((route, index) => route.operationalRank !== index + 1)) {
+        throw new Error("schema validation failed");
+      }
+      reviewRequestData = requestData;
+    } catch (error) {
+      reviewRequestData = null;
+      console.warn("Optional request-programme dataset unavailable", error);
     }
     prepareReviewChangeView();
     renderReview(data);

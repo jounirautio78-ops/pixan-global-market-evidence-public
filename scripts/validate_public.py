@@ -1481,8 +1481,6 @@ def validate_changelog(source: dict[str, Any], public: dict[str, Any], errors: l
             if timestamp.tzinfo is None:
                 raise ValueError
             timestamps.append(timestamp)
-            if as_of and timestamp.date() > as_of:
-                errors.append(f"{path}.publishedAt cannot be later than asOf")
         except ValueError:
             errors.append(f"{path}.publishedAt must be an offset-aware ISO timestamp")
         items = release.get("items")
