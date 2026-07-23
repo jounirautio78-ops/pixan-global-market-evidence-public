@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "controlId": "vendor-response-control-public",
+  "asOf": "2026-07-23",
+  "version": "2026.07.23-13",
+  "status": "public_status_only_no_purchase_authorised",
+  "publicBoundaryEn": "This public control shows only privacy-safe request status, evidence completeness and the scoring method. It does not publish correspondence, personal data, vendor files, unlicensed data or confidential commercial terms.",
+  "publicBoundaryFi": "Tämä julkinen valvontanäkymä näyttää vain tietoturvallisen pyyntötilan, evidenssin täydellisyyden ja pisteytysmenetelmän. Se ei julkaise kirjeenvaihtoa, henkilötietoja, toimittajatiedostoja, lisensoimatonta dataa tai luottamuksellisia kaupallisia ehtoja.",
+  "scoreBoundaryEn": "A missing response or missing evidence is NOT SCORED, never zero. A weighted score is calculated only after every mandatory gate has passed and all seven criterion scores have been entered.",
+  "scoreBoundaryFi": "Puuttuva vastaus tai puuttuva evidenssi on EI PISTEYTETTY, ei koskaan nolla. Painotettu pistemäärä lasketaan vasta, kun kaikki pakolliset portit on läpäisty ja kaikkien seitsemän kriteerin pisteet on syötetty.",
+  "scoreScale": {
+    "minimum": 0,
+    "maximum": 5,
+    "missingValue": "not_scored"
+  },
+  "criteria": [
+    {
+      "id": "annualCountrySeriesFit",
+      "weight": 0.2,
+      "labelEn": "Annual country-series fit",
+      "labelFi": "Sopivuus vuosittaiseen maasarjaan",
+      "descriptionEn": "Ability to support annual country-level device and e-liquid market estimates.",
+      "descriptionFi": "Kyky tukea laite- ja e-nestemarkkinoiden vuosittaisia maakohtaisia arvioita."
+    },
+    {
+      "id": "metricScopeClarity",
+      "weight": 0.15,
+      "labelEn": "Metric and scope clarity",
+      "labelFi": "Mittarin ja rajauksen selkeys",
+      "descriptionEn": "Clear definitions for value, volume, channel, supply-chain stage and product scope.",
+      "descriptionFi": "Selkeät määritelmät arvolle, volyymille, kanavalle, toimitusketjun vaiheelle ja tuoterajaukselle."
+    },
+    {
+      "id": "coverage",
+      "weight": 0.15,
+      "labelEn": "Country, year and product coverage",
+      "labelFi": "Maa-, vuosi- ja tuotepeitto",
+      "descriptionEn": "Documented geographic, historical and product coverage with exclusions.",
+      "descriptionFi": "Dokumentoitu maantieteellinen, historiallinen ja tuotepeitto poissulkuineen."
+    },
+    {
+      "id": "methodTransparency",
+      "weight": 0.15,
+      "labelEn": "Method transparency",
+      "labelFi": "Menetelmän läpinäkyvyys",
+      "descriptionEn": "Reviewable collection, estimation, projection and revision methods.",
+      "descriptionFi": "Tarkistettavat keruu-, arviointi-, projisointi- ja korjausmenetelmät."
+    },
+    {
+      "id": "auditability",
+      "weight": 0.1,
+      "labelEn": "Reproducibility and audit trail",
+      "labelFi": "Toistettavuus ja audit trail",
+      "descriptionEn": "Exports, metadata and versioning that permit a reviewer to reproduce the analysis.",
+      "descriptionFi": "Viennit, metadata ja versiointi, joiden avulla tarkastaja voi toistaa analyysin."
+    },
+    {
+      "id": "transactionLicenceFit",
+      "weight": 0.15,
+      "labelEn": "Lender and M&A licence fit",
+      "labelFi": "Lainanantaja- ja yrityskauppalisenssin sopivuus",
+      "descriptionEn": "Written rights for controlled lender, buyer, adviser and data-room review.",
+      "descriptionFi": "Kirjalliset oikeudet hallittuun lainanantaja-, ostaja-, neuvonantaja- ja datahuonetarkasteluun."
+    },
+    {
+      "id": "commercialClarity",
+      "weight": 0.1,
+      "labelEn": "Price, update and renewal clarity",
+      "labelFi": "Hinnan, päivitysten ja uusinnan selkeys",
+      "descriptionEn": "Clear total cost, update cadence, cancellation terms and no hidden auto-renewal.",
+      "descriptionFi": "Selkeä kokonaiskustannus, päivitystahti, peruutusehdot ja ei piilotettua automaattista uusintaa."
+    }
+  ],
+  "mandatoryGates": [
+    {
+      "id": "sample",
+      "evidenceKey": "sample",
+      "labelEn": "Review sample",
+      "labelFi": "Tarkistusnäyte",
+      "descriptionEn": "A representative, reviewable data sample has been received.",
+      "descriptionFi": "Edustava ja tarkistettava datanäyte on vastaanotettu."
+    },
+    {
+      "id": "methodology",
+      "evidenceKey": "methodology",
+      "labelEn": "Data dictionary and method",
+      "labelFi": "Datamäärittely ja menetelmä",
+      "descriptionEn": "Definitions, collection, estimation and projection methods are documented.",
+      "descriptionFi": "Määritelmät sekä keruu-, arviointi- ja projisointimenetelmät on dokumentoitu."
+    },
+    {
+      "id": "coverageMatrix",
+      "evidenceKey": "coverageMatrix",
+      "labelEn": "Coverage matrix",
+      "labelFi": "Peittomatriisi",
+      "descriptionEn": "Countries, years, products, channels and exclusions are explicit.",
+      "descriptionFi": "Maat, vuodet, tuotteet, kanavat ja poissulut on kuvattu selkeästi."
+    },
+    {
+      "id": "officialAnchorReconciliation",
+      "evidenceKey": "officialAnchorReconciliation",
+      "labelEn": "Official-anchor reconciliation",
+      "labelFi": "Täsmäytys viranomaisankkuriin",
+      "descriptionEn": "The sample can be reconciled to at least one suitable official series.",
+      "descriptionFi": "Näyte voidaan täsmäyttää vähintään yhteen sopivaan viralliseen sarjaan."
+    },
+    {
+      "id": "transactionUseRights",
+      "evidenceKey": "transactionUseRights",
+      "labelEn": "Transaction-use rights",
+      "labelFi": "Transaktiokäyttöoikeudet",
+      "descriptionEn": "Written lender, buyer, adviser and controlled data-room rights are confirmed.",
+      "descriptionFi": "Kirjalliset lainanantaja-, ostaja-, neuvonantaja- ja hallitun datahuoneen oikeudet on vahvistettu."
+    },
+    {
+      "id": "totalCostTerms",
+      "evidenceKey": "totalCostTerms",
+      "labelEn": "Total cost and renewal terms",
+      "labelFi": "Kokonaiskustannus ja uusimisehdot",
+      "descriptionEn": "The full price, update scope, cancellation terms and auto-renewal position are explicit.",
+      "descriptionFi": "Koko hinta, päivityslaajuus, peruutusehdot ja automaattisen uusinnan tila ovat selkeät."
+    }
+  ],
+  "evidenceTypes": [
+    {
+      "key": "sample",
+      "labelEn": "Sample",
+      "labelFi": "Näyte"
+    },
+    {
+      "key": "methodology",
+      "labelEn": "Method",
+      "labelFi": "Menetelmä"
+    },
+    {
+      "key": "coverageMatrix",
+      "labelEn": "Coverage",
+      "labelFi": "Peitto"
+    },
+    {
+      "key": "quote",
+      "labelEn": "Quote",
+      "labelFi": "Tarjous"
+    },
+    {
+      "key": "officialAnchorReconciliation",
+      "labelEn": "Official reconciliation",
+      "labelFi": "Viranomaistäsmäytys"
+    },
+    {
+      "key": "transactionUseRights",
+      "labelEn": "Transaction rights",
+      "labelFi": "Transaktio-oikeudet"
+    },
+    {
+      "key": "totalCostTerms",
+      "labelEn": "Full terms",
+      "labelFi": "Täydet ehdot"
+    }
+  ],
+  "vendors": [
+    {
+      "vendorId": "ecig-global-market-database",
+      "vendor": "ECigIntelligence",
+      "product": "Global Market Database",
+      "requestState": "request_sent",
+      "responseState": "pending",
+      "publicStatusEn": "Request sent; response pending",
+      "publicStatusFi": "Pyyntö lähetetty; vastaus odottaa",
+      "receivedEvidence": {
+        "sample": false,
+        "methodology": false,
+        "coverageMatrix": false,
+        "quote": false,
+        "officialAnchorReconciliation": false,
+        "transactionUseRights": false,
+        "totalCostTerms": false
+      },
+      "criterionScores": {
+        "annualCountrySeriesFit": null,
+        "metricScopeClarity": null,
+        "coverage": null,
+        "methodTransparency": null,
+        "auditability": null,
+        "transactionLicenceFit": null,
+        "commercialClarity": null
+      },
+      "scoringState": "not_scored",
+      "weightedScore": null,
+      "purchaseAuthorised": false
+    },
+    {
+      "vendorId": "euromonitor-passport-nicotine",
+      "vendor": "Euromonitor International",
+      "product": "Passport Nicotine / e-vapour country series",
+      "requestState": "request_sent",
+      "responseState": "pending",
+      "publicStatusEn": "Request sent; response pending",
+      "publicStatusFi": "Pyyntö lähetetty; vastaus odottaa",
+      "receivedEvidence": {
+        "sample": false,
+        "methodology": false,
+        "coverageMatrix": false,
+        "quote": false,
+        "officialAnchorReconciliation": false,
+        "transactionUseRights": false,
+        "totalCostTerms": false
+      },
+      "criterionScores": {
+        "annualCountrySeriesFit": null,
+        "metricScopeClarity": null,
+        "coverage": null,
+        "methodTransparency": null,
+        "auditability": null,
+        "transactionLicenceFit": null,
+        "commercialClarity": null
+      },
+      "scoringState": "not_scored",
+      "weightedScore": null,
+      "purchaseAuthorised": false
+    },
+    {
+      "vendorId": "niq-rms-pilot",
+      "vendor": "NielsenIQ",
+      "product": "Retail Measurement Services pilot",
+      "requestState": "not_submitted_terms_gate",
+      "responseState": "not_submitted",
+      "publicStatusEn": "Not submitted; terms gate",
+      "publicStatusFi": "Ei lähetetty; ehtoraja",
+      "receivedEvidence": {
+        "sample": false,
+        "methodology": false,
+        "coverageMatrix": false,
+        "quote": false,
+        "officialAnchorReconciliation": false,
+        "transactionUseRights": false,
+        "totalCostTerms": false
+      },
+      "criterionScores": {
+        "annualCountrySeriesFit": null,
+        "metricScopeClarity": null,
+        "coverage": null,
+        "methodTransparency": null,
+        "auditability": null,
+        "transactionLicenceFit": null,
+        "commercialClarity": null
+      },
+      "scoringState": "not_scored",
+      "weightedScore": null,
+      "purchaseAuthorised": false
+    },
+    {
+      "vendorId": "circana-us-tobacco-pilot",
+      "vendor": "Circana",
+      "product": "US Tobacco POS pilot",
+      "requestState": "submission_confirmed",
+      "responseState": "pending",
+      "publicStatusEn": "Submission confirmed; response pending",
+      "publicStatusFi": "Vastaanotto vahvistettu; vastaus odottaa",
+      "receivedEvidence": {
+        "sample": false,
+        "methodology": false,
+        "coverageMatrix": false,
+        "quote": false,
+        "officialAnchorReconciliation": false,
+        "transactionUseRights": false,
+        "totalCostTerms": false
+      },
+      "criterionScores": {
+        "annualCountrySeriesFit": null,
+        "metricScopeClarity": null,
+        "coverage": null,
+        "methodTransparency": null,
+        "auditability": null,
+        "transactionLicenceFit": null,
+        "commercialClarity": null
+      },
+      "scoringState": "not_scored",
+      "weightedScore": null,
+      "purchaseAuthorised": false
+    }
+  ]
+}

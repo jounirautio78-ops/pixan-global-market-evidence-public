@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-23-vendor-response-control-v13",
+      "version": "2026.07.23-13",
+      "publishedAt": "2026-07-23T18:56:34+03:00",
+      "titleEn": "Vendor-response control and reviewable sample scorecard",
+      "titleFi": "Toimittajavastausten valvonta ja tarkistettava näytepisteytys",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Added a privacy-safe vendor-response control view for the four recorded commercial outreach routes. It separates request status, received evidence, mandatory gates and scoring readiness without publishing correspondence, personal identities, private identifiers or licensed vendor files.",
+          "textFi": "Lisättiin tietosuojattu toimittajavastausten valvontanäkymä neljälle kirjatulle kaupalliselle yhteydenottoreitille. Se erottaa pyynnön tilan, saadun evidenssin, pakolliset portit ja pisteytysvalmiuden julkaisematta kirjeenvaihtoa, henkilötietoja, yksityisiä tunnisteita tai lisensoituja toimittajatiedostoja."
+        },
+        {
+          "category": "method",
+          "textEn": "Published a transparent seven-criterion, 100% weighted comparison method with six mandatory evidence gates. A missing sample, method, coverage matrix, official-anchor reconciliation, transaction-use right or complete commercial terms keeps the item NOT SCORED rather than assigning a zero.",
+          "textFi": "Julkaistiin läpinäkyvä seitsemän kriteerin ja 100 prosentin painotettu vertailumenetelmä sekä kuusi pakollista evidenssiporttia. Puuttuva näyte, menetelmä, kattavuusmatriisi, virallisen ankkurin täsmäytys, transaktiokäyttöoikeus tai täydet kaupalliset ehdot pitää kohteen EI PISTEYTETTY -tilassa nollan antamisen sijaan."
+        },
+        {
+          "category": "usability",
+          "textEn": "Expanded the bilingual procurement workbook with a response scorecard, a flat evidence-intake template and visible integrity checks so future samples can be reviewed consistently and the public-safe result can be regenerated with each release.",
+          "textFi": "Laajennettiin kaksikielistä hankintatyökirjaa vastausten pistekortilla, suoralla evidenssin vastaanottopohjalla ja näkyvillä eheystarkistuksilla, jotta tulevat näytteet voidaan arvioida yhdenmukaisesti ja julkaisukelpoinen tulos muodostaa uudelleen jokaisessa julkaisussa."
+        },
+        {
+          "category": "market_data",
+          "textEn": "The current control state remains four tracked routes, zero substantive responses, zero vendor samples scored and zero purchase authorisations. Request dispatch or submission confirmation is not treated as market data, a usable licence or evidence quality.",
+          "textFi": "Nykyinen valvontatila on edelleen neljä seurattua reittiä, nolla sisällöllistä vastausta, nolla pisteytettyä toimittajanäytettä ja nolla ostovaltuutusta. Pyynnön lähettämistä tai lomakkeen vastaanottokuittausta ei käsitellä markkinadatana, käyttökelpoisena lisenssinä tai evidenssin laatuna."
+        }
+      ]
+    },
+    {
       "id": "2026-07-23-canada-commercial-outreach-v12",
       "version": "2026.07.23-12",
       "publishedAt": "2026-07-23T17:36:00+03:00",

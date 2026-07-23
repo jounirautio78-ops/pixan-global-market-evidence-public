@@ -18,12 +18,13 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-12">
-  <script defer src="assets/i18n.js?v=2026-07-23-12"></script>
-  <script defer src="assets/downloads.js?v=2026-07-23-12"></script>
-  <script defer src="assets/paid-data.js?v=2026-07-23-12"></script>
-  <script defer src="assets/request-program.js?v=2026-07-23-12"></script>
-  <script defer src="assets/review.js?v=2026-07-23-12"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-13">
+  <script defer src="assets/i18n.js?v=2026-07-23-13"></script>
+  <script defer src="assets/downloads.js?v=2026-07-23-13"></script>
+  <script defer src="assets/paid-data.js?v=2026-07-23-13"></script>
+  <script defer src="assets/vendor-response.js?v=2026-07-23-13"></script>
+  <script defer src="assets/request-program.js?v=2026-07-23-13"></script>
+  <script defer src="assets/review.js?v=2026-07-23-13"></script>
 </head>
 <body class="review-page">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -171,6 +172,48 @@
         </table>
       </div>
       <p class="bank-package-note" data-paid-data-note hidden>The weighted score uses six visible criteria in the workbook. It is a procurement aid—not an investment rating, accuracy certification or permission to buy. Choose at most one global master unless a sample proves material non-overlap.</p>
+    </section>
+
+    <section id="vendor-response-control" class="shell review-section vendor-response-section no-print" data-vendor-response aria-labelledby="vendor-response-title" aria-busy="true">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-vendor-response-kicker>Vendor evidence intake · public status</p>
+          <h2 id="vendor-response-title" data-vendor-response-title>Vendor response control</h2>
+        </div>
+        <p data-vendor-response-intro>This view separates outreach status from received evidence and scoring so a missing response never looks like a poor result.</p>
+      </div>
+      <aside class="bank-package-boundary vendor-response-boundary" data-vendor-response-boundary aria-label="Public vendor-response boundary">
+        <span class="bank-package-boundary-mark" aria-hidden="true">PUBLIC</span>
+        <div>
+          <strong data-vendor-response-boundary-title>No substantive vendor response has been received</strong>
+          <p data-vendor-response-boundary-copy>The public view contains no messages, personal data, vendor files, unlicensed data or confidential terms. No purchase, subscription, NDA or auto-renewal is authorised.</p>
+          <small class="paid-data-meta" data-vendor-response-meta>—</small>
+        </div>
+      </aside>
+      <div class="vendor-response-summary" data-vendor-response-summary hidden></div>
+      <div class="request-program-actions" data-vendor-response-actions hidden>
+        <a class="button button-primary button-small" href="downloads/pixan-paid-data-procurement-fi-en.xlsx" download data-vendor-response-download-workbook>Download decision workbook XLSX</a>
+        <a class="button button-secondary button-small" href="data/vendor-response-control.csv" download data-vendor-response-download-csv>Download public status CSV</a>
+        <a class="button button-secondary button-small" href="data/vendor-response-control.json" download data-vendor-response-download-json>Download source JSON</a>
+      </div>
+      <div class="bank-package-status" data-vendor-response-status role="status" aria-live="polite">
+        <span class="bank-package-status-dot" aria-hidden="true"></span>
+        <span>Checking the public vendor-response control…</span>
+      </div>
+      <div class="vendor-response-grid" data-vendor-response-vendors hidden></div>
+
+      <div class="section-heading vendor-response-method-heading">
+        <div>
+          <p class="eyebrow" data-vendor-response-criteria-kicker>Transparent evaluation model</p>
+          <h3 data-vendor-response-criteria-title>Seven scoring criteria and six mandatory gates</h3>
+        </div>
+        <p data-vendor-response-criteria-copy>A score exists only after all mandatory evidence is present. Missing information is NOT SCORED, not 0/5.</p>
+      </div>
+      <div class="vendor-response-method">
+        <div class="vendor-response-criteria" data-vendor-response-criteria hidden></div>
+        <ol class="vendor-response-gates" data-vendor-response-gates hidden></ol>
+      </div>
+      <p class="bank-package-note" data-vendor-response-note hidden>Status reflects only this public checkpoint. It does not establish message delivery, vendor interest, data quality or purchase readiness.</p>
     </section>
 
     <section class="shell review-section request-program-section no-print" data-request-program aria-labelledby="request-program-title" aria-busy="true">

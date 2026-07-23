@@ -15,6 +15,11 @@ from pathlib import Path
 from typing import Any, Iterable
 from urllib.parse import parse_qsl, urlparse
 
+from public_privacy_guard import (
+    PRIVATE_IDENTIFIER_FINGERPRINTS,
+    contains_private_identifier as guard_contains_private_identifier,
+    private_identifier_fingerprint,
+)
 from build_atlas import (
     ABSOLUTE_PATH_RE,
     ALLOWED_EMAIL,
@@ -60,6 +65,11 @@ from validate_data_request_program import (
     validate_outputs as validate_data_request_outputs,
     validate_program as validate_data_request_program,
 )
+from validate_vendor_response_control import (
+    SOURCE_PATH as VENDOR_RESPONSE_SOURCE_PATH,
+    validate_outputs as validate_vendor_response_outputs,
+    validate_source as validate_vendor_response_source,
+)
 
 
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
@@ -80,6 +90,26 @@ SOCIAL_IMAGE_URL = (
     "assets/og-pixan-global-market-evidence.png"
 )
 SOCIAL_IMAGE_SIZE = (1200, 628)
+REPOSITORY_PRIVATE_SCAN_ROOTS = (
+    ROOT / "scripts",
+    ROOT / "source",
+    ROOT / ".github",
+)
+REPOSITORY_PRIVATE_SCAN_SUFFIXES = frozenset(
+    {
+        ".csv",
+        ".html",
+        ".js",
+        ".json",
+        ".md",
+        ".py",
+        ".sha256",
+        ".txt",
+        ".xml",
+        ".yaml",
+        ".yml",
+    }
+)
 
 REQUIRED_TOP_LEVEL_KEYS = {
     "meta",
@@ -99,19 +129,6 @@ PHONE_CONTEXT_RE = re.compile(
     r"(\+?[0-9][0-9 .()\-/]{6,}[0-9])"
 )
 PEM_RE = re.compile(r"-----BEGIN [A-Z0-9 ]*(?:PRIVATE KEY|CERTIFICATE)-----")
-PRIVATE_IDENTIFIER_FINGERPRINTS = frozenset(
-    {
-        (7, "46d7415f6182ece9e933e8e9f780957e449361e0dbe10e34f46c186cad3382a1"),
-        (7, "f910f0bbe95037851d18ca33b91ee7fc9f334c6cfcd02deaf66af4501c8a884c"),
-        (9, "7e6578c2e34b53136741c6efe7799a2dce739651c22404a7894b48d42aa88b41"),
-        (13, "933536a17b00f1b39ba9d3585427bd7232d44960ab35754318c1da8e4cf6c5be"),
-        (15, "34ffed4db76374ed904b437c1e19187c3b469558946f22b88f38317322a4e75e"),
-        (17, "d91ca0a7fbdfbd585109c3d3bab1233a92a1179e10e635f5bf1341efe10876b8"),
-        (22, "9a4f0d4a8cf1a57c06c6aea58dc7494eabd55985b6de748525cae5292004ba25"),
-        (25, "40f45830e7e3e21d88245728fe87f76b2e8919543a502aad248a465487cacee3"),
-        (32, "eba767052e777d1e6ad413884309be77b9016a7ca61f9b83adf9f46c42d0bde9"),
-    }
-)
 JAVASCRIPT_LOCAL_PATH_RE = re.compile(
     r"(?i)(?:file:(?://|\\/\\/)|/(?:Users|home|private|tmp|var|etc)/|"
     r"[A-Z]:\\\\(?:Users|home|private|tmp|var|etc)\\\\)"
@@ -161,6 +178,7 @@ EXPECTED_SITE_FILES = {
     "site/assets/paid-data.js",
     "site/assets/request-program.js",
     "site/assets/review.js",
+    "site/assets/vendor-response.js",
     "site/assets/styles.css",
     "site/assets/favicon.svg",
     "site/assets/og-pixan-global-market-evidence.png",
@@ -175,6 +193,8 @@ EXPECTED_SITE_FILES = {
     "site/data/top20-data-request-routes.csv",
     "site/data/paid-data-procurement.json",
     "site/data/paid-data-procurement.csv",
+    "site/data/vendor-response-control.json",
+    "site/data/vendor-response-control.csv",
     "site/data/market-values.json",
     "site/data/market-values.csv",
     "site/data/patent-history.json",
@@ -235,25 +255,13 @@ def load_json(path: Path) -> Any:
         return json.load(handle)
 
 
-def private_identifier_fingerprint(value: str) -> tuple[int, str]:
-    normalised = re.sub(r"[^a-z0-9]+", "", value.casefold())
-    return len(normalised), hashlib.sha256(normalised.encode("utf-8")).hexdigest()
-
-
 def contains_private_identifier(
     value: str,
     fingerprints: frozenset[tuple[int, str]] | None = None,
 ) -> bool:
     if fingerprints is None:
         fingerprints = PRIVATE_IDENTIFIER_FINGERPRINTS
-    normalised = re.sub(r"[^a-z0-9]+", "", value.casefold())
-    for length, expected in fingerprints:
-        if any(
-            hashlib.sha256(normalised[index:index + length].encode("utf-8")).hexdigest() == expected
-            for index in range(max(0, len(normalised) - length + 1))
-        ):
-            return True
-    return False
+    return guard_contains_private_identifier(value, fingerprints)
 
 
 def validate_social_preview(errors: list[str]) -> None:
@@ -335,6 +343,32 @@ def scan_javascript_text(label: str, text: str, errors: list[str]) -> None:
         errors.append(f"{label}: secret-like material is forbidden")
     if contains_private_identifier(text):
         errors.append(f"{label}: private identifier fingerprint is forbidden")
+
+
+def scan_repository_private_identifiers(
+    errors: list[str],
+    roots: Iterable[Path] | None = None,
+) -> None:
+    """Reject reviewed private identifiers anywhere in publishable repo text."""
+    selected_roots = tuple(roots) if roots is not None else REPOSITORY_PRIVATE_SCAN_ROOTS
+    for root in selected_roots:
+        if not root.exists():
+            continue
+        paths = (root,) if root.is_file() else root.rglob("*")
+        for path in sorted(candidate for candidate in paths if candidate.is_file()):
+            if path.suffix.lower() not in REPOSITORY_PRIVATE_SCAN_SUFFIXES:
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                errors.append(f"{path}: expected public text is not valid UTF-8")
+                continue
+            if contains_private_identifier(text):
+                try:
+                    label = str(path.relative_to(ROOT))
+                except ValueError:
+                    label = str(path)
+                errors.append(f"{label}: private identifier fingerprint is forbidden in repository text")
 
 
 def validate_meta(atlas: dict[str, Any], curated: dict[str, Any], errors: list[str]) -> None:
@@ -1590,6 +1624,7 @@ def main() -> None:
         UPSTREAM_SHA_PATH,
         DATA_REQUEST_SOURCE_PATH,
         PAID_DATA_SOURCE_PATH,
+        VENDOR_RESPONSE_SOURCE_PATH,
         DATA_REQUEST_TEMPLATE_EN,
         DATA_REQUEST_TEMPLATE_FI,
     ):
@@ -1613,6 +1648,7 @@ def main() -> None:
     changelog_public = load_json(CHANGELOG_JSON_PATH)
     data_request_source = load_json(DATA_REQUEST_SOURCE_PATH)
     paid_data_source = load_json(PAID_DATA_SOURCE_PATH)
+    vendor_response_source = load_json(VENDOR_RESPONSE_SOURCE_PATH)
     validate_source_inputs(curated, baseline, metadata, errors)
     if not isinstance(atlas, dict):
         errors.append("atlas.json must contain an object")
@@ -1653,6 +1689,12 @@ def main() -> None:
         validate_data_request_program(data_request_source, errors)
         validate_data_request_outputs(data_request_source, errors)
 
+    if not isinstance(vendor_response_source, dict):
+        errors.append("vendor-response-control.json must contain an object")
+    else:
+        validate_vendor_response_source(vendor_response_source, errors)
+        validate_vendor_response_outputs(vendor_response_source, errors)
+
     scan_public_text("atlas", atlas, errors)
     scan_public_text("curated", curated, errors)
     scan_public_text("baseline", baseline, errors)
@@ -1664,6 +1706,7 @@ def main() -> None:
     scan_public_text("changelog source", changelog_source, errors)
     scan_public_text("data-request source", data_request_source, errors)
     scan_public_text("paid-data procurement source", paid_data_source, errors)
+    scan_public_text("vendor-response source", vendor_response_source, errors)
     for path in (ROOT / "README.md", ROOT / "CONTRIBUTING.md", ROOT / "source" / "SOURCE_PROVENANCE.md"):
         scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
     for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH, MARKET_VALUES_CSV_PATH, PATENT_FAMILY_CSV_PATH):
@@ -1676,6 +1719,7 @@ def main() -> None:
             scan_javascript_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
         elif suffix in {".html", ".css", ".json", ".csv", ".svg", ".txt", ".xml"}:
             scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
+    scan_repository_private_identifiers(errors)
 
     if errors:
         for error in errors:
