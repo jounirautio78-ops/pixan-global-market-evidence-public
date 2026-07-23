@@ -4,6 +4,12 @@
   const root = document.querySelector("[data-paid-data]");
   if (!root) return;
 
+  const EXPECTED_OUTREACH = new Map([
+    ["ecig-global-market-database", "sent"],
+    ["euromonitor-passport-nicotine", "sent"],
+    ["niq-rms-pilot", "blocked_not_submitted"],
+    ["circana-us-tobacco-pilot", "submitted_confirmation_received"]
+  ]);
   let programme = null;
 
   function isFi() {
@@ -42,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.23-1"
+      || raw.version !== "2026.07.23-2"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -59,11 +65,16 @@
       throw new Error("expected 11 paid-data items");
     }
     const ranks = new Set();
+    const itemIds = new Set();
     for (const item of raw.items) {
       if (!Number.isInteger(item.rank) || item.rank < 1 || item.rank > 11 || ranks.has(item.rank)) {
         throw new Error("invalid procurement rank");
       }
       ranks.add(item.rank);
+      if (typeof item.itemId !== "string" || !item.itemId.trim() || itemIds.has(item.itemId)) {
+        throw new Error("invalid procurement item ID");
+      }
+      itemIds.add(item.itemId);
       if (!["public_list_price", "vendor_quote"].includes(item.priceType)
         || typeof item.vendor !== "string" || !item.vendor.trim()
         || typeof item.product !== "string" || !item.product.trim()
@@ -78,7 +89,39 @@
         throw new Error("quote-only item exposes an unsupported price");
       }
     }
+    if (!Array.isArray(raw.outreach) || raw.outreach.length !== EXPECTED_OUTREACH.size) {
+      throw new Error("invalid outreach record count");
+    }
+    const outreachIds = new Set();
+    for (const record of raw.outreach) {
+      const keys = Object.keys(record || {}).sort();
+      const expectedKeys = ["itemId", "noteEn", "noteFi", "recordedOn", "state"];
+      if (keys.length !== expectedKeys.length
+        || keys.some((key, index) => key !== expectedKeys[index])
+        || !itemIds.has(record.itemId)
+        || outreachIds.has(record.itemId)
+        || record.state !== EXPECTED_OUTREACH.get(record.itemId)
+        || !validDate(record.recordedOn)
+        || record.recordedOn > raw.asOf
+        || typeof record.noteEn !== "string" || !record.noteEn.trim()
+        || typeof record.noteFi !== "string" || !record.noteFi.trim()) {
+        throw new Error("invalid public outreach record");
+      }
+      outreachIds.add(record.itemId);
+    }
+    if ([...EXPECTED_OUTREACH.keys()].some((itemId) => !outreachIds.has(itemId))) {
+      throw new Error("outreach item set differs");
+    }
     return raw;
+  }
+
+  function outreachLabel(state) {
+    const labels = {
+      sent: l("Pyyntö lähetetty", "Request sent"),
+      blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
+      submitted_confirmation_received: l("Vastaanotto vahvistettu", "Submission confirmed")
+    };
+    return labels[state] || l("Ei aloitettu", "Not started");
   }
 
   function renderPackages() {
@@ -101,6 +144,7 @@
     const tbody = root.querySelector("[data-paid-data-items]");
     const rows = [...programme.items].sort((left, right) => left.rank - right.rank);
     tbody.replaceChildren(...rows.map((item) => {
+      const outreach = programme.outreach.find((record) => record.itemId === item.itemId);
       const row = document.createElement("tr");
       const priority = node("td", "paid-data-priority");
       priority.append(
@@ -108,6 +152,16 @@
         node("strong", "", `${item.vendor}`),
         node("small", "", item.product)
       );
+      if (outreach) {
+        priority.append(
+          node(
+            "span",
+            `paid-data-outreach paid-data-outreach-${outreach.state}`,
+            outreachLabel(outreach.state)
+          ),
+          node("small", "paid-data-outreach-date", outreach.recordedOn)
+        );
+      }
       const role = node("td", "");
       role.append(
         node("strong", "", isFi() ? item.roleFi : item.roleEn),
@@ -149,13 +203,16 @@
     root.querySelector("[data-paid-data-note]").hidden = false;
     const publicPrices = programme.items.filter((item) => item.priceType === "public_list_price").length;
     const quotes = programme.items.length - publicPrices;
+    const submitted = programme.outreach.filter((item) =>
+      ["sent", "submitted_confirmation_received"].includes(item.state)).length;
+    const blocked = programme.outreach.filter((item) => item.state === "blocked_not_submitted").length;
     const status = root.querySelector("[data-paid-data-status]");
     status.className = "bank-package-status bank-package-status-ready";
     status.replaceChildren(
       node("span", "bank-package-status-dot", ""),
       node("span", "", l(
-        `${programme.items.length} hankintakohdetta · ${publicPrices} julkista listahintaa · ${quotes} tarjouskohdetta · ei ostovaltuutta.`,
-        `${programme.items.length} procurement items · ${publicPrices} public list prices · ${quotes} quote-only items · no purchase authorised.`
+        `${programme.items.length} hankintakohdetta · ${submitted} pyyntöä kirjattu · ${blocked} estynyt · ei ostovaltuutta.`,
+        `${programme.items.length} procurement items · ${submitted} requests recorded · ${blocked} blocked · no purchase authorised.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

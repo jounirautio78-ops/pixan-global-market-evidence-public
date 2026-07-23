@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "programmeId": "pixan-independent-paid-data-procurement-v1",
   "asOf": "2026-07-23",
-  "version": "2026.07.23-1",
+  "version": "2026.07.23-2",
   "status": "decision_support_only_no_purchase_authorised",
   "publicBoundaryEn": "Independent procurement analysis. No purchase, subscription, commitment, vendor endorsement or Pixan Oy approval is stated or authorised.",
   "publicBoundaryFi": "Riippumaton hankinta-analyysi. Mitään ostoa, tilausta, sitoumusta, toimittajasuositusta tai Pixan Oy:n hyväksyntää ei väitetä eikä ole valtuutettu.",
@@ -10,6 +10,36 @@
   "rankingBoundaryFi": "Järjestys painottaa vuosittaisen maakohtaisen markkinasarjan puutteen sulkemista. Pisteet ovat läpinäkyviä päätösapuja, eivät sijoitusluokituksia tai väitteitä datan oikeellisuudesta.",
   "currencyNoteEn": "Public list prices are vendor-page observations on the as-of date and may exclude VAT, taxes, licence extensions, users, exports and transaction-data-room rights. Quote means no reliable public project price was identified.",
   "currencyNoteFi": "Julkiset listahinnat ovat toimittajasivujen havaintoja aineistopäivänä ja voivat olla ilman arvonlisäveroa, veroja, lisenssilaajennuksia, käyttäjiä, vientioikeuksia ja transaktiodatahuoneen oikeuksia. Tarjous tarkoittaa, ettei luotettavaa julkista projektihintaa tunnistettu.",
+  "outreach": [
+    {
+      "itemId": "ecig-global-market-database",
+      "state": "sent",
+      "recordedOn": "2026-07-23",
+      "noteEn": "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
+      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta."
+    },
+    {
+      "itemId": "euromonitor-passport-nicotine",
+      "state": "sent",
+      "recordedOn": "2026-07-23",
+      "noteEn": "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
+      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta."
+    },
+    {
+      "itemId": "niq-rms-pilot",
+      "state": "blocked_not_submitted",
+      "recordedOn": "2026-07-23",
+      "noteEn": "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
+      "noteFi": "Ei lähetetty: käytettävissä oleva lomake edellyttää käyttöehtojen hyväksymistä. Ehtoja ei hyväksytty."
+    },
+    {
+      "itemId": "circana-us-tobacco-pilot",
+      "state": "submitted_confirmation_received",
+      "recordedOn": "2026-07-23",
+      "noteEn": "The official form accepted a free sample and non-binding quote request. Response pending; no purchase or other commitment.",
+      "noteFi": "Virallinen lomake vastaanotti maksuttoman näyte- ja ei-sitovan tarjouspyynnön. Vastaus odottaa; ei ostoa tai muuta sitoumusta."
+    }
+  ],
   "weights": [
     {
       "id": "annualSalesFit",

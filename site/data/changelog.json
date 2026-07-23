@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-23-canada-commercial-outreach-v12",
+      "version": "2026.07.23-12",
+      "publishedAt": "2026-07-23T17:36:00+03:00",
+      "titleEn": "Canada dispatched and commercial sample outreach recorded",
+      "titleFi": "Kanadan pyyntö lähetetty ja kaupalliset näytepyynnöt kirjattu",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Updated the privacy-safe official-request ledger to 11 sent country routes and 9 drafts after recording the Canada route on 23 July 2026. The public marker remains limited to country and calendar date and does not publish correspondence metadata or imply a substantive response.",
+          "textFi": "Päivitettiin tietosuojattu viranomaispyyntöjen seuranta 11 lähetettyyn maareittiin ja 9 luonnokseen, kun Kanadan reitti kirjattiin 23.7.2026. Julkinen merkintä rajoittuu edelleen maahan ja kalenteripäivään eikä julkaise viestintämetadataa tai osoita sisällöllistä vastausta."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Recorded privacy-safe outreach states for the paid-data shortlist: sample and non-binding quote requests were sent to ECigIntelligence and Euromonitor, and Circana accepted a US POS pilot request through its official web form. No sample, quote, licence right or market figure has yet been received from these contacts.",
+          "textFi": "Kirjattiin maksullisen datan hankintalistaan tietosuojatut yhteydenottotilat: ECigIntelligencelle ja Euromonitorille lähetettiin näyte- ja ei-sitovat tarjouspyynnöt, ja Circana vastaanotti Yhdysvaltain POS-pilottipyynnön virallisella verkkolomakkeellaan. Näistä yhteydenotoista ei ole vielä saatu näytettä, tarjousta, lisenssioikeutta tai markkinalukua."
+        },
+        {
+          "category": "diligence",
+          "textEn": "NIQ outreach remains blocked because the available form requires acceptance of Terms of Use. No terms were accepted and no NIQ request was submitted.",
+          "textFi": "NIQ-yhteydenotto on edelleen estynyt, koska käytettävissä oleva lomake edellyttää käyttöehtojen hyväksymistä. Ehtoja ei hyväksytty eikä NIQ-pyyntöä lähetetty."
+        },
+        {
+          "category": "method",
+          "textEn": "No purchase, fee, subscription, NDA, auto-renewal or other commercial commitment was made. Vendor responses and any licensed raw data remain outside the public repository until separately reviewed for evidence quality and publication rights.",
+          "textFi": "Ostoa, maksua, tilausta, salassapitosopimusta, automaattista uusintaa tai muuta kaupallista sitoumusta ei tehty. Toimittajavastaukset ja mahdollinen lisensoitu raakadata pidetään julkisen repositorion ulkopuolella, kunnes niiden evidenssilaatu ja julkaisuoikeudet on tarkistettu erikseen."
+        }
+      ]
+    },
+    {
       "id": "2026-07-23-paid-data-procurement-v11",
       "version": "2026.07.23-11",
       "publishedAt": "2026-07-23T14:05:00+03:00",

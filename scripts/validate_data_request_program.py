@@ -43,6 +43,12 @@ EXPECTED_DISPATCH = {
         "publicAuthorityReference": None,
         "responseState": "not_publicly_recorded",
     },
+    "CA": {
+        "state": "sent",
+        "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
     "GB": {
         "state": "sent",
         "sentOn": "2026-07-16",
@@ -421,9 +427,9 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 errors.append(f"{label}: URL host is not on the country official-domain allowlist: {host}")
 
     if sent_countries != set(EXPECTED_DISPATCH):
-        errors.append("sent country set must match the approved 10-country public record")
-    if sum(route.get("status") == "sent" for route in routes) != 10:
-        errors.append("programme must contain exactly 10 sent routes and 10 drafts")
+        errors.append("sent country set must match the approved 11-country public record")
+    if sum(route.get("status") == "sent" for route in routes) != 11:
+        errors.append("programme must contain exactly 11 sent routes and 9 drafts")
     private_metadata_paths = list(find_private_metadata_keys(program))
     if private_metadata_paths:
         errors.append("private correspondence metadata is forbidden: " + ", ".join(private_metadata_paths))
@@ -515,7 +521,7 @@ def main() -> int:
         return 1
 
     print(
-        "PASS: schema v2 with 10 sent and 10 draft country routes; privacy-safe dispatch tracking, "
+        "PASS: schema v2 with 11 sent and 9 draft country routes; privacy-safe dispatch tracking, "
         "operational ranking, official HTTPS URLs, requester caveats, and generated files verified."
     )
     return 0

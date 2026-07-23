@@ -76,9 +76,9 @@
       "countryIso2": "CA",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-23",
+        "state": "sent"
       },
       "fallbackAuthority": {
         "nameEn": "Canada Revenue Agency, vaping product duty records",
@@ -129,7 +129,7 @@
         "caveatFi": "Muodollisen pyynnön voivat tehdä Kanadan kansalaiset, pysyvät asukkaat sekä Kanadassa olevat henkilöt tai yhtiöt; käytä tarvittaessa kelpoista paikallista pyytäjää. Julkinen aineisto ei vaadi pyyntöä.",
         "localRequester": "conditional"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {

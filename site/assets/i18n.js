@@ -414,7 +414,7 @@
     ["Tarkistetut viralliset reitit olemassa olevien aggregoitujen myynti-, valmistevero-, tulli- ja tuoteilmoitustietojen pyytämiseksi. Järjestys on operatiivinen — ei markkinakokoluokitus.", "Verified official routes for existing aggregate sales, excise, customs and product-notification records. The ranking is operational—not a market-size ranking."],
     ["Tietopyyntöjen tilarajaus", "Data-request status boundary"],
     ["TILA", "STATUS"],
-    ["10 lähetetty · 10 luonnosta", "10 sent · 10 drafts"],
+    ["11 lähetetty · 9 luonnosta", "11 sent · 9 drafts"],
     ["Julkinen seuranta näyttää vain maareitin, kalenteripäivän ja mahdollisen julkisen viranomaisviitteen. Se ei osoita toimitusta, vastaanottokuittausta, reititystä nimetylle viranomaiselle tai vastausta. Ladattavat mallit säilyvät LUONNOS — EI LÄHETETTY -tilassa.", "Public tracking shows only the country route, calendar date and any public authority reference. It does not establish delivery, acknowledgement, routing to the listed authority or a response. Downloadable templates remain DRAFT — NOT SENT."],
     ["Lataa reittitaulukko CSV", "Download route table CSV"],
     ["Lataa englanninkielinen pyyntömalli", "Download English request template"],

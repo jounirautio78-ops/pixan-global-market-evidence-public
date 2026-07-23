@@ -51,7 +51,7 @@ class DataRequestBoundaryTests(unittest.TestCase):
 
     def test_rejects_wrong_sent_country_set(self) -> None:
         def mutate(item) -> None:
-            route = next(route for route in item["routes"] if route["countryIso2"] == "CA")
+            route = next(route for route in item["routes"] if route["countryIso2"] == "US")
             route["status"] = "sent"
             route["dispatch"] = {
                 "state": "sent",
@@ -64,7 +64,7 @@ class DataRequestBoundaryTests(unittest.TestCase):
 
     def test_rejects_status_dispatch_mismatch(self) -> None:
         def mutate(item) -> None:
-            route = next(route for route in item["routes"] if route["countryIso2"] == "CA")
+            route = next(route for route in item["routes"] if route["countryIso2"] == "US")
             route["status"] = "sent"
 
         self.assert_rejected(mutate)

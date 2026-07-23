@@ -41,6 +41,7 @@ EXPECTED_TOP_LEVEL = {
     "rankingBoundaryFi",
     "currencyNoteEn",
     "currencyNoteFi",
+    "outreach",
     "weights",
     "packageOptions",
     "items",
@@ -57,11 +58,41 @@ WEIGHT_IDS = {
     "costCertainty",
 }
 PRICE_TYPES = {"public_list_price", "vendor_quote"}
+OUTREACH_KEYS = {"itemId", "state", "recordedOn", "noteEn", "noteFi"}
+EXPECTED_OUTREACH = {
+    "ecig-global-market-database": "sent",
+    "euromonitor-passport-nicotine": "sent",
+    "niq-rms-pilot": "blocked_not_submitted",
+    "circana-us-tobacco-pilot": "submitted_confirmation_received",
+}
+EXPECTED_OUTREACH_NOTES = {
+    "ecig-global-market-database": (
+        "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
+        "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+    ),
+    "euromonitor-passport-nicotine": (
+        "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
+        "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+    ),
+    "niq-rms-pilot": (
+        "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
+        "Ei lähetetty: käytettävissä oleva lomake edellyttää käyttöehtojen hyväksymistä. Ehtoja ei hyväksytty.",
+    ),
+    "circana-us-tobacco-pilot": (
+        "The official form accepted a free sample and non-binding quote request. Response pending; no purchase or other commitment.",
+        "Virallinen lomake vastaanotti maksuttoman näyte- ja ei-sitovan tarjouspyynnön. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+    ),
+}
 FORBIDDEN_PUBLIC_TEXT = (
     "/users/",
     "file://",
-    "@gmail.com",
-    "blackrock",
+    "submissionguid",
+    "submission guid",
+)
+EMAIL_PATTERN = re.compile(r"\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b", re.IGNORECASE)
+UUID_PATTERN = re.compile(
+    r"\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b",
+    re.IGNORECASE,
 )
 
 
@@ -115,7 +146,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         return
     if source.get("status") != "decision_support_only_no_purchase_authorised":
         errors.append("source must state that no purchase is authorised")
-    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.23-1":
+    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.23-2":
         errors.append("source date or version is invalid")
 
     weights = source.get("weights")
@@ -140,6 +171,33 @@ def validate_source(source: Any, errors: list[str]) -> None:
     item_ids = [item.get("itemId") for item in items if isinstance(item, dict)]
     if any(not isinstance(value, str) or not value for value in item_ids) or len(set(item_ids)) != 11:
         errors.append("item IDs must be unique non-empty strings")
+
+    outreach = source.get("outreach")
+    if not isinstance(outreach, list) or len(outreach) != len(EXPECTED_OUTREACH):
+        errors.append("exactly four reviewed outreach records are required")
+    else:
+        seen_outreach: set[str] = set()
+        for record in outreach:
+            if not isinstance(record, dict) or set(record) != OUTREACH_KEYS:
+                errors.append("outreach record schema differs")
+                continue
+            item_id = record.get("itemId")
+            if item_id in seen_outreach:
+                errors.append("outreach item IDs must be unique")
+            seen_outreach.add(item_id)
+            if item_id not in item_ids or record.get("state") != EXPECTED_OUTREACH.get(item_id):
+                errors.append(f"outreach state differs from the approved record for {item_id!r}")
+            if not valid_iso_date(record.get("recordedOn")) or record["recordedOn"] > source["asOf"]:
+                errors.append(f"outreach date is invalid for {item_id!r}")
+            if any(
+                not isinstance(record.get(field), str) or not record[field].strip()
+                for field in ("noteEn", "noteFi")
+            ):
+                errors.append(f"bilingual outreach notes are required for {item_id!r}")
+            elif (record["noteEn"], record["noteFi"]) != EXPECTED_OUTREACH_NOTES.get(item_id):
+                errors.append(f"outreach notes differ from the approved public record for {item_id!r}")
+        if seen_outreach != set(EXPECTED_OUTREACH):
+            errors.append("outreach item set differs from the approved record")
 
     for item in items:
         label = f'item {item.get("rank", "?")}' if isinstance(item, dict) else "item"
@@ -183,6 +241,10 @@ def validate_source(source: Any, errors: list[str]) -> None:
     for phrase in FORBIDDEN_PUBLIC_TEXT:
         if phrase in combined:
             errors.append(f"source contains forbidden public text {phrase!r}")
+    if EMAIL_PATTERN.search(combined):
+        errors.append("source contains an email address")
+    if UUID_PATTERN.search(combined):
+        errors.append("source contains a UUID-like private reference")
     if "no purchase" not in combined and "mitään ostoa" not in combined:
         errors.append("visible no-purchase boundary is missing")
     if "data-room" not in combined and "datahuone" not in combined:
@@ -202,6 +264,17 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
             errors.append("public paid-data CSV schema or row count differs")
         if any(row["purchaseAuthorised"] != "false" for row in rows):
             errors.append("public paid-data CSV must state purchaseAuthorised=false")
+        expected_states = {
+            item_id: state for item_id, state in EXPECTED_OUTREACH.items()
+        }
+        for row, item in zip(rows, sorted(source["items"], key=lambda value: value["rank"])):
+            expected_state = expected_states.get(item["itemId"], "not_started")
+            if row["outreachState"] != expected_state:
+                errors.append(f'public paid-data CSV outreach state differs for {item["itemId"]}')
+            if expected_state == "not_started" and any(
+                row[field] for field in ("outreachOn", "outreachNoteEn", "outreachNoteFi")
+            ):
+                errors.append(f'public paid-data CSV exposes unexpected outreach details for {item["itemId"]}')
 
 
 def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
