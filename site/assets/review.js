@@ -188,7 +188,97 @@ function reviewOfficialMarketSummary() {
       .map((item) => item.countryIso2)
       .filter(Boolean)
   );
-  return { official, numericCountries, officialRetailCountries };
+  const officialRetailLowerBoundCountries = new Set(
+    official
+      .filter((item) => item.metric === "official_specialist_retail_sales_lower_bound")
+      .map((item) => item.countryIso2)
+      .filter(Boolean)
+  );
+  return { official, numericCountries, officialRetailCountries, officialRetailLowerBoundCountries };
+}
+
+function assessReviewDonorLedger(market = reviewMarketData) {
+  const protocol = market?.donorProtocol;
+  const criteria = Array.isArray(protocol?.criteria) ? protocol.criteria : [];
+  const criterionIds = criteria.map((item) => String(item?.criterionId || "").trim());
+  const protocolValid = Boolean(
+    protocol
+    && String(protocol.protocolVersion || "").trim()
+    && criteria.length
+    && criterionIds.every(Boolean)
+    && new Set(criterionIds).size === criterionIds.length
+    && criteria.every((item) => String(item.titleEn || "").trim() && String(item.titleFi || "").trim()
+      && String(item.requirementEn || "").trim() && String(item.requirementFi || "").trim())
+  );
+  const knownIds = new Set(criterionIds);
+  const sources = new Map((market?.sources || []).map((item) => [item.sourceId, item]));
+  const observations = new Set((market?.observations || []).map((item) => item.observationId));
+  const models = new Set((market?.models || []).map((item) => item.modelId));
+  const candidates = (Array.isArray(market?.donorCandidates) ? market.donorCandidates : []).map((candidate) => {
+    const passedRaw = Array.isArray(candidate?.passedCriteria) ? candidate.passedCriteria : [];
+    const failedRaw = Array.isArray(candidate?.failedCriteria) ? candidate.failedCriteria : [];
+    const openRaw = Array.isArray(candidate?.openCriteria) ? candidate.openCriteria : [];
+    const passed = new Set(passedRaw);
+    const failed = new Set(failedRaw);
+    const open = new Set(openRaw);
+    const allReportedIds = [...passedRaw, ...failedRaw, ...openRaw];
+    const duplicateIds = [...new Set(allReportedIds.filter((id, index) => allReportedIds.indexOf(id) !== index))];
+    const unknownIds = [...new Set(allReportedIds.filter((id) => !knownIds.has(id)))];
+    const conflictingIds = criterionIds.filter((id) => [passed.has(id), failed.has(id), open.has(id)].filter(Boolean).length > 1);
+    const criterionResults = criteria.map((criterion) => {
+      const id = criterion.criterionId;
+      const status = failed.has(id) ? "failed" : open.has(id) ? "open" : passed.has(id) ? "passed" : "open";
+      return { criterion, status };
+    });
+    const allCriteriaPassed = protocolValid
+      && criterionResults.length === criteria.length
+      && criterionResults.every((item) => item.status === "passed")
+      && !duplicateIds.length
+      && !unknownIds.length
+      && !conflictingIds.length;
+    const referenceValid = candidate?.referenceType === "observation"
+      ? observations.has(candidate.referenceId)
+      : candidate?.referenceType === "model"
+        ? models.has(candidate.referenceId)
+        : false;
+    const sourceIds = Array.isArray(candidate?.sourceIds) ? [...new Set(candidate.sourceIds.filter(Boolean))] : [];
+    const sourcesResolve = sourceIds.length > 0 && sourceIds.every((sourceId) => {
+      const source = sources.get(sourceId);
+      return Boolean(source && reviewUrl(source.pageUrl || source.downloadUrl));
+    });
+    const recordValid = Boolean(
+      String(candidate?.candidateId || "").trim()
+      && String(candidate?.geography || "").trim()
+      && Number.isFinite(Number(candidate?.year))
+      && ["accepted", "not_accepted"].includes(candidate?.decision)
+      && Array.isArray(candidate?.passedCriteria)
+      && Array.isArray(candidate?.failedCriteria)
+      && Array.isArray(candidate?.openCriteria)
+      && referenceValid
+      && sourcesResolve
+    );
+    const accepted = protocolValid && recordValid && candidate.decision === "accepted" && allCriteriaPassed;
+    return {
+      candidate,
+      criterionResults,
+      duplicateIds,
+      unknownIds,
+      conflictingIds,
+      referenceValid,
+      sourcesResolve,
+      recordValid,
+      allCriteriaPassed,
+      accepted
+    };
+  });
+  return {
+    protocol,
+    criteria,
+    protocolValid,
+    candidates,
+    accepted: candidates.filter((item) => item.accepted),
+    sources
+  };
 }
 
 function reviewRequestSummary() {
@@ -233,8 +323,8 @@ function renderDecisionCockpit(data) {
     ),
     reviewMarketData
       ? reviewL(
-        `Virallista vuosittaista numeerista evidenssiä ${market.numericCountries.size} maasta; virallisia kuluttajavähittäisarvoja ${market.officialRetailCountries.size}.`,
-        `Official annual numeric evidence across ${market.numericCountries.size} countries; ${market.officialRetailCountries.size} official consumer-retail values.`
+        `Virallista vuosittaista numeerista evidenssiä ${market.numericCountries.size} maasta; täydellisiä virallisia kuluttajavähittäisarvoja ${market.officialRetailCountries.size} ja virallisia vähittäismyynnin alaraja-ankkureita ${market.officialRetailLowerBoundCountries.size}.`,
+        `Official annual numeric evidence across ${market.numericCountries.size} countries; ${market.officialRetailCountries.size} complete official consumer-retail values and ${market.officialRetailLowerBoundCountries.size} official retail lower-bound anchors.`
       )
       : reviewL("Markkina-arvon tukiaineisto ei ole saatavilla.", "The market-value supporting dataset is unavailable."),
     reviewPatentData
@@ -274,7 +364,8 @@ function renderDecisionCockpit(data) {
 
   const meta = reviewById("cockpit-meta");
   if (meta) {
-    const donors = reviewMarketData?.meta?.modelReadiness?.comparableFullYearMarketValueDonors;
+    const donorAssessment = assessReviewDonorLedger();
+    const donors = donorAssessment.protocolValid ? donorAssessment.accepted.length : 0;
     const required = reviewMarketData?.meta?.modelReadiness?.minimumRequiredDonors;
     meta.textContent = reviewMarketData
       ? reviewL(
@@ -652,11 +743,12 @@ function renderReviewMetrics(data) {
   const official = observations.filter((item) => String(item.evidenceStatus || "").startsWith("official_"));
   const quantified = new Set(official.map((item) => item.countryIso2).filter(Boolean));
   const officialRetail = new Set(official.filter((item) => item.metric === "consumer_retail_market_value").map((item) => item.countryIso2).filter(Boolean));
+  const officialRetailLowerBound = new Set(official.filter((item) => item.metric === "official_specialist_retail_sales_lower_bound").map((item) => item.countryIso2).filter(Boolean));
   const modelled = new Set((reviewMarketData?.models || []).map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
     [reviewL("Tutkimusmaailma", "Research universe"), `${countries.length} / 195`, reviewL("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets")],
     [reviewL("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), `${quantified.size} / 195`, reviewL("Raha-, vero- tai määräarvoja; mittarit pidetään erillään", "Monetary, tax or volume records; measures remain separate")],
-    [reviewL("Virallinen kuluttajavähittäisarvo", "Official consumer-retail value"), `${officialRetail.size} / 195`, reviewL("Toimitusarvo ei ole kuluttajamyyntiä", "Shipment value is not consumer retail")],
+    [reviewL("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, reviewL(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`)],
     [reviewL("Atlaksen maamalli", "Atlas country model"), `${modelled.size} / 195`, reviewL("Saksan nesteskenaario; matala luottamus", "Germany liquid scenario; low confidence")]
   ];
   const host = reviewById("review-metrics");
@@ -679,10 +771,194 @@ function reviewMarketFormat(value, currency) {
   }).format(number);
 }
 
+function reviewDonorGeography(candidate) {
+  const country = (reviewData?.countries || []).find((item) => item.iso2 === candidate?.countryIso2);
+  if (country) return reviewIsFi() ? country.nameFi || country.name : country.name || country.nameFi;
+  if (candidate?.geography === "Germany") return reviewL("Saksa", "Germany");
+  if (candidate?.geography === "New Zealand") return reviewL("Uusi-Seelanti", "New Zealand");
+  if (candidate?.geography === "European Union") return reviewL("Euroopan unioni", "European Union");
+  return candidate?.geography || "—";
+}
+
+function renderReviewDonorLedgerUnavailable(message) {
+  const root = reviewById("review-donor-ledger");
+  if (!root) return;
+  root.setAttribute("aria-busy", "false");
+  reviewById("review-donor-protocol-version").textContent = reviewL("Protokolla —", "Protocol —");
+  reviewById("review-donor-gate-rule").textContent = reviewL(
+    "0/3 muuttuu vain, kun ehdokas läpäisee jokaisen kriteerin.",
+    "The 0/3 gate changes only when a candidate passes every criterion."
+  );
+  reviewById("review-donor-rule").textContent = reviewL(
+    "Hyväksyntäprotokollaa ei voitu vahvistaa. Luovuttajamarkkinoiden määrä pidetään nollassa.",
+    "The acceptance protocol could not be verified. The donor-market count is held at zero."
+  );
+  reviewById("review-donor-summary").replaceChildren();
+  reviewById("review-donor-candidates").replaceChildren(reviewNode("p", "empty-state", message));
+  const status = reviewById("review-donor-status");
+  status.dataset.state = "error";
+  status.textContent = reviewL(
+    "Fail-closed: yksikään ehdokas ei voi vaikuttaa 0/3-porttiin ilman ehjää protokollaa.",
+    "Fail closed: no candidate can affect the 0/3 gate without a valid protocol."
+  );
+}
+
+function renderReviewDonorLedger(market) {
+  const root = reviewById("review-donor-ledger");
+  if (!root) return;
+  const assessment = assessReviewDonorLedger(market);
+  const protocol = assessment.protocol || {};
+  const readiness = market?.meta?.modelReadiness || {};
+  const required = Number(readiness.minimumRequiredDonors || 3);
+  const recorded = Number(readiness.comparableFullYearMarketValueDonors);
+  const effectiveCount = assessment.protocolValid ? assessment.accepted.length : 0;
+  const protocolLabel = String(protocol.protocolVersion || "").trim() || "—";
+  reviewById("review-donor-protocol-version").textContent = `${reviewL("Protokolla", "Protocol")} ${protocolLabel}`;
+  reviewById("review-donor-gate-rule").textContent = reviewL(
+    `${effectiveCount}/${required} muuttuu vain, kun ehdokas läpäisee jokaisen kriteerin.`,
+    `The ${effectiveCount}/${required} gate changes only when a candidate passes every criterion.`
+  );
+  reviewById("review-donor-rule").textContent = reviewIsFi()
+    ? protocol.acceptanceRuleFi || "Kaikkien julkaistujen kriteerien on läpäistävä tarkistus ennen kuin ehdokas voidaan laskea luovuttajamarkkinaksi."
+    : protocol.acceptanceRuleEn || "Every published criterion must pass before a candidate can count as a donor market.";
+
+  const summaryItems = [
+    [
+      reviewL("Hyväksytty porttiin", "Accepted into gate"),
+      `${effectiveCount} / ${required}`,
+      reviewL("Laskettu fail-closed ehdokastietueista", "Calculated fail closed from candidate records")
+    ],
+    [
+      reviewL("Tarkastellut ehdokkaat", "Candidates reviewed"),
+      assessment.candidates.length,
+      reviewL("Hyväksytyt ja hylätyt näkyvät samalla säännöllä", "Accepted and rejected candidates use the same rule")
+    ],
+    [
+      reviewL("Pakolliset kriteerit", "Mandatory criteria"),
+      assessment.criteria.length || "—",
+      reviewL("Yksikin avoin tai hylätty kriteeri estää hyväksynnän", "One open or failed criterion blocks acceptance")
+    ]
+  ];
+  reviewById("review-donor-summary").replaceChildren(...summaryItems.map(([label, value, note]) => {
+    const item = reviewNode("div", "donor-summary-item");
+    item.append(reviewNode("span", "", label), reviewNode("strong", "", value), reviewNode("small", "", note));
+    return item;
+  }));
+
+  const candidatesHost = reviewById("review-donor-candidates");
+  candidatesHost.replaceChildren();
+  for (const result of assessment.candidates) {
+    const candidate = result.candidate || {};
+    const card = reviewNode("article", "donor-candidate-card");
+    card.dataset.decision = result.accepted ? "accepted" : "not_accepted";
+    const head = reviewNode("div", "donor-candidate-head");
+    const identity = reviewNode("div");
+    const geography = reviewDonorGeography(candidate);
+    const referenceType = candidate.referenceType === "observation"
+      ? reviewL("havainto", "observation")
+      : candidate.referenceType === "model"
+        ? reviewL("malli", "model")
+        : "—";
+    identity.append(
+      reviewNode("p", "donor-candidate-meta", `${candidate.countryIso2 || geography || "—"} · ${candidate.year || "—"} · ${referenceType} · ${candidate.referenceId || "—"}`),
+      reviewNode("h4", "", (reviewIsFi() ? candidate.headlineFi : candidate.headlineEn) || candidate.candidateId || reviewL("Nimeämätön ehdokas", "Unnamed candidate"))
+    );
+    const decision = reviewNode("span", "donor-decision-chip", result.accepted ? reviewL("Hyväksytty", "Accepted") : reviewL("Ei hyväksytty", "Not accepted"));
+    decision.dataset.decision = result.accepted ? "accepted" : "not_accepted";
+    head.append(identity, decision);
+
+    const passedCount = result.criterionResults.filter((item) => item.status === "passed").length;
+    const failedCount = result.criterionResults.filter((item) => item.status === "failed").length;
+    const openCount = result.criterionResults.length - passedCount - failedCount;
+    const counts = reviewNode("div", "donor-candidate-counts");
+    counts.append(
+      reviewNode("span", "donor-count-chip donor-count-passed", reviewL(`${passedCount} läpäisty`, `${passedCount} passed`)),
+      reviewNode("span", "donor-count-chip donor-count-failed", reviewL(`${failedCount} hylätty`, `${failedCount} failed`)),
+      reviewNode("span", "donor-count-chip donor-count-open", reviewL(`${openCount} avoin`, `${openCount} open`))
+    );
+
+    const reason = reviewNode("p", "donor-candidate-copy");
+    reason.append(reviewNode("strong", "", reviewL("Päätösperuste: ", "Decision basis: ")), document.createTextNode((reviewIsFi() ? candidate.decisionReasonFi : candidate.decisionReasonEn) || reviewL("Ei dokumentoitua perustetta.", "No documented reason.")));
+    const next = reviewNode("p", "donor-candidate-copy");
+    next.append(reviewNode("strong", "", reviewL("Tarvittava seuraava näyttö: ", "Next evidence needed: ")), document.createTextNode((reviewIsFi() ? candidate.nextEvidenceFi : candidate.nextEvidenceEn) || reviewL("Ei dokumentoitu.", "Not documented.")));
+    card.append(head, counts, reason, next);
+
+    const issues = [];
+    if (!assessment.protocolValid) issues.push(reviewL("hyväksyntäprotokolla ei ole ehjä", "acceptance protocol is invalid"));
+    if (!result.referenceValid) issues.push(reviewL("viitattu havainto tai malli ei ratkea", "referenced observation or model does not resolve"));
+    if (!result.sourcesResolve) issues.push(reviewL("kaikilla lähteillä ei ole ratkaistavaa julkista linkkiä", "not every source resolves to a public link"));
+    if (result.duplicateIds.length) issues.push(reviewL("toistuvia kriteeritunnuksia", "duplicate criterion identifiers"));
+    if (result.unknownIds.length) issues.push(reviewL("tuntemattomia kriteeritunnuksia", "unknown criterion identifiers"));
+    if (result.conflictingIds.length) issues.push(reviewL("ristiriitaisia kriteeritiloja", "conflicting criterion states"));
+    if (candidate.decision === "accepted" && !result.accepted) issues.push(reviewL("ilmoitettu hyväksyntä hylättiin fail-closed-tarkistuksessa", "declared acceptance was rejected by the fail-closed check"));
+    if (issues.length) {
+      card.append(reviewNode("p", "donor-candidate-copy donor-record-warning", `${reviewL("Tietuevaroitus", "Record warning")}: ${issues.join("; ")}.`));
+    }
+
+    const sourceLinks = reviewNode("div", "donor-source-links");
+    const sourceIds = Array.isArray(candidate.sourceIds) ? [...new Set(candidate.sourceIds.filter(Boolean))] : [];
+    if (!sourceIds.length) sourceLinks.append(reviewNode("span", "donor-source-missing", reviewL("Ei lähdeviitteitä", "No source references")));
+    for (const sourceId of sourceIds) {
+      const source = assessment.sources.get(sourceId);
+      const url = reviewUrl(source?.pageUrl || source?.downloadUrl);
+      if (!url) {
+        sourceLinks.append(reviewNode("span", "donor-source-missing", `${sourceId} · ${reviewL("linkki puuttuu", "link unavailable")}`));
+        continue;
+      }
+      const link = reviewNode("a", "", `${source?.publisher || sourceId} ↗`);
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.title = `${sourceId} · ${reviewL("Avaa alkuperäinen lähde", "Open original source")}`;
+      sourceLinks.append(link);
+    }
+    card.append(sourceLinks);
+
+    const details = reviewNode("details", "donor-criteria-details");
+    const detailsSummary = reviewNode("summary", "", reviewL(`Kriteeritulokset · ${passedCount}/${result.criterionResults.length} läpäisty`, `Criterion results · ${passedCount}/${result.criterionResults.length} passed`));
+    const list = reviewNode("div", "donor-criteria-list");
+    for (const item of result.criterionResults) {
+      const row = reviewNode("div", "donor-criterion-row");
+      row.dataset.status = item.status;
+      const mark = reviewNode("span", "donor-criterion-mark", item.status === "passed" ? "✓" : item.status === "failed" ? "×" : "?");
+      mark.setAttribute("aria-hidden", "true");
+      const copy = reviewNode("div");
+      const statusLabel = item.status === "passed" ? reviewL("Läpäisty", "Passed") : item.status === "failed" ? reviewL("Hylätty", "Failed") : reviewL("Avoin", "Open");
+      copy.append(
+        reviewNode("strong", "", (reviewIsFi() ? item.criterion.titleFi : item.criterion.titleEn) || item.criterion.criterionId),
+        reviewNode("small", "", `${statusLabel} · ${(reviewIsFi() ? item.criterion.requirementFi : item.criterion.requirementEn) || "—"}`)
+      );
+      row.setAttribute("aria-label", `${statusLabel}: ${(reviewIsFi() ? item.criterion.titleFi : item.criterion.titleEn) || item.criterion.criterionId}`);
+      row.append(mark, copy);
+      list.append(row);
+    }
+    if (!result.criterionResults.length) list.append(reviewNode("p", "empty-state", reviewL("Kriteerejä ei voitu vahvistaa.", "Criteria could not be verified.")));
+    details.append(detailsSummary, list);
+    card.append(details);
+    candidatesHost.append(card);
+  }
+  if (!assessment.candidates.length) {
+    candidatesHost.append(reviewNode("p", "empty-state", reviewL("Luovuttajamarkkinaehdokkaita ei ole julkaistu.", "No donor-market candidates have been published.")));
+  }
+
+  const status = reviewById("review-donor-status");
+  const mismatch = Number.isFinite(recorded) && recorded !== effectiveCount;
+  status.dataset.state = assessment.protocolValid && !mismatch ? "ready" : "error";
+  status.textContent = !assessment.protocolValid
+    ? reviewL("Fail-closed: protokolla ei läpäissyt rakennetarkistusta, joten portti pidetään nollassa.", "Fail closed: the protocol failed structural validation, so the gate is held at zero.")
+    : mismatch
+      ? reviewL(`Fail-closed: metatiedon portti ${recorded}/${required} ei täsmää kriteereistä laskettuun ${effectiveCount}/${required}-tulokseen.`, `Fail closed: the metadata gate ${recorded}/${required} does not match the criterion-derived ${effectiveCount}/${required} result.`)
+      : reviewL(`${assessment.candidates.length} ehdokasta tarkistettu samalla protokollalla · ${effectiveCount}/${required} hyväksytty.`, `${assessment.candidates.length} candidates checked under one protocol · ${effectiveCount}/${required} accepted.`);
+  root.setAttribute("aria-busy", "false");
+}
+
 function renderReviewMarket(market) {
   const observations = Array.isArray(market?.observations) ? market.observations : [];
   const models = Array.isArray(market?.models) ? market.models : [];
   const commercial = observations.filter((item) => item.metric === "commercial_market_estimate" && item.currency === "USD" && Number(item.year) === 2025);
+  const newZealandLowerBound = observations.find((item) => item.observationId === "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND");
+  const newZealandRawSum = observations.find((item) => item.observationId === "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM");
+  const euBenchmark = observations.find((item) => item.observationId === "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK");
   const canada = observations.find((item) => item.observationId === "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
   const germany = models.find((item) => item.modelId === "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE");
   const sourceMap = new Map((market?.sources || []).map((source) => [source.sourceId, source]));
@@ -693,6 +969,20 @@ function renderReviewMarket(market) {
     url: reviewUrl(sourceMap.get(item.sourceIds?.[0])?.pageUrl)
   }));
   cards.push(
+    {
+      label: reviewL("Uusi-Seelanti · 2024 virallisten tiedostojen täsmäytys", "New Zealand · 2024 official-file reconciliation"),
+      value: newZealandRawSum ? reviewMarketFormat(newZealandRawSum.value, newZealandRawSum.currency) : "—",
+      note: reviewL("29 virallista tiedostoa · raakasumma 280,685 milj. NZD täsmää viralliseen ≥280 milj. otsikkolukuun · toistuvien rivien herkkyys 264,561 milj. NZD; ei puhdistettu kansallinen arvo eikä luovuttajamarkkina", "29 official files · raw sum NZD 280.685m reconciles the official ≥NZD 280m headline · repeated-row sensitivity NZD 264.561m; not a cleaned national value or donor market"),
+      url: reviewUrl(sourceMap.get(newZealandLowerBound?.sourceIds?.[0])?.pageUrl),
+      methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md"
+    },
+    {
+      label: reviewL("Euroopan unioni · 2023 komission julkaisema vertailuarvo", "European Union · 2023 Commission-published benchmark"),
+      value: euBenchmark ? reviewMarketFormat(euBenchmark.value, euBenchmark.currency) : "—",
+      note: reviewL("Euromonitoriin ja ulkopuoliseen tutkimukseen perustuva toissijainen koonti; liitteen maadata ei kata Kyprosta, Luxemburgia ja Maltaa; ei virallinen havaittu luovuttajamarkkina", "Secondary compilation based on Euromonitor and an external study; the annex country data do not cover Cyprus, Luxembourg or Malta; not an official observed donor market"),
+      url: reviewUrl(sourceMap.get(euBenchmark?.sourceIds?.[0])?.pageUrl),
+      methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/EU_2023_E_CIGARETTE_BENCHMARK_RECONCILIATION.md"
+    },
     {
       label: reviewL("Kanada · 2024 virallinen toimitusarvo", "Canada · 2024 official shipment value"),
       value: canada ? reviewMarketFormat(canada.value, canada.currency) : "—",
@@ -715,6 +1005,13 @@ function renderReviewMarket(market) {
       link.rel = "noreferrer";
       card.append(link);
     }
+    if (item.methodUrl) {
+      const methodLink = reviewNode("a", "", reviewL("Avaa täsmäytysmenetelmä →", "Open reconciliation method →"));
+      methodLink.href = item.methodUrl;
+      methodLink.target = "_blank";
+      methodLink.rel = "noreferrer";
+      card.append(methodLink);
+    }
     return card;
   }));
 
@@ -728,6 +1025,7 @@ function renderReviewMarket(market) {
     ? "Raha, verot, fyysiset määrät ja mallinnetut vaihteluvälit näytetään erikseen eikä niitä summata."
     : "Monetary observations, excise, physical quantities and modelled ranges remain separate and are never added together.");
   note.replaceChildren(status, explanation, rule);
+  renderReviewDonorLedger(market);
 }
 
 function renderReviewMarketUnavailable() {
@@ -740,6 +1038,7 @@ function renderReviewMarketUnavailable() {
   );
   host.replaceChildren(card);
   reviewById("review-market-note").replaceChildren(reviewNode("p", "muted", reviewL("Markkina-arvon apuaineistoa ei voitu ladata.", "The market-value supporting dataset could not be loaded.")));
+  renderReviewDonorLedgerUnavailable(reviewL("Luovuttajamarkkinadataa ei voitu ladata.", "Donor-market data could not be loaded."));
 }
 
 const REVIEW_CHANGE_STORAGE_KEY = "pixan-global-market-evidence-last-seen-release-v4";

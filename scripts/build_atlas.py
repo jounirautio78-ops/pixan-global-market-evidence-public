@@ -67,6 +67,8 @@ MARKET_SOURCE_TOP_LEVEL_KEYS = {
     "asOf",
     "reviewedAt",
     "modelReadiness",
+    "donorProtocol",
+    "donorCandidates",
     "disclaimerEn",
     "disclaimerFi",
     "sources",
@@ -82,6 +84,38 @@ MARKET_READINESS_KEYS = {
 }
 MARKET_SOURCE_KEYS = {"sourceId", "publisher", "sourceKind", "pageUrl", "retrievedAt"}
 MARKET_SOURCE_OPTIONAL_KEYS = {"downloadUrl"}
+MARKET_DONOR_PROTOCOL_KEYS = {
+    "protocolVersion",
+    "acceptanceRuleEn",
+    "acceptanceRuleFi",
+    "criteria",
+}
+MARKET_DONOR_CRITERION_KEYS = {
+    "criterionId",
+    "titleEn",
+    "titleFi",
+    "requirementEn",
+    "requirementFi",
+}
+MARKET_DONOR_CANDIDATE_KEYS = {
+    "candidateId",
+    "countryIso2",
+    "geography",
+    "year",
+    "referenceType",
+    "referenceId",
+    "decision",
+    "passedCriteria",
+    "failedCriteria",
+    "openCriteria",
+    "headlineEn",
+    "headlineFi",
+    "decisionReasonEn",
+    "decisionReasonFi",
+    "nextEvidenceEn",
+    "nextEvidenceFi",
+    "sourceIds",
+}
 MARKET_OBSERVATION_KEYS = {
     "observationId",
     "countryIso2",
@@ -816,6 +850,23 @@ def build_market_values() -> dict[str, Any]:
     if not isinstance(readiness, dict) or set(readiness) != MARKET_READINESS_KEYS:
         raise ValueError("market-observations.json modelReadiness has an unexpected schema")
 
+    donor_protocol = source.get("donorProtocol")
+    if not isinstance(donor_protocol, dict) or set(donor_protocol) != MARKET_DONOR_PROTOCOL_KEYS:
+        raise ValueError("market-observations.json donorProtocol has an unexpected schema")
+    donor_criteria = donor_protocol.get("criteria")
+    if not isinstance(donor_criteria, list) or not donor_criteria:
+        raise ValueError("market-observations.json donorProtocol.criteria must be a non-empty array")
+    for raw in donor_criteria:
+        if not isinstance(raw, dict) or set(raw) != MARKET_DONOR_CRITERION_KEYS:
+            raise ValueError("market-observations.json donor criterion has an unexpected schema")
+
+    donor_candidates = source.get("donorCandidates")
+    if not isinstance(donor_candidates, list) or not donor_candidates:
+        raise ValueError("market-observations.json donorCandidates must be a non-empty array")
+    for raw in donor_candidates:
+        if not isinstance(raw, dict) or set(raw) != MARKET_DONOR_CANDIDATE_KEYS:
+            raise ValueError("market-observations.json donor candidate has an unexpected schema")
+
     sources = source.get("sources")
     if not isinstance(sources, list) or not sources:
         raise ValueError("market-observations.json sources must be a non-empty array")
@@ -852,6 +903,8 @@ def build_market_values() -> dict[str, Any]:
             "disclaimerEn": source["disclaimerEn"],
             "disclaimerFi": source["disclaimerFi"],
         },
+        "donorProtocol": donor_protocol,
+        "donorCandidates": donor_candidates,
         "sources": sources,
         "observations": observations,
         "models": models,

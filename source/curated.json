@@ -2,9 +2,9 @@
   "meta": {
     "title": "Pixan Global Market Evidence Atlas",
     "version": "0.1.0",
-    "asOf": "2026-07-22",
+    "asOf": "2026-07-24",
     "legacySourceCommit": "7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f",
-    "reviewedAt": "2026-07-22T08:24:04Z",
+    "reviewedAt": "2026-07-23T22:03:44Z",
     "disclaimer": "Tämä julkinen aineisto on riippumattomasti jäsennelty lähde- ja markkinaevidenssin kooste. Se ei edusta Pixan Oy:n virallista kantaa. Se ei ole tilintarkastettu markkina- tai yritysarvio, oikeudellinen lausunto, patentin pätevyyttä tai loukkausta koskeva lausunto, sijoitus- tai lainasuositus eikä näyttö Pixan Oy:n osakkeiden tai patenttien vakuusarvosta. Tulli-, vero-, toimitus-, rekisteri- ja malliluvut säilytetään eri mittareina. Jokainen rahoitus-, arvostus- ja oikeudellinen johtopäätös vaatii erillisen ammatillisen tarkastuksen.",
     "independenceStatement": "Marnetin julkisesta dashboard-snapshotista allowlistattuun baselineen siirretyt tiedot ovat lähteistettyä tausta-aineistoa. Migraatio ei itsessään varmista niiden ajantasaisuutta tai muuta niitä riippumattomasti vahvistetuiksi markkinaluvuiksi. Täyttä upstream-snapshotia ei säilytetä tässä repositoriossa."
   },

@@ -271,11 +271,14 @@ function renderMetrics() {
   const officialRetail = new Set(marketObservations()
     .filter((item) => item.countryIso2 && item.metric === "consumer_retail_market_value" && String(item.evidenceStatus).startsWith("official_"))
     .map((item) => item.countryIso2));
+  const officialRetailLowerBound = new Set(marketObservations()
+    .filter((item) => item.countryIso2 && item.metric === "official_specialist_retail_sales_lower_bound" && String(item.evidenceStatus).startsWith("official_"))
+    .map((item) => item.countryIso2));
   const modelled = new Set(marketModels().map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
     { label: l("Tutkimusmaailma", "Research universe"), value: `${list.length} / 195`, note: l("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets") },
     { label: l("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), value: `${quantified.size} / 195`, note: l("Hyväksyttyjä maakohtaisia raha-, vero- tai määräarvoja", "Accepted country-level monetary, tax or volume records") },
-    { label: l("Virallinen kuluttajamarkkina-arvo", "Official consumer-retail value"), value: `${officialRetail.size} / 195`, note: l("Valmistaja- tai toimitusarvo ei ole kuluttajamyyntiä", "Manufacturer or shipment value is not consumer retail") },
+    { label: l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), value: `${officialRetailLowerBound.size} / 195`, note: l(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`) },
     { label: l("Atlaksen maamalli", "Atlas country model"), value: `${modelled.size} / 195`, note: l("Saksan nesteskenaario; matala luottamus, ei laitteita", "Germany liquid scenario; low confidence, excludes devices") }
   ];
   const grid = byId("metric-grid");
@@ -359,6 +362,8 @@ const MARKET_METHODS = {
 const MARKET_EVIDENCE_LABELS = {
   official_observed: ["Virallinen havainto", "Official observation"],
   official_provisional: ["Virallinen · alustava", "Official · provisional"],
+  derived_official_files: ["Johdettu virallisista tiedostoista", "Derived from official files"],
+  institutional_supported: ["Institutionaalisesti tuettu", "Institutionally supported"],
   commercial_estimate: ["Kaupallinen arvio", "Commercial estimate"],
   published_price_input: ["Julkaistu hintasyöte", "Published price input"],
   modelled: ["Mallinnettu", "Modelled"]
@@ -383,6 +388,90 @@ function marketObservations() {
 
 function marketModels() {
   return Array.isArray(state.marketData?.models) ? state.marketData.models : [];
+}
+
+function assessDonorLedger(market = state.marketData) {
+  const protocol = market?.donorProtocol;
+  const criteria = Array.isArray(protocol?.criteria) ? protocol.criteria : [];
+  const criterionIds = criteria.map((item) => String(item?.criterionId || "").trim());
+  const protocolValid = Boolean(
+    protocol
+    && String(protocol.protocolVersion || "").trim()
+    && criteria.length
+    && criterionIds.every(Boolean)
+    && new Set(criterionIds).size === criterionIds.length
+    && criteria.every((item) => String(item.titleEn || "").trim() && String(item.titleFi || "").trim()
+      && String(item.requirementEn || "").trim() && String(item.requirementFi || "").trim())
+  );
+  const knownIds = new Set(criterionIds);
+  const sources = new Map((market?.sources || []).map((item) => [item.sourceId, item]));
+  const observations = new Set((market?.observations || []).map((item) => item.observationId));
+  const models = new Set((market?.models || []).map((item) => item.modelId));
+  const candidates = (Array.isArray(market?.donorCandidates) ? market.donorCandidates : []).map((candidate) => {
+    const passedRaw = Array.isArray(candidate?.passedCriteria) ? candidate.passedCriteria : [];
+    const failedRaw = Array.isArray(candidate?.failedCriteria) ? candidate.failedCriteria : [];
+    const openRaw = Array.isArray(candidate?.openCriteria) ? candidate.openCriteria : [];
+    const passed = new Set(passedRaw);
+    const failed = new Set(failedRaw);
+    const open = new Set(openRaw);
+    const allReportedIds = [...passedRaw, ...failedRaw, ...openRaw];
+    const duplicateIds = [...new Set(allReportedIds.filter((id, index) => allReportedIds.indexOf(id) !== index))];
+    const unknownIds = [...new Set(allReportedIds.filter((id) => !knownIds.has(id)))];
+    const conflictingIds = criterionIds.filter((id) => [passed.has(id), failed.has(id), open.has(id)].filter(Boolean).length > 1);
+    const criterionResults = criteria.map((criterion) => {
+      const id = criterion.criterionId;
+      const status = failed.has(id) ? "failed" : open.has(id) ? "open" : passed.has(id) ? "passed" : "open";
+      return { criterion, status };
+    });
+    const allCriteriaPassed = protocolValid
+      && criterionResults.length === criteria.length
+      && criterionResults.every((item) => item.status === "passed")
+      && !duplicateIds.length
+      && !unknownIds.length
+      && !conflictingIds.length;
+    const referenceValid = candidate?.referenceType === "observation"
+      ? observations.has(candidate.referenceId)
+      : candidate?.referenceType === "model"
+        ? models.has(candidate.referenceId)
+        : false;
+    const sourceIds = Array.isArray(candidate?.sourceIds) ? [...new Set(candidate.sourceIds.filter(Boolean))] : [];
+    const sourcesResolve = sourceIds.length > 0 && sourceIds.every((sourceId) => {
+      const source = sources.get(sourceId);
+      return Boolean(source && safeExternalUrl(source.pageUrl || source.downloadUrl));
+    });
+    const recordValid = Boolean(
+      String(candidate?.candidateId || "").trim()
+      && String(candidate?.geography || "").trim()
+      && Number.isFinite(Number(candidate?.year))
+      && ["accepted", "not_accepted"].includes(candidate?.decision)
+      && Array.isArray(candidate?.passedCriteria)
+      && Array.isArray(candidate?.failedCriteria)
+      && Array.isArray(candidate?.openCriteria)
+      && referenceValid
+      && sourcesResolve
+    );
+    const accepted = protocolValid && recordValid && candidate.decision === "accepted" && allCriteriaPassed;
+    return {
+      candidate,
+      criterionResults,
+      duplicateIds,
+      unknownIds,
+      conflictingIds,
+      referenceValid,
+      sourcesResolve,
+      recordValid,
+      allCriteriaPassed,
+      accepted
+    };
+  });
+  return {
+    protocol,
+    criteria,
+    protocolValid,
+    candidates,
+    accepted: candidates.filter((item) => item.accepted),
+    sources
+  };
 }
 
 function formatMarketValue(value, currency, unit, compact = true) {
@@ -416,6 +505,8 @@ function marketGeography(record) {
   if (record.geography === "Global") return l("Maailma", "Global");
   if (record.geography === "Germany") return l("Saksa", "Germany");
   if (record.geography === "Canada") return l("Kanada", "Canada");
+  if (record.geography === "New Zealand") return l("Uusi-Seelanti", "New Zealand");
+  if (record.geography === "European Union") return l("Euroopan unioni", "European Union");
   return record.geography || "—";
 }
 
@@ -433,14 +524,17 @@ function marketSourceLink(record, label = l("Lähde ↗", "Source ↗")) {
 
 function renderMarketMetrics() {
   const readiness = state.marketData?.meta?.modelReadiness || {};
+  const donorLedger = assessDonorLedger();
+  const acceptedDonors = donorLedger.protocolValid ? donorLedger.accepted.length : 0;
   const official = marketObservations().filter((item) => String(item.evidenceStatus).startsWith("official_"));
   const quantified = new Set(official.map((item) => item.countryIso2).filter(Boolean));
   const officialRetail = new Set(official.filter((item) => item.metric === "consumer_retail_market_value").map((item) => item.countryIso2).filter(Boolean));
+  const officialRetailLowerBound = new Set(official.filter((item) => item.metric === "official_specialist_retail_sales_lower_bound").map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
     [l("Atlaksen maailmanarvio", "Atlas global estimate"), l("Ei vielä julkaistu", "Not yet released"), l("Evidenssiraja ei vielä täyty", "Evidence threshold is not yet met")],
     [l("Määrällisesti dokumentoidut maat", "Quantified countries"), `${quantified.size} / 195`, l("Raha, vero tai määrä; ei aina kuluttajamyynti", "Money, tax or volume; not always consumer retail")],
-    [l("Virallinen kuluttajavähittäisarvo", "Official consumer-retail values"), `${officialRetail.size} / 195`, l("Vertailukelpoinen kansallinen koko vuoden arvo", "Comparable national full-year value")],
-    [l("Vertailukelpoiset luovuttajamarkkinat", "Comparable donor markets"), `${readiness.comparableFullYearMarketValueDonors || 0} / ${readiness.minimumRequiredDonors || 3}`, l(`${official.length} virallista määrällistä tietuetta säilytetään erillään`, `${official.length} official quantitative records remain separate`)]
+    [l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, l(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`)],
+    [l("Vertailukelpoiset luovuttajamarkkinat", "Comparable donor markets"), `${acceptedDonors} / ${readiness.minimumRequiredDonors || 3}`, l("Luku muuttuu vain, kun ehdokas läpäisee kaikki protokollakriteerit", "The count changes only when a candidate passes every protocol criterion")]
   ];
   const host = byId("market-metrics");
   host.replaceChildren(...metrics.map(([label, value, note]) => {
@@ -469,7 +563,8 @@ function renderMarketGlobalRange() {
 
 function renderMarketReadiness() {
   const readiness = state.marketData?.meta?.modelReadiness || {};
-  const current = Number(readiness.comparableFullYearMarketValueDonors || 0);
+  const donorLedger = assessDonorLedger();
+  const current = donorLedger.protocolValid ? donorLedger.accepted.length : 0;
   const required = Number(readiness.minimumRequiredDonors || 3);
   byId("market-readiness-title").textContent = l("Ei vielä estimaattivalmis", "Not yet estimate-ready");
   const host = byId("market-readiness");
@@ -480,6 +575,181 @@ function renderMarketReadiness() {
   track.append(fill);
   progress.append(track, node("strong", "", `${current} / ${required}`));
   host.replaceChildren(progress, node("p", "", isFi() ? readiness.reasonFi || "" : readiness.reasonEn || ""));
+}
+
+function renderDonorLedgerUnavailable(message) {
+  const root = byId("market-donor-ledger");
+  if (!root) return;
+  root.setAttribute("aria-busy", "false");
+  byId("market-donor-protocol-version").textContent = l("Protokolla —", "Protocol —");
+  byId("market-donor-gate-rule").textContent = l(
+    "0/3 muuttuu vain, kun ehdokas läpäisee jokaisen kriteerin.",
+    "The 0/3 gate changes only when a candidate passes every criterion."
+  );
+  byId("market-donor-rule").textContent = l(
+    "Hyväksyntäprotokollaa ei voitu vahvistaa. Luovuttajamarkkinoiden määrä pidetään nollassa.",
+    "The acceptance protocol could not be verified. The donor-market count is held at zero."
+  );
+  byId("market-donor-summary").replaceChildren();
+  byId("market-donor-candidates").replaceChildren(node("p", "empty-state", message));
+  const status = byId("market-donor-status");
+  status.dataset.state = "error";
+  status.textContent = l(
+    "Fail-closed: yksikään ehdokas ei voi vaikuttaa 0/3-porttiin ilman ehjää protokollaa.",
+    "Fail closed: no candidate can affect the 0/3 gate without a valid protocol."
+  );
+}
+
+function renderDonorLedger() {
+  const root = byId("market-donor-ledger");
+  if (!root) return;
+  const assessment = assessDonorLedger();
+  const protocol = assessment.protocol || {};
+  const readiness = state.marketData?.meta?.modelReadiness || {};
+  const required = Number(readiness.minimumRequiredDonors || 3);
+  const recorded = Number(readiness.comparableFullYearMarketValueDonors);
+  const effectiveCount = assessment.protocolValid ? assessment.accepted.length : 0;
+  const protocolLabel = String(protocol.protocolVersion || "").trim() || "—";
+  byId("market-donor-protocol-version").textContent = `${l("Protokolla", "Protocol")} ${protocolLabel}`;
+  byId("market-donor-gate-rule").textContent = l(
+    `${effectiveCount}/${required} muuttuu vain, kun ehdokas läpäisee jokaisen kriteerin.`,
+    `The ${effectiveCount}/${required} gate changes only when a candidate passes every criterion.`
+  );
+  byId("market-donor-rule").textContent = isFi()
+    ? protocol.acceptanceRuleFi || "Kaikkien julkaistujen kriteerien on läpäistävä tarkistus ennen kuin ehdokas voidaan laskea luovuttajamarkkinaksi."
+    : protocol.acceptanceRuleEn || "Every published criterion must pass before a candidate can count as a donor market.";
+
+  const summary = byId("market-donor-summary");
+  const summaryItems = [
+    [
+      l("Hyväksytty porttiin", "Accepted into gate"),
+      `${effectiveCount} / ${required}`,
+      l("Laskettu fail-closed ehdokastietueista", "Calculated fail closed from candidate records")
+    ],
+    [
+      l("Tarkastellut ehdokkaat", "Candidates reviewed"),
+      assessment.candidates.length,
+      l("Hyväksytyt ja hylätyt näkyvät samalla säännöllä", "Accepted and rejected candidates use the same rule")
+    ],
+    [
+      l("Pakolliset kriteerit", "Mandatory criteria"),
+      assessment.criteria.length || "—",
+      l("Yksikin avoin tai hylätty kriteeri estää hyväksynnän", "One open or failed criterion blocks acceptance")
+    ]
+  ];
+  summary.replaceChildren(...summaryItems.map(([label, value, note]) => {
+    const item = node("div", "donor-summary-item");
+    item.append(node("span", "", label), node("strong", "", value), node("small", "", note));
+    return item;
+  }));
+
+  const candidatesHost = byId("market-donor-candidates");
+  candidatesHost.replaceChildren();
+  for (const result of assessment.candidates) {
+    const candidate = result.candidate || {};
+    const card = node("article", "donor-candidate-card");
+    card.dataset.decision = result.accepted ? "accepted" : "not_accepted";
+    const head = node("div", "donor-candidate-head");
+    const identity = node("div");
+    const geography = marketGeography(candidate);
+    const referenceType = candidate.referenceType === "observation"
+      ? l("havainto", "observation")
+      : candidate.referenceType === "model"
+        ? l("malli", "model")
+        : "—";
+    identity.append(
+      node("p", "donor-candidate-meta", `${candidate.countryIso2 || geography || "—"} · ${candidate.year || "—"} · ${referenceType} · ${candidate.referenceId || "—"}`),
+      node("h4", "", (isFi() ? candidate.headlineFi : candidate.headlineEn) || candidate.candidateId || l("Nimeämätön ehdokas", "Unnamed candidate"))
+    );
+    const decision = node("span", "donor-decision-chip", result.accepted ? l("Hyväksytty", "Accepted") : l("Ei hyväksytty", "Not accepted"));
+    decision.dataset.decision = result.accepted ? "accepted" : "not_accepted";
+    head.append(identity, decision);
+
+    const passedCount = result.criterionResults.filter((item) => item.status === "passed").length;
+    const failedCount = result.criterionResults.filter((item) => item.status === "failed").length;
+    const openCount = result.criterionResults.length - passedCount - failedCount;
+    const counts = node("div", "donor-candidate-counts");
+    counts.append(
+      node("span", "donor-count-chip donor-count-passed", l(`${passedCount} läpäisty`, `${passedCount} passed`)),
+      node("span", "donor-count-chip donor-count-failed", l(`${failedCount} hylätty`, `${failedCount} failed`)),
+      node("span", "donor-count-chip donor-count-open", l(`${openCount} avoin`, `${openCount} open`))
+    );
+
+    const reason = node("p", "donor-candidate-copy");
+    reason.append(node("strong", "", l("Päätösperuste: ", "Decision basis: ")), document.createTextNode((isFi() ? candidate.decisionReasonFi : candidate.decisionReasonEn) || l("Ei dokumentoitua perustetta.", "No documented reason.")));
+    const next = node("p", "donor-candidate-copy");
+    next.append(node("strong", "", l("Tarvittava seuraava näyttö: ", "Next evidence needed: ")), document.createTextNode((isFi() ? candidate.nextEvidenceFi : candidate.nextEvidenceEn) || l("Ei dokumentoitu.", "Not documented.")));
+    card.append(head, counts, reason, next);
+
+    const issues = [];
+    if (!assessment.protocolValid) issues.push(l("hyväksyntäprotokolla ei ole ehjä", "acceptance protocol is invalid"));
+    if (!result.referenceValid) issues.push(l("viitattu havainto tai malli ei ratkea", "referenced observation or model does not resolve"));
+    if (!result.sourcesResolve) issues.push(l("kaikilla lähteillä ei ole ratkaistavaa julkista linkkiä", "not every source resolves to a public link"));
+    if (result.duplicateIds.length) issues.push(l("toistuvia kriteeritunnuksia", "duplicate criterion identifiers"));
+    if (result.unknownIds.length) issues.push(l("tuntemattomia kriteeritunnuksia", "unknown criterion identifiers"));
+    if (result.conflictingIds.length) issues.push(l("ristiriitaisia kriteeritiloja", "conflicting criterion states"));
+    if (candidate.decision === "accepted" && !result.accepted) issues.push(l("ilmoitettu hyväksyntä hylättiin fail-closed-tarkistuksessa", "declared acceptance was rejected by the fail-closed check"));
+    if (issues.length) {
+      card.append(node("p", "donor-candidate-copy donor-record-warning", `${l("Tietuevaroitus", "Record warning")}: ${issues.join("; ")}.`));
+    }
+
+    const sourceLinks = node("div", "donor-source-links");
+    const sourceIds = Array.isArray(candidate.sourceIds) ? [...new Set(candidate.sourceIds.filter(Boolean))] : [];
+    if (!sourceIds.length) {
+      sourceLinks.append(node("span", "donor-source-missing", l("Ei lähdeviitteitä", "No source references")));
+    }
+    for (const sourceId of sourceIds) {
+      const source = assessment.sources.get(sourceId);
+      const url = safeExternalUrl(source?.pageUrl || source?.downloadUrl);
+      if (!url) {
+        sourceLinks.append(node("span", "donor-source-missing", `${sourceId} · ${l("linkki puuttuu", "link unavailable")}`));
+        continue;
+      }
+      const link = node("a", "", `${source?.publisher || sourceId} ↗`);
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.title = `${sourceId} · ${l("Avaa alkuperäinen lähde", "Open original source")}`;
+      sourceLinks.append(link);
+    }
+    card.append(sourceLinks);
+
+    const details = node("details", "donor-criteria-details");
+    const detailsSummary = node("summary", "", l(`Kriteeritulokset · ${passedCount}/${result.criterionResults.length} läpäisty`, `Criterion results · ${passedCount}/${result.criterionResults.length} passed`));
+    const list = node("div", "donor-criteria-list");
+    for (const item of result.criterionResults) {
+      const row = node("div", "donor-criterion-row");
+      row.dataset.status = item.status;
+      const mark = node("span", "donor-criterion-mark", item.status === "passed" ? "✓" : item.status === "failed" ? "×" : "?");
+      mark.setAttribute("aria-hidden", "true");
+      const copy = node("div");
+      const statusLabel = item.status === "passed" ? l("Läpäisty", "Passed") : item.status === "failed" ? l("Hylätty", "Failed") : l("Avoin", "Open");
+      copy.append(
+        node("strong", "", (isFi() ? item.criterion.titleFi : item.criterion.titleEn) || item.criterion.criterionId),
+        node("small", "", `${statusLabel} · ${(isFi() ? item.criterion.requirementFi : item.criterion.requirementEn) || "—"}`)
+      );
+      row.setAttribute("aria-label", `${statusLabel}: ${(isFi() ? item.criterion.titleFi : item.criterion.titleEn) || item.criterion.criterionId}`);
+      row.append(mark, copy);
+      list.append(row);
+    }
+    if (!result.criterionResults.length) list.append(node("p", "empty-state", l("Kriteerejä ei voitu vahvistaa.", "Criteria could not be verified.")));
+    details.append(detailsSummary, list);
+    card.append(details);
+    candidatesHost.append(card);
+  }
+  if (!assessment.candidates.length) {
+    candidatesHost.append(node("p", "empty-state", l("Luovuttajamarkkinaehdokkaita ei ole julkaistu.", "No donor-market candidates have been published.")));
+  }
+
+  const status = byId("market-donor-status");
+  const mismatch = Number.isFinite(recorded) && recorded !== effectiveCount;
+  status.dataset.state = assessment.protocolValid && !mismatch ? "ready" : "error";
+  status.textContent = !assessment.protocolValid
+    ? l("Fail-closed: protokolla ei läpäissyt rakennetarkistusta, joten portti pidetään nollassa.", "Fail closed: the protocol failed structural validation, so the gate is held at zero.")
+    : mismatch
+      ? l(`Fail-closed: metatiedon portti ${recorded}/${required} ei täsmää kriteereistä laskettuun ${effectiveCount}/${required}-tulokseen.`, `Fail closed: the metadata gate ${recorded}/${required} does not match the criterion-derived ${effectiveCount}/${required} result.`)
+      : l(`${assessment.candidates.length} ehdokasta tarkistettu samalla protokollalla · ${effectiveCount}/${required} hyväksytty.`, `${assessment.candidates.length} candidates checked under one protocol · ${effectiveCount}/${required} accepted.`);
+  root.setAttribute("aria-busy", "false");
 }
 
 function renderMarketObservations() {
@@ -586,6 +856,7 @@ function renderMarket() {
     byId("market-readiness").replaceChildren(node("p", "muted", l("Valmiustieto ei ole saatavilla.", "Readiness data is unavailable.")));
     byId("market-observation-rows").replaceChildren();
     byId("market-empty").hidden = false;
+    renderDonorLedgerUnavailable(l("Luovuttajamarkkinadataa ei voitu ladata.", "Donor-market data could not be loaded."));
     renderMarketMethods();
     byId("market-models").replaceChildren(node("p", "empty-state", l("Mallinnettua aineistoa ei voitu ladata.", "Modelled data could not be loaded.")));
     return;
@@ -593,6 +864,7 @@ function renderMarket() {
   renderMarketMetrics();
   renderMarketGlobalRange();
   renderMarketReadiness();
+  renderDonorLedger();
   renderMarketObservations();
   renderMarketMethods();
   renderMarketModels();

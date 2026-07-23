@@ -94,6 +94,7 @@ NUMBER_WORDS = {
     "viidestä": "5",
     "kuusi": "6",
     "kuuden": "6",
+    "kuudesta": "6",
     "seitsemän": "7",
     "kahdeksan": "8",
     "yhdeksän": "9",
@@ -120,6 +121,10 @@ ALPHANUMERIC_ID_RE = re.compile(
 CURRENCY_PATTERNS = {
     "CAD": re.compile(r"\bCAD\b", re.IGNORECASE),
     "EUR": re.compile(r"(?:€|\bEUR\b|\beuro(?:a|n|t|s)?\b|\beuros?\b)", re.IGNORECASE),
+    "NZD": re.compile(
+        r"(?:\bNZD\b|\bUuden-Seelannin dollari(?:a|n|t)?\b|\bNew Zealand dollars?\b)",
+        re.IGNORECASE,
+    ),
     "PLN": re.compile(r"\bPLN\b", re.IGNORECASE),
     "USD": re.compile(r"\bUSD\b", re.IGNORECASE),
 }

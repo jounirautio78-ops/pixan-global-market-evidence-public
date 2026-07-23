@@ -1,14 +1,233 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-22",
-  "reviewedAt": "2026-07-22T00:00:00Z",
+  "asOf": "2026-07-24",
+  "reviewedAt": "2026-07-23T22:03:44Z",
   "modelReadiness": {
     "status": "not_estimate_ready",
     "comparableFullYearMarketValueDonors": 0,
     "minimumRequiredDonors": 3,
-    "reasonEn": "Canada supplies an official full-year manufacturer/importer shipment-value proxy, but it is not a comparable consumer-retail market value. No comparable full-year retail-value donor is accepted yet. A cross-country atlas estimate requires at least three compatible donors plus regional and regulatory-archetype coverage and direct validation in major economies.",
-    "reasonFi": "Kanadasta on virallinen koko vuoden valmistaja- ja maahantuojatoimitusten arvon korvike, mutta se ei ole vertailukelpoinen kuluttajavähittäismarkkinan arvo. Yhtään vertailukelpoista koko vuoden vähittäisarvon luovuttajamarkkinaa ei ole vielä hyväksytty. Maiden välinen atlasestimaatti vaatii vähintään kolme yhteensopivaa luovuttajaa sekä alue- ja sääntelytyyppien peiton ja suoran validoinnin suurissa talouksissa."
+    "reasonEn": "New Zealand supplies an official 2024 specialist-retail lower bound, the European Commission publishes a supported 2023 EU benchmark, Canada supplies an official shipment-value proxy and Germany has a liquid-only model. None passes all ten donor criteria. A cross-country atlas estimate still requires at least three accepted donors plus regional and regulatory-archetype coverage.",
+    "reasonFi": "Uudesta-Seelannista on virallinen vuoden 2024 erikoisvähittäiskaupan alaraja, Euroopan komissio julkaisee tuetun vuoden 2023 EU-vertailuarvon, Kanadasta on virallinen toimitusarvon korvike ja Saksasta nestemalli. Yksikään ei täytä kaikkia kymmentä luovuttajaehtoa. Maiden välinen atlasestimaatti vaatii yhä vähintään kolme hyväksyttyä luovuttajaa sekä alue- ja sääntelytyyppien peiton."
   },
+  "donorProtocol": {
+    "protocolVersion": "1.0",
+    "acceptanceRuleEn": "A candidate enters the donor count only after every criterion D1–D10 passes with source-linked evidence. A failed or unresolved criterion keeps the candidate outside the count.",
+    "acceptanceRuleFi": "Ehdokas lasketaan luovuttajamarkkinaksi vasta, kun kaikki ehdot D1–D10 täyttyvät lähteistetysti. Yksikin hylätty tai avoin ehto pitää ehdokkaan lukumäärän ulkopuolella.",
+    "criteria": [
+      {
+        "criterionId": "D1",
+        "titleEn": "Complete calendar year",
+        "titleFi": "Kokonainen kalenterivuosi",
+        "requirementEn": "The figure covers one complete, identified calendar year.",
+        "requirementFi": "Luku kattaa yhden kokonaisen ja yksilöidyn kalenterivuoden."
+      },
+      {
+        "criterionId": "D2",
+        "titleEn": "Consumer retail transaction",
+        "titleFi": "Kuluttajavähittäiskaupan tapahtuma",
+        "requirementEn": "The transaction level is consumer retail sell-through, not a supply-stage proxy.",
+        "requirementFi": "Tapahtumataso on kuluttajavähittäismyynti eikä toimitusketjun korvikemittari."
+      },
+      {
+        "criterionId": "D3",
+        "titleEn": "Devices and consumables",
+        "titleFi": "Laitteet ja kulutustarvikkeet",
+        "requirementEn": "Devices and consumables are both covered, or their split is explicitly reconciled.",
+        "requirementFi": "Sekä laitteet että kulutustarvikkeet sisältyvät lukuun tai niiden jako on täsmäytetty."
+      },
+      {
+        "criterionId": "D4",
+        "titleEn": "Adjacent products controlled",
+        "titleFi": "Viereiset tuoteryhmät hallittu",
+        "requirementEn": "Heated tobacco, herbal smoking, smokeless tobacco and other adjacent products are excluded or separately quantified.",
+        "requirementFi": "Kuumennettava tupakka, yrttipolttotuotteet, savuton tupakka ja muut viereiset tuoteryhmät on rajattu pois tai määrällistetty erikseen."
+      },
+      {
+        "criterionId": "D5",
+        "titleEn": "National channel coverage",
+        "titleFi": "Valtakunnallinen kanavapeitto",
+        "requirementEn": "Nationwide channels are covered, or every material channel gap is quantified.",
+        "requirementFi": "Valtakunnalliset myyntikanavat on katettu tai jokainen olennainen kanavavaje on määrällistetty."
+      },
+      {
+        "criterionId": "D6",
+        "titleEn": "No supply-stage double counting",
+        "titleFi": "Ei toimitusketjun kaksoislaskentaa",
+        "requirementEn": "Manufacturer, importer, wholesaler and retailer stages are de-duplicated.",
+        "requirementFi": "Valmistaja-, maahantuoja-, tukku- ja vähittäiskauppatasot on deduplikoitu."
+      },
+      {
+        "criterionId": "D7",
+        "titleEn": "Method and missingness documented",
+        "titleFi": "Menetelmä ja puuttuvuus dokumentoitu",
+        "requirementEn": "Method, missingness, revisions and data-quality warnings are documented.",
+        "requirementFi": "Menetelmä, puuttuvuus, korjaukset ja aineiston laatuvaroitukset on dokumentoitu."
+      },
+      {
+        "criterionId": "D8",
+        "titleEn": "Currency and tax basis",
+        "titleFi": "Valuutta- ja veroperusta",
+        "requirementEn": "Currency and the treatment of VAT, GST and excise are explicit.",
+        "requirementFi": "Valuutta sekä arvonlisä-, kulutus- ja valmisteverojen käsittely on yksiselitteinen."
+      },
+      {
+        "criterionId": "D9",
+        "titleEn": "Public reproducibility",
+        "titleFi": "Julkinen toistettavuus",
+        "requirementEn": "A public aggregate and reproducible source chain are available without private or unlicensed raw records.",
+        "requirementFi": "Julkinen koontiluku ja toistettava lähdeketju ovat saatavilla ilman yksityisiä tai lisensoimattomia raakarekistereitä."
+      },
+      {
+        "criterionId": "D10",
+        "titleEn": "Independent reconciliation",
+        "titleFi": "Riippumaton täsmäytys",
+        "requirementEn": "The value is reconciled against an independent route or direct official validation.",
+        "requirementFi": "Luku on täsmäytetty riippumattomaan laskentareittiin tai suoraan viranomaisvalidointiin."
+      }
+    ]
+  },
+  "donorCandidates": [
+    {
+      "candidateId": "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2024,
+      "referenceType": "observation",
+      "referenceId": "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND",
+      "decision": "not_accepted",
+      "passedCriteria": [
+        "D1",
+        "D2",
+        "D6",
+        "D7",
+        "D9"
+      ],
+      "failedCriteria": [
+        "D4",
+        "D5"
+      ],
+      "openCriteria": [
+        "D3",
+        "D8",
+        "D10"
+      ],
+      "headlineEn": "Official specialist-retail sales lower bound",
+      "headlineFi": "Virallinen erikoisvähittäiskaupan myynnin alaraja",
+      "decisionReasonEn": "The at-least NZD 280 million figure is incomplete, excludes general retail and includes adjacent notifiable products, so it is not a complete national vaping-market value.",
+      "decisionReasonFi": "Vähintään 280 miljoonan Uuden-Seelannin dollarin luku on puutteellinen, jättää yleisvähittäiskaupan pois ja sisältää viereisiä ilmoitusvelvollisia tuoteryhmiä, joten se ei ole koko maan sähkötupakkamarkkinan arvo.",
+      "nextEvidenceEn": "Obtain a complete national retailer aggregate with vaping-only product splits, GST treatment and an independent reconciliation against tax, imports or retail scanner data.",
+      "nextEvidenceFi": "Hanki täydellinen valtakunnallinen vähittäiskaupan koonti, sähkötupakkatuotteiden erilliset tuoteryhmät, GST-käsittely ja riippumaton täsmäytys vero-, tuonti- tai kassapaneeliaineistoon.",
+      "sourceIds": [
+        "NZ-MOH-ANNUAL-RETURNS-2024"
+      ]
+    },
+    {
+      "candidateId": "EU-2023-COMMISSION-BENCHMARK",
+      "countryIso2": null,
+      "geography": "European Union",
+      "year": 2023,
+      "referenceType": "observation",
+      "referenceId": "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK",
+      "decision": "not_accepted",
+      "passedCriteria": [
+        "D1",
+        "D3",
+        "D4"
+      ],
+      "failedCriteria": [
+        "D7",
+        "D9"
+      ],
+      "openCriteria": [
+        "D2",
+        "D5",
+        "D6",
+        "D8",
+        "D10"
+      ],
+      "headlineEn": "European Commission-published EU market benchmark",
+      "headlineFi": "Euroopan komission julkaisema EU-markkinan vertailuarvo",
+      "decisionReasonEn": "The EUR 4.99 billion value is useful institutional corroboration, but it comes from Euromonitor and an external study; the reusable country data and full method are not public, and one Commission annex notes missing information for three Member States.",
+      "decisionReasonFi": "4,99 miljardin euron luku on hyödyllinen institutionaalinen vertailupiste, mutta se perustuu Euromonitoriin ja ulkopuoliseen tutkimukseen; uudelleenkäytettävä maadata ja koko menetelmä eivät ole julkisia, ja yksi komission liite ilmoittaa kolmen jäsenvaltion tiedot puuttuviksi.",
+      "nextEvidenceEn": "Acquire the underlying country table, transaction-level definition, channel coverage, tax basis and a non-duplicative official or retail reconciliation.",
+      "nextEvidenceFi": "Hanki taustalla oleva maataulukko, tapahtumatason määritelmä, kanavapeitto, veroperusta ja riippumaton viranomais- tai vähittäiskauppatäsmäytys.",
+      "sourceIds": [
+        "EU-EC-SWD-2025-560",
+        "EU-EC-SWD-2026-111"
+      ]
+    },
+    {
+      "candidateId": "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2024,
+      "referenceType": "observation",
+      "referenceId": "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
+      "decision": "not_accepted",
+      "passedCriteria": [
+        "D1",
+        "D3",
+        "D4",
+        "D7",
+        "D9"
+      ],
+      "failedCriteria": [
+        "D2"
+      ],
+      "openCriteria": [
+        "D5",
+        "D6",
+        "D8",
+        "D10"
+      ],
+      "headlineEn": "Official full-year manufacturer/importer shipment value",
+      "headlineFi": "Virallinen koko vuoden valmistaja- ja maahantuojatoimitusten arvo",
+      "decisionReasonEn": "The CAD 1.161 billion observation is a supply-stage shipment value, not consumer retail sell-through.",
+      "decisionReasonFi": "1,161 miljardin Kanadan dollarin havainto on toimitusketjutason toimitusarvo, ei kuluttajavähittäismyynti.",
+      "nextEvidenceEn": "Obtain consumer retail sell-through, reporting-coverage and supply-stage de-duplication evidence with an explicit tax basis.",
+      "nextEvidenceFi": "Hanki kuluttajavähittäismyyntiä, raportointipeittoa ja toimitusketjun deduplikointia koskeva näyttö sekä yksiselitteinen veroperusta.",
+      "sourceIds": [
+        "CA-HC-VAPING-SALES-2024"
+      ]
+    },
+    {
+      "candidateId": "DE-2025-LIQUID-RETAIL-MODEL",
+      "countryIso2": "DE",
+      "geography": "Germany",
+      "year": 2025,
+      "referenceType": "model",
+      "referenceId": "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE",
+      "decision": "not_accepted",
+      "passedCriteria": [
+        "D4",
+        "D6",
+        "D7",
+        "D9"
+      ],
+      "failedCriteria": [
+        "D1",
+        "D2",
+        "D3",
+        "D10"
+      ],
+      "openCriteria": [
+        "D5",
+        "D8"
+      ],
+      "headlineEn": "Taxed-liquid retail-equivalent plausibility model",
+      "headlineFi": "Verotetun nesteen vähittäismyyntivastaavuuden suuntaa-antava malli",
+      "decisionReasonEn": "The range combines provisional 2025 liquid volume with three 2026 prices, excludes devices and is not observed consumer sales.",
+      "decisionReasonFi": "Vaihteluväli yhdistää vuoden 2025 alustavan nestemäärän kolmeen vuoden 2026 hintaan, rajaa laitteet pois eikä ole havaittua kuluttajamyyntiä.",
+      "nextEvidenceEn": "Add same-year representative retail prices, device sell-through, channel coverage and an independent reconciliation route.",
+      "nextEvidenceFi": "Lisää saman vuoden edustavat vähittäishinnat, laitemyynti, kanavapeitto ja riippumaton täsmäytysreitti.",
+      "sourceIds": [
+        "DE-DESTATIS-73411-0003",
+        "INTASTE-GERMANFLAVOURS-2026",
+        "INTASTE-SAMURAI-2026",
+        "INTASTE-REVOLTAGE-2026"
+      ]
+    }
+  ],
   "disclaimerEn": "Observed shipments, taxed volumes, excise receipts, commercial estimates, retail price inputs and modelled ranges are different measures. They must not be added or presented as one observed retail market value.",
   "disclaimerFi": "Havaitut toimitukset, verotetut määrät, valmisteverotulot, kaupalliset arviot, vähittäishintasyötteet ja mallinnetut vaihteluvälit ovat eri mittareita. Niitä ei saa laskea yhteen tai esittää yhtenä havaittuna vähittäismarkkina-arvona.",
   "sources": [
@@ -55,6 +274,41 @@
       "sourceKind": "official",
       "pageUrl": "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf",
       "retrievedAt": "2026-07-22"
+    },
+    {
+      "sourceId": "NZ-MOH-ANNUAL-RETURNS-2022",
+      "publisher": "New Zealand Ministry of Health",
+      "sourceKind": "official",
+      "pageUrl": "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2022",
+      "retrievedAt": "2026-07-24"
+    },
+    {
+      "sourceId": "NZ-MOH-ANNUAL-RETURNS-2023",
+      "publisher": "New Zealand Ministry of Health",
+      "sourceKind": "official",
+      "pageUrl": "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2023",
+      "retrievedAt": "2026-07-24"
+    },
+    {
+      "sourceId": "NZ-MOH-ANNUAL-RETURNS-2024",
+      "publisher": "New Zealand Ministry of Health",
+      "sourceKind": "official",
+      "pageUrl": "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
+      "retrievedAt": "2026-07-24"
+    },
+    {
+      "sourceId": "EU-EC-SWD-2025-560",
+      "publisher": "European Commission",
+      "sourceKind": "official_secondary",
+      "pageUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=SWD%3A2025%3A0560%3AFIN",
+      "retrievedAt": "2026-07-24"
+    },
+    {
+      "sourceId": "EU-EC-SWD-2026-111",
+      "publisher": "European Commission",
+      "sourceKind": "official_secondary",
+      "pageUrl": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=SWD%3A2026%3A111%3AFIN",
+      "retrievedAt": "2026-07-24"
     },
     {
       "sourceId": "IMARC-GLOBAL-2025",
@@ -171,6 +425,151 @@
       "labelFi": "Valmistajien ja maahantuojien ilmoittamien toimitusten nestemäärä",
       "limitationEn": "Volume reported for product categories containing vaping substance. It is a physical quantity, not retail market value.",
       "limitationFi": "Höyrystettävää ainetta sisältävien tuoteryhmien ilmoitettu määrä. Se on fyysinen määrä, ei vähittäismarkkina-arvo."
+    },
+    {
+      "observationId": "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2022,
+      "metric": "official_reported_revenue_mixed_supply_stages",
+      "value": 404000000,
+      "unit": "NZD",
+      "currency": "NZD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_provisional",
+      "finality": "official_approximation_with_significant_quality_warning",
+      "productScope": "all_notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products",
+      "marketValueBasis": "mixed_supply_stage_revenue_incomplete_not_retail_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "NZ-MOH-ANNUAL-RETURNS-2022"
+      ],
+      "labelEn": "Approximate reported revenue from notifiable products",
+      "labelFi": "Ilmoitettujen ilmoitusvelvollisten tuotteiden liikevaihdon likimäärä",
+      "limitationEn": "Official headline approximation combining manufacturers, importers and specialist vape retailers, excluding general retailers and including vaping, smokeless-tobacco and herbal-smoking products. The Ministry reports significant data-entry and interpretation errors and says the data should not support thorough research.",
+      "limitationFi": "Virallinen otsikkotason likimäärä yhdistää valmistajat, maahantuojat ja erikoistuneet sähkötupakkakauppiaat, jättää yleisvähittäiskaupan pois ja sisältää sähkötupakka-, savuton tupakka- ja yrttipolttotuotteet. Ministeriö ilmoittaa merkittävistä syöttö- ja tulkintavirheistä eikä suosittele aineistoa perusteelliseen tutkimukseen."
+    },
+    {
+      "observationId": "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2023,
+      "metric": "official_reported_revenue_mixed_supply_stages",
+      "value": 374000000,
+      "unit": "NZD",
+      "currency": "NZD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_provisional",
+      "finality": "official_lower_bound_with_quality_warning",
+      "productScope": "regulated_notifiable_products_including_heated_tobacco",
+      "marketValueBasis": "mixed_supply_stage_revenue_incomplete_not_retail_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "NZ-MOH-ANNUAL-RETURNS-2023"
+      ],
+      "labelEn": "Reported notifiable-product revenue lower bound",
+      "labelFi": "Ilmoitettujen ilmoitusvelvollisten tuotteiden liikevaihdon alaraja",
+      "limitationEn": "Official at-least NZD 374 million headline based on manufacturer, importer and retailer returns and including heated-tobacco products. Reporting is incomplete, the collection has quality issues and mixed supply stages may overlap; the Ministry does not recommend the data for in-depth research.",
+      "limitationFi": "Virallinen vähintään 374 miljoonan Uuden-Seelannin dollarin otsikkoluku perustuu valmistaja-, maahantuoja- ja vähittäiskauppailmoituksiin ja sisältää kuumennettavia tupakkatuotteita. Raportointi on puutteellista, aineiston laadussa on ongelmia ja toimitusketjun tasot voivat limittyä; ministeriö ei suosittele aineistoa perusteelliseen tutkimukseen."
+    },
+    {
+      "observationId": "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2024,
+      "metric": "official_specialist_retail_sales_lower_bound",
+      "value": 280000000,
+      "unit": "NZD",
+      "currency": "NZD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_provisional",
+      "finality": "official_lower_bound_with_quality_warning",
+      "productScope": "notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products",
+      "marketValueBasis": "specialist_vape_retailer_sales_incomplete_lower_bound_mixed_notifiable_products",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "NZ-MOH-ANNUAL-RETURNS-2024"
+      ],
+      "labelEn": "Specialist-vape-retailer sales lower bound",
+      "labelFi": "Erikoistuneiden sähkötupakkakauppiaiden myynnin alaraja",
+      "limitationEn": "Official at-least NZD 280 million consumer-retail lower bound based only on incomplete specialist-vape-retailer sales. General retail is outside the figure, adjacent notifiable products are included and the Ministry does not recommend the data for in-depth research.",
+      "limitationFi": "Virallinen vähintään 280 miljoonan Uuden-Seelannin dollarin kuluttajavähittäismyynnin alaraja perustuu vain puutteellisiin erikoistuneiden sähkötupakkakauppiaiden myynteihin. Yleisvähittäiskauppa puuttuu, viereisiä ilmoitusvelvollisia tuoteryhmiä sisältyy eikä ministeriö suosittele aineistoa perusteelliseen tutkimukseen."
+    },
+    {
+      "observationId": "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2024,
+      "metric": "derived_official_workbook_sales_raw_sum",
+      "value": 280684512.81,
+      "unit": "NZD",
+      "currency": "NZD",
+      "period": "calendar_year",
+      "evidenceStatus": "derived_official_files",
+      "finality": "reproduced_raw_file_sum_with_quality_warning",
+      "productScope": "specialist_retail_product_rows_including_vaping_and_adjacent_notifiable_products",
+      "marketValueBasis": "raw_workbook_sum_not_cleaned_or_complete_national_market",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "NZ-MOH-ANNUAL-RETURNS-2024"
+      ],
+      "labelEn": "Reproduced 2024 specialist-retail product-row sales sum",
+      "labelFi": "Vuoden 2024 erikoisvähittäiskaupan tuoterivien toistettu myyntisumma",
+      "limitationEn": "Independent arithmetic over all 29 official XLSX files sums the 612,765 numeric Total sales cells to NZD 280,684,512.81, reconciling the Ministry's at-least NZD 280 million headline. The files contain 95,144 exact repeated row signatures; removing repeats would produce NZD 264,561,055.05, but repeat semantics are unverified, so neither value is a cleaned national estimate. General retail, missing returns and GST treatment remain unresolved.",
+      "limitationFi": "Kaikkien 29 virallisen XLSX-tiedoston riippumaton laskenta summaa 612 765 numeerista Total sales -solua 280 684 512,81 Uuden-Seelannin dollariin, mikä täsmää ministeriön vähintään 280 miljoonan dollarin otsikkolukuun. Tiedostoissa on 95 144 täsmälleen toistuvaa riviallekirjoitusta; toistojen poistaminen antaisi 264 561 055,05 dollaria, mutta toistojen merkitystä ei ole vahvistettu, joten kumpikaan luku ei ole puhdistettu kansallinen estimaatti. Yleisvähittäiskauppa, puuttuvat ilmoitukset ja GST-käsittely ovat avoimia."
+    },
+    {
+      "observationId": "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2024,
+      "metric": "derived_identified_vaping_product_sales_raw_sum",
+      "value": 274180410.21,
+      "unit": "NZD",
+      "currency": "NZD",
+      "period": "calendar_year",
+      "evidenceStatus": "derived_official_files",
+      "finality": "keyword_classified_raw_file_sum_with_quality_warning",
+      "productScope": "specialist_retail_rows_with_product_type_text_identified_as_vaping",
+      "marketValueBasis": "conservative_text_classification_raw_sum_not_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "NZ-MOH-ANNUAL-RETURNS-2024"
+      ],
+      "labelEn": "Identified-vaping product-row sales raw sum",
+      "labelFi": "Tunnistettujen sähkötupakkatuoterivien raakamyyntisumma",
+      "limitationEn": "A conservative text classification identifies NZD 274,180,410.21 as vaping-product rows, NZD 2,137,085.24 as adjacent notifiable products and NZD 4,367,017.37 as unresolved product type. The vaping exact-row-deduplication sensitivity is NZD 258,327,110.88, but it is not a corrected estimate. Product-type corruption, repeated rows, incomplete specialist-retailer coverage, excluded general retail and unknown GST treatment prevent donor use.",
+      "limitationFi": "Varovainen tekstiluokitus tunnistaa sähkötupakkatuoteriveiksi 274 180 410,21 Uuden-Seelannin dollaria, viereisiksi ilmoitusvelvollisiksi tuotteiksi 2 137 085,24 dollaria ja ratkaisemattomaksi tuotetyypiksi 4 367 017,37 dollaria. Sähkötupakkarivien täsmälleen toistuvien rivien poistamisen herkkyys on 258 327 110,88 dollaria, mutta se ei ole korjattu estimaatti. Tuotetyyppikentän virheet, toistuvat rivit, puutteellinen erikoisvähittäiskaupan peitto, yleisvähittäiskaupan puuttuminen ja tuntematon GST-käsittely estävät luovuttajakäytön."
+    },
+    {
+      "observationId": "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK",
+      "countryIso2": null,
+      "geography": "European Union",
+      "year": 2023,
+      "metric": "institutional_market_value_benchmark",
+      "value": 4990000000,
+      "unit": "EUR",
+      "currency": "EUR",
+      "period": "calendar_year",
+      "evidenceStatus": "institutional_supported",
+      "finality": "published_secondary_benchmark",
+      "productScope": "external_study_e_cigarettes_including_devices_closed_refills_and_open_system_liquids",
+      "marketValueBasis": "external_study_benchmark_published_by_official_institution_not_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "EU-EC-SWD-2025-560",
+        "EU-EC-SWD-2026-111"
+      ],
+      "labelEn": "European Commission-published e-cigarette market benchmark",
+      "labelFi": "Euroopan komission julkaisema sähkötupakkamarkkinan vertailuarvo",
+      "limitationEn": "SWD(2026) 111 Table 4 reports EUR 4.99 billion for the 2023 EU e-cigarette market; its source note identifies Euromonitor International's Tobacco 2025 industry edition. SWD(2025) 560 Annex 13 independently describes a nearly EUR 5 billion aggregate, defines the scope as devices and liquids including nicotine-free products, and attributes its chart to an external study based on Euromonitor. That annex notes unavailable information for Cyprus, Luxembourg and Malta. The full method and reusable country dataset are not public, so this remains a supported secondary benchmark, not an official observed donor market.",
+      "limitationFi": "SWD(2026) 111:n taulukko 4 raportoi EU:n vuoden 2023 sähkötupakkamarkkinaksi 4,99 miljardia euroa; lähdehuomautus yksilöi aineistoksi Euromonitor Internationalin Tobacco 2025 -toimialapainoksen. SWD(2025) 560:n liite 13 kuvaa erikseen lähes 5 miljardin euron koonnin, määrittelee laitteet ja myös nikotiinittomat nesteet sisältävän rajauksen sekä kertoo kuvaajan perustuvan Euromonitoria käyttävään ulkopuoliseen tutkimukseen. Liite ilmoittaa Kyproksen, Luxemburgin ja Maltan tiedot puuttuviksi. Koko menetelmä ja uudelleenkäytettävä maadata eivät ole julkisia, joten kyse on tuetusta toissijaisesta vertailuarvosta eikä virallisesta havaitusta luovuttajamarkkinasta."
     },
     {
       "observationId": "DE-2023-TAXED-LIQUID-VOLUME-L",
