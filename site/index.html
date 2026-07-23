@@ -18,12 +18,12 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-15">
-  <script defer src="assets/i18n.js?v=2026-07-23-15"></script>
-  <script defer src="assets/downloads.js?v=2026-07-23-15"></script>
-  <script defer src="assets/app.js?v=2026-07-23-15"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-16">
+  <script defer src="assets/i18n.js?v=2026-07-23-16"></script>
+  <script defer src="assets/downloads.js?v=2026-07-23-16"></script>
+  <script defer src="assets/app.js?v=2026-07-23-16"></script>
 </head>
-<body>
+<body class="atlas-page" data-review-view="evidence">
   <a class="skip-link" href="#main">Siirry sisältöön</a>
   <header class="site-header">
     <div class="header-inner">
@@ -37,14 +37,22 @@
       <div class="header-actions">
         <span class="independent-pill"><span aria-hidden="true"></span> Ei Pixan Oy:n virallinen julkaisu</span>
         <div class="language-switch" role="group" aria-label="Kielivalinta">
-          <button type="button" data-language="fi" aria-pressed="false">FI</button>
-          <button type="button" data-language="en" aria-pressed="true">EN</button>
+          <button type="button" data-language="fi" lang="fi" aria-label="Suomi" aria-pressed="false">FI</button>
+          <button type="button" data-language="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
         </div>
-        <a class="button button-secondary button-small evaluator-link" href="review.html">Lender / buyer view</a>
+        <a class="button button-secondary button-small evaluator-link" href="review.html?view=review">Lender / buyer view</a>
         <a class="button button-primary button-small" data-submission-link href="#submit">Toimita aineistoa</a>
       </div>
     </div>
   </header>
+
+  <nav id="review-view-nav" class="workspace-view-nav no-print" aria-label="Workspace views">
+    <div class="workspace-view-inner">
+      <a class="workspace-view-link" data-review-view-link="review" href="review.html?view=review">5-minute Review</a>
+      <a class="workspace-view-link" data-review-view-link="evidence" href="index.html" aria-current="page">Evidence Center</a>
+      <a class="workspace-view-link" data-review-view-link="operations" href="review.html?view=operations">Research Operations</a>
+    </div>
+  </nav>
 
   <nav class="section-nav" aria-label="Päänavigaatio">
     <div class="nav-inner">
@@ -67,7 +75,7 @@
         <div class="hero-actions">
           <a class="button button-primary" href="#market">Avaa markkina-arvo ja vuosihavainnot</a>
           <a class="button button-primary" href="#countries">Avaa maakohtainen atlas</a>
-          <a class="button button-secondary" href="review.html">Shareable review brief</a>
+          <a class="button button-secondary" href="review.html?view=review">Shareable review brief</a>
           <a class="button button-secondary" href="data/countries.csv" download>Lataa CSV</a>
           <a class="button button-ghost" href="data/atlas.json" download>Lataa JSON</a>
         </div>
@@ -239,11 +247,11 @@
         <div class="panel-heading">
           <div>
             <p class="kicker">Maa × vuosi × mittari</p>
-            <h3>Vahvistetut ja johdetut määrälliset havainnot</h3>
+            <h3 id="market-observations-title">Vahvistetut ja johdetut määrälliset havainnot</h3>
           </div>
           <a class="button button-secondary button-small" href="data/market-values.csv" download>Lataa markkina-aineisto</a>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="market-observations-title">
           <table class="data-table market-table">
             <thead>
               <tr>
@@ -280,7 +288,7 @@
       <div class="section-heading">
         <div>
           <p class="eyebrow">UN 193 + Pyhä istuin + Palestiina</p>
-          <h2>195 maan markkina-atlas</h2>
+          <h2 id="country-table-title">195 maan markkina-atlas</h2>
         </div>
         <p>Valitse valtio nähdäksesi nykyisen ankkurin, puutteet, lähteet ja seuraavan tutkimusreitin. Erikseen raportoituja markkina-alueita ja territorioita varten rakennetaan päällekkäisyyden estävä erillinen kerros.</p>
       </div>
@@ -308,7 +316,7 @@
         <span class="result-count" id="country-count" aria-live="polite">—</span>
       </div>
 
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="country-table-title">
         <table class="data-table">
           <thead>
             <tr>
@@ -408,14 +416,14 @@
 
       <article class="panel patent-family-panel">
         <div class="panel-heading">
-          <div><p class="kicker">Virallinen perhejulkaisu ≠ nykyinen kansallinen tila</p><h3>Maailmanlaajuinen patenttiperhe</h3></div>
+          <div><p class="kicker">Virallinen perhejulkaisu ≠ nykyinen kansallinen tila</p><h3 id="patent-family-table-title">Maailmanlaajuinen patenttiperhe</h3></div>
           <a class="button button-secondary button-small" href="data/patent-family.csv" download>Lataa perhetaulukko CSV</a>
         </div>
         <div class="filter-bar patent-filter-bar">
           <label class="search-field"><span class="sr-only">Hae maata tai patenttinumeroa</span><input id="patent-family-search" type="search" placeholder="Hae maata tai patenttinumeroa…"></label>
           <p id="patent-family-count" class="panel-note">—</p>
         </div>
-        <div class="table-wrap" tabindex="0" aria-label="Maailmanlaajuisen patenttiperheen vieritettävä taulukko">
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="patent-family-table-title">
           <table class="data-table patent-family-table">
             <caption class="sr-only">Patenttiperheen viralliset julkaisut ja kansallisen tilan varmennustaso 22.7.2026</caption>
             <thead><tr><th scope="col">Maa / alue</th><th scope="col">Julkaisu</th><th scope="col">Julkaisupäivä</th><th scope="col">Mitä on vahvistettu</th><th scope="col">Nykyinen kansallinen tila</th><th scope="col"><span class="sr-only">Rekisteri</span></th></tr></thead>

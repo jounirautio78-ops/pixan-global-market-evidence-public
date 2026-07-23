@@ -18,15 +18,15 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-15">
-  <script defer src="assets/i18n.js?v=2026-07-23-15"></script>
-  <script defer src="assets/downloads.js?v=2026-07-23-15"></script>
-  <script defer src="assets/paid-data.js?v=2026-07-23-15"></script>
-  <script defer src="assets/vendor-response.js?v=2026-07-23-15"></script>
-  <script defer src="assets/request-program.js?v=2026-07-23-15"></script>
-  <script defer src="assets/review.js?v=2026-07-23-15"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-23-16">
+  <script defer src="assets/i18n.js?v=2026-07-23-16"></script>
+  <script defer src="assets/downloads.js?v=2026-07-23-16"></script>
+  <script defer src="assets/paid-data.js?v=2026-07-23-16"></script>
+  <script defer src="assets/vendor-response.js?v=2026-07-23-16"></script>
+  <script defer src="assets/request-program.js?v=2026-07-23-16"></script>
+  <script defer src="assets/review.js?v=2026-07-23-16"></script>
 </head>
-<body class="review-page">
+<body class="review-page" data-review-view="review">
   <a class="skip-link" href="#review-main">Skip to content</a>
   <header class="site-header review-header">
     <div class="header-inner">
@@ -40,42 +40,119 @@
       <div class="header-actions">
         <span class="independent-pill"><span aria-hidden="true"></span> Independent · not a Pixan Oy disclosure</span>
         <div class="language-switch" role="group" aria-label="Language selection">
-          <button type="button" data-language="fi" aria-pressed="false">FI</button>
-          <button type="button" data-language="en" aria-pressed="true">EN</button>
+          <button type="button" data-language="fi" lang="fi" aria-label="Suomi" aria-pressed="false">FI</button>
+          <button type="button" data-language="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
         </div>
         <button class="button button-primary button-small no-print" id="copy-review-link" type="button">Copy review link</button>
       </div>
     </div>
   </header>
 
+  <nav id="review-view-nav" class="workspace-view-nav no-print" aria-label="Workspace views">
+    <div class="workspace-view-inner">
+      <a class="workspace-view-link" data-review-view-link="review" href="review.html?view=review" aria-current="page">5-minute Review</a>
+      <a class="workspace-view-link" data-review-view-link="evidence" href="index.html">Evidence Center</a>
+      <a class="workspace-view-link" data-review-view-link="operations" href="review.html?view=operations">Research Operations</a>
+    </div>
+  </nav>
+
   <main id="review-main">
-    <section class="review-hero shell">
-      <div>
-        <p class="eyebrow">Independent public-source diligence brief</p>
-        <h1>A reviewable evidence base—not a market-size promise.</h1>
-        <p class="hero-lead">This brief gives a prospective lender, strategic buyer, manufacturer or adviser a direct route into the public evidence supporting the global vaping-market research associated with Pixan. Every conclusion remains subject to independent commercial, legal, patent and financial diligence.</p>
-        <div class="hero-actions no-print">
-          <a class="button button-primary" href="index.html#market">Open annual market-value evidence</a>
-          <a class="button button-primary" href="index.html#countries">Open the 195-country atlas</a>
-          <a class="button button-primary" href="#bankability">Open bankability gates</a>
-          <a class="button button-secondary" href="data/countries.csv" download>Download country CSV</a>
-          <a class="button button-secondary" href="data/evidence.csv" download>Download evidence CSV</a>
-          <a class="button button-secondary" href="data/patent-history.json" download>Download patent JSON</a>
-          <button class="button button-ghost" id="print-review" type="button">Print / save as PDF</button>
-        </div>
-        <p class="review-copy-status" id="copy-review-status" role="status" aria-live="polite"></p>
-      </div>
-      <aside class="disclosure-card review-disclosure" aria-label="Important disclosure">
-        <div class="disclosure-icon" aria-hidden="true">i</div>
+    <section id="decision-cockpit" class="decision-cockpit shell" data-review-surface="review" aria-labelledby="decision-cockpit-title" aria-busy="true">
+      <div class="decision-cockpit-hero">
         <div>
-          <strong>Independent research boundary</strong>
-          <p>This site is not issued, maintained or endorsed by Pixan Oy and does not state Pixan Oy’s official position. It is not an offer, valuation, fairness opinion, investment recommendation, audit or legal opinion.</p>
-          <p class="muted"><span>Last updated</span> <time id="review-as-of">—</time> · <span>Version</span> <code id="review-site-version">—</code> · <span>Legacy import baseline</span> <code id="review-source-commit">—</code></p>
+          <p class="eyebrow">Independent public-source diligence brief</p>
+          <h1 id="decision-cockpit-title">A reviewable evidence base—not a market-size promise.</h1>
+          <p class="hero-lead">This brief gives a prospective lender, strategic buyer, manufacturer or adviser a direct route into the public evidence supporting the global vaping-market research associated with Pixan. Every conclusion remains subject to independent commercial, legal, patent and financial diligence.</p>
+          <div class="hero-actions no-print">
+            <a class="button button-primary" href="index.html#market">Open annual market-value evidence</a>
+            <a class="button button-primary" href="index.html#countries">Open the 195-country atlas</a>
+            <a class="button button-primary" href="#bankability">Open bankability gates</a>
+            <a class="button button-secondary" href="data/countries.csv" download>Download country CSV</a>
+            <a class="button button-secondary" href="data/evidence.csv" download>Download evidence CSV</a>
+            <a class="button button-secondary" href="data/patent-history.json" download>Download patent JSON</a>
+            <button class="button button-ghost" id="print-review" type="button">Print / save as PDF</button>
+          </div>
+          <p class="review-copy-status" id="copy-review-status" role="status" aria-live="polite"></p>
         </div>
+        <aside class="disclosure-card review-disclosure" aria-label="Important disclosure">
+          <div class="disclosure-icon" aria-hidden="true">i</div>
+          <div>
+            <strong>Independent research boundary</strong>
+            <p>This site is not issued, maintained or endorsed by Pixan Oy and does not state Pixan Oy’s official position. It is not an offer, valuation, fairness opinion, investment recommendation, audit or legal opinion.</p>
+            <p class="muted"><span>Last updated</span> <time id="review-as-of">—</time> · <span>Version</span> <code id="review-site-version">—</code> · <span>Legacy import baseline</span> <code id="review-source-commit">—</code></p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="decision-cockpit-heading">
+        <div>
+          <p class="eyebrow">5-minute decision review</p>
+          <h2>What this release supports—and what it does not</h2>
+        </div>
+        <span id="decision-cockpit-state" class="decision-cockpit-state" data-state="hold">Research dataset · not a valuation</span>
+      </div>
+      <aside class="cockpit-boundary" aria-label="Independent-publication boundary">
+        <strong>Independent public evidence only.</strong>
+        <span>No financing case, collateral value, transaction terms or buyer interest is established here.</span>
       </aside>
+      <div class="decision-cockpit-grid">
+        <article id="cockpit-supported" class="cockpit-card cockpit-card-supported" aria-labelledby="cockpit-supported-title">
+          <p class="kicker">Reviewable now</p>
+          <h3 id="cockpit-supported-title">Supported in this release</h3>
+          <ul id="cockpit-supported-list" class="cockpit-fact-list">
+            <li>A fixed 195-sovereign-state research universe and a consistent evidence taxonomy; this is not 195 quantified markets.</li>
+            <li>Source-linked official, customs, tax, regulatory and model routes.</li>
+            <li>A patent-family publication inventory, nationally verified status records and official German court anchors with explicit limits.</li>
+          </ul>
+        </article>
+        <article id="cockpit-not-supported" class="cockpit-card cockpit-card-limit" aria-labelledby="cockpit-not-supported-title">
+          <p class="kicker">Inference boundary</p>
+          <h3 id="cockpit-not-supported-title">Not supported by this release</h3>
+          <ul id="cockpit-not-supported-list" class="cockpit-fact-list">
+            <li>A complete global annual retail-sales total.</li>
+            <li>Pixan’s enterprise, equity, collateral or patent value.</li>
+            <li>Recoverable damages, licensing revenue or realised cash flow.</li>
+          </ul>
+        </article>
+        <article id="cockpit-gates" class="cockpit-card cockpit-card-gates" aria-labelledby="cockpit-gates-title">
+          <p class="kicker">Decision readiness</p>
+          <h3 id="cockpit-gates-title">Top 3 decision gates</h3>
+          <ol id="cockpit-gates-list" class="cockpit-gate-list">
+            <li>Verified annual official device and e-liquid sales remain missing for most countries.</li>
+            <li>Market evidence is not yet reconciled with country-level patent status and product claim charts.</li>
+            <li>No independent IVS valuation or realised licensing or damages cash flow is included.</li>
+          </ol>
+        </article>
+      </div>
+      <div class="decision-cockpit-footer">
+        <p id="cockpit-meta" class="cockpit-meta">Facts, calculations, interpretations, assumptions and missing evidence remain visibly separate throughout this review.</p>
+        <a class="button button-secondary button-small no-print" href="#review-bank-package-title">Open current review files</a>
+      </div>
+      <p id="decision-cockpit-status" class="sr-only" role="status" aria-live="polite">Checking the current reviewed evidence…</p>
     </section>
 
-    <section class="metrics-band" aria-label="Dataset summary">
+    <section id="research-operations-overview" class="shell research-operations-overview" data-review-surface="operations" aria-labelledby="research-operations-title" hidden>
+      <div>
+        <p class="eyebrow">Research operations · public-safe status</p>
+        <h1 id="research-operations-title">Evidence acquisition, response control and procurement readiness</h1>
+        <p class="hero-lead">This view separates official-data requests, vendor outreach, received evidence and scoring readiness. It does not send requests, authorise spending or publish private correspondence.</p>
+      </div>
+      <aside class="bankability-boundary" aria-label="Research-operations boundary">
+        <span class="bankability-boundary-mark" aria-hidden="true">PUBLIC STATUS</span>
+        <div>
+          <strong>No automatic publication, spending or external action</strong>
+          <p>Every route, response and source remains subject to human review, publication rights and the existing privacy boundary.</p>
+        </div>
+      </aside>
+      <div id="research-operations-metrics" class="metric-grid research-operations-metrics" aria-live="polite">
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+        <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
+      </div>
+    </section>
+
+    <section class="metrics-band" data-review-surface="review" aria-label="Dataset summary">
       <div class="shell metric-grid" id="review-metrics">
         <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
         <article class="metric-card skeleton"><span></span><strong></strong><small></small></article>
@@ -84,7 +161,7 @@
       </div>
     </section>
 
-    <section class="shell change-section" aria-labelledby="review-changes-title">
+    <section id="review-changes" class="shell change-section" data-review-surface="shared" aria-labelledby="review-changes-title">
       <article class="panel change-panel">
         <div class="change-heading">
           <div>
@@ -101,7 +178,7 @@
       </article>
     </section>
 
-    <section class="shell bank-package-section no-print" data-bank-package aria-labelledby="review-bank-package-title" aria-busy="true">
+    <section class="shell bank-package-section no-print" data-bank-package data-review-surface="review" aria-labelledby="review-bank-package-title" aria-busy="true">
       <div class="bank-package-heading">
         <div>
           <p class="eyebrow">Public bank and due-diligence package</p>
@@ -129,7 +206,7 @@
       <p class="bank-package-note" data-bank-package-note hidden>English and Finnish files are release-locked together. The browser verifies every file's size and full SHA-256 digest before showing its download link.</p>
     </section>
 
-    <section id="paid-data" class="shell review-section paid-data-section no-print" data-paid-data aria-labelledby="paid-data-title" aria-busy="true">
+    <section id="paid-data" class="shell review-section paid-data-section no-print" data-paid-data data-review-surface="operations" aria-labelledby="paid-data-title" aria-busy="true" hidden>
       <div class="section-heading">
         <div>
           <p class="eyebrow">Paid evidence procurement · decision support</p>
@@ -155,7 +232,7 @@
         <span class="bank-package-status-dot" aria-hidden="true"></span>
         <span>Checking the paid-data procurement shortlist…</span>
       </div>
-      <div class="table-wrap bankability-matrix-wrap" data-paid-data-table hidden>
+      <div class="table-wrap bankability-matrix-wrap" data-paid-data-table tabindex="0" role="region" aria-labelledby="paid-data-title" aria-describedby="paid-data-table-note" hidden>
         <table class="bankability-matrix paid-data-table">
           <caption>Prioritised paid-data procurement shortlist</caption>
           <thead>
@@ -171,10 +248,10 @@
           <tbody data-paid-data-items></tbody>
         </table>
       </div>
-      <p class="bank-package-note" data-paid-data-note hidden>The weighted score uses six visible criteria in the workbook. It is a procurement aid—not an investment rating, accuracy certification or permission to buy. Choose at most one global master unless a sample proves material non-overlap.</p>
+      <p id="paid-data-table-note" class="bank-package-note" data-paid-data-note hidden>The weighted score uses six visible criteria in the workbook. It is a procurement aid—not an investment rating, accuracy certification or permission to buy. Choose at most one global master unless a sample proves material non-overlap.</p>
     </section>
 
-    <section id="vendor-response-control" class="shell review-section vendor-response-section no-print" data-vendor-response aria-labelledby="vendor-response-title" aria-busy="true">
+    <section id="vendor-response-control" class="shell review-section vendor-response-section no-print" data-vendor-response data-review-surface="operations" aria-labelledby="vendor-response-title" aria-busy="true" hidden>
       <div class="section-heading">
         <div>
           <p class="eyebrow" data-vendor-response-kicker>Vendor evidence intake · public status</p>
@@ -216,7 +293,7 @@
       <p class="bank-package-note" data-vendor-response-note hidden>Status reflects only this public checkpoint. It does not establish message delivery, vendor interest, data quality or purchase readiness.</p>
     </section>
 
-    <section class="shell review-section request-program-section no-print" data-request-program aria-labelledby="request-program-title" aria-busy="true">
+    <section id="request-program" class="shell review-section request-program-section no-print" data-request-program data-review-surface="operations" aria-labelledby="request-program-title" aria-busy="true" hidden>
       <div class="section-heading">
         <div>
           <p class="eyebrow">Official-data acquisition · public route tracking</p>
@@ -244,7 +321,7 @@
       <p class="bank-package-note" data-request-program-note hidden>Tax, sales, customs and seizure series may measure the same goods at different stages and must not be added mechanically.</p>
     </section>
 
-    <section id="bankability" class="shell review-section bankability-section" aria-labelledby="bankability-title">
+    <section id="bankability" class="shell review-section bankability-section" data-review-surface="review" aria-labelledby="bankability-title">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Public bankability sprint · decision gates, not transaction evidence</p>
@@ -260,16 +337,18 @@
         </div>
       </aside>
       <div class="transaction-path-grid" id="review-transaction-paths"></div>
+    </section>
 
+    <section id="research-priority-matrix" class="shell review-section bankability-section research-priority-matrix" data-review-surface="operations" aria-labelledby="research-priority-matrix-title" hidden>
       <div class="section-heading bankability-matrix-heading">
         <div>
           <p class="eyebrow">Top 10 evidence-acquisition priorities</p>
-          <h2>Market evidence and national-right status side by side</h2>
+          <h2 id="research-priority-matrix-title">Market evidence and national-right status side by side</h2>
         </div>
         <p>The table joins the existing operational request ranking, country atlas, patent-family inventory and proceeding records. It does not turn a family publication into current national status.</p>
       </div>
       <div class="bankability-matrix-status" id="review-top10-matrix-status" role="status" aria-live="polite">Checking the joined public evidence…</div>
-      <div class="table-wrap bankability-matrix-wrap" id="review-top10-matrix-wrap" hidden>
+      <div class="table-wrap bankability-matrix-wrap" id="review-top10-matrix-wrap" tabindex="0" role="region" aria-labelledby="research-priority-matrix-title" aria-describedby="research-priority-matrix-note" hidden>
         <table class="bankability-matrix">
           <caption>Top 10 operational evidence-acquisition routes joined to current public market and patent-status evidence</caption>
           <thead>
@@ -285,10 +364,10 @@
           <tbody id="review-top10-matrix"></tbody>
         </table>
       </div>
-      <p class="bankability-matrix-note">A–D grades and coverage percentages describe evidence readiness, not market size or market share. “Not established” means missing from this reviewed public dataset—not proof that no right or market exists.</p>
+      <p id="research-priority-matrix-note" class="bankability-matrix-note">A–D grades and coverage percentages describe evidence readiness, not market size or market share. “Not established” means missing from this reviewed public dataset—not proof that no right or market exists. The table scrolls horizontally on smaller screens.</p>
     </section>
 
-    <section class="shell review-section" aria-labelledby="review-market-title">
+    <section id="review-market-evidence" class="shell review-section" data-review-surface="review" aria-labelledby="review-market-title">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Annual value · evidence first</p>
@@ -307,7 +386,55 @@
       </article>
     </section>
 
-    <section class="shell review-section" aria-labelledby="decision-use-title">
+    <section id="review-calculation-audit" class="shell review-section calculation-audit-section" data-review-surface="review" aria-labelledby="review-calculation-audit-title" aria-busy="true">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Calculation audit trail</p>
+          <h2 id="review-calculation-audit-title">From observed input to reported range</h2>
+        </div>
+        <p>Every published calculation must keep observed facts, arithmetic, assumptions, exclusions and missing inputs distinct.</p>
+      </div>
+      <div id="review-calculation-audit-status" class="bankability-matrix-status" role="status" aria-live="polite">Checking the reviewed calculation chain…</div>
+      <div id="review-calculation-audit-summary" class="calculation-audit-summary"></div>
+      <div id="review-calculation-audit-steps" class="calculation-audit-grid">
+        <article class="panel calculation-audit-card calculation-audit-facts"><p>Loading the reviewed inputs, formula and limitations…</p></article>
+      </div>
+    </section>
+
+    <section id="review-source-freshness" class="shell review-section source-freshness-section" data-review-surface="review" aria-labelledby="review-source-freshness-title" aria-busy="true">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Source freshness and review dates</p>
+          <h2 id="review-source-freshness-title">How current is the evidence?</h2>
+        </div>
+        <p>Observation year, source retrieval and release publication are different dates. This ledger does not infer substantive currency from a download date.</p>
+      </div>
+      <div id="review-source-freshness-status" class="bankability-matrix-status" role="status" aria-live="polite">Checking source dates and review checkpoints…</div>
+      <div id="review-source-freshness-summary" class="source-freshness-summary"></div>
+      <p id="review-source-freshness-note" class="bankability-matrix-note">The ledger records retrieval dates and observation periods; without a documented review cadence, substantive staleness remains not assessable. It is not an accuracy score. The table scrolls horizontally on smaller screens.</p>
+      <div id="review-source-freshness-wrap" class="table-wrap source-freshness-wrap" tabindex="0" role="region" aria-labelledby="review-source-freshness-title" aria-describedby="review-source-freshness-note">
+        <table id="review-source-freshness-table" class="bankability-matrix source-freshness-table">
+          <caption>Market-source retrieval dates and latest observation periods used by the current public release</caption>
+          <thead>
+            <tr>
+              <th scope="col">Market source</th>
+              <th scope="col">Source class</th>
+              <th scope="col">Latest observation</th>
+              <th scope="col">Retrieved</th>
+              <th scope="col">Substantive staleness</th>
+              <th scope="col">Next review gate</th>
+            </tr>
+          </thead>
+          <tbody id="review-source-freshness-list">
+            <tr>
+              <td colspan="6">Loading the reviewed source ledger…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="review-evidence-quality" class="shell review-section" data-review-surface="review" aria-labelledby="decision-use-title">
       <div class="section-heading">
         <div>
           <p class="eyebrow">How to use this material</p>
@@ -343,7 +470,7 @@
       </div>
     </section>
 
-    <section class="shell review-section" aria-labelledby="coverage-title">
+    <section id="review-coverage" class="shell review-section" data-review-surface="review" aria-labelledby="coverage-title">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Coverage by claim quality</p>
@@ -363,7 +490,7 @@
       </div>
     </section>
 
-    <section class="shell review-section" aria-labelledby="germany-title">
+    <section id="patent-review" class="shell review-section" data-review-surface="review" aria-labelledby="germany-title">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Worldwide patent evidence · status before value</p>
@@ -397,7 +524,7 @@
       </div>
     </section>
 
-    <section class="shell review-section" aria-labelledby="next-diligence-title">
+    <section id="next-diligence" class="shell review-section" data-review-surface="review" aria-labelledby="next-diligence-title">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Recommended diligence sequence</p>
@@ -413,7 +540,7 @@
       </ol>
     </section>
 
-    <section class="shell review-section review-action-panel no-print" aria-labelledby="review-action-title">
+    <section id="review-action" class="shell review-section review-action-panel no-print" data-review-surface="shared" aria-labelledby="review-action-title">
       <div>
         <p class="eyebrow">Continue the review</p>
         <h2 id="review-action-title">Inspect the underlying country and source records.</h2>

@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-23-decision-cockpit-audit-trail-v16",
+      "version": "2026.07.23-16",
+      "publishedAt": "2026-07-23T22:01:19+03:00",
+      "titleEn": "Decision Cockpit, calculation audit trail and source-freshness ledger",
+      "titleFi": "Päätöksentekonäkymä, laskennan auditointiketju ja lähteiden tuoreusrekisteri",
+      "items": [
+        {
+          "category": "usability",
+          "textEn": "Added shareable 5-minute Review and Research Operations views. The Review now opens with a fail-closed Decision Cockpit that separates supported facts, unsupported conclusions and the three current decision gates.",
+          "textFi": "Lisättiin jaettavat 5 minuutin tarkistus- ja tutkimusoperaationäkymät. Tarkistus avautuu nyt varovaisuusperiaatteella toimivaan päätöksentekonäkymään, joka erottaa tuetut faktat, aineiston tukemattomat johtopäätökset ja kolme nykyistä päätösporttia."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a reproducible Germany calculation waterfall from the existing reviewed inputs. It exposes the observed volume, unit conversion, three published price inputs, formula, outputs, exclusions, missing adjustments, year mismatch and low-confidence boundary without relabelling the result as observed sales.",
+          "textFi": "Lisättiin toistettava Saksan laskentaketju nykyisistä tarkistetuista syötteistä. Se näyttää havaitun määrän, yksikkömuunnoksen, kolme julkaistua hintasyötettä, kaavan, tulokset, rajaukset, puuttuvat oikaisut, vuosieron ja matalan luottamustason esittämättä tulosta havaittuna myyntinä."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Added a deterministic market-source ledger that keeps retrieval date and latest observation year separate. It does not claim that retrieval proves substantive currency, and the 37 atlas evidence records remain explicitly undated at item level.",
+          "textFi": "Lisättiin deterministinen markkinalähderekisteri, joka pitää hakupäivän ja uusimman havaintovuoden erillään. Rekisteri ei väitä hakupäivän osoittavan sisällöllistä ajantasaisuutta, ja atlaksen 37 evidenssiriviä säilyvät erätasolla nimenomaisesti päiväämättöminä."
+        },
+        {
+          "category": "market_data",
+          "textEn": "No new market observation, donor market or global atlas estimate was added. The reviewed baseline remains 5 of 195 countries with official annual numeric evidence, 0 official consumer-retail values and 0 of the required 3 comparable donor markets.",
+          "textFi": "Uutta markkinahavaintoa, luovuttajamarkkinaa tai maailmanlaajuista atlasestimaattia ei lisätty. Tarkistettu lähtötila säilyy viidessä maassa 195:stä, joilla on virallista vuosittaista numeerista evidenssiä, nollassa virallisessa kuluttajavähittäisarvossa ja nollassa vaaditusta kolmesta vertailukelpoisesta luovuttajamarkkinasta."
+        }
+      ]
+    },
+    {
       "id": "2026-07-23-authority-process-responses-v15",
       "version": "2026.07.23-15",
       "publishedAt": "2026-07-23T20:55:00+03:00",

@@ -124,6 +124,528 @@ function reviewStatus(value) {
   return "missing";
 }
 
+const REVIEW_VIEWS = new Set(["review", "operations"]);
+
+function currentReviewView() {
+  const requested = new URL(location.href).searchParams.get("view");
+  return REVIEW_VIEWS.has(requested) ? requested : "review";
+}
+
+function applyReviewView() {
+  const view = currentReviewView();
+  document.body.dataset.reviewView = view;
+
+  for (const section of document.querySelectorAll("[data-review-surface]")) {
+    const surface = section.dataset.reviewSurface;
+    section.hidden = surface !== "shared" && surface !== view;
+  }
+
+  for (const link of document.querySelectorAll("[data-review-view-link]")) {
+    const active = link.dataset.reviewViewLink === view;
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  }
+
+  const url = new URL(location.href);
+  if (url.searchParams.get("view") !== view) {
+    url.searchParams.set("view", view);
+    history.replaceState(history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }
+
+  const isOperations = view === "operations";
+  document.title = isOperations
+    ? reviewL("Tutkimusoperaatiot | Pixan Global Market Evidence", "Research Operations | Pixan Global Market Evidence")
+    : reviewL("Lainanantajan ja ostajan tarkistus | Pixan Global Market Evidence", "Lender & Buyer Review | Pixan Global Market Evidence");
+  const description = document.querySelector('meta[name="description"]');
+  if (description) {
+    description.content = isOperations
+      ? reviewL(
+        "Riippumaton tutkimusoperaatioiden näkymä Pixaniin liittyvän globaalin sähkötupakkamarkkinan evidenssin hankintaan.",
+        "Independent research-operations view for acquiring Pixan-related global vaping-market evidence."
+      )
+      : reviewL(
+        "Riippumaton, lähteistetty tarkistusmuistio Pixaniin liittyvästä maailmanlaajuisesta sähkötupakkamarkkinaevidenssistä.",
+        "Independent, source-linked review brief for Pixan-related global vaping-market evidence."
+      );
+  }
+}
+
+function reviewNumber(value, maximumFractionDigits = 2) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "—";
+  return new Intl.NumberFormat(reviewIsFi() ? "fi-FI" : "en-GB", {
+    maximumFractionDigits
+  }).format(number);
+}
+
+function reviewOfficialMarketSummary() {
+  const observations = Array.isArray(reviewMarketData?.observations) ? reviewMarketData.observations : [];
+  const official = observations.filter((item) => String(item.evidenceStatus || "").startsWith("official_"));
+  const numericCountries = new Set(official.map((item) => item.countryIso2).filter(Boolean));
+  const officialRetailCountries = new Set(
+    official
+      .filter((item) => item.metric === "consumer_retail_market_value")
+      .map((item) => item.countryIso2)
+      .filter(Boolean)
+  );
+  return { official, numericCountries, officialRetailCountries };
+}
+
+function reviewRequestSummary() {
+  const routes = Array.isArray(reviewRequestData?.routes) ? reviewRequestData.routes : [];
+  const sent = routes.filter((route) => route.status === "sent").length;
+  const drafts = routes.filter((route) => route.status === "draft_not_sent").length;
+  const processResponses = routes.filter((route) => {
+    const state = route.dispatch?.responseState;
+    return typeof state === "string" && !["not_publicly_recorded", "not_applicable"].includes(state);
+  }).length;
+  const substantiveResponses = routes.filter((route) => route.dispatch?.substantiveDataResponse === true).length;
+  return { routes: routes.length, sent, drafts, processResponses, substantiveResponses };
+}
+
+function renderDecisionCockpit(data) {
+  const root = reviewById("decision-cockpit");
+  const state = reviewById("decision-cockpit-state");
+  const supportedHost = reviewById("cockpit-supported-list");
+  const unsupportedHost = reviewById("cockpit-not-supported-list");
+  const gatesHost = reviewById("cockpit-gates-list");
+  if (!root || !state || !supportedHost || !unsupportedHost || !gatesHost) return;
+
+  const market = reviewOfficialMarketSummary();
+  const request = reviewRequestSummary();
+  const nationalRights = (reviewPatentData?.familyMembers || []).filter(
+    (item) => item.verificationLevel === "official_national_record"
+  ).length;
+  const evidenceCount = Array.isArray(data.evidence) ? data.evidence.length : null;
+  const familyCount = reviewPatentData?.summary?.familyRecordCount;
+  const blockers = Array.isArray(data.readiness?.blockers) ? data.readiness.blockers.slice(0, 3) : [];
+  const lenderReady = data.readiness?.lenderReady === true;
+
+  state.dataset.state = lenderReady ? "review" : "hold";
+  state.textContent = lenderReady
+    ? reviewL("VALMIS RIIPPUMATTOMAAN TARKASTUKSEEN", "READY FOR INDEPENDENT REVIEW")
+    : reviewL("HOLD · tutkimusaineisto, ei arvonmääritys", "HOLD · research dataset, not a valuation");
+
+  const supported = [
+    reviewL(
+      `${data.countries.length} maan tutkimusuniversumi ja ${evidenceCount ?? "—"} lähteistettyä evidenssiriviä; peitto ei tarkoita mitattua markkinaa.`,
+      `${data.countries.length}-country research universe and ${evidenceCount ?? "—"} source-linked evidence records; coverage is not a measured market.`
+    ),
+    reviewMarketData
+      ? reviewL(
+        `Virallista vuosittaista numeerista evidenssiä ${market.numericCountries.size} maasta; virallisia kuluttajavähittäisarvoja ${market.officialRetailCountries.size}.`,
+        `Official annual numeric evidence across ${market.numericCountries.size} countries; ${market.officialRetailCountries.size} official consumer-retail values.`
+      )
+      : reviewL("Markkina-arvon tukiaineisto ei ole saatavilla.", "The market-value supporting dataset is unavailable."),
+    reviewPatentData
+      ? reviewL(
+        `${familyCount ?? "—"} patenttiperheriviä ja ${nationalRights} kansallisesti vahvistettua statustietuetta, erillään prosessi- ja arvoväitteistä.`,
+        `${familyCount ?? "—"} patent-family records and ${nationalRights} nationally verified status records, kept separate from proceeding and value claims.`
+      )
+      : reviewL("Patenttihistorian tukiaineisto ei ole saatavilla.", "The patent-history supporting dataset is unavailable."),
+    reviewRequestData
+      ? reviewL(
+        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.processResponses} prosessivastausta ja ${request.substantiveResponses} sisällöllistä datavastausta.`,
+        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.processResponses} process responses and ${request.substantiveResponses} substantive data responses.`
+      )
+      : reviewL("Viranomaisreittien tukiaineisto ei ole saatavilla.", "The authority-route supporting dataset is unavailable.")
+  ];
+  supportedHost.replaceChildren(...supported.map((text) => reviewNode("li", "", text)));
+
+  const unsupported = [
+    reviewL("Täydellinen maailmanlaajuinen vuosittainen kuluttajavähittäismyynti.", "A complete global annual consumer-retail sales total."),
+    reviewL("Pixanin yritys-, osake-, vakuus- tai patenttiarvo.", "Pixan's enterprise, equity, collateral or patent value."),
+    reviewL("Loukkaukset viitattujen ratkaisujen osapuolten, tuotteiden, alueiden tai ajanjaksojen ulkopuolella.", "Infringement outside the parties, products, territories or periods addressed by the cited decisions."),
+    reviewL("Perittävissä olevat korvaukset, lisenssituotot tai toteutunut kassavirta.", "Recoverable damages, licensing revenue or realised cash flow.")
+  ];
+  unsupportedHost.replaceChildren(...unsupported.map((text) => reviewNode("li", "", text)));
+
+  gatesHost.replaceChildren();
+  if (blockers.length === 3) {
+    for (const blocker of blockers) {
+      const label = reviewIsFi()
+        ? REVIEW_BLOCKER_FI[blocker] || blocker
+        : REVIEW_BLOCKER_TRANSLATIONS[blocker] || reviewL("Avoin evidenssiportti.", "Open evidence gate.");
+      gatesHost.append(reviewNode("li", "", label));
+    }
+  } else {
+    gatesHost.append(reviewNode("li", "", reviewL("Valmiusportteja ei voitu vahvistaa aineistosta.", "Readiness gates could not be verified from the dataset.")));
+  }
+
+  const meta = reviewById("cockpit-meta");
+  if (meta) {
+    const donors = reviewMarketData?.meta?.modelReadiness?.comparableFullYearMarketValueDonors;
+    const required = reviewMarketData?.meta?.modelReadiness?.minimumRequiredDonors;
+    meta.textContent = reviewMarketData
+      ? reviewL(
+        `Maailmanestimaatin luovuttajaportti ${donors}/${required} · maailmanestimaattia ei julkaistu`,
+        `Global-estimate donor gate ${donors}/${required} · no global estimate published`
+      )
+      : reviewL("Luovuttajaportti ei ole saatavilla.", "Donor gate unavailable.");
+  }
+
+  root.setAttribute("aria-busy", "false");
+  const live = reviewById("decision-cockpit-status");
+  if (live) live.textContent = reviewL("Päätöksentekonäkymä päivitetty tarkistetusta aineistosta.", "Decision Cockpit updated from the reviewed dataset.");
+}
+
+function renderResearchOperationsOverview() {
+  const host = reviewById("research-operations-metrics");
+  if (!host) return;
+  if (!reviewRequestData) {
+    const unavailable = reviewNode("article", "metric-card");
+    unavailable.append(
+      reviewNode("span", "", reviewL("Viranomaisreitit", "Authority routes")),
+      reviewNode("strong", "", reviewL("Ei saatavilla", "Unavailable")),
+      reviewNode("small", "", reviewL("Puuttuvaa tilaa ei käsitellä nollana.", "Missing status is not treated as zero."))
+    );
+    host.replaceChildren(unavailable);
+    return;
+  }
+  const request = reviewRequestSummary();
+  const metrics = [
+    [reviewL("Viranomaisreitit", "Authority routes"), request.routes, reviewL("Maailmanlaajuinen priorisoitu tutkimusjono", "Prioritised global research queue")],
+    [reviewL("Lähetetty / luonnos", "Sent / draft"), `${request.sent} / ${request.drafts}`, reviewL("Julkinen reittitila; ei toimitus- tai vastausvahvistus", "Public route status; not delivery or response confirmation")],
+    [reviewL("Prosessi / sisältödata", "Process / substantive data"), `${request.processResponses} / ${request.substantiveResponses}`, reviewL("Kuittaus tai reititys ei ole markkinadataa", "Acknowledgement or routing is not market data")],
+    [reviewL("Ostovaltuudet", "Purchase authorisations"), 0, reviewL("Ei ostoa, tilausta tai automaattista ulkoista toimintoa", "No purchase, subscription or automatic external action")]
+  ];
+  host.replaceChildren(...metrics.map(([label, value, note]) => {
+    const card = reviewNode("article", "metric-card");
+    card.append(reviewNode("span", "", label), reviewNode("strong", "", value), reviewNode("small", "", note));
+    return card;
+  }));
+}
+
+const REVIEW_EXCLUSION_LABELS = {
+  devices: ["laitteet", "devices"],
+  pods_and_cartridges_as_separate_hardware_value: ["podit ja patruunat erillisenä laitearvona", "pods and cartridges as separate hardware value"],
+  illicit_and_untaxed_sales: ["laiton ja verottamaton myynti", "illicit and untaxed sales"],
+  nicotine_free_products_where_not_taxed: ["nikotiinittomat tuotteet silloin, kun niitä ei veroteta", "nicotine-free products where untaxed"],
+  wholesale_retail_margin_mix: ["tukku- ja vähittäiskatteen jakauma", "wholesale and retail margin mix"],
+  discount_and_channel_mix: ["alennus- ja kanavajakauma", "discount and channel mix"]
+};
+
+function reviewObservationLink(observation, sourceMap) {
+  const wrap = reviewNode("span", "calculation-source-links");
+  for (const sourceId of observation?.sourceIds || []) {
+    const source = sourceMap.get(sourceId);
+    const url = reviewUrl(source?.pageUrl);
+    if (!url) continue;
+    const link = reviewNode("a", "", sourceId);
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    wrap.append(link);
+  }
+  return wrap;
+}
+
+function renderReviewCalculationAudit(market) {
+  const root = reviewById("review-calculation-audit");
+  const status = reviewById("review-calculation-audit-status");
+  const summary = reviewById("review-calculation-audit-summary");
+  const steps = reviewById("review-calculation-audit-steps");
+  if (!root || !status || !summary || !steps) return;
+
+  const observations = Array.isArray(market?.observations) ? market.observations : [];
+  const observationMap = new Map(observations.map((item) => [item.observationId, item]));
+  const sourceMap = new Map((market?.sources || []).map((item) => [item.sourceId, item]));
+  const model = (market?.models || []).find((item) => item.modelId === "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE");
+  const canada = observationMap.get("CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
+  const volume = observationMap.get("DE-2025-TAXED-LIQUID-VOLUME-L");
+  const scenarios = ["low", "central", "high"].map((name) => {
+    const inputId = model?.rangeInputMap?.[name];
+    return { name, observation: observationMap.get(inputId) };
+  });
+  const exactFormula = model?.formula === "volume_litres * 1000 * retail_price_eur_per_ml";
+  const inputsResolve = model && volume && scenarios.every((item) => item.observation);
+  const computed = inputsResolve
+    ? Object.fromEntries(scenarios.map((item) => [item.name, Number(volume.value) * 1000 * Number(item.observation.value)]))
+    : {};
+  const arithmeticPass = exactFormula
+    && inputsResolve
+    && scenarios.every(
+      (item) => Number.isFinite(computed[item.name])
+        && Math.abs(computed[item.name] - Number(model[item.name])) < 0.01
+    )
+    && model.yearMismatch === true
+    && Number(volume.year) !== Number(scenarios[0].observation.year);
+
+  root.setAttribute("aria-busy", "false");
+  summary.replaceChildren();
+  steps.replaceChildren();
+  if (!arithmeticPass) {
+    status.dataset.state = "error";
+    status.textContent = reviewL("Laskentaketju hylätty: syötteet, kaava tai julkaistut tulokset eivät täsmää.", "Calculation waterfall rejected: inputs, formula or published outputs do not reconcile.");
+    summary.append(reviewNode("p", "review-audit-error", reviewL("Älä käytä mallin tuloksia ennen lähdedatan korjaamista ja uutta validointia.", "Do not use the model outputs until the source data is corrected and revalidated.")));
+    return;
+  }
+
+  status.dataset.state = "caution";
+  status.textContent = reviewL("Laskenta täsmää · mallinnettu, ei havaittu myynti · matala luottamus", "Arithmetic reconciles · modelled, not observed sales · low confidence");
+
+  const boundary = reviewNode("article", "calculation-boundary");
+  boundary.append(
+    reviewNode("span", "kicker", reviewL("Johtopäätöksen tila", "Claim state")),
+    reviewNode("strong", "", reviewL("Vähittäismyyntivastaavuuden suuntaa-antava vaihteluväli", "Retail-equivalent plausibility range")),
+    reviewNode("p", "", reviewIsFi() ? model.limitationFi : model.limitationEn)
+  );
+  const donor = reviewNode("article", "calculation-boundary");
+  donor.append(
+    reviewNode("span", "kicker", reviewL("Maailmanestimaatin portti", "Global-estimate gate")),
+    reviewNode("strong", "", `${market.meta.modelReadiness.comparableFullYearMarketValueDonors}/${market.meta.modelReadiness.minimumRequiredDonors}`),
+    reviewNode("p", "", reviewL("Saksan malli ei ole vertailukelpoinen luovuttajamarkkina eikä sitä summata muihin mittareihin.", "The Germany model is not a comparable donor market and is not added to other measures."))
+  );
+  summary.append(boundary, donor);
+
+  if (canada) {
+    const direct = reviewNode("article", "panel calculation-audit-card calculation-audit-facts");
+    direct.append(
+      reviewNode("span", "calculation-kind", reviewL("FAKTA · virallinen suora proxy", "FACT · official direct proxy")),
+      reviewNode("h3", "", reviewL("Kanada 2024 · valmistaja- ja maahantuojatoimitukset", "Canada 2024 · manufacturer/importer shipments")),
+      reviewNode("strong", "", reviewMarketFormat(canada.value, canada.currency)),
+      reviewNode("p", "", reviewIsFi() ? canada.limitationFi : canada.limitationEn),
+      reviewObservationLink(canada, sourceMap)
+    );
+    steps.append(direct);
+  }
+
+  const volumeStep = reviewNode("article", "panel calculation-audit-card calculation-audit-facts");
+  volumeStep.append(
+    reviewNode("span", "calculation-kind", reviewL("FAKTA · havaittu syöte", "FACT · observed input")),
+    reviewNode("h3", "", reviewL("1. Verotettu nestemäärä", "1. Taxed liquid volume")),
+    reviewNode("strong", "", `${reviewNumber(volume.value, 0)} L · ${volume.year}`),
+    reviewNode("p", "", reviewIsFi() ? volume.limitationFi : volume.limitationEn),
+    reviewObservationLink(volume, sourceMap)
+  );
+
+  const conversionStep = reviewNode("article", "panel calculation-audit-card calculation-audit-formula");
+  conversionStep.append(
+    reviewNode("span", "calculation-kind", reviewL("LASKELMA · yksikkömuunnos", "CALCULATION · unit conversion")),
+    reviewNode("h3", "", reviewL("2. Litrat millilitroiksi", "2. Litres to millilitres")),
+    reviewNode("code", "", `${reviewNumber(volume.value, 0)} × 1,000 = ${reviewNumber(Number(volume.value) * 1000, 0)} ml`),
+    reviewNode("p", "", reviewL("Muunnoskerroin 1 000; muita numeerisia oikaisukertoimia ei ole lähdemallissa.", "Conversion factor 1,000; the source model contains no other numeric adjustment factors."))
+  );
+
+  const priceStep = reviewNode("article", "panel calculation-audit-card calculation-audit-assumptions");
+  priceStep.append(
+    reviewNode("span", "calculation-kind", reviewL("JULKAISTUT SYÖTTEET · eivät markkinakeskiarvo", "PUBLISHED INPUTS · not a market average")),
+    reviewNode("h3", "", reviewL("3. Kolme vuoden 2026 verkkokauppahintaa", "3. Three 2026 online retail prices"))
+  );
+  const priceList = reviewNode("ul", "calculation-price-list");
+  for (const item of scenarios) {
+    const label = item.name === "low"
+      ? reviewL("Matala", "Low")
+      : item.name === "central" ? reviewL("Keskipiste", "Central") : reviewL("Korkea", "High");
+    const row = reviewNode("li");
+    row.append(
+      reviewNode("strong", "", `${label}: EUR ${reviewNumber(item.observation.value, 2)}/ml`),
+      reviewNode("span", "", reviewIsFi() ? item.observation.limitationFi : item.observation.limitationEn),
+      reviewObservationLink(item.observation, sourceMap)
+    );
+    priceList.append(row);
+  }
+  priceStep.append(priceList);
+
+  const resultStep = reviewNode("article", "panel calculation-audit-card calculation-audit-formula");
+  resultStep.append(
+    reviewNode("span", "calculation-kind", reviewL("LASKELMA · täsmäytetty tulos", "CALCULATION · reconciled output")),
+    reviewNode("h3", "", reviewL("4. Vähittäismyyntivastaavuuden vaihteluväli", "4. Retail-equivalent range")),
+    reviewNode("code", "", model.formula),
+    reviewNode("strong", "", `${reviewMarketFormat(model.low, model.currency)} · ${reviewMarketFormat(model.central, model.currency)} · ${reviewMarketFormat(model.high, model.currency)}`),
+    reviewNode("p", "", reviewL("Matala · keskipiste · korkea. Kaikki kolme tulosta toistuvat täsmälleen julkaistuista syötteistä.", "Low · central · high. All three outputs reproduce exactly from the published inputs."))
+  );
+
+  const limits = reviewNode("article", "panel calculation-audit-card calculation-audit-exclusions");
+  limits.append(
+    reviewNode("span", "calculation-kind", reviewL("RAJAUKSET · ei nollaoikaisuja", "EXCLUSIONS · not zero adjustments")),
+    reviewNode("h3", "", reviewL("Mitä laskelma ei sisällä", "What the calculation does not include"))
+  );
+  const exclusionList = reviewNode("ul");
+  for (const exclusion of model.exclusions || []) {
+    const labels = REVIEW_EXCLUSION_LABELS[exclusion] || [exclusion, exclusion];
+    exclusionList.append(reviewNode("li", "", reviewL(...labels)));
+  }
+  limits.append(
+    exclusionList,
+    reviewNode("p", "", reviewL(
+      "Näille rajauksille ei ole lähdemallissa euromääräisiä tai prosentuaalisia oikaisuja. Kolme yksittäistä hintaa eivät muodosta painotettua, edustavaa hintakoria.",
+      "The source model contains no euro or percentage adjustments for these exclusions. Three individual prices do not form a weighted, representative price basket."
+    ))
+  );
+
+  steps.append(volumeStep, conversionStep, priceStep, resultStep, limits);
+}
+
+function renderReviewCalculationAuditUnavailable() {
+  const root = reviewById("review-calculation-audit");
+  const status = reviewById("review-calculation-audit-status");
+  const summary = reviewById("review-calculation-audit-summary");
+  const steps = reviewById("review-calculation-audit-steps");
+  if (!root || !status || !summary || !steps) return;
+  root.setAttribute("aria-busy", "false");
+  status.dataset.state = "error";
+  status.textContent = reviewL("Laskentaketju ei ole saatavilla.", "Calculation audit trail unavailable.");
+  summary.replaceChildren(reviewNode("p", "", reviewL("Mallinnettua tulosta ei saa käyttää ilman lähdesyötteitä.", "Do not use a modelled result without its source inputs.")));
+  steps.replaceChildren();
+}
+
+function reviewObservationPeriodState(latestYear, referenceYear) {
+  if (!Number.isFinite(latestYear)) return "undated";
+  if (latestYear >= referenceYear - 1) return "latest_period";
+  if (latestYear === referenceYear - 2) return "previous_full_year";
+  return "historical_only";
+}
+
+function renderReviewSourceFreshness(market, atlas) {
+  const root = reviewById("review-source-freshness");
+  const status = reviewById("review-source-freshness-status");
+  const summary = reviewById("review-source-freshness-summary");
+  const list = reviewById("review-source-freshness-list");
+  if (!root || !status || !summary || !list) return;
+
+  const sources = Array.isArray(market?.sources) ? market.sources : [];
+  const observations = Array.isArray(market?.observations) ? market.observations : [];
+  const referenceDate = String(market?.meta?.asOf || "");
+  const referenceYear = Number(referenceDate.slice(0, 4));
+  const yearsBySource = new Map();
+  for (const observation of observations) {
+    for (const sourceId of observation.sourceIds || []) {
+      if (!yearsBySource.has(sourceId)) yearsBySource.set(sourceId, []);
+      if (Number.isFinite(Number(observation.year))) yearsBySource.get(sourceId).push(Number(observation.year));
+    }
+  }
+
+  const ledger = sources.map((source) => {
+    const years = yearsBySource.get(source.sourceId) || [];
+    const latestYear = years.length ? Math.max(...years) : null;
+    const retrievalState = !/^\d{4}-\d{2}-\d{2}$/.test(String(source.retrievedAt || ""))
+      ? "undated"
+      : source.retrievedAt > referenceDate ? "invalid_future_date"
+        : source.retrievedAt === referenceDate ? "verified_on_as_of" : "verified_before_as_of";
+    return {
+      ...source,
+      latestYear,
+      observationPeriodState: reviewObservationPeriodState(latestYear, referenceYear),
+      retrievalState
+    };
+  });
+  const invalid = ledger.some((item) => item.retrievalState === "invalid_future_date");
+  const counts = {
+    latest: ledger.filter((item) => item.observationPeriodState === "latest_period").length,
+    previous: ledger.filter((item) => item.observationPeriodState === "previous_full_year").length,
+    historical: ledger.filter((item) => item.observationPeriodState === "historical_only").length,
+    undated: ledger.filter((item) => item.observationPeriodState === "undated").length
+  };
+
+  root.setAttribute("aria-busy", "false");
+  status.dataset.state = invalid ? "error" : "caution";
+  status.textContent = invalid
+    ? reviewL("Lähderekisteri hylätty: hakupäivä on aineistopäivän jälkeen.", "Source ledger rejected: a retrieval date is later than the dataset date.")
+    : reviewL(
+      `${ledger.length}/${ledger.length} markkinalähteen hakupäivä kirjattu · sisällöllistä vanhentumista ei voida arvioida ilman tarkistusrytmiä`,
+      `${ledger.length}/${ledger.length} market-source retrieval dates recorded · substantive staleness is not assessable without a review cadence`
+    );
+
+  const summaryItems = [
+    [reviewL("Markkinalähteet", "Market sources"), ledger.length, reviewL(`Hakupäivän vertailupiste ${referenceDate}`, `Retrieval reference date ${referenceDate}`)],
+    [reviewL("Uusin / nykyinen havaintojakso", "Latest / current observation period"), counts.latest, reviewL("Havaintovuosi 2025–2026", "Observation year 2025–2026")],
+    [reviewL("Edellinen täysi vuosi", "Previous full year"), counts.previous, reviewL("Havaintovuosi 2024", "Observation year 2024")],
+    [reviewL("Vain historiallinen havainto", "Historical observation only"), counts.historical, reviewL("Havaintovuosi 2023 tai vanhempi", "Observation year 2023 or earlier")]
+  ];
+  summary.replaceChildren(...summaryItems.map(([label, value, note]) => {
+    const card = reviewNode("article", "freshness-summary-card");
+    card.append(reviewNode("span", "", label), reviewNode("strong", "", value), reviewNode("small", "", note));
+    return card;
+  }));
+  const atlasNote = reviewNode("article", "freshness-atlas-boundary");
+  atlasNote.append(
+    reviewNode("strong", "", reviewL(
+      `${atlas.evidence.length} atlaksen evidenssiriviä · erätason tarkistuspäivä ei ole kirjattu`,
+      `${atlas.evidence.length} atlas evidence records · item-level verification date not recorded`
+    )),
+    reviewNode("p", "", reviewL(
+      `Atlaksen ${atlas.meta.generatedAt} lähdesnapshot vahvistaa käytetyn upstream-tiedoston identiteetin, ei jokaisen linkitetyn lähteen nykyistä sisältöä tai ajantasaisuutta.`,
+      `The atlas source snapshot dated ${atlas.meta.generatedAt} verifies the identity of the upstream file used, not the current content or currency of every linked source.`
+    ))
+  );
+  summary.append(atlasNote);
+
+  list.replaceChildren();
+  for (const item of ledger) {
+    const observationLabel = item.observationPeriodState === "latest_period"
+      ? reviewL("uusin / nykyinen jakso", "latest / current period")
+      : item.observationPeriodState === "previous_full_year"
+        ? reviewL("edellinen täysi vuosi", "previous full year")
+        : item.observationPeriodState === "historical_only"
+          ? reviewL("vain historiallinen", "historical only")
+          : reviewL("ei päivättyä havaintoa", "no dated observation");
+    const retrievalLabel = item.retrievalState === "verified_on_as_of"
+      ? reviewL("haettu aineistopäivänä", "retrieved on dataset date")
+      : item.retrievalState === "verified_before_as_of"
+        ? reviewL("haettu ennen aineistopäivää", "retrieved before dataset date")
+        : item.retrievalState === "invalid_future_date"
+          ? reviewL("virheellinen tuleva päivä", "invalid future date")
+          : reviewL("hakupäivä puuttuu", "retrieval date missing");
+    const row = document.createElement(list.tagName === "TBODY" ? "tr" : "article");
+    if (list.tagName === "TBODY") {
+      const sourceCell = reviewNode("td");
+      sourceCell.append(reviewNode("strong", "", item.publisher), reviewNode("code", "", item.sourceId));
+      const sourceUrl = reviewUrl(item.pageUrl);
+      if (sourceUrl) {
+        const link = reviewNode("a", "", reviewL("Avaa lähde", "Open source"));
+        link.href = sourceUrl;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        sourceCell.append(link);
+      }
+      const typeCell = reviewNode("td");
+      typeCell.append(
+        reviewNode("strong", "", String(item.sourceKind || "—").replaceAll("_", " ")),
+        reviewNode("small", "", reviewL("Lähdeluokka; ei tarkkuuspiste", "Source class; not an accuracy score"))
+      );
+      const observationCell = reviewNode("td");
+      observationCell.append(reviewNode("strong", "", item.latestYear || "—"), reviewNode("small", "", observationLabel));
+      const retrievedCell = reviewNode("td");
+      retrievedCell.append(reviewNode("time", "", item.retrievedAt || "—"), reviewNode("small", "", retrievalLabel));
+      const assessmentCell = reviewNode("td");
+      assessmentCell.append(
+        reviewNode("strong", "", reviewL("Ei arvioitavissa", "Not assessable")),
+        reviewNode("small", "", reviewL("Hakupäivä ei osoita sisällön nykyisyyttä.", "Retrieval does not prove substantive currency."))
+      );
+      const reviewGateCell = reviewNode("td");
+      reviewGateCell.append(
+        reviewNode("strong", "", reviewL("Tarkistusrytmi puuttuu", "Review cadence missing")),
+        reviewNode("small", "", reviewL("Vahvista lähde ja määritelmä ennen seuraavaa päätöskäyttöä.", "Re-verify the source and definition before the next decision use."))
+      );
+      row.append(sourceCell, typeCell, observationCell, retrievedCell, assessmentCell, reviewGateCell);
+    } else {
+      row.className = "freshness-ledger-item";
+      row.append(
+        reviewNode("strong", "", item.publisher),
+        reviewNode("code", "", item.sourceId),
+        reviewNode("span", "", `${item.retrievedAt || "—"} · ${retrievalLabel}`),
+        reviewNode("span", "", `${item.latestYear || "—"} · ${observationLabel}`),
+        reviewNode("small", "", reviewL("Sisällöllinen vanhentuminen: ei arvioitavissa.", "Substantive staleness: not assessable."))
+      );
+    }
+    list.append(row);
+  }
+}
+
+function renderReviewSourceFreshnessUnavailable() {
+  const root = reviewById("review-source-freshness");
+  const status = reviewById("review-source-freshness-status");
+  const summary = reviewById("review-source-freshness-summary");
+  const list = reviewById("review-source-freshness-list");
+  if (!root || !status || !summary || !list) return;
+  root.setAttribute("aria-busy", "false");
+  status.dataset.state = "error";
+  status.textContent = reviewL("Lähteiden tuoreusrekisteri ei ole saatavilla.", "Source-freshness ledger unavailable.");
+  summary.replaceChildren(reviewNode("p", "", reviewL("Puuttuvaa lähdetietoa ei käsitellä ajantasaisena.", "Missing source information is not treated as current.")));
+  list.replaceChildren();
+}
+
 function renderReviewMetrics(data) {
   const countries = data.countries;
   const observations = Array.isArray(reviewMarketData?.observations) ? reviewMarketData.observations : [];
@@ -700,25 +1222,38 @@ async function copyReviewLink() {
 }
 
 function renderReview(data) {
+  applyReviewView();
   renderReviewMeta(data);
+  renderDecisionCockpit(data);
+  renderResearchOperationsOverview();
   renderReviewMetrics(data);
   renderReviewGrades(data);
   renderReviewDimensions(data);
   renderReviewBlockers(data);
   renderReviewTransactionPaths();
   renderReviewTop10Matrix();
-  if (reviewMarketData) renderReviewMarket(reviewMarketData);
-  else renderReviewMarketUnavailable();
+  if (reviewMarketData) {
+    renderReviewMarket(reviewMarketData);
+    renderReviewCalculationAudit(reviewMarketData);
+    renderReviewSourceFreshness(reviewMarketData, data);
+  } else {
+    renderReviewMarketUnavailable();
+    renderReviewCalculationAuditUnavailable();
+    renderReviewSourceFreshnessUnavailable();
+  }
   renderReviewPatent();
   renderReviewChanges();
 }
 
 async function initReview() {
-  reviewById("copy-review-link").addEventListener("click", copyReviewLink);
-  reviewById("print-review").addEventListener("click", () => window.print());
-  reviewById("review-changes-mark-seen").addEventListener("click", markReviewChangesSeen);
+  applyReviewView();
+  reviewById("copy-review-link")?.addEventListener("click", copyReviewLink);
+  reviewById("print-review")?.addEventListener("click", () => window.print());
+  reviewById("review-changes-mark-seen")?.addEventListener("click", markReviewChangesSeen);
   document.addEventListener("pixan:languagechange", () => {
-    reviewById("copy-review-status").textContent = "";
+    applyReviewView();
+    const copyStatus = reviewById("copy-review-status");
+    if (copyStatus) copyStatus.textContent = "";
     if (reviewData) renderReview(reviewData);
   });
   try {

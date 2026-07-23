@@ -70,6 +70,7 @@ from validate_vendor_response_control import (
     validate_outputs as validate_vendor_response_outputs,
     validate_source as validate_vendor_response_source,
 )
+from validate_review_experience import validate_all as validate_review_experience
 
 
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
@@ -1694,6 +1695,8 @@ def main() -> None:
     else:
         validate_vendor_response_source(vendor_response_source, errors)
         validate_vendor_response_outputs(vendor_response_source, errors)
+
+    errors.extend(validate_review_experience(ROOT))
 
     scan_public_text("atlas", atlas, errors)
     scan_public_text("curated", curated, errors)

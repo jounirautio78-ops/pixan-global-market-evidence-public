@@ -1,0 +1,447 @@
+#!/usr/bin/env python3
+"""Fail-closed validation for the v16 decision, audit and freshness views."""
+
+from __future__ import annotations
+
+import json
+import math
+import re
+import sys
+from collections import defaultdict
+from datetime import date
+from pathlib import Path
+from typing import Any
+from urllib.parse import urlparse
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SITE = ROOT / "site"
+DATA = SITE / "data"
+
+EXPECTED_OFFICIAL_COUNTRIES = {"CA", "DE", "FI", "PL", "SE"}
+EXPECTED_PROCESS_STATES = {
+    "DE": "receipt_and_ifg_forwarding_confirmed",
+    "DK": "automated_receipt_acknowledged",
+    "FI": "registered_processing_notice_received",
+    "SE": "automated_route_correction_received",
+}
+GERMANY_MODEL_ID = "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE"
+GERMANY_VOLUME_ID = "DE-2025-TAXED-LIQUID-VOLUME-L"
+GERMANY_PRICE_IDS = {
+    "low": "DE-2026-RETAIL-PRICE-LOW-EUR-PER-ML",
+    "central": "DE-2026-RETAIL-PRICE-BASE-EUR-PER-ML",
+    "high": "DE-2026-RETAIL-PRICE-HIGH-EUR-PER-ML",
+}
+GERMANY_OUTPUTS = {
+    "low": 667_920_000,
+    "central": 1_199_220_000,
+    "high": 1_654_620_000,
+}
+REQUIRED_REVIEW_IDS = {
+    "decision-cockpit",
+    "decision-cockpit-state",
+    "decision-cockpit-status",
+    "cockpit-meta",
+    "cockpit-supported-list",
+    "cockpit-not-supported-list",
+    "cockpit-gates-list",
+    "research-operations-overview",
+    "research-operations-metrics",
+    "review-calculation-audit",
+    "review-calculation-audit-status",
+    "review-calculation-audit-summary",
+    "review-calculation-audit-steps",
+    "review-source-freshness",
+    "review-source-freshness-status",
+    "review-source-freshness-summary",
+    "review-source-freshness-table",
+    "review-source-freshness-list",
+}
+REQUIRED_REVIEW_FUNCTIONS = {
+    "applyReviewView",
+    "renderDecisionCockpit",
+    "renderResearchOperationsOverview",
+    "renderReviewCalculationAudit",
+    "renderReviewCalculationAuditUnavailable",
+    "renderReviewSourceFreshness",
+    "renderReviewSourceFreshnessUnavailable",
+}
+REQUIRED_I18N_EN = {
+    "Workspace views",
+    "5-minute Review",
+    "Evidence Center",
+    "Research Operations",
+    "What this release supports—and what it does not",
+    "Supported in this release",
+    "Not supported by this release",
+    "Top 3 decision gates",
+    "Calculation audit trail",
+    "How current is the evidence?",
+    "Market source",
+    "Substantive staleness",
+    "No automatic publication, spending or external action",
+}
+
+
+def load_json(path: Path) -> Any:
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def valid_https(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    parsed = urlparse(value)
+    return parsed.scheme == "https" and bool(parsed.netloc) and not parsed.username and not parsed.password
+
+
+def parse_date(value: Any) -> date | None:
+    if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        return None
+    try:
+        return date.fromisoformat(value)
+    except ValueError:
+        return None
+
+
+def validate_review_data(
+    atlas: dict[str, Any],
+    market: dict[str, Any],
+    patent: dict[str, Any],
+    requests: dict[str, Any],
+) -> list[str]:
+    errors: list[str] = []
+
+    countries = atlas.get("countries")
+    evidence = atlas.get("evidence")
+    if not isinstance(countries, list) or len(countries) != 195:
+        errors.append("Decision Cockpit requires exactly 195 country records for v16")
+    if not isinstance(evidence, list) or len(evidence) != 37:
+        errors.append("Decision Cockpit requires exactly 37 atlas evidence records for v16")
+        evidence = []
+    for item in evidence:
+        if any(key in item for key in ("retrievedAt", "reviewedAt", "verifiedAt", "lastVerifiedAt")):
+            errors.append("Atlas item-level freshness must remain undated unless the v16 ledger and release claim are updated")
+            break
+    blockers = atlas.get("readiness", {}).get("blockers")
+    if not isinstance(blockers, list) or len(blockers) < 3:
+        errors.append("Decision Cockpit requires three explicit readiness blockers")
+    if atlas.get("readiness", {}).get("lenderReady") is not False:
+        errors.append("v16 Decision Cockpit must remain HOLD while lenderReady is false")
+
+    sources = market.get("sources")
+    observations = market.get("observations")
+    models = market.get("models")
+    if not isinstance(sources, list) or len(sources) != 12:
+        errors.append("Freshness ledger requires exactly 12 reviewed market sources for v16")
+        sources = []
+    if not isinstance(observations, list) or len(observations) != 23:
+        errors.append("v16 market baseline must contain exactly 23 observations")
+        observations = []
+    if not isinstance(models, list):
+        errors.append("Market models must be a list")
+        models = []
+
+    source_ids: set[str] = set()
+    reference_date = parse_date(market.get("meta", {}).get("asOf"))
+    if reference_date is None:
+        errors.append("Market asOf must be an ISO calendar date")
+    for source in sources:
+        source_id = source.get("sourceId")
+        if not isinstance(source_id, str) or not source_id:
+            errors.append("Every market source requires a sourceId")
+            continue
+        if source_id in source_ids:
+            errors.append(f"Duplicate market sourceId {source_id}")
+        source_ids.add(source_id)
+        if not valid_https(source.get("pageUrl")):
+            errors.append(f"{source_id}: pageUrl must be safe HTTPS")
+        retrieved = parse_date(source.get("retrievedAt"))
+        if retrieved is None:
+            errors.append(f"{source_id}: retrievedAt must be an ISO calendar date")
+        elif reference_date and retrieved > reference_date:
+            errors.append(f"{source_id}: retrievedAt cannot be later than market asOf")
+
+    observation_by_id: dict[str, dict[str, Any]] = {}
+    years_by_source: dict[str, list[int]] = defaultdict(list)
+    for observation in observations:
+        observation_id = observation.get("observationId")
+        if not isinstance(observation_id, str) or not observation_id:
+            errors.append("Every market observation requires an observationId")
+            continue
+        if observation_id in observation_by_id:
+            errors.append(f"Duplicate observationId {observation_id}")
+        observation_by_id[observation_id] = observation
+        value = observation.get("value")
+        if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(value) or value <= 0:
+            errors.append(f"{observation_id}: numeric value must be positive and finite")
+        for source_id in observation.get("sourceIds", []):
+            if source_id not in source_ids:
+                errors.append(f"{observation_id}: unresolved sourceId {source_id}")
+            if isinstance(observation.get("year"), int):
+                years_by_source[source_id].append(observation["year"])
+
+    unused_sources = source_ids - years_by_source.keys()
+    if unused_sources:
+        errors.append(f"Every freshness-ledger source must support a dated observation; unused={sorted(unused_sources)}")
+
+    official = [
+        item for item in observations
+        if str(item.get("evidenceStatus", "")).startswith("official_")
+    ]
+    official_countries = {item.get("countryIso2") for item in official}
+    if len(official) != 17 or official_countries != EXPECTED_OFFICIAL_COUNTRIES:
+        errors.append(
+            "v16 official numeric baseline must remain 17 observations across CA, DE, FI, PL and SE"
+        )
+    official_retail = [
+        item for item in official
+        if item.get("metric") == "consumer_retail_market_value"
+    ]
+    if official_retail:
+        errors.append("Official shipment, tax or volume observations must not be relabelled consumer-retail value")
+
+    readiness = market.get("meta", {}).get("modelReadiness", {})
+    declared_donors = readiness.get("comparableFullYearMarketValueDonors")
+    required_donors = readiness.get("minimumRequiredDonors")
+    computed_donors = [
+        item for item in observations
+        if item.get("comparableMarketValue") is True and item.get("period") == "calendar_year"
+    ]
+    if declared_donors != 0 or len(computed_donors) != 0 or required_donors != 3:
+        errors.append("Global-estimate donor gate must remain blocked at 0/3 for v16")
+
+    germany_models = [item for item in models if item.get("modelId") == GERMANY_MODEL_ID]
+    if len(germany_models) != 1:
+        errors.append("Exactly one Germany calculation-waterfall model is required")
+    else:
+        model = germany_models[0]
+        if model.get("formula") != "volume_litres * 1000 * retail_price_eur_per_ml":
+            errors.append("Germany model formula is not the reviewed formula")
+        if model.get("rangeInputMap") != GERMANY_PRICE_IDS:
+            errors.append("Germany rangeInputMap does not resolve to the three reviewed prices")
+        expected_inputs = {GERMANY_VOLUME_ID, *GERMANY_PRICE_IDS.values()}
+        if set(model.get("inputIds", [])) != expected_inputs:
+            errors.append("Germany inputIds do not match the reviewed waterfall")
+        if model.get("confidence") != "low" or model.get("comparableMarketValue") is not False:
+            errors.append("Germany model must remain low-confidence and donor-ineligible")
+        volume = observation_by_id.get(GERMANY_VOLUME_ID)
+        prices = {name: observation_by_id.get(item_id) for name, item_id in GERMANY_PRICE_IDS.items()}
+        if not volume or any(item is None for item in prices.values()):
+            errors.append("Germany waterfall inputs do not all resolve")
+        else:
+            price_years = {item.get("year") for item in prices.values() if item}
+            if model.get("yearMismatch") is not True or price_years != {2026} or volume.get("year") != 2025:
+                errors.append("Germany 2025-volume/2026-price mismatch must remain explicit")
+            for scenario, price in prices.items():
+                computed = volume["value"] * 1000 * price["value"]
+                if (
+                    not math.isclose(computed, GERMANY_OUTPUTS[scenario], rel_tol=0, abs_tol=0.01)
+                    or model.get(scenario) != GERMANY_OUTPUTS[scenario]
+                ):
+                    errors.append(f"Germany {scenario} output does not reproduce exactly")
+
+    if reference_date:
+        reference_year = reference_date.year
+        freshness_counts = {"latest_period": 0, "previous_full_year": 0, "historical_only": 0}
+        for source_id in source_ids:
+            latest_year = max(years_by_source[source_id])
+            if latest_year >= reference_year - 1:
+                freshness_counts["latest_period"] += 1
+            elif latest_year == reference_year - 2:
+                freshness_counts["previous_full_year"] += 1
+            else:
+                freshness_counts["historical_only"] += 1
+        if freshness_counts != {
+            "latest_period": 9,
+            "previous_full_year": 2,
+            "historical_only": 1,
+        }:
+            errors.append(f"Unexpected deterministic freshness buckets: {freshness_counts}")
+
+    family_members = patent.get("familyMembers")
+    proceedings = patent.get("proceedings")
+    alerts = patent.get("diligenceAlerts")
+    if not isinstance(family_members, list) or len(family_members) != 22:
+        errors.append("v16 patent baseline must contain 22 family records")
+        family_members = []
+    national = [
+        item for item in family_members
+        if item.get("verificationLevel") == "official_national_record"
+    ]
+    if len(national) != 4:
+        errors.append("Only four official_national_record rows may count as nationally verified")
+    if not isinstance(proceedings, list) or len(proceedings) != 4:
+        errors.append("v16 patent baseline must contain four proceedings")
+    if patent.get("summary", {}).get("unresolvedProceedingCount") != 3:
+        errors.append("v16 patent baseline must retain three unresolved proceedings")
+    if not isinstance(alerts, list) or len(alerts) != 4:
+        errors.append("v16 patent baseline must contain four diligence alerts")
+
+    routes = requests.get("routes")
+    if not isinstance(routes, list) or len(routes) != 20:
+        errors.append("Research Operations requires exactly 20 request routes")
+        routes = []
+    sent = [route for route in routes if route.get("status") == "sent"]
+    drafts = [route for route in routes if route.get("status") == "draft_not_sent"]
+    if len(sent) != 11 or len(drafts) != 9:
+        errors.append("Request programme must remain 11 sent and 9 draft routes")
+    process = {
+        route.get("countryIso2"): route.get("dispatch", {}).get("responseState")
+        for route in routes
+        if route.get("dispatch", {}).get("responseState")
+        not in {"not_publicly_recorded", "not_applicable"}
+    }
+    if process != EXPECTED_PROCESS_STATES:
+        errors.append(f"Process-response baseline must remain the four reviewed categorical states: {process}")
+    for route in routes:
+        if route.get("countryIso2") in EXPECTED_PROCESS_STATES:
+            if route.get("dispatch", {}).get("publicAuthorityReference") is not None:
+                errors.append(f"{route.get('countryIso2')}: process response must not publish a private authority reference")
+
+    return errors
+
+
+def extract_ids(html: str) -> set[str]:
+    return set(re.findall(r"""\bid=["']([^"']+)["']""", html))
+
+
+def opening_tag_with_id(html: str, element_id: str) -> str:
+    pattern = re.compile(
+        rf"""<[^>]+\bid=["']{re.escape(element_id)}["'][^>]*>""",
+        flags=re.IGNORECASE,
+    )
+    match = pattern.search(html)
+    return match.group(0) if match else ""
+
+
+def function_body(js: str, function_name: str) -> str:
+    marker = f"function {function_name}("
+    start = js.find(marker)
+    if start < 0:
+        return ""
+    brace = js.find("{", start)
+    if brace < 0:
+        return ""
+    depth = 0
+    for index in range(brace, len(js)):
+        if js[index] == "{":
+            depth += 1
+        elif js[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return js[brace + 1:index]
+    return ""
+
+
+def validate_review_structure(
+    review_html: str,
+    index_html: str,
+    review_js: str,
+    i18n_js: str | None = None,
+) -> list[str]:
+    errors: list[str] = []
+    id_list = re.findall(r"""\bid=["']([^"']+)["']""", review_html)
+    ids = set(id_list)
+    duplicate_ids = sorted({element_id for element_id in id_list if id_list.count(element_id) > 1})
+    if duplicate_ids:
+        errors.append(f"review.html contains duplicate element IDs: {duplicate_ids}")
+    missing_ids = REQUIRED_REVIEW_IDS - ids
+    if missing_ids:
+        errors.append(f"review.html lacks required v16 hooks: {sorted(missing_ids)}")
+
+    body_match = re.search(r"<body\b[^>]*>", review_html, flags=re.IGNORECASE)
+    body_tag = body_match.group(0) if body_match else ""
+    if not re.search(r"""data-review-view=["']review["']""", body_tag):
+        errors.append("review.html body must default to data-review-view=review")
+    for view in ("review", "evidence", "operations"):
+        if not re.search(rf"""data-review-view-link=["']{view}["']""", review_html):
+            errors.append(f"review.html lacks the {view} workspace-view link")
+        if not re.search(rf"""data-review-view-link=["']{view}["']""", index_html):
+            errors.append(f"index.html lacks the {view} workspace-view link")
+
+    for element_id in ("paid-data", "vendor-response-control", "request-program", "research-priority-matrix"):
+        tag = opening_tag_with_id(review_html, element_id)
+        if not tag or not re.search(r"""data-review-surface=["']operations["']""", tag):
+            errors.append(f"#{element_id} must be isolated on the operations surface")
+    for element_id in ("decision-cockpit", "review-calculation-audit", "review-source-freshness", "bankability"):
+        tag = opening_tag_with_id(review_html, element_id)
+        if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
+            errors.append(f"#{element_id} must be isolated on the review surface")
+
+    if review_html.count("2026-07-23-16") < 7:
+        errors.append("review.html asset cache-busters must all use the v16 release")
+    if index_html.count("2026-07-23-16") < 4:
+        errors.append("index.html asset cache-busters must all use the v16 release")
+
+    for function_name in REQUIRED_REVIEW_FUNCTIONS:
+        if f"function {function_name}(" not in review_js:
+            errors.append(f"review.js lacks required function {function_name}")
+    freshness_body = function_body(review_js, "renderReviewSourceFreshness")
+    for forbidden in ("Date.now(", "new Date(", "performance.now(", "toLocaleDateString("):
+        if forbidden in freshness_body:
+            errors.append(f"Source freshness must be deterministic and cannot use {forbidden}")
+    if "source.retrievedAt > referenceDate" not in freshness_body:
+        errors.append("Source freshness must fail closed on retrieval dates after dataset asOf")
+    if "consumer_retail_market_value" not in review_js:
+        errors.append("Decision Cockpit must compute official consumer-retail evidence from the canonical metric")
+    if "model.formula" not in review_js or "arithmeticPass" not in review_js:
+        errors.append("Calculation audit must reconcile the canonical formula and outputs")
+
+    lowered_public = f"{review_html}\n{index_html}\n{review_js}".lower()
+    for forbidden_claim in ("fresh today", "current worldwide patent", "official global retail value"):
+        if forbidden_claim in lowered_public:
+            errors.append(f"Unsupported v16 public claim found: {forbidden_claim!r}")
+    named_investor_pattern = re.compile(
+        r"\b\x62\x6c\x61\x63\x6b\s*\x72\x6f\x63\x6b\b",
+        flags=re.IGNORECASE,
+    )
+    if named_investor_pattern.search(lowered_public):
+        errors.append("Named investor-interest claims must not appear in the public review experience")
+
+    if i18n_js is not None:
+        for text in REQUIRED_I18N_EN:
+            if text not in i18n_js:
+                errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
+    for page_name, page in (("review.html", review_html), ("index.html", index_html)):
+        for language, label in (("fi", "Suomi"), ("en", "English")):
+            pattern = (
+                rf"""<button\b[^>]*data-language=["']{language}["'][^>]*"""
+                rf"""\blang=["']{language}["'][^>]*\baria-label=["']{label}["'][^>]*>"""
+            )
+            if not re.search(pattern, page, flags=re.IGNORECASE):
+                errors.append(f"{page_name} language control {language} lacks lang and accessible full-language label")
+
+    return errors
+
+
+def validate_all(root: Path = ROOT) -> list[str]:
+    atlas = load_json(root / "site" / "data" / "atlas.json")
+    market = load_json(root / "site" / "data" / "market-values.json")
+    patent = load_json(root / "site" / "data" / "patent-history.json")
+    requests = load_json(root / "site" / "data" / "top20-data-request-routes.json")
+    review_html = (root / "site" / "review.html").read_text(encoding="utf-8")
+    index_html = (root / "site" / "index.html").read_text(encoding="utf-8")
+    review_js = (root / "site" / "assets" / "review.js").read_text(encoding="utf-8")
+    i18n_js = (root / "site" / "assets" / "i18n.js").read_text(encoding="utf-8")
+    return [
+        *validate_review_data(atlas, market, patent, requests),
+        *validate_review_structure(review_html, index_html, review_js, i18n_js),
+    ]
+
+
+def main() -> None:
+    errors = validate_all()
+    if errors:
+        for error in errors:
+            print(f"ERROR: {error}", file=sys.stderr)
+        print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
+        raise SystemExit(1)
+    print(
+        "Validated v16 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "waterfall, deterministic 12-source ledger, separated operations view and required UI hooks."
+    )
+
+
+if __name__ == "__main__":
+    main()
