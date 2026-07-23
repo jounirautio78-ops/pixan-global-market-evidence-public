@@ -41,6 +41,7 @@ jobs:
         run: |
           python scripts/build_atlas.py
           python scripts/build_data_request_program.py
+          python scripts/build_paid_data_procurement.py
           python scripts/build_bank_package.py
 
       - name: Verify deterministic bank-package rebuild
@@ -59,6 +60,7 @@ jobs:
           python scripts/test_market_estimation.py
           python scripts/test_data_request_program.py
           python scripts/validate_data_request_program.py
+          python scripts/validate_paid_data_procurement.py
           python scripts/validate_public.py
           python scripts/validate_bank_package.py
           python scripts/test_public_privacy.py
