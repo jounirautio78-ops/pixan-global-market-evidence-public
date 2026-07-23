@@ -57,6 +57,19 @@ python scripts/build_paid_data_procurement.py
 python scripts/validate_paid_data_procurement.py
 ```
 
+### Vendor-response control
+
+The review page also contains a privacy-safe response-control view for the four recorded commercial routes. It keeps outreach status, received evidence, mandatory gates and scoring readiness separate. The current checkpoint contains four tracked routes, zero substantive responses, zero vendor samples scored and zero purchase authorisations.
+
+`source/vendor-response-control.json` is the canonical public control record. `scripts/build_vendor_response_control.py` deterministically emits the public JSON and CSV, and `scripts/validate_vendor_response_control.py` enforces the exact current states, seven criteria whose weights total 100%, six mandatory evidence gates and the privacy boundary. Missing evidence is always `not_scored`, never a numeric zero. Correspondence, personal data, private identifiers, licensed vendor files and confidential commercial terms remain outside the repository.
+
+The bilingual procurement workbook now includes a response scorecard, a flat evidence-intake template and visible integrity checks. Its score remains blank until all mandatory gates pass and all seven 0–5 inputs are present. It grants no purchase, subscription, NDA, auto-renewal or other commercial authority.
+
+```bash
+python scripts/build_vendor_response_control.py
+python scripts/validate_vendor_response_control.py
+```
+
 ## Annual market-value evidence
 
 Reviewed market observations live in `source/market-observations.json`. The deterministic build emits:
@@ -137,13 +150,17 @@ From the repository root:
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_atlas.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_data_request_program.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_paid_data_procurement.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_vendor_response_control.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_bank_package.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_public.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_data_request_program.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_paid_data_procurement.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_vendor_response_control.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_bank_package.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v scripts/test_market_estimation.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_data_request_program.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_vendor_response_control.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_paid_data_procurement_privacy.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_public_privacy.py
 node --check site/assets/i18n.js
 node --check site/assets/app.js
@@ -151,6 +168,7 @@ node --check site/assets/review.js
 node --check site/assets/downloads.js
 node --check site/assets/request-program.js
 node --check site/assets/paid-data.js
+node --check site/assets/vendor-response.js
 git diff --check
 git diff --exit-code
 git status --short
