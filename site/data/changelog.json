@@ -3,6 +3,35 @@
   "asOf": "2026-07-22",
   "releases": [
     {
+      "id": "2026-07-23-authority-process-responses-v15",
+      "version": "2026.07.23-15",
+      "publishedAt": "2026-07-23T20:55:00+03:00",
+      "titleEn": "Authority process responses recorded without a market-data claim",
+      "titleFi": "Viranomaisten prosessivastaukset kirjattu ilman markkinadataväitettä",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Recorded privacy-safe categorical process states for Germany, Finland, Denmark and Sweden. The public record excludes correspondence, sender and recipient identities, addresses, message and ticket identifiers, diary numbers, exact timestamps and attachments.",
+          "textFi": "Kirjattiin tietosuojatut kategoriset prosessitilat Saksalle, Suomelle, Tanskalle ja Ruotsille. Julkinen merkintä ei sisällä kirjeenvaihtoa, lähettäjän tai vastaanottajan henkilöllisyyttä, osoitteita, viesti- tai asianhallinnan tunnisteita, diaarinumeroita, tarkkoja kellonaikoja tai liitteitä."
+        },
+        {
+          "category": "method",
+          "textEn": "Receipt acknowledgements, diary registration, forwarding notices, route corrections, delay notices and possible-fee notices are process evidence only. They are not substantive data responses, do not establish a market value and do not authorise or accept a fee.",
+          "textFi": "Vastaanottokuittaukset, diaarikirjaus, reititysilmoitukset, reittikorjaukset, viiveilmoitukset ja mahdollista maksua koskevat ilmoitukset ovat vain prosessinäyttöä. Ne eivät ole sisällöllisiä datavastauksia, osoita markkina-arvoa eivätkä valtuuta tai hyväksy maksua."
+        },
+        {
+          "category": "market_data",
+          "textEn": "The programme remains 11 sent routes and 9 drafts. Four routes now have a recorded process response, while substantive authority data responses remain at zero and no annual sales figure has been added from these contacts.",
+          "textFi": "Ohjelmassa on edelleen 11 lähetettyä reittiä ja 9 luonnosta. Neljälle reitille on nyt kirjattu prosessivastaus, mutta sisällöllisiä viranomaisdatavastauksia on edelleen nolla eikä näistä yhteydenotoista ole lisätty vuosimyyntilukua."
+        },
+        {
+          "category": "usability",
+          "textEn": "Replaced Sweden's withdrawn paid-data ordering route with the authority's official public-record request page and added bilingual route-level process-status labels. No mailbox address is published.",
+          "textFi": "Korvattiin Ruotsin poistunut maksullisen datan tilausreitti viranomaisen virallisella julkisuuspyyntösivulla ja lisättiin kaksikieliset reittikohtaiset prosessitilat. Postilaatikon osoitetta ei julkaista."
+        }
+      ]
+    },
+    {
       "id": "2026-07-23-administrative-vendor-reply-v14",
       "version": "2026.07.23-14",
       "publishedAt": "2026-07-23T20:18:21+03:00",

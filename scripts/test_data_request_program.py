@@ -25,6 +25,27 @@ class DataRequestBoundaryTests(unittest.TestCase):
         validate_program(copy.deepcopy(self.program), errors)
         self.assertEqual(errors, [])
 
+    def test_exact_process_response_states_are_public_and_non_substantive(self) -> None:
+        expected = {
+            "DE": "receipt_and_ifg_forwarding_confirmed",
+            "FI": "registered_processing_notice_received",
+            "DK": "automated_receipt_acknowledged",
+            "SE": "automated_route_correction_received",
+        }
+        actual = {
+            route["countryIso2"]: route["dispatch"]["responseState"]
+            for route in self.program["routes"]
+            if route["countryIso2"] in expected
+        }
+        self.assertEqual(actual, expected)
+        self.assertTrue(all(
+            route["dispatch"]["publicAuthorityReference"] is None
+            for route in self.program["routes"]
+            if route["countryIso2"] in expected
+        ))
+        self.assertIn("substantive data", self.program["independenceNoticeEn"])
+        self.assertIn("sisällöllisenä datana", self.program["independenceNoticeFi"])
+
     def test_rejects_top_level_sent_flag(self) -> None:
         self.assert_rejected(lambda item: item.__setitem__("sent", True))
 
@@ -96,6 +117,51 @@ class DataRequestBoundaryTests(unittest.TestCase):
             route["dispatch"]["messageId"] = "private-message-id"
 
         self.assert_rejected(mutate)
+
+    def test_rejects_process_ticket_identifier(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "DE")
+            route["dispatch"]["ticketId"] = "PRIVATE-TICKET-123"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_process_reference_even_if_format_looks_public(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "FI")
+            route["dispatch"]["publicAuthorityReference"] = "DIARY 12345"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_email_address_inside_public_route_text(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "SE")
+            route["requesterEligibility"]["caveatEn"] += " Contact records@example.gov."
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_process_response_overstatement_as_market_data(self) -> None:
+        self.assert_rejected(
+            lambda item: item.__setitem__(
+                "independenceNoticeEn",
+                item["independenceNoticeEn"] + " Market data received.",
+            )
+        )
+
+    def test_rejects_process_response_overstatement_as_fee_acceptance(self) -> None:
+        self.assert_rejected(
+            lambda item: item.__setitem__(
+                "independenceNoticeEn",
+                item["independenceNoticeEn"] + " A fee was accepted.",
+            )
+        )
+
+    def test_rejects_weakened_process_response_boundary(self) -> None:
+        self.assert_rejected(
+            lambda item: item.__setitem__(
+                "independenceNoticeEn",
+                "Independent project. Four authority responses were received.",
+            )
+        )
 
     def test_rejects_acknowledgement_metadata(self) -> None:
         def mutate(item) -> None:
