@@ -3,8 +3,8 @@
   "programmeId": "pixan-independent-top20-official-data-request-programme-v3",
   "verificationDate": "2026-07-24",
   "status": "partially_dispatched",
-  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process state. It does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
-  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessitilan. Se ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
+  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process or evidence state. Sweden supplied official aggregate registration-structure counts; this is substantive structural data, but not annual sales, market value, sold device units, sold liquid volume or donor evidence. The programme does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
+  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessi- tai evidenssitilan. Ruotsi toimitti viralliset aggregoidut rekisterirakenneluvut; kyse on sisällöllisestä rakennetiedosta, mutta ei vuosimyynnistä, markkina-arvosta, myytyjen laitteiden kappalemäärästä, myydystä nestemäärästä tai luovuttajaevidenssistä. Ohjelma ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
   "ranking": {
     "type": "operational_evidence_acquisition_order",
     "isMarketSizeRanking": false,
@@ -558,10 +558,10 @@
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "automated_route_correction_received"
+        "responseState": "official_structural_data_received_sales_not_available"
       },
-      "rationaleEn": "Mandatory annual brand- and product-type sales reporting and documented enforcement of missing reports make Sweden a strong completeness benchmark.",
-      "rationaleFi": "Pakollinen vuosimyyntiraportointi merkin ja tuotetyypin mukaan sekä dokumentoitu puuttuvien raporttien valvonta tekevät Ruotsista vahvan kattavuuden vertailumaan.",
+      "rationaleEn": "Mandatory annual brand- and product-type reporting and documented enforcement of missing reports make Sweden a strong completeness benchmark. FHM supplied official 2018–2026 registration-structure counts, but no annual sales series.",
+      "rationaleFi": "Pakollinen vuosiraportointi merkin ja tuotetyypin mukaan sekä dokumentoitu puuttuvien raporttien valvonta tekevät Ruotsista vahvan kattavuuden vertailumaan. FHM toimitti viralliset vuosien 2018–2026 rekisterirakenneluvut, mutta ei vuosimyyntisarjaa.",
       "primaryAuthority": {
         "nameEn": "Public Health Agency of Sweden",
         "nameFi": "Ruotsin kansanterveysviranomainen"
@@ -608,6 +608,12 @@
           "labelFi": "Vuoden 2025 markkinavalvonnan seuranta",
           "url": "https://www.folkhalsomyndigheten.se/publikationer-och-material/publikationsarkiv/u/uppfoljning-av-program-for-marknadskontroll-2025-tobak-och-liknande-produkter/?pub=155021",
           "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "Public information on notified e-cigarettes and refill containers",
+          "labelFi": "Julkiset tiedot ilmoitetuista sähkösavukkeista ja täyttösäiliöistä",
+          "url": "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/",
+          "verifiedOn": "2026-07-24"
         }
       ]
     },

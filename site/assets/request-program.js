@@ -54,12 +54,9 @@
     automated_receipt_acknowledged: {
       en: "Automated receipt acknowledgement — process only; no data received",
       fi: "Automaattinen vastaanottokuittaus — vain prosessitieto; ei dataa"
-    },
-    automated_route_correction_received: {
-      en: "Automated route correction — public-record service identified; no data received",
-      fi: "Automaattinen reittikorjaus — julkisuuspyyntöpalvelu tunnistettu; ei dataa"
     }
   };
+  const STRUCTURAL_RESPONSE_STATE = "official_structural_data_received_sales_not_available";
   const EXPECTED_DISPATCH = {
     DE: {
       state: "sent",
@@ -101,7 +98,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "automated_route_correction_received"
+      responseState: STRUCTURAL_RESPONSE_STATE
     },
     IT: {
       state: "sent",
@@ -154,6 +151,22 @@
       responseState: "not_publicly_recorded"
     }
   };
+  const SWEDEN_STRUCTURAL_RESPONSE = Object.freeze({
+    countryIso2: "SE",
+    verifiedOn: "2026-07-24",
+    snapshotYear: 2026,
+    rows: Object.freeze([
+      Object.freeze([2018, 226, 18356, 16264, 2092]),
+      Object.freeze([2019, 310, 24525, 17704, 6821]),
+      Object.freeze([2020, 369, 29125, 18745, 10380]),
+      Object.freeze([2021, 399, 31243, 19251, 11992]),
+      Object.freeze([2022, 431, 34163, 20256, 13907]),
+      Object.freeze([2023, 544, 40593, 25278, 15315]),
+      Object.freeze([2024, 619, 48036, 30371, 17665]),
+      Object.freeze([2025, 663, 52889, 32899, 19990]),
+      Object.freeze([2026, 687, 55273, 32889, 22384])
+    ])
+  });
 
   let programme = null;
 
@@ -393,6 +406,7 @@
     const ranks = new Set();
     const sentCountries = new Set();
     const processResponseCountries = new Set();
+    const structuralResponseCountries = new Set();
     for (const route of raw.routes) {
       exactKeys(route, [
         "operationalRank", "priorityCode", "wave", "countryIso2", "countryEn", "countryFi",
@@ -422,6 +436,11 @@
         processResponseCountries.add(route.countryIso2);
         if (route.dispatch.publicAuthorityReference !== null) {
           throw new Error("process response cannot expose a correspondence reference");
+        }
+      } else if (route.dispatch.responseState === STRUCTURAL_RESPONSE_STATE) {
+        structuralResponseCountries.add(route.countryIso2);
+        if (route.dispatch.publicAuthorityReference !== null) {
+          throw new Error("structural response cannot expose a correspondence reference");
         }
       }
       if (route.status === "sent") {
@@ -491,9 +510,12 @@
     if (sentCountries.size !== 12 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
       throw new Error("sent country set differs from the approved 12-country public record");
     }
-    if (processResponseCountries.size !== 4
-      || !["DE", "FI", "DK", "SE"].every((iso) => processResponseCountries.has(iso))) {
-      throw new Error("process-response country set differs from the approved four-country record");
+    if (processResponseCountries.size !== 3
+      || !["DE", "FI", "DK"].every((iso) => processResponseCountries.has(iso))) {
+      throw new Error("process-only response set differs from the approved three-country record");
+    }
+    if (structuralResponseCountries.size !== 1 || !structuralResponseCountries.has("SE")) {
+      throw new Error("structural-data response set differs from the approved Sweden record");
     }
     return raw;
   }
@@ -508,6 +530,169 @@
     const label = PROCESS_RESPONSE_LABELS[responseState];
     if (label) return isFi() ? label.fi : label.en;
     return l("Ei julkista prosessivastausta kirjattu", "No public process response recorded");
+  }
+
+  function routeResponseStatusText(route) {
+    if (route.dispatch.responseState === STRUCTURAL_RESPONSE_STATE) {
+      return l(
+        "Virallinen rekisterirakennevastaus vastaanotettu — ei myynti-, arvo- tai volyymidataa",
+        "Official registration-structure response received — no sales, value or volume data"
+      );
+    }
+    return processStatusText(route.dispatch.responseState);
+  }
+
+  function responseCounts(routes) {
+    const structuralCountries = new Set(
+      routes
+        .filter((route) => route.status === "sent"
+          && route.countryIso2 === SWEDEN_STRUCTURAL_RESPONSE.countryIso2
+          && route.dispatch.responseState === STRUCTURAL_RESPONSE_STATE)
+        .map((route) => route.countryIso2)
+    );
+    const processOnly = routes.filter(
+      (route) => Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)
+        && !structuralCountries.has(route.countryIso2)
+    ).length;
+    return {
+      processOnly,
+      officialStructural: structuralCountries.size,
+      sales: 0
+    };
+  }
+
+  function renderSwedenStructure() {
+    const host = root.querySelector("[data-sweden-structure]");
+    if (!host) return;
+    const route = programme.routes.find(
+      (item) => item.countryIso2 === SWEDEN_STRUCTURAL_RESPONSE.countryIso2
+    );
+    if (!route || route.status !== "sent" || route.dispatch.responseState !== STRUCTURAL_RESPONSE_STATE) {
+      host.replaceChildren();
+      host.hidden = true;
+      return;
+    }
+
+    const heading = element("div", "panel-heading");
+    const title = element("div");
+    const titleNode = element(
+      "h3",
+      "",
+      l("Ruotsin tuoterekisterin rakenne 2018–2026", "Sweden product-register structure, 2018–2026")
+    );
+    titleNode.id = "sweden-structure-title";
+    title.append(
+      element(
+        "p",
+        "kicker",
+        l("Virallinen viranomaisvastaus · rakennetieto", "Official authority response · structural evidence")
+      ),
+      titleNode
+    );
+    heading.append(
+      title,
+      element(
+        "span",
+        "market-status-chip market-status-caution",
+        l("VAIN RAKENNE · EI MYYNTIÄ", "STRUCTURE ONLY · NOT SALES")
+      )
+    );
+
+    const intro = element(
+      "p",
+      "panel-note",
+      l(
+        "Viranomaisen toimittama työkirja sisältää vuosilabelein esitetyt lukumäärät raportoivista toimijoista sekä ilmoitetuista, aktiivisista ja poistetuista tuotteista. Vuosien 2018–2025 labeleita ei oleteta kalenterivuoden virroiksi tai vuoden lopun tilannekuviksi. Ilmoitettujen tuotteiden määrä täsmää jokaisella rivillä aktiivisten ja poistettujen tuotteiden summaan.",
+        "An authority-supplied workbook contains year-labelled counts of reporting actors and notified, active and withdrawn products. The 2018–2025 labels are not assumed to be calendar-year flows or year-end snapshots. In every row, notified products reconcile to active plus withdrawn products."
+      )
+    );
+
+    const tableWrap = element("div", "table-wrap");
+    tableWrap.tabIndex = 0;
+    tableWrap.setAttribute("role", "region");
+    tableWrap.setAttribute(
+      "aria-label",
+      l(
+        "Ruotsin tuoterekisterin vuosien 2018–2026 rakennesarja",
+        "Sweden product-register structural series for 2018–2026"
+      )
+    );
+    const table = element("table", "data-table");
+    const caption = element(
+      "caption",
+      "sr-only",
+      l(
+        "Raportoivat toimijat sekä ilmoitetut, aktiiviset ja poistetut tuotteet",
+        "Reporting actors and notified, active and withdrawn products"
+      )
+    );
+    const thead = element("thead");
+    const headerRow = element("tr");
+    for (const label of [
+      l("Vuosi", "Year"),
+      l("Raportoivat toimijat", "Reporting actors"),
+      l("Ilmoitetut tuotteet", "Notified products"),
+      l("Aktiiviset tuotteet", "Active products"),
+      l("Poistetut tuotteet", "Withdrawn products")
+    ]) {
+      const cell = element("th", "", label);
+      cell.scope = "col";
+      headerRow.append(cell);
+    }
+    thead.append(headerRow);
+    const tbody = element("tbody");
+    const formatter = new Intl.NumberFormat(isFi() ? "fi-FI" : "en-GB");
+    for (const [year, actors, notified, active, withdrawn] of SWEDEN_STRUCTURAL_RESPONSE.rows) {
+      const row = element("tr");
+      row.style.cursor = "default";
+      const yearCell = element("td");
+      yearCell.append(element("strong", "", String(year)));
+      if (year === SWEDEN_STRUCTURAL_RESPONSE.snapshotYear) {
+        const marker = element("small", "", l(" tilannekuva", " snapshot"));
+        yearCell.append(marker);
+      }
+      row.append(
+        yearCell,
+        element("td", "", formatter.format(actors)),
+        element("td", "", formatter.format(notified)),
+        element("td", "", formatter.format(active)),
+        element("td", "", formatter.format(withdrawn))
+      );
+      tbody.append(row);
+    }
+    table.append(caption, thead, tbody);
+    tableWrap.append(table);
+
+    const boundary = element(
+      "p",
+      "request-program-caveat",
+      l(
+        "RAJAUS: Sarja ei mittaa myyntiä, markkina-arvoa, myytyjä laitteita, e-nesteen millilitroja, liikevaihtoa, kysyntää tai markkinaosuutta. Vuosi 2026 on tarkistushetken snapshot, ei valmis vuosijakso. Vuosittaista myyntisarjaa ei toimitettu, joten myyntivastausten määrä ja donor-portti pysyvät nollassa.",
+        "BOUNDARY: The series does not measure sales, market value, devices sold, e-liquid millilitres, revenue, demand or market share. The 2026 row is a verification-date snapshot, not a completed annual period. No annual sales series was supplied, so the sales-response count and donor gate remain at zero."
+      )
+    );
+    const provenance = element(
+      "p",
+      "panel-note",
+      l(
+        `Lukumäärien lähde: viranomaisen toimittama työkirja, tarkistettu ${SWEDEN_STRUCTURAL_RESPONSE.verifiedOn}. Linkitetty FHM-sivu kuvaa raportointikontekstia; se ei ole tämän taulukon julkinen latauslähde.`,
+        `Count source: authority-supplied workbook, verified ${SWEDEN_STRUCTURAL_RESPONSE.verifiedOn}. The linked FHM page provides reporting context; it is not a public download source for this table.`
+      )
+    );
+    const contextSource = route.officialSources.find(
+      (source) => source.url.includes("elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna")
+    ) || route.officialSources[0];
+    const link = element(
+      "a",
+      "button button-secondary button-small",
+      l("Avaa FHM:n virallinen raportointikonteksti", "Open the official FHM reporting context")
+    );
+    link.href = contextSource.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    host.replaceChildren(heading, intro, tableWrap, boundary, provenance, link);
+    host.hidden = false;
   }
 
   function renderEvidenceStack() {
@@ -667,7 +852,7 @@
       meta.append(metadata(l("Julkinen lähetystieto", "Public dispatch record"), route.dispatch.sentOn));
       meta.append(metadata(
         l("Julkinen prosessitila", "Public process status"),
-        processStatusText(route.dispatch.responseState)
+        routeResponseStatusText(route)
       ));
       if (route.dispatch.publicAuthorityReference) {
         meta.append(metadata(
@@ -722,9 +907,7 @@
   function renderSectionCopy(routes) {
     const sentCount = routes.filter((route) => route.status === "sent").length;
     const draftCount = routes.length - sentCount;
-    const processResponseCount = routes.filter(
-      (route) => Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)
-    ).length;
+    const responses = responseCounts(routes);
     const supplementarySentCount = programme.supplementaryRequests.filter(
       (request) => request.status === "sent"
     ).length;
@@ -747,12 +930,12 @@
     );
     root.querySelector("[data-request-program-boundary-mark]").textContent = l("TILA", "STATUS");
     root.querySelector("[data-request-program-boundary-summary]").textContent = l(
-      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti lähetetty · ${processResponseCount} prosessivastausta · 0 sisällöllistä viranomaisdatavastausta`,
-      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route sent · ${processResponseCount} process responses · 0 substantive authority-data responses`
+      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.sales} myyntidatavastausta`,
+      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.sales} sales-data responses`
     );
     root.querySelector("[data-request-program-boundary-copy]").textContent = l(
-      "Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata tai korvaa tullin/Destatisin prosessitietoa. Julkiset kategoriset prosessitilat eivät ole sisällöllisiä datavastauksia eivätkä osoita markkina-arvoa. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
-      "The supplementary BVL request is part of Germany and does not add a country or replace the Customs/Destatis process record. Public categorical process states are not substantive data responses and establish no market value. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
+      "Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Se ei ole myynti-, arvo- tai volyymievidenssiä, ja vuoden 2026 rivi on snapshot. Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
+      "The Sweden response contains official registration-structure counts only. It is not sales, value or volume evidence, and the 2026 row is a snapshot. The supplementary BVL request belongs to Germany and adds no country. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
     );
     root.querySelector("[data-request-program-note]").textContent = l(
       "Kuusi evidenssikerrosta ovat vaihtoehtoisia ja toisiaan tarkistavia. Vero-, myynti-, tulli-, toimitus- ja takavarikkosarjoja ei saa laskea mekaanisesti yhteen; takavarikot eivät ole laillista myyntiä.",
@@ -767,6 +950,7 @@
     const routes = [...programme.routes].sort((left, right) => left.operationalRank - right.operationalRank);
     renderSectionCopy(routes);
     renderEvidenceStack();
+    renderSwedenStructure();
     const grid = root.querySelector("[data-request-program-routes]");
     grid.replaceChildren(...routes.map(renderRoute));
     grid.hidden = false;
@@ -774,9 +958,7 @@
     const status = root.querySelector("[data-request-program-status]");
     const sentCount = routes.filter((route) => route.status === "sent").length;
     const draftCount = routes.length - sentCount;
-    const processResponseCount = routes.filter(
-      (route) => Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)
-    ).length;
+    const responses = responseCounts(routes);
     const supplementarySentCount = programme.supplementaryRequests.filter(
       (request) => request.status === "sent"
     ).length;
@@ -784,8 +966,8 @@
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä pyyntö lähetetty · ${processResponseCount} prosessivastausta · 0 sisällöllistä datavastausta · tarkistettu ${programme.verificationDate}.`,
-        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary request sent · ${processResponseCount} process responses · 0 substantive data responses · verified ${programme.verificationDate}.`
+        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.sales} myyntidatavastausta · tarkistettu ${SWEDEN_STRUCTURAL_RESPONSE.verifiedOn}.`,
+        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.sales} sales-data responses · verified ${SWEDEN_STRUCTURAL_RESPONSE.verifiedOn}.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");
@@ -797,6 +979,8 @@
     root.querySelector("[data-request-program-actions]").hidden = true;
     root.querySelector("[data-request-program-note]").hidden = true;
     root.querySelector("[data-request-program-stack]").hidden = true;
+    const swedenStructure = root.querySelector("[data-sweden-structure]");
+    if (swedenStructure) swedenStructure.hidden = true;
     const status = root.querySelector("[data-request-program-status]");
     status.className = "bank-package-status bank-package-status-error";
     status.replaceChildren(

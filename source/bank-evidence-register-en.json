@@ -111,13 +111,13 @@
       "There is no gap in the universe definition; evidence coverage is assessed separately."
     ],
     [
-      "The public package contains 34 annual observations sourced from official routes across seven countries.",
+      "The public market dataset contains 79 observations from 21 sources; its 70 official observations split into 34 market measures and 36 Swedish FHM register-structure counts.",
       "Market size",
-      "The countries are Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. Transaction levels, currencies and product scopes differ.",
+      "The market measures cover Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",
       "site/data/market-values.json (machine-readable source file of the public site)",
       "2026-07-24",
-      "Count of annual observations whose evidenceStatus begins official_.",
-      "Official publication does not make the metrics automatically comparable.",
+      "79 = 43 prior observations + 36 FHM structure counts; 70 official = 34 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
+      "The 2018–2025 figures are authority-supplied year labels, not assumed calendar-year flows or year-end snapshots. The 2026 FHM records are a current snapshot, not a completed annual period. Official sourcing does not make unlike metrics comparable.",
       "Confirmed",
       "Comparable annual device and liquid consumer-retail-value series are required from additional countries."
     ],
@@ -309,15 +309,15 @@
       "Finality and reconciliation to the tax base are required."
     ],
     [
-      "Sweden taxed 26,000 litres of nicotine liquid in 2024.",
+      "Sweden's public evidence combines a 2024 tax anchor with 36 official FHM register-structure counts for 2018–2026; the register counts are not sales or market value.",
       "Market size",
-      "Table 7.5 reports a rounded official amount. It covers nicotine liquid only, excludes devices and nicotine-free liquid, and is not retail value.",
-      "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf",
-      "2024",
-      "Direct use of the calculation basis stated by the government.",
-      "The observation is not treated as the full market.",
+      "Sweden taxed 26,000 litres of nicotine liquid in 2024 and reported rounded excise receipts of SEK 80,000,000. An authority-supplied workbook received and reviewed on 24 July 2026 contains 9 year labels × 4 structure metrics: reporting entities and notified, active and withdrawn products. The public FHM page documents the notification system; it is not presented as publishing the numeric series.",
+      "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf ; https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/ ; site/data/market-values.json",
+      "2026-07-24",
+      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 34 market measures and 36 structure counts remain separate.",
+      "No sales value, sales volume or market share is inferred from the structure counts. The 2018–2025 figures are authority-supplied year labels, not assumed annual flows or year-end snapshots. The 2026 records are a current snapshot and are not annualised.",
       "Confirmed",
-      "Observed retail value and device data are required."
+      "Observed consumer sales in euros, device units and liquid millilitres, plus a publicly reusable numeric FHM series, are still required."
     ],
     [
       "Three commercial 2025 global estimates form a range of USD 26.0–46.32 billion.",

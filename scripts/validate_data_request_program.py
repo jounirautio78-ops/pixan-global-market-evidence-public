@@ -51,12 +51,22 @@ PROCESS_RESPONSE_STATE_VALUES = {
     "automated_receipt_acknowledged",
     "automated_route_correction_received",
 }
+STRUCTURAL_RESPONSE_STATE_VALUES = {
+    "official_structural_data_received_sales_not_available",
+}
+SALES_RESPONSE_STATE_VALUES = {
+    "official_annual_sales_data_received",
+}
 RESPONSE_STATE_VALUES = {
     "not_applicable",
     "not_publicly_recorded",
     *PROCESS_RESPONSE_STATE_VALUES,
+    *STRUCTURAL_RESPONSE_STATE_VALUES,
+    *SALES_RESPONSE_STATE_VALUES,
 }
-EXPECTED_PROCESS_RESPONSE_COUNTRIES = {"DE", "FI", "DK", "SE"}
+EXPECTED_PROCESS_RESPONSE_COUNTRIES = {"DE", "FI", "DK"}
+EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES = {"SE"}
+EXPECTED_SALES_RESPONSE_COUNTRIES: set[str] = set()
 EXPECTED_DISPATCH = {
     "DE": {
         "state": "sent",
@@ -98,7 +108,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "automated_route_correction_received",
+        "responseState": "official_structural_data_received_sales_not_available",
     },
     "IT": {
         "state": "sent",
@@ -148,6 +158,11 @@ EXPECTED_BVL_GUIDANCE_URL = (
     "?thema=Mitteilungspflicht"
 )
 EXPECTED_TABAKERZV_25_URL = "https://www.gesetze-im-internet.de/tabakerzv/__25.html"
+EXPECTED_SWEDEN_CONTEXT_URL = (
+    "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
+    "tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/"
+    "elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/"
+)
 PRIVATE_METADATA_KEYS = {
     "acknowledgedon", "acknowledgementon", "acknowledgmenton", "bcc", "body", "cc",
     "conversationid", "correspondence", "deliveredon", "email", "emailaddress", "from",
@@ -541,6 +556,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
 
     sent_countries: set[str] = set()
     process_response_countries: set[str] = set()
+    structural_response_countries: set[str] = set()
+    sales_response_countries: set[str] = set()
     for route in routes:
         iso = route.get("countryIso2", "?")
         label = f"route {iso}"
@@ -558,6 +575,14 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 process_response_countries.add(iso)
                 if dispatch.get("publicAuthorityReference") is not None:
                     errors.append(f"{label}: process response must not expose a correspondence reference")
+            if dispatch.get("responseState") in STRUCTURAL_RESPONSE_STATE_VALUES:
+                structural_response_countries.add(iso)
+                if dispatch.get("publicAuthorityReference") is not None:
+                    errors.append(
+                        f"{label}: structural response must not expose a correspondence reference"
+                    )
+            if dispatch.get("responseState") in SALES_RESPONSE_STATE_VALUES:
+                sales_response_countries.add(iso)
             if route.get("status") != dispatch.get("state"):
                 errors.append(f"{label}: route status and dispatch state must match")
             expected_dispatch = EXPECTED_DISPATCH.get(iso, {
@@ -645,6 +670,10 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 errors.append(f"{label}: official source verification date must be valid and no later than {EXPECTED_DATE}")
         if not sources_valid:
             continue
+        if iso == "SE" and EXPECTED_SWEDEN_CONTEXT_URL not in {
+            source.get("url") for source in sources
+        }:
+            errors.append("route SE: official notified-product context source is required")
 
         allowed_hosts = OFFICIAL_HOSTS.get(iso, set())
         seen_urls: set[str] = set()
@@ -664,7 +693,11 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     if sum(route.get("status") == "sent" for route in routes) != 12:
         errors.append("programme must contain exactly 12 sent routes and 8 drafts")
     if process_response_countries != EXPECTED_PROCESS_RESPONSE_COUNTRIES:
-        errors.append("process-response country set must match the approved four-country public record")
+        errors.append("process-response country set must match the approved three-country public record")
+    if structural_response_countries != EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES:
+        errors.append("structural-response country set must contain Sweden only")
+    if sales_response_countries != EXPECTED_SALES_RESPONSE_COUNTRIES:
+        errors.append("annual-sales-response country set must remain empty")
     private_metadata_paths = list(find_private_metadata_keys(program))
     if private_metadata_paths:
         errors.append("private correspondence metadata is forbidden: " + ", ".join(private_metadata_paths))
@@ -685,17 +718,33 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     notice_en = str(program.get("independenceNoticeEn", "")).casefold()
     notice_fi = str(program.get("independenceNoticeFi", "")).casefold()
     if not all(term in notice_en for term in (
-        "privacy-safe categorical process state",
+        "privacy-safe categorical process or evidence state",
+        "official aggregate registration-structure counts",
+        "not annual sales",
+        "sold device units",
+        "sold liquid volume",
+        "donor evidence",
         "substantive data",
         "fee commitment",
     )):
-        errors.append("English independence notice must distinguish process state from substantive data and fee commitment")
+        errors.append(
+            "English independence notice must distinguish process, structural data, "
+            "annual sales, donor evidence and fee commitment"
+        )
     if not all(term in notice_fi for term in (
-        "tietosuojatun kategorisen prosessitilan",
+        "tietosuojatun kategorisen prosessi- tai evidenssitilan",
+        "viralliset aggregoidut rekisterirakenneluvut",
+        "ei vuosimyynnistä",
+        "myytyjen laitteiden kappalemäärästä",
+        "myydystä nestemäärästä",
+        "luovuttajaevidenssistä",
         "sisällöllisenä datana",
         "maksusitoumuksena",
     )):
-        errors.append("Finnish independence notice must distinguish process state from substantive data and fee commitment")
+        errors.append(
+            "Finnish independence notice must distinguish process, structural data, "
+            "annual sales, donor evidence and fee commitment"
+        )
 
 
 def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
@@ -728,13 +777,25 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
             row["countryIso2"] for row in rows
             if row["responseState"] in PROCESS_RESPONSE_STATE_VALUES
         } != EXPECTED_PROCESS_RESPONSE_COUNTRIES:
-            errors.append("published CSV process-response country set differs from the approved four-country record")
+            errors.append("published CSV process-response country set differs from the approved three-country record")
+        if {
+            row["countryIso2"] for row in rows
+            if row["responseState"] in STRUCTURAL_RESPONSE_STATE_VALUES
+        } != EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES:
+            errors.append("published CSV structural-response country set must contain Sweden only")
+        if {
+            row["countryIso2"] for row in rows
+            if row["responseState"] in SALES_RESPONSE_STATE_VALUES
+        } != EXPECTED_SALES_RESPONSE_COUNTRIES:
+            errors.append("published CSV annual-sales-response country set must remain empty")
         if any(
             row["publicAuthorityReference"]
             for row in rows
-            if row["responseState"] in PROCESS_RESPONSE_STATE_VALUES
+            if row["responseState"] in (
+                PROCESS_RESPONSE_STATE_VALUES | STRUCTURAL_RESPONSE_STATE_VALUES
+            )
         ):
-            errors.append("published CSV exposes a process-response correspondence reference")
+            errors.append("published CSV exposes a response correspondence reference")
         if any(row["isMarketSizeRanking"] != "false" for row in rows):
             errors.append("published CSV must mark isMarketSizeRanking=false")
         if any(row["stateUniverseCount"] != str(EXPECTED_STATE_UNIVERSE_COUNT) for row in rows):
@@ -808,9 +869,10 @@ def main() -> int:
 
     print(
         "PASS: schema v3 with a 195-state six-layer evidence stack; 12 sent, 8 draft and "
-        "4 privacy-safe process-response country routes; one sent non-counting German BVL "
-        "supplementary route; 0 substantive data responses, operational ranking, official "
-        "HTTPS URLs, requester caveats, and generated files verified."
+        "3 privacy-safe process-response country routes; one official Sweden structural-data "
+        "response with sales unavailable; one sent non-counting German BVL supplementary "
+        "route; 0 annual-sales-data responses, operational ranking, official HTTPS URLs, "
+        "requester caveats, and generated files verified."
     )
     return 0
 

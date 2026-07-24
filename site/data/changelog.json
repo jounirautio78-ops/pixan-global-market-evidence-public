@@ -3,6 +3,30 @@
   "asOf": "2026-07-24",
   "releases": [
     {
+      "id": "2026-07-24-sweden-registration-structure-v22",
+      "version": "2026.07.24-22",
+      "publishedAt": "2026-07-24T17:30:06+03:00",
+      "titleEn": "Sweden official 2018–2026 registration structure with sales and donor boundaries",
+      "titleFi": "Ruotsin virallinen rekisterirakenne 2018–2026 myynti- ja luovuttajarajauksin",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added 36 official FHM registration-structure observations for Sweden: reporting entities, notified products, active products and withdrawn products for 2018–2026. Reporting entities increase from 226 to 687 and notified products from 18,356 to 55,273. For every year, notified products equal active plus withdrawn products.",
+          "textFi": "Lisättiin Ruotsista 36 virallista FHM:n rekisterirakennehavaintoa: raportoivat toimijat, ilmoitetut tuotteet, aktiiviset tuotteet ja poistetut tuotteet vuosille 2018–2026. Raportoivien toimijoiden määrä kasvaa 226:sta 687:ään ja ilmoitettujen tuotteiden määrä 18 356:sta 55 273:een. Jokaisena vuonna ilmoitettujen tuotteiden määrä vastaa aktiivisten ja poistettujen tuotteiden summaa."
+        },
+        {
+          "category": "method",
+          "textEn": "The FHM series is official structural evidence, not annual sales value, sold device units, sold liquid volume, market share or donor evidence. The 2018–2025 years are authority-supplied labels, not assumed calendar-year flows or year-end snapshots. The 2026 figures are a current snapshot as of 24 July 2026, not a completed annual total. The donor gate remains 0/3 and the global estimate remains not_computed.",
+          "textFi": "FHM:n sarja on virallista rakenteellista evidenssiä, ei vuosimyynnin arvoa, myytyjen laitteiden kappalemäärää, myytyä nestemäärää, markkinaosuutta tai luovuttajaevidenssiä. Vuodet 2018–2025 ovat viranomaisen toimittamia vuosilabeleita, eivät oletettuja kalenterivuoden virtoja tai vuoden lopun tilannekuvia. Vuoden 2026 luvut ovat nykytilannekuva 24.7.2026, eivät valmistunut vuosisumma. Luovuttajaportti pysyy tasolla 0/3 ja globaali arvio tilassa not_computed."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Updated the privacy-safe request programme without publishing correspondence metadata. The 12-sent/8-draft queue now records three process-only authority responses, one official structural-data response from Sweden and zero annual-sales-data responses. The current lender package is streamlined to concise 6-slide and extended 30-slide decks in both languages, with both Evidence Registers retained.",
+          "textFi": "Päivitettiin tietosuojattu pyyntöohjelma julkaisematta kirjeenvaihdon metadataa. Reitti 12 lähetettyä / 8 luonnosta kirjaa nyt kolme pelkkää prosessivastausta, yhden Ruotsin virallisen rakennetietovastauksen ja nolla vuosimyyntidatavastausta. Nykyinen rahoittajapaketti on selkeytetty molempien kielten 6 dian tiivistelmään ja 30 dian laajaan dekkiin; molemmat Evidence Registerit säilyvät."
+        }
+      ]
+    },
+    {
       "id": "2026-07-24-euromonitor-access-clarification-v21",
       "version": "2026.07.24-21",
       "publishedAt": "2026-07-24T16:54:03+03:00",

@@ -15,15 +15,6 @@
       marker: "06"
     },
     {
-      id: `medium-deck-${language}`,
-      baseId: "medium-deck",
-      language,
-      path: `downloads/pixan-bank-deck-medium-${language}.pptx`,
-      countKey: "slideCount",
-      expectedCount: 12,
-      marker: "12"
-    },
-    {
       id: `large-deck-${language}`,
       baseId: "large-deck",
       language,
@@ -215,7 +206,6 @@
     if (nonEmpty(title)) return title;
     const fallback = {
       "short-deck": l("Suppea pankkidekki", "Concise bank deck"),
-      "medium-deck": l("Keskikokoinen pankkidekki", "Core bank deck"),
       "large-deck": l("Laaja pankkidekki", "Extended bank deck"),
       "evidence-register": "Evidence Register"
     };
@@ -227,10 +217,6 @@
       "short-deck": l(
         "Nopea johdon, lainanantajan tai ostajan yleiskuva.",
         "A rapid overview for management, lenders or prospective buyers."
-      ),
-      "medium-deck": l(
-        "12 dian rahoitusrakenne: teesi, IP, markkina, näyttö, malli ja riskit.",
-        "A 12-slide financing narrative covering thesis, IP, market, evidence, model and risks."
       ),
       "large-deck": l(
         "Laajin julkinen tarkistusversio lähteineen, rajoineen ja jatkotoimineen.",

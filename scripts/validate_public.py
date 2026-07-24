@@ -89,6 +89,7 @@ PATENT_FAMILY_CSV_PATH = OUTPUT_DIR / "patent-family.csv"
 CURATED_PATH = ROOT / "source" / "curated.json"
 UPSTREAM_SHA_PATH = ROOT / "source" / "marnet-upstream.sha256"
 PAID_DATA_SOURCE_PATH = ROOT / "source" / "paid-data-procurement.json"
+SWEDEN_FHM_MEMO_PATH = ROOT / "source" / "SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md"
 FORBIDDEN_RAW_PATH = ROOT / "source" / "marnet-dashboard.json"
 SOCIAL_IMAGE_PATH = OUTPUT_DIR.parent / "assets" / "og-pixan-global-market-evidence.png"
 SOCIAL_IMAGE_URL = (
@@ -214,11 +215,9 @@ EXPECTED_SITE_FILES = {
     "site/data/patent-history.json",
     "site/data/patent-family.csv",
     "site/downloads/pixan-bank-deck-short-fi.pptx",
-    "site/downloads/pixan-bank-deck-medium-fi.pptx",
     "site/downloads/pixan-bank-deck-large-fi.pptx",
     "site/downloads/pixan-bank-evidence-register-fi.xlsx",
     "site/downloads/pixan-bank-deck-short-en.pptx",
-    "site/downloads/pixan-bank-deck-medium-en.pptx",
     "site/downloads/pixan-bank-deck-large-en.pptx",
     "site/downloads/pixan-bank-evidence-register-en.xlsx",
     "site/downloads/data-request-template-en.txt",
@@ -734,6 +733,20 @@ def validate_market_values(
     errors: list[str],
 ) -> None:
     """Validate market observations, calculation semantics and source parity."""
+    try:
+        sweden_memo = SWEDEN_FHM_MEMO_PATH.read_text(encoding="utf-8")
+    except OSError:
+        errors.append("Sweden FHM registration-structure methodology memo is missing")
+        sweden_memo = ""
+    for marker in (
+        "| 2018 | 226 | 18,356 | 16,264 | 2,092 |",
+        "| 2026 | 687 | 55,273 | 32,889 | 22,384 |",
+        "not a completed calendar-year total",
+        "not annual sales",
+        "outside the donor count",
+    ):
+        if marker not in sweden_memo:
+            errors.append(f"Sweden FHM methodology memo is missing reviewed marker {marker!r}")
     if set(source) != MARKET_SOURCE_TOP_LEVEL_KEYS:
         errors.append("market-observations.json must use the exact reviewed top-level schema")
     if set(market_values) != MARKET_OUTPUT_TOP_LEVEL_KEYS:
@@ -816,6 +829,8 @@ def validate_market_values(
     if not isinstance(source_rows, list) or not source_rows:
         errors.append("market-observations.json sources must be a non-empty array")
         source_rows = []
+    if len(source_rows) != 21:
+        errors.append("market-observations.json must contain exactly 21 reviewed market sources")
     expected_source_urls = {
         "CA-HC-VAPING-SALES-2024": (
             "official",
@@ -855,6 +870,11 @@ def validate_market_values(
         "SE-GOV-BERAKNINGSKONVENTIONER-2026": (
             "official",
             "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf",
+            None,
+        ),
+        "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24": (
+            "official",
+            "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/",
             None,
         ),
         "NZ-MOH-ANNUAL-RETURNS-2022": (
@@ -953,6 +973,10 @@ def validate_market_values(
             errors.append(f"market source {source_id} must retain its reviewed kind and page URL")
         if item.get("downloadUrl") != download_url:
             errors.append(f"market source {source_id} must retain its reviewed download URL")
+    if source_by_id.get("SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24", {}).get(
+        "publisher"
+    ) != "Public Health Agency of Sweden":
+        errors.append("Sweden FHM source must retain its reviewed official publisher")
 
     observations = source.get("observations")
     output_observations = market_values.get("observations")
@@ -961,6 +985,8 @@ def validate_market_values(
     if not isinstance(observations, list) or not observations:
         errors.append("market-observations.json observations must be a non-empty array")
         observations = []
+    if len(observations) != 79:
+        errors.append("market-observations.json must contain exactly 79 reviewed observations")
     observations_by_id: dict[str, dict[str, Any]] = {}
     expected_observations = {
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
@@ -1007,6 +1033,41 @@ def validate_market_values(
         "US-2020-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2020, "ftc_reported_cartridge_and_disposable_sales", 2394423105, "USD", "official_table_derived", "corrected_and_expanded_official_table_sum", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
         "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2021, "ftc_reported_cartridge_and_disposable_sales", 2763284338, "USD", "official_table_derived", "official_table_sum", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
     }
+    sweden_fhm_values = {
+        2018: (226, 18356, 16264, 2092),
+        2019: (310, 24525, 17704, 6821),
+        2020: (369, 29125, 18745, 10380),
+        2021: (399, 31243, 19251, 11992),
+        2022: (431, 34163, 20256, 13907),
+        2023: (544, 40593, 25278, 15315),
+        2024: (619, 48036, 30371, 17665),
+        2025: (663, 52889, 32899, 19990),
+        2026: (687, 55273, 32889, 22384),
+    }
+    sweden_fhm_metric_specs = (
+        ("REPORTING-ENTITIES", "reporting_entities_count", "reporting_entity"),
+        ("NOTIFIED-PRODUCTS", "notified_products_count", "product"),
+        ("ACTIVE-PRODUCTS", "active_products_count", "product"),
+        ("WITHDRAWN-PRODUCTS", "withdrawn_products_count", "product"),
+    )
+    for year, values in sweden_fhm_values.items():
+        finality = (
+            "official_current_snapshot"
+            if year == 2026
+            else "official_response_year_label"
+        )
+        for (id_suffix, metric, unit), value in zip(sweden_fhm_metric_specs, values):
+            expected_observations[f"SE-{year}-FHM-{id_suffix}"] = (
+                "SE",
+                year,
+                metric,
+                value,
+                unit,
+                "official_observed",
+                finality,
+                "official_registration_structure_count_not_sales_or_market_value",
+                False,
+            )
     for index, item in enumerate(observations):
         path = f"market observations[{index}]"
         if not isinstance(item, dict) or set(item) != MARKET_OBSERVATION_KEYS:
@@ -1181,6 +1242,102 @@ def validate_market_values(
                 or "Glo" not in limitation
             ):
                 errors.append(f"{path}: IMARC scope must explicitly disclose included HTP products")
+
+    official_observations = [
+        item
+        for item in observations
+        if isinstance(item, dict)
+        and str(item.get("evidenceStatus", "")).startswith("official_")
+    ]
+    if len(official_observations) != 70:
+        errors.append("market observations must contain exactly 70 official observations")
+    if {
+        item.get("countryIso2")
+        for item in official_observations
+        if item.get("countryIso2") is not None
+    } != {"CA", "DE", "FI", "NZ", "PL", "SE", "US"}:
+        errors.append("official market observations must retain the reviewed seven-country set")
+
+    sweden_fhm_rows = {
+        (item.get("year"), item.get("metric")): item
+        for item in observations
+        if isinstance(item, dict)
+        and item.get("sourceIds") == ["SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"]
+    }
+    if len(sweden_fhm_rows) != 36:
+        errors.append("Sweden FHM registration structure must contain exactly 36 observations")
+    for year, values in sweden_fhm_values.items():
+        for (_, metric, unit), expected_value in zip(sweden_fhm_metric_specs, values):
+            item = sweden_fhm_rows.get((year, metric), {})
+            expected_period = (
+                "current_snapshot_as_of_2026_07_24"
+                if year == 2026
+                else "authority_supplied_year_label"
+            )
+            expected_finality = (
+                "official_current_snapshot"
+                if year == 2026
+                else "official_response_year_label"
+            )
+            if (
+                item.get("countryIso2") != "SE"
+                or item.get("geography") != "Sweden"
+                or item.get("value") != expected_value
+                or item.get("unit") != unit
+                or item.get("currency") is not None
+                or item.get("period") != expected_period
+                or item.get("evidenceStatus") != "official_observed"
+                or item.get("finality") != expected_finality
+                or item.get("productScope")
+                != "notified_e_cigarettes_and_refill_containers"
+                or item.get("marketValueBasis")
+                != "official_registration_structure_count_not_sales_or_market_value"
+                or item.get("comparableMarketValue") is not False
+                or item.get("atlasEstimate") is not False
+            ):
+                errors.append(
+                    f"Sweden FHM {year} {metric} must retain its reviewed "
+                    "official structural-count boundary"
+                )
+            limitation = str(item.get("limitationEn", "")).casefold()
+            if not all(
+                term in limitation
+                for term in (
+                    "not annual sales value",
+                    "sold device units",
+                    "sold liquid volume",
+                    "market share",
+                    "donor evidence",
+                )
+            ):
+                errors.append(
+                    f"Sweden FHM {year} {metric} must disclose every sales and donor limitation"
+                )
+            if year == 2026 and (
+                "as of 24 july 2026" not in limitation
+                or "not a completed annual total" not in limitation
+            ):
+                errors.append(
+                    f"Sweden FHM 2026 {metric} must remain a dated current snapshot"
+                )
+            if year != 2026 and (
+                "authority-supplied label" not in limitation
+                or "not an assumed calendar-year flow or year-end snapshot" not in limitation
+            ):
+                errors.append(
+                    f"Sweden FHM {year} {metric} must remain an authority-supplied "
+                    "year label, not an assumed annual flow or snapshot"
+                )
+        notified = sweden_fhm_rows.get((year, "notified_products_count"), {}).get("value")
+        active = sweden_fhm_rows.get((year, "active_products_count"), {}).get("value")
+        withdrawn = sweden_fhm_rows.get((year, "withdrawn_products_count"), {}).get("value")
+        if not all(
+            isinstance(value, (int, float)) and not isinstance(value, bool)
+            for value in (notified, active, withdrawn)
+        ) or notified != active + withdrawn:
+            errors.append(
+                f"Sweden FHM {year} must satisfy notified products = active + withdrawn"
+            )
 
     if set(observations_by_id) != set(expected_observations):
         errors.append("market observations must match the exact reviewed observation ID set")
