@@ -91,11 +91,35 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "full-global, core-global, 20- and 25-country, and add-on pricing",
+            "manufacturer or brand fields include VOOPOO, SMOK and Lost Vape or equivalent fields",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "No reviewable numerical sample, detailed methodology, confirmed e-vapour country-product coverage matrix",
+            "current Germany evaluation report plus Excel/CSV sample",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "Euromonitor subsequently stated that it can provide samples",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "role/access clarification is pending and has not been sent",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertNotIn("meeting", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
+        self.assertNotIn("account history", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
+        self.assertNotIn("single-user", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
+        self.assertNotIn("CEO", outreach["euromonitor-passport-nicotine"]["noteEn"])
+        self.assertIn(
+            "No reviewable numerical Germany sample, written brand-field confirmation, itemised price, detailed methodology",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "licence terms or written rights for derived client outputs",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "purchase, fee or commitment",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
 

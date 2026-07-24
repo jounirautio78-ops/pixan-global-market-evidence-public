@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for v19 donor closure actions and publication gates."""
+"""Mutation tests for v20 donor closure actions and publication gates."""
 
 from __future__ import annotations
 

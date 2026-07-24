@@ -33,10 +33,20 @@ from build_data_request_program import (
 EXPECTED_DATE = "2026-07-24"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
+EXPECTED_STATE_UNIVERSE_COUNT = 195
+EXPECTED_EVIDENCE_LAYER_IDS = (
+    "statutory_sales",
+    "excise_domestic_release",
+    "customs_net_imports",
+    "retail_or_shipments",
+    "price_channel_bridge",
+    "enforcement_signal",
+)
 LOCAL_REQUESTER_VALUES = {"not_required", "recommended", "conditional", "required"}
 ROUTE_STATUS_VALUES = {"draft_not_sent", "sent"}
 PROCESS_RESPONSE_STATE_VALUES = {
     "receipt_and_ifg_forwarding_confirmed",
+    "registered_and_processing_confirmed",
     "registered_processing_notice_received",
     "automated_receipt_acknowledged",
     "automated_route_correction_received",
@@ -52,7 +62,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "receipt_and_ifg_forwarding_confirmed",
+        "responseState": "registered_and_processing_confirmed",
     },
     "CA": {
         "state": "sent",
@@ -121,6 +131,23 @@ EXPECTED_DISPATCH = {
         "responseState": "not_publicly_recorded",
     },
 }
+EXPECTED_SUPPLEMENTARY_DISPATCH = {
+    "DE-BVL-TABAKERZV25-ANNUAL-SALES": {
+        "countryIso2": "DE",
+        "state": "sent",
+        "sentOn": "2026-07-24",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+}
+EXPECTED_BVL_CHANNEL_URL = "https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html"
+EXPECTED_BVL_GUIDANCE_URL = (
+    "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/"
+    "03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/"
+    "01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html"
+    "?thema=Mitteilungspflicht"
+)
+EXPECTED_TABAKERZV_25_URL = "https://www.gesetze-im-internet.de/tabakerzv/__25.html"
 PRIVATE_METADATA_KEYS = {
     "acknowledgedon", "acknowledgementon", "acknowledgmenton", "bcc", "body", "cc",
     "conversationid", "correspondence", "deliveredon", "email", "emailaddress", "from",
@@ -151,7 +178,8 @@ PRIVATE_IDENTIFIER_FINGERPRINTS = frozenset(
 
 TOP_LEVEL_KEYS = {
     "schemaVersion", "programmeId", "verificationDate", "status",
-    "independenceNoticeEn", "independenceNoticeFi", "ranking", "scope", "routes",
+    "independenceNoticeEn", "independenceNoticeFi", "ranking", "scope",
+    "evidenceStack", "supplementaryRequests", "routes",
 }
 
 
@@ -169,11 +197,25 @@ SCOPE_KEYS = {
     "period", "provisional2026En", "provisional2026Fi", "preferredFormats",
     "requestPrinciplesEn", "requestPrinciplesFi", "commonFieldsEn", "commonFieldsFi",
 }
+EVIDENCE_STACK_KEYS = {
+    "stateUniverseCount", "stateUniverseEn", "stateUniverseFi",
+    "methodBoundaryEn", "methodBoundaryFi", "layers",
+}
+EVIDENCE_LAYER_KEYS = {
+    "order", "layerId", "titleEn", "titleFi", "purposeEn", "purposeFi",
+    "outputEn", "outputFi",
+}
 ROUTE_KEYS = {
     "operationalRank", "priorityCode", "wave", "countryIso2", "countryEn", "countryFi",
     "status", "dispatch", "rationaleEn", "rationaleFi", "primaryAuthority", "recordsRequestedEn",
     "recordsRequestedFi", "requestChannel", "legalBasis", "languages",
     "requesterEligibility", "fallbackAuthority", "officialSources",
+}
+SUPPLEMENTARY_REQUEST_KEYS = {
+    "requestId", "countryIso2", "countsTowardCountryQueue", "status", "dispatch",
+    "authority", "purposeEn", "purposeFi", "queueBoundaryEn", "queueBoundaryFi",
+    "recordsRequestedEn", "recordsRequestedFi", "requestChannel", "legalBasis",
+    "officialSources",
 }
 AUTHORITY_KEYS = {"nameEn", "nameFi"}
 LINKED_AUTHORITY_KEYS = {"nameEn", "nameFi", "url"}
@@ -182,7 +224,7 @@ SOURCE_KEYS = {"labelEn", "labelFi", "url", "verifiedOn"}
 DISPATCH_KEYS = {"state", "sentOn", "publicAuthorityReference", "responseState"}
 
 OFFICIAL_HOSTS = {
-    "DE": {"bund.de", "destatis.de", "zoll.de"},
+    "DE": {"bund.de", "destatis.de", "gesetze-im-internet.de", "zoll.de"},
     "CA": {"canada.ca", "statcan.gc.ca"},
     "US": {"ftc.gov", "usitc.gov", "fda.gov", "cbp.gov"},
     "CN": {"stats.gov.cn", "customs.gov.cn", "samr.gov.cn"},
@@ -284,8 +326,10 @@ def require_text_list(value: Any, label: str, errors: list[str]) -> bool:
 def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     if not require_exact_keys(program, TOP_LEVEL_KEYS, "programme", errors):
         return
-    if program.get("schemaVersion") != 2:
-        errors.append("schemaVersion must be 2")
+    if program.get("schemaVersion") != 3:
+        errors.append("schemaVersion must be 3")
+    if program.get("programmeId") != "pixan-independent-top20-official-data-request-programme-v3":
+        errors.append("programmeId must identify the approved v3 programme")
     for field in ("programmeId", "independenceNoticeEn", "independenceNoticeFi"):
         require_text(program.get(field), field, errors)
     if not valid_iso_date(program.get("verificationDate")) or program.get("verificationDate") != EXPECTED_DATE:
@@ -307,6 +351,164 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         require_text(scope.get(field), f"scope.{field}", errors)
     for field in ("preferredFormats", "requestPrinciplesEn", "requestPrinciplesFi", "commonFieldsEn", "commonFieldsFi"):
         require_text_list(scope.get(field), f"scope.{field}", errors)
+
+    evidence_stack = program.get("evidenceStack")
+    if not require_exact_keys(evidence_stack, EVIDENCE_STACK_KEYS, "evidenceStack", errors):
+        return
+    if evidence_stack.get("stateUniverseCount") != EXPECTED_STATE_UNIVERSE_COUNT:
+        errors.append(f"evidenceStack.stateUniverseCount must be {EXPECTED_STATE_UNIVERSE_COUNT}")
+    for field in (
+        "stateUniverseEn", "stateUniverseFi", "methodBoundaryEn", "methodBoundaryFi",
+    ):
+        require_text(evidence_stack.get(field), f"evidenceStack.{field}", errors)
+    method_boundary_en = str(evidence_stack.get("methodBoundaryEn", "")).casefold()
+    method_boundary_fi = str(evidence_stack.get("methodBoundaryFi", "")).casefold()
+    if not all(term in method_boundary_en for term in (
+        "locked to one evidence group", "never mechanically added",
+        "reconciliation, uncertainty and confidence sit above all six layers",
+        "missing evidence remains missing", "never converted to zero",
+    )):
+        errors.append("English evidence-stack boundary must prohibit addition and missing-to-zero conversion")
+    if not all(term in method_boundary_fi for term in (
+        "lukitaan yhteen evidenssiryhmään", "koskaan lasketa mekaanisesti yhteen",
+        "täsmäytys, epävarmuus ja luottamus ovat kaikkien kuuden kerroksen yläpuolinen menetelmä",
+        "puuttuva näyttö säilyy puuttuvana", "eikä muutu nollaksi",
+    )):
+        errors.append("Finnish evidence-stack boundary must prohibit addition and missing-to-zero conversion")
+    layers = evidence_stack.get("layers")
+    if not isinstance(layers, list) or len(layers) != 6:
+        errors.append("evidenceStack must contain exactly six layers")
+        return
+    if any(not isinstance(layer, dict) for layer in layers):
+        errors.append("every evidence-stack layer must be an object")
+        return
+    layer_ids: list[str] = []
+    layer_orders: list[int] = []
+    for index, layer in enumerate(layers):
+        label = f"evidenceStack.layers[{index}]"
+        if not require_exact_keys(layer, EVIDENCE_LAYER_KEYS, label, errors):
+            continue
+        layer_ids.append(layer.get("layerId"))
+        layer_orders.append(layer.get("order"))
+        if type(layer.get("order")) is not int:
+            errors.append(f"{label}.order must be an integer")
+        for field in (
+            "layerId", "titleEn", "titleFi", "purposeEn", "purposeFi",
+            "outputEn", "outputFi",
+        ):
+            require_text(layer.get(field), f"{label}.{field}", errors)
+    if tuple(layer_ids) != EXPECTED_EVIDENCE_LAYER_IDS:
+        errors.append("evidence-stack layer IDs or order differ from the approved six-layer method")
+    if layer_orders != list(range(1, 7)):
+        errors.append("evidence-stack layer order must be the unique integers 1-6")
+
+    supplementary_requests = program.get("supplementaryRequests")
+    if not isinstance(supplementary_requests, list):
+        errors.append("supplementaryRequests must be an array")
+        return
+    if len(supplementary_requests) != len(EXPECTED_SUPPLEMENTARY_DISPATCH):
+        errors.append("supplementary request set differs from the approved public record")
+        return
+    supplementary_ids: set[str] = set()
+    for request in supplementary_requests:
+        request_id = request.get("requestId", "?") if isinstance(request, dict) else "?"
+        label = f"supplementary request {request_id}"
+        if not require_exact_keys(request, SUPPLEMENTARY_REQUEST_KEYS, label, errors):
+            continue
+        expected = EXPECTED_SUPPLEMENTARY_DISPATCH.get(request_id)
+        if expected is None or request_id in supplementary_ids:
+            errors.append(f"{label}: unapproved or duplicate supplementary request")
+            continue
+        supplementary_ids.add(request_id)
+        if request.get("countryIso2") != expected["countryIso2"]:
+            errors.append(f"{label}: country differs from the approved public record")
+        if request.get("countsTowardCountryQueue") is not False:
+            errors.append(f"{label}: supplementary route must not count as another country")
+        if request.get("status") != "sent":
+            errors.append(f"{label}: approved supplementary route must be sent")
+        dispatch = request.get("dispatch")
+        if require_exact_keys(dispatch, DISPATCH_KEYS, f"{label}.dispatch", errors):
+            expected_dispatch = {
+                "state": expected["state"],
+                "sentOn": expected["sentOn"],
+                "publicAuthorityReference": expected["publicAuthorityReference"],
+                "responseState": expected["responseState"],
+            }
+            if dispatch != expected_dispatch or request.get("status") != dispatch.get("state"):
+                errors.append(f"{label}: dispatch tracking differs from the approved public record")
+            if not valid_iso_date(dispatch.get("sentOn")) or dispatch.get("sentOn") > EXPECTED_DATE:
+                errors.append(f"{label}: sentOn must be valid and no later than verificationDate")
+            if dispatch.get("publicAuthorityReference") is not None:
+                errors.append(f"{label}: no public authority reference is approved")
+        for field in (
+            "requestId", "countryIso2", "purposeEn", "purposeFi",
+            "queueBoundaryEn", "queueBoundaryFi",
+        ):
+            require_text(request.get(field), f"{label}.{field}", errors)
+        for field in ("recordsRequestedEn", "recordsRequestedFi"):
+            require_text_list(request.get(field), f"{label}.{field}", errors)
+        nested_schemas = (
+            (request.get("authority"), AUTHORITY_KEYS, f"{label}.authority"),
+            (request.get("requestChannel"), LINKED_AUTHORITY_KEYS, f"{label}.requestChannel"),
+            (request.get("legalBasis"), AUTHORITY_KEYS, f"{label}.legalBasis"),
+        )
+        nested_valid = all(
+            require_exact_keys(value, keys, nested_label, errors)
+            for value, keys, nested_label in nested_schemas
+        )
+        if nested_valid:
+            for nested_name in ("authority", "requestChannel", "legalBasis"):
+                for field, value in request[nested_name].items():
+                    require_text(value, f"{label}.{nested_name}.{field}", errors)
+        if request.get("requestChannel", {}).get("url") != EXPECTED_BVL_CHANNEL_URL:
+            errors.append(f"{label}: BVL official contact route differs from the verified URL")
+        queue_en = str(request.get("queueBoundaryEn", "")).casefold()
+        queue_fi = str(request.get("queueBoundaryFi", "")).casefold()
+        if not all(term in queue_en for term in (
+            "adds no country", "12-sent/8-draft", "does not replace",
+        )):
+            errors.append(f"{label}: English queue boundary is incomplete")
+        if not all(term in queue_fi for term in (
+            "ei lisää maata", "12 lähetetyn ja 8 luonnoksen", "ei korvaa",
+        )):
+            errors.append(f"{label}: Finnish queue boundary is incomplete")
+        sources = request.get("officialSources")
+        if not isinstance(sources, list) or len(sources) < 2:
+            errors.append(f"{label}: at least two official sources are required")
+            continue
+        allowed_hosts = OFFICIAL_HOSTS.get(request.get("countryIso2"), set())
+        urls = [request.get("requestChannel", {}).get("url")]
+        source_hosts: set[str] = set()
+        for source in sources:
+            if not require_exact_keys(source, SOURCE_KEYS, f"{label}.officialSources[]", errors):
+                continue
+            for field, value in source.items():
+                require_text(value, f"{label}.officialSources[].{field}", errors)
+            if not valid_iso_date(source.get("verifiedOn")) or source["verifiedOn"] > EXPECTED_DATE:
+                errors.append(f"{label}: official source verification date must be valid and no later than {EXPECTED_DATE}")
+            urls.append(source.get("url"))
+        source_urls = {
+            source.get("url") for source in sources if isinstance(source, dict)
+        }
+        if source_urls != {EXPECTED_BVL_GUIDANCE_URL, EXPECTED_TABAKERZV_25_URL}:
+            errors.append(f"{label}: BVL guidance or official section 25 source differs from the verified set")
+        for url in urls:
+            if not isinstance(url, str):
+                errors.append(f"{label}: official URL must be a string")
+                continue
+            parsed = urlparse(url)
+            host = (parsed.hostname or "").casefold()
+            if parsed.scheme != "https" or not host or parsed.username or parsed.password:
+                errors.append(f"{label}: URL must be a public HTTPS URL without credentials: {url}")
+            elif not official_host(host, allowed_hosts):
+                errors.append(f"{label}: URL host is not on the country official-domain allowlist: {host}")
+            source_hosts.add(host)
+        if not any(official_host(host, {"bund.de"}) for host in source_hosts):
+            errors.append(f"{label}: BVL official source or channel is required")
+        if "www.gesetze-im-internet.de" not in source_hosts:
+            errors.append(f"{label}: official section 25 law source is required")
+    if supplementary_ids != set(EXPECTED_SUPPLEMENTARY_DISPATCH):
+        errors.append("supplementary request IDs differ from the approved public record")
 
     routes = program.get("routes")
     if not isinstance(routes, list) or len(routes) != 20:
@@ -535,6 +737,25 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
             errors.append("published CSV exposes a process-response correspondence reference")
         if any(row["isMarketSizeRanking"] != "false" for row in rows):
             errors.append("published CSV must mark isMarketSizeRanking=false")
+        if any(row["stateUniverseCount"] != str(EXPECTED_STATE_UNIVERSE_COUNT) for row in rows):
+            errors.append("published CSV must retain the 195-state research universe")
+        if any(row["evidenceStackLayerCount"] != "6" for row in rows):
+            errors.append("published CSV must retain the six-layer evidence stack")
+        germany_rows = [row for row in rows if row["countryIso2"] == "DE"]
+        if len(germany_rows) != 1 or (
+            germany_rows[0]["supplementaryRequestCount"] != "1"
+            or germany_rows[0]["supplementarySentRequestCount"] != "1"
+            or germany_rows[0]["supplementaryRequestIds"] != "DE-BVL-TABAKERZV25-ANNUAL-SALES"
+        ):
+            errors.append("published CSV must expose the one sent German BVL supplementary route")
+        if any(
+            row["supplementaryRequestCount"] != "0"
+            or row["supplementarySentRequestCount"] != "0"
+            or row["supplementaryRequestIds"]
+            for row in rows
+            if row["countryIso2"] != "DE"
+        ):
+            errors.append("published CSV must not add supplementary routes to other countries")
         if any(
             re.sub(r"[^a-z]", "", header.casefold()) in PRIVATE_METADATA_KEYS
             for header in (rows[0] if rows else {})
@@ -586,9 +807,10 @@ def main() -> int:
         return 1
 
     print(
-        "PASS: schema v2 with 12 sent, 8 draft and 4 privacy-safe process-response country routes; "
-        "0 substantive data responses, operational ranking, official HTTPS URLs, requester caveats, "
-        "and generated files verified."
+        "PASS: schema v3 with a 195-state six-layer evidence stack; 12 sent, 8 draft and "
+        "4 privacy-safe process-response country routes; one sent non-counting German BVL "
+        "supplementary route; 0 substantive data responses, operational ranking, official "
+        "HTTPS URLs, requester caveats, and generated files verified."
     )
     return 0
 

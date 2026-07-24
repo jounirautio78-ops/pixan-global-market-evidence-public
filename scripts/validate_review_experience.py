@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the v19 decision, donor, audit and freshness views."""
+"""Fail-closed validation for the v20 decision, donor, audit and freshness views."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ DATA = SITE / "data"
 
 EXPECTED_OFFICIAL_COUNTRIES = {"CA", "DE", "FI", "NZ", "PL", "SE", "US"}
 EXPECTED_PROCESS_STATES = {
-    "DE": "receipt_and_ifg_forwarding_confirmed",
+    "DE": "registered_and_processing_confirmed",
     "DK": "automated_receipt_acknowledged",
     "FI": "registered_processing_notice_received",
     "SE": "automated_route_correction_received",
@@ -154,10 +154,10 @@ def validate_review_data(
     observations = market.get("observations")
     models = market.get("models")
     if not isinstance(sources, list) or len(sources) != 20:
-        errors.append("Freshness ledger requires exactly 20 reviewed market sources for v19")
+        errors.append("Freshness ledger requires exactly 20 reviewed market sources for v20")
         sources = []
     if not isinstance(observations, list) or len(observations) != 43:
-        errors.append("v19 market baseline must contain exactly 43 observations")
+        errors.append("v20 market baseline must contain exactly 43 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -213,7 +213,7 @@ def validate_review_data(
     official_countries = {item.get("countryIso2") for item in official}
     if len(official) != 34 or official_countries != EXPECTED_OFFICIAL_COUNTRIES:
         errors.append(
-            "v19 official numeric baseline must retain 34 observations across CA, DE, FI, NZ, PL, SE and US"
+            "v20 official numeric baseline must retain 34 observations across CA, DE, FI, NZ, PL, SE and US"
         )
     official_retail = [
         item for item in official
@@ -228,7 +228,7 @@ def validate_review_data(
         or {item.get("countryIso2") for item in official_retail} != {"CA", "NZ"}
         or any(item.get("comparableMarketValue") is not False for item in official_retail)
     ):
-        errors.append("v19 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
+        errors.append("v20 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
 
     readiness = market.get("meta", {}).get("modelReadiness", {})
     declared_donors = readiness.get("comparableFullYearMarketValueDonors")
@@ -261,7 +261,7 @@ def validate_review_data(
         "DE-2025-LIQUID-RETAIL-MODEL",
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }:
-        errors.append("v19 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
+        errors.append("v20 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
 
     germany_models = [item for item in models if item.get("modelId") == GERMANY_MODEL_ID]
     if len(germany_models) != 1:
@@ -329,6 +329,44 @@ def validate_review_data(
         errors.append("v18 patent baseline must retain three unresolved proceedings")
     if not isinstance(alerts, list) or len(alerts) != 4:
         errors.append("v18 patent baseline must contain four diligence alerts")
+
+    if requests.get("schemaVersion") != 3:
+        errors.append("Research Operations requires request-programme schema version 3")
+    evidence_stack = requests.get("evidenceStack")
+    expected_layer_ids = [
+        "statutory_sales",
+        "excise_domestic_release",
+        "customs_net_imports",
+        "retail_or_shipments",
+        "price_channel_bridge",
+        "enforcement_signal",
+    ]
+    if (
+        not isinstance(evidence_stack, dict)
+        or evidence_stack.get("stateUniverseCount") != 195
+        or [
+            layer.get("layerId")
+            for layer in evidence_stack.get("layers", [])
+            if isinstance(layer, dict)
+        ] != expected_layer_ids
+    ):
+        errors.append("Research Operations requires the reviewed six-layer 195-state evidence stack")
+    supplements = requests.get("supplementaryRequests")
+    if (
+        not isinstance(supplements, list)
+        or len(supplements) != 1
+        or supplements[0].get("requestId") != "DE-BVL-TABAKERZV25-ANNUAL-SALES"
+        or supplements[0].get("countryIso2") != "DE"
+        or supplements[0].get("countsTowardCountryQueue") is not False
+        or supplements[0].get("status") != "sent"
+        or supplements[0].get("dispatch") != {
+            "state": "sent",
+            "sentOn": "2026-07-24",
+            "publicAuthorityReference": None,
+            "responseState": "not_publicly_recorded",
+        }
+    ):
+        errors.append("Research Operations requires the non-counting German BVL supplement")
 
     routes = requests.get("routes")
     if not isinstance(routes, list) or len(routes) != 20:
@@ -488,10 +526,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-24-19") < 7:
-        errors.append("review.html asset cache-busters must all use the v19 release")
-    if index_html.count("2026-07-24-19") < 4:
-        errors.append("index.html asset cache-busters must all use the v19 release")
+    if review_html.count("2026-07-24-20") < 7:
+        errors.append("review.html asset cache-busters must all use the v20 release")
+    if index_html.count("2026-07-24-20") < 4:
+        errors.append("index.html asset cache-busters must all use the v20 release")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -520,6 +558,9 @@ def validate_review_structure(
         "function reviewScenarioRange(",
         "EUR = alkuperäinen rahamäärä ÷ ECB:n vuosikeskiarvo",
         "EUR = original monetary amount ÷ ECB annual average",
+        "requestData.schemaVersion !== 3",
+        "DE-BVL-TABAKERZV25-ANNUAL-SALES",
+        "enforcement_signal",
     ):
         if required_market_hook not in review_js:
             errors.append(f"review.js lacks required v18 reconciliation hook {required_market_hook}")
@@ -575,7 +616,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v19 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "Validated v20 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
         "waterfall, deterministic 20-source ledger, separated operations view and required UI hooks."
     )
 

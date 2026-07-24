@@ -2074,8 +2074,38 @@ async function initReview() {
       const routes = Array.isArray(requestData.routes) ? requestData.routes : [];
       const ranked = [...routes].sort((a, b) => a.operationalRank - b.operationalRank);
       const uniqueCountries = new Set(routes.map((route) => route.countryIso2));
-      if (requestData.schemaVersion !== 2 || routes.length !== 20 || uniqueCountries.size !== 20
-        || ranked.slice(0, 10).some((route, index) => route.operationalRank !== index + 1)) {
+      const expectedLayerIds = [
+        "statutory_sales",
+        "excise_domestic_release",
+        "customs_net_imports",
+        "retail_or_shipments",
+        "price_channel_bridge",
+        "enforcement_signal"
+      ];
+      const evidenceLayers = Array.isArray(requestData.evidenceStack?.layers)
+        ? requestData.evidenceStack.layers
+        : [];
+      const supplements = Array.isArray(requestData.supplementaryRequests)
+        ? requestData.supplementaryRequests
+        : [];
+      const bvlSupplement = supplements[0];
+      if (requestData.schemaVersion !== 3
+        || routes.length !== 20
+        || uniqueCountries.size !== 20
+        || ranked.slice(0, 10).some((route, index) => route.operationalRank !== index + 1)
+        || requestData.evidenceStack?.stateUniverseCount !== 195
+        || evidenceLayers.length !== 6
+        || evidenceLayers.some((layer, index) =>
+          layer.order !== index + 1 || layer.layerId !== expectedLayerIds[index])
+        || supplements.length !== 1
+        || bvlSupplement?.requestId !== "DE-BVL-TABAKERZV25-ANNUAL-SALES"
+        || bvlSupplement?.countryIso2 !== "DE"
+        || bvlSupplement?.countsTowardCountryQueue !== false
+        || bvlSupplement?.status !== "sent"
+        || bvlSupplement?.dispatch?.state !== "sent"
+        || bvlSupplement?.dispatch?.sentOn !== "2026-07-24"
+        || bvlSupplement?.dispatch?.publicAuthorityReference !== null
+        || bvlSupplement?.dispatch?.responseState !== "not_publicly_recorded") {
         throw new Error("schema validation failed");
       }
       reviewRequestData = requestData;

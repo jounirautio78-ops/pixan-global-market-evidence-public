@@ -1,7 +1,76 @@
 {
+  "evidenceStack": {
+    "layers": [
+      {
+        "layerId": "statutory_sales",
+        "order": 1,
+        "outputEn": "Reported quantity or value with product, brand, period, coverage, suppression and revision metadata.",
+        "outputFi": "Ilmoitettu määrä tai arvo sekä tuote-, brändi-, ajanjakso-, kattavuus-, salaus- ja revisiotiedot.",
+        "purposeEn": "Obtain annual sales, shipment or product-notification measures that manufacturers and importers must report to a competent authority.",
+        "purposeFi": "Hanki vuosittaiset myynti-, toimitus- tai tuoteilmoitusmittarit, jotka valmistajien ja maahantuojien on ilmoitettava toimivaltaiselle viranomaiselle.",
+        "titleEn": "Statutory sales and product reporting",
+        "titleFi": "Lakisääteinen myynti- ja tuoteyksilöinti"
+      },
+      {
+        "layerId": "excise_domestic_release",
+        "order": 2,
+        "outputEn": "Tax-paid or released-for-consumption physical quantity and fiscal bridge, not consumer retail sales unless independently demonstrated.",
+        "outputFi": "Verotettu tai kulutukseen luovutettu fyysinen määrä ja verosilta, ei kuluttajavähittäismyynti ilman erillistä näyttöä.",
+        "purposeEn": "Reproduce taxable litres or units from realised receipts, statutory rates or release-for-consumption records while separating refunds, exports, destruction and rate changes.",
+        "purposeFi": "Johda verotetut litrat tai kappaleet toteutuneista verotuotoista, lakisääteisistä verokannoista tai kulutukseenluovutustiedoista pitäen palautukset, viennin, hävityksen ja verokantamuutokset erillään.",
+        "titleEn": "Excise and domestic release",
+        "titleFi": "Valmistevero ja kotimaan kulutukseen luovutus"
+      },
+      {
+        "layerId": "customs_net_imports",
+        "order": 3,
+        "outputEn": "Net-import or apparent-consumption supply proxy with classification breaks and mirror-data use disclosed.",
+        "outputFi": "Nettotuonnin tai näennäiskulutuksen tarjontaproksi, jossa luokituskatkot ja peiliaineiston käyttö ilmoitetaan.",
+        "purposeEn": "Reconcile domestic production, imports, exports and inventory where product codes and units are sufficiently specific and mutually exclusive.",
+        "purposeFi": "Täsmäytä kotimainen tuotanto, tuonti, vienti ja varastomuutos, kun tuotekoodit ja yksiköt ovat riittävän tarkkoja ja toisensa poissulkevia.",
+        "titleEn": "Customs and net imports",
+        "titleFi": "Tulli ja nettotuonti"
+      },
+      {
+        "layerId": "retail_or_shipments",
+        "order": 4,
+        "outputEn": "Annual value or physical volume with coverage and exclusions; shipment value is never relabelled as retail sales.",
+        "outputFi": "Vuosittainen arvo tai fyysinen määrä kattavuuksineen ja poissulkuineen; toimitusarvoa ei koskaan nimetä vähittäismyynniksi.",
+        "purposeEn": "Measure consumer retail sell-through or manufacturer/importer shipments using official series or licensed commercial data, retaining the measured stage as a hard distinction.",
+        "purposeFi": "Mittaa kuluttajavähittäismyynti tai valmistaja- ja maahantuojatoimitukset virallisella sarjalla tai lisensoidulla kaupallisella datalla säilyttäen mitattu vaihe ehdottomana erotteluna.",
+        "titleEn": "Retail or manufacturer/importer evidence",
+        "titleFi": "Vähittäismyynti- tai valmistaja/maahantuojanäyttö"
+      },
+      {
+        "layerId": "price_channel_bridge",
+        "order": 5,
+        "outputEn": "Low/base/high value bridge with mutually exclusive hardware, liquid, pod or cartridge and prefilled-disposable segments, not an observed sale unless independently measured.",
+        "outputFi": "Ala-, perus- ja ylärajan arvosilta toisensa poissulkevilla laite-, neste-, podi tai patruuna- ja esitäytetty kertakäyttötuote -segmenteillä; ei havaittu myynti ilman erillistä mittausta.",
+        "purposeEn": "Translate compatible physical quantities into a retail-equivalent range using dated product-segment prices, channel weights and a documented tax basis.",
+        "purposeFi": "Muunna yhteensopivat fyysiset määrät vähittäisarvon vaihteluväliksi päivätyillä tuotesegmenttihinnoilla, kanavapainoilla ja dokumentoidulla veroperustalla.",
+        "titleEn": "Price and channel bridge",
+        "titleFi": "Hinta- ja kanavasilta"
+      },
+      {
+        "layerId": "enforcement_signal",
+        "order": 6,
+        "outputEn": "Directional illicit-risk signal only; never lawful sales and never added to tax, customs, shipment or retail measures.",
+        "outputFi": "Vain suuntaa antava laittoman markkinan riskisignaali; ei koskaan laillista myyntiä eikä lisättävissä vero-, tulli-, toimitus- tai vähittäismyyntimittareihin.",
+        "purposeEn": "Track seizures, destruction, recalls and enforcement outcomes separately as product-presence and illicit-risk signals.",
+        "purposeFi": "Seuraa takavarikkoja, hävityksiä, takaisinvetoja ja valvontatuloksia erillisinä tuoteläsnäolon ja laittoman markkinan riskisignaaleina.",
+        "titleEn": "Enforcement and seizures",
+        "titleFi": "Valvonta ja takavarikot"
+      }
+    ],
+    "methodBoundaryEn": "The six layers are alternative and cross-checking evidence paths. Each source and product remains locked to one evidence group and measured supply-chain stage for a country-year. The layers must be reconciled country by country, never mechanically added. Reconciliation, uncertainty and confidence sit above all six layers. Missing evidence remains missing and is never converted to zero.",
+    "methodBoundaryFi": "Kuusi kerrosta ovat vaihtoehtoisia ja toisiaan tarkistavia evidenssireittejä. Jokainen lähde ja tuote lukitaan yhteen evidenssiryhmään ja mitattuun toimitusketjun vaiheeseen maavuotta kohden. Kerrokset täsmäytetään maittain eikä niitä koskaan lasketa mekaanisesti yhteen. Täsmäytys, epävarmuus ja luottamus ovat kaikkien kuuden kerroksen yläpuolinen menetelmä. Puuttuva näyttö säilyy puuttuvana eikä muutu nollaksi.",
+    "stateUniverseCount": 195,
+    "stateUniverseEn": "Reusable research architecture for the 193 UN members plus the Holy See and the State of Palestine. This is a sovereign-state universe, not a claim that 195 markets are already quantified.",
+    "stateUniverseFi": "Uudelleenkäytettävä tutkimusrakenne 193 YK:n jäsenelle sekä Pyhälle istuimelle ja Palestiinan valtiolle. Tämä on suvereenien valtioiden universumi, ei väite siitä, että 195 markkinaa olisi jo kvantifioitu."
+  },
   "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process state. It does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
   "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessitilan. Se ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
-  "programmeId": "pixan-independent-top20-official-data-request-programme-v2",
+  "programmeId": "pixan-independent-top20-official-data-request-programme-v3",
   "ranking": {
     "isMarketSizeRanking": false,
     "statementEn": "The order prioritises evidence accessibility, strategic and patent-family relevance, and request feasibility. It is not a ranking of national market size.",
@@ -15,7 +84,7 @@
       "countryIso2": "DE",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "receipt_and_ifg_forwarding_confirmed",
+        "responseState": "registered_and_processing_confirmed",
         "sentOn": "2026-07-23",
         "state": "sent"
       },
@@ -1281,7 +1350,7 @@
       "wave": "1B"
     }
   ],
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "scope": {
     "commonFieldsEn": [
       "Month or year and whether the measure is release for domestic consumption, manufacturer/importer shipment, wholesale sale or retail sell-through",
@@ -1319,5 +1388,60 @@
     ]
   },
   "status": "partially_dispatched",
+  "supplementaryRequests": [
+    {
+      "authority": {
+        "nameEn": "Federal Office of Consumer Protection and Food Safety (BVL)",
+        "nameFi": "Saksan liittovaltion kuluttajansuoja- ja elintarviketurvallisuusvirasto (BVL)"
+      },
+      "countryIso2": "DE",
+      "countsTowardCountryQueue": false,
+      "dispatch": {
+        "publicAuthorityReference": null,
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-24",
+        "state": "sent"
+      },
+      "legalBasis": {
+        "nameEn": "Tobacco Products Ordinance (TabakerzV), section 25; aggregate-information request",
+        "nameFi": "Tupakkatuoteasetus (TabakerzV) 25 §; aggregaattitietopyyntö"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Tobacco Products Ordinance, section 25",
+          "labelFi": "Tupakkatuoteasetuksen 25 §",
+          "url": "https://www.gesetze-im-internet.de/tabakerzv/__25.html",
+          "verifiedOn": "2026-07-24"
+        },
+        {
+          "labelEn": "BVL annual-reporting and EU-CEG guidance",
+          "labelFi": "BVL:n vuosiraportointi- ja EU-CEG-ohje",
+          "url": "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html?thema=Mitteilungspflicht",
+          "verifiedOn": "2026-07-24"
+        }
+      ],
+      "purposeEn": "Request an existing machine-readable aggregate of annual e-cigarette and refill-container sales reported under section 25 of the Tobacco Products Ordinance and EU-CEG, by year, brand and product type where disclosure rules permit.",
+      "purposeFi": "Pyydä olemassa oleva koneluettava aggregaatti TabakerzV 25 §:n ja EU-CEG:n nojalla ilmoitetuista sähkösavukkeiden ja täyttösäiliöiden vuosimyynneistä vuoden, brändin ja tuotetyypin mukaan siltä osin kuin julkisuussäännöt sallivat.",
+      "queueBoundaryEn": "Supplementary route within Germany. It adds no country, does not change the 12-sent/8-draft country queue, and does not replace the Customs/Destatis request or its recorded process state.",
+      "queueBoundaryFi": "Saksan sisäinen täydentävä reitti. Se ei lisää maata tai muuta 12 lähetetyn ja 8 luonnoksen maajonoa, ja se ei korvaa tullin/Destatisin pyyntöä tai sen kirjattua prosessitilaa.",
+      "recordsRequestedEn": [
+        "Annual aggregate sales quantities for 2016-2025 by brand and product type, including nicotine-containing and nicotine-free e-cigarettes and refill containers where held",
+        "National totals where brand-level cells cannot be disclosed, plus reporting-entity and product coverage, missing or late reports, suppressed cells and revisions",
+        "Definitions, units and the distinction between reported sales, shipments, notifications and modelled values"
+      ],
+      "recordsRequestedFi": [
+        "Vuosien 2016-2025 aggregoidut myyntimäärät brändin ja tuotetyypin mukaan sisältäen hallussa olevilta osin nikotiinilliset ja nikotiinittomat sähkösavukkeet ja täyttösäiliöt",
+        "Kansalliset kokonaismäärät, jos bränditason soluja ei voida luovuttaa, sekä raportoija- ja tuotekattavuus, puuttuvat tai myöhästyneet ilmoitukset, salatut solut ja revisiot",
+        "Määritelmät, yksiköt sekä ilmoitetun myynnin, toimitusten, tuoteilmoitusten ja mallinnettujen arvojen erottelu"
+      ],
+      "requestChannel": {
+        "nameEn": "BVL official contact route",
+        "nameFi": "BVL:n virallinen yhteydenottoreitti",
+        "url": "https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html"
+      },
+      "requestId": "DE-BVL-TABAKERZV25-ANNUAL-SALES",
+      "status": "sent"
+    }
+  ],
   "verificationDate": "2026-07-24"
 }

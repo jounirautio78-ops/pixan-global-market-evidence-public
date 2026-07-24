@@ -74,8 +74,8 @@ EXPECTED_OUTREACH_NOTES = {
         "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 24.7.2026 mennessä. Ensimmäinen seuranta on 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
     ),
     "euromonitor-passport-nicotine": (
-        "A written response and an 8-page Tobacco brochure were received after the meeting. The brochure documents an overall 100-country Passport Tobacco list, e-vapour category taxonomy, 2010-2029 market-size periods, 2014-2024 company and brand-share periods and 2010-2024 retail-channel periods; it does not confirm exact e-vapour country-product coverage. A non-binding multi-option quote request was sent on 2026-07-24 for full-global, core-global, 20- and 25-country, and add-on pricing; one-off and subscription; single-user and small-team terms; transaction-use rights; and resending the missing numerical Excel/CSV sample. No reviewable numerical sample, detailed methodology, confirmed e-vapour country-product coverage matrix, quote, licence terms, usable data, price, purchase or commitment.",
-        "Tapaamisen jälkeen vastaanotettiin kirjallinen vastaus ja 8-sivuinen Tobacco-esite. Esite dokumentoi Passport Tobaccon 100 maan kokonaislistan, sähkötupakkatuotteiden luokittelun, markkinakokosarjojen ajanjakson 2010–2029, yritys- ja brändiosuuksien ajanjakson 2014–2024 sekä vähittäiskanavasarjojen ajanjakson 2010–2024; se ei vahvista täsmällistä sähkötupakan maa–tuote-peittoa. Ei-sitova monivaihtoehtoinen tarjouspyyntö lähetettiin 24.7.2026 täyden globaalin, rajatun globaalin, 20 ja 25 maan sekä lisäosien hinnoittelusta; kertaostosta ja tilauksesta; yhden käyttäjän ja pienen tiimin ehdoista; transaktiokäyttöoikeuksista; sekä puuttuvan numeerisen Excel/CSV-näytteen uudelleenlähetyksestä. Ei tarkistettavaa numeerista näytettä, yksityiskohtaista menetelmää, vahvistettua sähkötupakan maa–tuote-peittomatriisia, tarjousta, lisenssiehtoja, käyttökelpoista dataa, hintaa, ostoa eikä sitoumusta.",
+        "Two written responses and an 8-page Tobacco brochure are recorded. The brochure documents an overall 100-country Passport Tobacco list, e-vapour category taxonomy, 2010-2029 market-size periods, 2014-2024 company and brand-share periods and 2010-2024 retail-channel periods; it does not confirm exact e-vapour country-product coverage. On 2026-07-24, non-binding follow-ups requested a multi-option quote, resending the missing numerical Excel/CSV sample, written confirmation whether manufacturer or brand fields include VOOPOO, SMOK and Lost Vape or equivalent fields, and a current Germany evaluation report plus Excel/CSV sample with actual annual values and volumes, EUR and tax basis, devices, pods or cartridges, liquids, history, forecasts, definitions, sources and observed/reported/modelled distinctions. Euromonitor subsequently stated that it can provide samples, detailed answers and pricing after the role/access model is clarified; its statement that coverage and granularity have expanded is vendor narrative, not proof of the current numerical dataset. A role/access clarification is pending and has not been sent. No reviewable numerical Germany sample, written brand-field confirmation, itemised price, detailed methodology, confirmed e-vapour country-product coverage matrix, licence terms or written rights for derived client outputs, usable data, purchase, fee or commitment.",
+        "Kaksi kirjallista vastausta ja 8-sivuinen Tobacco-esite on kirjattu. Esite dokumentoi Passport Tobaccon 100 maan kokonaislistan, sähkötupakkatuotteiden luokittelun, markkinakokosarjojen ajanjakson 2010–2029, yritys- ja brändiosuuksien ajanjakson 2014–2024 sekä vähittäiskanavasarjojen ajanjakson 2010–2024; se ei vahvista täsmällistä sähkötupakan maa–tuote-peittoa. Ei-sitovissa jatkoviesteissä 24.7.2026 pyydettiin monivaihtoehtoinen tarjous, puuttuvan numeerisen Excel/CSV-näytteen uudelleenlähetys, kirjallinen vahvistus siitä, sisältävätkö valmistaja- tai brändikentät VOOPOO-, SMOK- ja Lost Vape -tiedot tai vastaavat kentät, sekä nykyinen Saksan arviointiraportti ja Excel/CSV-näyte todellisilla vuotuisilla arvoilla ja määrillä, EUR- ja veroperustalla, laite-, pod-/patruuna- ja nestemäärillä, historialla, ennusteilla, määritelmillä, lähteillä sekä observed/reported/modelled-erottelulla. Euromonitor ilmoitti tämän jälkeen voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; väite peiton ja tarkkuuden kasvusta on toimittajan kuvaus, ei näyttö nykyisestä numeerisesta aineistosta. Rooli- ja käyttömallin täsmennys odottaa eikä sitä ole lähetetty. Ei tarkistettavaa numeerista Saksa-näytettä, kirjallista brändikenttävahvistusta, eriteltyä hintaa, yksityiskohtaista menetelmää, vahvistettua sähkötupakan maa–tuote-peittomatriisia, lisenssiehtoja tai kirjallisia oikeuksia johdettuihin asiakastuotoksiin, käyttökelpoista dataa, ostoa, maksua eikä sitoumusta.",
     ),
     "niq-rms-pilot": (
         "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
@@ -110,7 +110,7 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-EXPECTED_XLSX_SHA256 = "7e6b412269cbef5fd38ca4fd335b8a0540d10bda5a9f1d0fac072262330c5fd2"
+EXPECTED_XLSX_SHA256 = "bfbf577e33cd8f4abd4c43d4b590c36cc485ee49dc58ea87abeb5f4991f93214"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
@@ -125,10 +125,10 @@ EXPECTED_RESPONSE_ROWS = (
         "euromonitor-passport-nicotine",
         "Euromonitor International",
         "Passport Nicotine / e-vapour country series",
-        "WRITTEN RESPONSE + BROCHURE RECEIVED · MULTI-OPTION QUOTE + NUMERICAL SAMPLE REQUEST SENT · RESPONSE PENDING\nFI: KIRJALLINEN VASTAUS + ESITE SAATU · MONIVAIHTOEHTOINEN TARJOUS + NUMEERINEN NÄYTE PYYDETTY · VASTAUS ODOTTAA",
+        "TWO WRITTEN RESPONSES + BROCHURE RECEIVED · GERMANY SAMPLE + PRICING PENDING · ROLE/ACCESS CLARIFICATION PENDING · NOT SENT\nFI: KAKSI KIRJALLISTA VASTAUSTA + ESITE SAATU · SAKSA-NÄYTE + HINNOITTELU ODOTTAVAT · ROOLI-/KÄYTTÖMALLIN TÄSMENNYS ODOTTAA · EI LÄHETETTY",
         None,
         "='Sources'!C9",
-        "Status only. A follow-up requesting a multi-option quote and numerical sample was sent. The 8-page brochure documents an overall 100-country Passport Tobacco list, not verified e-vapour product-country coverage, plus e-vapour taxonomy and series periods. The numerical sample, itemised price, detailed method, licence terms and verified e-vapour product-country coverage remain pending. No usable data, purchase or commitment.",
+        "Status only. Euromonitor says it can provide samples, detailed answers and pricing after the role/access model is clarified. The role/access clarification is pending and has not been sent. The brochure and vendor statement about expanded granularity are not numerical market evidence. The Germany sample, written brand confirmation, itemised price, detailed method, coverage, licence and written derived-output rights remain pending. No usable data, purchase, fee or commitment.",
     ),
     (
         "niq-rms-pilot",
@@ -217,7 +217,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         return
     if source.get("status") != "decision_support_only_no_purchase_authorised":
         errors.append("source must state that no purchase is authorised")
-    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.24-19":
+    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.24-20":
         errors.append("source date or version is invalid")
 
     weights = source.get("weights")

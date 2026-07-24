@@ -36,28 +36,106 @@ class VendorResponseControlTests(unittest.TestCase):
         )
         self.assertEqual(
             vendor["publicStatusEn"],
-            "Written response and an 8-page brochure received; the brochure's 100-country "
-            "list is the overall Passport Tobacco scope, not confirmed e-vapour "
-            "country-product coverage; a non-binding multi-option quote request and "
-            "numerical-sample resend request were sent 2026-07-24; the reviewable "
-            "numerical sample, quote and licence terms remain pending",
+            "Two written responses and an 8-page brochure received. Quote, numerical-sample, "
+            "Germany-evaluation and brand-field requests were sent on 2026-07-24. "
+            "Euromonitor says it can provide samples, detailed answers and pricing after the "
+            "role/access model is clarified; that clarification is pending and has not been "
+            "sent. Pending: numerical Germany sample, written brand-field confirmation, "
+            "price, method, coverage and written derived-output rights. "
+            "The brochure's 100-country list is not confirmed e-vapour "
+            "country-product coverage.",
         )
         self.assertEqual(
             vendor["publicStatusFi"],
-            "Kirjallinen vastaus ja 8-sivuinen esite vastaanotettu; esitteen 100 maan "
-            "lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan "
-            "maa–tuote-peittoa; ei-sitova monivaihtoehtoinen tarjouspyyntö ja numeerisen "
-            "näytteen uudelleenlähetyspyyntö lähetettiin 24.7.2026; tarkistettava "
-            "numeerinen näyte, tarjous ja lisenssiehdot odottavat",
+            "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen "
+            "näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. "
+            "Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia "
+            "ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; täsmennys odottaa "
+            "eikä sitä ole lähetetty. Odottavat: numeerinen Saksa-näyte, kirjallinen "
+            "brändikenttävahvistus, hinta, menetelmä, peitto ja kirjalliset johdettujen "
+            "tuotosten oikeudet. "
+            "Esitteen 100 maan lista ei ole vahvistettu sähkötupakan maa–tuote-peitto.",
         )
         self.assertIn("not confirmed e-vapour country-product coverage", vendor["publicStatusEn"])
-        self.assertIn("multi-option quote request", vendor["publicStatusEn"])
+        self.assertIn("Germany-evaluation", vendor["publicStatusEn"])
+        self.assertIn("written brand-field confirmation", vendor["publicStatusEn"])
+        self.assertIn("clarification is pending and has not been sent", vendor["publicStatusEn"])
+        self.assertIn("written derived-output rights", vendor["publicStatusEn"])
+        self.assertNotIn("CEO", vendor["publicStatusEn"])
+        self.assertNotIn("single-consultant", vendor["publicStatusEn"])
+        self.assertNotIn("account history", vendor["publicStatusEn"])
         self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
         self.assertFalse(vendor["purchaseAuthorised"])
         self.assertEqual(candidate["summary"]["substantiveResponses"], 1)
+
+    def test_germany_benchmark_is_not_testable_and_uses_reviewed_anchors(self) -> None:
+        benchmark = self.source["germanyBenchmark"]
+        self.assertEqual(benchmark["status"], "not_testable")
+        self.assertEqual(
+            [
+                (
+                    item["year"],
+                    item["value"],
+                    item["finality"],
+                    item["role"],
+                )
+                for item in benchmark["officialAnchors"]
+            ],
+            [
+                (2023, 1_241_000, "final", "pass_test"),
+                (2024, 1_284_000, "final", "pass_test"),
+                (2025, 1_518_000, "provisional", "context_only"),
+            ],
+        )
+        self.assertEqual(
+            benchmark["thresholds"]["annualDeviation"]["maximumPct"],
+            15,
+        )
+        self.assertEqual(
+            benchmark["thresholds"]["twoYearCumulativeDeviation"]["maximumPct"],
+            10,
+        )
+        self.assertTrue(benchmark["vendorPassDoesNotEstablishDonorPass"])
+        self.assertEqual(benchmark["donorGateEffect"], "none")
+        self.assertIn("0/3", benchmark["donorBoundaryEn"])
+
+    def test_germany_benchmark_rejects_changed_anchor_or_threshold(self) -> None:
+        for field, mutation, expected_error in (
+            (
+                "anchor",
+                lambda candidate: candidate["germanyBenchmark"]["officialAnchors"][0].update(
+                    {"value": 1_240_999}
+                ),
+                "Germany 2023 official anchor differs",
+            ),
+            (
+                "annual threshold",
+                lambda candidate: candidate["germanyBenchmark"]["thresholds"][
+                    "annualDeviation"
+                ].update({"maximumPct": 16}),
+                "Germany annualDeviation threshold differs",
+            ),
+        ):
+            with self.subTest(field=field):
+                candidate = copy.deepcopy(self.source)
+                mutation(candidate)
+                errors: list[str] = []
+                validate_source(candidate, errors)
+                self.assertIn(expected_error, errors)
+
+    def test_germany_vendor_gate_cannot_claim_donor_acceptance(self) -> None:
+        candidate = copy.deepcopy(self.source)
+        candidate["germanyBenchmark"]["vendorPassDoesNotEstablishDonorPass"] = False
+        candidate["germanyBenchmark"]["donorGateEffect"] = "accepted_donor"
+        errors: list[str] = []
+        validate_source(candidate, errors)
+        self.assertTrue(
+            any("must not establish donor-market acceptance" in error for error in errors),
+            errors,
+        )
 
     def test_ecig_unanswered_state_retains_follow_up_without_evidence(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))

@@ -5,7 +5,7 @@
   if (!root) return;
 
   const OFFICIAL_HOSTS = {
-    DE: ["bund.de", "destatis.de", "zoll.de"],
+    DE: ["bund.de", "destatis.de", "gesetze-im-internet.de", "zoll.de"],
     CA: ["canada.ca", "statcan.gc.ca"],
     US: ["ftc.gov", "usitc.gov", "fda.gov", "cbp.gov"],
     CN: ["stats.gov.cn", "customs.gov.cn", "samr.gov.cn"],
@@ -43,6 +43,10 @@
       en: "Receipt and forwarding to the competent IFG unit confirmed — process only; no data received",
       fi: "Vastaanotto ja ohjaus toimivaltaiseen IFG-yksikköön vahvistettu — vain prosessitieto; ei dataa"
     },
+    registered_and_processing_confirmed: {
+      en: "Formally registered and under processing — process only; no data received",
+      fi: "Muodollisesti rekisteröity ja käsittelyssä — vain prosessitieto; ei dataa"
+    },
     registered_processing_notice_received: {
       en: "Registered; delay / possible-fee notice received — no fee accepted; no data received",
       fi: "Kirjattu diaariin; viive-/mahdollinen maksu -ilmoitus saatu — maksua ei hyväksytty; ei dataa"
@@ -61,7 +65,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "receipt_and_ifg_forwarding_confirmed"
+      responseState: "registered_and_processing_confirmed"
     },
     CA: {
       state: "sent",
@@ -126,6 +130,26 @@
     AU: {
       state: "sent",
       sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    }
+  };
+  const EXPECTED_EVIDENCE_LAYER_IDS = [
+    "statutory_sales",
+    "excise_domestic_release",
+    "customs_net_imports",
+    "retail_or_shipments",
+    "price_channel_bridge",
+    "enforcement_signal"
+  ];
+  const EXPECTED_BVL_CHANNEL_URL = "https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html";
+  const EXPECTED_BVL_GUIDANCE_URL = "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html?thema=Mitteilungspflicht";
+  const EXPECTED_TABAKERZV_25_URL = "https://www.gesetze-im-internet.de/tabakerzv/__25.html";
+  const EXPECTED_SUPPLEMENTARY_DISPATCH = {
+    "DE-BVL-TABAKERZV25-ANNUAL-SALES": {
+      countryIso2: "DE",
+      state: "sent",
+      sentOn: "2026-07-24",
       publicAuthorityReference: null,
       responseState: "not_publicly_recorded"
     }
@@ -210,9 +234,12 @@
   function validate(raw) {
     exactKeys(raw, [
       "schemaVersion", "programmeId", "verificationDate", "status",
-      "independenceNoticeEn", "independenceNoticeFi", "ranking", "scope", "routes"
+      "independenceNoticeEn", "independenceNoticeFi", "ranking", "scope",
+      "evidenceStack", "supplementaryRequests", "routes"
     ], "programme");
-    if (!raw || raw.schemaVersion !== 2 || raw.status !== "partially_dispatched") {
+    if (!raw || raw.schemaVersion !== 3
+      || raw.programmeId !== "pixan-independent-top20-official-data-request-programme-v3"
+      || raw.status !== "partially_dispatched") {
       throw new Error("unsupported request programme");
     }
     if (!validIsoDate(raw.verificationDate)) {
@@ -247,6 +274,116 @@
       || !raw.independenceNoticeFi.toLowerCase().includes("sisällöllisenä datana")
       || !raw.independenceNoticeFi.toLowerCase().includes("maksusitoumuksena")) {
       throw new Error("process-response boundary is missing");
+    }
+
+    exactKeys(raw.evidenceStack, [
+      "stateUniverseCount", "stateUniverseEn", "stateUniverseFi",
+      "methodBoundaryEn", "methodBoundaryFi", "layers"
+    ], "evidence stack");
+    if (raw.evidenceStack.stateUniverseCount !== 195
+      || ![raw.evidenceStack.stateUniverseEn, raw.evidenceStack.stateUniverseFi,
+        raw.evidenceStack.methodBoundaryEn, raw.evidenceStack.methodBoundaryFi].every(nonEmptyText)
+      || !Array.isArray(raw.evidenceStack.layers)
+      || raw.evidenceStack.layers.length !== 6) {
+      throw new Error("invalid 195-state evidence stack");
+    }
+    if (!raw.evidenceStack.methodBoundaryEn.toLowerCase().includes("locked to one evidence group")
+      || !raw.evidenceStack.methodBoundaryEn.toLowerCase().includes("never mechanically added")
+      || !raw.evidenceStack.methodBoundaryEn.toLowerCase().includes("reconciliation, uncertainty and confidence sit above all six layers")
+      || !raw.evidenceStack.methodBoundaryEn.toLowerCase().includes("never converted to zero")
+      || !raw.evidenceStack.methodBoundaryFi.toLowerCase().includes("lukitaan yhteen evidenssiryhmään")
+      || !raw.evidenceStack.methodBoundaryFi.toLowerCase().includes("koskaan lasketa mekaanisesti yhteen")
+      || !raw.evidenceStack.methodBoundaryFi.toLowerCase().includes("täsmäytys, epävarmuus ja luottamus ovat kaikkien kuuden kerroksen yläpuolinen menetelmä")
+      || !raw.evidenceStack.methodBoundaryFi.toLowerCase().includes("eikä muutu nollaksi")) {
+      throw new Error("evidence-stack reconciliation boundary is missing");
+    }
+    for (const [index, layer] of raw.evidenceStack.layers.entries()) {
+      exactKeys(layer, [
+        "order", "layerId", "titleEn", "titleFi", "purposeEn", "purposeFi",
+        "outputEn", "outputFi"
+      ], "evidence layer");
+      if (layer.order !== index + 1 || layer.layerId !== EXPECTED_EVIDENCE_LAYER_IDS[index]
+        || ![layer.titleEn, layer.titleFi, layer.purposeEn, layer.purposeFi,
+          layer.outputEn, layer.outputFi].every(nonEmptyText)) {
+        throw new Error("evidence-stack layer differs from the approved method");
+      }
+    }
+
+    if (!Array.isArray(raw.supplementaryRequests)
+      || raw.supplementaryRequests.length !== Object.keys(EXPECTED_SUPPLEMENTARY_DISPATCH).length) {
+      throw new Error("supplementary request set differs from the approved public record");
+    }
+    const supplementaryIds = new Set();
+    for (const request of raw.supplementaryRequests) {
+      exactKeys(request, [
+        "requestId", "countryIso2", "countsTowardCountryQueue", "status", "dispatch",
+        "authority", "purposeEn", "purposeFi", "queueBoundaryEn", "queueBoundaryFi",
+        "recordsRequestedEn", "recordsRequestedFi", "requestChannel", "legalBasis",
+        "officialSources"
+      ], "supplementary request");
+      const expected = EXPECTED_SUPPLEMENTARY_DISPATCH[request.requestId];
+      if (!expected || supplementaryIds.has(request.requestId)
+        || request.countryIso2 !== expected.countryIso2
+        || request.countsTowardCountryQueue !== false
+        || request.status !== "sent") {
+        throw new Error("unapproved supplementary request");
+      }
+      supplementaryIds.add(request.requestId);
+      exactKeys(request.dispatch, ["state", "sentOn", "publicAuthorityReference", "responseState"], "supplementary dispatch");
+      if (request.dispatch.state !== expected.state
+        || request.dispatch.sentOn !== expected.sentOn
+        || request.dispatch.publicAuthorityReference !== expected.publicAuthorityReference
+        || request.dispatch.responseState !== expected.responseState
+        || request.dispatch.state !== request.status
+        || !validIsoDate(request.dispatch.sentOn)
+        || request.dispatch.sentOn > raw.verificationDate) {
+        throw new Error("supplementary dispatch differs from the approved public record");
+      }
+      exactKeys(request.authority, ["nameEn", "nameFi"], "supplementary authority");
+      exactKeys(request.requestChannel, ["nameEn", "nameFi", "url"], "supplementary request channel");
+      exactKeys(request.legalBasis, ["nameEn", "nameFi"], "supplementary legal basis");
+      if (![request.requestId, request.countryIso2, request.purposeEn, request.purposeFi,
+        request.queueBoundaryEn, request.queueBoundaryFi].every(nonEmptyText)
+        || ![request.recordsRequestedEn, request.recordsRequestedFi].every(textArray)
+        || !Object.values(request.authority).every(nonEmptyText)
+        || !Object.values(request.requestChannel).every(nonEmptyText)
+        || !Object.values(request.legalBasis).every(nonEmptyText)) {
+        throw new Error("supplementary request metadata has invalid field types");
+      }
+      if (!request.queueBoundaryEn.toLowerCase().includes("adds no country")
+        || !request.queueBoundaryEn.toLowerCase().includes("12-sent/8-draft")
+        || !request.queueBoundaryFi.toLowerCase().includes("ei lisää maata")
+        || !request.queueBoundaryFi.toLowerCase().includes("12 lähetetyn ja 8 luonnoksen")) {
+        throw new Error("supplementary country-count boundary is missing");
+      }
+      const allowedHosts = OFFICIAL_HOSTS[request.countryIso2];
+      if (!allowedHosts || !validOfficialHttps(request.requestChannel.url, allowedHosts)
+        || !Array.isArray(request.officialSources) || request.officialSources.length < 2) {
+        throw new Error("supplementary request lacks official source routes");
+      }
+      if (request.requestChannel.url !== EXPECTED_BVL_CHANNEL_URL) {
+        throw new Error("BVL contact route differs from the verified source");
+      }
+      const sourceHosts = new Set([new URL(request.requestChannel.url).hostname.toLowerCase()]);
+      const sourceUrls = new Set();
+      for (const source of request.officialSources) {
+        exactKeys(source, ["labelEn", "labelFi", "url", "verifiedOn"], "supplementary official source");
+        if (![source.labelEn, source.labelFi, source.url, source.verifiedOn].every(nonEmptyText)
+          || !validIsoDate(source.verifiedOn)
+          || source.verifiedOn > raw.verificationDate
+          || !validOfficialHttps(source.url, allowedHosts)) {
+          throw new Error("invalid supplementary official source");
+        }
+        sourceHosts.add(new URL(source.url).hostname.toLowerCase());
+        sourceUrls.add(source.url);
+      }
+      if (![...sourceHosts].some((host) => host === "bvl.bund.de" || host.endsWith(".bvl.bund.de"))
+        || !sourceHosts.has("www.gesetze-im-internet.de")
+        || sourceUrls.size !== 2
+        || !sourceUrls.has(EXPECTED_BVL_GUIDANCE_URL)
+        || !sourceUrls.has(EXPECTED_TABAKERZV_25_URL)) {
+        throw new Error("BVL and section 25 official sources are required");
+      }
     }
     if (!Array.isArray(raw.routes) || raw.routes.length !== 20) {
       throw new Error("expected exactly 20 routes");
@@ -373,6 +510,119 @@
     return l("Ei julkista prosessivastausta kirjattu", "No public process response recorded");
   }
 
+  function renderEvidenceStack() {
+    const container = root.querySelector("[data-request-program-stack]");
+    const stack = programme.evidenceStack;
+    const header = element("div", "request-program-stack-head");
+    const heading = element("div");
+    heading.append(
+      element("p", "eyebrow", l(
+        "Maailmanlaajuinen tutkimusarkkitehtuuri",
+        "Global research architecture"
+      )),
+      element("h3", "", l(
+        `${stack.stateUniverseCount} valtiota · kuusi evidenssikerrosta`,
+        `${stack.stateUniverseCount} states · six evidence layers`
+      ))
+    );
+    header.append(
+      heading,
+      element("p", "", isFi() ? stack.stateUniverseFi : stack.stateUniverseEn)
+    );
+
+    const grid = element("div", "request-program-stack-grid");
+    for (const layer of stack.layers) {
+      const card = element("article", "request-program-stack-card");
+      card.append(
+        element("span", "request-program-stack-order", String(layer.order).padStart(2, "0")),
+        element("h4", "", isFi() ? layer.titleFi : layer.titleEn),
+        element("p", "", isFi() ? layer.purposeFi : layer.purposeEn),
+        element("small", "", isFi() ? layer.outputFi : layer.outputEn)
+      );
+      grid.append(card);
+    }
+
+    const boundary = element(
+      "p",
+      "request-program-stack-boundary",
+      isFi() ? stack.methodBoundaryFi : stack.methodBoundaryEn
+    );
+    container.replaceChildren(header, grid, boundary);
+    container.hidden = false;
+  }
+
+  function renderSupplementaryRequest(request) {
+    const panel = element("aside", "request-program-supplement");
+    const head = element("div", "request-program-supplement-head");
+    head.append(
+      element("span", "request-program-supplement-label", l(
+        "Täydentävä viranomaisreitti",
+        "Supplementary authority route"
+      )),
+      element("span", "request-program-status request-program-status-sent", l("Lähetetty", "Sent"))
+    );
+    panel.append(
+      head,
+      element("strong", "", isFi() ? request.authority.nameFi : request.authority.nameEn),
+      element("p", "request-program-supplement-purpose", isFi() ? request.purposeFi : request.purposeEn)
+    );
+
+    const meta = element("ul", "request-program-meta request-program-supplement-meta");
+    meta.append(
+      metadata(l("Lähetyspäivä", "Sent on"), request.dispatch.sentOn),
+      metadata(
+        l("Vaikutus maajonoon", "Country-queue effect"),
+        l("Ei lisää maata tai muuta 12/8-laskureita", "Adds no country and does not change 12/8 counts")
+      ),
+      metadata(
+        l("Vastaustila", "Response state"),
+        processStatusText(request.dispatch.responseState)
+      ),
+      metadata(
+        l("Oikeusperusta", "Legal basis"),
+        isFi() ? request.legalBasis.nameFi : request.legalBasis.nameEn
+      )
+    );
+    panel.append(meta);
+
+    const records = element("details", "request-program-sources request-program-supplement-records");
+    records.append(element("summary", "", l("Pyydetyt aggregaatit", "Requested aggregates")));
+    const list = element("ul", "request-program-supplement-list");
+    const requested = isFi() ? request.recordsRequestedFi : request.recordsRequestedEn;
+    for (const item of requested) list.append(element("li", "", item));
+    records.append(list);
+    panel.append(records);
+
+    const sources = element("details", "request-program-sources");
+    sources.append(element("summary", "", l("Viralliset BVL- ja lakilähteet", "Official BVL and law sources")));
+    const sourceLinks = element("div", "request-program-source-links");
+    for (const source of request.officialSources) {
+      const sourceLink = element("a", "", isFi() ? source.labelFi : source.labelEn);
+      sourceLink.href = source.url;
+      sourceLink.target = "_blank";
+      sourceLink.rel = "noopener noreferrer";
+      sourceLinks.append(sourceLink);
+    }
+    sources.append(sourceLinks);
+    panel.append(sources);
+
+    panel.append(element(
+      "p",
+      "request-program-caveat",
+      isFi() ? request.queueBoundaryFi : request.queueBoundaryEn
+    ));
+    const channel = element(
+      "a",
+      "button button-secondary button-small request-program-link",
+      l("Avaa BVL:n virallinen kanava", "Open BVL official channel")
+    );
+    channel.href = request.requestChannel.url;
+    channel.target = "_blank";
+    channel.rel = "noopener noreferrer";
+    panel.append(channel);
+    return panel;
+  }
+
   function renderRoute(route) {
     const card = element("article", "request-program-card");
     card.dataset.wave = route.wave || "";
@@ -461,16 +711,63 @@
     link.target = "_blank";
     link.rel = "noopener noreferrer";
 
-    card.append(head, title, rationale, meta, caveat, sources, link);
+    const supplements = programme.supplementaryRequests.filter(
+      (request) => request.countryIso2 === route.countryIso2
+    );
+    card.append(head, title, rationale, meta, caveat);
+    card.append(...supplements.map(renderSupplementaryRequest), sources, link);
     return card;
+  }
+
+  function renderSectionCopy(routes) {
+    const sentCount = routes.filter((route) => route.status === "sent").length;
+    const draftCount = routes.length - sentCount;
+    const processResponseCount = routes.filter(
+      (route) => Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)
+    ).length;
+    const supplementarySentCount = programme.supplementaryRequests.filter(
+      (request) => request.status === "sent"
+    ).length;
+    root.querySelector("[data-request-program-kicker]").textContent = l(
+      "Maailmanlaajuinen evidenssihankinta · julkinen reittiseuranta",
+      "Global evidence acquisition · public route tracking"
+    );
+    root.querySelector("[data-request-program-title]").textContent = l(
+      "195 valtion evidenssipino ja 20 maan tietopyyntöjono",
+      "195-state evidence stack and 20-country request queue"
+    );
+    root.querySelector("[data-request-program-intro]").textContent = l(
+      "Kaikille suvereeneille valtioille uudelleenkäytettävä kuusikerroksinen menetelmä sekä ensimmäiset 20 maareittiä priorisoituina evidenssin operatiivisen saatavuuden, ei markkinakoon, mukaan.",
+      "A reusable six-layer method for all sovereign states, with the first 20 country routes prioritised for operational evidence access—not national market size."
+    );
+    const boundary = root.querySelector("[data-request-program-boundary]");
+    boundary.setAttribute(
+      "aria-label",
+      l("Tietopyyntöjen tilaraja", "Data-request status boundary")
+    );
+    root.querySelector("[data-request-program-boundary-mark]").textContent = l("TILA", "STATUS");
+    root.querySelector("[data-request-program-boundary-summary]").textContent = l(
+      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti lähetetty · ${processResponseCount} prosessivastausta · 0 sisällöllistä viranomaisdatavastausta`,
+      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route sent · ${processResponseCount} process responses · 0 substantive authority-data responses`
+    );
+    root.querySelector("[data-request-program-boundary-copy]").textContent = l(
+      "Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata tai korvaa tullin/Destatisin prosessitietoa. Julkiset kategoriset prosessitilat eivät ole sisällöllisiä datavastauksia eivätkä osoita markkina-arvoa. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
+      "The supplementary BVL request is part of Germany and does not add a country or replace the Customs/Destatis process record. Public categorical process states are not substantive data responses and establish no market value. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
+    );
+    root.querySelector("[data-request-program-note]").textContent = l(
+      "Kuusi evidenssikerrosta ovat vaihtoehtoisia ja toisiaan tarkistavia. Vero-, myynti-, tulli-, toimitus- ja takavarikkosarjoja ei saa laskea mekaanisesti yhteen; takavarikot eivät ole laillista myyntiä.",
+      "The six evidence layers are alternatives and cross-checks. Tax, sales, customs, shipment and seizure series must not be added mechanically; seizures are not lawful sales."
+    );
   }
 
   function renderReady() {
     root.querySelector("[data-request-program-boundary]").hidden = false;
     root.querySelector("[data-request-program-actions]").hidden = false;
     root.querySelector("[data-request-program-note]").hidden = false;
-    const grid = root.querySelector("[data-request-program-routes]");
     const routes = [...programme.routes].sort((left, right) => left.operationalRank - right.operationalRank);
+    renderSectionCopy(routes);
+    renderEvidenceStack();
+    const grid = root.querySelector("[data-request-program-routes]");
     grid.replaceChildren(...routes.map(renderRoute));
     grid.hidden = false;
 
@@ -480,12 +777,15 @@
     const processResponseCount = routes.filter(
       (route) => Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)
     ).length;
+    const supplementarySentCount = programme.supplementaryRequests.filter(
+      (request) => request.status === "sent"
+    ).length;
     status.className = "bank-package-status bank-package-status-ready";
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `${sentCount} lähetetty · ${draftCount} luonnosta · ${processResponseCount} prosessivastausta · 0 sisällöllistä datavastausta · tarkistettu ${programme.verificationDate}.`,
-        `${sentCount} sent · ${draftCount} drafts · ${processResponseCount} process responses · 0 substantive data responses · verified ${programme.verificationDate}.`
+        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä pyyntö lähetetty · ${processResponseCount} prosessivastausta · 0 sisällöllistä datavastausta · tarkistettu ${programme.verificationDate}.`,
+        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary request sent · ${processResponseCount} process responses · 0 substantive data responses · verified ${programme.verificationDate}.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");
@@ -496,6 +796,7 @@
     root.querySelector("[data-request-program-boundary]").hidden = true;
     root.querySelector("[data-request-program-actions]").hidden = true;
     root.querySelector("[data-request-program-note]").hidden = true;
+    root.querySelector("[data-request-program-stack]").hidden = true;
     const status = root.querySelector("[data-request-program-status]");
     status.className = "bank-package-status bank-package-status-error";
     status.replaceChildren(

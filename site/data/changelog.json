@@ -3,6 +3,40 @@
   "asOf": "2026-07-24",
   "releases": [
     {
+      "id": "2026-07-24-global-authority-replication-v20",
+      "version": "2026.07.24-20",
+      "publishedAt": "2026-07-24T16:18:12+03:00",
+      "titleEn": "Worldwide authority-replication model, Germany evidence supplement and vendor benchmark gate",
+      "titleFi": "Maailmanlaajuinen viranomaismalli, Saksan evidenssitäydennys ja toimittajadatan vertailuportti",
+      "items": [
+        {
+          "category": "method",
+          "textEn": "Added a reusable six-layer evidence stack for the 195-sovereign-state research base: mandatory sales or product notifications, excise and domestic release, customs and net imports, retail or shipment evidence, price and channel bridges, and separately labelled enforcement or seizure signals. Measures remain separate, overlap locks are explicit and missing inputs remain not_computed.",
+          "textFi": "Lisättiin 195 suvereenin valtion tutkimuspohjaan monistettava kuusikerroksinen evidenssimalli: pakolliset myynti- tai tuoteilmoitukset, valmistevero ja kotimainen kulutukseen luovutus, tulli ja nettotuonti, vähittäis- tai toimitusevidenssi, hinta- ja kanavasillat sekä erikseen merkityt valvonta- tai takavarikkosignaalit. Mittarit pidetään erillään, päällekkäisyyslukot ovat näkyviä ja puuttuvat syötteet pysyvät tilassa not_computed."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Germany's customs information request is now recorded as formally registered and under processing, with no substantive data received. A supplementary aggregate annual-sales request was sent to the federal consumer-protection authority under the annual-reporting route in section 25 of the Tobacco Products Ordinance. It has not yet been acknowledged and adds no market figure.",
+          "textFi": "Saksan tullille osoitettu tietopyyntö on nyt kirjattu muodollisesti rekisteröidyksi ja käsittelyssä olevaksi; varsinaista dataa ei ole saatu. Liittovaltion kuluttajansuojaviranomaiselle lähetettiin täydentävä aggregoitujen vuosimyyntien pyyntö tupakkatuoteasetuksen 25 §:n vuosi-ilmoitusreitin perusteella. Pyyntöä ei ole vielä kuitattu, eikä se lisää markkinalukua."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a Germany-first numerical vendor benchmark. A sample cannot be scored until comparable liquid totals, units, category definitions, tax treatment, method and transaction-use rights are supplied. The current state is not_testable; passing the benchmark would validate the sample against the German anchor only and would not by itself make Germany an accepted donor market.",
+          "textFi": "Lisättiin Saksaan ensisijaisesti sovellettava numeerisen toimittajadatan vertailuportti. Näytettä ei voida pisteyttää ennen kuin vertailukelpoiset nestemäärät, yksiköt, kategoriarajaukset, verokohtelu, menetelmä ja transaktiokäyttöoikeudet on toimitettu. Nykytila on not_testable; vertailuportin läpäisy validoisi näytteen vain Saksan ankkuria vasten eikä yksin tekisi Saksasta hyväksyttyä luovuttajamarkkinaa."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Updated the commercial-data control with the Germany-sample and named-brand clarification requests. Euromonitor subsequently stated that it is willing to provide samples, detailed answers and pricing after the role/access model is clarified; that clarification is pending and has not been sent. The numerical sample, coverage matrix, method, itemised price and written derived-output or transaction-use rights remain pending. No vendor sample is scored, no purchase is authorised and no vendor number is used as evidence.",
+          "textFi": "Päivitettiin kaupallisen datan valvonta Saksan näytettä ja nimettyjen brändien käsittelyä koskevilla tarkennuspyynnöillä. Euromonitor ilmoitti tämän jälkeen olevansa valmis toimittamaan näytteitä, yksityiskohtaisia vastauksia ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; täsmennys odottaa eikä sitä ole lähetetty. Numeerinen näyte, peittomatriisi, menetelmä, eritelty hinta ja kirjalliset johdettujen tuotosten tai transaktiokäytön oikeudet odottavat edelleen. Yhtään toimittajanäytettä ei ole pisteytetty, ostoa ei ole hyväksytty eikä toimittajan lukua käytetä evidenssinä."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Refreshed the bilingual 6-, 12- and 30-slide lender or buyer decks and both 53-row Evidence Registers to the same v20 release boundary. Publication tests now run the review, donor, FX and privacy mutation suites in both the quality and Pages workflows.",
+          "textFi": "Päivitettiin kaksikieliset 6, 12 ja 30 dian lainanantaja- tai ostajadekit sekä molemmat 53-riviset evidenssirekisterit samaan v20-julkaisuun. Julkaisutestit suorittavat nyt katselun, luovuttajaportin, valuuttakurssien ja tietosuojan mutaatiotestit sekä laatu- että Pages-työnkuluissa."
+        }
+      ]
+    },
+    {
       "id": "2026-07-24-canada-retail-closure-board-v19",
       "version": "2026.07.24-19",
       "publishedAt": "2026-07-24T14:00:00+03:00",

@@ -96,6 +96,120 @@
       "labelFi": "Täydet ehdot"
     }
   ],
+  "germanyBenchmark": {
+    "benchmarkId": "de-taxed-e-liquid-volume-vendor-gate",
+    "countryIso2": "DE",
+    "donorBoundaryEn": "Passing this benchmark is only a vendor-sample quality gate. It does not make Germany an accepted donor, change the 0/3 donor count or unlock a global total; D1–D10 remain separate.",
+    "donorBoundaryFi": "Tämän vertailun läpäisy on vain toimittajanäytteen laatuportti. Se ei tee Saksasta hyväksyttyä luovuttajaa, muuta 0/3-luovuttajamäärää eikä avaa maailman kokonaisarvoa; D1–D10 arvioidaan erikseen.",
+    "donorGateEffect": "none",
+    "officialAnchors": [
+      {
+        "finality": "final",
+        "observationId": "DE-2023-TAXED-LIQUID-VOLUME-L",
+        "role": "pass_test",
+        "sourceId": "DE-DESTATIS-73411-0003",
+        "unit": "litre",
+        "value": 1241000,
+        "year": 2023
+      },
+      {
+        "finality": "final",
+        "observationId": "DE-2024-TAXED-LIQUID-VOLUME-L",
+        "role": "pass_test",
+        "sourceId": "DE-DESTATIS-73411-0003",
+        "unit": "litre",
+        "value": 1284000,
+        "year": 2024
+      },
+      {
+        "finality": "provisional",
+        "observationId": "DE-2025-TAXED-LIQUID-VOLUME-L",
+        "role": "context_only",
+        "sourceId": "DE-DESTATIS-73411-0003",
+        "unit": "litre",
+        "value": 1518000,
+        "year": 2025
+      }
+    ],
+    "requiredEvidence": [
+      {
+        "descriptionEn": "Devices, disposables, pods/cartridges and e-liquids are separated; liquid units can be reconciled in millilitres or litres.",
+        "descriptionFi": "Laitteet, kertakäyttötuotteet, podit/patruunat ja e-nesteet erotellaan; nestemäärät voidaan täsmäyttää millilitroina tai litroina.",
+        "id": "productSplits",
+        "labelEn": "Product and volume splits",
+        "labelFi": "Tuote- ja määräjaot"
+      },
+      {
+        "descriptionEn": "Value, volume, products, channels, supply-chain stage, history, forecasts and exclusions are explicit.",
+        "descriptionFi": "Arvo, määrä, tuotteet, kanavat, toimitusketjun vaihe, historia, ennusteet ja poissulut määritellään selkeästi.",
+        "id": "definitions",
+        "labelEn": "Definitions and exclusions",
+        "labelFi": "Määritelmät ja poissulut"
+      },
+      {
+        "descriptionEn": "Currency, VAT, excise, retail or wholesale basis and nominal or constant prices are documented.",
+        "descriptionFi": "Valuutta, ALV, valmistevero, vähittäis- tai tukkuporras sekä nimelliset tai kiinteät hinnat dokumentoidaan.",
+        "id": "taxBasis",
+        "labelEn": "Tax and value basis",
+        "labelFi": "Vero- ja arvoperusta"
+      },
+      {
+        "descriptionEn": "Observed, reported and modelled values are separated, with collection, estimation, projection and revision methods.",
+        "descriptionFi": "Havaitut, ilmoitetut ja mallinnetut arvot erotellaan sekä keruu-, arviointi-, ennuste- ja korjausmenetelmät kuvataan.",
+        "id": "methodology",
+        "labelEn": "Sources and method",
+        "labelFi": "Lähteet ja menetelmä"
+      },
+      {
+        "descriptionEn": "Written confirmation identifies which brand and manufacturer fields are included in the numerical export.",
+        "descriptionFi": "Kirjallinen vahvistus yksilöi numeeriseen vientiin sisältyvät brändi- ja valmistajakentät.",
+        "id": "brandFields",
+        "labelEn": "Brand and manufacturer fields",
+        "labelFi": "Brändi- ja valmistajakentät"
+      },
+      {
+        "descriptionEn": "Written rights cover controlled review by lenders, buyers, advisers and a transaction data room.",
+        "descriptionFi": "Kirjalliset oikeudet kattavat lainanantajien, ostajien, neuvonantajien ja transaktiodatahuoneen hallitun tarkastelun.",
+        "id": "transactionUseRights",
+        "labelEn": "Lender and M&A rights",
+        "labelFi": "Lainanantaja- ja yrityskauppaoikeudet"
+      },
+      {
+        "descriptionEn": "Total price, included updates, cancellation and auto-renewal position are explicit before any purchase decision.",
+        "descriptionFi": "Kokonaishinta, sisältyvät päivitykset, peruutus ja automaattisen uusinnan tila ovat selvät ennen ostopäätöstä.",
+        "id": "commercialTerms",
+        "labelEn": "Price and commercial terms",
+        "labelFi": "Hinta ja kaupalliset ehdot"
+      }
+    ],
+    "scopeEn": "Official taxed substitutes-for-tobacco liquid volume. This physical-volume anchor does not measure devices, untaxed or illicit sales, or total retail market value.",
+    "scopeFi": "Virallinen verotettujen tupakankorvikkeiden nestetilavuus. Tämä fyysisen määrän ankkuri ei mittaa laitteita, verotonta tai laitonta myyntiä eikä koko vähittäismarkkina-arvoa.",
+    "status": "not_testable",
+    "statusReasonEn": "No reviewable vendor numerical sample for Germany has been received, so deviations cannot yet be calculated.",
+    "statusReasonFi": "Saksasta ei ole saatu tarkistettavaa toimittajan numeerista näytettä, joten poikkeamia ei voida vielä laskea.",
+    "thresholds": {
+      "annualDeviation": {
+        "formulaEn": "abs(vendor litres - official litres) / official litres × 100; each final test year must be ≤15%.",
+        "formulaFi": "abs(toimittajan litrat - viralliset litrat) / viralliset litrat × 100; jokaisen lopullisen testivuoden on oltava ≤15 %.",
+        "maximumPct": 15,
+        "years": [
+          2023,
+          2024
+        ]
+      },
+      "twoYearCumulativeDeviation": {
+        "formulaEn": "abs(sum of vendor litres - sum of official litres) / sum of official litres × 100; 2023–2024 combined must be ≤10%.",
+        "formulaFi": "abs(toimittajan litrojen summa - virallisten litrojen summa) / virallisten litrojen summa × 100; vuosien 2023–2024 yhteispoikkeaman on oltava ≤10 %.",
+        "maximumPct": 10,
+        "years": [
+          2023,
+          2024
+        ]
+      }
+    },
+    "unit": "litre",
+    "vendorPassDoesNotEstablishDonorPass": true
+  },
   "mandatoryGates": [
     {
       "descriptionEn": "A representative, reviewable data sample has been received.",
@@ -148,7 +262,7 @@
   ],
   "publicBoundaryEn": "This public control shows only privacy-safe request status, evidence completeness and the scoring method. It does not publish correspondence, personal data, vendor files, unlicensed data or confidential commercial terms.",
   "publicBoundaryFi": "Tämä julkinen valvontanäkymä näyttää vain tietoturvallisen pyyntötilan, evidenssin täydellisyyden ja pisteytysmenetelmän. Se ei julkaise kirjeenvaihtoa, henkilötietoja, toimittajatiedostoja, lisensoimatonta dataa tai luottamuksellisia kaupallisia ehtoja.",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "scoreBoundaryEn": "A missing response or missing evidence is NOT SCORED, never zero. A weighted score is calculated only after every mandatory gate has passed and all seven criterion scores have been entered.",
   "scoreBoundaryFi": "Puuttuva vastaus tai puuttuva evidenssi on EI PISTEYTETTY, ei koskaan nolla. Painotettu pistemäärä lasketaan vasta, kun kaikki pakolliset portit on läpäisty ja kaikkien seitsemän kriteerin pisteet on syötetty.",
   "scoreScale": {
@@ -209,8 +323,8 @@
       "evidenceReceivedCount": 0,
       "mandatoryGatePassCount": 0,
       "product": "Passport Nicotine / e-vapour country series",
-      "publicStatusEn": "Written response and an 8-page brochure received; the brochure's 100-country list is the overall Passport Tobacco scope, not confirmed e-vapour country-product coverage; a non-binding multi-option quote request and numerical-sample resend request were sent 2026-07-24; the reviewable numerical sample, quote and licence terms remain pending",
-      "publicStatusFi": "Kirjallinen vastaus ja 8-sivuinen esite vastaanotettu; esitteen 100 maan lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan maa–tuote-peittoa; ei-sitova monivaihtoehtoinen tarjouspyyntö ja numeerisen näytteen uudelleenlähetyspyyntö lähetettiin 24.7.2026; tarkistettava numeerinen näyte, tarjous ja lisenssiehdot odottavat",
+      "publicStatusEn": "Two written responses and an 8-page brochure received. Quote, numerical-sample, Germany-evaluation and brand-field requests were sent on 2026-07-24. Euromonitor says it can provide samples, detailed answers and pricing after the role/access model is clarified; that clarification is pending and has not been sent. Pending: numerical Germany sample, written brand-field confirmation, price, method, coverage and written derived-output rights. The brochure's 100-country list is not confirmed e-vapour country-product coverage.",
+      "publicStatusFi": "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; täsmennys odottaa eikä sitä ole lähetetty. Odottavat: numeerinen Saksa-näyte, kirjallinen brändikenttävahvistus, hinta, menetelmä, peitto ja kirjalliset johdettujen tuotosten oikeudet. Esitteen 100 maan lista ei ole vahvistettu sähkötupakan maa–tuote-peitto.",
       "purchaseAuthorised": false,
       "receivedEvidence": {
         "coverageMatrix": false,
@@ -293,5 +407,5 @@
       "weightedScore": null
     }
   ],
-  "version": "2026.07.24-19"
+  "version": "2026.07.24-20"
 }

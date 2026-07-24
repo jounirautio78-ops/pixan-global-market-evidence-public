@@ -61,6 +61,11 @@ CSV_FIELDS = [
     "fallbackAuthorityFi",
     "fallbackUrl",
     "officialSourceUrls",
+    "stateUniverseCount",
+    "evidenceStackLayerCount",
+    "supplementaryRequestCount",
+    "supplementarySentRequestCount",
+    "supplementaryRequestIds",
     "verificationDate",
 ]
 
@@ -81,6 +86,11 @@ def render_json(program: dict[str, Any]) -> bytes:
 
 
 def flatten_route(program: dict[str, Any], route: dict[str, Any]) -> dict[str, Any]:
+    supplements = [
+        request
+        for request in program["supplementaryRequests"]
+        if request["countryIso2"] == route["countryIso2"]
+    ]
     return {
         "operationalRank": route["operationalRank"],
         "priorityCode": route["priorityCode"],
@@ -114,6 +124,15 @@ def flatten_route(program: dict[str, Any], route: dict[str, Any]) -> dict[str, A
         "fallbackAuthorityFi": route["fallbackAuthority"]["nameFi"],
         "fallbackUrl": route["fallbackAuthority"]["url"],
         "officialSourceUrls": " | ".join(source["url"] for source in route["officialSources"]),
+        "stateUniverseCount": program["evidenceStack"]["stateUniverseCount"],
+        "evidenceStackLayerCount": len(program["evidenceStack"]["layers"]),
+        "supplementaryRequestCount": len(supplements),
+        "supplementarySentRequestCount": sum(
+            request["status"] == "sent" for request in supplements
+        ),
+        "supplementaryRequestIds": " | ".join(
+            request["requestId"] for request in supplements
+        ),
         "verificationDate": program["verificationDate"],
     }
 
