@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0",
+  "asOf": "2026-07-24",
+  "publicBuildPolicy": {
+    "allowedRecordLaneIds": [
+      "public_reproducible"
+    ],
+    "metadataOnlyLaneIds": [
+      "licensed_controlled",
+      "private_pending_review"
+    ],
+    "ruleEn": "The public build may contain reviewed aggregate records only from the public_reproducible lane. Controlled licensed data and private pending-review material remain outside the public repository; this file exposes only their publication rules and empty status placeholders.",
+    "ruleFi": "Julkinen versio saa sisältää tarkistettuja koontitietueita vain public_reproducible-kaistalta. Hallittu lisensoitu aineisto ja yksityinen tarkistusta odottava aineisto pysyvät julkisen repositorion ulkopuolella; tämä tiedosto näyttää niistä vain julkaisusäännöt ja tyhjät tilapaikat."
+  },
+  "lanes": [
+    {
+      "laneId": "public_reproducible",
+      "order": 1,
+      "titleEn": "Public and reproducible",
+      "titleFi": "Julkinen ja toistettava",
+      "purposeEn": "Reviewed aggregates, method notes and public source links that an external reviewer can reproduce.",
+      "purposeFi": "Tarkistetut koontiluvut, menetelmämuistiot ja julkiset lähdelinkit, jotka ulkopuolinen tarkastaja voi toistaa.",
+      "publicExposure": "reviewed_aggregate_records",
+      "dataState": "reviewed_aggregate_records_available",
+      "publicationRuleEn": "Only source-linked aggregates that pass privacy and scope review may enter the public site.",
+      "publicationRuleFi": "Julkiselle sivulle saa viedä vain lähteistettyjä koontilukuja, jotka läpäisevät yksityisyys- ja rajaustarkistuksen."
+    },
+    {
+      "laneId": "licensed_controlled",
+      "order": 2,
+      "titleEn": "Licensed and controlled",
+      "titleFi": "Lisensoitu ja hallittu",
+      "purposeEn": "Licensed datasets that may be reviewed only in a permissioned lender or buyer data room when the licence permits that use.",
+      "purposeFi": "Lisensoidut aineistot, joita voidaan tarkastella vain käyttöoikeusrajatussa lainanantajan tai ostajan datahuoneessa lisenssin salliessa.",
+      "publicExposure": "metadata_placeholder_only",
+      "dataState": "no_public_records",
+      "publicationRuleEn": "No licensed values, rows, extracts or derived outputs are published until publication rights and a separate public-safe derivation are documented.",
+      "publicationRuleFi": "Lisensoituja arvoja, rivejä, otteita tai johdannaisia ei julkaista ennen kuin julkaisuoikeus ja erillinen julkaisukelpoinen johdannainen on dokumentoitu."
+    },
+    {
+      "laneId": "private_pending_review",
+      "order": 3,
+      "titleEn": "Private and pending review",
+      "titleFi": "Yksityinen ja tarkistusta odottava",
+      "purposeEn": "Submitted files, correspondence and unreviewed working material held outside the public repository.",
+      "purposeFi": "Toimitetut tiedostot, kirjeenvaihto ja tarkistamaton työaineisto, jotka säilytetään julkisen repositorion ulkopuolella.",
+      "publicExposure": "metadata_placeholder_only",
+      "dataState": "no_public_records",
+      "publicationRuleEn": "Nothing from this lane enters the public build automatically. A reviewer must create and approve a source-linked aggregate derivative first.",
+      "publicationRuleFi": "Mikään tämän kaistan aineisto ei siirry julkiseen versioon automaattisesti. Tarkastajan on ensin luotava ja hyväksyttävä lähteistetty koontijohdannainen."
+    }
+  ]
+}

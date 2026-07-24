@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "1.0",
+  "asOf": "2026-07-24",
+  "protocol": {
+    "protocolVersion": "1.0",
+    "acceptanceRuleEn": "A country-year enters the public donor count only when D1–D10 all pass with source-linked evidence. Failed, open or structurally invalid records remain outside the count.",
+    "acceptanceRuleFi": "Maa–vuosi lasketaan julkiseksi luovuttajamarkkinaksi vain, kun D1–D10 läpäisevät lähteistetyn tarkistuksen. Hylätty, avoin tai rakenteellisesti virheellinen tietue jää lukumäärän ulkopuolelle.",
+    "criteria": [
+      {
+        "criterionId": "D1",
+        "titleEn": "Complete calendar year",
+        "titleFi": "Kokonainen kalenterivuosi",
+        "requirementEn": "The figure covers one complete, identified calendar year.",
+        "requirementFi": "Luku kattaa yhden kokonaisen ja yksilöidyn kalenterivuoden."
+      },
+      {
+        "criterionId": "D2",
+        "titleEn": "Consumer retail transaction",
+        "titleFi": "Kuluttajavähittäiskaupan tapahtuma",
+        "requirementEn": "The transaction level is consumer retail sell-through, not a supply-stage proxy.",
+        "requirementFi": "Tapahtumataso on kuluttajavähittäismyynti eikä toimitusketjun korvikemittari."
+      },
+      {
+        "criterionId": "D3",
+        "titleEn": "Devices and consumables",
+        "titleFi": "Laitteet ja kulutustarvikkeet",
+        "requirementEn": "Devices and consumables are both covered, or their split is explicitly reconciled.",
+        "requirementFi": "Sekä laitteet että kulutustarvikkeet sisältyvät lukuun tai niiden jako on täsmäytetty."
+      },
+      {
+        "criterionId": "D4",
+        "titleEn": "Adjacent products controlled",
+        "titleFi": "Viereiset tuoteryhmät hallittu",
+        "requirementEn": "Heated tobacco, herbal smoking, smokeless tobacco and other adjacent products are excluded or separately quantified.",
+        "requirementFi": "Kuumennettava tupakka, yrttipolttotuotteet, savuton tupakka ja muut viereiset tuoteryhmät on rajattu pois tai määrällistetty erikseen."
+      },
+      {
+        "criterionId": "D5",
+        "titleEn": "National channel coverage",
+        "titleFi": "Valtakunnallinen kanavapeitto",
+        "requirementEn": "Nationwide channels are covered, or every material channel gap is quantified.",
+        "requirementFi": "Valtakunnalliset myyntikanavat on katettu tai jokainen olennainen kanavavaje on määrällistetty."
+      },
+      {
+        "criterionId": "D6",
+        "titleEn": "No supply-stage double counting",
+        "titleFi": "Ei toimitusketjun kaksoislaskentaa",
+        "requirementEn": "Manufacturer, importer, wholesaler and retailer stages are de-duplicated.",
+        "requirementFi": "Valmistaja-, maahantuoja-, tukku- ja vähittäiskauppatasot on deduplikoitu."
+      },
+      {
+        "criterionId": "D7",
+        "titleEn": "Method and missingness documented",
+        "titleFi": "Menetelmä ja puuttuvuus dokumentoitu",
+        "requirementEn": "Method, missingness, revisions and data-quality warnings are documented.",
+        "requirementFi": "Menetelmä, puuttuvuus, korjaukset ja aineiston laatuvaroitukset on dokumentoitu."
+      },
+      {
+        "criterionId": "D8",
+        "titleEn": "Currency and tax basis",
+        "titleFi": "Valuutta- ja veroperusta",
+        "requirementEn": "Currency and the treatment of VAT, GST and excise are explicit.",
+        "requirementFi": "Valuutta sekä arvonlisä-, kulutus- ja valmisteverojen käsittely on yksiselitteinen."
+      },
+      {
+        "criterionId": "D9",
+        "titleEn": "Public reproducibility",
+        "titleFi": "Julkinen toistettavuus",
+        "requirementEn": "A public aggregate and reproducible source chain are available without private or unlicensed raw records.",
+        "requirementFi": "Julkinen koontiluku ja toistettava lähdeketju ovat saatavilla ilman yksityisiä tai lisensoimattomia raakarekistereitä."
+      },
+      {
+        "criterionId": "D10",
+        "titleEn": "Independent reconciliation",
+        "titleFi": "Riippumaton täsmäytys",
+        "requirementEn": "The value is reconciled against an independent route or direct official validation.",
+        "requirementFi": "Luku on täsmäytetty riippumattomaan laskentareittiin tai suoraan viranomaisvalidointiin."
+      }
+    ]
+  },
+  "gate": {
+    "minimumAcceptedDonors": 3,
+    "coverageGateRequired": true,
+    "coverageGateStatus": "not_met",
+    "coverageRuleEn": "Accepted donors must also provide documented regional and regulatory-archetype coverage before a public global total can be calculated.",
+    "coverageRuleFi": "Hyväksyttyjen luovuttajamarkkinoiden on lisäksi muodostettava dokumentoitu alueellinen ja sääntelyarkkityyppien peitto ennen julkisen maailman kokonaisluvun laskemista."
+  },
+  "candidates": [
+    {
+      "candidateId": "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
+      "candidateType": "country_year",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2024,
+      "referenceType": "observation",
+      "referenceId": "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND",
+      "evidenceLaneId": "public_reproducible",
+      "declaredDecision": "not_accepted",
+      "headlineEn": "Official specialist-retail sales lower bound",
+      "headlineFi": "Virallinen erikoisvähittäiskaupan myynnin alaraja",
+      "criterionStatuses": [
+        {"criterionId": "D1", "status": "passed"},
+        {"criterionId": "D2", "status": "passed"},
+        {"criterionId": "D3", "status": "open"},
+        {"criterionId": "D4", "status": "failed"},
+        {"criterionId": "D5", "status": "failed"},
+        {"criterionId": "D6", "status": "passed"},
+        {"criterionId": "D7", "status": "passed"},
+        {"criterionId": "D8", "status": "open"},
+        {"criterionId": "D9", "status": "passed"},
+        {"criterionId": "D10", "status": "open"}
+      ],
+      "blockerEn": "The official value is an incomplete specialist-retail lower bound, excludes general retail and contains adjacent notifiable-product scope.",
+      "blockerFi": "Virallinen luku on puutteellinen erikoisvähittäiskaupan alaraja, jättää yleisvähittäiskaupan pois ja sisältää viereisten ilmoitusvelvollisten tuotteiden rajauksen.",
+      "nextEvidenceEn": "Reproduce the full retailer aggregate, separate vaping-only products, document GST and quantify missing channels; then reconcile against an independent route.",
+      "nextEvidenceFi": "Toista koko vähittäiskaupan koonti, erottele vain sähkötupakkatuotteet, dokumentoi GST ja määrällistä puuttuvat kanavat; täsmäytä sitten riippumattomaan reittiin.",
+      "acquisitionRouteEn": "New Zealand Ministry of Health annual-return workbooks and methodology, followed by an official, tax, import or retail-scanner reconciliation.",
+      "acquisitionRouteFi": "Uuden-Seelannin terveysministeriön vuosi-ilmoitustyökirjat ja menetelmä, minkä jälkeen viranomais-, vero-, tuonti- tai kassapaneelitäsmäytys.",
+      "responseStatus": "public_source_available",
+      "licenseStatus": "public_source_link_only",
+      "lastReviewedAt": "2026-07-24",
+      "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"]
+    },
+    {
+      "candidateId": "EU-2023-COMMISSION-BENCHMARK",
+      "candidateType": "regional_benchmark",
+      "countryIso2": null,
+      "geography": "European Union",
+      "year": 2023,
+      "referenceType": "observation",
+      "referenceId": "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK",
+      "evidenceLaneId": "public_reproducible",
+      "declaredDecision": "not_accepted",
+      "headlineEn": "European Commission-published regional benchmark",
+      "headlineFi": "Euroopan komission julkaisema alueellinen vertailuarvo",
+      "criterionStatuses": [
+        {"criterionId": "D1", "status": "passed"},
+        {"criterionId": "D2", "status": "open"},
+        {"criterionId": "D3", "status": "passed"},
+        {"criterionId": "D4", "status": "passed"},
+        {"criterionId": "D5", "status": "open"},
+        {"criterionId": "D6", "status": "open"},
+        {"criterionId": "D7", "status": "failed"},
+        {"criterionId": "D8", "status": "open"},
+        {"criterionId": "D9", "status": "failed"},
+        {"criterionId": "D10", "status": "open"}
+      ],
+      "blockerEn": "This is a regional benchmark based on an external commercial study; reusable country data and the full method are not public.",
+      "blockerFi": "Kyseessä on ulkopuoliseen kaupalliseen tutkimukseen perustuva alueellinen vertailuarvo; uudelleenkäytettävä maadata ja koko menetelmä eivät ole julkisia.",
+      "nextEvidenceEn": "Obtain country-level tables, transaction definition, channel coverage, tax basis and a non-duplicative official or retail reconciliation.",
+      "nextEvidenceFi": "Hanki maakohtaiset taulukot, tapahtumamääritelmä, kanavapeitto, veroperusta ja riippumaton viranomais- tai vähittäiskauppatäsmäytys.",
+      "acquisitionRouteEn": "European Commission source documents plus a rights-reviewed request or licence for the underlying country table.",
+      "acquisitionRouteFi": "Euroopan komission lähdeasiakirjat sekä oikeuksiltaan tarkistettu pyyntö tai lisenssi taustalla olevaan maataulukkoon.",
+      "responseStatus": "underlying_data_not_public",
+      "licenseStatus": "licence_terms_not_reviewed",
+      "lastReviewedAt": "2026-07-24",
+      "sourceIds": ["EU-EC-SWD-2025-560", "EU-EC-SWD-2026-111"]
+    },
+    {
+      "candidateId": "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+      "candidateType": "country_year",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2024,
+      "referenceType": "observation",
+      "referenceId": "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
+      "evidenceLaneId": "public_reproducible",
+      "declaredDecision": "not_accepted",
+      "headlineEn": "Official manufacturer/importer shipment value",
+      "headlineFi": "Virallinen valmistaja- ja maahantuojatoimitusten arvo",
+      "criterionStatuses": [
+        {"criterionId": "D1", "status": "passed"},
+        {"criterionId": "D2", "status": "failed"},
+        {"criterionId": "D3", "status": "passed"},
+        {"criterionId": "D4", "status": "passed"},
+        {"criterionId": "D5", "status": "open"},
+        {"criterionId": "D6", "status": "open"},
+        {"criterionId": "D7", "status": "passed"},
+        {"criterionId": "D8", "status": "open"},
+        {"criterionId": "D9", "status": "passed"},
+        {"criterionId": "D10", "status": "open"}
+      ],
+      "blockerEn": "The official observation measures manufacturer/importer shipments, not consumer retail sell-through.",
+      "blockerFi": "Virallinen havainto mittaa valmistaja- ja maahantuojatoimituksia eikä kuluttajavähittäismyyntiä.",
+      "nextEvidenceEn": "Add consumer retail sell-through, reporting coverage, supply-stage de-duplication and an explicit tax basis.",
+      "nextEvidenceFi": "Lisää kuluttajavähittäismyynti, raportointipeitto, toimitusketjun deduplikointi ja yksiselitteinen veroperusta.",
+      "acquisitionRouteEn": "Reproduce Health Canada's public aggregate and reconcile it against a public or rights-cleared consumer-retail series.",
+      "acquisitionRouteFi": "Toista Health Canadan julkinen koonti ja täsmäytä se julkiseen tai käyttöoikeuksiltaan selvitettyyn kuluttajavähittäismyyntisarjaan.",
+      "responseStatus": "public_source_available",
+      "licenseStatus": "public_source_link_only",
+      "lastReviewedAt": "2026-07-24",
+      "sourceIds": ["CA-HC-VAPING-SALES-2024"]
+    },
+    {
+      "candidateId": "DE-2025-LIQUID-RETAIL-MODEL",
+      "candidateType": "country_year",
+      "countryIso2": "DE",
+      "geography": "Germany",
+      "year": 2025,
+      "referenceType": "model",
+      "referenceId": "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE",
+      "evidenceLaneId": "public_reproducible",
+      "declaredDecision": "not_accepted",
+      "headlineEn": "Taxed-liquid retail-equivalent plausibility model",
+      "headlineFi": "Verotetun nesteen vähittäismyyntivastaavuuden suuntaa-antava malli",
+      "criterionStatuses": [
+        {"criterionId": "D1", "status": "failed"},
+        {"criterionId": "D2", "status": "failed"},
+        {"criterionId": "D3", "status": "failed"},
+        {"criterionId": "D4", "status": "passed"},
+        {"criterionId": "D5", "status": "open"},
+        {"criterionId": "D6", "status": "passed"},
+        {"criterionId": "D7", "status": "passed"},
+        {"criterionId": "D8", "status": "open"},
+        {"criterionId": "D9", "status": "passed"},
+        {"criterionId": "D10", "status": "failed"}
+      ],
+      "blockerEn": "The range combines a provisional 2025 liquid volume with 2026 point-in-time prices, excludes devices and is not observed consumer sales.",
+      "blockerFi": "Vaihteluväli yhdistää vuoden 2025 alustavan nestemäärän vuoden 2026 pistemäisiin hintoihin, rajaa laitteet pois eikä ole havaittua kuluttajamyyntiä.",
+      "nextEvidenceEn": "Add same-year representative retail prices, device sell-through, channel coverage, tax treatment and an independent reconciliation route.",
+      "nextEvidenceFi": "Lisää saman vuoden edustavat vähittäishinnat, laitemyynti, kanavapeitto, verokäsittely ja riippumaton täsmäytysreitti.",
+      "acquisitionRouteEn": "Destatis tax-volume series plus same-year public or rights-cleared price, hardware and channel evidence.",
+      "acquisitionRouteFi": "Destatisin verovolyymisarja sekä saman vuoden julkinen tai käyttöoikeuksiltaan selvitetty hinta-, laite- ja kanavanäyttö.",
+      "responseStatus": "public_source_available",
+      "licenseStatus": "mixed_public_inputs_only",
+      "lastReviewedAt": "2026-07-24",
+      "sourceIds": [
+        "DE-DESTATIS-73411-0003",
+        "INTASTE-GERMANFLAVOURS-2026",
+        "INTASTE-SAMURAI-2026",
+        "INTASTE-REVOLTAGE-2026"
+      ]
+    },
+    {
+      "candidateId": "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
+      "candidateType": "country_year",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2021,
+      "referenceType": "observation",
+      "referenceId": "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "evidenceLaneId": "public_reproducible",
+      "declaredDecision": "not_accepted",
+      "headlineEn": "FTC-reported cartridge-system and disposable manufacturer sales",
+      "headlineFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden valmistajamyynnit",
+      "criterionStatuses": [
+        {"criterionId": "D1", "status": "passed"},
+        {"criterionId": "D2", "status": "failed"},
+        {"criterionId": "D3", "status": "failed"},
+        {"criterionId": "D4", "status": "passed"},
+        {"criterionId": "D5", "status": "failed"},
+        {"criterionId": "D6", "status": "passed"},
+        {"criterionId": "D7", "status": "passed"},
+        {"criterionId": "D8", "status": "open"},
+        {"criterionId": "D9", "status": "passed"},
+        {"criterionId": "D10", "status": "open"}
+      ],
+      "blockerEn": "The official FTC route reports sales by leading manufacturers, not complete consumer-retail sell-through. The reporting population changes after 2019, open-system products are excluded from the consistent subset and the tax basis is not stated.",
+      "blockerFi": "Virallinen FTC-reitti raportoi johtavien valmistajien myyntiä eikä täydellistä kuluttajavähittäismyyntiä. Raportoijajoukko muuttuu vuoden 2019 jälkeen, open-system-tuotteet jäävät yhtenäisen osajoukon ulkopuolelle eikä veroperustaa ilmoiteta.",
+      "nextEvidenceEn": "Reconcile the FTC series to stable, complete consumer-retail sell-through with open-system inclusion, channel coverage and an explicit tax basis.",
+      "nextEvidenceFi": "Täsmäytä FTC-sarja vakaaseen ja täydelliseen kuluttajavähittäismyyntiin, joka sisältää open-system-tuotteet, kanavapeiton ja yksiselitteisen veroperustan.",
+      "acquisitionRouteEn": "FTC reports and public tables, followed by an official, tax or rights-cleared retail-scanner reconciliation.",
+      "acquisitionRouteFi": "FTC:n raportit ja julkiset taulukot, minkä jälkeen viranomais-, vero- tai käyttöoikeuksiltaan selvitetty kassapaneelitäsmäytys.",
+      "responseStatus": "public_source_available",
+      "licenseStatus": "public_source_link_only",
+      "lastReviewedAt": "2026-07-24",
+      "sourceIds": ["US-FTC-E-CIGARETTE-REPORT-2021"]
+    }
+  ]
+}

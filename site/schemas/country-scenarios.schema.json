@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/country-scenarios.schema.json",
+  "title": "Pixan public country-year scenario controls",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "asOf", "calculationPolicy", "globalGate",
+    "countryYearScenarios", "globalScenario"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "asOf": {"type": "string", "format": "date"},
+    "calculationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requiredRangeInputs", "missingInputStatus", "computedStatus",
+        "ruleEn", "ruleFi"
+      ],
+      "properties": {
+        "requiredRangeInputs": {
+          "type": "array",
+          "prefixItems": [{"const": "low"}, {"const": "base"}, {"const": "high"}],
+          "items": false
+        },
+        "missingInputStatus": {"const": "not_computed"},
+        "computedStatus": {"const": "computed"},
+        "ruleEn": {"type": "string", "minLength": 1},
+        "ruleFi": {"type": "string", "minLength": 1}
+      }
+    },
+    "globalGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumAcceptedDonors", "coverageGateStatus", "coverageRequirements",
+        "ruleEn", "ruleFi"
+      ],
+      "properties": {
+        "minimumAcceptedDonors": {"const": 3},
+        "coverageGateStatus": {"enum": ["not_met", "passed"]},
+        "coverageRequirements": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["gateId", "status", "labelEn", "labelFi"],
+            "properties": {
+              "gateId": {"type": "string", "minLength": 1},
+              "status": {"enum": ["not_met", "passed"]},
+              "labelEn": {"type": "string", "minLength": 1},
+              "labelFi": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "ruleEn": {"type": "string", "minLength": 1},
+        "ruleFi": {"type": "string", "minLength": 1}
+      }
+    },
+    "countryYearScenarios": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/countryScenario"}
+    },
+    "globalScenario": {"$ref": "#/$defs/globalScenario"}
+  },
+  "$defs": {
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "sourceIds"],
+      "properties": {
+        "value": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "sourceIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["low", "base", "high"],
+      "properties": {
+        "low": {"$ref": "#/$defs/input"},
+        "base": {"$ref": "#/$defs/input"},
+        "high": {"$ref": "#/$defs/input"}
+      }
+    },
+    "componentScenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specialistRetailNzd", "generalRetailRpsNzd", "combinedNzd",
+        "rowTreatment"
+      ],
+      "properties": {
+        "specialistRetailNzd": {"type": "number", "exclusiveMinimum": 0},
+        "generalRetailRpsNzd": {"type": "number", "exclusiveMinimum": 0},
+        "combinedNzd": {"type": "number", "exclusiveMinimum": 0},
+        "rowTreatment": {
+          "enum": [
+            "exact_row_deduplicated_both_components",
+            "reported_specialist_and_raw_rps_rows"
+          ]
+        }
+      }
+    },
+    "componentBreakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["low", "base", "high"],
+      "properties": {
+        "low": {"$ref": "#/$defs/componentScenario"},
+        "base": {"$ref": "#/$defs/componentScenario"},
+        "high": {"$ref": "#/$defs/componentScenario"}
+      }
+    },
+    "countryScenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenarioId", "countryIso2", "geography", "year", "currency",
+        "evidenceLaneId", "inputs", "declaredStatus", "blockerEn", "blockerFi",
+        "sourceIds"
+      ],
+      "properties": {
+        "scenarioId": {"type": "string", "minLength": 1},
+        "countryIso2": {"type": "string", "pattern": "^[A-Z]{2}$"},
+        "geography": {"type": "string", "minLength": 1},
+        "year": {"type": "integer", "minimum": 2000, "maximum": 2100},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "evidenceLaneId": {"const": "public_reproducible"},
+        "inputs": {"$ref": "#/$defs/inputs"},
+        "componentBreakdown": {"$ref": "#/$defs/componentBreakdown"},
+        "declaredStatus": {"enum": ["computed", "not_computed"]},
+        "scenarioScope": {"type": "string", "minLength": 1},
+        "evidenceStatus": {"const": "supported_model_not_observed_national_value"},
+        "accepted": {"const": false},
+        "taxBasis": {"type": "string", "minLength": 1},
+        "coverageStatus": {"enum": ["incomplete", "complete"]},
+        "independentReconciliationStatus": {"enum": ["not_met", "passed"]},
+        "methodEn": {"type": "string", "minLength": 1},
+        "methodFi": {"type": "string", "minLength": 1},
+        "blockerEn": {"type": "string", "minLength": 1},
+        "blockerFi": {"type": "string", "minLength": 1},
+        "sourceIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"declaredStatus": {"const": "computed"}},
+            "required": ["declaredStatus"]
+          },
+          "then": {
+            "required": [
+              "scenarioScope", "evidenceStatus", "accepted", "taxBasis",
+              "coverageStatus", "independentReconciliationStatus", "methodEn",
+              "methodFi", "componentBreakdown"
+            ]
+          }
+        }
+      ]
+    },
+    "globalScenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scenarioId", "currency", "inputs", "declaredStatus", "blockerEn", "blockerFi"],
+      "properties": {
+        "scenarioId": {"type": "string", "minLength": 1},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "inputs": {"$ref": "#/$defs/inputs"},
+        "declaredStatus": {"enum": ["computed", "not_computed"]},
+        "blockerEn": {"type": "string", "minLength": 1},
+        "blockerFi": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

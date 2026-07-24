@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/donor-cockpit.schema.json",
+  "title": "Pixan public donor-conversion cockpit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "asOf", "protocol", "gate", "candidates"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "asOf": {"type": "string", "format": "date"},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocolVersion", "acceptanceRuleEn", "acceptanceRuleFi", "criteria"],
+      "properties": {
+        "protocolVersion": {"const": "1.0"},
+        "acceptanceRuleEn": {"type": "string", "minLength": 1},
+        "acceptanceRuleFi": {"type": "string", "minLength": 1},
+        "criteria": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {"$ref": "#/$defs/criterion"}
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumAcceptedDonors", "coverageGateRequired", "coverageGateStatus",
+        "coverageRuleEn", "coverageRuleFi"
+      ],
+      "properties": {
+        "minimumAcceptedDonors": {"const": 3},
+        "coverageGateRequired": {"const": true},
+        "coverageGateStatus": {"enum": ["not_met", "passed"]},
+        "coverageRuleEn": {"type": "string", "minLength": 1},
+        "coverageRuleFi": {"type": "string", "minLength": 1}
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/candidate"}
+    }
+  },
+  "$defs": {
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterionId", "titleEn", "titleFi", "requirementEn", "requirementFi"],
+      "properties": {
+        "criterionId": {"pattern": "^D(?:10|[1-9])$"},
+        "titleEn": {"type": "string", "minLength": 1},
+        "titleFi": {"type": "string", "minLength": 1},
+        "requirementEn": {"type": "string", "minLength": 1},
+        "requirementFi": {"type": "string", "minLength": 1}
+      }
+    },
+    "criterionStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterionId", "status"],
+      "properties": {
+        "criterionId": {"pattern": "^D(?:10|[1-9])$"},
+        "status": {"enum": ["passed", "failed", "open"]}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidateId", "candidateType", "countryIso2", "geography", "year",
+        "referenceType", "referenceId", "evidenceLaneId", "declaredDecision",
+        "headlineEn", "headlineFi", "criterionStatuses", "blockerEn", "blockerFi",
+        "nextEvidenceEn", "nextEvidenceFi", "acquisitionRouteEn", "acquisitionRouteFi",
+        "responseStatus", "licenseStatus", "lastReviewedAt", "sourceIds"
+      ],
+      "properties": {
+        "candidateId": {"type": "string", "minLength": 1},
+        "candidateType": {"enum": ["country_year", "regional_benchmark"]},
+        "countryIso2": {"type": ["string", "null"], "pattern": "^[A-Z]{2}$"},
+        "geography": {"type": "string", "minLength": 1},
+        "year": {"type": "integer", "minimum": 2000, "maximum": 2100},
+        "referenceType": {"enum": ["observation", "model"]},
+        "referenceId": {"type": "string", "minLength": 1},
+        "evidenceLaneId": {"const": "public_reproducible"},
+        "declaredDecision": {"enum": ["accepted", "not_accepted"]},
+        "headlineEn": {"type": "string", "minLength": 1},
+        "headlineFi": {"type": "string", "minLength": 1},
+        "criterionStatuses": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {"$ref": "#/$defs/criterionStatus"}
+        },
+        "blockerEn": {"type": "string", "minLength": 1},
+        "blockerFi": {"type": "string", "minLength": 1},
+        "nextEvidenceEn": {"type": "string", "minLength": 1},
+        "nextEvidenceFi": {"type": "string", "minLength": 1},
+        "acquisitionRouteEn": {"type": "string", "minLength": 1},
+        "acquisitionRouteFi": {"type": "string", "minLength": 1},
+        "responseStatus": {"type": "string", "minLength": 1},
+        "licenseStatus": {"type": "string", "minLength": 1},
+        "lastReviewedAt": {"type": "string", "format": "date"},
+        "sourceIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

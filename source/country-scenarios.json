@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "1.0",
+  "asOf": "2026-07-24",
+  "calculationPolicy": {
+    "requiredRangeInputs": ["low", "base", "high"],
+    "missingInputStatus": "not_computed",
+    "computedStatus": "computed",
+    "ruleEn": "A country-year range is computed only when low, base and high are finite positive values in one declared currency, low ≤ base ≤ high, and every input carries at least one reviewed public source reference. Missing or invalid inputs return not_computed; they never become zero.",
+    "ruleFi": "Maa–vuosi-vaihteluväli lasketaan vain, kun low, base ja high ovat äärellisiä positiivisia arvoja yhdessä ilmoitetussa valuutassa, low ≤ base ≤ high ja jokaisella syötteellä on vähintään yksi tarkistettu julkinen lähdeviite. Puuttuva tai virheellinen syöte palauttaa tilan not_computed eikä koskaan muutu nollaksi."
+  },
+  "globalGate": {
+    "minimumAcceptedDonors": 3,
+    "coverageGateStatus": "not_met",
+    "coverageRequirements": [
+      {
+        "gateId": "regional_coverage",
+        "status": "not_met",
+        "labelEn": "Documented regional coverage",
+        "labelFi": "Dokumentoitu alueellinen peitto"
+      },
+      {
+        "gateId": "regulatory_archetype_coverage",
+        "status": "not_met",
+        "labelEn": "Documented regulatory-archetype coverage",
+        "labelFi": "Dokumentoitu sääntelyarkkityyppien peitto"
+      }
+    ],
+    "ruleEn": "A public global total remains not_computed unless at least three country-year donors are accepted and every coverage requirement passes.",
+    "ruleFi": "Julkinen maailman kokonaisluku pysyy tilassa not_computed, ellei vähintään kolme maa–vuosi-luovuttajamarkkinaa ole hyväksytty ja jokainen peittovaatimus läpäise tarkistusta."
+  },
+  "countryYearScenarios": [
+    {
+      "scenarioId": "NZ-2024-RETAIL-RANGE",
+      "countryIso2": "NZ",
+      "geography": "New Zealand",
+      "year": 2024,
+      "currency": "NZD",
+      "evidenceLaneId": "public_reproducible",
+      "inputs": {
+        "low": {"value": 533662383.68, "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"]},
+        "base": {"value": 641811687.89, "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"]},
+        "high": {"value": 731175792.50, "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"]}
+      },
+      "componentBreakdown": {
+        "low": {
+          "specialistRetailNzd": 258327110.88,
+          "generalRetailRpsNzd": 275335272.80,
+          "combinedNzd": 533662383.68,
+          "rowTreatment": "exact_row_deduplicated_both_components"
+        },
+        "base": {
+          "specialistRetailNzd": 274180410.21,
+          "generalRetailRpsNzd": 367631277.68,
+          "combinedNzd": 641811687.89,
+          "rowTreatment": "reported_specialist_and_raw_rps_rows"
+        },
+        "high": {
+          "specialistRetailNzd": 274180410.21,
+          "generalRetailRpsNzd": 456995382.29,
+          "combinedNzd": 731175792.50,
+          "rowTreatment": "reported_specialist_and_raw_rps_rows"
+        }
+      },
+      "declaredStatus": "computed",
+      "scenarioScope": "identified_vaping_combined_specialist_retail_and_rps_sensitivity",
+      "evidenceStatus": "supported_model_not_observed_national_value",
+      "accepted": false,
+      "taxBasis": "GST_unknown",
+      "coverageStatus": "incomplete",
+      "independentReconciliationStatus": "not_met",
+      "methodEn": "Low: NZD 258,327,110.88 specialist retail + NZD 275,335,272.80 general-retailer RPS = NZD 533,662,383.68, using the exact-row-deduplicated sensitivity for both components. Base: NZD 274,180,410.21 + NZD 367,631,277.68 = NZD 641,811,687.89. High: NZD 274,180,410.21 + NZD 456,995,382.29 = NZD 731,175,792.50. Base and high retain reported specialist rows and raw positive-quantity RPS rows priced through aggregate AVP/AIS reference distributions. Supply-stage notifier values are not added.",
+      "methodFi": "Low: 258 327 110,88 NZD erikoisvähittäismyyntiä + 275 335 272,80 NZD yleisvähittäiskaupan RPS-mallia = 533 662 383,68 NZD; molemmissa komponenteissa käytetään täsmälleen toistuvien rivien poistoon perustuvaa herkkyyttä. Base: 274 180 410,21 + 367 631 277,68 = 641 811 687,89 NZD. High: 274 180 410,21 + 456 995 382,29 = 731 175 792,50 NZD. Base ja high säilyttävät raportoidut erikoisvähittäiskaupan rivit sekä positiiviset RPS-raakarivit, jotka hinnoitellaan AVP/AIS-viitejakaumilla. Toimitusketjutason ilmoittaja-arvoja ei lisätä.",
+      "blockerEn": "This is a supported sensitivity model, not an observed complete national market value. GST treatment is unknown, coverage remains incomplete and no independent reconciliation has passed.",
+      "blockerFi": "Tämä on tuettu herkkyysmalli eikä havaittu koko maan markkina-arvo. GST-käsittely ei ole tiedossa, peitto on puutteellinen eikä riippumaton täsmäytys ole läpäissyt tarkistusta.",
+      "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"]
+    },
+    {
+      "scenarioId": "CA-2024-RETAIL-RANGE",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2024,
+      "currency": "CAD",
+      "evidenceLaneId": "public_reproducible",
+      "inputs": {
+        "low": {"value": null, "sourceIds": []},
+        "base": {"value": null, "sourceIds": []},
+        "high": {"value": null, "sourceIds": []}
+      },
+      "declaredStatus": "not_computed",
+      "blockerEn": "The reviewed official value is a manufacturer/importer shipment measure, not a source-backed consumer-retail range.",
+      "blockerFi": "Tarkistettu virallinen arvo on valmistaja- ja maahantuojatoimitusten mittari eikä lähteistetty kuluttajavähittäismyynnin vaihteluväli.",
+      "sourceIds": ["CA-HC-VAPING-SALES-2024"]
+    },
+    {
+      "scenarioId": "DE-2025-RETAIL-RANGE",
+      "countryIso2": "DE",
+      "geography": "Germany",
+      "year": 2025,
+      "currency": "EUR",
+      "evidenceLaneId": "public_reproducible",
+      "inputs": {
+        "low": {"value": null, "sourceIds": []},
+        "base": {"value": null, "sourceIds": []},
+        "high": {"value": null, "sourceIds": []}
+      },
+      "declaredStatus": "not_computed",
+      "blockerEn": "The existing liquid-only plausibility model is not a same-year, devices-plus-consumables consumer-retail scenario.",
+      "blockerFi": "Nykyinen vain nesteitä koskeva suuntaa-antava malli ei ole saman vuoden laitteet ja kulutustarvikkeet kattava kuluttajavähittäismyyntiskenaario.",
+      "sourceIds": [
+        "DE-DESTATIS-73411-0003",
+        "INTASTE-GERMANFLAVOURS-2026",
+        "INTASTE-SAMURAI-2026",
+        "INTASTE-REVOLTAGE-2026"
+      ]
+    },
+    {
+      "scenarioId": "US-2021-RETAIL-RANGE",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2021,
+      "currency": "USD",
+      "evidenceLaneId": "public_reproducible",
+      "inputs": {
+        "low": {"value": null, "sourceIds": []},
+        "base": {"value": null, "sourceIds": []},
+        "high": {"value": null, "sourceIds": []}
+      },
+      "declaredStatus": "not_computed",
+      "blockerEn": "The FTC manufacturer-reporting series is a useful official route, but no reviewed complete consumer-retail low/base/high input set is published in this release.",
+      "blockerFi": "FTC:n valmistajaraportointisarja on hyödyllinen virallinen reitti, mutta tässä julkaisussa ei ole tarkistettua täydellistä kuluttajavähittäismyynnin low/base/high-syötesarjaa.",
+      "sourceIds": ["US-FTC-E-CIGARETTE-REPORT-2021"]
+    }
+  ],
+  "globalScenario": {
+    "scenarioId": "GLOBAL-ANNUAL-RETAIL-RANGE",
+    "currency": "USD",
+    "inputs": {
+      "low": {"value": null, "sourceIds": []},
+      "base": {"value": null, "sourceIds": []},
+      "high": {"value": null, "sourceIds": []}
+    },
+    "declaredStatus": "not_computed",
+    "blockerEn": "The donor threshold and coverage gate are not met. No global total is calculated.",
+    "blockerFi": "Luovuttajamarkkinoiden vähimmäismäärä ja peittoportti eivät täyty. Maailman kokonaislukua ei lasketa."
+  }
+}

@@ -157,6 +157,10 @@ const MEASURE_LABELS = {
 const state = {
   data: null,
   marketData: null,
+  evidenceLanes: null,
+  donorCockpit: null,
+  countryScenarios: null,
+  fxData: null,
   patentData: null,
   changelog: null,
   changeView: null,
@@ -277,7 +281,7 @@ function renderMetrics() {
   const modelled = new Set(marketModels().map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
     { label: l("Tutkimusmaailma", "Research universe"), value: `${list.length} / 195`, note: l("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets") },
-    { label: l("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), value: `${quantified.size} / 195`, note: l("Hyväksyttyjä maakohtaisia raha-, vero- tai määräarvoja", "Accepted country-level monetary, tax or volume records") },
+    { label: l("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), value: `${quantified.size} / 195`, note: l("Tarkistettuja maakohtaisia raha-, vero- tai määräarvoja", "Reviewed country-level monetary, tax or volume records") },
     { label: l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), value: `${officialRetailLowerBound.size} / 195`, note: l(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`) },
     { label: l("Atlaksen maamalli", "Atlas country model"), value: `${modelled.size} / 195`, note: l("Saksan nesteskenaario; matala luottamus, ei laitteita", "Germany liquid scenario; low confidence, excludes devices") }
   ];
@@ -361,6 +365,7 @@ const MARKET_METHODS = {
 
 const MARKET_EVIDENCE_LABELS = {
   official_observed: ["Virallinen havainto", "Official observation"],
+  official_table_derived: ["Virallisista taulukoista johdettu", "Derived from official tables"],
   official_provisional: ["Virallinen · alustava", "Official · provisional"],
   derived_official_files: ["Johdettu virallisista tiedostoista", "Derived from official files"],
   institutional_supported: ["Institutionaalisesti tuettu", "Institutionally supported"],
@@ -378,6 +383,23 @@ const MARKET_EXCLUSION_LABELS = {
   discount_and_channel_mix: ["alennus- ja myyntikanavajakauma", "discount and channel mix"]
 };
 
+const DONOR_CONTROL_LABELS = {
+  response: {
+    public_source_available: ["Julkinen lähde saatavilla", "Public source available"],
+    underlying_data_not_public: ["Taustadata ei ole julkinen", "Underlying data is not public"]
+  },
+  license: {
+    public_source_link_only: ["Vain julkinen lähdelinkki", "Public source link only"],
+    licence_terms_not_reviewed: ["Lisenssiehtoja ei tarkistettu", "Licence terms not reviewed"],
+    mixed_public_inputs_only: ["Vain julkisten syötteiden yhdistelmä", "Mixed public inputs only"]
+  }
+};
+
+function donorControlLabel(group, value) {
+  const labels = DONOR_CONTROL_LABELS[group]?.[value];
+  return labels ? l(...labels) : String(value || "—").replaceAll("_", " ");
+}
+
 function marketSources() {
   return new Map((state.marketData?.sources || []).map((source) => [source.sourceId, source]));
 }
@@ -390,14 +412,16 @@ function marketModels() {
   return Array.isArray(state.marketData?.models) ? state.marketData.models : [];
 }
 
-function assessDonorLedger(market = state.marketData) {
-  const protocol = market?.donorProtocol;
+function assessDonorLedger(cockpit = state.donorCockpit, market = state.marketData) {
+  const protocol = cockpit?.protocol;
   const criteria = Array.isArray(protocol?.criteria) ? protocol.criteria : [];
   const criterionIds = criteria.map((item) => String(item?.criterionId || "").trim());
+  const expectedCriterionIds = Array.from({ length: 10 }, (_, index) => `D${index + 1}`);
   const protocolValid = Boolean(
     protocol
     && String(protocol.protocolVersion || "").trim()
-    && criteria.length
+    && criteria.length === 10
+    && criterionIds.every((id, index) => id === expectedCriterionIds[index])
     && criterionIds.every(Boolean)
     && new Set(criterionIds).size === criterionIds.length
     && criteria.every((item) => String(item.titleEn || "").trim() && String(item.titleFi || "").trim()
@@ -407,20 +431,18 @@ function assessDonorLedger(market = state.marketData) {
   const sources = new Map((market?.sources || []).map((item) => [item.sourceId, item]));
   const observations = new Set((market?.observations || []).map((item) => item.observationId));
   const models = new Set((market?.models || []).map((item) => item.modelId));
-  const candidates = (Array.isArray(market?.donorCandidates) ? market.donorCandidates : []).map((candidate) => {
-    const passedRaw = Array.isArray(candidate?.passedCriteria) ? candidate.passedCriteria : [];
-    const failedRaw = Array.isArray(candidate?.failedCriteria) ? candidate.failedCriteria : [];
-    const openRaw = Array.isArray(candidate?.openCriteria) ? candidate.openCriteria : [];
-    const passed = new Set(passedRaw);
-    const failed = new Set(failedRaw);
-    const open = new Set(openRaw);
-    const allReportedIds = [...passedRaw, ...failedRaw, ...openRaw];
+  const candidates = (Array.isArray(cockpit?.candidates) ? cockpit.candidates : []).map((candidate) => {
+    const reportedStatuses = Array.isArray(candidate?.criterionStatuses) ? candidate.criterionStatuses : [];
+    const allReportedIds = reportedStatuses.map((item) => item?.criterionId);
     const duplicateIds = [...new Set(allReportedIds.filter((id, index) => allReportedIds.indexOf(id) !== index))];
     const unknownIds = [...new Set(allReportedIds.filter((id) => !knownIds.has(id)))];
-    const conflictingIds = criterionIds.filter((id) => [passed.has(id), failed.has(id), open.has(id)].filter(Boolean).length > 1);
+    const invalidStatuses = reportedStatuses.filter((item) => !["passed", "failed", "open"].includes(item?.status));
+    const statusById = new Map(reportedStatuses.map((item) => [item?.criterionId, item?.status]));
     const criterionResults = criteria.map((criterion) => {
       const id = criterion.criterionId;
-      const status = failed.has(id) ? "failed" : open.has(id) ? "open" : passed.has(id) ? "passed" : "open";
+      const status = statusById.has(id) && ["passed", "failed", "open"].includes(statusById.get(id))
+        ? statusById.get(id)
+        : "open";
       return { criterion, status };
     });
     const allCriteriaPassed = protocolValid
@@ -428,7 +450,8 @@ function assessDonorLedger(market = state.marketData) {
       && criterionResults.every((item) => item.status === "passed")
       && !duplicateIds.length
       && !unknownIds.length
-      && !conflictingIds.length;
+      && !invalidStatuses.length
+      && reportedStatuses.length === criteria.length;
     const referenceValid = candidate?.referenceType === "observation"
       ? observations.has(candidate.referenceId)
       : candidate?.referenceType === "model"
@@ -439,28 +462,49 @@ function assessDonorLedger(market = state.marketData) {
       const source = sources.get(sourceId);
       return Boolean(source && safeExternalUrl(source.pageUrl || source.downloadUrl));
     });
+    const laneValid = candidate?.evidenceLaneId === "public_reproducible";
+    const typeValid = candidate?.candidateType === "country_year"
+      ? /^[A-Z]{2}$/.test(String(candidate?.countryIso2 || ""))
+      : candidate?.candidateType === "regional_benchmark" && candidate?.countryIso2 === null;
+    const computedDecision = candidate?.candidateType === "country_year" && allCriteriaPassed
+      ? "accepted"
+      : "not_accepted";
+    const decisionMatches = candidate?.declaredDecision === computedDecision;
     const recordValid = Boolean(
       String(candidate?.candidateId || "").trim()
       && String(candidate?.geography || "").trim()
       && Number.isFinite(Number(candidate?.year))
-      && ["accepted", "not_accepted"].includes(candidate?.decision)
-      && Array.isArray(candidate?.passedCriteria)
-      && Array.isArray(candidate?.failedCriteria)
-      && Array.isArray(candidate?.openCriteria)
+      && typeValid
+      && ["accepted", "not_accepted"].includes(candidate?.declaredDecision)
+      && Array.isArray(candidate?.criterionStatuses)
+      && String(candidate?.blockerEn || "").trim()
+      && String(candidate?.blockerFi || "").trim()
+      && String(candidate?.nextEvidenceEn || "").trim()
+      && String(candidate?.nextEvidenceFi || "").trim()
+      && String(candidate?.acquisitionRouteEn || "").trim()
+      && String(candidate?.acquisitionRouteFi || "").trim()
+      && String(candidate?.responseStatus || "").trim()
+      && String(candidate?.licenseStatus || "").trim()
+      && /^\d{4}-\d{2}-\d{2}$/.test(String(candidate?.lastReviewedAt || ""))
+      && laneValid
       && referenceValid
       && sourcesResolve
     );
-    const accepted = protocolValid && recordValid && candidate.decision === "accepted" && allCriteriaPassed;
+    const accepted = protocolValid && recordValid && decisionMatches && computedDecision === "accepted";
     return {
       candidate,
       criterionResults,
       duplicateIds,
       unknownIds,
-      conflictingIds,
+      invalidStatuses,
       referenceValid,
       sourcesResolve,
+      laneValid,
       recordValid,
       allCriteriaPassed,
+      computedDecision,
+      decisionMatches,
+      blockingCriterionIds: criterionResults.filter((item) => item.status !== "passed").map((item) => item.criterion.criterionId),
       accepted
     };
   });
@@ -468,6 +512,7 @@ function assessDonorLedger(market = state.marketData) {
     protocol,
     criteria,
     protocolValid,
+    gate: cockpit?.gate || {},
     candidates,
     accepted: candidates.filter((item) => item.accepted),
     sources
@@ -495,6 +540,188 @@ function formatMarketValue(value, currency, unit, compact = true) {
   }
   if (unit === "EUR_per_ml") return `${new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number)} EUR/ml`;
   return `${new Intl.NumberFormat(locale, { notation: compact ? "compact" : "standard", maximumFractionDigits: 3 }).format(number)}${unit ? ` ${unit}` : ""}`;
+}
+
+function assessFxRates(data = state.fxData) {
+  const policy = data?.calculationPolicy || {};
+  const datasetUrl = safeExternalUrl(data?.provider?.datasetUrl);
+  const methodologyUrl = safeExternalUrl(data?.provider?.methodologyUrl);
+  const providerUrlsValid = Boolean(
+    datasetUrl
+    && methodologyUrl
+    && new URL(datasetUrl).protocol === "https:"
+    && new URL(datasetUrl).hostname === "data.ecb.europa.eu"
+    && new URL(methodologyUrl).protocol === "https:"
+    && new URL(methodologyUrl).hostname === "www.ecb.europa.eu"
+  );
+  const eligiblePeriods = Array.isArray(policy.eligibleRecordPeriods)
+    ? policy.eligibleRecordPeriods
+    : [];
+  const policyValid = Boolean(
+    data?.schemaVersion === "1.0"
+    && data?.targetCurrency === "EUR"
+    && data?.provider?.name === "European Central Bank"
+    && providerUrlsValid
+    && eligiblePeriods.length === 2
+    && eligiblePeriods[0] === "calendar_year"
+    && eligiblePeriods[1] === "calendar_year_estimate"
+    && policy.eligibleUnitRule === "currency_must_equal_unit"
+    && policy.rateType === "annual_average_reference_rate"
+    && policy.quoteConvention === "currency_units_per_eur"
+    && policy.formulaMachine === "eur_equivalent = original_amount / currency_units_per_eur"
+    && policy.missingRateStatus === "not_computed"
+  );
+  const rates = Array.isArray(data?.rates) ? data.rates : [];
+  const rateMap = new Map();
+  let recordsValid = rates.length > 0;
+  for (const rate of rates) {
+    const currency = String(rate?.currency || "");
+    const year = Number(rate?.year);
+    const value = Number(rate?.currencyUnitsPerEur);
+    const sourceUrl = safeExternalUrl(rate?.sourceUrl);
+    const parsedSourceUrl = sourceUrl ? new URL(sourceUrl) : null;
+    const expectedSeries = `EXR.A.${currency}.EUR.SP00.A`;
+    const expectedId = `ECB-EXR-A-${currency}-EUR-SP00-A-${year}`;
+    const key = `${currency}:${year}`;
+    const recordValid = Boolean(
+      /^[A-Z]{3}$/.test(currency)
+      && currency !== "EUR"
+      && Number.isInteger(year)
+      && Number.isFinite(value)
+      && value > 0
+      && rate?.seriesKey === expectedSeries
+      && rate?.rateId === expectedId
+      && rate?.rateType === "annual_average_reference_rate"
+      && rate?.status === "available"
+      && /^\d{4}-\d{2}-\d{2}$/.test(String(rate?.reviewedAt || ""))
+      && sourceUrl
+      && parsedSourceUrl?.protocol === "https:"
+      && parsedSourceUrl?.hostname === "data-api.ecb.europa.eu"
+      && !rateMap.has(key)
+    );
+    if (!recordValid) {
+      recordsValid = false;
+      continue;
+    }
+    rateMap.set(key, { ...rate, sourceUrl });
+  }
+  return {
+    valid: policyValid && recordsValid,
+    policy,
+    provider: data?.provider || {},
+    eligiblePeriods: new Set(eligiblePeriods),
+    rateMap: policyValid && recordsValid ? rateMap : new Map()
+  };
+}
+
+function assessEurEquivalent(record, data = state.fxData) {
+  const value = Number(record?.value);
+  const currency = String(record?.currency || "");
+  const unit = String(record?.unit || "");
+  const year = Number(record?.year);
+  const period = String(record?.period || "");
+  const monetaryTotal = /^[A-Z]{3}$/.test(currency) && unit === currency;
+  if (!Number.isFinite(value) || value <= 0 || !monetaryTotal) {
+    return { status: "ineligible", reason: "not_a_positive_monetary_total" };
+  }
+  if (currency === "EUR") {
+    return { status: "already_eur", eurValue: value };
+  }
+  const fx = assessFxRates(data);
+  if (!fx.valid) {
+    return { status: "not_computed", reason: "fx_dataset_invalid_or_unavailable" };
+  }
+  if (!Number.isInteger(year) || !fx.eligiblePeriods.has(period)) {
+    return { status: "not_computed", reason: "period_not_compatible_with_annual_average" };
+  }
+  const rate = fx.rateMap.get(`${currency}:${year}`);
+  if (!rate) {
+    return { status: "not_computed", reason: "compatible_ecb_rate_missing" };
+  }
+  const eurValue = value / Number(rate.currencyUnitsPerEur);
+  if (!Number.isFinite(eurValue) || eurValue <= 0) {
+    return { status: "not_computed", reason: "conversion_not_finite" };
+  }
+  return { status: "computed", eurValue, rate };
+}
+
+function appendEurEquivalent(host, record, options = {}) {
+  const assessment = assessEurEquivalent(record);
+  if (assessment.status === "ineligible" || assessment.status === "already_eur") return null;
+  const line = node("span", "eur-equivalent-line");
+  line.dataset.status = assessment.status;
+  if (assessment.status !== "computed") {
+    line.textContent = l("EUR-vasta-arvo: not_computed", "EUR equivalent: not_computed");
+    line.title = assessment.reason;
+    host.append(line);
+    return line;
+  }
+  const compact = options.compact !== false;
+  line.append(document.createTextNode(
+    `${l("≈ ", "≈ ")}${formatMarketValue(assessment.eurValue, "EUR", "EUR", compact)} · `
+  ));
+  const source = node(
+    "a",
+    "eur-rate-link",
+    l(`ECB-vuosikeskiarvo ${assessment.rate.year} ↗`, `ECB annual average ${assessment.rate.year} ↗`)
+  );
+  source.href = assessment.rate.sourceUrl;
+  source.target = "_blank";
+  source.rel = "noreferrer";
+  source.title = l(
+    `${record.currency} per EUR ${Number(assessment.rate.currencyUnitsPerEur).toFixed(4)} · alkuperäinen määrä ÷ kurssi`,
+    `${record.currency} per EUR ${Number(assessment.rate.currencyUnitsPerEur).toFixed(4)} · original amount ÷ rate`
+  );
+  line.append(source);
+  host.append(line);
+  return line;
+}
+
+function renderFxMethod() {
+  const host = byId("market-fx-method");
+  if (!host) return;
+  const fx = assessFxRates();
+  host.replaceChildren();
+  if (!fx.valid) {
+    host.dataset.state = "error";
+    host.append(
+      node("strong", "", l("EUR-vasta-arvot: not_computed", "EUR equivalents: not_computed")),
+      node("p", "", l(
+        "ECB:n kurssiaineistoa ei voitu vahvistaa. Alkuperäiset arvot säilyvät näkyvissä eikä korvaavaa kurssia arvata.",
+        "The ECB rate dataset could not be verified. Original values remain visible and no substitute rate is inferred."
+      ))
+    );
+    return;
+  }
+  host.dataset.state = "ready";
+  const copy = node("div", "fx-method-copy");
+  copy.append(
+    node("p", "kicker", l("EUR-vertailukerros", "EUR comparison layer")),
+    node("h3", "", l("Alkuperäinen valuutta ensin, ECB-vasta-arvo rinnalla", "Original currency first, ECB equivalent alongside")),
+    node("p", "", isFi() ? fx.policy.originalValueRuleFi : fx.policy.originalValueRuleEn),
+    node("code", "", isFi() ? fx.policy.formulaFi : fx.policy.formulaEn)
+  );
+  const meta = node("div", "fx-method-meta");
+  meta.append(
+    node("strong", "", l(`${fx.rateMap.size} tarkistettua maa–vuosi-kurssia`, `${fx.rateMap.size} reviewed currency-year rates`)),
+    node("small", "", l(
+      "Vain rahamäärät, joissa yksikkö = valuutta. Fyysisiä määriä, verokantoja tai yksikköhintoja ei muunneta.",
+      "Only monetary totals where unit = currency. Physical volumes, tax rates and unit prices are not converted."
+    ))
+  );
+  const links = node("div", "fx-method-links");
+  for (const [label, url] of [
+    [l("ECB EXR -aineisto ↗", "ECB EXR dataset ↗"), fx.provider.datasetUrl],
+    [l("ECB:n viitekurssimenetelmä ↗", "ECB reference-rate method ↗"), fx.provider.methodologyUrl]
+  ]) {
+    const link = node("a", "", label);
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    links.append(link);
+  }
+  meta.append(links);
+  host.append(copy, meta);
 }
 
 function marketGeography(record) {
@@ -526,6 +753,7 @@ function renderMarketMetrics() {
   const readiness = state.marketData?.meta?.modelReadiness || {};
   const donorLedger = assessDonorLedger();
   const acceptedDonors = donorLedger.protocolValid ? donorLedger.accepted.length : 0;
+  const requiredDonors = Number(donorLedger.gate?.minimumAcceptedDonors || readiness.minimumRequiredDonors || 3);
   const official = marketObservations().filter((item) => String(item.evidenceStatus).startsWith("official_"));
   const quantified = new Set(official.map((item) => item.countryIso2).filter(Boolean));
   const officialRetail = new Set(official.filter((item) => item.metric === "consumer_retail_market_value").map((item) => item.countryIso2).filter(Boolean));
@@ -534,7 +762,7 @@ function renderMarketMetrics() {
     [l("Atlaksen maailmanarvio", "Atlas global estimate"), l("Ei vielä julkaistu", "Not yet released"), l("Evidenssiraja ei vielä täyty", "Evidence threshold is not yet met")],
     [l("Määrällisesti dokumentoidut maat", "Quantified countries"), `${quantified.size} / 195`, l("Raha, vero tai määrä; ei aina kuluttajamyynti", "Money, tax or volume; not always consumer retail")],
     [l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, l(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`)],
-    [l("Vertailukelpoiset luovuttajamarkkinat", "Comparable donor markets"), `${acceptedDonors} / ${readiness.minimumRequiredDonors || 3}`, l("Luku muuttuu vain, kun ehdokas läpäisee kaikki protokollakriteerit", "The count changes only when a candidate passes every protocol criterion")]
+    [l("Vertailukelpoiset luovuttajamarkkinat", "Comparable donor markets"), `${acceptedDonors} / ${requiredDonors}`, l("Luku muuttuu vain, kun ehdokas läpäisee kaikki protokollakriteerit", "The count changes only when a candidate passes every protocol criterion")]
   ];
   const host = byId("market-metrics");
   host.replaceChildren(...metrics.map(([label, value, note]) => {
@@ -553,7 +781,10 @@ function renderMarketGlobalRange() {
   for (const record of records) {
     const source = marketSources().get(record.sourceIds?.[0]);
     const card = node("article", "market-range-item");
-    card.append(node("span", "", source?.publisher || l("Ulkoinen arvio", "External estimate")), node("strong", "", formatMarketValue(record.value, record.currency, record.unit)));
+    const value = node("div", "market-money-stack");
+    value.append(node("strong", "", formatMarketValue(record.value, record.currency, record.unit)));
+    appendEurEquivalent(value, record);
+    card.append(node("span", "", source?.publisher || l("Ulkoinen arvio", "External estimate")), value);
     const link = marketSourceLink(record);
     if (link) card.append(link);
     host.append(card);
@@ -565,7 +796,7 @@ function renderMarketReadiness() {
   const readiness = state.marketData?.meta?.modelReadiness || {};
   const donorLedger = assessDonorLedger();
   const current = donorLedger.protocolValid ? donorLedger.accepted.length : 0;
-  const required = Number(readiness.minimumRequiredDonors || 3);
+  const required = Number(donorLedger.gate?.minimumAcceptedDonors || readiness.minimumRequiredDonors || 3);
   byId("market-readiness-title").textContent = l("Ei vielä estimaattivalmis", "Not yet estimate-ready");
   const host = byId("market-readiness");
   const progress = node("div", "market-readiness-progress");
@@ -575,6 +806,92 @@ function renderMarketReadiness() {
   track.append(fill);
   progress.append(track, node("strong", "", `${current} / ${required}`));
   host.replaceChildren(progress, node("p", "", isFi() ? readiness.reasonFi || "" : readiness.reasonEn || ""));
+}
+
+function assessEvidenceLanes(data = state.evidenceLanes) {
+  const expectedIds = ["public_reproducible", "licensed_controlled", "private_pending_review"];
+  const lanes = Array.isArray(data?.lanes) ? [...data.lanes].sort((a, b) => Number(a.order) - Number(b.order)) : [];
+  const allowed = data?.publicBuildPolicy?.allowedRecordLaneIds;
+  const metadataOnly = data?.publicBuildPolicy?.metadataOnlyLaneIds;
+  const policyValid = Array.isArray(allowed)
+    && allowed.length === 1
+    && allowed[0] === "public_reproducible"
+    && Array.isArray(metadataOnly)
+    && metadataOnly.length === 2
+    && new Set(metadataOnly).size === 2
+    && metadataOnly.every((id) => expectedIds.slice(1).includes(id));
+  const lanesValid = lanes.length === 3
+    && lanes.every((lane, index) => lane?.laneId === expectedIds[index]
+      && Number(lane.order) === index + 1
+      && String(lane.titleEn || "").trim()
+      && String(lane.titleFi || "").trim()
+      && String(lane.purposeEn || "").trim()
+      && String(lane.purposeFi || "").trim()
+      && String(lane.publicationRuleEn || "").trim()
+      && String(lane.publicationRuleFi || "").trim())
+    && lanes[0]?.publicExposure === "reviewed_aggregate_records"
+    && lanes.slice(1).every((lane) => lane.publicExposure === "metadata_placeholder_only"
+      && lane.dataState === "no_public_records");
+  return { data, lanes, valid: Boolean(data && policyValid && lanesValid) };
+}
+
+function renderEvidenceLanesUnavailable() {
+  const root = byId("market-evidence-lanes");
+  if (!root) return;
+  root.setAttribute("aria-busy", "false");
+  const status = byId("market-evidence-lanes-status");
+  status.textContent = l("Fail-closed", "Fail closed");
+  status.dataset.state = "error";
+  byId("market-evidence-lane-grid").replaceChildren(
+    node("p", "empty-state", l(
+      "Evidenssikaistojen julkaisusääntöä ei voitu vahvistaa. Muiden kuin julkisten tietueiden näyttäminen estetään.",
+      "The evidence-lane publication policy could not be verified. Display of non-public records remains blocked."
+    ))
+  );
+}
+
+function renderEvidenceLanes() {
+  const root = byId("market-evidence-lanes");
+  if (!root) return;
+  const assessment = assessEvidenceLanes();
+  if (!assessment.valid) {
+    renderEvidenceLanesUnavailable();
+    return;
+  }
+  const publicControlRecords = (Array.isArray(state.donorCockpit?.candidates) ? state.donorCockpit.candidates.length : 0)
+    + (Array.isArray(state.countryScenarios?.countryYearScenarios) ? state.countryScenarios.countryYearScenarios.length : 0);
+  const host = byId("market-evidence-lane-grid");
+  host.replaceChildren();
+  for (const lane of assessment.lanes) {
+    const isPublic = lane.laneId === "public_reproducible";
+    const card = node("article", "evidence-lane-card");
+    card.dataset.lane = lane.laneId;
+    const heading = node("div", "evidence-lane-heading");
+    heading.append(
+      node("span", "evidence-lane-order", String(lane.order).padStart(2, "0")),
+      node("h4", "", isFi() ? lane.titleFi : lane.titleEn)
+    );
+    const stateChip = node(
+      "span",
+      "evidence-lane-state",
+      isPublic
+        ? l(`${publicControlRecords} tarkistettua ohjaustietuetta`, `${publicControlRecords} reviewed control records`)
+        : l("0 julkista tietuetta", "0 public records")
+    );
+    stateChip.dataset.state = isPublic ? "public" : "blocked";
+    card.append(
+      heading,
+      stateChip,
+      node("p", "evidence-lane-purpose", isFi() ? lane.purposeFi : lane.purposeEn),
+      node("p", "evidence-lane-rule", isFi() ? lane.publicationRuleFi : lane.publicationRuleEn),
+      node("code", "evidence-lane-id", lane.laneId)
+    );
+    host.append(card);
+  }
+  const status = byId("market-evidence-lanes-status");
+  status.textContent = l("Julkinen kaista sallittu", "Public lane only");
+  status.dataset.state = "ready";
+  root.setAttribute("aria-busy", "false");
 }
 
 function renderDonorLedgerUnavailable(message) {
@@ -591,6 +908,9 @@ function renderDonorLedgerUnavailable(message) {
     "The acceptance protocol could not be verified. The donor-market count is held at zero."
   );
   byId("market-donor-summary").replaceChildren();
+  byId("market-donor-matrix-head").replaceChildren();
+  byId("market-donor-matrix-body").replaceChildren();
+  byId("market-donor-control-body").replaceChildren();
   byId("market-donor-candidates").replaceChildren(node("p", "empty-state", message));
   const status = byId("market-donor-status");
   status.dataset.state = "error";
@@ -604,9 +924,16 @@ function renderDonorLedger() {
   const root = byId("market-donor-ledger");
   if (!root) return;
   const assessment = assessDonorLedger();
+  if (!assessment.protocolValid) {
+    renderDonorLedgerUnavailable(l(
+      "Luovuttajamarkkinoiden ohjausdataa ei voitu vahvistaa.",
+      "The donor-conversion control data could not be verified."
+    ));
+    return;
+  }
   const protocol = assessment.protocol || {};
   const readiness = state.marketData?.meta?.modelReadiness || {};
-  const required = Number(readiness.minimumRequiredDonors || 3);
+  const required = Number(assessment.gate?.minimumAcceptedDonors || readiness.minimumRequiredDonors || 3);
   const recorded = Number(readiness.comparableFullYearMarketValueDonors);
   const effectiveCount = assessment.protocolValid ? assessment.accepted.length : 0;
   const protocolLabel = String(protocol.protocolVersion || "").trim() || "—";
@@ -643,6 +970,79 @@ function renderDonorLedger() {
     return item;
   }));
 
+  const matrixHead = byId("market-donor-matrix-head");
+  const matrixHeadRow = node("tr");
+  matrixHeadRow.append(node("th", "", l("Ehdokas", "Candidate")));
+  matrixHeadRow.firstElementChild.scope = "col";
+  for (const criterion of assessment.criteria) {
+    const cell = node("th", "", criterion.criterionId);
+    cell.scope = "col";
+    cell.title = isFi() ? criterion.titleFi : criterion.titleEn;
+    matrixHeadRow.append(cell);
+  }
+  const decisionHead = node("th", "", l("Laskettu päätös", "Computed decision"));
+  decisionHead.scope = "col";
+  matrixHeadRow.append(decisionHead);
+  matrixHead.replaceChildren(matrixHeadRow);
+
+  const matrixBody = byId("market-donor-matrix-body");
+  matrixBody.replaceChildren();
+  for (const result of assessment.candidates) {
+    const candidate = result.candidate || {};
+    const row = node("tr");
+    const nameCell = node("th", "donor-matrix-name");
+    nameCell.scope = "row";
+    nameCell.append(
+      node("strong", "", `${candidate.countryIso2 || l("Alue", "Region")} · ${candidate.year || "—"}`),
+      node("small", "", isFi() ? candidate.headlineFi : candidate.headlineEn)
+    );
+    row.append(nameCell);
+    for (const item of result.criterionResults) {
+      const statusLabel = item.status === "passed"
+        ? l("Läpäisty", "Passed")
+        : item.status === "failed"
+          ? l("Hylätty", "Failed")
+          : l("Avoin", "Open");
+      const cell = node("td", "donor-matrix-status", item.status === "passed" ? "✓" : item.status === "failed" ? "×" : "?");
+      cell.dataset.status = item.status;
+      cell.title = `${item.criterion.criterionId} · ${statusLabel} · ${isFi() ? item.criterion.titleFi : item.criterion.titleEn}`;
+      cell.setAttribute("aria-label", cell.title);
+      row.append(cell);
+    }
+    const decisionCell = node("td");
+    const decision = node(
+      "span",
+      "donor-decision-chip",
+      result.accepted ? l("Hyväksytty", "Accepted") : l("Ei hyväksytty", "Not accepted")
+    );
+    decision.dataset.decision = result.accepted ? "accepted" : "not_accepted";
+    decisionCell.append(decision);
+    row.append(decisionCell);
+    matrixBody.append(row);
+  }
+
+  const controlBody = byId("market-donor-control-body");
+  controlBody.replaceChildren();
+  for (const result of assessment.candidates) {
+    const candidate = result.candidate || {};
+    const row = node("tr");
+    const identity = node("td", "donor-control-identity");
+    identity.append(
+      node("strong", "", `${candidate.countryIso2 || l("Alue", "Region")} · ${candidate.year || "—"}`),
+      node("small", "", result.blockingCriterionIds.join(", ") || l("Ei avoimia kriteerejä", "No open criteria"))
+    );
+    row.append(
+      identity,
+      node("td", "", isFi() ? candidate.blockerFi : candidate.blockerEn),
+      node("td", "", isFi() ? candidate.nextEvidenceFi : candidate.nextEvidenceEn),
+      node("td", "", isFi() ? candidate.acquisitionRouteFi : candidate.acquisitionRouteEn),
+      node("td", "", donorControlLabel("response", candidate.responseStatus)),
+      node("td", "", donorControlLabel("license", candidate.licenseStatus)),
+      node("td", "", formatDate(candidate.lastReviewedAt))
+    );
+    controlBody.append(row);
+  }
+
   const candidatesHost = byId("market-donor-candidates");
   candidatesHost.replaceChildren();
   for (const result of assessment.candidates) {
@@ -676,7 +1076,7 @@ function renderDonorLedger() {
     );
 
     const reason = node("p", "donor-candidate-copy");
-    reason.append(node("strong", "", l("Päätösperuste: ", "Decision basis: ")), document.createTextNode((isFi() ? candidate.decisionReasonFi : candidate.decisionReasonEn) || l("Ei dokumentoitua perustetta.", "No documented reason.")));
+    reason.append(node("strong", "", l("Tarkka este: ", "Exact blocker: ")), document.createTextNode((isFi() ? candidate.blockerFi : candidate.blockerEn) || l("Ei dokumentoitua perustetta.", "No documented reason.")));
     const next = node("p", "donor-candidate-copy");
     next.append(node("strong", "", l("Tarvittava seuraava näyttö: ", "Next evidence needed: ")), document.createTextNode((isFi() ? candidate.nextEvidenceFi : candidate.nextEvidenceEn) || l("Ei dokumentoitu.", "Not documented.")));
     card.append(head, counts, reason, next);
@@ -685,10 +1085,11 @@ function renderDonorLedger() {
     if (!assessment.protocolValid) issues.push(l("hyväksyntäprotokolla ei ole ehjä", "acceptance protocol is invalid"));
     if (!result.referenceValid) issues.push(l("viitattu havainto tai malli ei ratkea", "referenced observation or model does not resolve"));
     if (!result.sourcesResolve) issues.push(l("kaikilla lähteillä ei ole ratkaistavaa julkista linkkiä", "not every source resolves to a public link"));
+    if (!result.laneValid) issues.push(l("tietue ei kuulu julkiseen evidenssikaistaan", "record is outside the public evidence lane"));
     if (result.duplicateIds.length) issues.push(l("toistuvia kriteeritunnuksia", "duplicate criterion identifiers"));
     if (result.unknownIds.length) issues.push(l("tuntemattomia kriteeritunnuksia", "unknown criterion identifiers"));
-    if (result.conflictingIds.length) issues.push(l("ristiriitaisia kriteeritiloja", "conflicting criterion states"));
-    if (candidate.decision === "accepted" && !result.accepted) issues.push(l("ilmoitettu hyväksyntä hylättiin fail-closed-tarkistuksessa", "declared acceptance was rejected by the fail-closed check"));
+    if (result.invalidStatuses.length) issues.push(l("virheellisiä kriteeritiloja", "invalid criterion states"));
+    if (!result.decisionMatches) issues.push(l("ilmoitettu päätös ei vastaa laskettua päätöstä", "declared decision does not match the computed decision"));
     if (issues.length) {
       card.append(node("p", "donor-candidate-copy donor-record-warning", `${l("Tietuevaroitus", "Record warning")}: ${issues.join("; ")}.`));
     }
@@ -743,12 +1144,389 @@ function renderDonorLedger() {
 
   const status = byId("market-donor-status");
   const mismatch = Number.isFinite(recorded) && recorded !== effectiveCount;
-  status.dataset.state = assessment.protocolValid && !mismatch ? "ready" : "error";
+  const recordsValid = assessment.candidates.every((item) => item.recordValid && item.decisionMatches);
+  status.dataset.state = assessment.protocolValid && recordsValid && !mismatch ? "ready" : "error";
   status.textContent = !assessment.protocolValid
     ? l("Fail-closed: protokolla ei läpäissyt rakennetarkistusta, joten portti pidetään nollassa.", "Fail closed: the protocol failed structural validation, so the gate is held at zero.")
+    : !recordsValid
+      ? l("Fail-closed: vähintään yksi ehdokastietue on rakenteellisesti virheellinen tai sen ilmoitettu päätös ei vastaa D1–D10-laskentaa.", "Fail closed: at least one candidate is structurally invalid or its declared decision does not match the D1–D10 calculation.")
     : mismatch
       ? l(`Fail-closed: metatiedon portti ${recorded}/${required} ei täsmää kriteereistä laskettuun ${effectiveCount}/${required}-tulokseen.`, `Fail closed: the metadata gate ${recorded}/${required} does not match the criterion-derived ${effectiveCount}/${required} result.`)
       : l(`${assessment.candidates.length} ehdokasta tarkistettu samalla protokollalla · ${effectiveCount}/${required} hyväksytty.`, `${assessment.candidates.length} candidates checked under one protocol · ${effectiveCount}/${required} accepted.`);
+  root.setAttribute("aria-busy", "false");
+}
+
+function assessScenarioInputs(inputs, sources = marketSources()) {
+  const keys = ["low", "base", "high"];
+  const values = {};
+  const inputsValid = keys.every((key) => {
+    const input = inputs?.[key];
+    const value = Number(input?.value);
+    const sourceIds = Array.isArray(input?.sourceIds) ? [...new Set(input.sourceIds.filter(Boolean))] : [];
+    const sourcesResolve = sourceIds.length > 0 && sourceIds.every((sourceId) => {
+      const source = sources.get(sourceId);
+      return Boolean(source && safeExternalUrl(source.pageUrl || source.downloadUrl));
+    });
+    if (!Number.isFinite(value) || value <= 0 || !sourcesResolve) return false;
+    values[key] = value;
+    return true;
+  });
+  const ordered = inputsValid && values.low <= values.base && values.base <= values.high;
+  return {
+    status: ordered ? "computed" : "not_computed",
+    values: ordered ? values : { low: null, base: null, high: null }
+  };
+}
+
+function assessScenarioComponents(componentBreakdown, inputAssessment) {
+  const expectedTreatments = {
+    low: "exact_row_deduplicated_both_components",
+    base: "reported_specialist_and_raw_rps_rows",
+    high: "reported_specialist_and_raw_rps_rows"
+  };
+  const rows = {};
+  const valid = inputAssessment?.status === "computed"
+    && ["low", "base", "high"].every((key) => {
+      const component = componentBreakdown?.[key];
+      const specialist = component?.specialistRetailNzd;
+      const generalRps = component?.generalRetailRpsNzd;
+      const combined = component?.combinedNzd;
+      const valuesValid = [specialist, generalRps, combined].every(
+        (value) => typeof value === "number" && Number.isFinite(value) && value > 0
+      );
+      const arithmeticValid = valuesValid
+        && Math.abs((specialist + generalRps) - combined) <= 0.01
+        && Math.abs(combined - inputAssessment.values[key]) <= 0.01;
+      const treatmentValid = component?.rowTreatment === expectedTreatments[key];
+      if (arithmeticValid && treatmentValid) {
+        rows[key] = { specialist, generalRps, combined, rowTreatment: component.rowTreatment };
+      }
+      return arithmeticValid && treatmentValid;
+    });
+  return { valid, rows: valid ? rows : {} };
+}
+
+function formatScenarioComponent(value, currency) {
+  const formatted = new Intl.NumberFormat(isFi() ? "fi-FI" : "en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value);
+  return isFi() ? `${formatted} ${currency}` : `${currency} ${formatted}`;
+}
+
+function appendScenarioComponentEur(host, component, record) {
+  const context = {
+    currency: record.currency,
+    unit: record.currency,
+    year: record.year,
+    period: "calendar_year"
+  };
+  const parts = [
+    assessEurEquivalent({ ...context, value: component.specialist }),
+    assessEurEquivalent({ ...context, value: component.generalRps }),
+    assessEurEquivalent({ ...context, value: component.combined })
+  ];
+  if (parts.every((item) => item.status === "already_eur")) return;
+  const line = node("small", "scenario-component-eur");
+  if (!parts.every((item) => item.status === "computed")) {
+    line.textContent = l("EUR-komponentit: not_computed", "EUR components: not_computed");
+    host.append(line);
+    return;
+  }
+  line.append(document.createTextNode(
+    `≈ ${formatScenarioComponent(parts[0].eurValue, "EUR")} + ${formatScenarioComponent(parts[1].eurValue, "EUR")} = ${formatScenarioComponent(parts[2].eurValue, "EUR")} · `
+  ));
+  const link = node(
+    "a",
+    "eur-rate-link",
+    l(`ECB-vuosikeskiarvo ${parts[0].rate.year} ↗`, `ECB annual average ${parts[0].rate.year} ↗`)
+  );
+  link.href = parts[0].rate.sourceUrl;
+  link.target = "_blank";
+  link.rel = "noreferrer";
+  line.append(link);
+  host.append(line);
+}
+
+function assessScenarioLab(data = state.countryScenarios) {
+  const policy = data?.calculationPolicy || {};
+  const globalGate = data?.globalGate || {};
+  const requiredInputs = policy.requiredRangeInputs;
+  const policyValid = Array.isArray(requiredInputs)
+    && requiredInputs.length === 3
+    && requiredInputs.every((key, index) => key === ["low", "base", "high"][index])
+    && policy.missingInputStatus === "not_computed"
+    && policy.computedStatus === "computed";
+  const sources = marketSources();
+  const records = (Array.isArray(data?.countryYearScenarios) ? data.countryYearScenarios : []).map((record) => {
+    const inputAssessment = assessScenarioInputs(record?.inputs, sources);
+    const componentAssessment = inputAssessment.status === "computed"
+      ? assessScenarioComponents(record?.componentBreakdown, inputAssessment)
+      : { valid: true, rows: {} };
+    const structureValid = Boolean(
+      String(record?.scenarioId || "").trim()
+      && /^[A-Z]{2}$/.test(String(record?.countryIso2 || ""))
+      && Number.isInteger(record?.year)
+      && /^[A-Z]{3}$/.test(String(record?.currency || ""))
+      && record?.evidenceLaneId === "public_reproducible"
+      && ["computed", "not_computed"].includes(record?.declaredStatus)
+      && String(record?.blockerEn || "").trim()
+      && String(record?.blockerFi || "").trim()
+      && Array.isArray(record?.sourceIds)
+      && componentAssessment.valid
+    );
+    const statusMatches = record?.declaredStatus === inputAssessment.status;
+    return {
+      record,
+      inputAssessment,
+      componentAssessment,
+      structureValid,
+      statusMatches,
+      effectiveStatus: policyValid && structureValid && statusMatches && inputAssessment.status === "computed"
+        ? "computed"
+        : "not_computed"
+    };
+  });
+
+  const donorAssessment = assessDonorLedger();
+  const minimumDonors = Number(globalGate.minimumAcceptedDonors || donorAssessment.gate?.minimumAcceptedDonors || 3);
+  const acceptedDonors = donorAssessment.protocolValid ? donorAssessment.accepted.length : 0;
+  const coverageRequirements = Array.isArray(globalGate.coverageRequirements) ? globalGate.coverageRequirements : [];
+  const coveragePassed = globalGate.coverageGateStatus === "passed"
+    && donorAssessment.gate?.coverageGateStatus === "passed"
+    && coverageRequirements.length > 0
+    && coverageRequirements.every((item) => item?.status === "passed");
+  const globalRecord = data?.globalScenario || {};
+  const globalInputs = assessScenarioInputs(globalRecord.inputs, sources);
+  const gatesPassed = acceptedDonors >= minimumDonors && coveragePassed;
+  const computedGlobalStatus = gatesPassed && globalInputs.status === "computed" ? "computed" : "not_computed";
+  const globalStructureValid = Boolean(
+    String(globalRecord.scenarioId || "").trim()
+    && /^[A-Z]{3}$/.test(String(globalRecord.currency || ""))
+    && ["computed", "not_computed"].includes(globalRecord.declaredStatus)
+    && String(globalRecord.blockerEn || "").trim()
+    && String(globalRecord.blockerFi || "").trim()
+  );
+  const globalStatusMatches = globalRecord.declaredStatus === computedGlobalStatus;
+  const globalEffectiveStatus = policyValid && globalStructureValid && globalStatusMatches && computedGlobalStatus === "computed"
+    ? "computed"
+    : "not_computed";
+  return {
+    data,
+    policy,
+    globalGate,
+    policyValid,
+    records,
+    donorAssessment,
+    minimumDonors,
+    acceptedDonors,
+    coveragePassed,
+    gatesPassed,
+    global: {
+      record: globalRecord,
+      inputs: globalInputs,
+      structureValid: globalStructureValid,
+      statusMatches: globalStatusMatches,
+      effectiveStatus: globalEffectiveStatus
+    },
+    valid: Boolean(data && policyValid && records.every((item) => item.structureValid && item.statusMatches)
+      && globalStructureValid && globalStatusMatches)
+  };
+}
+
+function renderScenarioLabUnavailable() {
+  const root = byId("market-scenario-lab");
+  if (!root) return;
+  root.setAttribute("aria-busy", "false");
+  byId("market-scenario-status").textContent = "not_computed";
+  byId("market-scenario-status").dataset.state = "error";
+  byId("market-scenario-global").replaceChildren(
+    node("strong", "", l("Maailman kokonaisluku: not_computed", "Global total: not_computed")),
+    node("p", "", l(
+      "Skenaariodatan rakennetta ei voitu vahvistaa. Puuttuvia tai virheellisiä syötteitä ei korvata nollilla.",
+      "The scenario-data structure could not be verified. Missing or invalid inputs are not replaced with zeroes."
+    ))
+  );
+  byId("market-scenario-cards").replaceChildren(
+    node("p", "empty-state", l("Skenaariot eivät ole laskettavissa.", "Scenarios are not computable."))
+  );
+  byId("market-scenario-rule").textContent = l(
+    "Fail-closed: maailman kokonaislukua ei muodosteta.",
+    "Fail closed: no global total is produced."
+  );
+}
+
+function renderScenarioLab() {
+  const root = byId("market-scenario-lab");
+  if (!root) return;
+  const assessment = assessScenarioLab();
+  if (!assessment.valid) {
+    renderScenarioLabUnavailable();
+    return;
+  }
+  const global = assessment.global;
+  const globalHost = byId("market-scenario-global");
+  const globalTitle = global.effectiveStatus === "computed"
+    ? `${l("Maailman kokonaisluku", "Global total")}: ${formatMarketValue(global.inputs.values.base, global.record.currency, global.record.currency)}`
+    : l("Maailman kokonaisluku: not_computed", "Global total: not_computed");
+  const globalCopy = global.effectiveStatus === "computed"
+    ? `${formatMarketValue(global.inputs.values.low, global.record.currency, global.record.currency)} · ${formatMarketValue(global.inputs.values.base, global.record.currency, global.record.currency)} · ${formatMarketValue(global.inputs.values.high, global.record.currency, global.record.currency)}`
+    : (isFi() ? global.record.blockerFi : global.record.blockerEn);
+  const gateChips = node("div", "scenario-gate-chips");
+  const donorChip = node(
+    "span",
+    "scenario-gate-chip",
+    `${l("Luovuttajat", "Donors")} ${assessment.acceptedDonors}/${assessment.minimumDonors}`
+  );
+  donorChip.dataset.state = assessment.acceptedDonors >= assessment.minimumDonors ? "passed" : "blocked";
+  const coverageChip = node(
+    "span",
+    "scenario-gate-chip",
+    assessment.coveragePassed ? l("Peitto läpäisty", "Coverage passed") : l("Peitto ei täyty", "Coverage not met")
+  );
+  coverageChip.dataset.state = assessment.coveragePassed ? "passed" : "blocked";
+  gateChips.append(donorChip, coverageChip);
+  globalHost.replaceChildren(node("strong", "", globalTitle), node("p", "", globalCopy), gateChips);
+  if (global.effectiveStatus === "computed") {
+    const equivalents = node("div", "scenario-global-eur");
+    for (const key of ["low", "base", "high"]) {
+      const item = node("div", "market-money-stack");
+      item.append(node("span", "", key));
+      appendEurEquivalent(item, {
+        value: global.inputs.values[key],
+        currency: global.record.currency,
+        unit: global.record.currency,
+        year: global.record.year,
+        period: "calendar_year"
+      });
+      equivalents.append(item);
+    }
+    globalHost.append(equivalents);
+  }
+
+  const cards = byId("market-scenario-cards");
+  cards.replaceChildren();
+  for (const item of assessment.records) {
+    const record = item.record || {};
+    const card = node("article", "scenario-card");
+    card.dataset.status = item.effectiveStatus;
+    const heading = node("div", "scenario-card-heading");
+    heading.append(
+      node("div", "", ""),
+      node(
+        "span",
+        "scenario-status-chip",
+        item.effectiveStatus === "computed"
+          ? l("Tuettu malli · ei donor", "Supported model · not a donor")
+          : item.effectiveStatus
+      )
+    );
+    heading.firstElementChild.append(
+      node("p", "scenario-card-meta", `${record.countryIso2 || "—"} · ${record.year || "—"} · ${record.currency || "—"}`),
+      node("h4", "", marketGeography(record))
+    );
+    const range = node("div", "scenario-range");
+    for (const key of ["low", "base", "high"]) {
+      const value = item.effectiveStatus === "computed" ? item.inputAssessment.values[key] : null;
+      const rangeItem = node("div");
+      rangeItem.append(node("span", "", key));
+      rangeItem.append(node("strong", "", value === null ? "—" : formatMarketValue(value, record.currency, record.currency)));
+      if (value !== null) {
+        appendEurEquivalent(rangeItem, {
+          value,
+          currency: record.currency,
+          unit: record.currency,
+          year: record.year,
+          period: "calendar_year"
+        });
+      }
+      range.append(rangeItem);
+    }
+    const components = node("div", "scenario-components");
+    if (item.effectiveStatus === "computed") {
+      components.append(node("strong", "scenario-components-title", l("Julkaistu komponenttilaskenta", "Published component arithmetic")));
+      for (const key of ["low", "base", "high"]) {
+        const component = item.componentAssessment.rows[key];
+        const row = node("div", "scenario-component-row");
+        row.append(
+          node("span", "", key),
+          node(
+            "code",
+            "",
+            `${formatScenarioComponent(component.specialist, record.currency)} + ${formatScenarioComponent(component.generalRps, record.currency)} = ${formatScenarioComponent(component.combined, record.currency)}`
+          ),
+          node(
+            "small",
+            "",
+            component.rowTreatment === "exact_row_deduplicated_both_components"
+              ? l("Täsmälleen toistuvien rivien herkkyys molemmissa komponenteissa", "Exact-row-deduplicated sensitivity in both components")
+              : l("Raportoidut erikoisvähittäisrivit + RPS-raakarivit", "Reported specialist rows + raw RPS rows")
+          )
+        );
+        appendScenarioComponentEur(row, component, record);
+        components.append(row);
+      }
+    }
+    const blocker = node("p", "scenario-blocker");
+    blocker.append(
+      node("strong", "", item.effectiveStatus === "computed" ? l("Laskettu: ", "Computed: ") : l("Puuttuva näyttö: ", "Missing evidence: ")),
+      document.createTextNode(isFi() ? record.blockerFi : record.blockerEn)
+    );
+    const controls = node("dl", "scenario-controls");
+    if (item.effectiveStatus === "computed") {
+      const controlItems = [
+        [l("Näytön tila", "Evidence status"), l("Tuettu malli · ei havaittu kansallinen arvo", "Supported model · not an observed national value")],
+        [l("Veroperusta", "Tax basis"), record.taxBasis === "GST_unknown" ? l("GST ei tiedossa", "GST unknown") : record.taxBasis || "—"],
+        [l("Peitto", "Coverage"), record.coverageStatus === "incomplete" ? l("Puutteellinen", "Incomplete") : record.coverageStatus || "—"],
+        [l("Riippumaton täsmäytys", "Independent reconciliation"), record.independentReconciliationStatus === "not_met" ? l("Ei läpäisty", "Not met") : record.independentReconciliationStatus || "—"]
+      ];
+      for (const [label, value] of controlItems) {
+        const itemHost = node("div");
+        itemHost.append(node("dt", "", label), node("dd", "", value));
+        controls.append(itemHost);
+      }
+    }
+    const sourceLinks = node("div", "donor-source-links");
+    const sourceIds = Array.isArray(record.sourceIds) ? [...new Set(record.sourceIds.filter(Boolean))] : [];
+    for (const sourceId of sourceIds) {
+      const source = marketSources().get(sourceId);
+      const url = safeExternalUrl(source?.pageUrl || source?.downloadUrl);
+      if (!url) continue;
+      const link = node("a", "", `${source.publisher || sourceId} ↗`);
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      sourceLinks.append(link);
+    }
+    if (!sourceLinks.childElementCount) {
+      sourceLinks.append(node("span", "donor-source-missing", l("Ei hyväksyttyjä skenaariosyötteitä", "No eligible scenario inputs")));
+    }
+    card.append(heading, range);
+    if (components.childElementCount) card.append(components);
+    card.append(blocker);
+    if (controls.childElementCount) card.append(controls);
+    if (item.effectiveStatus === "computed" && (record.methodEn || record.methodFi)) {
+      const method = node("details", "scenario-method");
+      method.append(
+        node("summary", "", l("Avaa laskentamenetelmä", "Open calculation method")),
+        node("p", "", isFi() ? record.methodFi : record.methodEn)
+      );
+      card.append(method);
+    }
+    card.append(sourceLinks);
+    cards.append(card);
+  }
+
+  const computedCount = assessment.records.filter((item) => item.effectiveStatus === "computed").length;
+  const status = byId("market-scenario-status");
+  status.textContent = global.effectiveStatus === "computed"
+    ? "computed"
+    : l(`global not_computed · maat ${computedCount}/${assessment.records.length}`, `global not_computed · countries ${computedCount}/${assessment.records.length}`);
+  status.dataset.state = global.effectiveStatus === "computed" ? "ready" : "blocked";
+  byId("market-scenario-rule").textContent = isFi()
+    ? assessment.policy.ruleFi
+    : assessment.policy.ruleEn;
+  byId("market-scenario-rule").dataset.summary = `${computedCount}/${assessment.records.length}`;
   root.setAttribute("aria-busy", "false");
 }
 
@@ -764,6 +1542,7 @@ function renderMarketObservations() {
     const compact = node("strong", "market-value-number", formatMarketValue(record.value, record.currency, record.unit));
     compact.title = formatMarketValue(record.value, record.currency, record.unit, false);
     valueCell.append(compact);
+    appendEurEquivalent(valueCell, record);
     const statusCell = node("td");
     const labels = MARKET_EVIDENCE_LABELS[record.evidenceStatus] || ["Muu havainto", "Other record"];
     statusCell.append(node("span", `market-evidence-chip market-evidence-${String(record.evidenceStatus || "other").replace(/[^a-z0-9_-]/gi, "-")}`, l(...labels)));
@@ -809,6 +1588,13 @@ function renderMarketModels() {
     [[l("Alaraja", "Low"), model.low], [l("Keskipiste", "Base"), model.central], [l("Yläraja", "High"), model.high]].forEach(([label, value]) => {
       const item = node("div");
       item.append(node("span", "", label), node("strong", "", formatMarketValue(value, model.currency, model.currency)));
+      appendEurEquivalent(item, {
+        value,
+        currency: model.currency,
+        unit: model.currency,
+        year: model.year,
+        period: "calendar_year"
+      });
       range.append(item);
     });
     const caveat = node("p", "market-model-limit", isFi() ? model.limitationFi : model.limitationEn);
@@ -824,6 +1610,7 @@ function renderMarketModels() {
         const label = node("div");
         label.append(node("strong", "", isFi() ? input.labelFi : input.labelEn), node("small", "", `${input.year} · ${input.observationId}`));
         const value = node("span", "market-model-input-value", formatMarketValue(input.value, input.currency, input.unit));
+        appendEurEquivalent(value, input);
         const sourceLink = marketSourceLink(input);
         item.append(label, value);
         if (sourceLink) item.append(sourceLink);
@@ -857,6 +1644,9 @@ function renderMarket() {
     byId("market-observation-rows").replaceChildren();
     byId("market-empty").hidden = false;
     renderDonorLedgerUnavailable(l("Luovuttajamarkkinadataa ei voitu ladata.", "Donor-market data could not be loaded."));
+    renderEvidenceLanes();
+    renderScenarioLab();
+    renderFxMethod();
     renderMarketMethods();
     byId("market-models").replaceChildren(node("p", "empty-state", l("Mallinnettua aineistoa ei voitu ladata.", "Modelled data could not be loaded.")));
     return;
@@ -864,7 +1654,10 @@ function renderMarket() {
   renderMarketMetrics();
   renderMarketGlobalRange();
   renderMarketReadiness();
+  renderEvidenceLanes();
   renderDonorLedger();
+  renderScenarioLab();
+  renderFxMethod();
   renderMarketObservations();
   renderMarketMethods();
   renderMarketModels();
@@ -1637,9 +2430,22 @@ function renderMeta() {
 }
 
 async function loadData() {
-  const [atlasResult, marketResult, patentResult, changelogResult] = await Promise.allSettled([
+  const [
+    atlasResult,
+    marketResult,
+    evidenceLanesResult,
+    donorCockpitResult,
+    countryScenariosResult,
+    fxResult,
+    patentResult,
+    changelogResult
+  ] = await Promise.allSettled([
     fetch("data/atlas.json", { cache: "no-store" }),
     fetch("data/market-values.json", { cache: "no-store" }),
+    fetch("data/evidence-lanes.json", { cache: "no-store" }),
+    fetch("data/donor-cockpit.json", { cache: "no-store" }),
+    fetch("data/country-scenarios.json", { cache: "no-store" }),
+    fetch("data/fx-rates.json", { cache: "no-store" }),
     fetch("data/patent-history.json", { cache: "no-store" }),
     fetch("data/changelog.json", { cache: "no-store" })
   ]);
@@ -1656,6 +2462,46 @@ async function loadData() {
   } catch (error) {
     state.marketData = null;
     console.warn("Optional market-value dataset unavailable", error);
+  }
+
+  try {
+    if (evidenceLanesResult.status !== "fulfilled" || !evidenceLanesResult.value.ok) throw new Error(`HTTP ${evidenceLanesResult.status === "fulfilled" ? evidenceLanesResult.value.status : "network error"}`);
+    const evidenceLanes = await evidenceLanesResult.value.json();
+    if (!Array.isArray(evidenceLanes.lanes) || !evidenceLanes.publicBuildPolicy) throw new Error("schema validation failed");
+    state.evidenceLanes = evidenceLanes;
+  } catch (error) {
+    state.evidenceLanes = null;
+    console.warn("Optional evidence-lane controls unavailable", error);
+  }
+
+  try {
+    if (donorCockpitResult.status !== "fulfilled" || !donorCockpitResult.value.ok) throw new Error(`HTTP ${donorCockpitResult.status === "fulfilled" ? donorCockpitResult.value.status : "network error"}`);
+    const donorCockpit = await donorCockpitResult.value.json();
+    if (!Array.isArray(donorCockpit.candidates) || !Array.isArray(donorCockpit.protocol?.criteria) || !donorCockpit.gate) throw new Error("schema validation failed");
+    state.donorCockpit = donorCockpit;
+  } catch (error) {
+    state.donorCockpit = null;
+    console.warn("Optional donor-conversion controls unavailable", error);
+  }
+
+  try {
+    if (countryScenariosResult.status !== "fulfilled" || !countryScenariosResult.value.ok) throw new Error(`HTTP ${countryScenariosResult.status === "fulfilled" ? countryScenariosResult.value.status : "network error"}`);
+    const countryScenarios = await countryScenariosResult.value.json();
+    if (!Array.isArray(countryScenarios.countryYearScenarios) || !countryScenarios.globalScenario || !countryScenarios.globalGate) throw new Error("schema validation failed");
+    state.countryScenarios = countryScenarios;
+  } catch (error) {
+    state.countryScenarios = null;
+    console.warn("Optional country-scenario controls unavailable", error);
+  }
+
+  try {
+    if (fxResult.status !== "fulfilled" || !fxResult.value.ok) throw new Error(`HTTP ${fxResult.status === "fulfilled" ? fxResult.value.status : "network error"}`);
+    const fxData = await fxResult.value.json();
+    if (!assessFxRates(fxData).valid) throw new Error("schema validation failed");
+    state.fxData = fxData;
+  } catch (error) {
+    state.fxData = null;
+    console.warn("Optional ECB EUR-equivalent dataset unavailable", error);
   }
 
   try {

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/evidence-lanes.schema.json",
+  "title": "Pixan public evidence lanes",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "asOf", "publicBuildPolicy", "lanes"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "asOf": {"type": "string", "format": "date"},
+    "publicBuildPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowedRecordLaneIds", "metadataOnlyLaneIds", "ruleEn", "ruleFi"],
+      "properties": {
+        "allowedRecordLaneIds": {
+          "type": "array",
+          "prefixItems": [{"const": "public_reproducible"}],
+          "items": false
+        },
+        "metadataOnlyLaneIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["licensed_controlled", "private_pending_review"]},
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "ruleEn": {"type": "string", "minLength": 1},
+        "ruleFi": {"type": "string", "minLength": 1}
+      }
+    },
+    "lanes": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "laneId", "order", "titleEn", "titleFi", "purposeEn", "purposeFi",
+          "publicExposure", "dataState", "publicationRuleEn", "publicationRuleFi"
+        ],
+        "properties": {
+          "laneId": {"enum": ["public_reproducible", "licensed_controlled", "private_pending_review"]},
+          "order": {"type": "integer", "minimum": 1, "maximum": 3},
+          "titleEn": {"type": "string", "minLength": 1},
+          "titleFi": {"type": "string", "minLength": 1},
+          "purposeEn": {"type": "string", "minLength": 1},
+          "purposeFi": {"type": "string", "minLength": 1},
+          "publicExposure": {"enum": ["reviewed_aggregate_records", "metadata_placeholder_only"]},
+          "dataState": {"enum": ["reviewed_aggregate_records_available", "no_public_records"]},
+          "publicationRuleEn": {"type": "string", "minLength": 1},
+          "publicationRuleFi": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

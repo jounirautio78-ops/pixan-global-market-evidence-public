@@ -29,6 +29,14 @@ MARKET_OBSERVATIONS_PATH = ROOT / "source" / "market-observations.json"
 PATENT_HISTORY_PATH = ROOT / "source" / "patent-history.json"
 CHANGELOG_PATH = ROOT / "source" / "changelog.json"
 OUTPUT_DIR = ROOT / "site" / "data"
+SOURCE_SCHEMA_DIR = ROOT / "source" / "schemas"
+PUBLIC_SCHEMA_DIR = ROOT / "site" / "schemas"
+PUBLIC_CONTROL_FILES = (
+    "evidence-lanes.json",
+    "donor-cockpit.json",
+    "country-scenarios.json",
+    "fx-rates.json",
+)
 
 DIMENSIONS = (
     "officialSales",
@@ -1254,6 +1262,22 @@ def write_outputs(
         OUTPUT_DIR / "changelog.json",
         json.dumps(changelog, ensure_ascii=False, indent=2) + "\n",
     )
+    for control_name in PUBLIC_CONTROL_FILES:
+        atomic_write_text(
+            OUTPUT_DIR / control_name,
+            (ROOT / "source" / control_name).read_text(encoding="utf-8"),
+        )
+    PUBLIC_SCHEMA_DIR.mkdir(parents=True, exist_ok=True)
+    for schema_name in (
+        "evidence-lanes.schema.json",
+        "donor-cockpit.schema.json",
+        "country-scenarios.schema.json",
+        "fx-rates.schema.json",
+    ):
+        atomic_write_text(
+            PUBLIC_SCHEMA_DIR / schema_name,
+            (SOURCE_SCHEMA_DIR / schema_name).read_text(encoding="utf-8"),
+        )
 
 
 def main() -> None:

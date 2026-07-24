@@ -9,6 +9,7 @@ import json
 import re
 import sys
 import zipfile
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlparse
@@ -25,10 +26,17 @@ except ModuleNotFoundError:  # Support importing this file as scripts.validate_b
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "site" / "data" / "bank-package-manifest.json"
+LOCK_PATH = ROOT / "source" / "bank-package-en-lock.json"
 CHANGELOG_PATH = ROOT / "site" / "data" / "changelog.json"
 REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register.csv"
 EN_REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register-en.csv"
 MARKET_VALUES_PATH = ROOT / "site" / "data" / "market-values.json"
+COUNTRY_SCENARIOS_PATH = ROOT / "site" / "data" / "country-scenarios.json"
+PUBLIC_FX_PATH = ROOT / "site" / "data" / "fx-rates.json"
+SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
+PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
+SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
+ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
 
 REGISTER_HEADERS = [
     "Väite",
@@ -54,15 +62,71 @@ EN_REGISTER_HEADERS = [
     "Gaps / additional evidence needed",
 ]
 EN_ALLOWED_STATUSES = {"Confirmed", "Supported", "Assumption", "Missing"}
+EUR_EQUIVALENT_HEADERS = {
+    "fi": [
+        "Tietuetyyppi",
+        "Tunniste",
+        "Erä / komponentti",
+        "Maa / maantiede",
+        "Vuosi",
+        "Periodi",
+        "Alkuperäinen määrä",
+        "Valuutta",
+        "ECB-kurssi (valuuttayksikköä / EUR)",
+        "EUR-vasta-arvo (täysi tarkkuus)",
+        "Rate ID",
+        "ECB-lähde URL",
+        "Tila",
+        "Syy / menetelmä",
+    ],
+    "en": [
+        "Record type",
+        "Record ID",
+        "Item / component",
+        "Country / geography",
+        "Year",
+        "Period",
+        "Original amount",
+        "Currency",
+        "ECB rate (currency units / EUR)",
+        "EUR equivalent (full precision)",
+        "Rate ID",
+        "ECB source URL",
+        "Status",
+        "Reason / method",
+    ],
+}
+EUR_EQUIVALENT_SHEET_NAMES = {"fi": "Eurovastineet", "en": "EUR equivalents"}
+EXPECTED_TEMPLATE_INPUTS = {
+    "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
+    "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-en.pptx",
+    "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
+    "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-en.xlsx",
+    "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-fi.pptx",
+    "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-fi.pptx",
+    "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-fi.pptx",
+    "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-fi.xlsx",
+}
 EXPECTED_INPUTS = {
+    "scripts/artifact-build/build_bank_package_artifacts.mjs",
+    *EXPECTED_TEMPLATE_INPUTS,
     "site/data/atlas.json",
     "site/data/changelog.json",
+    "site/data/country-scenarios.json",
+    "site/data/donor-cockpit.json",
+    "site/data/evidence-lanes.json",
+    "site/data/fx-rates.json",
     "site/data/market-values.json",
     "site/data/patent-history.json",
+    "site/schemas/fx-rates.schema.json",
     "source/bank-evidence-register-en.json",
-    "source/bank-deck-en-translations.json",
     "source/bank-package-en-lock.json",
+    "source/fx-rates.json",
+    "source/schemas/fx-rates.schema.json",
+    "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
+    "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
+    "source/US_FTC_2015_2021_REPORTED_SALES.md",
 }
 EXPECTED_ARTIFACTS = {
     "short-deck-fi": {
@@ -180,7 +244,7 @@ SENSITIVE_QUERY_KEYS = {
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-def validate_v17_market_bindings(errors: list[str]) -> None:
+def validate_v18_market_bindings(errors: list[str]) -> None:
     try:
         market = load_json(MARKET_VALUES_PATH)
     except ValueError as error:
@@ -188,11 +252,11 @@ def validate_v17_market_bindings(errors: list[str]) -> None:
         return
     observations = market.get("observations")
     sources = market.get("sources")
-    if not isinstance(observations, list) or len(observations) != 29:
-        errors.append("v17 bank package requires exactly 29 market observations")
+    if not isinstance(observations, list) or len(observations) != 36:
+        errors.append("v18 bank package requires exactly 36 market observations")
         return
-    if not isinstance(sources, list) or len(sources) != 17:
-        errors.append("v17 bank package requires exactly 17 market sources")
+    if not isinstance(sources, list) or len(sources) != 18:
+        errors.append("v18 bank package requires exactly 18 market sources")
     observation_by_id = {
         item.get("observationId"): item
         for item in observations
@@ -207,10 +271,10 @@ def validate_v17_market_bindings(errors: list[str]) -> None:
         if isinstance(item.get("countryIso2"), str)
         and str(item.get("evidenceStatus", "")).startswith("official")
     ]
-    if len(official) != 20 or {item["countryIso2"] for item in official} != {
-        "CA", "DE", "FI", "NZ", "PL", "SE"
+    if len(official) != 27 or {item["countryIso2"] for item in official} != {
+        "CA", "DE", "FI", "NZ", "PL", "SE", "US"
     }:
-        errors.append("v17 bank package requires 20 official records across six reviewed countries")
+        errors.append("v18 bank package requires 27 official records across seven reviewed countries")
 
     exact_observations = {
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": (
@@ -233,6 +297,11 @@ def validate_v17_market_bindings(errors: list[str]) -> None:
             "institutional_supported",
             "published_secondary_benchmark",
         ),
+        "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": (
+            2_763_284_338,
+            "official_table_derived",
+            "official_table_sum",
+        ),
     }
     for observation_id, (value, status, finality) in exact_observations.items():
         item = observation_by_id.get(observation_id)
@@ -244,7 +313,7 @@ def validate_v17_market_bindings(errors: list[str]) -> None:
             or item.get("comparableMarketValue") is not False
             or item.get("atlasEstimate") is not False
         ):
-            errors.append(f"v17 reviewed observation binding differs: {observation_id}")
+            errors.append(f"v18 reviewed observation binding differs: {observation_id}")
 
     protocol = market.get("donorProtocol")
     criteria = protocol.get("criteria") if isinstance(protocol, dict) else None
@@ -257,10 +326,10 @@ def validate_v17_market_bindings(errors: list[str]) -> None:
         errors.append("donor protocol must contain ordered criteria D1-D10")
     if (
         not isinstance(candidates, list)
-        or len(candidates) != 4
+        or len(candidates) != 5
         or any(item.get("decision") != "not_accepted" for item in candidates)
     ):
-        errors.append("all four reviewed donor candidates must remain not accepted")
+        errors.append("all five reviewed donor candidates must remain not accepted")
     if (
         readiness.get("comparableFullYearMarketValueDonors") != 0
         or readiness.get("minimumRequiredDonors") != 3
@@ -281,6 +350,295 @@ def load_json(path: Path) -> Any:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         raise ValueError(f"cannot read {path.relative_to(ROOT)}: {error}") from error
+
+
+def decimal_value(value: Any) -> Decimal | None:
+    if isinstance(value, bool):
+        return None
+    try:
+        result = Decimal(str(value))
+    except (InvalidOperation, ValueError):
+        return None
+    return result if result.is_finite() else None
+
+
+def validate_artifact_builder_fx_contract(builder_text: str, errors: list[str]) -> None:
+    required_tokens = {
+        '"site/data/fx-rates.json"': "public FX reviewed input",
+        '"site/schemas/fx-rates.schema.json"': "public FX schema reviewed input",
+        '"source/fx-rates.json"': "source FX reviewed input",
+        '"source/schemas/fx-rates.schema.json"': "source FX schema reviewed input",
+        "buildEurEquivalentRows": "data-driven EUR row builder",
+        "scenario_component": "country-scenario component rows",
+        "market_observation": "market-observation rows",
+        '"model"': "market-model rows",
+        "compatible_ecb_rate_missing": "missing-rate fail-closed reason",
+        '"not_computed"': "missing-rate fail-closed status",
+        "eur_equivalent = original_amount / currency_units_per_eur": "reviewed FX formula",
+        "`=G${sheetRow}/I${sheetRow}`": "full-precision worksheet formula",
+        '"EUR equivalents"': "English EUR-equivalent sheet",
+        '"Eurovastineet"': "Finnish EUR-equivalent sheet",
+        "[FX methodology]": "deck FX methodology notes",
+        "fxSourcesInDeckNotes": "deck-source QA lock",
+        "eurEquivalentRowsAfterReopen": "workbook-row QA lock",
+    }
+    for token, description in required_tokens.items():
+        if token not in builder_text:
+            errors.append(f"artifact builder lacks {description}: {token}")
+    if re.search(r"=ROUND\(\s*G\$\{sheetRow", builder_text, flags=re.IGNORECASE):
+        errors.append("artifact builder must not round EUR-equivalent worksheet formulas")
+
+
+def validate_fx_artifact_inputs(
+    public_fx: dict[str, Any],
+    source_fx: dict[str, Any],
+    errors: list[str],
+) -> None:
+    if public_fx != source_fx:
+        errors.append("artifact FX input differs between source and site/data")
+    if not PUBLIC_FX_SCHEMA_PATH.is_file() or not SOURCE_FX_SCHEMA_PATH.is_file():
+        errors.append("artifact FX source and public schema files are both required")
+    elif PUBLIC_FX_SCHEMA_PATH.read_bytes() != SOURCE_FX_SCHEMA_PATH.read_bytes():
+        errors.append("artifact FX source and public schemas differ")
+    policy = public_fx.get("calculationPolicy")
+    if (
+        public_fx.get("targetCurrency") != "EUR"
+        or public_fx.get("provider", {}).get("name") != "European Central Bank"
+        or not isinstance(policy, dict)
+        or policy.get("formulaMachine")
+        != "eur_equivalent = original_amount / currency_units_per_eur"
+        or policy.get("missingRateStatus") != "not_computed"
+        or policy.get("eligibleUnitRule") != "currency_must_equal_unit"
+    ):
+        errors.append("artifact FX input does not retain the reviewed ECB conversion policy")
+    seen: set[tuple[str, int]] = set()
+    for rate in public_fx.get("rates", []):
+        if not isinstance(rate, dict):
+            errors.append("artifact FX input contains a non-object rate")
+            continue
+        currency = rate.get("currency")
+        year = rate.get("year")
+        key = (currency, year)
+        expected_id = f"ECB-EXR-A-{currency}-EUR-SP00-A-{year}"
+        parsed = urlparse(str(rate.get("sourceUrl", "")))
+        if (
+            key in seen
+            or rate.get("rateId") != expected_id
+            or decimal_value(rate.get("currencyUnitsPerEur")) is None
+            or decimal_value(rate.get("currencyUnitsPerEur")) <= 0
+            or parsed.scheme != "https"
+            or parsed.hostname != "data-api.ecb.europa.eu"
+        ):
+            errors.append(f"artifact FX rate is invalid: {currency}/{year}")
+        seen.add(key)
+
+
+def build_expected_eur_equivalent_rows(
+    market: dict[str, Any],
+    scenarios: dict[str, Any],
+    fx: dict[str, Any],
+) -> list[dict[str, Any]]:
+    rates = {
+        (rate.get("currency"), rate.get("year")): rate
+        for rate in fx.get("rates", [])
+        if isinstance(rate, dict)
+    }
+    eligible_periods = set(
+        fx.get("calculationPolicy", {}).get("eligibleRecordPeriods", [])
+    )
+    rows: list[dict[str, Any]] = []
+
+    def append(
+        record_type: str,
+        record_id: Any,
+        item: Any,
+        geography: Any,
+        record: dict[str, Any],
+    ) -> None:
+        amount = decimal_value(record.get("value"))
+        currency = record.get("currency")
+        unit = record.get("unit")
+        year = record.get("year")
+        period = record.get("period")
+        if (
+            amount is None
+            or amount <= 0
+            or not isinstance(currency, str)
+            or re.fullmatch(r"[A-Z]{3}", currency) is None
+            or unit != currency
+        ):
+            return
+        if currency == "EUR":
+            status = "already_eur"
+            reason = "original_currency_already_eur"
+            rate_value: Decimal | None = Decimal("1")
+            rate_id: str | None = "EUR-IDENTITY"
+            source_url = fx.get("provider", {}).get("methodologyUrl")
+        elif not isinstance(year, int) or isinstance(year, bool) or period not in eligible_periods:
+            status = "not_computed"
+            reason = "period_not_compatible_with_annual_average"
+            rate_value = None
+            rate_id = None
+            source_url = fx.get("provider", {}).get("datasetUrl")
+        else:
+            rate = rates.get((currency, year))
+            rate_value = decimal_value(rate.get("currencyUnitsPerEur")) if rate else None
+            if rate_value is None or rate_value <= 0:
+                status = "not_computed"
+                reason = "compatible_ecb_rate_missing"
+                rate_value = None
+                rate_id = None
+                source_url = fx.get("provider", {}).get("datasetUrl")
+            else:
+                status = "computed"
+                reason = "original_amount_divided_by_ecb_annual_average"
+                rate_id = rate.get("rateId")
+                source_url = rate.get("sourceUrl")
+        rows.append(
+            {
+                "recordType": record_type,
+                "recordId": record_id,
+                "item": item,
+                "geography": geography,
+                "year": year,
+                "period": period,
+                "originalAmount": amount,
+                "currency": currency,
+                "rateValue": rate_value,
+                "rateId": rate_id,
+                "sourceUrl": source_url,
+                "status": status,
+                "reason": reason,
+            }
+        )
+
+    for observation in market.get("observations", []):
+        if isinstance(observation, dict):
+            append(
+                "market_observation",
+                observation.get("observationId"),
+                observation.get("metric"),
+                observation.get("geography"),
+                observation,
+            )
+
+    for scenario in scenarios.get("countryYearScenarios", []):
+        if not isinstance(scenario, dict):
+            continue
+        components = scenario.get("componentBreakdown")
+        if not isinstance(components, dict):
+            continue
+        for range_key, component in components.items():
+            if not isinstance(component, dict):
+                continue
+            for component_key, value in component.items():
+                numeric = decimal_value(value)
+                if numeric is None or numeric <= 0:
+                    continue
+                append(
+                    "scenario_component",
+                    scenario.get("scenarioId"),
+                    f"{range_key}.{component_key}",
+                    scenario.get("geography"),
+                    {
+                        "value": value,
+                        "currency": scenario.get("currency"),
+                        "unit": scenario.get("currency"),
+                        "year": scenario.get("year"),
+                        "period": "calendar_year",
+                    },
+                )
+
+    for model in market.get("models", []):
+        if not isinstance(model, dict):
+            continue
+        for bound in ("low", "base", "central", "high"):
+            numeric = decimal_value(model.get(bound))
+            if numeric is None or numeric <= 0:
+                continue
+            append(
+                "model",
+                model.get("modelId"),
+                bound,
+                model.get("geography"),
+                {
+                    "value": model.get(bound),
+                    "currency": model.get("currency"),
+                    "unit": model.get("currency"),
+                    "year": model.get("year"),
+                    "period": "calendar_year",
+                },
+            )
+    return rows
+
+
+def load_expected_eur_equivalent_rows(errors: list[str]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    try:
+        market = load_json(MARKET_VALUES_PATH)
+        scenarios = load_json(COUNTRY_SCENARIOS_PATH)
+        public_fx = load_json(PUBLIC_FX_PATH)
+        source_fx = load_json(SOURCE_FX_PATH)
+    except ValueError as error:
+        errors.append(str(error))
+        return [], {}
+    validate_fx_artifact_inputs(public_fx, source_fx, errors)
+    rows = build_expected_eur_equivalent_rows(market, scenarios, public_fx)
+    if not rows:
+        errors.append("artifact EUR-equivalent ledger has no eligible rows")
+    return rows, public_fx
+
+
+def deck_fx_markers(
+    rows: list[dict[str, Any]],
+    language: str,
+) -> tuple[str, str]:
+    by_key = {
+        (row["recordType"], row["recordId"], row["item"]): row
+        for row in rows
+    }
+    nz_low = by_key.get(
+        ("scenario_component", "NZ-2024-RETAIL-RANGE", "low.combinedNzd")
+    )
+    nz_high = by_key.get(
+        ("scenario_component", "NZ-2024-RETAIL-RANGE", "high.combinedNzd")
+    )
+    ftc = by_key.get(
+        (
+            "market_observation",
+            "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+            "ftc_reported_cartridge_and_disposable_sales",
+        )
+    )
+    if not all(
+        item
+        and item["status"] == "computed"
+        and isinstance(item["rateValue"], Decimal)
+        and item["rateValue"] > 0
+        for item in (nz_low, nz_high, ftc)
+    ):
+        return "eur not_computed", "eur not_computed"
+    nz_low_eur = nz_low["originalAmount"] / nz_low["rateValue"]
+    nz_high_eur = nz_high["originalAmount"] / nz_high["rateValue"]
+    ftc_eur = ftc["originalAmount"] / ftc["rateValue"]
+    nz_low_display = (nz_low_eur / Decimal("1000000")).quantize(
+        Decimal("0.1"), rounding=ROUND_HALF_UP
+    )
+    nz_high_display = (nz_high_eur / Decimal("1000000")).quantize(
+        Decimal("0.1"), rounding=ROUND_HALF_UP
+    )
+    ftc_display = (ftc_eur / Decimal("1000000000")).quantize(
+        Decimal("0.001"), rounding=ROUND_HALF_UP
+    )
+    if language == "fi":
+        return (
+            f"≈{str(nz_low_display).replace('.', ',')}–"
+            f"{str(nz_high_display).replace('.', ',')} milj. eur",
+            f"≈{str(ftc_display).replace('.', ',')} mrd eur",
+        )
+    return (
+        f"≈eur {nz_low_display}–{nz_high_display}m",
+        f"≈eur {ftc_display}bn",
+    )
 
 
 def strings(value: Any):
@@ -356,7 +714,7 @@ def validate_ooxml(
     errors: list[str],
     *,
     require_deterministic_zip: bool,
-    allow_empty_notes: bool,
+    allow_notes: bool,
 ) -> str:
     label = str(path.relative_to(ROOT))
     try:
@@ -389,21 +747,13 @@ def validate_ooxml(
                     extracted_text.append(payload)
                     is_notes_part = "/notesslides/" in lowered_name or "/notesmasters/" in lowered_name
                     if is_notes_part:
-                        if not allow_empty_notes:
+                        if not allow_notes:
                             errors.append(f"{label}: notes parts are forbidden ({info.filename})")
                         elif info.filename.endswith(".xml"):
                             try:
-                                note_root = ET.fromstring(payload)
+                                ET.fromstring(payload)
                             except ET.ParseError:
                                 errors.append(f"{label}: malformed notes part {info.filename}")
-                            else:
-                                note_text = [
-                                    str(element.text or "").strip()
-                                    for element in note_root.iter()
-                                    if element.tag.endswith("}t") and str(element.text or "").strip()
-                                ]
-                                if note_text:
-                                    errors.append(f"{label}: notes part contains text ({info.filename})")
                     if info.filename.endswith(".rels"):
                         try:
                             root = ET.fromstring(payload)
@@ -446,6 +796,47 @@ def slide_texts(path: Path, errors: list[str]) -> list[str]:
     return output
 
 
+def validate_slide_source_notes(
+    path: Path,
+    fx: dict[str, Any],
+    errors: list[str],
+) -> None:
+    label = str(path.relative_to(ROOT))
+    rates = {
+        (item.get("currency"), item.get("year")): item
+        for item in fx.get("rates", [])
+        if isinstance(item, dict)
+    }
+    required_fx_urls = {
+        fx.get("provider", {}).get("methodologyUrl"),
+        rates.get(("NZD", 2024), {}).get("sourceUrl"),
+        rates.get(("USD", 2021), {}).get("sourceUrl"),
+    } - {None}
+    formula = fx.get("calculationPolicy", {}).get("formulaEn")
+    try:
+        presentation = Presentation(path)
+    except Exception as error:
+        errors.append(f"{label}: cannot parse presentation notes: {error}")
+        return
+    for index, slide in enumerate(presentation.slides, start=1):
+        if not slide.has_notes_slide or slide.notes_slide.notes_text_frame is None:
+            errors.append(f"{label}: slide {index} is missing speaker notes")
+            continue
+        notes = str(slide.notes_slide.notes_text_frame.text or "").strip()
+        validate_text(f"{label} slide {index} notes", notes, errors)
+        if "[Sources]" not in notes:
+            errors.append(f"{label}: slide {index} notes lack a [Sources] block")
+        if not re.search(r"https://[^\s]+", notes):
+            errors.append(f"{label}: slide {index} [Sources] block lacks a public HTTPS source")
+        if "[FX methodology]" not in notes or not formula or formula not in notes:
+            errors.append(f"{label}: slide {index} notes lack the reviewed FX methodology")
+        for required_url in required_fx_urls:
+            if required_url not in notes:
+                errors.append(
+                    f"{label}: slide {index} notes lack required FX source {required_url}"
+                )
+
+
 def read_register_csv(
     path: Path,
     headers: list[str],
@@ -477,10 +868,99 @@ def read_register_csv(
     return data_rows
 
 
+def validate_eur_equivalent_sheet(
+    workbook: Any,
+    language: str,
+    expected_rows: list[dict[str, Any]],
+    label: str,
+    errors: list[str],
+) -> None:
+    sheet_name = EUR_EQUIVALENT_SHEET_NAMES[language]
+    if sheet_name not in workbook.sheetnames:
+        errors.append(f"{label}: missing {sheet_name} sheet")
+        return
+    sheet = workbook[sheet_name]
+    headers = [str(sheet.cell(1, column).value or "") for column in range(1, 15)]
+    if headers != EUR_EQUIVALENT_HEADERS[language]:
+        errors.append(f"{label}: {sheet_name} headers are incorrect")
+    actual_rows = [
+        row
+        for row in sheet.iter_rows(min_row=2, max_col=14)
+        if any(cell.value not in (None, "") for cell in row)
+    ]
+    if len(actual_rows) != len(expected_rows):
+        errors.append(
+            f"{label}: {sheet_name} row coverage differs "
+            f"({len(actual_rows)} != {len(expected_rows)})"
+        )
+    for index, expected in enumerate(expected_rows, start=2):
+        if index - 2 >= len(actual_rows):
+            break
+        cells = actual_rows[index - 2]
+        expected_text = {
+            1: expected["recordType"],
+            2: expected["recordId"],
+            3: expected["item"],
+            4: expected["geography"],
+            5: expected["year"],
+            6: expected["period"],
+            8: expected["currency"],
+            11: expected["rateId"],
+            12: expected["sourceUrl"],
+            13: expected["status"],
+            14: expected["reason"],
+        }
+        for column, value in expected_text.items():
+            actual = cells[column - 1].value
+            if ("" if actual is None else str(actual)) != ("" if value is None else str(value)):
+                errors.append(
+                    f"{label}: {sheet_name}!{cells[column - 1].coordinate} "
+                    "differs from the reviewed FX row"
+                )
+        actual_amount = decimal_value(cells[6].value)
+        if actual_amount != expected["originalAmount"]:
+            errors.append(
+                f"{label}: {sheet_name}!{cells[6].coordinate} original amount differs"
+            )
+        actual_rate = decimal_value(cells[8].value)
+        if actual_rate != expected["rateValue"]:
+            errors.append(
+                f"{label}: {sheet_name}!{cells[8].coordinate} ECB rate differs"
+            )
+        if expected["status"] == "computed":
+            expected_formula = f"=G{index}/I{index}"
+        elif expected["status"] == "already_eur":
+            expected_formula = f"=G{index}"
+        else:
+            expected_formula = None
+        if cells[9].value != expected_formula:
+            errors.append(
+                f"{label}: {sheet_name}!{cells[9].coordinate} must preserve "
+                f"full-precision formula {expected_formula!r}"
+            )
+        source_url = str(cells[11].value or "")
+        parsed = urlparse(source_url)
+        if expected["status"] == "computed":
+            if (
+                not str(cells[10].value or "").startswith("ECB-EXR-A-")
+                or parsed.scheme != "https"
+                or parsed.hostname != "data-api.ecb.europa.eu"
+            ):
+                errors.append(
+                    f"{label}: {sheet_name} row {index} lacks direct ECB rateId/source URL"
+                )
+        elif expected["status"] == "not_computed":
+            if cells[9].value is not None or cells[10].value not in (None, ""):
+                errors.append(
+                    f"{label}: {sheet_name} row {index} must fail closed without an EUR value/rateId"
+                )
+
+
 def validate_workbook(
     path: Path,
     csv_rows: list[list[str]],
     expected_headers: list[str],
+    expected_eur_rows: list[dict[str, Any]],
     errors: list[str],
 ) -> int:
     label = str(path.relative_to(ROOT))
@@ -516,13 +996,90 @@ def validate_workbook(
             workbook_rows.append(row)
     if workbook_rows != csv_rows:
         errors.append(f"{label}: Evidence Register rows differ from the public CSV")
+    is_finnish = expected_headers == REGISTER_HEADERS
+    summary_name = "Yhteenveto" if is_finnish else "Summary"
+    if summary_name not in workbook.sheetnames:
+        errors.append(f"{label}: missing {summary_name} sheet")
+    else:
+        summary = workbook[summary_name]
+        evidence_end = len(csv_rows) + 1
+        expected_formulas = {
+            "B8": f"=COUNTA('Evidence Register'!$A$2:$A${evidence_end})",
+            **{
+                f"B{row}": f"=COUNTIF('Evidence Register'!$H$2:$H${evidence_end},A{row})"
+                for row in range(11, 15)
+            },
+        }
+        for coordinate, formula in expected_formulas.items():
+            if summary[coordinate].value != formula:
+                errors.append(f"{label}: {summary_name}!{coordinate} must preserve formula {formula}")
+
+    sources_name = "Lähteet" if is_finnish else "Sources"
+    if sources_name not in workbook.sheetnames:
+        errors.append(f"{label}: missing {sources_name} sheet")
+    else:
+        sources_sheet = workbook[sources_name]
+        source_urls = {
+            str(sources_sheet.cell(row, 4).value or "").strip()
+            for row in range(2, sources_sheet.max_row + 1)
+            if str(sources_sheet.cell(row, 4).value or "").strip()
+        }
+        register_urls = {
+            match.group(0).rstrip(".,);]")
+            for row in csv_rows
+            for match in re.finditer(r"https://[^\s;]+", row[3])
+        }
+        missing_urls = sorted(register_urls - source_urls)
+        if missing_urls:
+            errors.append(f"{label}: {sources_name} omits register URLs: {missing_urls}")
+        for required_url in {
+            "https://www.ftc.gov/reports/e-cigarette-report-2015-2018",
+            "https://www.ftc.gov/reports/e-cigarette-report-2021",
+            "https://www.un.org/en/about-us/member-states",
+            "https://www.un.org/en/about-us/non-member-states",
+        }:
+            if required_url not in source_urls:
+                errors.append(f"{label}: {sources_name} lacks required source {required_url}")
+
+    nz_prefix = (
+        "Uuden-Seelannin vuoden 2024 tunnistetun"
+        if is_finnish
+        else "New Zealand's supported 2024 identified"
+    )
+    nz_row = next(
+        (index for index, row in enumerate(csv_rows, start=2) if row[0].startswith(nz_prefix)),
+        None,
+    )
+    if nz_row is None:
+        errors.append(f"{label}: supported New Zealand model row is missing")
+    else:
+        row_height = sheet.row_dimensions[nz_row].height
+        if row_height is None or row_height < 80:
+            errors.append(f"{label}: supported New Zealand model row lacks the expanded review treatment")
+        if sheet[f"F{nz_row}"].fill.fill_type is None:
+            errors.append(f"{label}: supported New Zealand calculation cell lacks the review highlight")
+    validate_eur_equivalent_sheet(
+        workbook,
+        "fi" if is_finnish else "en",
+        expected_eur_rows,
+        label,
+        errors,
+    )
     return len(workbook_rows)
 
 
 def validate_manifest(errors: list[str]) -> None:
+    expected_eur_rows, fx = load_expected_eur_equivalent_rows(errors)
+    try:
+        builder_text = ARTIFACT_BUILDER_PATH.read_text(encoding="utf-8")
+    except OSError as error:
+        errors.append(f"cannot read artifact builder: {error}")
+        builder_text = ""
+    validate_artifact_builder_fx_contract(builder_text, errors)
     try:
         manifest = load_json(MANIFEST_PATH)
         changelog = load_json(CHANGELOG_PATH)
+        lock = load_json(LOCK_PATH)
     except ValueError as error:
         errors.append(str(error))
         return
@@ -533,6 +1090,7 @@ def validate_manifest(errors: list[str]) -> None:
         "asOf",
         "languages",
         "publicBoundary",
+        "templateInputs",
         "inputs",
         "artifacts",
     }
@@ -552,11 +1110,11 @@ def validate_manifest(errors: list[str]) -> None:
     if manifest.get("asOf") != changelog.get("asOf"):
         errors.append("manifest asOf must match the public changelog")
     if (
-        expected_release.get("id") != "2026-07-24-donor-market-sprint-v17"
-        or expected_release.get("version") != "2026.07.24-17"
+        expected_release.get("id") != "2026-07-24-donor-conversion-cockpit-v18"
+        or expected_release.get("version") != "2026.07.24-18"
         or manifest.get("asOf") != "2026-07-24"
     ):
-        errors.append("bank package must be locked to release 2026.07.24-17 as of 2026-07-24")
+        errors.append("bank package must be locked to release 2026.07.24-18 as of 2026-07-24")
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
         errors.append("manifest publicBoundary must contain exactly en and fi")
@@ -565,6 +1123,52 @@ def validate_manifest(errors: list[str]) -> None:
         validate_text("manifest public boundary", boundary_text, errors)
         if "public" not in str(boundary.get("en", "")).casefold() or "julk" not in str(boundary.get("fi", "")).casefold():
             errors.append("manifest must state the public-data boundary in both languages")
+
+    template_inputs = manifest.get("templateInputs")
+    if not isinstance(template_inputs, list):
+        errors.append("manifest templateInputs must be an array")
+        template_inputs = []
+    template_by_path = {
+        item.get("path"): item
+        for item in template_inputs
+        if isinstance(item, dict) and set(item) == {"path", "sha256"}
+    }
+    if set(template_by_path) != EXPECTED_TEMPLATE_INPUTS or len(template_by_path) != len(template_inputs):
+        errors.append("manifest templateInputs must contain the exact reviewed seed artifacts")
+    for relative, item in template_by_path.items():
+        seed_path = ROOT / relative
+        if not seed_path.is_file():
+            errors.append(f"manifest seed artifact is missing: {relative}")
+        elif item.get("sha256") != sha256(seed_path):
+            errors.append(f"manifest seed artifact hash differs: {relative}")
+
+    generated_by = lock.get("generatedBy") if isinstance(lock, dict) else None
+    if not isinstance(generated_by, dict):
+        errors.append("bank-package lock lacks generatedBy lineage")
+    else:
+        if generated_by.get("tool") != "@oai/artifact-tool":
+            errors.append("bank-package lock must identify @oai/artifact-tool")
+        if not re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", str(generated_by.get("toolVersion", ""))):
+            errors.append("bank-package lock must record the runtime-resolved artifact-tool version")
+        lock_templates = generated_by.get("sourceTemplates")
+        if lock_templates != template_inputs:
+            errors.append("bank-package lock sourceTemplates must match manifest templateInputs")
+        quality = generated_by.get("qualityAssurance")
+        if not isinstance(quality, dict) or any(
+            quality.get(key) is not True
+            for key in (
+                "summaryFormulasAfterReopen",
+                "allSlidesRendered",
+                "allWorkbookSheetsRendered",
+                "sourcesNotesOnEverySlide",
+                "eurEquivalentRowsAfterReopen",
+                "fxSourcesInDeckNotes",
+            )
+        ):
+            errors.append("bank-package lock lacks required artifact QA lineage")
+
+    if 'toolVersion: artifactToolVersion' not in builder_text or 'toolVersion: "2.8.' in builder_text:
+        errors.append("artifact builder must derive the artifact-tool version at runtime")
 
     inputs = manifest.get("inputs")
     if not isinstance(inputs, list):
@@ -598,20 +1202,30 @@ def validate_manifest(errors: list[str]) -> None:
         "fi": read_register_csv(REGISTER_CSV_PATH, REGISTER_HEADERS, ALLOWED_STATUSES, errors),
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
-    if any(len(rows) != 49 for rows in csv_rows_by_language.values()):
-        errors.append("both v17 Evidence Registers must contain exactly 49 reviewed rows")
+    if any(len(rows) != 53 for rows in csv_rows_by_language.values()):
+        errors.append("both v18 Evidence Registers must contain exactly 53 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
-            "264 561 055,05",
             "274 180 410,21",
+            "258 327 110,88 + 275 335 272,80 = 533 662 383,68",
+            "274 180 410,21 + 367 631 277,68 = 641 811 687,89",
+            "274 180 410,21 + 456 995 382,29 = 731 175 792,50",
+            "533 662 383,68",
+            "731 175 792,50",
+            "2 763 284 338",
             "4,99 mrd",
             "D1–D10",
         ),
         "en": (
             "280,684,512.81",
-            "264,561,055.05",
             "274,180,410.21",
+            "258,327,110.88 + 275,335,272.80 = 533,662,383.68",
+            "274,180,410.21 + 367,631,277.68 = 641,811,687.89",
+            "274,180,410.21 + 456,995,382.29 = 731,175,792.50",
+            "533,662,383.68",
+            "731,175,792.50",
+            "2,763,284,338",
             "4.99 billion",
             "D1–D10",
         ),
@@ -620,7 +1234,7 @@ def validate_manifest(errors: list[str]) -> None:
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v17 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v18 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -664,10 +1278,11 @@ def validate_manifest(errors: list[str]) -> None:
         validate_ooxml(
             path,
             errors,
-            require_deterministic_zip=not is_english,
-            allow_empty_notes=is_english and expected["kind"] == "pptx",
+            require_deterministic_zip=False,
+            allow_notes=expected["kind"] == "pptx",
         )
         if expected["kind"] == "pptx":
+            validate_slide_source_notes(path, fx, errors)
             texts = slide_texts(path, errors)
             if len(texts) != expected["slideCount"] or item.get("slideCount") != expected["slideCount"]:
                 errors.append(f"{relative}: expected exactly {expected['slideCount']} slides")
@@ -679,14 +1294,37 @@ def validate_manifest(errors: list[str]) -> None:
             expected_boundary = "independent public evidence" if is_english else "julkinen riippumaton"
             if expected_boundary not in combined:
                 errors.append(f"{relative}: public-boundary disclosure is missing")
-            v17_deck_markers = (
-                ("280,685 milj. nzd", "264,561 milj. nzd", "4,99 mrd eur", "0/3", "d1–d10")
+            v18_deck_markers = (
+                (
+                    "533,7–731,2 milj. nzd",
+                    "2,763 mrd usd",
+                    "4,99 mrd eur",
+                    "27",
+                    "7 maasta",
+                    "0/3",
+                    "d1–d10",
+                    "2026.07.24-18",
+                )
                 if not is_english
-                else ("nzd 280.685m", "nzd 264.561m", "eur 4.99bn", "0/3", "d1–d10")
+                else (
+                    "nzd 533.7–731.2m",
+                    "usd 2.763bn",
+                    "eur 4.99bn",
+                    "27",
+                    "7 countries",
+                    "0/3",
+                    "d1–d10",
+                    "2026.07.24-18",
+                )
             )
-            for marker in v17_deck_markers:
+            fx_markers = deck_fx_markers(
+                expected_eur_rows,
+                "en" if is_english else "fi",
+            )
+            v18_deck_markers = (*v18_deck_markers, *fx_markers)
+            for marker in v18_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v17 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v18 market marker is missing: {marker!r}")
             if artifact_id in {"medium-deck-fi", "medium-deck-en"} and len(texts) == 12:
                 titles = EN_MEDIUM_SECTION_TITLES if is_english else MEDIUM_SECTION_TITLES
                 for index, expected_title in enumerate(titles):
@@ -697,14 +1335,20 @@ def validate_manifest(errors: list[str]) -> None:
                         )
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
-            row_count = validate_workbook(path, csv_rows, headers_by_language[expected["language"]], errors)
+            row_count = validate_workbook(
+                path,
+                csv_rows,
+                headers_by_language[expected["language"]],
+                expected_eur_rows,
+                errors,
+            )
             if item.get("rowCount") != row_count or row_count != len(csv_rows):
                 errors.append(f"{relative}: manifest/workbook/CSV row counts differ")
 
 
 def main() -> None:
     errors: list[str] = []
-    validate_v17_market_bindings(errors)
+    validate_v18_market_bindings(errors)
     validate_manifest(errors)
     if errors:
         for error in errors:
