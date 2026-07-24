@@ -85,6 +85,7 @@ const REVIEW_MATRIX_DIMENSIONS = {
 
 let reviewData = null;
 let reviewMarketData = null;
+let reviewDonorCockpit = null;
 let reviewCountryScenarios = null;
 let reviewFxData = null;
 let reviewPatentData = null;
@@ -186,7 +187,7 @@ function reviewOfficialMarketSummary() {
   const numericCountries = new Set(official.map((item) => item.countryIso2).filter(Boolean));
   const officialRetailCountries = new Set(
     official
-      .filter((item) => item.metric === "consumer_retail_market_value")
+      .filter((item) => ["consumer_retail_market_value", "statcan_rcs_vaping_retail_sales"].includes(item.metric))
       .map((item) => item.countryIso2)
       .filter(Boolean)
   );
@@ -444,7 +445,8 @@ function renderReviewCalculationAudit(market) {
   const observationMap = new Map(observations.map((item) => [item.observationId, item]));
   const sourceMap = new Map((market?.sources || []).map((item) => [item.sourceId, item]));
   const model = (market?.models || []).find((item) => item.modelId === "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE");
-  const canada = observationMap.get("CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
+  const canadaRetail = observationMap.get("CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES");
+  const canadaShipment = observationMap.get("CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
   const volume = observationMap.get("DE-2025-TAXED-LIQUID-VOLUME-L");
   const scenarios = ["low", "central", "high"].map((name) => {
     const inputId = model?.rangeInputMap?.[name];
@@ -491,18 +493,25 @@ function renderReviewCalculationAudit(market) {
   );
   summary.append(boundary, donor);
 
-  if (canada) {
+  if (canadaRetail && canadaShipment) {
+    const bridgeDifference = Number(canadaRetail.value) - Number(canadaShipment.value);
+    const bridgeRatio = Number(canadaRetail.value) / Number(canadaShipment.value);
     const direct = reviewNode("article", "panel calculation-audit-card calculation-audit-facts");
     direct.append(
-      reviewNode("span", "calculation-kind", reviewL("FAKTA · virallinen suora proxy", "FACT · official direct proxy")),
-      reviewNode("h3", "", reviewL("Kanada 2024 · valmistaja- ja maahantuojatoimitukset", "Canada 2024 · manufacturer/importer shipments")),
-      reviewNode("strong", "", reviewMarketFormat(canada.value, canada.currency))
+      reviewNode("span", "calculation-kind", reviewL("FAKTA + LASKELMA · kaksi riippumatonta viranomaisreittiä", "FACT + CALCULATION · two independent official routes")),
+      reviewNode("h3", "", reviewL("Kanada 2024 · retail–toimitus-silta", "Canada 2024 · retail-to-shipment bridge")),
+      reviewNode("strong", "", `${reviewMarketFormat(canadaRetail.value, canadaRetail.currency)} − ${reviewMarketFormat(canadaShipment.value, canadaShipment.currency)} = ${reviewMarketFormat(bridgeDifference, canadaRetail.currency)}`),
+      reviewNode("code", "", `RCS / Health Canada = ${bridgeRatio.toFixed(6)} · +${((bridgeRatio - 1) * 100).toFixed(2)}%`)
     );
-    const canadaEur = reviewEurEquivalentNode(canada);
+    const canadaEur = reviewEurEquivalentNode(canadaRetail);
     if (canadaEur) direct.append(canadaEur);
     direct.append(
-      reviewNode("p", "", reviewIsFi() ? canada.limitationFi : canada.limitationEn),
-      reviewObservationLink(canada, sourceMap)
+      reviewNode("p", "", reviewL(
+        "RCS mittaa kuluttajavähittäismyyntiä ja Health Canada valmistaja-/maahantuojatoimituksia. 5,03 prosentin ero on riippumaton kontrolli, ei valmis täsmäytys: kate, varasto, palautukset, ajoitus, tuoterajaus ja verokäsittely ovat vielä avoimia.",
+        "RCS measures consumer retail sales and Health Canada measures manufacturer/importer shipments. The 5.03% difference is an independent control, not a completed reconciliation: margin, inventory, returns, timing, product scope and tax treatment remain open."
+      )),
+      reviewObservationLink(canadaRetail, sourceMap),
+      reviewObservationLink(canadaShipment, sourceMap)
     );
     steps.append(direct);
   }
@@ -988,6 +997,133 @@ function reviewDonorGeography(candidate) {
   return candidate?.geography || "—";
 }
 
+function reviewClosureLabel(kind, value) {
+  const labels = {
+    owner: {
+      independent_research_team: ["Riippumaton tutkimusryhmä", "Independent research team"],
+      public_authority: ["Viranomainen", "Public authority"],
+      data_supplier: ["Datatoimittaja", "Data supplier"],
+      rights_review: ["Käyttöoikeustarkistus", "Rights review"],
+      independent_validator: ["Riippumaton validoija", "Independent validator"]
+    },
+    route: {
+      public_source_reconstruction: ["Julkisen lähteen rekonstruktio", "Public-source reconstruction"],
+      official_aggregate_request: ["Virallinen koontitietopyyntö", "Official aggregate request"],
+      tax_customs_reconciliation: ["Vero- ja tullitäsmäytys", "Tax and customs reconciliation"],
+      rights_cleared_retail_data: ["Käyttöoikeuksiltaan selvä retail-data", "Rights-cleared retail data"],
+      independent_reconciliation: ["Riippumaton täsmäytys", "Independent reconciliation"]
+    },
+    status: {
+      queued: ["Jonossa", "Queued"],
+      in_progress: ["Työn alla", "In progress"],
+      request_sent: ["Pyyntö lähetetty", "Request sent"],
+      awaiting_response: ["Odottaa vastausta", "Awaiting response"],
+      response_under_review: ["Vastaus tarkistuksessa", "Response under review"],
+      evidence_ready_for_validation: ["Näyttö valmis validointiin", "Evidence ready for validation"],
+      blocked_external: ["Ulkoinen este", "Blocked externally"]
+    }
+  };
+  return labels[kind]?.[value] ? reviewL(...labels[kind][value]) : String(value || "—").replaceAll("_", " ");
+}
+
+function renderReviewDonorClosureUnavailable(message) {
+  const body = reviewById("review-donor-closure-body");
+  const status = reviewById("review-donor-closure-status");
+  if (!body || !status) return;
+  body.replaceChildren();
+  const row = reviewNode("tr");
+  const cell = reviewNode("td", "empty-state", message);
+  cell.colSpan = 7;
+  row.append(cell);
+  body.append(row);
+  status.dataset.state = "error";
+  status.textContent = reviewL(
+    "Fail-closed: sulkemistoimet eivät vaikuta 0/3-porttiin ilman ehjää kriteerikarttaa.",
+    "Fail closed: closure actions cannot affect the 0/3 gate without a valid criterion map."
+  );
+}
+
+function renderReviewDonorClosureBoard(cockpit = reviewDonorCockpit) {
+  const body = reviewById("review-donor-closure-body");
+  const status = reviewById("review-donor-closure-status");
+  if (!body || !status) return;
+  const criteria = Array.isArray(cockpit?.protocol?.criteria) ? cockpit.protocol.criteria : [];
+  const criterionIds = criteria.map((item) => item?.criterionId);
+  const protocolValid = cockpit?.schemaVersion === "1.1"
+    && cockpit?.protocol?.protocolVersion === "1.0"
+    && criterionIds.length === 10
+    && criterionIds.every((id, index) => id === `D${index + 1}`);
+  const candidates = Array.isArray(cockpit?.candidates) ? cockpit.candidates : [];
+  const rows = [];
+  let recordsValid = protocolValid && candidates.length > 0;
+  for (const candidate of candidates) {
+    const statusById = new Map(
+      (Array.isArray(candidate?.criterionStatuses) ? candidate.criterionStatuses : [])
+        .map((item) => [item?.criterionId, item?.status])
+    );
+    const blockingIds = criterionIds.filter((id) => statusById.get(id) !== "passed");
+    const actions = Array.isArray(candidate?.closureActions) ? candidate.closureActions : [];
+    const targetedIds = actions.flatMap((action) => Array.isArray(action?.criterionIds) ? action.criterionIds : []);
+    const candidateValid = blockingIds.length === targetedIds.length
+      && blockingIds.every((id) => targetedIds.filter((target) => target === id).length === 1)
+      && actions.every((action) => (
+        String(action?.actionId || "").trim()
+        && Array.isArray(action?.criterionIds)
+        && action.criterionIds.length > 0
+        && String(action?.routeEn || "").trim()
+        && String(action?.routeFi || "").trim()
+        && String(action?.evidenceTargetEn || "").trim()
+        && String(action?.evidenceTargetFi || "").trim()
+        && /^\d{4}-\d{2}-\d{2}$/.test(String(action?.nextFollowUpOn || ""))
+      ));
+    recordsValid = recordsValid && candidateValid;
+    for (const action of actions) rows.push({ candidate, action });
+  }
+  if (!recordsValid) {
+    renderReviewDonorClosureUnavailable(reviewL(
+      "Sulkemistaulun rakennetarkistus epäonnistui.",
+      "The closure-board structure could not be verified."
+    ));
+    return;
+  }
+  body.replaceChildren();
+  for (const { candidate, action } of rows) {
+    const row = reviewNode("tr");
+    const identity = reviewNode("td", "donor-control-identity");
+    identity.append(
+      reviewNode("strong", "", `${candidate.countryIso2 || reviewL("Alue", "Region")} · ${candidate.year || "—"}`),
+      reviewNode("small", "", reviewIsFi() ? candidate.headlineFi : candidate.headlineEn)
+    );
+    const ownerRoute = reviewNode("td");
+    ownerRoute.append(
+      reviewNode("strong", "", reviewClosureLabel("owner", action.ownerRole)),
+      reviewNode("small", "", `${reviewClosureLabel("route", action.routeType)} · ${reviewIsFi() ? action.routeFi : action.routeEn}`)
+    );
+    const statusCell = reviewNode("td");
+    const statusChip = reviewNode("span", "donor-decision-chip", reviewClosureLabel("status", action.publicStatus));
+    statusChip.dataset.decision = action.publicStatus === "evidence_ready_for_validation" ? "accepted" : "not_accepted";
+    statusCell.append(statusChip);
+    row.append(
+      identity,
+      reviewNode("td", "", action.criterionIds.join(", ")),
+      ownerRoute,
+      reviewNode("td", "", reviewIsFi() ? action.evidenceTargetFi : action.evidenceTargetEn),
+      statusCell,
+      reviewNode("td", "", reviewFormatDate(action.nextFollowUpOn)),
+      reviewNode("td", "", reviewL(
+        "Ei muuta kriteeriä ennen lähteistettyä validointia.",
+        "No criterion changes before source-linked validation."
+      ))
+    );
+    body.append(row);
+  }
+  status.dataset.state = "ready";
+  status.textContent = reviewL(
+    `${rows.length} sulkemistoimea · jokainen avoin tai hylätty D1–D10-kriteeri katettu kerran.`,
+    `${rows.length} closure actions · every open or failed D1–D10 criterion covered once.`
+  );
+}
+
 function renderReviewDonorLedgerUnavailable(message) {
   const root = reviewById("review-donor-ledger");
   if (!root) return;
@@ -1002,6 +1138,7 @@ function renderReviewDonorLedgerUnavailable(message) {
     "The acceptance protocol could not be verified. The donor-market count is held at zero."
   );
   reviewById("review-donor-summary").replaceChildren();
+  renderReviewDonorClosureUnavailable(message);
   reviewById("review-donor-candidates").replaceChildren(reviewNode("p", "empty-state", message));
   const status = reviewById("review-donor-status");
   status.dataset.state = "error";
@@ -1052,6 +1189,7 @@ function renderReviewDonorLedger(market) {
     item.append(reviewNode("span", "", label), reviewNode("strong", "", value), reviewNode("small", "", note));
     return item;
   }));
+  renderReviewDonorClosureBoard();
 
   const candidatesHost = reviewById("review-donor-candidates");
   candidatesHost.replaceChildren();
@@ -1205,7 +1343,8 @@ function renderReviewMarket(market) {
   const newZealandScenario = reviewScenarioRange(newZealandScenarioRecord);
   const ftc2021 = observations.find((item) => item.observationId === "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES");
   const euBenchmark = observations.find((item) => item.observationId === "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK");
-  const canada = observations.find((item) => item.observationId === "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
+  const canada = observations.find((item) => item.observationId === "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES");
+  const canadaShipment = observations.find((item) => item.observationId === "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
   const germany = models.find((item) => item.modelId === "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE");
   const sourceMap = new Map((market?.sources || []).map((source) => [source.sourceId, source]));
   const cards = [];
@@ -1253,10 +1392,15 @@ function renderReviewMarket(market) {
       methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/EU_2023_E_CIGARETTE_BENCHMARK_RECONCILIATION.md"
     },
     {
-      label: reviewL("Kanada · 2024 virallinen toimitusarvo", "Canada · 2024 official shipment value"),
+      label: reviewL("Kanada · 2019–2025 virallinen vähittäismyyntisarja", "Canada · 2019–2025 official retail-sales series"),
       value: canada ? reviewMarketFormat(canada.value, canada.currency) : "—",
-      note: reviewL("Valmistaja-/maahantuojatoimitukset tukulle ja vähittäiskaupalle; ei kuluttajamyynti", "Manufacturer/importer shipments to wholesale and retail; not consumer sales"),
-      eurRecords: canada ? [{ record: canada }] : []
+      note: reviewL(
+        `Vuoden 2024 kuluttajavähittäismyynti; seitsemän vuosiarvoa 2019–2025. Kaikki vuoden 2024 neljännekset ovat E-laatua. Health Canadan toimitusarvo ${canadaShipment ? reviewMarketFormat(canadaShipment.value, canadaShipment.currency) : "—"} on 5,03 % alempi; silta ei ole vielä validoitu.`,
+        `2024 consumer retail sales; seven annual values from 2019 to 2025. Every 2024 quarter is quality E. The Health Canada shipment value of ${canadaShipment ? reviewMarketFormat(canadaShipment.value, canadaShipment.currency) : "—"} is 5.03% lower; the bridge is not yet validated.`
+      ),
+      eurRecords: canada ? [{ record: canada }] : [],
+      url: reviewUrl(sourceMap.get(canada?.sourceIds?.[0])?.pageUrl),
+      methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/CANADA_RCS_2019_2025_RETAIL_SALES.md"
     },
     {
       label: reviewL("Saksa · 2025 nestemalli", "Germany · 2025 liquid model"),
@@ -1847,9 +1991,10 @@ async function initReview() {
     if (reviewData) renderReview(reviewData);
   });
   try {
-    const [atlasResult, marketResult, scenarioResult, fxResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
+    const [atlasResult, marketResult, donorResult, scenarioResult, fxResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
       fetch("data/atlas.json", { cache: "no-store" }),
       fetch("data/market-values.json", { cache: "no-store" }),
+      fetch("data/donor-cockpit.json", { cache: "no-store" }),
       fetch("data/country-scenarios.json", { cache: "no-store" }),
       fetch("data/fx-rates.json", { cache: "no-store" }),
       fetch("data/patent-history.json", { cache: "no-store" }),
@@ -1871,6 +2016,16 @@ async function initReview() {
     } catch (error) {
       reviewMarketData = null;
       console.warn("Optional market-value dataset unavailable", error);
+    }
+
+    try {
+      if (donorResult.status !== "fulfilled" || !donorResult.value.ok) throw new Error(`HTTP ${donorResult.status === "fulfilled" ? donorResult.value.status : "network error"}`);
+      const donorData = await donorResult.value.json();
+      if (donorData.schemaVersion !== "1.1" || !Array.isArray(donorData.candidates)) throw new Error("schema validation failed");
+      reviewDonorCockpit = donorData;
+    } catch (error) {
+      reviewDonorCockpit = null;
+      console.warn("Optional donor-closure dataset unavailable", error);
     }
 
     try {

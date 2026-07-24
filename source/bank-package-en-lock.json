@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
   "release": {
-    "id": "2026-07-24-donor-conversion-cockpit-v18",
-    "version": "2026.07.24-18",
-    "publishedAt": "2026-07-24T11:53:14+03:00"
+    "id": "2026-07-24-canada-retail-closure-board-v19",
+    "version": "2026.07.24-19",
+    "publishedAt": "2026-07-24T14:00:00+03:00"
   },
   "asOf": "2026-07-24",
   "reviewedInputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "823895b70bbaf21a3d982f6a42fdcc4aa6106f8b7d19d32790f0c3e7cc36b412"
+      "sha256": "14ca5f1d24beb8e642a495ddc7c552fd29673c0380e7289572f076e2c5403cdc"
     },
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
@@ -49,11 +49,11 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "375cdc2321b93f9014d7bbf147e883ab6813f140b28714f93b918f5acb967860"
+      "sha256": "5aa694e5bbf05f267043630b6ba7754583b58e6ab84e87cfd9709d981e887a7c"
     },
     {
       "path": "site/data/market-values.json",
-      "sha256": "1b9f1435f2898809a412d73032911570a55059993c7f91ac085346cbda1334ee"
+      "sha256": "7738e70ce2bd2ad328abb1883ad8fb4a47bbfc27a7826a6dc0c7ef6fceee2956"
     },
     {
       "path": "site/data/patent-history.json",
@@ -61,7 +61,7 @@
     },
     {
       "path": "site/data/donor-cockpit.json",
-      "sha256": "2209ee75d40720cf6f9a1cd8fc01d96ef48f163d66ac15408191c69442724984"
+      "sha256": "f9c1957c8de439f9a7a4fad4029a3ca7c44d928c04ee05bef1bfefdbb45a3347"
     },
     {
       "path": "site/data/country-scenarios.json",
@@ -73,7 +73,7 @@
     },
     {
       "path": "site/data/fx-rates.json",
-      "sha256": "5bc73dc834a3615512f04b40954fc520037db1e28253c8cfa7253882c19398a6"
+      "sha256": "0d688ed5f89d4e65974e75c2dda7bf9fd0b25e62c26c7ff5092a8aa4707c6722"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
@@ -81,11 +81,11 @@
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "68155e5283ee1e08afa9af461f6a8b541472e358fdafa2f822289b732908a199"
+      "sha256": "d94ef5a503ad355565a9a06b9e428e932628febd4ae8639424081661d580b2ff"
     },
     {
       "path": "source/fx-rates.json",
-      "sha256": "5bc73dc834a3615512f04b40954fc520037db1e28253c8cfa7253882c19398a6"
+      "sha256": "0d688ed5f89d4e65974e75c2dda7bf9fd0b25e62c26c7ff5092a8aa4707c6722"
     },
     {
       "path": "source/schemas/fx-rates.schema.json",
@@ -104,6 +104,10 @@
       "sha256": "0e978ede4fa23ec092051b72017f29e457a076d017ad56bf7affe64722fa8b52"
     },
     {
+      "path": "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+      "sha256": "687cfbb135eaa4b6bd819d2f30c26317a0eded7a3fb8637ab906d6105db4b018"
+    },
+    {
       "path": "source/US_FTC_2015_2021_REPORTED_SALES.md",
       "sha256": "b61c2a911ab41813f91f10fc763147a808e87f18eeaf2c217c291bfb50e969c5"
     }
@@ -114,8 +118,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "8be748fc409af3876036846e618c5a4ef51c2b2b74e8cd31eb9dda4e2d3563a8",
-      "bytes": 55292,
+      "sha256": "b74376d5fd1174a8962c5ddb50d4a63cbcba8e411c9b3046955cb7f78ad86554",
+      "bytes": 55733,
       "slideCount": 6
     },
     {
@@ -123,8 +127,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-medium-en.pptx",
-      "sha256": "76fdb1eca3586e3a47a864f16edd2a8a9d153dbc1bc422213c1b5ab09fb6cf15",
-      "bytes": 82737,
+      "sha256": "69fdea1c5e88d2c26c026587cb35063b91467bcc09344391ff1901ebf9fe51d0",
+      "bytes": 83558,
       "slideCount": 12
     },
     {
@@ -132,8 +136,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "2e621043d7e2f40a580feac9e1c5f26bc4d354a907ae22f09b091efc19e08177",
-      "bytes": 164566,
+      "sha256": "9080cec6d9e10f3a0c3a2b4b55c989312adc6359000fc24e9f5dc746f90cd0fb",
+      "bytes": 166704,
       "slideCount": 30
     },
     {
@@ -141,8 +145,8 @@
       "kind": "xlsx",
       "language": "en",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "e9ca8e47c2326f54fe0971c47b3b114c9c693f52c5ef535824e41451533b4e09",
-      "bytes": 34753,
+      "sha256": "d4d1d5f7d2830a88c7b92a258bec33ddc0a0ab5a9239288aa9fea3e358708b34",
+      "bytes": 36007,
       "rowCount": 53
     },
     {
@@ -150,8 +154,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "3176ac2f5db9d5036f3e4252ce2c9af120aa3fb2b422fea7c88b4f0acb6e1a7c",
-      "bytes": 55594,
+      "sha256": "73cb7a5462dab6dc239d4c36f154e276db16c8bec3d98a81b85c2454aff25f2e",
+      "bytes": 56052,
       "slideCount": 6
     },
     {
@@ -159,8 +163,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-medium-fi.pptx",
-      "sha256": "e66ffe58621c5ab4306e96eccd257e5e248670c62df6d8a44a7f515ea7f45346",
-      "bytes": 83146,
+      "sha256": "22cefde914a394c796db41c6e0f09dde11e3fb2b0d67126a6034e4c74045cce0",
+      "bytes": 84029,
       "slideCount": 12
     },
     {
@@ -168,8 +172,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "1613128f5491b80086515fbdf02ff34c5223009ecaa9726c1106a8014ed8ff4b",
-      "bytes": 166031,
+      "sha256": "b207bd271f8e8e71c1971143fede08129e3d9b409913b0342bc41665582fe1f0",
+      "bytes": 168209,
       "slideCount": 30
     },
     {
@@ -177,8 +181,8 @@
       "kind": "xlsx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "88254fbfeb30e7f6703ac0c1ebaf3b50b411cfb0b1b606bb7f6dff8bbb1ff0d5",
-      "bytes": 35841,
+      "sha256": "b8935726682dcac3ce4876490dcd678cb7d142693756eeba9be34f7d7f700a82",
+      "bytes": 37106,
       "rowCount": 53
     }
   ],
@@ -221,7 +225,7 @@
         "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
       }
     ],
-    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 27 official observations across seven countries, five donor candidates, New Zealand retail sensitivity and FTC route share one v18 release boundary.",
+    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 34 official observations across seven countries, five donor candidates, Canada retail series, New Zealand retail sensitivity and FTC route share one v19 release boundary.",
     "qualityAssurance": {
       "exactRegisterRowsAfterReopen": true,
       "summaryFormulasAfterReopen": true,

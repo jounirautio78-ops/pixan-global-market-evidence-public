@@ -3,6 +3,40 @@
   "asOf": "2026-07-24",
   "releases": [
     {
+      "id": "2026-07-24-canada-retail-closure-board-v19",
+      "version": "2026.07.24-19",
+      "publishedAt": "2026-07-24T14:00:00+03:00",
+      "titleEn": "Canada official retail series, first-donor closure board and request-state refresh",
+      "titleFi": "Kanadan virallinen vähittäismyyntisarja, ensimmäisen luovuttajan sulkemistaulukko ja pyyntötilojen päivitys",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added Statistics Canada's official-table-derived consumer retail sales for vaping products for 2019–2025. The 2024 value is CAD 1,219,160,000; it is 5.03% above Health Canada's CAD 1,160,753,796.78 manufacturer/importer shipment value. The transaction-level, quality, classification-break and tax-basis limits remain explicit, so the series is not an accepted donor.",
+          "textFi": "Lisättiin Statistics Canadan virallisista taulukoista johdettu sähkötupakkatuotteiden kuluttajavähittäismyynti vuosille 2019–2025. Vuoden 2024 arvo on 1 219 160 000 CAD; se on 5,03 % Health Canadan 1 160 753 796,78 CAD:n valmistaja- ja maahantuojatoimitusarvoa suurempi. Tapahtumatason, laadun, luokituskatkon ja veroperustan rajat säilyvät näkyvinä, joten sarjaa ei hyväksytä luovuttajaksi."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a fail-closed first-donor closure board. Every failed or open D1–D10 criterion is assigned exactly once to a dated evidence action; passed criteria cannot be targeted, and an accepted candidate cannot retain closure actions. The gate remains 0/3.",
+          "textFi": "Lisättiin varovaisuusperiaatteella toimiva ensimmäisen luovuttajan sulkemistaulukko. Jokainen hylätty tai avoin D1–D10-ehto kohdistetaan täsmälleen kerran päivättyyn evidenssitoimeen; läpäistyä ehtoa ei voi kohdistaa eikä hyväksytty ehdokas voi säilyttää sulkemistoimia. Portti pysyy tasolla 0/3."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Updated the privacy-safe request programme to 12 sent routes and 8 drafts. Informal aggregate-data inquiries were sent to the US FTC and Statistics Canada. ECigIntelligence remains unanswered with a first follow-up scheduled for 28 July. Euromonitor supplied a written response and an 8-page brochure; the brochure's 100-country list is the overall Passport Tobacco scope, not verified product-by-country e-vapour coverage. Only the brochure was visible, so a non-binding multi-option quote request and a request to resend the missing numerical sample were sent on 24 July 2026. The numerical data sample, itemised price, detailed method, licence and verified product-by-country e-vapour coverage remain pending.",
+          "textFi": "Päivitettiin tietosuojattu pyyntöohjelma tilaan 12 lähetettyä reittiä ja 8 luonnosta. Yhdysvaltain FTC:lle ja Statistics Canadalle lähetettiin epämuodolliset aggregaattidatan tiedustelut. ECigIntelligence ei ole vastannut, ja ensimmäinen seuranta on 28.7. Euromonitor toimitti kirjallisen vastauksen ja 8-sivuisen esitteen; esitteen 100 maan lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan maa–tuote-peittoa. Vain esite oli näkyvissä, joten ei-sitova monivaihtoehtoinen tarjouspyyntö ja puuttuvan numeerisen näytteen uudelleenlähetyspyyntö lähetettiin 24.7.2026. Numeerinen datanäyte, eritelty hinta, yksityiskohtainen menetelmä, lisenssi ja vahvistettu sähkötupakan maa–tuote-peitto odottavat edelleen."
+        },
+        {
+          "category": "method",
+          "textEn": "Added the exact ECB CAD annual-average reference rates for 2019–2025. Original CAD values remain primary and each EUR figure is a secondary, matching-year analytical equivalent; no current spot rate or cross-year conversion is used.",
+          "textFi": "Lisättiin täsmälliset ECB:n CAD-vuosikeskimääräiset viitekurssit vuosille 2019–2025. Alkuperäiset CAD-arvot säilyvät ensisijaisina ja jokainen EUR-luku on toissijainen saman vuoden analyyttinen vasta-arvo; nykyhetken spot-kurssia tai vuosien välistä muunnosta ei käytetä."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Refreshed the bilingual 6-, 12- and 30-slide lender/buyer decks and both Evidence Registers to the same v19 release boundary.",
+          "textFi": "Päivitettiin kaksikieliset 6, 12 ja 30 dian lainanantaja- ja ostajadekit sekä molemmat evidenssirekisterit samaan v19-julkaisuun."
+        }
+      ]
+    },
+    {
       "id": "2026-07-24-donor-conversion-cockpit-v18",
       "version": "2026.07.24-18",
       "publishedAt": "2026-07-24T11:53:14+03:00",

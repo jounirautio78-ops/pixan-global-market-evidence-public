@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the v18 decision, donor, audit and freshness views."""
+"""Fail-closed validation for the v19 decision, donor, audit and freshness views."""
 
 from __future__ import annotations
 
@@ -61,6 +61,8 @@ REQUIRED_REVIEW_IDS = {
     "review-donor-gate-rule",
     "review-donor-rule",
     "review-donor-summary",
+    "review-donor-closure-body",
+    "review-donor-closure-status",
     "review-donor-candidates",
     "review-donor-status",
 }
@@ -79,6 +81,8 @@ REQUIRED_REVIEW_FUNCTIONS = {
     "assessReviewDonorLedger",
     "renderReviewDonorLedger",
     "renderReviewDonorLedgerUnavailable",
+    "renderReviewDonorClosureBoard",
+    "renderReviewDonorClosureUnavailable",
 }
 REQUIRED_I18N_EN = {
     "Workspace views",
@@ -149,11 +153,11 @@ def validate_review_data(
     sources = market.get("sources")
     observations = market.get("observations")
     models = market.get("models")
-    if not isinstance(sources, list) or len(sources) != 18:
-        errors.append("Freshness ledger requires exactly 18 reviewed market sources for v18")
+    if not isinstance(sources, list) or len(sources) != 20:
+        errors.append("Freshness ledger requires exactly 20 reviewed market sources for v19")
         sources = []
-    if not isinstance(observations, list) or len(observations) != 36:
-        errors.append("v18 market baseline must contain exactly 36 observations")
+    if not isinstance(observations, list) or len(observations) != 43:
+        errors.append("v19 market baseline must contain exactly 43 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -207,23 +211,24 @@ def validate_review_data(
         if str(item.get("evidenceStatus", "")).startswith("official_")
     ]
     official_countries = {item.get("countryIso2") for item in official}
-    if len(official) != 27 or official_countries != EXPECTED_OFFICIAL_COUNTRIES:
+    if len(official) != 34 or official_countries != EXPECTED_OFFICIAL_COUNTRIES:
         errors.append(
-            "v18 official numeric baseline must remain 27 observations across CA, DE, FI, NZ, PL, SE and US"
+            "v19 official numeric baseline must retain 34 observations across CA, DE, FI, NZ, PL, SE and US"
         )
     official_retail = [
         item for item in official
         if item.get("metric") in {
             "consumer_retail_market_value",
             "official_specialist_retail_sales_lower_bound",
+            "statcan_rcs_vaping_retail_sales",
         }
     ]
     if (
-        len(official_retail) != 1
-        or official_retail[0].get("observationId") != "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND"
-        or official_retail[0].get("comparableMarketValue") is not False
+        len(official_retail) != 8
+        or {item.get("countryIso2") for item in official_retail} != {"CA", "NZ"}
+        or any(item.get("comparableMarketValue") is not False for item in official_retail)
     ):
-        errors.append("v18 must retain one official incomplete retail lower bound and no accepted retail donor")
+        errors.append("v19 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
 
     readiness = market.get("meta", {}).get("modelReadiness", {})
     declared_donors = readiness.get("comparableFullYearMarketValueDonors")
@@ -252,11 +257,11 @@ def validate_review_data(
     if candidate_ids != {
         "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
         "EU-2023-COMMISSION-BENCHMARK",
-        "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+        "CA-2024-STATCAN-RCS-RETAIL-SALES",
         "DE-2025-LIQUID-RETAIL-MODEL",
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }:
-        errors.append("v18 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
+        errors.append("v19 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
 
     germany_models = [item for item in models if item.get("modelId") == GERMANY_MODEL_ID]
     if len(germany_models) != 1:
@@ -300,9 +305,9 @@ def validate_review_data(
             else:
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
-            "latest_period": 9,
+            "latest_period": 10,
             "previous_full_year": 3,
-            "historical_only": 6,
+            "historical_only": 7,
         }:
             errors.append(f"Unexpected deterministic freshness buckets: {freshness_counts}")
 
@@ -331,8 +336,8 @@ def validate_review_data(
         routes = []
     sent = [route for route in routes if route.get("status") == "sent"]
     drafts = [route for route in routes if route.get("status") == "draft_not_sent"]
-    if len(sent) != 11 or len(drafts) != 9:
-        errors.append("Request programme must remain 11 sent and 9 draft routes")
+    if len(sent) != 12 or len(drafts) != 8:
+        errors.append("Request programme must remain 12 sent and 8 draft routes")
     process = {
         route.get("countryIso2"): route.get("dispatch", {}).get("responseState")
         for route in routes
@@ -483,10 +488,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-24-18") < 7:
-        errors.append("review.html asset cache-busters must all use the v18 release")
-    if index_html.count("2026-07-24-18") < 4:
-        errors.append("index.html asset cache-busters must all use the v18 release")
+    if review_html.count("2026-07-24-19") < 7:
+        errors.append("review.html asset cache-busters must all use the v19 release")
+    if index_html.count("2026-07-24-19") < 4:
+        errors.append("index.html asset cache-busters must all use the v19 release")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -570,8 +575,8 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v18 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
-        "waterfall, deterministic 18-source ledger, separated operations view and required UI hooks."
+        "Validated v19 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "waterfall, deterministic 20-source ledger, separated operations view and required UI hooks."
     )
 
 

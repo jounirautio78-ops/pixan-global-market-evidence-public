@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "asOf": "2026-07-24",
   "protocol": {
     "protocolVersion": "1.0",
@@ -119,7 +119,48 @@
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
       "lastReviewedAt": "2026-07-24",
-      "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"]
+      "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"],
+      "closureActions": [
+        {
+          "actionId": "NZ-PRODUCT-SCOPE-20260724",
+          "criterionIds": ["D3", "D4"],
+          "ownerRole": "independent_research_team",
+          "routeType": "public_source_reconstruction",
+          "routeEn": "Reproduce the Ministry annual-return workbooks and separate vaping-only devices and consumables from adjacent notifiable products.",
+          "routeFi": "Toista ministeriön vuosi-ilmoitustyökirjat ja erottele sähkötupakan laitteet sekä kulutustarvikkeet viereisistä ilmoitusvelvollisista tuotteista.",
+          "evidenceTargetEn": "A reproducible vaping-only total with devices, consumables and every adjacent category separately quantified.",
+          "evidenceTargetFi": "Toistettava vain sähkötupakkatuotteita koskeva summa, jossa laitteet, kulutustarvikkeet ja jokainen viereinen tuoteryhmä on määrällistetty erikseen.",
+          "publicStatus": "in_progress",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-07-31"
+        },
+        {
+          "actionId": "NZ-CHANNEL-TAX-20260724",
+          "criterionIds": ["D5", "D8"],
+          "ownerRole": "public_authority",
+          "routeType": "official_aggregate_request",
+          "routeEn": "Seek an existing national aggregate or methodology clarification for general-retail coverage, return completeness and GST treatment.",
+          "routeFi": "Pyydä olemassa oleva valtakunnallinen koonti tai menetelmäselvennys yleisvähittäiskaupan peitosta, ilmoitusten täydellisyydestä ja GST-käsittelystä.",
+          "evidenceTargetEn": "A documented national coverage denominator and explicit GST basis without company-identifiable records.",
+          "evidenceTargetFi": "Dokumentoitu valtakunnallinen peiton nimittäjä ja yksiselitteinen GST-perusta ilman yritysten tunnistavia tietueita.",
+          "publicStatus": "request_sent",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        },
+        {
+          "actionId": "NZ-INDEPENDENT-CHECK-20260724",
+          "criterionIds": ["D10"],
+          "ownerRole": "independent_validator",
+          "routeType": "independent_reconciliation",
+          "routeEn": "Reconcile the cleaned retail aggregate to an independent excise, import or rights-cleared retail route without adding supply stages.",
+          "routeFi": "Täsmäytä puhdistettu vähittäiskaupan koonti riippumattomaan vero-, tuonti- tai käyttöoikeuksiltaan selvitettyyn retail-reittiin lisäämättä toimitusketjun portaita.",
+          "evidenceTargetEn": "A signed or reproducible bridge that explains scope, timing, channel and tax differences.",
+          "evidenceTargetFi": "Allekirjoitettu tai toistettava silta, joka selittää rajaus-, ajoitus-, kanava- ja veroerot.",
+          "publicStatus": "queued",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        }
+      ]
     },
     {
       "candidateId": "EU-2023-COMMISSION-BENCHMARK",
@@ -154,42 +195,111 @@
       "responseStatus": "underlying_data_not_public",
       "licenseStatus": "licence_terms_not_reviewed",
       "lastReviewedAt": "2026-07-24",
-      "sourceIds": ["EU-EC-SWD-2025-560", "EU-EC-SWD-2026-111"]
+      "sourceIds": ["EU-EC-SWD-2025-560", "EU-EC-SWD-2026-111"],
+      "closureActions": [
+        {
+          "actionId": "EU-UNDERLYING-DATA-20260724",
+          "criterionIds": ["D2", "D5", "D6", "D7", "D8", "D9"],
+          "ownerRole": "data_supplier",
+          "routeType": "rights_cleared_retail_data",
+          "routeEn": "Obtain a rights-reviewed country-year table, data dictionary, transaction-stage definition, coverage matrix, tax basis and method statement.",
+          "routeFi": "Hanki käyttöoikeuksiltaan tarkistettu maa–vuosi-taulukko, tietosanasto, tapahtumavaiheen määritelmä, peittomatriisi, veroperusta ja menetelmäkuvaus.",
+          "evidenceTargetEn": "Country-level retail values whose method, missing countries, channels and permitted diligence use are explicit.",
+          "evidenceTargetFi": "Maakohtaiset vähittäisarvot, joiden menetelmä, puuttuvat maat, kanavat ja sallittu due diligence -käyttö ovat yksiselitteisiä.",
+          "publicStatus": "awaiting_response",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-07-28"
+        },
+        {
+          "actionId": "EU-INDEPENDENT-RECONCILIATION-20260724",
+          "criterionIds": ["D10"],
+          "ownerRole": "independent_validator",
+          "routeType": "independent_reconciliation",
+          "routeEn": "Reconcile any obtained country table to official tax, notification or retail evidence in at least two Member States.",
+          "routeFi": "Täsmäytä mahdollisesti saatu maataulukko viralliseen vero-, ilmoitus- tai vähittäiskauppa-aineistoon vähintään kahdessa jäsenvaltiossa.",
+          "evidenceTargetEn": "Two source-linked country bridges with explained scope and timing differences.",
+          "evidenceTargetFi": "Kaksi lähteistettyä maasiltaa, joissa rajaus- ja ajoituserot on selitetty.",
+          "publicStatus": "queued",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        }
+      ]
     },
     {
-      "candidateId": "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+      "candidateId": "CA-2024-STATCAN-RCS-RETAIL-SALES",
       "candidateType": "country_year",
       "countryIso2": "CA",
       "geography": "Canada",
       "year": 2024,
       "referenceType": "observation",
-      "referenceId": "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
+      "referenceId": "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
       "evidenceLaneId": "public_reproducible",
       "declaredDecision": "not_accepted",
-      "headlineEn": "Official manufacturer/importer shipment value",
-      "headlineFi": "Virallinen valmistaja- ja maahantuojatoimitusten arvo",
+      "headlineEn": "Statistics Canada full-year consumer-retail estimate",
+      "headlineFi": "Statistics Canadan koko vuoden kuluttajavähittäismyyntiestimaatti",
       "criterionStatuses": [
         {"criterionId": "D1", "status": "passed"},
-        {"criterionId": "D2", "status": "failed"},
+        {"criterionId": "D2", "status": "passed"},
         {"criterionId": "D3", "status": "passed"},
         {"criterionId": "D4", "status": "passed"},
         {"criterionId": "D5", "status": "open"},
-        {"criterionId": "D6", "status": "open"},
-        {"criterionId": "D7", "status": "passed"},
+        {"criterionId": "D6", "status": "passed"},
+        {"criterionId": "D7", "status": "open"},
         {"criterionId": "D8", "status": "open"},
         {"criterionId": "D9", "status": "passed"},
         {"criterionId": "D10", "status": "open"}
       ],
-      "blockerEn": "The official observation measures manufacturer/importer shipments, not consumer retail sell-through.",
-      "blockerFi": "Virallinen havainto mittaa valmistaja- ja maahantuojatoimituksia eikä kuluttajavähittäismyyntiä.",
-      "nextEvidenceEn": "Add consumer retail sell-through, reporting coverage, supply-stage de-duplication and an explicit tax basis.",
-      "nextEvidenceFi": "Lisää kuluttajavähittäismyynti, raportointipeitto, toimitusketjun deduplikointi ja yksiselitteinen veroperusta.",
-      "acquisitionRouteEn": "Reproduce Health Canada's public aggregate and reconcile it against a public or rights-cleared consumer-retail series.",
-      "acquisitionRouteFi": "Toista Health Canadan julkinen koonti ja täsmäytä se julkiseen tai käyttöoikeuksiltaan selvitettyyn kuluttajavähittäismyyntisarjaan.",
+      "blockerEn": "All four 2024 quarters carry the E quality warning; vaping-specific channel completeness, vaping-excise treatment and the independent Health Canada bridge remain unresolved.",
+      "blockerFi": "Kaikilla vuoden 2024 neljänneksillä on E-laatuvaroitus; sähkötupakkakohtainen kanavapeitto, valmisteverokäsittely ja riippumaton Health Canada -silta ovat edelleen avoimia.",
+      "nextEvidenceEn": "Confirm the vaping-excise basis, quantify channel and survey-quality gaps, and validate a non-duplicative bridge to Health Canada shipment values.",
+      "nextEvidenceFi": "Vahvista sähkötupakan valmisteveroperusta, määrällistä kanava- ja kyselylaatuaukot sekä validoi kaksoislaskennaton silta Health Canadan toimitusarvoihin.",
+      "acquisitionRouteEn": "Statistics Canada RCS metadata and clarification, followed by an explicit reconciliation to Health Canada's manufacturer/importer shipment series.",
+      "acquisitionRouteFi": "Statistics Canadan RCS-metatiedot ja täsmennys, minkä jälkeen yksiselitteinen täsmäytys Health Canadan valmistaja- ja maahantuojatoimitussarjaan.",
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
       "lastReviewedAt": "2026-07-24",
-      "sourceIds": ["CA-HC-VAPING-SALES-2024"]
+      "sourceIds": ["CA-STATCAN-RCS-2023-2025", "CA-HC-VAPING-SALES-2024"],
+      "closureActions": [
+        {
+          "actionId": "CA-CHANNEL-QUALITY-20260724",
+          "criterionIds": ["D5", "D7"],
+          "ownerRole": "independent_research_team",
+          "routeType": "public_source_reconstruction",
+          "routeEn": "Reconstruct the RCS channel boundary and published quality metadata for the 2024 annual sum.",
+          "routeFi": "Rekonstruoi RCS:n kanavarajaus ja julkaistut laatumetatiedot vuoden 2024 vuosisummalle.",
+          "evidenceTargetEn": "A quantified or expressly bounded channel gap plus the most granular available annual precision and imputation evidence.",
+          "evidenceTargetFi": "Määrällistetty tai nimenomaisesti rajattu kanava-aukko sekä tarkin saatavilla oleva vuositason tarkkuus- ja imputointinäyttö.",
+          "publicStatus": "in_progress",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        },
+        {
+          "actionId": "CA-TAX-BASIS-20260724",
+          "criterionIds": ["D8"],
+          "ownerRole": "public_authority",
+          "routeType": "official_aggregate_request",
+          "routeEn": "Seek an existing Statistics Canada definition confirming the treatment of federal, additional and provincial vaping duties.",
+          "routeFi": "Pyydä Statistics Canadan olemassa oleva määritelmä liittovaltion, lisä- ja provinssikohtaisten sähkötupakkaverojen käsittelystä.",
+          "evidenceTargetEn": "An official statement of whether embedded vaping duties are included or excluded from NAPCS 5619122 retail sales.",
+          "evidenceTargetFi": "Virallinen vahvistus siitä, sisältyvätkö hintoihin upotetut sähkötupakkaverot NAPCS 5619122 -vähittäismyyntiin vai eivät.",
+          "publicStatus": "request_sent",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        },
+        {
+          "actionId": "CA-RETAIL-SHIPMENT-BRIDGE-20260724",
+          "criterionIds": ["D10"],
+          "ownerRole": "independent_validator",
+          "routeType": "independent_reconciliation",
+          "routeEn": "Bridge the CAD 1.219 billion RCS retail estimate to the CAD 1.16075379678 billion Health Canada shipment value.",
+          "routeFi": "Silloita RCS:n 1,219 miljardin Kanadan dollarin vähittäismyyntiestimaatti Health Canadan 1,16075379678 miljardin Kanadan dollarin toimitusarvoon.",
+          "evidenceTargetEn": "A non-duplicative bridge for margin, inventory, returns, timing, product scope and tax treatment.",
+          "evidenceTargetFi": "Kaksoislaskennaton silta katteelle, varastolle, palautuksille, ajoitukselle, tuoterajaukselle ja verokäsittelylle.",
+          "publicStatus": "in_progress",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        }
+      ]
     },
     {
       "candidateId": "DE-2025-LIQUID-RETAIL-MODEL",
@@ -229,6 +339,47 @@
         "INTASTE-GERMANFLAVOURS-2026",
         "INTASTE-SAMURAI-2026",
         "INTASTE-REVOLTAGE-2026"
+      ],
+      "closureActions": [
+        {
+          "actionId": "DE-FULL-YEAR-RETAIL-20260724",
+          "criterionIds": ["D1", "D2", "D3", "D5"],
+          "ownerRole": "data_supplier",
+          "routeType": "rights_cleared_retail_data",
+          "routeEn": "Obtain a same-year full-calendar consumer-retail series covering devices, liquids and all material German channels.",
+          "routeFi": "Hanki saman vuoden koko kalenterivuoden kuluttajavähittäismyyntisarja, joka kattaa laitteet, nesteet ja kaikki olennaiset Saksan kanavat.",
+          "evidenceTargetEn": "Observed 2025 sell-through with device/liquid splits, channel coverage and no supply-stage duplication.",
+          "evidenceTargetFi": "Havaittu vuoden 2025 kuluttajamyynti laite- ja nestejaolla, kanavapeitolla ja ilman toimitusketjun kaksoislaskentaa.",
+          "publicStatus": "awaiting_response",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-07-28"
+        },
+        {
+          "actionId": "DE-TAX-BASIS-20260724",
+          "criterionIds": ["D8"],
+          "ownerRole": "public_authority",
+          "routeType": "tax_customs_reconciliation",
+          "routeEn": "Use the pending official excise and customs route to document the price and tax basis of the German comparison.",
+          "routeFi": "Dokumentoi Saksan vertailun hinta- ja veroperusta vireillä olevan virallisen valmistevero- ja tullireitin avulla.",
+          "evidenceTargetEn": "A source-linked bridge between taxed liquid, excise, retail price and VAT treatment.",
+          "evidenceTargetFi": "Lähteistetty silta verotetun nesteen, valmisteveron, vähittäishinnan ja ALV-käsittelyn välille.",
+          "publicStatus": "awaiting_response",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        },
+        {
+          "actionId": "DE-INDEPENDENT-RECONCILIATION-20260724",
+          "criterionIds": ["D10"],
+          "ownerRole": "independent_validator",
+          "routeType": "independent_reconciliation",
+          "routeEn": "Reconcile the eventual retail series to the official taxed-liquid and customs routes without adding alternative estimates.",
+          "routeFi": "Täsmäytä myöhemmin saatava vähittäissarja virallisiin verotetun nesteen ja tullin reitteihin laskematta vaihtoehtoisia arvioita yhteen.",
+          "evidenceTargetEn": "An independent same-year reconciliation with explained coverage, inventory and price differences.",
+          "evidenceTargetFi": "Riippumaton saman vuoden täsmäytys, jossa peitto-, varasto- ja hintaerot on selitetty.",
+          "publicStatus": "queued",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-14"
+        }
       ]
     },
     {
@@ -264,7 +415,61 @@
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
       "lastReviewedAt": "2026-07-24",
-      "sourceIds": ["US-FTC-E-CIGARETTE-REPORT-2021"]
+      "sourceIds": ["US-FTC-E-CIGARETTE-REPORT-2021"],
+      "closureActions": [
+        {
+          "actionId": "US-CONSUMER-RETAIL-20260724",
+          "criterionIds": ["D2", "D5"],
+          "ownerRole": "data_supplier",
+          "routeType": "rights_cleared_retail_data",
+          "routeEn": "Obtain stable, rights-cleared United States consumer sell-through across material physical and online channels.",
+          "routeFi": "Hanki vakaa ja käyttöoikeuksiltaan selvä Yhdysvaltain kuluttajamyyntisarja olennaisista fyysisistä ja verkkokanavista.",
+          "evidenceTargetEn": "A complete annual consumer-retail denominator with company and channel coverage disclosed.",
+          "evidenceTargetFi": "Täydellinen vuotuinen kuluttajavähittäismyynnin nimittäjä, jossa yritys- ja kanavapeitto on ilmoitettu.",
+          "publicStatus": "awaiting_response",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-07-28"
+        },
+        {
+          "actionId": "US-PRODUCT-COVERAGE-20260724",
+          "criterionIds": ["D3"],
+          "ownerRole": "public_authority",
+          "routeType": "official_aggregate_request",
+          "routeEn": "Seek existing post-2021 FTC aggregate tables and category definitions, including any available open-system coverage.",
+          "routeFi": "Pyydä FTC:n olemassa olevat vuoden 2021 jälkeiset koontitaulukot ja tuoteryhmämääritelmät, mukaan lukien mahdollinen open-system-peitto.",
+          "evidenceTargetEn": "Aggregate devices, disposables, cartridges or pods and bottled-liquid coverage with reporting-population notes.",
+          "evidenceTargetFi": "Koontipeitto laitteille, kertakäyttötuotteille, patruunoille tai podeille ja pullonesteille sekä raportoijajoukon huomautukset.",
+          "publicStatus": "request_sent",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        },
+        {
+          "actionId": "US-TAX-BASIS-20260724",
+          "criterionIds": ["D8"],
+          "ownerRole": "independent_research_team",
+          "routeType": "tax_customs_reconciliation",
+          "routeEn": "Document federal, state and local tax treatment for the selected retail source and comparison year.",
+          "routeFi": "Dokumentoi valitun vähittäislähteen ja vertailuvuoden liittovaltion, osavaltioiden ja paikallisten verojen käsittely.",
+          "evidenceTargetEn": "An explicit price-level and tax basis that can be compared with FTC reported sales.",
+          "evidenceTargetFi": "Yksiselitteinen hinta- ja veroperusta, jota voidaan verrata FTC:lle raportoituun myyntiin.",
+          "publicStatus": "queued",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-07"
+        },
+        {
+          "actionId": "US-INDEPENDENT-RECONCILIATION-20260724",
+          "criterionIds": ["D10"],
+          "ownerRole": "independent_validator",
+          "routeType": "independent_reconciliation",
+          "routeEn": "Reconcile the FTC manufacturer-reporting series to the selected complete consumer-retail series.",
+          "routeFi": "Täsmäytä FTC:n valmistajaraportointisarja valittuun täydelliseen kuluttajavähittäismyyntisarjaan.",
+          "evidenceTargetEn": "A source-linked bridge for manufacturer coverage, direct sales, giveaways, margins, inventory and omitted open-system products.",
+          "evidenceTargetFi": "Lähteistetty silta valmistajapeitolle, suoramyynnille, ilmaisjakelulle, katteille, varastolle ja puuttuville open-system-tuotteille.",
+          "publicStatus": "queued",
+          "statusAsOf": "2026-07-24",
+          "nextFollowUpOn": "2026-08-14"
+        }
+      ]
     }
   ]
 }

@@ -69,6 +69,36 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         errors = self.validate_mutation("V14", "analyst@example.test")
         self.assertTrue(any("email address" in error for error in errors), errors)
 
+    def test_current_public_outreach_states_are_fail_closed(self) -> None:
+        outreach = {
+            item["itemId"]: item
+            for item in self.source["outreach"]
+        }
+        self.assertEqual(
+            outreach["ecig-global-market-database"]["state"],
+            "sent_followup_scheduled",
+        )
+        self.assertIn(
+            "2026-07-28",
+            outreach["ecig-global-market-database"]["noteEn"],
+        )
+        self.assertEqual(
+            outreach["euromonitor-passport-nicotine"]["state"],
+            "written_response_brochure_received_quote_request_sent",
+        )
+        self.assertIn(
+            "overall 100-country Passport Tobacco list",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "full-global, core-global, 20- and 25-country, and add-on pricing",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "No reviewable numerical sample, detailed methodology, confirmed e-vapour country-product coverage matrix",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+
     def test_rejects_private_path_in_reviewer_note(self) -> None:
         errors = self.validate_mutation("V14", "/Users/example/private/reply.eml")
         self.assertTrue(any("local or private path" in error for error in errors), errors)

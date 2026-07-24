@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for v18 donor-conversion and scenario publication gates."""
+"""Mutation tests for v19 donor closure actions and publication gates."""
 
 from __future__ import annotations
 
@@ -93,6 +93,93 @@ class DonorCockpitTests(unittest.TestCase):
         self.assert_rejected(
             cockpit=cockpit,
             needle="declared donor decision does not match",
+        )
+
+    def test_rejects_missing_blocking_criterion_closure_coverage(self) -> None:
+        cockpit = copy.deepcopy(self.cockpit)
+        candidate = cockpit["candidates"][0]
+        candidate["closureActions"][0]["criterionIds"].remove("D3")
+        self.assert_rejected(
+            cockpit=cockpit,
+            needle="closure actions must cover every failed/open criterion exactly once",
+        )
+
+    def test_rejects_blocking_criterion_duplicated_across_closure_actions(self) -> None:
+        cockpit = copy.deepcopy(self.cockpit)
+        candidate = cockpit["candidates"][0]
+        candidate["closureActions"][1]["criterionIds"].append("D3")
+        self.assert_rejected(
+            cockpit=cockpit,
+            needle="blocking criteria must not be duplicated across closure actions",
+        )
+
+    def test_rejects_closure_action_targeting_passed_criterion(self) -> None:
+        cockpit = copy.deepcopy(self.cockpit)
+        candidate = cockpit["candidates"][0]
+        candidate["closureActions"][0]["criterionIds"].append("D1")
+        self.assert_rejected(
+            cockpit=cockpit,
+            needle="closure action must not target passed criteria",
+        )
+
+    def test_rejects_blocked_candidate_without_closure_actions(self) -> None:
+        cockpit = copy.deepcopy(self.cockpit)
+        cockpit["candidates"][0]["closureActions"] = []
+        self.assert_rejected(
+            cockpit=cockpit,
+            needle="blocked candidate requires closure actions",
+        )
+
+    def test_rejects_invalid_closure_action_enums(self) -> None:
+        mutations = (
+            ("ownerRole", "individual_researcher", ".ownerRole is invalid"),
+            ("routeType", "general_web_search", ".routeType is invalid"),
+            ("publicStatus", "completed", ".publicStatus is invalid"),
+        )
+        for field, value, needle in mutations:
+            with self.subTest(field=field):
+                cockpit = copy.deepcopy(self.cockpit)
+                cockpit["candidates"][0]["closureActions"][0][field] = value
+                self.assert_rejected(cockpit=cockpit, needle=needle)
+
+    def test_rejects_invalid_closure_action_dates(self) -> None:
+        mutations = (
+            (
+                "statusAsOf",
+                "2026-07-25",
+                ".statusAsOf must be no later than cockpit asOf",
+            ),
+            (
+                "statusAsOf",
+                "not-a-date",
+                ".statusAsOf must be no later than cockpit asOf",
+            ),
+            (
+                "nextFollowUpOn",
+                "2026-07-23",
+                ".nextFollowUpOn must be on or after statusAsOf",
+            ),
+            (
+                "nextFollowUpOn",
+                "not-a-date",
+                ".nextFollowUpOn must be on or after statusAsOf",
+            ),
+        )
+        for field, value, needle in mutations:
+            with self.subTest(field=field, value=value):
+                cockpit = copy.deepcopy(self.cockpit)
+                cockpit["candidates"][0]["closureActions"][0][field] = value
+                self.assert_rejected(cockpit=cockpit, needle=needle)
+
+    def test_rejects_accepted_candidate_with_closure_actions(self) -> None:
+        cockpit = copy.deepcopy(self.cockpit)
+        candidate = cockpit["candidates"][0]
+        for criterion in candidate["criterionStatuses"]:
+            criterion["status"] = "passed"
+        candidate["declaredDecision"] = "accepted"
+        self.assert_rejected(
+            cockpit=cockpit,
+            needle="accepted candidate must not retain closure actions",
         )
 
     def test_missing_country_input_returns_not_computed(self) -> None:

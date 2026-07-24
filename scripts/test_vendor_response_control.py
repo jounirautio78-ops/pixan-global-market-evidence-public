@@ -23,7 +23,7 @@ class VendorResponseControlTests(unittest.TestCase):
         validate_source(copy.deepcopy(self.source), errors)
         self.assertEqual(errors, [])
 
-    def test_administrative_reply_is_not_substantive_evidence(self) -> None:
+    def test_written_brochure_response_is_substantive_but_not_scoreable(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
         vendor = next(
             item
@@ -32,24 +32,47 @@ class VendorResponseControlTests(unittest.TestCase):
         )
         self.assertEqual(
             vendor["responseState"],
-            "administrative_qualification_received",
+            "substantive_response_received",
         )
         self.assertEqual(
             vendor["publicStatusEn"],
-            "Administrative qualification request received; clarification sent; "
-            "substantive response pending",
+            "Written response and an 8-page brochure received; the brochure's 100-country "
+            "list is the overall Passport Tobacco scope, not confirmed e-vapour "
+            "country-product coverage; a non-binding multi-option quote request and "
+            "numerical-sample resend request were sent 2026-07-24; the reviewable "
+            "numerical sample, quote and licence terms remain pending",
         )
         self.assertEqual(
             vendor["publicStatusFi"],
-            "Hallinnollinen lisätietopyyntö vastaanotettu; täsmennys lähetetty; "
-            "sisällöllinen vastaus odottaa",
+            "Kirjallinen vastaus ja 8-sivuinen esite vastaanotettu; esitteen 100 maan "
+            "lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan "
+            "maa–tuote-peittoa; ei-sitova monivaihtoehtoinen tarjouspyyntö ja numeerisen "
+            "näytteen uudelleenlähetyspyyntö lähetettiin 24.7.2026; tarkistettava "
+            "numeerinen näyte, tarjous ja lisenssiehdot odottavat",
         )
+        self.assertIn("not confirmed e-vapour country-product coverage", vendor["publicStatusEn"])
+        self.assertIn("multi-option quote request", vendor["publicStatusEn"])
         self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
         self.assertFalse(vendor["purchaseAuthorised"])
-        self.assertEqual(candidate["summary"]["substantiveResponses"], 0)
+        self.assertEqual(candidate["summary"]["substantiveResponses"], 1)
+
+    def test_ecig_unanswered_state_retains_follow_up_without_evidence(self) -> None:
+        candidate = normalised(copy.deepcopy(self.source))
+        vendor = next(
+            item
+            for item in candidate["vendors"]
+            if item["vendorId"] == "ecig-global-market-database"
+        )
+        self.assertEqual(vendor["responseState"], "pending_no_acknowledgement")
+        self.assertIn("2026-07-28", vendor["publicStatusEn"])
+        self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
+        self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
+        self.assertEqual(vendor["scoringState"], "not_scored")
+        self.assertIsNone(vendor["weightedScore"])
+        self.assertFalse(vendor["purchaseAuthorised"])
 
     def test_missing_mandatory_evidence_is_not_scored(self) -> None:
         candidate = copy.deepcopy(self.source)

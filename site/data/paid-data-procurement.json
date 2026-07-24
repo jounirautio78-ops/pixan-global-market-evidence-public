@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-23",
+  "asOf": "2026-07-24",
   "avoidAsPrimary": [
     {
       "examples": "Grand View Research, IMARC, Mordor Intelligence and similar",
@@ -94,13 +94,13 @@
     {
       "alternativeGroup": "global_master_choose_one",
       "category": "global_market_series",
-      "conditionsEn": "The public single-country price is not a global subscription price. Standard terms restrict sharing; transaction-data-room rights must be written into the order.",
-      "conditionsFi": "Julkinen yhden maaraportin hinta ei ole globaalin tilauksen hinta. Vakioehdot rajoittavat jakamista; transaktiodatahuoneoikeudet on kirjattava tilaukseen.",
-      "coverageEn": "The current e-vapour country selector exposes about 72 markets. The Denmark example includes 2019–2024 history and 2024–2029 forecasts.",
-      "coverageFi": "Nykyinen e-vapour-maavalitsin näyttää noin 72 markkinaa. Tanska-esimerkissä on historia 2019–2024 ja ennusteet 2024–2029.",
+      "conditionsEn": "The 100-country Passport Tobacco list is not confirmed e-vapour coverage, and the public single-country price is not a global subscription price. Standard terms restrict sharing; transaction-data-room rights must be written into the order.",
+      "conditionsFi": "Passport Tobaccon 100 maan lista ei ole vahvistettu sähkötupakkapeitto, eikä julkinen yhden maaraportin hinta ole globaalin tilauksen hinta. Vakioehdot rajoittavat jakamista; transaktiodatahuoneoikeudet on kirjattava tilaukseen.",
+      "coverageEn": "The received brochure's 100-country list describes overall Passport Tobacco scope, not confirmed e-vapour country-product coverage. An earlier public e-vapour selector exposed about 72 markets, but exact country, product and series availability for this project remains unconfirmed pending the requested coverage matrix and numerical sample. The Denmark example includes 2019–2024 history and 2024–2029 forecasts.",
+      "coverageFi": "Vastaanotetun esitteen 100 maan lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan maa–tuote-peittoa. Aiempi julkinen e-vapour-maavalitsin näytti noin 72 markkinaa, mutta tämän projektin täsmällinen maa-, tuote- ja sarjapeitto odottaa pyydettyä peittomatriisia ja numeerista näytettä. Tanska-esimerkissä on historia 2019–2024 ja ennusteet 2024–2029.",
       "currency": null,
-      "decisionEn": "Request a Passport Nicotine quote and sample Excel in parallel with ECigIntelligence, then buy at most one global master unless non-overlap is demonstrated.",
-      "decisionFi": "Pyydä Passport Nicotine -tarjous ja näyte-Excel rinnakkain ECigIntelligencen kanssa; osta enintään yksi globaali pääaineisto, ellei päällekkäisyyden puuttumista osoiteta.",
+      "decisionEn": "A non-binding multi-option quote and numerical-sample resend request has been sent. Consider at most one global master only after the numerical sample, exact e-vapour coverage, methodology, full pricing and written transaction-use rights pass review.",
+      "decisionFi": "Ei-sitova monivaihtoehtoinen tarjouspyyntö ja numeerisen näytteen uudelleenlähetyspyyntö on lähetetty. Harkitse enintään yhtä globaalia pääaineistoa vasta, kun numeerinen näyte, täsmällinen sähkötupakkapeitto, menetelmä, koko hinnoittelu ja kirjalliset transaktiokäyttöoikeudet läpäisevät tarkistuksen.",
       "itemId": "euromonitor-passport-nicotine",
       "priceAmount": null,
       "priceDisplay": "Quote; Denmark single-country example USD 1,195",
@@ -125,7 +125,7 @@
       ],
       "tier": "core_global_choose_one",
       "vendor": "Euromonitor International",
-      "verifiedOn": "2026-07-23",
+      "verifiedOn": "2026-07-24",
       "weightedScore": 3.8
     },
     {
@@ -450,17 +450,17 @@
   "outreach": [
     {
       "itemId": "ecig-global-market-database",
-      "noteEn": "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
-      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+      "noteEn": "A free review-sample and non-binding quote request was sent on 2026-07-23. No bounce, automated acknowledgement or response is recorded as of 2026-07-24. First follow-up is scheduled for 2026-07-28 if unanswered. No sample, quote, data, method, coverage, licence, price or commitment.",
+      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 24.7.2026 mennessä. Ensimmäinen seuranta on 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
       "recordedOn": "2026-07-23",
-      "state": "sent"
+      "state": "sent_followup_scheduled"
     },
     {
       "itemId": "euromonitor-passport-nicotine",
-      "noteEn": "Administrative qualification questions were received; clarification was sent and routing is pending. No sample, quote, data, method, coverage, licence, price or commitment.",
-      "noteFi": "Hallinnolliset taustatietokysymykset vastaanotettiin; täsmennys lähetettiin ja ohjaus oikealle tiimille odottaa. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
-      "recordedOn": "2026-07-23",
-      "state": "administrative_qualification_received"
+      "noteEn": "A written response and an 8-page Tobacco brochure were received after the meeting. The brochure documents an overall 100-country Passport Tobacco list, e-vapour category taxonomy, 2010-2029 market-size periods, 2014-2024 company and brand-share periods and 2010-2024 retail-channel periods; it does not confirm exact e-vapour country-product coverage. A non-binding multi-option quote request was sent on 2026-07-24 for full-global, core-global, 20- and 25-country, and add-on pricing; one-off and subscription; single-user and small-team terms; transaction-use rights; and resending the missing numerical Excel/CSV sample. No reviewable numerical sample, detailed methodology, confirmed e-vapour country-product coverage matrix, quote, licence terms, usable data, price, purchase or commitment.",
+      "noteFi": "Tapaamisen jälkeen vastaanotettiin kirjallinen vastaus ja 8-sivuinen Tobacco-esite. Esite dokumentoi Passport Tobaccon 100 maan kokonaislistan, sähkötupakkatuotteiden luokittelun, markkinakokosarjojen ajanjakson 2010–2029, yritys- ja brändiosuuksien ajanjakson 2014–2024 sekä vähittäiskanavasarjojen ajanjakson 2010–2024; se ei vahvista täsmällistä sähkötupakan maa–tuote-peittoa. Ei-sitova monivaihtoehtoinen tarjouspyyntö lähetettiin 24.7.2026 täyden globaalin, rajatun globaalin, 20 ja 25 maan sekä lisäosien hinnoittelusta; kertaostosta ja tilauksesta; yhden käyttäjän ja pienen tiimin ehdoista; transaktiokäyttöoikeuksista; sekä puuttuvan numeerisen Excel/CSV-näytteen uudelleenlähetyksestä. Ei tarkistettavaa numeerista näytettä, yksityiskohtaista menetelmää, vahvistettua sähkötupakan maa–tuote-peittomatriisia, tarjousta, lisenssiehtoja, käyttökelpoista dataa, hintaa, ostoa eikä sitoumusta.",
+      "recordedOn": "2026-07-24",
+      "state": "written_response_brochure_received_quote_request_sent"
     },
     {
       "itemId": "niq-rms-pilot",
@@ -543,7 +543,7 @@
       "id": "licence_block"
     }
   ],
-  "version": "2026.07.23-3",
+  "version": "2026.07.24-19",
   "weights": [
     {
       "id": "annualSalesFit",

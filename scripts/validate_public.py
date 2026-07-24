@@ -822,6 +822,16 @@ def validate_market_values(
             "https://health-infobase.canada.ca/substance-use/vaping/sales/",
             "https://health-infobase.canada.ca/src/data/substance-use/vaping/sales/VPRR%20Data%20-%202026-01-22.zip",
         ),
+        "CA-STATCAN-RCS-2019-2022": (
+            "official",
+            "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010001601",
+            "https://www150.statcan.gc.ca/n1/en/tbl/csv/20100016-eng.zip",
+        ),
+        "CA-STATCAN-RCS-2023-2025": (
+            "official",
+            "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
+            "https://www150.statcan.gc.ca/n1/en/tbl/csv/20100071-eng.zip",
+        ),
         "DE-DESTATIS-73411-0003": (
             "official",
             "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003",
@@ -956,6 +966,13 @@ def validate_market_values(
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-UNITS": ("CA", 2024, "manufacturer_importer_shipments_units", 118901910, "unit", "official_observed", "published", "physical_units_not_market_value", False),
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-LITRES": ("CA", 2024, "manufacturer_importer_shipments_liquid_volume", 1251843, "litre", "official_observed", "published", "physical_volume_not_market_value", False),
+        "CA-2019-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2019, "statcan_rcs_vaping_retail_sales", 477077000, "CAD", "official_table_derived", "quarterly_sum_no_status_symbol", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
+        "CA-2020-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2020, "statcan_rcs_vaping_retail_sales", 520647000, "CAD", "official_table_derived", "quarterly_sum_no_status_symbol", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
+        "CA-2021-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2021, "statcan_rcs_vaping_retail_sales", 992732000, "CAD", "official_table_derived", "quarterly_sum_no_status_symbol", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
+        "CA-2022-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2022, "statcan_rcs_vaping_retail_sales", 1277158000, "CAD", "official_table_derived", "quarterly_sum_status_E_D_D_D", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
+        "CA-2023-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2023, "statcan_rcs_vaping_retail_sales", 1530758000, "CAD", "official_table_derived", "quarterly_sum_status_E_D_E_E", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
+        "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2024, "statcan_rcs_vaping_retail_sales", 1219160000, "CAD", "official_table_derived", "quarterly_sum_all_quarters_status_E", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
+        "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2025, "statcan_rcs_vaping_retail_sales", 1266567000, "CAD", "official_table_derived", "quarterly_sum_all_quarters_status_E", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
         "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE": ("NZ", 2022, "official_reported_revenue_mixed_supply_stages", 404000000, "NZD", "official_provisional", "official_approximation_with_significant_quality_warning", "mixed_supply_stage_revenue_incomplete_not_retail_market_value", False),
         "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND": ("NZ", 2023, "official_reported_revenue_mixed_supply_stages", 374000000, "NZD", "official_provisional", "official_lower_bound_with_quality_warning", "mixed_supply_stage_revenue_incomplete_not_retail_market_value", False),
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": ("NZ", 2024, "official_specialist_retail_sales_lower_bound", 280000000, "NZD", "official_provisional", "official_lower_bound_with_quality_warning", "specialist_vape_retailer_sales_incomplete_lower_bound_mixed_notifiable_products", False),
@@ -1097,6 +1114,63 @@ def validate_market_values(
                 errors.append(
                     f"{path}: the 2020 FTC population must retain the five-prior plus three-of-four-new boundary"
                 )
+        if item.get("metric") == "statcan_rcs_vaping_retail_sales":
+            expected_source_id = (
+                "CA-STATCAN-RCS-2019-2022"
+                if item.get("year") in {2019, 2020, 2021, 2022}
+                else "CA-STATCAN-RCS-2023-2025"
+            )
+            if (
+                item.get("countryIso2") != "CA"
+                or item.get("unit") != "CAD"
+                or item.get("currency") != "CAD"
+                or item.get("period") != "calendar_year"
+                or item.get("evidenceStatus") != "official_table_derived"
+                or item.get("productScope")
+                != "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail"
+                or item.get("marketValueBasis")
+                != "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+                or item.get("sourceIds") != [expected_source_id]
+            ):
+                errors.append(
+                    f"{path}: Statistics Canada RCS annual series must remain a "
+                    "current-CAD quarterly sum and donor-ineligible"
+                )
+            limitation = str(item.get("limitationEn", ""))
+            if (
+                "current CAD" not in limitation
+                or "GST, HST, PST and QST are excluded" not in limitation
+                or "vaping-excise treatment is not explicit" not in limitation
+                or "not an accepted donor" not in limitation
+            ):
+                errors.append(
+                    f"{path}: Statistics Canada RCS annual series must retain "
+                    "its currency, tax and donor boundaries"
+                )
+            if item.get("year") in {2019, 2020, 2021, 2022} and (
+                "NAICS 45411" not in limitation or "pure-play Internet retailers" not in limitation
+            ):
+                errors.append(
+                    f"{path}: pre-2023 Statistics Canada RCS values must retain "
+                    "the pure-play Internet channel gap"
+                )
+            if item.get("year") in {2023, 2024, 2025} and (
+                "classified by goods sold" not in limitation or "telephone sales" not in limitation
+            ):
+                errors.append(
+                    f"{path}: post-2022 Statistics Canada RCS values must retain "
+                    "the method-of-sale evidence and telephone-sales limit"
+                )
+            if item.get("year") in {2024, 2025} and (
+                "All four quarters carry status E" not in limitation
+                or "coefficient of variation greater than 25%" not in limitation
+            ):
+                errors.append(
+                    f"{path}: 2024 and 2025 Statistics Canada RCS values must "
+                    "retain the all-E quality warning"
+                )
         if observation_id == "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE":
             limitation = str(item.get("limitationEn", ""))
             if (
@@ -1127,6 +1201,13 @@ def validate_market_values(
             errors.append(f"market observation {observation_id} differs from its reviewed fact tuple")
 
     expected_scope_sources = {
+        "CA-2019-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2019-2022"),
+        "CA-2020-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2019-2022"),
+        "CA-2021-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2019-2022"),
+        "CA-2022-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2019-2022"),
+        "CA-2023-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2023-2025"),
+        "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2023-2025"),
+        "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2023-2025"),
         "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE": ("all_notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products", "NZ-MOH-ANNUAL-RETURNS-2022"),
         "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND": ("regulated_notifiable_products_including_heated_tobacco", "NZ-MOH-ANNUAL-RETURNS-2023"),
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": ("notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products", "NZ-MOH-ANNUAL-RETURNS-2024"),
@@ -1339,8 +1420,8 @@ def validate_market_values(
             accepted_candidates += 1
             if item.get("failedCriteria") or item.get("openCriteria") or set(item.get("passedCriteria", [])) != all_criterion_ids:
                 errors.append(f"{path}: an accepted donor must pass all ten criteria")
-        elif not item.get("failedCriteria"):
-            errors.append(f"{path}: a rejected donor must expose at least one failed criterion")
+        elif not item.get("failedCriteria") and not item.get("openCriteria"):
+            errors.append(f"{path}: a rejected donor must expose at least one failed or open criterion")
     if accepted_candidates != readiness.get("comparableFullYearMarketValueDonors"):
         errors.append("accepted donor-candidate count must equal modelReadiness donor count")
     expected_candidate_tests = {
@@ -1356,11 +1437,11 @@ def validate_market_values(
             {"D7", "D9"},
             {"D2", "D5", "D6", "D8", "D10"},
         ),
-        "CA-2024-OFFICIAL-SHIPMENT-PROXY": (
-            "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
-            {"D1", "D3", "D4", "D7", "D9"},
-            {"D2"},
-            {"D5", "D6", "D8", "D10"},
+        "CA-2024-STATCAN-RCS-RETAIL-SALES": (
+            "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
+            {"D1", "D2", "D3", "D4", "D6", "D9"},
+            set(),
+            {"D5", "D7", "D8", "D10"},
         ),
         "DE-2025-LIQUID-RETAIL-MODEL": (
             "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE",

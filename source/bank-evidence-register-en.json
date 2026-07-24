@@ -111,7 +111,7 @@
       "There is no gap in the universe definition; evidence coverage is assessed separately."
     ],
     [
-      "The public package contains 27 annual observations sourced from official routes across seven countries.",
+      "The public package contains 34 annual observations sourced from official routes across seven countries.",
       "Market size",
       "The countries are Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. Transaction levels, currencies and product scopes differ.",
       "site/data/market-values.json (machine-readable source file of the public site)",
@@ -221,15 +221,15 @@
       "Acquire the licensed country table and method, transaction definition, channel coverage, tax basis and an independent reconciliation; complete Cyprus, Luxembourg and Malta."
     ],
     [
-      "Canada's 2024 manufacturer and importer shipment value was CAD 1.16075379678 billion.",
+      "Statistics Canada's Canada series contains seven full-year consumer-retail estimates for 2019–2025; the 2024 value is CAD 1,219,160,000.",
       "Market size",
-      "The official full-year series reports shipment value to wholesalers and retailers across four reported product categories. It does not measure consumer retail purchases, and Health Canada may revise the data.",
-      "https://health-infobase.canada.ca/substance-use/vaping/sales/",
-      "2024",
-      "Sum of the four reported product categories.",
-      "Shipment value is not treated as consumer retail value.",
-      "Confirmed",
-      "Retail margins, channel structure and inventory movements must be reconciled."
+      "The annual estimate is the sum of four RCS quarters for NAPCS 5619122. Health Canada's 2024 manufacturer/importer shipment value is CAD 1,160,753,796.78.",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+      "2026-07-24",
+      "CAD 1,219,160,000 − CAD 1,160,753,796.78 = CAD 58,406,203.22; RCS / Health Canada = 1.0503175, or +5.03%.",
+      "Every 2024 quarter carries quality flag E. Vaping-specific channel completeness is not quantified and the vaping-excise basis is not confirmed.",
+      "Supported",
+      "The retail-to-shipment bridge does not yet explain margin, inventory, returns, timing, product scope or tax treatment; Canada is not an accepted donor."
     ],
     [
       "Canada's 2024 shipments included 1,251,843 litres.",

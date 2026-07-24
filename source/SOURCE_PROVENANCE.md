@@ -45,7 +45,7 @@ Consequently, the public derivative hash proves the reviewed derivative, while t
 
 ## ECB annual-average EUR equivalents
 
-`source/fx-rates.json` is a separate, public-only conversion layer sourced from the European Central Bank’s official `EXR` dataset. It contains 14 annual-average spot-reference observations for the exact CAD, NZD, PLN, SEK and USD currency-year pairs used by the current annual monetary records. Every rate links to a year-bounded ECB Data API CSV query and records the review date `2026-07-24`.
+`source/fx-rates.json` is a separate, public-only conversion layer sourced from the European Central Bank’s official `EXR` dataset. It contains 20 annual-average spot-reference observations for the exact CAD, NZD, PLN, SEK and USD currency-year pairs used by the current annual monetary records. Every rate links to a year-bounded ECB Data API CSV query and records the review date `2026-07-24`.
 
 The ECB series key format is `EXR.A.<currency>.EUR.SP00.A`, and the quote is foreign-currency units per euro. The reproducible calculation is therefore `EUR equivalent = original monetary amount / currency units per EUR`. The source amount and source currency remain primary. Full published API `OBS_VALUE` precision is retained for the calculation; rounding occurs only when the browser displays the secondary EUR equivalent.
 

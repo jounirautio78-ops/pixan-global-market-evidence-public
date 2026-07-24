@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-23",
+  "asOf": "2026-07-24",
   "controlId": "vendor-response-control-public",
   "criteria": [
     {
@@ -160,7 +160,7 @@
   "summary": {
     "purchaseAuthorisations": 0,
     "scoredVendors": 0,
-    "substantiveResponses": 0,
+    "substantiveResponses": 1,
     "trackedVendors": 4
   },
   "vendors": [
@@ -177,8 +177,8 @@
       "evidenceReceivedCount": 0,
       "mandatoryGatePassCount": 0,
       "product": "Global Market Database",
-      "publicStatusEn": "Request sent; response pending",
-      "publicStatusFi": "Pyyntö lähetetty; vastaus odottaa",
+      "publicStatusEn": "Request sent 2026-07-23; no bounce, automated acknowledgement or response recorded; first follow-up due 2026-07-28 if still unanswered",
+      "publicStatusFi": "Pyyntö lähetetty 23.7.2026; palautusta, automaattikuittausta tai vastausta ei ole kirjattu; ensimmäinen seuranta 28.7.2026, jos vastausta ei kuulu",
       "purchaseAuthorised": false,
       "receivedEvidence": {
         "coverageMatrix": false,
@@ -190,7 +190,7 @@
         "transactionUseRights": false
       },
       "requestState": "request_sent",
-      "responseState": "pending",
+      "responseState": "pending_no_acknowledgement",
       "scoringState": "not_scored",
       "vendor": "ECigIntelligence",
       "vendorId": "ecig-global-market-database",
@@ -209,8 +209,8 @@
       "evidenceReceivedCount": 0,
       "mandatoryGatePassCount": 0,
       "product": "Passport Nicotine / e-vapour country series",
-      "publicStatusEn": "Administrative qualification request received; clarification sent; substantive response pending",
-      "publicStatusFi": "Hallinnollinen lisätietopyyntö vastaanotettu; täsmennys lähetetty; sisällöllinen vastaus odottaa",
+      "publicStatusEn": "Written response and an 8-page brochure received; the brochure's 100-country list is the overall Passport Tobacco scope, not confirmed e-vapour country-product coverage; a non-binding multi-option quote request and numerical-sample resend request were sent 2026-07-24; the reviewable numerical sample, quote and licence terms remain pending",
+      "publicStatusFi": "Kirjallinen vastaus ja 8-sivuinen esite vastaanotettu; esitteen 100 maan lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan maa–tuote-peittoa; ei-sitova monivaihtoehtoinen tarjouspyyntö ja numeerisen näytteen uudelleenlähetyspyyntö lähetettiin 24.7.2026; tarkistettava numeerinen näyte, tarjous ja lisenssiehdot odottavat",
       "purchaseAuthorised": false,
       "receivedEvidence": {
         "coverageMatrix": false,
@@ -222,7 +222,7 @@
         "transactionUseRights": false
       },
       "requestState": "request_sent",
-      "responseState": "administrative_qualification_received",
+      "responseState": "substantive_response_received",
       "scoringState": "not_scored",
       "vendor": "Euromonitor International",
       "vendorId": "euromonitor-passport-nicotine",
@@ -293,5 +293,5 @@
       "weightedScore": null
     }
   ],
-  "version": "2026.07.23-14"
+  "version": "2026.07.24-19"
 }
