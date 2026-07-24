@@ -99,6 +99,18 @@
           "labelFi": "Health Canadan höyrystystuotteiden myyntiaineisto",
           "url": "https://health-infobase.canada.ca/substance-use/vaping/sales/",
           "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "Statistics Canada Retail Commodity Survey methodology",
+          "labelFi": "Statistics Canadan Retail Commodity Survey -menetelmä",
+          "url": "https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=2008",
+          "verifiedOn": "2026-07-24"
+        },
+        {
+          "labelEn": "Statistics Canada quarterly retail sales by product category",
+          "labelFi": "Statistics Canadan neljännesvuosittainen vähittäismyynti tuoteryhmittäin",
+          "url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
+          "verifiedOn": "2026-07-24"
         }
       ],
       "operationalRank": 2,
@@ -107,17 +119,19 @@
         "nameFi": "Health Canada"
       },
       "priorityCode": "A2",
-      "rationaleEn": "Health Canada already publishes one of the strongest official manufacturer/importer shipment series, making it an immediate anchor and request-design benchmark.",
-      "rationaleFi": "Health Canada julkaisee jo yhden vahvimmista virallisista valmistaja- ja maahantuojatoimitusten sarjoista, joten se toimii välittömänä ankkurina ja pyyntömallin vertailukohtana.",
+      "rationaleEn": "Health Canada's official shipment series and Statistics Canada's Retail Commodity Survey create a direct shipment-to-retail comparison. A secondary clarification request on the retail tax basis and annual use of quarterly estimates was sent on 2026-07-24; no reply is publicly recorded.",
+      "rationaleFi": "Health Canadan virallinen toimitussarja ja Statistics Canadan Retail Commodity Survey muodostavat suoran toimitus–vähittäismyynti-vertailun. Vähittäismyynnin veropohjaa ja neljännesvuosiarvioiden vuosikäyttöä koskeva täydentävä täsmennyspyyntö lähetettiin 24.7.2026; julkista vastausta ei ole kirjattu.",
       "recordsRequestedEn": [
         "Machine-readable semi-annual manufacturer/importer shipment records by province, category, units, liquid volume and reported value",
         "Reporting coverage, suppressed cells, revisions and audit or quality-control metadata",
-        "A clear statement that the measure is shipment data rather than retail sell-through"
+        "A clear statement that the measure is shipment data rather than retail sell-through",
+        "Existing definitions confirming whether retail estimates exclude GST, HST, PST and QST; whether vaping duties are included; and whether a four-quarter sum is an intended annual total while retaining published quality warnings"
       ],
       "recordsRequestedFi": [
         "Koneluettava puolivuosittainen valmistaja- ja maahantuojatoimitusten aineisto maakunnan, tuoteryhmän, kappaleiden, nestemäärän ja ilmoitetun arvon mukaan",
         "Raportoinnin kattavuus, salatut solut, revisiot ja tarkastus- tai laadunvalvontatiedot",
-        "Selkeä vahvistus siitä, että mittari kuvaa toimituksia eikä vähittäismyyntiä"
+        "Selkeä vahvistus siitä, että mittari kuvaa toimituksia eikä vähittäismyyntiä",
+        "Olemassa olevat määritelmät siitä, sulkevatko vähittäismyyntiarviot GST-, HST-, PST- ja QST-verot pois, sisältyvätkö vaping-valmisteverot sekä onko neljän vuosineljänneksen summa tarkoitettu vuosiyhteissummaksi julkaistut laatuvaroitukset säilyttäen"
       ],
       "requestChannel": {
         "nameEn": "Health Canada Access to Information and Privacy Division",
@@ -138,21 +152,21 @@
       "countryIso2": "US",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_applicable",
-        "sentOn": null,
-        "state": "draft_not_sent"
+        "responseState": "not_publicly_recorded",
+        "sentOn": "2026-07-24",
+        "state": "sent"
       },
       "fallbackAuthority": {
-        "nameEn": "U.S. International Trade Commission DataWeb",
-        "nameFi": "Yhdysvaltain kansainvälisen kaupan komission DataWeb",
-        "url": "https://www.usitc.gov/applications/dataweb/about"
+        "nameEn": "FTC Freedom of Information Act office",
+        "nameFi": "FTC:n FOIA-toimisto",
+        "url": "https://www.ftc.gov/foia"
       },
       "languages": [
         "en"
       ],
       "legalBasis": {
-        "nameEn": "Freedom of Information Act, 5 U.S.C. § 552",
-        "nameFi": "Freedom of Information Act, 5 U.S.C. § 552"
+        "nameEn": "FTC Act Section 6(b) aggregate-data inquiry; formal FOIA reserved as a fallback",
+        "nameFi": "FTC Act -lain 6(b)-kohdan aggregaattidatan tiedustelu; muodollinen FOIA säilytetään varareittinä"
       },
       "officialSources": [
         {
@@ -187,16 +201,16 @@
         "Ei yrityssalaisia ilmoituksia tai yrityksen tunnistavia tietoja"
       ],
       "requestChannel": {
-        "nameEn": "FTC Freedom of Information Act office",
-        "nameFi": "FTC:n FOIA-toimisto",
-        "url": "https://www.ftc.gov/foia"
+        "nameEn": "FTC Division of Advertising Practices informal public-data inquiry",
+        "nameFi": "FTC:n Division of Advertising Practices -yksikön epämuodollinen julkisen datan tiedustelu",
+        "url": "https://www.ftc.gov/about-ftc/bureaus-offices/bureau-consumer-protection/our-divisions/division-advertising-practices"
       },
       "requesterEligibility": {
-        "caveatEn": "Any person may file a federal FOIA request; confidential business information remains exempt, so the request must stay aggregate and anonymised.",
-        "caveatFi": "Kuka tahansa voi tehdä liittovaltion FOIA-pyynnön; luottamuksellinen yritystieto on edelleen poikkeuksen piirissä, joten pyyntö on pidettävä aggregoituna ja anonymisoituna.",
+        "caveatEn": "No local-requester restriction applies to the informal inquiry. If a formal FOIA request later becomes necessary, any person may file, but confidential business information remains exempt and the request must stay aggregate and anonymised.",
+        "caveatFi": "Epämuodolliseen tiedusteluun ei sovelleta paikallisen pyytäjän rajoitusta. Jos muodollinen FOIA-pyyntö tulee myöhemmin tarpeelliseksi, sen voi tehdä kuka tahansa, mutta luottamuksellinen yritystieto säilyy poikkeuksen piirissä ja pyyntö on pidettävä aggregoituna ja anonymisoituna.",
         "localRequester": "not_required"
       },
-      "status": "draft_not_sent",
+      "status": "sent",
       "wave": "1A"
     },
     {
@@ -1305,5 +1319,5 @@
     ]
   },
   "status": "partially_dispatched",
-  "verificationDate": "2026-07-23"
+  "verificationDate": "2026-07-24"
 }

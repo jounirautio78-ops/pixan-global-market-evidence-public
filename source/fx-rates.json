@@ -114,6 +114,61 @@
       "status": "available"
     },
     {
+      "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2019",
+      "seriesKey": "EXR.A.CAD.EUR.SP00.A",
+      "currency": "CAD",
+      "year": 2019,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.485477254902,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2019&endPeriod=2019&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2020",
+      "seriesKey": "EXR.A.CAD.EUR.SP00.A",
+      "currency": "CAD",
+      "year": 2020,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.5299926070039,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2020&endPeriod=2020&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2021",
+      "seriesKey": "EXR.A.CAD.EUR.SP00.A",
+      "currency": "CAD",
+      "year": 2021,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.4825689922481,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2021&endPeriod=2021&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2022",
+      "seriesKey": "EXR.A.CAD.EUR.SP00.A",
+      "currency": "CAD",
+      "year": 2022,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.3694910505837,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2022&endPeriod=2022&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2023",
+      "seriesKey": "EXR.A.CAD.EUR.SP00.A",
+      "currency": "CAD",
+      "year": 2023,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.459468627451,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2023&endPeriod=2023&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
       "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2024",
       "seriesKey": "EXR.A.CAD.EUR.SP00.A",
       "currency": "CAD",
@@ -121,6 +176,17 @@
       "rateType": "annual_average_reference_rate",
       "currencyUnitsPerEur": 1.482110546875,
       "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2025",
+      "seriesKey": "EXR.A.CAD.EUR.SP00.A",
+      "currency": "CAD",
+      "year": 2025,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.5787262745098,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2025&endPeriod=2025&format=csvdata",
       "reviewedAt": "2026-07-24",
       "status": "available"
     },

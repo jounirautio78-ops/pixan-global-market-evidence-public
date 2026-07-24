@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v18 review-experience publication gates."""
+"""Mutation tests for the v19 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ class ReviewExperienceTests(unittest.TestCase):
         official["metric"] = "consumer_retail_market_value"
         self.assert_data_rejected(
             market=market,
-            needle="must retain one official incomplete retail lower bound",
+            needle="must retain seven Canada retail estimates",
         )
 
     def test_rejects_changed_germany_output(self) -> None:

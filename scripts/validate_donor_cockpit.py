@@ -45,6 +45,29 @@ NZ_2024_COMPONENTS = {
     "high": (274180410.21, 456995382.29, 731175792.50),
 }
 STATUS_VALUES = {"passed", "failed", "open"}
+CLOSURE_OWNER_ROLES = {
+    "independent_research_team",
+    "public_authority",
+    "data_supplier",
+    "rights_review",
+    "independent_validator",
+}
+CLOSURE_ROUTE_TYPES = {
+    "public_source_reconstruction",
+    "official_aggregate_request",
+    "tax_customs_reconciliation",
+    "rights_cleared_retail_data",
+    "independent_reconciliation",
+}
+CLOSURE_PUBLIC_STATUSES = {
+    "queued",
+    "in_progress",
+    "request_sent",
+    "awaiting_response",
+    "response_under_review",
+    "evidence_ready_for_validation",
+    "blocked_external",
+}
 SENSITIVE_KEYS = {
     "address",
     "brand",
@@ -71,6 +94,8 @@ REQUIRED_HTML_IDS = {
     "market-donor-matrix-head",
     "market-donor-matrix-body",
     "market-donor-control-body",
+    "market-donor-closure-body",
+    "market-donor-closure-status",
     "market-scenario-lab",
     "market-scenario-global",
     "market-scenario-cards",
@@ -78,6 +103,8 @@ REQUIRED_HTML_IDS = {
 REQUIRED_APP_TOKENS = {
     "assessEvidenceLanes",
     "assessDonorLedger",
+    "assessDonorClosureActions",
+    "renderDonorClosureBoard",
     "assessScenarioInputs",
     "assessScenarioComponents",
     "formatScenarioComponent",
@@ -264,8 +291,8 @@ def validate_donors(
     if set(cockpit) != {"schemaVersion", "asOf", "protocol", "gate", "candidates"}:
         errors.append("Donor cockpit must use the exact reviewed top-level schema")
     as_of = parse_date(cockpit.get("asOf"))
-    if cockpit.get("schemaVersion") != "1.0" or as_of is None:
-        errors.append("Donor cockpit requires schemaVersion 1.0 and an ISO asOf date")
+    if cockpit.get("schemaVersion") != "1.1" or as_of is None:
+        errors.append("Donor cockpit requires schemaVersion 1.1 and an ISO asOf date")
 
     protocol = cockpit.get("protocol")
     if not isinstance(protocol, dict):
@@ -351,9 +378,105 @@ def validate_donors(
         ):
             errors.append(f"{path}: criterion status must be passed, failed or open")
 
+        status_by_id = {
+            item.get("criterionId"): item.get("status")
+            for item in statuses
+            if isinstance(item, dict)
+        }
+        blocking_ids = {
+            criterion_id
+            for criterion_id in EXPECTED_CRITERIA
+            if status_by_id.get(criterion_id) != "passed"
+        }
+        closure_actions = candidate.get("closureActions")
+        if not isinstance(closure_actions, list):
+            errors.append(f"{path}.closureActions must be an array")
+            closure_actions = []
+        action_ids: set[str] = set()
+        targeted_ids: list[str] = []
+        for action_index, action in enumerate(closure_actions):
+            action_path = f"{path}.closureActions[{action_index}]"
+            if not isinstance(action, dict):
+                errors.append(f"{action_path} must be an object")
+                continue
+            expected_action_keys = {
+                "actionId",
+                "criterionIds",
+                "ownerRole",
+                "routeType",
+                "routeEn",
+                "routeFi",
+                "evidenceTargetEn",
+                "evidenceTargetFi",
+                "publicStatus",
+                "statusAsOf",
+                "nextFollowUpOn",
+            }
+            if set(action) != expected_action_keys:
+                errors.append(f"{action_path} must use the exact reviewed closure-action schema")
+            action_id = action.get("actionId")
+            if not isinstance(action_id, str) or not action_id.strip():
+                errors.append(f"{action_path}.actionId must be non-empty")
+            elif action_id in action_ids:
+                errors.append(f"{path}: duplicate closure actionId {action_id}")
+            action_ids.add(action_id)
+            criterion_targets = action.get("criterionIds")
+            if (
+                not isinstance(criterion_targets, list)
+                or not criterion_targets
+                or len(criterion_targets) != len(set(criterion_targets))
+                or any(item not in EXPECTED_CRITERIA for item in criterion_targets)
+            ):
+                errors.append(f"{action_path}.criterionIds must be a non-empty unique D1-D10 list")
+                criterion_targets = []
+            passed_targets = [
+                criterion_id
+                for criterion_id in criterion_targets
+                if status_by_id.get(criterion_id) == "passed"
+            ]
+            if passed_targets:
+                errors.append(
+                    f"{action_path}: closure action must not target passed criteria {passed_targets}"
+                )
+            targeted_ids.extend(criterion_targets)
+            if action.get("ownerRole") not in CLOSURE_OWNER_ROLES:
+                errors.append(f"{action_path}.ownerRole is invalid")
+            if action.get("routeType") not in CLOSURE_ROUTE_TYPES:
+                errors.append(f"{action_path}.routeType is invalid")
+            if action.get("publicStatus") not in CLOSURE_PUBLIC_STATUSES:
+                errors.append(f"{action_path}.publicStatus is invalid")
+            for key in ("routeEn", "routeFi", "evidenceTargetEn", "evidenceTargetFi"):
+                if not isinstance(action.get(key), str) or not action[key].strip():
+                    errors.append(f"{action_path}.{key} must be non-empty")
+            status_as_of = parse_date(action.get("statusAsOf"))
+            follow_up = parse_date(action.get("nextFollowUpOn"))
+            if status_as_of is None or (as_of and status_as_of > as_of):
+                errors.append(f"{action_path}.statusAsOf must be no later than cockpit asOf")
+            if follow_up is None or (status_as_of and follow_up < status_as_of):
+                errors.append(f"{action_path}.nextFollowUpOn must be on or after statusAsOf")
+
+        duplicate_targets = {
+            criterion_id
+            for criterion_id in targeted_ids
+            if targeted_ids.count(criterion_id) > 1
+        }
+        if duplicate_targets:
+            errors.append(
+                f"{path}: blocking criteria must not be duplicated across closure actions "
+                f"{sorted(duplicate_targets)}"
+            )
+        if set(targeted_ids) != blocking_ids:
+            errors.append(
+                f"{path}: closure actions must cover every failed/open criterion exactly once"
+            )
+
         computed = computed_donor_decision(candidate)
         if candidate.get("declaredDecision") != computed:
             errors.append(f"{path}: declared donor decision does not match D1-D10 computation")
+        if computed == "accepted" and closure_actions:
+            errors.append(f"{path}: accepted candidate must not retain closure actions")
+        if computed == "not_accepted" and blocking_ids and not closure_actions:
+            errors.append(f"{path}: blocked candidate requires closure actions")
         if computed == "accepted":
             accepted += 1
 

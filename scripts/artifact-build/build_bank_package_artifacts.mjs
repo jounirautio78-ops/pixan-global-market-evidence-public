@@ -15,9 +15,9 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v18", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v18", "renders");
-const releaseVersion = "2026.07.24-18";
+const qaDir = path.join(repo, "tmp", "bank-v19", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v19", "renders");
+const releaseVersion = "2026.07.24-19";
 const artifactToolPackageUrl = new URL("../package.json", import.meta.resolve("@oai/artifact-tool"));
 const artifactToolPackage = JSON.parse(await fs.readFile(artifactToolPackageUrl, "utf8"));
 if (
@@ -45,6 +45,7 @@ const DECK_SOURCE_URLS = [
   "https://www.rechtsprechung-im-internet.de/jportal/?quelle=jlink&docid=JURE269032275&psml=bsjrsprod.psml",
   "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206",
   "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
+  "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
   "https://www.ftc.gov/reports/e-cigarette-report-2021",
   "https://www.wipo.int/en/web/ip-financing",
 ];
@@ -150,26 +151,33 @@ const deckUpdates = {
   fi: {
     short: {
       shapes: {
-        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.24-18 · 2026-07-24 · Lähteet: Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Ruotsin hallitus; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
+        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.24-19 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Ruotsin hallitus; FTC; European Commission; IMARC; GVR; Fortune",
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
-        "sh/ih8ju9sn": "27",
+        "sh/ih8ju9sn": "34",
         "sh/kbm987y5": "virallista vuosihavaintoa 7 maasta",
         "sh/i94r6xgz": "533,7–731,2 milj. NZD",
         "sh/jadsz2xk": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
         "sh/v6tsv2xo": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
-        "sh/p0batw72": "NZ 2024: 533,7–731,2 milj. NZD on tuettu malli. FTC 2021: 2,763 mrd USD on valmistajaraportointia. EU- ja kaupallisia lukuja ei summata.",
+        "sh/p0batw72": "Kanada 2024: retail 1,219 mrd CAD; toimitukset 1,161 mrd CAD; kaikki retail-neljännekset E-laatua. NZ on malli; FTC 2021 2,763 mrd USD on valmistajaraportointia. Mittareita ei summata.",
       },
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.24-18 · 2026-07-24 · Lähteet: Market-values; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ozy1ofad": "Ongelma on evidenssissä ja teknologiassa",
+        "sh/d0jax03i": "Ratkaisu ohjaa tehoa resistanssin perusteella",
+        "sh/0ba143al": "IP-ydin on dokumentoitu; maapeitto avoin",
+        "sh/cf2tcr61": "Tekninen ero on patenttivaatimuksissa",
+        "sh/dcbud0ra": "Asiakkuus vaatii kolmen ostajaryhmän validoinnin",
+        "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
+        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.24-19 · 2026-07-24 · Lähteet: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
-        "sh/pc76hkr2": "27",
+        "sh/pc76hkr2": "34",
         "sh/h4bupgn6": "virallista vuosihavaintoa 7 maasta",
         "sh/v2tcn650": "533,7–731,2 milj. NZD",
         "sh/u1kbu1ov": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
         "sh/i54bylor": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
-        "sh/cbe5g3ih": "NZ 2024: 533,7–731,2 milj. NZD on tuettu malli. FTC 2021: 2,763 mrd USD on valmistajaraportointia. EU- ja kaupallisia lukuja ei summata.",
+        "sh/cbe5g3ih": "Kanada 2024: retail 1,219 mrd CAD; toimitukset 1,161 mrd CAD; kaikki retail-neljännekset E-laatua ja silta avoin. FTC 2021 2,763 mrd USD on valmistajaraportointia. Reittejä ei summata.",
       },
       tables: {
         "tb/nq547y9g": [[3, 2, "7 maan viralliset reitit"]],
@@ -178,15 +186,40 @@ const deckUpdates = {
     },
     large: {
       shapes: {
-        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.24-18 · 2026-07-24 · Lähteet: Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
-        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 27 virallista vuosihavaintoa 7 maasta, mutta luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
-        "sh/bq9orito": "Valitut viralliset reitit: 27 havaintoa 7 maasta",
+        "sh/ozy1ofad": "Rahoitettavuus on mahdollisuus, ei johtopäätös",
+        "sh/0ba143al": "Todennusketju katkeaa ennen kassavirtaa",
+        "sh/cf2tcr61": "Patentoitu ratkaisu ohjaa tehoa resistanssitiedolla",
+        "sh/dcbud0ra": "IP-historian ydintapahtumat ovat jäljitettävissä",
+        "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
+        "sh/0f2lgnmp": "Atlas kattaa 195 maata; ei markkina-arvoa",
+        "sh/wbydknq1": "Kanadalla on retail- ja toimitusankkurit",
+        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.24-19 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada 2024",
+        "sh/ehwvat8n": "1,219 mrd CAD",
+        "sh/c3e1gjyd": "kuluttajavähittäismyynti",
+        "sh/a1wze9g7": "1,161 mrd CAD",
+        "sh/b2507exs": "valmistaja-/maahantuojatoimitukset",
+        "sh/ls7idofu": "118,9 milj. yks.",
+        "sh/y5wjitgj": "lisäksi 1,252 milj. litraa",
+        "sh/z650byxo": "Retail ylittää toimitukset 58,4 milj. CAD (+5,03 %); laatu-, kanava-, scope- ja verokysymykset pitävät Kanadan donor-luvun ulkopuolella.",
+        "sh/hsvy50re": "Statistics Canadan retail-sarja ja Health Canadan toimitukset ovat eri tapahtumatasoja. Kaikki vuoden 2024 RCS-neljännekset ovat E-laatua; silta on avoin.",
+        "sh/9kby1g7m": "Saksan malli näyttää herkkyyden, ei myyntiä",
+        "sh/mpgj6t8j": "Ei havaittua myyntiä. Laskelma käyttää vuoden 2025 alustavaa verotettua nestemäärää ja kolmea verkkokaupan vuoden 2026 hintaa. Rajattu tuotejakauma ja poikkeava ajankohta pitävät luottamustason matalana.",
+        "sh/gbedwfmx": "Globaalit arviot ovat ristiintarkistus",
+        "sh/hsn2l4bu": "Maailmanestimaatti vaatii vähintään 3 donoria",
+        "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
+        "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
+        "sh/8jup8rad": "90 päivää muuttaa aukot kontrolleiksi",
+        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.24-19 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
+        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 34 virallista vuosihavaintoa 7 maasta, mutta luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
+        "sh/bq9orito": "Valitut viralliset reitit: 34 havaintoa 7 maasta",
         "sh/6hw3y9sb": "Nykyinen hyväksytty donor-portti on 0/3; kaikki 5 ehdokasta jäivät ulkopuolelle.",
         "sh/rip4retw": "•  Jokaisen ehdokkaan on läpäistävä kaikki 10 ehtoa (D1–D10).\n•  Uuden-Seelannin 533,7–731,2 milj. NZD vähittäisherkkyys on tuettu malli; FTC:n 2,763 mrd USD vuoden 2021 reitti on valmistajaraportointia. Kumpikaan ei ole täydellinen kuluttajavähittäisarvo tai hyväksytty donor.\n•  Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä.",
       },
       tables: {
         "tb/m983m983": [
           [0, 2, "Virallinen havainto / tuettu malli"],
+          [1, 1, "2019–2025"],
+          [1, 2, "StatsCan retail 2024: 1,219 mrd CAD; kaikki neljännekset E-laatua. Health Canada -toimitukset: 1,161 mrd CAD, 5,03 % alemmat; silta avoin"],
           [4, 2, "virallinen raakareitti 280,685 milj. NZD; tunnistetun vaping-vähittäismyynnin tuettu herkkyys 533,7–731,2 milj. NZD, ei havaittu markkina-arvo"],
           [6, 0, "Yhdysvallat"],
           [6, 1, "2015–2021"],
@@ -198,26 +231,26 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": "Independent public evidence summary · 2026.07.24-18 · 2026-07-24 · Sources: Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Swedish Government; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/doj29oba": "Independent public evidence summary · 2026.07.24-19 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Swedish Government; FTC; European Commission; IMARC; GVR; Fortune",
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
-        "sh/ih8ju9sn": "27",
+        "sh/ih8ju9sn": "34",
         "sh/kbm987y5": "official annual observations from 7 countries",
         "sh/i94r6xgz": "NZD 533.7–731.2m",
         "sh/jadsz2xk": "New Zealand 2024: supported retail sensitivity",
         "sh/v6tsv2xo": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
-        "sh/p0batw72": "NZ 2024: NZD 533.7–731.2m is a supported model. FTC 2021: USD 2.763bn is manufacturer reporting. EU and commercial figures are not summed.",
+        "sh/p0batw72": "Canada 2024: retail CAD 1.219bn; shipments CAD 1.161bn; all retail quarters quality E. NZ is a model; FTC 2021 USD 2.763bn is manufacturer reporting. Do not sum the measures.",
       },
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.24-18 · 2026-07-24 · Sources: Market-values; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.24-19 · 2026-07-24 · Sources: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Market size remains a range — not a single value",
-        "sh/pc76hkr2": "27",
+        "sh/pc76hkr2": "34",
         "sh/h4bupgn6": "official annual observations from 7 countries",
         "sh/v2tcn650": "NZD 533.7–731.2m",
         "sh/u1kbu1ov": "New Zealand 2024: supported retail sensitivity",
         "sh/i54bylor": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
-        "sh/cbe5g3ih": "NZ 2024: NZD 533.7–731.2m is a supported model. FTC 2021: USD 2.763bn is manufacturer reporting. EU and commercial figures are not summed.",
+        "sh/cbe5g3ih": "Canada 2024: retail CAD 1.219bn; shipments CAD 1.161bn; all retail quarters quality E and bridge open. FTC 2021 USD 2.763bn is manufacturer reporting. Do not sum the routes.",
       },
       tables: {
         "tb/nq547y9g": [[3, 2, "official routes from 7 countries"]],
@@ -226,15 +259,27 @@ const deckUpdates = {
     },
     large: {
       shapes: {
-        "sh/21gnuts7": "Independent public evidence summary · 2026.07.24-18 · 2026-07-24 · Sources: Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
-        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 27 official annual observations from 7 countries, but the donor gate is 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
-        "sh/bq9orito": "Selected official routes: 27 observations across 7 countries",
+        "sh/wbydknq1": "Canada has retail and shipment anchors",
+        "sh/5grehs7i": "Independent public evidence summary · 2026.07.24-19 · 2026-07-24 · Sources: Statistics Canada; Health Canada 2024",
+        "sh/ehwvat8n": "CAD 1.219bn",
+        "sh/c3e1gjyd": "consumer retail sales",
+        "sh/a1wze9g7": "CAD 1.161bn",
+        "sh/b2507exs": "manufacturer/importer shipments",
+        "sh/ls7idofu": "118.9m units",
+        "sh/y5wjitgj": "plus 1.252m litres",
+        "sh/z650byxo": "Retail exceeds shipments by CAD 58.4m (+5.03%); quality, channel, scope and tax gaps keep Canada outside the donor count.",
+        "sh/hsvy50re": "Statistics Canada retail and Health Canada shipments are separate transaction levels. All 2024 RCS quarters are quality E; the bridge remains unresolved.",
+        "sh/21gnuts7": "Independent public evidence summary · 2026.07.24-19 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
+        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 34 official annual observations from 7 countries, but the donor gate is 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
+        "sh/bq9orito": "Selected official routes: 34 observations across 7 countries",
         "sh/6hw3y9sb": "The current accepted-donor gate is 0/3; all 5 candidates remain outside the count.",
         "sh/rip4retw": "•  Every candidate must pass all 10 criteria (D1–D10).\n•  New Zealand's NZD 533.7–731.2m retail sensitivity is a supported model; the FTC's 2021 USD 2.763bn route is manufacturer reporting. Neither is complete consumer-retail value or an accepted donor.\n•  Coverage across regions and regulatory types, plus direct validation in major economies, is still required.",
       },
       tables: {
         "tb/m983m983": [
           [0, 2, "Official observation / supported model"],
+          [1, 1, "2019–2025"],
+          [1, 2, "StatsCan retail 2024: CAD 1.219bn; every quarter quality E. Health Canada shipments: CAD 1.161bn, 5.03% lower; bridge open"],
           [4, 2, "official raw route NZD 280.685m; supported identified-vaping retail sensitivity NZD 533.7–731.2m, not an observed market value"],
           [6, 0, "United States"],
           [6, 1, "2015–2021"],
@@ -400,13 +445,15 @@ function deckSourceNotes(fxData) {
   const rates = fxRateMap(fxData);
   const nzRate = rates.get("NZD:2024");
   const usRate = rates.get("USD:2021");
-  if (!nzRate || !usRate) throw new Error("Deck FX source rates are unavailable");
+  const cadRate = rates.get("CAD:2024");
+  if (!nzRate || !usRate || !cadRate) throw new Error("Deck FX source rates are unavailable");
   const sourceUrls = [
     ...DECK_SOURCE_URLS,
     fxData.provider.datasetUrl,
     fxData.provider.methodologyUrl,
     nzRate.sourceUrl,
     usRate.sourceUrl,
+    cadRate.sourceUrl,
   ];
   return [
     "[Sources]",
@@ -417,6 +464,7 @@ function deckSourceNotes(fxData) {
     `- ${fxData.calculationPolicy.originalValueRuleEn}`,
     `- NZD 2024: ${nzRate.rateId} · ${nzRate.currencyUnitsPerEur} currency units per EUR`,
     `- USD 2021: ${usRate.rateId} · ${usRate.currencyUnitsPerEur} currency units per EUR`,
+    `- CAD 2024: ${cadRate.rateId} · ${cadRate.currencyUnitsPerEur} currency units per EUR`,
   ].join("\n");
 }
 
@@ -586,6 +634,12 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
   const ftc = (market?.observations ?? []).find(
     (item) => item.observationId === "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
   );
+  const canadaRetail = (market?.observations ?? []).find(
+    (item) => item.observationId === "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
+  );
+  const canadaShipments = (market?.observations ?? []).find(
+    (item) => item.observationId === "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
+  );
   const nzLow = assessArtifactEur({
     value: nz?.inputs?.low?.value,
     currency: nz?.currency,
@@ -601,11 +655,21 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
     period: "calendar_year",
   }, fxData);
   const ftcEur = assessArtifactEur(ftc, fxData);
+  const canadaRetailEur = assessArtifactEur(canadaRetail, fxData);
+  const canadaShipmentsEur = assessArtifactEur(canadaShipments, fxData);
   const nzComputed = nzLow.status === "computed" && nzHigh.status === "computed";
   const ftcComputed = ftcEur.status === "computed";
+  const canadaRetailComputed = canadaRetailEur.status === "computed";
+  const canadaShipmentsComputed = canadaShipmentsEur.status === "computed";
   const nzEurLow = nzComputed ? Number(nz.inputs.low.value) / nzLow.rateValue : null;
   const nzEurHigh = nzComputed ? Number(nz.inputs.high.value) / nzHigh.rateValue : null;
   const ftcEurValue = ftcComputed ? Number(ftc.value) / ftcEur.rateValue : null;
+  const canadaRetailEurValue = canadaRetailComputed
+    ? Number(canadaRetail.value) / canadaRetailEur.rateValue
+    : null;
+  const canadaShipmentsEurValue = canadaShipmentsComputed
+    ? Number(canadaShipments.value) / canadaShipmentsEur.rateValue
+    : null;
   if (language === "fi") {
     return {
       nzOriginal: "533,7–731,2 milj. NZD",
@@ -619,6 +683,20 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
       ftcReplacement: ftcComputed
         ? `2,763 mrd USD (≈${formatDeckNumber(ftcEurValue / 1e9, 3, language)} mrd EUR; ECB 2021)`
         : "2,763 mrd USD (EUR not_computed)",
+      canadaRetailOriginal: "1,219 mrd CAD",
+      canadaRetailReplacement: canadaRetailComputed
+        ? `1,219 mrd CAD (≈${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)} milj. EUR; ECB 2024)`
+        : "1,219 mrd CAD (EUR not_computed)",
+      canadaRetailCardSubtitle: canadaRetailComputed
+        ? `kuluttajavähittäismyynti · ≈${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)} milj. EUR`
+        : "kuluttajavähittäismyynti · EUR not_computed",
+      canadaShipmentsOriginal: "1,161 mrd CAD",
+      canadaShipmentsReplacement: canadaShipmentsComputed
+        ? `1,161 mrd CAD (≈${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)} milj. EUR; ECB 2024)`
+        : "1,161 mrd CAD (EUR not_computed)",
+      canadaShipmentsCardSubtitle: canadaShipmentsComputed
+        ? `toimitukset · ≈${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)} milj. EUR`
+        : "toimitukset · EUR not_computed",
     };
   }
   return {
@@ -633,6 +711,20 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
     ftcReplacement: ftcComputed
       ? `USD 2.763bn (≈EUR ${formatDeckNumber(ftcEurValue / 1e9, 3, language)}bn; ECB 2021)`
       : "USD 2.763bn (EUR not_computed)",
+    canadaRetailOriginal: "CAD 1.219bn",
+    canadaRetailReplacement: canadaRetailComputed
+      ? `CAD 1.219bn (≈EUR ${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)}m; ECB 2024)`
+      : "CAD 1.219bn (EUR not_computed)",
+    canadaRetailCardSubtitle: canadaRetailComputed
+      ? `consumer retail · ≈EUR ${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)}m`
+      : "consumer retail · EUR not_computed",
+    canadaShipmentsOriginal: "CAD 1.161bn",
+    canadaShipmentsReplacement: canadaShipmentsComputed
+      ? `CAD 1.161bn (≈EUR ${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)}m; ECB 2024)`
+      : "CAD 1.161bn (EUR not_computed)",
+    canadaShipmentsCardSubtitle: canadaShipmentsComputed
+      ? `shipments · ≈EUR ${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)}m`
+      : "shipments · EUR not_computed",
   };
 }
 
@@ -702,11 +794,13 @@ function upgradeRegister(rows, language) {
     row[0].startsWith(oldCountPrefix)
     || row[0].includes("27 annual observations")
     || row[0].includes("27 virallisista reiteistä")
+    || row[0].includes("34 annual observations")
+    || row[0].includes("34 virallisista reiteistä")
   ));
   if (countIndex < 0) throw new Error(`${language}: official-observation row not found`);
   output[countIndex] = language === "fi"
     ? [
-      "Julkinen paketti sisältää 27 virallisista reiteistä johdettua vuosihavaintoa 7 maasta.",
+      "Julkinen paketti sisältää 34 virallisista reiteistä johdettua vuosihavaintoa 7 maasta.",
       "Markkinakoko",
       "Maat ovat Kanada, Saksa, Suomi, Uusi-Seelanti, Puola, Ruotsi ja Yhdysvallat. Havaintojen transaktiotasot, valuutat ja tuoterajaukset eroavat.",
       "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
@@ -717,7 +811,7 @@ function upgradeRegister(rows, language) {
       "Lisämaista tarvitaan yhteismitalliset vuotuiset laite- ja nestemäisen kuluttajavähittäisarvon sarjat.",
     ]
     : [
-      "The public package contains 27 annual observations sourced from official routes across seven countries.",
+      "The public package contains 34 annual observations sourced from official routes across seven countries.",
       "Market size",
       "The countries are Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. Transaction levels, currencies and product scopes differ.",
       "site/data/market-values.json (machine-readable source file of the public site)",
@@ -754,6 +848,39 @@ function upgradeRegister(rows, language) {
       "Official lower bounds, institutional benchmarks, shipment values, tax receipts, physical volumes and models are not relabelled as complete consumer-retail value.",
       "Confirmed",
       "At least three accepted donors are required, with regional and regulatory-archetype coverage.",
+    ];
+
+  const canadaIndex = output.findIndex((row) => (
+    row[0].startsWith(language === "fi"
+      ? "Kanadan vuoden 2024"
+      : "Canada's 2024 manufacturer")
+    || row[0].startsWith(language === "fi"
+      ? "Kanadan Statistics Canada -sarja"
+      : "Statistics Canada's Canada series")
+  ));
+  if (canadaIndex < 0) throw new Error(`${language}: Canada register row not found`);
+  output[canadaIndex] = language === "fi"
+    ? [
+      "Kanadan Statistics Canada -sarja sisältää seitsemän koko vuoden kuluttajavähittäismyyntiestimaattia 2019–2025; vuoden 2024 arvo on 1 219 160 000 CAD.",
+      "Markkinakoko",
+      "Vuosisumma on neljän RCS-vuosineljänneksen summa NAPCS 5619122 -tuoteryhmälle. Health Canadan vuoden 2024 valmistaja-/maahantuojatoimitusarvo on 1 160 753 796,78 CAD.",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+      "2026-07-24",
+      "1 219 160 000 − 1 160 753 796,78 = 58 406 203,22 CAD; RCS / Health Canada = 1,0503175 eli +5,03 %.",
+      "Kaikilla vuoden 2024 neljänneksillä on E-laatuvaroitus. Sähkötupakkakohtaista kanavapeittoa ei ole määrällistetty eikä valmisteveroperustaa vahvistettu.",
+      "Tuettu",
+      "Retail–toimitus-silta ei vielä selitä katetta, varastoa, palautuksia, ajoitusta, tuoterajausta eikä verokäsittelyä; Kanada ei ole hyväksytty donor.",
+    ]
+    : [
+      "Statistics Canada's Canada series contains seven full-year consumer-retail estimates for 2019–2025; the 2024 value is CAD 1,219,160,000.",
+      "Market size",
+      "The annual estimate is the sum of four RCS quarters for NAPCS 5619122. Health Canada's 2024 manufacturer/importer shipment value is CAD 1,160,753,796.78.",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+      "2026-07-24",
+      "CAD 1,219,160,000 − CAD 1,160,753,796.78 = CAD 58,406,203.22; RCS / Health Canada = 1.0503175, or +5.03%.",
+      "Every 2024 quarter carries quality flag E. Vaping-specific channel completeness is not quantified and the vaping-excise basis is not confirmed.",
+      "Supported",
+      "The retail-to-shipment bridge does not yet explain margin, inventory, returns, timing, product scope or tax treatment; Canada is not an accepted donor.",
     ];
 
   const existingAddition = output.findIndex((row) => row[0].startsWith(language === "fi"
@@ -828,8 +955,12 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
   const fxPhrases = prominentDeckFxPhrases(language, market, scenarios, fxData);
   const nzCardValueShapeIds = new Set(["sh/i94r6xgz", "sh/v2tcn650"]);
   const nzCardSubtitleShapeIds = new Set(["sh/jadsz2xk", "sh/u1kbu1ov"]);
+  const canadaCardValueShapeIds = new Set(["sh/ehwvat8n", "sh/a1wze9g7"]);
+  const canadaRetailCardSubtitleShapeIds = new Set(["sh/c3e1gjyd"]);
+  const canadaShipmentsCardSubtitleShapeIds = new Set(["sh/b2507exs"]);
   let nzFxMarkers = 0;
   let ftcFxMarkers = 0;
+  let canadaFxMarkers = 0;
   const withFxEquivalents = (text) => {
     let output = String(text);
     if (output.includes(fxPhrases.nzOriginal)) {
@@ -839,6 +970,20 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
     if (output.includes(fxPhrases.ftcOriginal)) {
       ftcFxMarkers += 1;
       output = output.replaceAll(fxPhrases.ftcOriginal, fxPhrases.ftcReplacement);
+    }
+    if (output.includes(fxPhrases.canadaRetailOriginal)) {
+      canadaFxMarkers += 1;
+      output = output.replaceAll(
+        fxPhrases.canadaRetailOriginal,
+        fxPhrases.canadaRetailReplacement,
+      );
+    }
+    if (output.includes(fxPhrases.canadaShipmentsOriginal)) {
+      canadaFxMarkers += 1;
+      output = output.replaceAll(
+        fxPhrases.canadaShipmentsOriginal,
+        fxPhrases.canadaShipmentsReplacement,
+      );
     }
     return output;
   };
@@ -852,6 +997,20 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
       rewriteText(presentation.resolve(shapeId), fxPhrases.nzCardSubtitle);
       continue;
     }
+    if (canadaCardValueShapeIds.has(shapeId)) {
+      rewriteText(presentation.resolve(shapeId), text);
+      continue;
+    }
+    if (canadaRetailCardSubtitleShapeIds.has(shapeId)) {
+      canadaFxMarkers += 1;
+      rewriteText(presentation.resolve(shapeId), fxPhrases.canadaRetailCardSubtitle);
+      continue;
+    }
+    if (canadaShipmentsCardSubtitleShapeIds.has(shapeId)) {
+      canadaFxMarkers += 1;
+      rewriteText(presentation.resolve(shapeId), fxPhrases.canadaShipmentsCardSubtitle);
+      continue;
+    }
     rewriteText(presentation.resolve(shapeId), withFxEquivalents(text));
   }
   for (const [tableId, changes] of Object.entries(update.tables ?? {})) {
@@ -860,8 +1019,57 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
       table.cells.set(row, column, withFxEquivalents(value));
     }
   }
-  if (nzFxMarkers < 1 || ftcFxMarkers < 1) {
-    throw new Error(`${language}/${deckName}: prominent NZ or FTC FX marker is missing`);
+  if (nzFxMarkers < 1 || ftcFxMarkers < 1 || canadaFxMarkers < 1) {
+    throw new Error(`${language}/${deckName}: prominent NZ, FTC or Canada FX marker is missing`);
+  }
+  if (language === "fi") {
+    const singleLineTitleIds = {
+      short: ["sh/ozy1ofad"],
+      medium: [
+        "sh/ozy1ofad",
+        "sh/d0jax03i",
+        "sh/0ba143al",
+        "sh/cf2tcr61",
+        "sh/dcbud0ra",
+        "sh/cbu58j2h",
+      ],
+      large: [
+        "sh/ozy1ofad",
+        "sh/0ba143al",
+        "sh/cf2tcr61",
+        "sh/dcbud0ra",
+        "sh/g72x4zyd",
+        "sh/0f2lgnmp",
+        "sh/wbydknq1",
+        "sh/9kby1g7m",
+        "sh/gbedwfmx",
+        "sh/hsn2l4bu",
+        "sh/rq50vmp8",
+        "sh/7a18rydc",
+        "sh/8jup8rad",
+      ],
+    }[deckName];
+    for (const shapeId of singleLineTitleIds) {
+      const title = presentation.resolve(shapeId);
+      title.text.fontSize = 32;
+      title.text.wrap = "none";
+      title.text.autoFit = "shrinkText";
+    }
+  }
+  if (deckName === "medium") {
+    presentation.resolve("sh/cbe5g3ih").text.fontSize = 18;
+  }
+  if (deckName === "short") {
+    presentation.resolve("sh/p0batw72").text.fontSize = 18;
+  }
+  if (language === "fi" && deckName === "large") {
+    presentation.resolve("sh/mpgj6t8j").text.fontSize = 18;
+    for (const shapeId of ["sh/ihcvml4j", "sh/29grm1of", "sh/honqdwnu", "sh/0ji9wb6t"]) {
+      const value = presentation.resolve(shapeId);
+      value.text.fontSize = 28;
+      value.text.wrap = "none";
+      value.text.autoFit = "shrinkText";
+    }
   }
   const sourceNotes = deckSourceNotes(fxData);
   for (const slide of presentation.slides.items) {
@@ -1298,11 +1506,11 @@ async function writeReleaseLocks(artifacts) {
   const changelog = JSON.parse(await fs.readFile(path.join(dataDir, "changelog.json"), "utf8"));
   const release = changelog.releases?.[0];
   if (
-    release?.id !== "2026-07-24-donor-conversion-cockpit-v18"
+    release?.id !== "2026-07-24-canada-retail-closure-board-v19"
     || release?.version !== releaseVersion
     || changelog.asOf !== "2026-07-24"
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v18 release");
+    throw new Error("The public changelog is not locked to the reviewed v19 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -1332,6 +1540,7 @@ async function writeReleaseLocks(artifacts) {
     "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
+    "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
   ];
   const reviewedInputs = reviewedInputPaths.map((relative) => ({
@@ -1370,7 +1579,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 27 official observations across seven countries, five donor candidates, New Zealand retail sensitivity and FTC route share one v18 release boundary.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 34 official observations across seven countries, five donor candidates, Canada retail series, New Zealand retail sensitivity and FTC route share one v19 release boundary.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,

@@ -1216,16 +1216,17 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or [item.get("criterionId") for item in donor_criteria] != expected_criterion_ids
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
-    if not isinstance(donor_candidates, list) or len(donor_candidates) != 4:
-        raise ValueError("Bank package v17 requires exactly four reviewed donor candidates")
+    if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
+        raise ValueError("Bank package v19 requires exactly five reviewed donor candidates")
     candidate_ids = {
         "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
         "EU-2023-COMMISSION-BENCHMARK",
-        "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+        "CA-2024-STATCAN-RCS-RETAIL-SALES",
         "DE-2025-LIQUID-RETAIL-MODEL",
+        "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v17 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v19 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
             raise ValueError("Every v17 donor candidate must remain outside the accepted count")
@@ -1234,13 +1235,13 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         open_criteria = candidate.get("openCriteria")
         if (
             not all(isinstance(values, list) for values in (passed, failed, open_criteria))
-            or not failed
+            or (not failed and not open_criteria)
             or set(passed) | set(failed) | set(open_criteria) != set(expected_criterion_ids)
             or len(passed) + len(failed) + len(open_criteria) != len(expected_criterion_ids)
         ):
             raise ValueError(
                 f"Donor candidate {candidate.get('candidateId')!r} does not expose one "
-                "non-overlapping D1-D10 decision with at least one failed criterion"
+                "non-overlapping D1-D10 decision with at least one failed or open criterion"
             )
         source_ids = candidate.get("sourceIds")
         if (

@@ -30,7 +30,7 @@ from build_data_request_program import (
 )
 
 
-EXPECTED_DATE = "2026-07-23"
+EXPECTED_DATE = "2026-07-24"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 LOCAL_REQUESTER_VALUES = {"not_required", "recommended", "conditional", "required"}
@@ -57,6 +57,12 @@ EXPECTED_DISPATCH = {
     "CA": {
         "state": "sent",
         "sentOn": "2026-07-23",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+    },
+    "US": {
+        "state": "sent",
+        "sentOn": "2026-07-24",
         "publicAuthorityReference": None,
         "responseState": "not_publicly_recorded",
     },
@@ -177,7 +183,7 @@ DISPATCH_KEYS = {"state", "sentOn", "publicAuthorityReference", "responseState"}
 
 OFFICIAL_HOSTS = {
     "DE": {"bund.de", "destatis.de", "zoll.de"},
-    "CA": {"canada.ca"},
+    "CA": {"canada.ca", "statcan.gc.ca"},
     "US": {"ftc.gov", "usitc.gov", "fda.gov", "cbp.gov"},
     "CN": {"stats.gov.cn", "customs.gov.cn", "samr.gov.cn"},
     "PL": {"gov.pl"},
@@ -452,9 +458,9 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 errors.append(f"{label}: URL host is not on the country official-domain allowlist: {host}")
 
     if sent_countries != set(EXPECTED_DISPATCH):
-        errors.append("sent country set must match the approved 11-country public record")
-    if sum(route.get("status") == "sent" for route in routes) != 11:
-        errors.append("programme must contain exactly 11 sent routes and 9 drafts")
+        errors.append("sent country set must match the approved 12-country public record")
+    if sum(route.get("status") == "sent" for route in routes) != 12:
+        errors.append("programme must contain exactly 12 sent routes and 8 drafts")
     if process_response_countries != EXPECTED_PROCESS_RESPONSE_COUNTRIES:
         errors.append("process-response country set must match the approved four-country public record")
     private_metadata_paths = list(find_private_metadata_keys(program))
@@ -511,7 +517,7 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
         if rows and list(rows[0]) != CSV_FIELDS:
             errors.append("published CSV columns differ from the privacy-safe tracking schema")
         if {row["countryIso2"] for row in rows if row["status"] == "sent"} != set(EXPECTED_DISPATCH):
-            errors.append("published CSV sent country set differs from the approved 11-country public record")
+            errors.append("published CSV sent country set differs from the approved 12-country public record")
         if any(row["status"] not in ROUTE_STATUS_VALUES for row in rows):
             errors.append("published CSV contains an unsupported status")
         if any(row["responseState"] not in RESPONSE_STATE_VALUES for row in rows):
@@ -580,7 +586,7 @@ def main() -> int:
         return 1
 
     print(
-        "PASS: schema v2 with 11 sent, 9 draft and 4 privacy-safe process-response country routes; "
+        "PASS: schema v2 with 12 sent, 8 draft and 4 privacy-safe process-response country routes; "
         "0 substantive data responses, operational ranking, official HTTPS URLs, requester caveats, "
         "and generated files verified."
     )

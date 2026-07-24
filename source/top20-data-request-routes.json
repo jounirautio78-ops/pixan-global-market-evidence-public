@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "programmeId": "pixan-independent-top20-official-data-request-programme-v2",
-  "verificationDate": "2026-07-23",
+  "verificationDate": "2026-07-24",
   "status": "partially_dispatched",
   "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process state. It does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
   "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessitilan. Se ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
@@ -121,8 +121,8 @@
         "publicAuthorityReference": null,
         "responseState": "not_publicly_recorded"
       },
-      "rationaleEn": "Health Canada already publishes one of the strongest official manufacturer/importer shipment series, making it an immediate anchor and request-design benchmark.",
-      "rationaleFi": "Health Canada julkaisee jo yhden vahvimmista virallisista valmistaja- ja maahantuojatoimitusten sarjoista, joten se toimii välittömänä ankkurina ja pyyntömallin vertailukohtana.",
+      "rationaleEn": "Health Canada's official shipment series and Statistics Canada's Retail Commodity Survey create a direct shipment-to-retail comparison. A secondary clarification request on the retail tax basis and annual use of quarterly estimates was sent on 2026-07-24; no reply is publicly recorded.",
+      "rationaleFi": "Health Canadan virallinen toimitussarja ja Statistics Canadan Retail Commodity Survey muodostavat suoran toimitus–vähittäismyynti-vertailun. Vähittäismyynnin veropohjaa ja neljännesvuosiarvioiden vuosikäyttöä koskeva täydentävä täsmennyspyyntö lähetettiin 24.7.2026; julkista vastausta ei ole kirjattu.",
       "primaryAuthority": {
         "nameEn": "Health Canada",
         "nameFi": "Health Canada"
@@ -130,12 +130,14 @@
       "recordsRequestedEn": [
         "Machine-readable semi-annual manufacturer/importer shipment records by province, category, units, liquid volume and reported value",
         "Reporting coverage, suppressed cells, revisions and audit or quality-control metadata",
-        "A clear statement that the measure is shipment data rather than retail sell-through"
+        "A clear statement that the measure is shipment data rather than retail sell-through",
+        "Existing definitions confirming whether retail estimates exclude GST, HST, PST and QST; whether vaping duties are included; and whether a four-quarter sum is an intended annual total while retaining published quality warnings"
       ],
       "recordsRequestedFi": [
         "Koneluettava puolivuosittainen valmistaja- ja maahantuojatoimitusten aineisto maakunnan, tuoteryhmän, kappaleiden, nestemäärän ja ilmoitetun arvon mukaan",
         "Raportoinnin kattavuus, salatut solut, revisiot ja tarkastus- tai laadunvalvontatiedot",
-        "Selkeä vahvistus siitä, että mittari kuvaa toimituksia eikä vähittäismyyntiä"
+        "Selkeä vahvistus siitä, että mittari kuvaa toimituksia eikä vähittäismyyntiä",
+        "Olemassa olevat määritelmät siitä, sulkevatko vähittäismyyntiarviot GST-, HST-, PST- ja QST-verot pois, sisältyvätkö vaping-valmisteverot sekä onko neljän vuosineljänneksen summa tarkoitettu vuosiyhteissummaksi julkaistut laatuvaroitukset säilyttäen"
       ],
       "requestChannel": {
         "nameEn": "Health Canada Access to Information and Privacy Division",
@@ -163,6 +165,18 @@
           "labelFi": "Health Canadan höyrystystuotteiden myyntiaineisto",
           "url": "https://health-infobase.canada.ca/substance-use/vaping/sales/",
           "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "Statistics Canada Retail Commodity Survey methodology",
+          "labelFi": "Statistics Canadan Retail Commodity Survey -menetelmä",
+          "url": "https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=2008",
+          "verifiedOn": "2026-07-24"
+        },
+        {
+          "labelEn": "Statistics Canada quarterly retail sales by product category",
+          "labelFi": "Statistics Canadan neljännesvuosittainen vähittäismyynti tuoteryhmittäin",
+          "url": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
+          "verifiedOn": "2026-07-24"
         }
       ]
     },
@@ -173,12 +187,12 @@
       "countryIso2": "US",
       "countryEn": "United States",
       "countryFi": "Yhdysvallat",
-      "status": "draft_not_sent",
+      "status": "sent",
       "dispatch": {
-        "state": "draft_not_sent",
-        "sentOn": null,
+        "state": "sent",
+        "sentOn": "2026-07-24",
         "publicAuthorityReference": null,
-        "responseState": "not_applicable"
+        "responseState": "not_publicly_recorded"
       },
       "rationaleEn": "A strategically important market with a Pixan-family US publication, compulsory FTC reporting and detailed official tariff data.",
       "rationaleFi": "Strategisesti tärkeä markkina, jossa on Pixan-perheen Yhdysvaltain julkaisu, FTC:n velvoittava raportointi ja yksityiskohtainen virallinen tullidata.",
@@ -197,24 +211,24 @@
         "Ei yrityssalaisia ilmoituksia tai yrityksen tunnistavia tietoja"
       ],
       "requestChannel": {
-        "nameEn": "FTC Freedom of Information Act office",
-        "nameFi": "FTC:n FOIA-toimisto",
-        "url": "https://www.ftc.gov/foia"
+        "nameEn": "FTC Division of Advertising Practices informal public-data inquiry",
+        "nameFi": "FTC:n Division of Advertising Practices -yksikön epämuodollinen julkisen datan tiedustelu",
+        "url": "https://www.ftc.gov/about-ftc/bureaus-offices/bureau-consumer-protection/our-divisions/division-advertising-practices"
       },
       "legalBasis": {
-        "nameEn": "Freedom of Information Act, 5 U.S.C. § 552",
-        "nameFi": "Freedom of Information Act, 5 U.S.C. § 552"
+        "nameEn": "FTC Act Section 6(b) aggregate-data inquiry; formal FOIA reserved as a fallback",
+        "nameFi": "FTC Act -lain 6(b)-kohdan aggregaattidatan tiedustelu; muodollinen FOIA säilytetään varareittinä"
       },
       "languages": ["en"],
       "requesterEligibility": {
         "localRequester": "not_required",
-        "caveatEn": "Any person may file a federal FOIA request; confidential business information remains exempt, so the request must stay aggregate and anonymised.",
-        "caveatFi": "Kuka tahansa voi tehdä liittovaltion FOIA-pyynnön; luottamuksellinen yritystieto on edelleen poikkeuksen piirissä, joten pyyntö on pidettävä aggregoituna ja anonymisoituna."
+        "caveatEn": "No local-requester restriction applies to the informal inquiry. If a formal FOIA request later becomes necessary, any person may file, but confidential business information remains exempt and the request must stay aggregate and anonymised.",
+        "caveatFi": "Epämuodolliseen tiedusteluun ei sovelleta paikallisen pyytäjän rajoitusta. Jos muodollinen FOIA-pyyntö tulee myöhemmin tarpeelliseksi, sen voi tehdä kuka tahansa, mutta luottamuksellinen yritystieto säilyy poikkeuksen piirissä ja pyyntö on pidettävä aggregoituna ja anonymisoituna."
       },
       "fallbackAuthority": {
-        "nameEn": "U.S. International Trade Commission DataWeb",
-        "nameFi": "Yhdysvaltain kansainvälisen kaupan komission DataWeb",
-        "url": "https://www.usitc.gov/applications/dataweb/about"
+        "nameEn": "FTC Freedom of Information Act office",
+        "nameFi": "FTC:n FOIA-toimisto",
+        "url": "https://www.ftc.gov/foia"
       },
       "officialSources": [
         {

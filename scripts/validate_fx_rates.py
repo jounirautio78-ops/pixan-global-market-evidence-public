@@ -24,7 +24,13 @@ APP = ROOT / "site" / "assets" / "app.js"
 INDEX = ROOT / "site" / "index.html"
 
 EXPECTED_RATES = {
+    ("CAD", 2019): Decimal("1.485477254902"),
+    ("CAD", 2020): Decimal("1.5299926070039"),
+    ("CAD", 2021): Decimal("1.4825689922481"),
+    ("CAD", 2022): Decimal("1.3694910505837"),
+    ("CAD", 2023): Decimal("1.459468627451"),
     ("CAD", 2024): Decimal("1.482110546875"),
+    ("CAD", 2025): Decimal("1.5787262745098"),
     ("NZD", 2022): Decimal("1.6582474708171"),
     ("NZD", 2023): Decimal("1.762151372549"),
     ("NZD", 2024): Decimal("1.788048828125"),
@@ -41,6 +47,13 @@ EXPECTED_RATES = {
 }
 
 EXPECTED_EUR_CHECKS = {
+    "CA-2019-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("321160757.21"),
+    "CA-2020-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("340293801.17"),
+    "CA-2021-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("669602565.00"),
+    "CA-2022-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("932578565.92"),
+    "CA-2023-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("1048846115.09"),
+    "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("822583715.21"),
+    "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("802271438.98"),
     "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": Decimal("783176261.20"),
     "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM": Decimal("153340560.89"),
     "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": Decimal("2336340711.87"),
@@ -460,7 +473,7 @@ def main() -> None:
         print(f"FX validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated ECB EUR-equivalent layer: 14 official annual-average rates, "
+        "Validated ECB EUR-equivalent layer: 20 official annual-average rates, "
         "original currencies retained, compatible monetary totals converted, "
         "and physical volumes, unit prices and missing scenarios kept fail closed."
     )

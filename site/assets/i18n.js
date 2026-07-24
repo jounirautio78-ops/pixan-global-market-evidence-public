@@ -448,7 +448,7 @@
     ["Tarkistetut viralliset reitit olemassa olevien aggregoitujen myynti-, valmistevero-, tulli- ja tuoteilmoitustietojen pyytämiseksi. Järjestys on operatiivinen — ei markkinakokoluokitus.", "Verified official routes for existing aggregate sales, excise, customs and product-notification records. The ranking is operational—not a market-size ranking."],
     ["Tietopyyntöjen tilarajaus", "Data-request status boundary"],
     ["TILA", "STATUS"],
-    ["11 lähetetty · 9 luonnosta · 4 prosessivastausta · 0 sisällöllistä datavastausta", "11 sent · 9 drafts · 4 process responses · 0 substantive data responses"],
+    ["12 lähetetty · 8 luonnosta · 4 prosessivastausta · 0 sisällöllistä viranomaisdatavastausta", "12 sent · 8 drafts · 4 process responses · 0 substantive authority-data responses"],
     ["Julkinen seuranta sisältää tietosuojatut kategoriset prosessitilat neljälle maareitille. Vastaanottokuittaukset, diaarimerkinnät, reititysilmoitukset, reittikorjaukset, viiveilmoitukset ja mahdollista maksua koskevat ilmoitukset eivät ole sisällöllisiä datavastauksia eivätkä osoita markkina-arvoa. Maksua ei ole hyväksytty. Ladattavat mallit säilyvät LUONNOS — EI LÄHETETTY -tilassa.", "Public tracking includes privacy-safe categorical process states for four country routes. Acknowledgements, diary entries, routing notices, route corrections, delay notices and possible-fee notices are not substantive data responses and do not establish a market value. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."],
     ["Lataa reittitaulukko CSV", "Download route table CSV"],
     ["Lataa englanninkielinen pyyntömalli", "Download English request template"],

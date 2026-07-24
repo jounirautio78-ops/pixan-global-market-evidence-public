@@ -70,22 +70,34 @@ EXPECTED_VENDORS = {
         "vendor": "ECigIntelligence",
         "product": "Global Market Database",
         "requestState": "request_sent",
-        "responseState": "pending",
-        "publicStatusEn": "Request sent; response pending",
-        "publicStatusFi": "Pyyntö lähetetty; vastaus odottaa",
+        "responseState": "pending_no_acknowledgement",
+        "publicStatusEn": (
+            "Request sent 2026-07-23; no bounce, automated acknowledgement or response "
+            "recorded; first follow-up due 2026-07-28 if still unanswered"
+        ),
+        "publicStatusFi": (
+            "Pyyntö lähetetty 23.7.2026; palautusta, automaattikuittausta tai vastausta "
+            "ei ole kirjattu; ensimmäinen seuranta 28.7.2026, jos vastausta ei kuulu"
+        ),
     },
     "euromonitor-passport-nicotine": {
         "vendor": "Euromonitor International",
         "product": "Passport Nicotine / e-vapour country series",
         "requestState": "request_sent",
-        "responseState": "administrative_qualification_received",
+        "responseState": "substantive_response_received",
         "publicStatusEn": (
-            "Administrative qualification request received; clarification sent; "
-            "substantive response pending"
+            "Written response and an 8-page brochure received; the brochure's 100-country "
+            "list is the overall Passport Tobacco scope, not confirmed e-vapour "
+            "country-product coverage; a non-binding multi-option quote request and "
+            "numerical-sample resend request were sent 2026-07-24; the reviewable "
+            "numerical sample, quote and licence terms remain pending"
         ),
         "publicStatusFi": (
-            "Hallinnollinen lisätietopyyntö vastaanotettu; täsmennys lähetetty; "
-            "sisällöllinen vastaus odottaa"
+            "Kirjallinen vastaus ja 8-sivuinen esite vastaanotettu; esitteen 100 maan "
+            "lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan "
+            "maa–tuote-peittoa; ei-sitova monivaihtoehtoinen tarjouspyyntö ja numeerisen "
+            "näytteen uudelleenlähetyspyyntö lähetettiin 24.7.2026; tarkistettava "
+            "numeerinen näyte, tarjous ja lisenssiehdot odottavat"
         ),
     },
     "niq-rms-pilot": {
@@ -208,7 +220,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.23-14" or not valid_date(source.get("asOf")):
+    if source.get("version") != "2026.07.24-19" or not valid_date(source.get("asOf")):
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
@@ -353,7 +365,7 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
             errors.append("public JSON summary schema differs")
         elif output["summary"] != {
             "trackedVendors": 4,
-            "substantiveResponses": 0,
+            "substantiveResponses": 1,
             "scoredVendors": 0,
             "purchaseAuthorisations": 0,
         }:

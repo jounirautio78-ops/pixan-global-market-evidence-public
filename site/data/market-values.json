@@ -7,8 +7,8 @@
       "status": "not_estimate_ready",
       "comparableFullYearMarketValueDonors": 0,
       "minimumRequiredDonors": 3,
-      "reasonEn": "New Zealand supplies an official 2024 specialist-retail lower bound and a supported retail sensitivity, the European Commission publishes a supported 2023 EU benchmark, Canada supplies an official shipment-value proxy, Germany has a liquid-only model and the United States has an official FTC manufacturer-reporting series. None passes all ten donor criteria. A cross-country atlas estimate still requires at least three accepted donors plus regional and regulatory-archetype coverage.",
-      "reasonFi": "Uudesta-Seelannista on virallinen vuoden 2024 erikoisvähittäiskaupan alaraja ja tuettu vähittäismyynnin herkkyyslaskelma, Euroopan komissio julkaisee tuetun vuoden 2023 EU-vertailuarvon, Kanadasta on virallinen toimitusarvon korvike, Saksasta nestemalli ja Yhdysvalloista virallinen FTC:n valmistajaraportointisarja. Yksikään ei täytä kaikkia kymmentä luovuttajaehtoa. Maiden välinen atlasestimaatti vaatii yhä vähintään kolme hyväksyttyä luovuttajaa sekä alue- ja sääntelytyyppien peiton."
+      "reasonEn": "New Zealand supplies an official 2024 specialist-retail lower bound and a supported retail sensitivity, the European Commission publishes a supported 2023 EU benchmark, Canada supplies an official shipment-value proxy plus an official-table-derived 2019–2025 consumer-retail series, Germany has a liquid-only model and the United States has an official FTC manufacturer-reporting series. None passes all ten donor criteria. Canada's retail series retains material quality, channel, tax and reconciliation restrictions. A cross-country atlas estimate still requires at least three accepted donors plus regional and regulatory-archetype coverage.",
+      "reasonFi": "Uudesta-Seelannista on virallinen vuoden 2024 erikoisvähittäiskaupan alaraja ja tuettu vähittäismyynnin herkkyyslaskelma, Euroopan komissio julkaisee tuetun vuoden 2023 EU-vertailuarvon, Kanadasta on virallinen toimitusarvon korvike sekä virallisesta taulukosta johdettu vuosien 2019–2025 kuluttajavähittäismyyntisarja, Saksasta nestemalli ja Yhdysvalloista virallinen FTC:n valmistajaraportointisarja. Yksikään ei täytä kaikkia kymmentä luovuttajaehtoa. Kanadan vähittäismyyntisarjaan jää olennaisia laatu-, kanava-, vero- ja täsmäytysrajoitteita. Maiden välinen atlasestimaatti vaatii yhä vähintään kolme hyväksyttyä luovuttajaa sekä alue- ja sääntelytyyppien peiton."
     },
     "disclaimerEn": "Manufacturer-reported sales, observed shipments, taxed volumes, excise receipts, commercial estimates, retail price inputs and modelled ranges are different measures. They must not be added or presented as one observed retail market value.",
     "disclaimerFi": "Valmistajien raportoimat myynnit, havaitut toimitukset, verotetut määrät, valmisteverotulot, kaupalliset arviot, vähittäishintasyötteet ja mallinnetut vaihteluvälit ovat eri mittareita. Niitä ei saa laskea yhteen tai esittää yhtenä havaittuna vähittäismarkkina-arvona."
@@ -161,36 +161,36 @@
       ]
     },
     {
-      "candidateId": "CA-2024-OFFICIAL-SHIPMENT-PROXY",
+      "candidateId": "CA-2024-STATCAN-RCS-RETAIL-SALES",
       "countryIso2": "CA",
       "geography": "Canada",
       "year": 2024,
       "referenceType": "observation",
-      "referenceId": "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
+      "referenceId": "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
       "decision": "not_accepted",
       "passedCriteria": [
         "D1",
+        "D2",
         "D3",
         "D4",
-        "D7",
+        "D6",
         "D9"
       ],
-      "failedCriteria": [
-        "D2"
-      ],
+      "failedCriteria": [],
       "openCriteria": [
         "D5",
-        "D6",
+        "D7",
         "D8",
         "D10"
       ],
-      "headlineEn": "Official full-year manufacturer/importer shipment value",
-      "headlineFi": "Virallinen koko vuoden valmistaja- ja maahantuojatoimitusten arvo",
-      "decisionReasonEn": "The CAD 1.161 billion observation is a supply-stage shipment value, not consumer retail sell-through.",
-      "decisionReasonFi": "1,161 miljardin Kanadan dollarin havainto on toimitusketjutason toimitusarvo, ei kuluttajavähittäismyynti.",
-      "nextEvidenceEn": "Obtain consumer retail sell-through, reporting-coverage and supply-stage de-duplication evidence with an explicit tax basis.",
-      "nextEvidenceFi": "Hanki kuluttajavähittäismyyntiä, raportointipeittoa ja toimitusketjun deduplikointia koskeva näyttö sekä yksiselitteinen veroperusta.",
+      "headlineEn": "Statistics Canada full-year consumer-retail estimate",
+      "headlineFi": "Statistics Canadan koko vuoden kuluttajavähittäismyyntiestimaatti",
+      "decisionReasonEn": "The CAD 1.219 billion annual sum measures national retail sales for NAPCS 5619122, but all four quarters carry the E quality warning, vaping-specific channel completeness is not quantified, the vaping-excise basis is unresolved and the Health Canada bridge is not yet validated.",
+      "decisionReasonFi": "1,219 miljardin Kanadan dollarin vuosisumma mittaa NAPCS 5619122 -tuoteryhmän valtakunnallista vähittäismyyntiä, mutta kaikilla neljällä neljänneksellä on E-laatuvaroitus, sähkötupakkakohtaista kanavapeittoa ei ole määrällistetty, valmisteveroperusta on avoin eikä Health Canada -siltaa ole vielä validoitu.",
+      "nextEvidenceEn": "Confirm the vaping-excise basis, quantify channel and survey-quality gaps, and validate a non-duplicative bridge to Health Canada shipment values or another independent route.",
+      "nextEvidenceFi": "Vahvista sähkötupakan valmisteveroperusta, määrällistä kanava- ja kyselylaatuaukot sekä validoi kaksoislaskennaton silta Health Canadan toimitusarvoihin tai muuhun riippumattomaan reittiin.",
       "sourceIds": [
+        "CA-STATCAN-RCS-2023-2025",
         "CA-HC-VAPING-SALES-2024"
       ]
     },
@@ -274,6 +274,22 @@
       "pageUrl": "https://health-infobase.canada.ca/substance-use/vaping/sales/",
       "downloadUrl": "https://health-infobase.canada.ca/src/data/substance-use/vaping/sales/VPRR%20Data%20-%202026-01-22.zip",
       "retrievedAt": "2026-07-22"
+    },
+    {
+      "sourceId": "CA-STATCAN-RCS-2019-2022",
+      "publisher": "Statistics Canada",
+      "sourceKind": "official",
+      "pageUrl": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010001601",
+      "downloadUrl": "https://www150.statcan.gc.ca/n1/en/tbl/csv/20100016-eng.zip",
+      "retrievedAt": "2026-07-24"
+    },
+    {
+      "sourceId": "CA-STATCAN-RCS-2023-2025",
+      "publisher": "Statistics Canada",
+      "sourceKind": "official",
+      "pageUrl": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
+      "downloadUrl": "https://www150.statcan.gc.ca/n1/en/tbl/csv/20100071-eng.zip",
+      "retrievedAt": "2026-07-24"
     },
     {
       "sourceId": "DE-DESTATIS-73411-0003",
@@ -469,6 +485,174 @@
       "labelFi": "Valmistajien ja maahantuojien ilmoittamien toimitusten nestemäärä",
       "limitationEn": "Volume reported for product categories containing vaping substance. It is a physical quantity, not retail market value.",
       "limitationFi": "Höyrystettävää ainetta sisältävien tuoteryhmien ilmoitettu määrä. Se on fyysinen määrä, ei vähittäismarkkina-arvo."
+    },
+    {
+      "observationId": "CA-2019-STATCAN-RCS-VAPING-RETAIL-SALES",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2019,
+      "metric": "statcan_rcs_vaping_retail_sales",
+      "value": 477077000,
+      "unit": "CAD",
+      "currency": "CAD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "quarterly_sum_no_status_symbol",
+      "productScope": "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail",
+      "marketValueBasis": "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CA-STATCAN-RCS-2019-2022"
+      ],
+      "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
+      "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. GST, HST, PST and QST are excluded by the questionnaire; vaping-excise treatment is not explicit. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kysely rajaa GST-, HST-, PST- ja QST-verot pois, mutta sähkötupakan valmisteverokäsittelyä ei täsmennetä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+    },
+    {
+      "observationId": "CA-2020-STATCAN-RCS-VAPING-RETAIL-SALES",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2020,
+      "metric": "statcan_rcs_vaping_retail_sales",
+      "value": 520647000,
+      "unit": "CAD",
+      "currency": "CAD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "quarterly_sum_no_status_symbol",
+      "productScope": "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail",
+      "marketValueBasis": "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CA-STATCAN-RCS-2019-2022"
+      ],
+      "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
+      "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. GST, HST, PST and QST are excluded by the questionnaire; vaping-excise treatment is not explicit. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kysely rajaa GST-, HST-, PST- ja QST-verot pois, mutta sähkötupakan valmisteverokäsittelyä ei täsmennetä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+    },
+    {
+      "observationId": "CA-2021-STATCAN-RCS-VAPING-RETAIL-SALES",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2021,
+      "metric": "statcan_rcs_vaping_retail_sales",
+      "value": 992732000,
+      "unit": "CAD",
+      "currency": "CAD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "quarterly_sum_no_status_symbol",
+      "productScope": "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail",
+      "marketValueBasis": "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CA-STATCAN-RCS-2019-2022"
+      ],
+      "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
+      "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. GST, HST, PST and QST are excluded by the questionnaire; vaping-excise treatment is not explicit. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kysely rajaa GST-, HST-, PST- ja QST-verot pois, mutta sähkötupakan valmisteverokäsittelyä ei täsmennetä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+    },
+    {
+      "observationId": "CA-2022-STATCAN-RCS-VAPING-RETAIL-SALES",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2022,
+      "metric": "statcan_rcs_vaping_retail_sales",
+      "value": 1277158000,
+      "unit": "CAD",
+      "currency": "CAD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "quarterly_sum_status_E_D_D_D",
+      "productScope": "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail",
+      "marketValueBasis": "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CA-STATCAN-RCS-2019-2022"
+      ],
+      "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
+      "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD. Published quarter statuses are Q1 E (use with caution) and Q2–Q4 D. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. GST, HST, PST and QST are excluded by the questionnaire; vaping-excise treatment is not explicit. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein. Julkaistut neljännesstatukset ovat Q1 E (käytettävä varoen) ja Q2–Q4 D. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kysely rajaa GST-, HST-, PST- ja QST-verot pois, mutta sähkötupakan valmisteverokäsittelyä ei täsmennetä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+    },
+    {
+      "observationId": "CA-2023-STATCAN-RCS-VAPING-RETAIL-SALES",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2023,
+      "metric": "statcan_rcs_vaping_retail_sales",
+      "value": 1530758000,
+      "unit": "CAD",
+      "currency": "CAD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "quarterly_sum_status_E_D_E_E",
+      "productScope": "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail",
+      "marketValueBasis": "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CA-STATCAN-RCS-2023-2025"
+      ],
+      "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
+      "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. Published quarter statuses are Q1 E, Q2 D, Q3 E and Q4 E; E means use with caution. Starting in 2023, Internet retail, direct selling and mail-order retail are classified by goods sold rather than separately, supporting broader method-of-sale coverage, but the table does not quantify vaping-specific channel completeness or telephone sales. GST, HST, PST and QST are excluded by the questionnaire; vaping-excise treatment is not explicit. NAPCS and NAICS 2022 create a classification and scope break from 2022. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Julkaistut neljännesstatukset ovat Q1 E, Q2 D, Q3 E ja Q4 E; E tarkoittaa varoen käytettävää lukua. Vuodesta 2023 internet-, suoramyynti- ja postimyynti luokitellaan myytyjen tavaroiden eikä erillisen kanavan mukaan, mikä tukee laajempaa myyntitapapeittoa, mutta taulukko ei määrällistä sähkötupakkakohtaista kanavapeittoa eikä puhelinmyyntiä. Kysely rajaa GST-, HST-, PST- ja QST-verot pois, mutta sähkötupakan valmisteverokäsittelyä ei täsmennetä. NAPCS- ja NAICS 2022 muodostavat luokitus- ja laajuuskatkon vuoteen 2022 nähden. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+    },
+    {
+      "observationId": "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2024,
+      "metric": "statcan_rcs_vaping_retail_sales",
+      "value": 1219160000,
+      "unit": "CAD",
+      "currency": "CAD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "quarterly_sum_all_quarters_status_E",
+      "productScope": "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail",
+      "marketValueBasis": "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CA-STATCAN-RCS-2023-2025"
+      ],
+      "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
+      "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. All four quarters carry status E: use with caution, with a coefficient of variation greater than 25% under the cube note. Internet retail, direct selling and mail-order retail are classified by goods sold rather than separately, supporting broader method-of-sale coverage, but the table does not quantify vaping-specific channel completeness or telephone sales. GST, HST, PST and QST are excluded by the questionnaire; vaping-excise treatment is not explicit. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Kaikilla neljällä neljänneksellä on status E: lukua on käytettävä varoen ja kuution huomautuksen mukaan variaatiokerroin on yli 25 %. Internet-, suoramyynti- ja postimyynti luokitellaan myytyjen tavaroiden eikä erillisen kanavan mukaan, mikä tukee laajempaa myyntitapapeittoa, mutta taulukko ei määrällistä sähkötupakkakohtaista kanavapeittoa eikä puhelinmyyntiä. Kysely rajaa GST-, HST-, PST- ja QST-verot pois, mutta sähkötupakan valmisteverokäsittelyä ei täsmennetä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+    },
+    {
+      "observationId": "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES",
+      "countryIso2": "CA",
+      "geography": "Canada",
+      "year": 2025,
+      "metric": "statcan_rcs_vaping_retail_sales",
+      "value": 1266567000,
+      "unit": "CAD",
+      "currency": "CAD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "quarterly_sum_all_quarters_status_E",
+      "productScope": "napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail",
+      "marketValueBasis": "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CA-STATCAN-RCS-2023-2025"
+      ],
+      "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
+      "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. All four quarters carry status E: use with caution, with a coefficient of variation greater than 25% under the cube note. Internet retail, direct selling and mail-order retail are classified by goods sold rather than separately, supporting broader method-of-sale coverage, but the table does not quantify vaping-specific channel completeness or telephone sales. GST, HST, PST and QST are excluded by the questionnaire; vaping-excise treatment is not explicit. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Kaikilla neljällä neljänneksellä on status E: lukua on käytettävä varoen ja kuution huomautuksen mukaan variaatiokerroin on yli 25 %. Internet-, suoramyynti- ja postimyynti luokitellaan myytyjen tavaroiden eikä erillisen kanavan mukaan, mikä tukee laajempaa myyntitapapeittoa, mutta taulukko ei määrällistä sähkötupakkakohtaista kanavapeittoa eikä puhelinmyyntiä. Kysely rajaa GST-, HST-, PST- ja QST-verot pois, mutta sähkötupakan valmisteverokäsittelyä ei täsmennetä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE",

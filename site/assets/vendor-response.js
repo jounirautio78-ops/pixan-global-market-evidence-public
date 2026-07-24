@@ -5,8 +5,8 @@
   if (!root) return;
 
   const EXPECTED_STATES = new Map([
-    ["ecig-global-market-database", ["request_sent", "pending"]],
-    ["euromonitor-passport-nicotine", ["request_sent", "administrative_qualification_received"]],
+    ["ecig-global-market-database", ["request_sent", "pending_no_acknowledgement"]],
+    ["euromonitor-passport-nicotine", ["request_sent", "substantive_response_received"]],
     ["niq-rms-pilot", ["not_submitted_terms_gate", "not_submitted"]],
     ["circana-us-tobacco-pilot", ["submission_confirmed", "pending"]]
   ]);
@@ -72,7 +72,7 @@
     if (!raw || raw.schemaVersion !== 1
       || raw.controlId !== "vendor-response-control-public"
       || raw.status !== "public_status_only_no_purchase_authorised"
-      || raw.version !== "2026.07.23-14"
+      || raw.version !== "2026.07.24-19"
       || !validDate(raw.asOf)
       || raw.scoreScale?.minimum !== 0
       || raw.scoreScale?.maximum !== 5
@@ -132,7 +132,7 @@
     }
     if (!raw.summary
       || raw.summary.trackedVendors !== 4
-      || raw.summary.substantiveResponses !== 0
+      || raw.summary.substantiveResponses !== 1
       || raw.summary.scoredVendors !== 0
       || raw.summary.purchaseAuthorisations !== 0) {
       throw new Error("vendor-response summary differs");
@@ -155,12 +155,12 @@
         "This view separates outreach status from received evidence and scoring so a missing response never looks like a poor result."
       ),
       "[data-vendor-response-boundary-title]": l(
-        "Yhtään sisällöllistä toimittajavastausta ei ole vielä vastaanotettu",
-        "No substantive vendor response has been received"
+        "Yksi sisällöllinen vastaus on saatu · ei vielä pisteytettävää toimittajanäytettä",
+        "One substantive response received · no scoreable vendor sample yet"
       ),
       "[data-vendor-response-boundary-copy]": l(
-        "Julkinen näkymä ei sisällä viestejä, henkilötietoja, toimittajatiedostoja, lisensoimatonta dataa tai luottamuksellisia ehtoja. Osto-, tilaus-, NDA- tai automaattisen uusinnan valtuutusta ei ole.",
-        "The public view contains no messages, personal data, vendor files, unlicensed data or confidential terms. No purchase, subscription, NDA or auto-renewal is authorised."
+        "Vastaanotettu esite ei ole numeerista markkinaevidenssiä. Sen 100 maan lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan maa–tuote-peittoa. Monivaihtoehtoinen tarjous ja numeerisen näytteen uudelleenlähetys on pyydetty; osto-, tilaus-, NDA- tai automaattisen uusinnan valtuutusta ei ole.",
+        "The received brochure is not numerical market evidence. Its 100-country list is the overall Passport Tobacco scope, not confirmed e-vapour country-product coverage. A multi-option quote and numerical-sample resend have been requested; no purchase, subscription, NDA or auto-renewal is authorised."
       ),
       "[data-vendor-response-criteria-kicker]": l(
         "Läpinäkyvä arviointimalli",
@@ -187,8 +187,8 @@
         "Download source JSON"
       ),
       "[data-vendor-response-note]": l(
-        "Tila osoittaa vain tämän julkisen tarkistuspisteen. Se ei todista viestin toimitusta, toimittajan kiinnostusta, datan laatua tai ostokelpoisuutta.",
-        "Status reflects only this public checkpoint. It does not establish message delivery, vendor interest, data quality or purchase readiness."
+        "Tila perustuu varmennettuun julkiseen tarkistuspisteeseen. Lähetys ei osoita toimittajan hyväksyntää, tarjouksen vastaanottoa, datan laatua tai ostokelpoisuutta.",
+        "Status reflects a verified public checkpoint. Dispatch does not establish vendor agreement, receipt of a quote, data quality or purchase readiness."
       )
     };
     for (const [selector, value] of Object.entries(values)) {
@@ -229,8 +229,8 @@
         control.summary.substantiveResponses,
         "sisällöllistä vastausta",
         "substantive responses",
-        "ei vielä arvioitavaa aineistoa",
-        "no evidence to evaluate yet",
+        "esite saatu · vaihtoehdot pyydetty · ei pisteytettävää näytettä",
+        "brochure received · options requested · no scoreable sample",
         "pending"
       ),
       summaryCard(
@@ -364,8 +364,8 @@
     status.replaceChildren(
       node("span", "bank-package-status-dot", ""),
       node("span", "", l(
-        "4 toimittajaa seurannassa · 0 sisällöllistä vastausta · 0 pisteytettyä toimittajanäytettä · 0 ostovaltuutusta.",
-        "4 vendors tracked · 0 substantive responses · 0 vendor samples scored · 0 purchase authorisations."
+        "4 toimittajaa seurannassa · 1 sisällöllinen vastaus · 0 pisteytettyä toimittajanäytettä · 0 ostovaltuutusta.",
+        "4 vendors tracked · 1 substantive response · 0 vendor samples scored · 0 purchase authorisations."
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

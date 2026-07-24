@@ -63,19 +63,19 @@ WEIGHT_IDS = {
 PRICE_TYPES = {"public_list_price", "vendor_quote"}
 OUTREACH_KEYS = {"itemId", "state", "recordedOn", "noteEn", "noteFi"}
 EXPECTED_OUTREACH = {
-    "ecig-global-market-database": "sent",
-    "euromonitor-passport-nicotine": "administrative_qualification_received",
+    "ecig-global-market-database": "sent_followup_scheduled",
+    "euromonitor-passport-nicotine": "written_response_brochure_received_quote_request_sent",
     "niq-rms-pilot": "blocked_not_submitted",
     "circana-us-tobacco-pilot": "submitted_confirmation_received",
 }
 EXPECTED_OUTREACH_NOTES = {
     "ecig-global-market-database": (
-        "A free review-sample and non-binding quote request was sent. Response pending; no purchase or other commitment.",
-        "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin. Vastaus odottaa; ei ostoa tai muuta sitoumusta.",
+        "A free review-sample and non-binding quote request was sent on 2026-07-23. No bounce, automated acknowledgement or response is recorded as of 2026-07-24. First follow-up is scheduled for 2026-07-28 if unanswered. No sample, quote, data, method, coverage, licence, price or commitment.",
+        "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 24.7.2026 mennessä. Ensimmäinen seuranta on 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
     ),
     "euromonitor-passport-nicotine": (
-        "Administrative qualification questions were received; clarification was sent and routing is pending. No sample, quote, data, method, coverage, licence, price or commitment.",
-        "Hallinnolliset taustatietokysymykset vastaanotettiin; täsmennys lähetettiin ja ohjaus oikealle tiimille odottaa. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
+        "A written response and an 8-page Tobacco brochure were received after the meeting. The brochure documents an overall 100-country Passport Tobacco list, e-vapour category taxonomy, 2010-2029 market-size periods, 2014-2024 company and brand-share periods and 2010-2024 retail-channel periods; it does not confirm exact e-vapour country-product coverage. A non-binding multi-option quote request was sent on 2026-07-24 for full-global, core-global, 20- and 25-country, and add-on pricing; one-off and subscription; single-user and small-team terms; transaction-use rights; and resending the missing numerical Excel/CSV sample. No reviewable numerical sample, detailed methodology, confirmed e-vapour country-product coverage matrix, quote, licence terms, usable data, price, purchase or commitment.",
+        "Tapaamisen jälkeen vastaanotettiin kirjallinen vastaus ja 8-sivuinen Tobacco-esite. Esite dokumentoi Passport Tobaccon 100 maan kokonaislistan, sähkötupakkatuotteiden luokittelun, markkinakokosarjojen ajanjakson 2010–2029, yritys- ja brändiosuuksien ajanjakson 2014–2024 sekä vähittäiskanavasarjojen ajanjakson 2010–2024; se ei vahvista täsmällistä sähkötupakan maa–tuote-peittoa. Ei-sitova monivaihtoehtoinen tarjouspyyntö lähetettiin 24.7.2026 täyden globaalin, rajatun globaalin, 20 ja 25 maan sekä lisäosien hinnoittelusta; kertaostosta ja tilauksesta; yhden käyttäjän ja pienen tiimin ehdoista; transaktiokäyttöoikeuksista; sekä puuttuvan numeerisen Excel/CSV-näytteen uudelleenlähetyksestä. Ei tarkistettavaa numeerista näytettä, yksityiskohtaista menetelmää, vahvistettua sähkötupakan maa–tuote-peittomatriisia, tarjousta, lisenssiehtoja, käyttökelpoista dataa, hintaa, ostoa eikä sitoumusta.",
     ),
     "niq-rms-pilot": (
         "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
@@ -110,25 +110,25 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-EXPECTED_XLSX_SHA256 = "2bc607b7b3d36913ac6df34bc49cde929c948a9ccd6a9f58049539124e55f051"
+EXPECTED_XLSX_SHA256 = "7e6b412269cbef5fd38ca4fd335b8a0540d10bda5a9f1d0fac072262330c5fd2"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
         "ECigIntelligence",
         "Global Market Database",
-        "REQUEST SENT · RESPONSE PENDING\nFI: PYYNTÖ LÄHETETTY · VASTAUS ODOTTAA",
+        "REQUEST SENT · NO RESPONSE OR AUTO-ACK · FOLLOW-UP 2026-07-28\nFI: PYYNTÖ LÄHETETTY · EI VASTAUSTA TAI AUTOMAATTIKUITTAUSTA · SEURANTA 2026-07-28",
         None,
         "='Sources'!C6",
-        "Status only. No response content or unlicensed data.",
+        "Status only. Request sent 2026-07-23; no bounce, automated acknowledgement, response content or unlicensed data. First follow-up due 2026-07-28 if unanswered.",
     ),
     (
         "euromonitor-passport-nicotine",
         "Euromonitor International",
         "Passport Nicotine / e-vapour country series",
-        "ADMINISTRATIVE QUALIFICATION RECEIVED · CLARIFICATION SENT · ROUTING PENDING\nFI: HALLINNOLLINEN TAUSTAKYSELY VASTAANOTETTU · TÄSMENNYS LÄHETETTY · OHJAUS ODOTTAA",
+        "WRITTEN RESPONSE + BROCHURE RECEIVED · MULTI-OPTION QUOTE + NUMERICAL SAMPLE REQUEST SENT · RESPONSE PENDING\nFI: KIRJALLINEN VASTAUS + ESITE SAATU · MONIVAIHTOEHTOINEN TARJOUS + NUMEERINEN NÄYTE PYYDETTY · VASTAUS ODOTTAA",
         None,
         "='Sources'!C9",
-        "Status only. Administrative qualification received; clarification sent; no sample, quote, data, method, coverage, licence, price or commitment.",
+        "Status only. A follow-up requesting a multi-option quote and numerical sample was sent. The 8-page brochure documents an overall 100-country Passport Tobacco list, not verified e-vapour product-country coverage, plus e-vapour taxonomy and series periods. The numerical sample, itemised price, detailed method, licence terms and verified e-vapour product-country coverage remain pending. No usable data, purchase or commitment.",
     ),
     (
         "niq-rms-pilot",
@@ -217,7 +217,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         return
     if source.get("status") != "decision_support_only_no_purchase_authorised":
         errors.append("source must state that no purchase is authorised")
-    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.23-3":
+    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.24-19":
         errors.append("source date or version is invalid")
 
     weights = source.get("weights")

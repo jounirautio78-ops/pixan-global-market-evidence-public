@@ -126,6 +126,7 @@ EXPECTED_INPUTS = {
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
+    "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
 }
 EXPECTED_ARTIFACTS = {
@@ -252,11 +253,11 @@ def validate_v18_market_bindings(errors: list[str]) -> None:
         return
     observations = market.get("observations")
     sources = market.get("sources")
-    if not isinstance(observations, list) or len(observations) != 36:
-        errors.append("v18 bank package requires exactly 36 market observations")
+    if not isinstance(observations, list) or len(observations) != 43:
+        errors.append("v19 bank package requires exactly 43 market observations")
         return
-    if not isinstance(sources, list) or len(sources) != 18:
-        errors.append("v18 bank package requires exactly 18 market sources")
+    if not isinstance(sources, list) or len(sources) != 20:
+        errors.append("v19 bank package requires exactly 20 market sources")
     observation_by_id = {
         item.get("observationId"): item
         for item in observations
@@ -271,10 +272,10 @@ def validate_v18_market_bindings(errors: list[str]) -> None:
         if isinstance(item.get("countryIso2"), str)
         and str(item.get("evidenceStatus", "")).startswith("official")
     ]
-    if len(official) != 27 or {item["countryIso2"] for item in official} != {
+    if len(official) != 34 or {item["countryIso2"] for item in official} != {
         "CA", "DE", "FI", "NZ", "PL", "SE", "US"
     }:
-        errors.append("v18 bank package requires 27 official records across seven reviewed countries")
+        errors.append("v19 bank package requires 34 official records across seven reviewed countries")
 
     exact_observations = {
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": (
@@ -591,7 +592,7 @@ def load_expected_eur_equivalent_rows(errors: list[str]) -> tuple[list[dict[str,
 def deck_fx_markers(
     rows: list[dict[str, Any]],
     language: str,
-) -> tuple[str, str]:
+) -> tuple[str, str, str, str]:
     by_key = {
         (row["recordType"], row["recordId"], row["item"]): row
         for row in rows
@@ -609,17 +610,38 @@ def deck_fx_markers(
             "ftc_reported_cartridge_and_disposable_sales",
         )
     )
+    canada_retail = by_key.get(
+        (
+            "market_observation",
+            "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
+            "statcan_rcs_vaping_retail_sales",
+        )
+    )
+    canada_shipments = by_key.get(
+        (
+            "market_observation",
+            "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
+            "manufacturer_importer_shipments_value",
+        )
+    )
     if not all(
         item
         and item["status"] == "computed"
         and isinstance(item["rateValue"], Decimal)
         and item["rateValue"] > 0
-        for item in (nz_low, nz_high, ftc)
+        for item in (nz_low, nz_high, ftc, canada_retail, canada_shipments)
     ):
-        return "eur not_computed", "eur not_computed"
+        return (
+            "eur not_computed",
+            "eur not_computed",
+            "eur not_computed",
+            "eur not_computed",
+        )
     nz_low_eur = nz_low["originalAmount"] / nz_low["rateValue"]
     nz_high_eur = nz_high["originalAmount"] / nz_high["rateValue"]
     ftc_eur = ftc["originalAmount"] / ftc["rateValue"]
+    canada_retail_eur = canada_retail["originalAmount"] / canada_retail["rateValue"]
+    canada_shipments_eur = canada_shipments["originalAmount"] / canada_shipments["rateValue"]
     nz_low_display = (nz_low_eur / Decimal("1000000")).quantize(
         Decimal("0.1"), rounding=ROUND_HALF_UP
     )
@@ -629,15 +651,25 @@ def deck_fx_markers(
     ftc_display = (ftc_eur / Decimal("1000000000")).quantize(
         Decimal("0.001"), rounding=ROUND_HALF_UP
     )
+    canada_retail_display = (canada_retail_eur / Decimal("1000000")).quantize(
+        Decimal("0.1"), rounding=ROUND_HALF_UP
+    )
+    canada_shipments_display = (canada_shipments_eur / Decimal("1000000")).quantize(
+        Decimal("0.1"), rounding=ROUND_HALF_UP
+    )
     if language == "fi":
         return (
             f"≈{str(nz_low_display).replace('.', ',')}–"
             f"{str(nz_high_display).replace('.', ',')} milj. eur",
             f"≈{str(ftc_display).replace('.', ',')} mrd eur",
+            f"≈{str(canada_retail_display).replace('.', ',')} milj. eur",
+            f"≈{str(canada_shipments_display).replace('.', ',')} milj. eur",
         )
     return (
         f"≈eur {nz_low_display}–{nz_high_display}m",
         f"≈eur {ftc_display}bn",
+        f"≈eur {canada_retail_display}m",
+        f"≈eur {canada_shipments_display}m",
     )
 
 
@@ -792,6 +824,9 @@ def slide_texts(path: Path, errors: list[str]) -> list[str]:
         for shape in slide.shapes:
             if getattr(shape, "has_text_frame", False):
                 chunks.append(shape.text)
+            if getattr(shape, "has_table", False):
+                for row in shape.table.rows:
+                    chunks.extend(cell.text for cell in row.cells)
         output.append("\n".join(chunks))
     return output
 
@@ -811,6 +846,7 @@ def validate_slide_source_notes(
         fx.get("provider", {}).get("methodologyUrl"),
         rates.get(("NZD", 2024), {}).get("sourceUrl"),
         rates.get(("USD", 2021), {}).get("sourceUrl"),
+        rates.get(("CAD", 2024), {}).get("sourceUrl"),
     } - {None}
     formula = fx.get("calculationPolicy", {}).get("formulaEn")
     try:
@@ -1110,11 +1146,11 @@ def validate_manifest(errors: list[str]) -> None:
     if manifest.get("asOf") != changelog.get("asOf"):
         errors.append("manifest asOf must match the public changelog")
     if (
-        expected_release.get("id") != "2026-07-24-donor-conversion-cockpit-v18"
-        or expected_release.get("version") != "2026.07.24-18"
+        expected_release.get("id") != "2026-07-24-canada-retail-closure-board-v19"
+        or expected_release.get("version") != "2026.07.24-19"
         or manifest.get("asOf") != "2026-07-24"
     ):
-        errors.append("bank package must be locked to release 2026.07.24-18 as of 2026-07-24")
+        errors.append("bank package must be locked to release 2026.07.24-19 as of 2026-07-24")
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
         errors.append("manifest publicBoundary must contain exactly en and fi")
@@ -1203,7 +1239,7 @@ def validate_manifest(errors: list[str]) -> None:
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 53 for rows in csv_rows_by_language.values()):
-        errors.append("both v18 Evidence Registers must contain exactly 53 reviewed rows")
+        errors.append("both v19 Evidence Registers must contain exactly 53 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1215,6 +1251,8 @@ def validate_manifest(errors: list[str]) -> None:
             "731 175 792,50",
             "2 763 284 338",
             "4,99 mrd",
+            "1 219 160 000",
+            "5,03 %",
             "D1–D10",
         ),
         "en": (
@@ -1227,6 +1265,8 @@ def validate_manifest(errors: list[str]) -> None:
             "731,175,792.50",
             "2,763,284,338",
             "4.99 billion",
+            "1,219,160,000",
+            "5.03%",
             "D1–D10",
         ),
     }
@@ -1299,22 +1339,24 @@ def validate_manifest(errors: list[str]) -> None:
                     "533,7–731,2 milj. nzd",
                     "2,763 mrd usd",
                     "4,99 mrd eur",
-                    "27",
+                    "34",
                     "7 maasta",
                     "0/3",
                     "d1–d10",
-                    "2026.07.24-18",
+                    "1,219 mrd cad",
+                    "2026.07.24-19",
                 )
                 if not is_english
                 else (
                     "nzd 533.7–731.2m",
                     "usd 2.763bn",
                     "eur 4.99bn",
-                    "27",
+                    "34",
                     "7 countries",
                     "0/3",
                     "d1–d10",
-                    "2026.07.24-18",
+                    "cad 1.219bn",
+                    "2026.07.24-19",
                 )
             )
             fx_markers = deck_fx_markers(

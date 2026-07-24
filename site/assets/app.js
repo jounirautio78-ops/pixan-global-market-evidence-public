@@ -412,6 +412,90 @@ function marketModels() {
   return Array.isArray(state.marketData?.models) ? state.marketData.models : [];
 }
 
+function assessDonorClosureActions(candidate, criterionResults, computedDecision) {
+  const ownerRoles = new Set([
+    "independent_research_team",
+    "public_authority",
+    "data_supplier",
+    "rights_review",
+    "independent_validator"
+  ]);
+  const routeTypes = new Set([
+    "public_source_reconstruction",
+    "official_aggregate_request",
+    "tax_customs_reconciliation",
+    "rights_cleared_retail_data",
+    "independent_reconciliation"
+  ]);
+  const publicStatuses = new Set([
+    "queued",
+    "in_progress",
+    "request_sent",
+    "awaiting_response",
+    "response_under_review",
+    "evidence_ready_for_validation",
+    "blocked_external"
+  ]);
+  const expectedKeys = [
+    "actionId",
+    "criterionIds",
+    "ownerRole",
+    "routeType",
+    "routeEn",
+    "routeFi",
+    "evidenceTargetEn",
+    "evidenceTargetFi",
+    "publicStatus",
+    "statusAsOf",
+    "nextFollowUpOn"
+  ].sort();
+  const blockingIds = criterionResults
+    .filter((item) => item.status !== "passed")
+    .map((item) => item.criterion.criterionId);
+  const blockingSet = new Set(blockingIds);
+  const rawActions = Array.isArray(candidate?.closureActions) ? candidate.closureActions : [];
+  const actions = rawActions.map((action) => {
+    const criterionIds = Array.isArray(action?.criterionIds) ? action.criterionIds : [];
+    const keySetValid = action
+      && Object.keys(action).sort().every((key, index) => key === expectedKeys[index])
+      && Object.keys(action).length === expectedKeys.length;
+    const valid = Boolean(
+      keySetValid
+      && String(action.actionId || "").trim()
+      && criterionIds.length
+      && criterionIds.every((id) => blockingSet.has(id))
+      && new Set(criterionIds).size === criterionIds.length
+      && ownerRoles.has(action.ownerRole)
+      && routeTypes.has(action.routeType)
+      && String(action.routeEn || "").trim()
+      && String(action.routeFi || "").trim()
+      && String(action.evidenceTargetEn || "").trim()
+      && String(action.evidenceTargetFi || "").trim()
+      && publicStatuses.has(action.publicStatus)
+      && /^\d{4}-\d{2}-\d{2}$/.test(String(action.statusAsOf || ""))
+      && /^\d{4}-\d{2}-\d{2}$/.test(String(action.nextFollowUpOn || ""))
+      && String(action.nextFollowUpOn) >= String(action.statusAsOf)
+    );
+    return { action, criterionIds, valid };
+  });
+  const actionIds = actions.map((item) => item.action?.actionId);
+  const targetedIds = actions.flatMap((item) => item.criterionIds);
+  const completeCoverage = blockingIds.length === targetedIds.length
+    && blockingIds.every((id) => targetedIds.filter((target) => target === id).length === 1);
+  const lifecycleValid = computedDecision === "accepted"
+    ? rawActions.length === 0
+    : blockingIds.length > 0 && rawActions.length > 0;
+  return {
+    actions,
+    blockingIds,
+    valid: Array.isArray(candidate?.closureActions)
+      && actions.every((item) => item.valid)
+      && new Set(actionIds).size === actionIds.length
+      && completeCoverage
+      && lifecycleValid
+  };
+}
+
 function assessDonorLedger(cockpit = state.donorCockpit, market = state.marketData) {
   const protocol = cockpit?.protocol;
   const criteria = Array.isArray(protocol?.criteria) ? protocol.criteria : [];
@@ -470,6 +554,7 @@ function assessDonorLedger(cockpit = state.donorCockpit, market = state.marketDa
       ? "accepted"
       : "not_accepted";
     const decisionMatches = candidate?.declaredDecision === computedDecision;
+    const closure = assessDonorClosureActions(candidate, criterionResults, computedDecision);
     const recordValid = Boolean(
       String(candidate?.candidateId || "").trim()
       && String(candidate?.geography || "").trim()
@@ -489,6 +574,7 @@ function assessDonorLedger(cockpit = state.donorCockpit, market = state.marketDa
       && laneValid
       && referenceValid
       && sourcesResolve
+      && closure.valid
     );
     const accepted = protocolValid && recordValid && decisionMatches && computedDecision === "accepted";
     return {
@@ -504,6 +590,7 @@ function assessDonorLedger(cockpit = state.donorCockpit, market = state.marketDa
       allCriteriaPassed,
       computedDecision,
       decisionMatches,
+      closure,
       blockingCriterionIds: criterionResults.filter((item) => item.status !== "passed").map((item) => item.criterion.criterionId),
       accepted
     };
@@ -517,6 +604,99 @@ function assessDonorLedger(cockpit = state.donorCockpit, market = state.marketDa
     accepted: candidates.filter((item) => item.accepted),
     sources
   };
+}
+
+function donorClosureLabel(kind, value) {
+  const labels = {
+    owner: {
+      independent_research_team: ["Riippumaton tutkimusryhmä", "Independent research team"],
+      public_authority: ["Viranomainen", "Public authority"],
+      data_supplier: ["Datatoimittaja", "Data supplier"],
+      rights_review: ["Käyttöoikeustarkistus", "Rights review"],
+      independent_validator: ["Riippumaton validoija", "Independent validator"]
+    },
+    route: {
+      public_source_reconstruction: ["Julkisen lähteen rekonstruktio", "Public-source reconstruction"],
+      official_aggregate_request: ["Virallinen koontitietopyyntö", "Official aggregate request"],
+      tax_customs_reconciliation: ["Vero- ja tullitäsmäytys", "Tax and customs reconciliation"],
+      rights_cleared_retail_data: ["Käyttöoikeuksiltaan selvä retail-data", "Rights-cleared retail data"],
+      independent_reconciliation: ["Riippumaton täsmäytys", "Independent reconciliation"]
+    },
+    status: {
+      queued: ["Jonossa", "Queued"],
+      in_progress: ["Työn alla", "In progress"],
+      request_sent: ["Pyyntö lähetetty", "Request sent"],
+      awaiting_response: ["Odottaa vastausta", "Awaiting response"],
+      response_under_review: ["Vastaus tarkistuksessa", "Response under review"],
+      evidence_ready_for_validation: ["Näyttö valmis validointiin", "Evidence ready for validation"],
+      blocked_external: ["Ulkoinen este", "Blocked externally"]
+    }
+  };
+  return labels[kind]?.[value] ? l(...labels[kind][value]) : String(value || "—").replaceAll("_", " ");
+}
+
+function renderDonorClosureBoard(assessment) {
+  const body = byId("market-donor-closure-body");
+  const status = byId("market-donor-closure-status");
+  if (!body || !status) return;
+  body.replaceChildren();
+  const rows = [];
+  for (const result of assessment.candidates) {
+    const candidate = result.candidate || {};
+    for (const assessedAction of result.closure?.actions || []) {
+      rows.push({ candidate, result, ...assessedAction });
+    }
+  }
+  if (!rows.length) {
+    const row = node("tr");
+    const cell = node("td", "empty-state", l("Ei julkaistuja sulkemistoimia.", "No published closure actions."));
+    cell.colSpan = 8;
+    row.append(cell);
+    body.append(row);
+  }
+  for (const item of rows) {
+    const action = item.action || {};
+    const row = node("tr");
+    const identity = node("td", "donor-control-identity");
+    identity.append(
+      node("strong", "", `${item.candidate.countryIso2 || l("Alue", "Region")} · ${item.candidate.year || "—"}`),
+      node("small", "", isFi() ? item.candidate.headlineFi : item.candidate.headlineEn)
+    );
+    const route = node("td");
+    route.append(
+      node("strong", "", donorClosureLabel("route", action.routeType)),
+      node("small", "", isFi() ? action.routeFi : action.routeEn)
+    );
+    const actionStatus = node("span", "donor-decision-chip", donorClosureLabel("status", action.publicStatus));
+    actionStatus.dataset.decision = action.publicStatus === "evidence_ready_for_validation" ? "accepted" : "not_accepted";
+    const actionStatusCell = node("td");
+    actionStatusCell.append(actionStatus);
+    row.append(
+      identity,
+      node("td", "", (action.criterionIds || []).join(", ")),
+      node("td", "", donorClosureLabel("owner", action.ownerRole)),
+      route,
+      node("td", "", isFi() ? action.evidenceTargetFi : action.evidenceTargetEn),
+      actionStatusCell,
+      node("td", "", formatDate(action.nextFollowUpOn)),
+      node("td", "", l(
+        "Ei muuta kriteeritilaa ennen lähteistettyä validointia.",
+        "Does not change a criterion until source-linked validation."
+      ))
+    );
+    body.append(row);
+  }
+  const recordsValid = assessment.candidates.every((item) => item.closure?.valid);
+  status.dataset.state = recordsValid ? "ready" : "error";
+  status.textContent = recordsValid
+    ? l(
+      `${rows.length} sulkemistoimea kattaa jokaisen avoimen tai hylätyn kriteerin täsmälleen kerran.`,
+      `${rows.length} closure actions cover every open or failed criterion exactly once.`
+    )
+    : l(
+      "Fail-closed: sulkemistoimet eivät kata D1–D10-aukkoja ehjästi, joten ne eivät vaikuta 0/3-porttiin.",
+      "Fail closed: closure actions do not validly cover the D1–D10 gaps and cannot affect the 0/3 gate."
+    );
 }
 
 function formatMarketValue(value, currency, unit, compact = true) {
@@ -911,6 +1091,13 @@ function renderDonorLedgerUnavailable(message) {
   byId("market-donor-matrix-head").replaceChildren();
   byId("market-donor-matrix-body").replaceChildren();
   byId("market-donor-control-body").replaceChildren();
+  byId("market-donor-closure-body").replaceChildren();
+  const closureStatus = byId("market-donor-closure-status");
+  closureStatus.dataset.state = "error";
+  closureStatus.textContent = l(
+    "Sulkemistoimia ei voitu vahvistaa.",
+    "Closure actions could not be verified."
+  );
   byId("market-donor-candidates").replaceChildren(node("p", "empty-state", message));
   const status = byId("market-donor-status");
   status.dataset.state = "error";
@@ -1042,6 +1229,7 @@ function renderDonorLedger() {
     );
     controlBody.append(row);
   }
+  renderDonorClosureBoard(assessment);
 
   const candidatesHost = byId("market-donor-candidates");
   candidatesHost.replaceChildren();

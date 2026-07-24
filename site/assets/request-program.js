@@ -6,7 +6,7 @@
 
   const OFFICIAL_HOSTS = {
     DE: ["bund.de", "destatis.de", "zoll.de"],
-    CA: ["canada.ca"],
+    CA: ["canada.ca", "statcan.gc.ca"],
     US: ["ftc.gov", "usitc.gov", "fda.gov", "cbp.gov"],
     CN: ["stats.gov.cn", "customs.gov.cn", "samr.gov.cn"],
     PL: ["gov.pl"],
@@ -66,6 +66,12 @@
     CA: {
       state: "sent",
       sentOn: "2026-07-23",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded"
+    },
+    US: {
+      state: "sent",
+      sentOn: "2026-07-24",
       publicAuthorityReference: null,
       responseState: "not_publicly_recorded"
     },
@@ -345,8 +351,8 @@
       || Object.keys(OFFICIAL_HOSTS).some((iso) => !countries.has(iso))) {
       throw new Error("country set differs from the official-domain allowlist");
     }
-    if (sentCountries.size !== 11 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
-      throw new Error("sent country set differs from the approved 11-country public record");
+    if (sentCountries.size !== 12 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
+      throw new Error("sent country set differs from the approved 12-country public record");
     }
     if (processResponseCountries.size !== 4
       || !["DE", "FI", "DK", "SE"].every((iso) => processResponseCountries.has(iso))) {
