@@ -40,6 +40,7 @@ TOP_LEVEL_KEYS = {
     "scoreBoundaryEn",
     "scoreBoundaryFi",
     "scoreScale",
+    "germanyBenchmark",
     "criteria",
     "mandatoryGates",
     "evidenceTypes",
@@ -65,6 +66,67 @@ EVIDENCE_KEYS = {
     "totalCostTerms",
 }
 MANDATORY_GATE_KEYS = EVIDENCE_KEYS - {"quote"}
+GERMANY_BENCHMARK_KEYS = {
+    "benchmarkId",
+    "countryIso2",
+    "scopeEn",
+    "scopeFi",
+    "unit",
+    "status",
+    "statusReasonEn",
+    "statusReasonFi",
+    "officialAnchors",
+    "thresholds",
+    "requiredEvidence",
+    "vendorPassDoesNotEstablishDonorPass",
+    "donorGateEffect",
+    "donorBoundaryEn",
+    "donorBoundaryFi",
+}
+GERMANY_ANCHOR_KEYS = {
+    "observationId",
+    "sourceId",
+    "year",
+    "value",
+    "unit",
+    "finality",
+    "role",
+}
+EXPECTED_GERMANY_ANCHORS = {
+    2023: {
+        "observationId": "DE-2023-TAXED-LIQUID-VOLUME-L",
+        "sourceId": "DE-DESTATIS-73411-0003",
+        "value": 1_241_000,
+        "unit": "litre",
+        "finality": "final",
+        "role": "pass_test",
+    },
+    2024: {
+        "observationId": "DE-2024-TAXED-LIQUID-VOLUME-L",
+        "sourceId": "DE-DESTATIS-73411-0003",
+        "value": 1_284_000,
+        "unit": "litre",
+        "finality": "final",
+        "role": "pass_test",
+    },
+    2025: {
+        "observationId": "DE-2025-TAXED-LIQUID-VOLUME-L",
+        "sourceId": "DE-DESTATIS-73411-0003",
+        "value": 1_518_000,
+        "unit": "litre",
+        "finality": "provisional",
+        "role": "context_only",
+    },
+}
+GERMANY_REQUIRED_EVIDENCE_IDS = {
+    "productSplits",
+    "definitions",
+    "taxBasis",
+    "methodology",
+    "brandFields",
+    "transactionUseRights",
+    "commercialTerms",
+}
 EXPECTED_VENDORS = {
     "ecig-global-market-database": {
         "vendor": "ECigIntelligence",
@@ -86,18 +148,24 @@ EXPECTED_VENDORS = {
         "requestState": "request_sent",
         "responseState": "substantive_response_received",
         "publicStatusEn": (
-            "Written response and an 8-page brochure received; the brochure's 100-country "
-            "list is the overall Passport Tobacco scope, not confirmed e-vapour "
-            "country-product coverage; a non-binding multi-option quote request and "
-            "numerical-sample resend request were sent 2026-07-24; the reviewable "
-            "numerical sample, quote and licence terms remain pending"
+            "Two written responses and an 8-page brochure received. Quote, numerical-sample, "
+            "Germany-evaluation and brand-field requests were sent on 2026-07-24. "
+            "Euromonitor says it can provide samples, detailed answers and pricing after the "
+            "role/access model is clarified; that clarification is pending and has not been "
+            "sent. Pending: numerical Germany sample, written brand-field confirmation, "
+            "price, method, coverage and written derived-output rights. "
+            "The brochure's 100-country list is not confirmed e-vapour "
+            "country-product coverage."
         ),
         "publicStatusFi": (
-            "Kirjallinen vastaus ja 8-sivuinen esite vastaanotettu; esitteen 100 maan "
-            "lista kuvaa Passport Tobaccon kokonaispeittoa, ei vahvistettua sähkötupakan "
-            "maa–tuote-peittoa; ei-sitova monivaihtoehtoinen tarjouspyyntö ja numeerisen "
-            "näytteen uudelleenlähetyspyyntö lähetettiin 24.7.2026; tarkistettava "
-            "numeerinen näyte, tarjous ja lisenssiehdot odottavat"
+            "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen "
+            "näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. "
+            "Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia "
+            "ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; täsmennys odottaa "
+            "eikä sitä ole lähetetty. Odottavat: numeerinen Saksa-näyte, kirjallinen "
+            "brändikenttävahvistus, hinta, menetelmä, peitto ja kirjalliset johdettujen "
+            "tuotosten oikeudet. "
+            "Esitteen 100 maan lista ei ole vahvistettu sähkötupakan maa–tuote-peitto."
         ),
     },
     "niq-rms-pilot": {
@@ -207,6 +275,117 @@ def scan_privacy(label: str, value: Any, errors: list[str]) -> None:
             errors.append(f"{label} contains a forbidden private metadata field")
 
 
+def validate_germany_benchmark(value: Any, errors: list[str]) -> None:
+    if not isinstance(value, dict) or set(value) != GERMANY_BENCHMARK_KEYS:
+        errors.append("Germany benchmark schema differs")
+        return
+    if (
+        value.get("benchmarkId") != "de-taxed-e-liquid-volume-vendor-gate"
+        or value.get("countryIso2") != "DE"
+        or value.get("unit") != "litre"
+        or value.get("status") != "not_testable"
+    ):
+        errors.append("Germany benchmark identity or not-testable state differs")
+    for field in (
+        "scopeEn",
+        "scopeFi",
+        "statusReasonEn",
+        "statusReasonFi",
+        "donorBoundaryEn",
+        "donorBoundaryFi",
+    ):
+        if not isinstance(value.get(field), str) or not value[field].strip():
+            errors.append(f"Germany benchmark {field} must be non-empty")
+    if (
+        value.get("vendorPassDoesNotEstablishDonorPass") is not True
+        or value.get("donorGateEffect") != "none"
+        or "D1–D10" not in str(value.get("donorBoundaryEn", ""))
+        or "0/3" not in str(value.get("donorBoundaryEn", ""))
+    ):
+        errors.append("Germany vendor-pass must not establish donor-market acceptance")
+
+    anchors = value.get("officialAnchors")
+    if not isinstance(anchors, list) or len(anchors) != len(EXPECTED_GERMANY_ANCHORS):
+        errors.append("Germany benchmark must contain the three reviewed official anchors")
+    else:
+        seen_years: set[int] = set()
+        for anchor in anchors:
+            if not isinstance(anchor, dict) or set(anchor) != GERMANY_ANCHOR_KEYS:
+                errors.append("Germany official-anchor schema differs")
+                continue
+            year = anchor.get("year")
+            if year in seen_years or year not in EXPECTED_GERMANY_ANCHORS:
+                errors.append(f"Germany official-anchor year differs: {year!r}")
+                continue
+            seen_years.add(year)
+            expected = {"year": year, **EXPECTED_GERMANY_ANCHORS[year]}
+            if anchor != expected:
+                errors.append(f"Germany {year} official anchor differs")
+        if seen_years != set(EXPECTED_GERMANY_ANCHORS):
+            errors.append("Germany official-anchor year set differs")
+
+    thresholds = value.get("thresholds")
+    if not isinstance(thresholds, dict) or set(thresholds) != {
+        "annualDeviation",
+        "twoYearCumulativeDeviation",
+    }:
+        errors.append("Germany benchmark threshold schema differs")
+    else:
+        expected_thresholds = {
+            "annualDeviation": (15, [2023, 2024]),
+            "twoYearCumulativeDeviation": (10, [2023, 2024]),
+        }
+        for threshold_id, (maximum_pct, years) in expected_thresholds.items():
+            threshold = thresholds.get(threshold_id)
+            if not isinstance(threshold, dict) or set(threshold) != {
+                "maximumPct",
+                "years",
+                "formulaEn",
+                "formulaFi",
+            }:
+                errors.append(f"Germany {threshold_id} threshold schema differs")
+                continue
+            if (
+                threshold.get("maximumPct") != maximum_pct
+                or threshold.get("years") != years
+                or not isinstance(threshold.get("formulaEn"), str)
+                or not threshold["formulaEn"].strip()
+                or not isinstance(threshold.get("formulaFi"), str)
+                or not threshold["formulaFi"].strip()
+            ):
+                errors.append(f"Germany {threshold_id} threshold differs")
+
+    required_evidence = value.get("requiredEvidence")
+    if not isinstance(required_evidence, list) or len(required_evidence) != len(
+        GERMANY_REQUIRED_EVIDENCE_IDS
+    ):
+        errors.append("Germany benchmark required-evidence set differs")
+    else:
+        seen_ids: set[str] = set()
+        for item in required_evidence:
+            if not isinstance(item, dict) or set(item) != {
+                "id",
+                "labelEn",
+                "labelFi",
+                "descriptionEn",
+                "descriptionFi",
+            }:
+                errors.append("Germany required-evidence schema differs")
+                continue
+            item_id = item.get("id")
+            if item_id in seen_ids or item_id not in GERMANY_REQUIRED_EVIDENCE_IDS:
+                errors.append(f"Germany required-evidence ID differs: {item_id!r}")
+                continue
+            seen_ids.add(item_id)
+            if any(
+                not isinstance(item.get(field), str) or not item[field].strip()
+                for field in ("labelEn", "labelFi", "descriptionEn", "descriptionFi")
+            ):
+                errors.append(f"Germany required-evidence copy is incomplete for {item_id!r}")
+        if seen_ids != GERMANY_REQUIRED_EVIDENCE_IDS:
+            errors.append("Germany required-evidence IDs differ")
+
+
 def validate_source(source: Any, errors: list[str]) -> None:
     if not isinstance(source, dict):
         errors.append("source must contain an object")
@@ -214,13 +393,13 @@ def validate_source(source: Any, errors: list[str]) -> None:
     if set(source) != TOP_LEVEL_KEYS:
         errors.append("source top-level schema differs")
         return
-    if source.get("schemaVersion") != 1:
+    if source.get("schemaVersion") != 2:
         errors.append("unsupported schema version")
     if source.get("controlId") != "vendor-response-control-public":
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.24-19" or not valid_date(source.get("asOf")):
+    if source.get("version") != "2026.07.24-20" or not valid_date(source.get("asOf")):
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
@@ -228,6 +407,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         "missingValue": "not_scored",
     }:
         errors.append("score scale must preserve missing values as not_scored")
+    validate_germany_benchmark(source.get("germanyBenchmark"), errors)
 
     criteria = source.get("criteria")
     if not isinstance(criteria, list) or len(criteria) != len(CRITERION_WEIGHTS):
@@ -370,6 +550,7 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
             "purchaseAuthorisations": 0,
         }:
             errors.append("public JSON summary differs from the reviewed current state")
+        validate_germany_benchmark(output.get("germanyBenchmark"), errors)
         for vendor in output.get("vendors", []):
             if set(vendor) != OUTPUT_VENDOR_KEYS:
                 errors.append("public JSON vendor output schema differs")
@@ -406,6 +587,14 @@ def validate_site_integration(errors: list[str]) -> None:
         errors.append("review page lacks the public vendor-response CSV download")
     if 'href="data/vendor-response-control.json"' not in html:
         errors.append("review page lacks the public vendor-response JSON download")
+    for marker in (
+        "data-vendor-response-germany-benchmark",
+        "data-vendor-response-germany-anchors",
+        "data-vendor-response-germany-requirements",
+        "data-vendor-response-germany-note",
+    ):
+        if marker not in html:
+            errors.append(f"review page lacks {marker}")
     if not VENDOR_SCRIPT.is_file():
         errors.append("site/assets/vendor-response.js is missing")
 

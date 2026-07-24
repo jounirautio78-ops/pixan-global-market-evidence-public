@@ -26,6 +26,28 @@ Worldwide commercial research also requires a second, non-additive **market-geog
 
 The target overlay is the 249 ISO 3166-1 assigned geographies plus a separately governed Kosovo research row. It must not be added to the 195-state universe mechanically: parent totals, customs unions and territorial series must be reconciled first.
 
+## Reusable six-layer evidence stack
+
+Apply the same ordered architecture to each of the 195 sovereign-state rows. A layer may remain missing; missing evidence is never converted to zero.
+
+1. **Statutory sales and product notifications:** mandatory manufacturer/importer sales, shipment or product-notification reporting with period, product, brand, coverage, suppression and revision metadata.
+2. **Excise and domestic release:** realised excise receipts, statutory rates and release-for-consumption quantities with refunds, exports, destruction, rate changes and stock movements separated.
+3. **Customs and net imports:** mutually exclusive product codes for imports, exports and compatible domestic production; mirror data replaces a missing route and is never added to reporter data.
+4. **Retail or manufacturer/importer evidence:** observed or licensed retail sell-through and manufacturer/importer shipments are accepted as different measured stages and never relabelled as one another.
+5. **Price and channel bridge:** dated segment prices, channel weights and tax basis translate compatible physical quantities into a low/base/high retail-equivalent range; this remains modelled unless retail sales are independently observed.
+6. **Enforcement and seizures:** seizures, destruction, recalls and enforcement outcomes are kept as separate product-presence and illicit-risk signals. They are never lawful sales and are never added to the first five layers.
+
+Reconciliation, uncertainty and confidence sit above all six layers. Every source and product remains locked to one evidence group and measured supply-chain stage for each country-year. Alternative layers are compared for compatible periods and scopes, never mechanically summed.
+
+### Germany reconciliation pilot
+
+Germany retains two distinct public request records within one country:
+
+- The Customs/Destatis country route was sent on 2026-07-23. The GZD IFG unit has formally registered it and confirmed that it is under processing. This is process evidence only; it is not a substantive authority-data response.
+- A supplementary BVL aggregate-data route was sent on 2026-07-24. It requests existing annual e-cigarette and refill-container sales reported under [section 25 of the Tobacco Products Ordinance](https://www.gesetze-im-internet.de/tabakerzv/__25.html), with national totals where brand-level disclosure is unavailable. The official [BVL annual-reporting and EU-CEG guidance](https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html?thema=Mitteilungspflicht) and [BVL contact route](https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html) anchor the route.
+
+The BVL request is supplementary: it does not add a country, change the 12-sent/8-draft country queue or replace the Customs/Destatis process record.
+
 ### WHO Global Health Observatory
 
 - [GHO OData API](https://www.who.int/data/gho/info/gho-odata-api) and [API endpoint](https://ghoapi.azureedge.net/api/)

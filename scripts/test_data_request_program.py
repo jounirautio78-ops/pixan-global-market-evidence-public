@@ -25,9 +25,76 @@ class DataRequestBoundaryTests(unittest.TestCase):
         validate_program(copy.deepcopy(self.program), errors)
         self.assertEqual(errors, [])
 
+    def test_global_evidence_stack_is_six_layers_for_195_states(self) -> None:
+        stack = self.program["evidenceStack"]
+        self.assertEqual(self.program["schemaVersion"], 3)
+        self.assertEqual(stack["stateUniverseCount"], 195)
+        self.assertEqual(
+            [layer["layerId"] for layer in stack["layers"]],
+            [
+                "statutory_sales",
+                "excise_domestic_release",
+                "customs_net_imports",
+                "retail_or_shipments",
+                "price_channel_bridge",
+                "enforcement_signal",
+            ],
+        )
+        self.assertIn("never mechanically added", stack["methodBoundaryEn"])
+        self.assertIn("confidence sit above all six layers", stack["methodBoundaryEn"])
+        self.assertIn("eikä muutu nollaksi", stack["methodBoundaryFi"])
+        self.assertIn("ei koskaan laillista myyntiä", stack["layers"][5]["outputFi"])
+
+    def test_german_bvl_supplement_is_sent_without_changing_country_queue(self) -> None:
+        self.assertEqual(len(self.program["supplementaryRequests"]), 1)
+        supplement = self.program["supplementaryRequests"][0]
+        self.assertEqual(supplement["requestId"], "DE-BVL-TABAKERZV25-ANNUAL-SALES")
+        self.assertEqual(supplement["countryIso2"], "DE")
+        self.assertIs(supplement["countsTowardCountryQueue"], False)
+        self.assertEqual(supplement["dispatch"], {
+            "state": "sent",
+            "sentOn": "2026-07-24",
+            "publicAuthorityReference": None,
+            "responseState": "not_publicly_recorded",
+        })
+        source_urls = {source["url"] for source in supplement["officialSources"]}
+        self.assertIn("https://www.gesetze-im-internet.de/tabakerzv/__25.html", source_urls)
+        self.assertIn(
+            "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/"
+            "03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/"
+            "01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html"
+            "?thema=Mitteilungspflicht",
+            source_urls,
+        )
+        self.assertEqual(
+            supplement["requestChannel"]["url"],
+            "https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html",
+        )
+        self.assertEqual(
+            sum(route["status"] == "sent" for route in self.program["routes"]),
+            12,
+        )
+        self.assertEqual(
+            sum(route["status"] == "draft_not_sent" for route in self.program["routes"]),
+            8,
+        )
+
+    def test_german_primary_customs_destatis_process_state_is_preserved(self) -> None:
+        germany = next(
+            route for route in self.program["routes"] if route["countryIso2"] == "DE"
+        )
+        self.assertEqual(germany["primaryAuthority"]["nameEn"], "German Customs and Federal Statistical Office")
+        self.assertIn("GENESIS table family 73411", germany["fallbackAuthority"]["nameEn"])
+        self.assertEqual(germany["dispatch"], {
+            "state": "sent",
+            "sentOn": "2026-07-23",
+            "publicAuthorityReference": None,
+            "responseState": "registered_and_processing_confirmed",
+        })
+
     def test_exact_process_response_states_are_public_and_non_substantive(self) -> None:
         expected = {
-            "DE": "receipt_and_ifg_forwarding_confirmed",
+            "DE": "registered_and_processing_confirmed",
             "FI": "registered_processing_notice_received",
             "DK": "automated_receipt_acknowledged",
             "SE": "automated_route_correction_received",
@@ -48,6 +115,57 @@ class DataRequestBoundaryTests(unittest.TestCase):
 
     def test_rejects_top_level_sent_flag(self) -> None:
         self.assert_rejected(lambda item: item.__setitem__("sent", True))
+
+    def test_rejects_wrong_state_universe_count(self) -> None:
+        self.assert_rejected(
+            lambda item: item["evidenceStack"].__setitem__("stateUniverseCount", 249)
+        )
+
+    def test_rejects_missing_evidence_layer(self) -> None:
+        self.assert_rejected(lambda item: item["evidenceStack"]["layers"].pop())
+
+    def test_rejects_reordered_evidence_layers(self) -> None:
+        def mutate(item) -> None:
+            layers = item["evidenceStack"]["layers"]
+            layers[0], layers[1] = layers[1], layers[0]
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_missing_to_zero_method_boundary(self) -> None:
+        self.assert_rejected(
+            lambda item: item["evidenceStack"].__setitem__(
+                "methodBoundaryEn",
+                "The six layers can be combined into a single total.",
+            )
+        )
+
+    def test_rejects_supplement_counted_as_another_country(self) -> None:
+        self.assert_rejected(
+            lambda item: item["supplementaryRequests"][0].__setitem__(
+                "countsTowardCountryQueue", True
+            )
+        )
+
+    def test_rejects_changed_bvl_dispatch_date(self) -> None:
+        self.assert_rejected(
+            lambda item: item["supplementaryRequests"][0]["dispatch"].__setitem__(
+                "sentOn", "2026-07-23"
+            )
+        )
+
+    def test_rejects_supplement_without_section_25_source(self) -> None:
+        self.assert_rejected(
+            lambda item: item["supplementaryRequests"][0]["officialSources"].pop(0)
+        )
+
+    def test_rejects_unapproved_second_supplement(self) -> None:
+        def mutate(item) -> None:
+            extra = copy.deepcopy(item["supplementaryRequests"][0])
+            extra["requestId"] = "CA-UNAPPROVED"
+            extra["countryIso2"] = "CA"
+            item["supplementaryRequests"].append(extra)
+
+        self.assert_rejected(mutate)
 
     def test_rejects_route_dispatched_flag(self) -> None:
         self.assert_rejected(lambda item: item["routes"][0].__setitem__("requestDispatched", True))

@@ -1065,6 +1065,12 @@ input::placeholder { color: #667c87; }
 }
 .vendor-response-state-not_submitted_terms_gate { border-color: rgba(242, 198, 109, .42); background: rgba(242, 198, 109, .07); color: var(--amber); }
 .vendor-response-state-submission_confirmed { border-color: rgba(110, 185, 239, .42); background: rgba(110, 185, 239, .07); color: var(--blue); }
+.vendor-response-narrative {
+  margin: .72rem 0 0;
+  color: var(--text-soft);
+  font-size: .62rem;
+  line-height: 1.52;
+}
 .vendor-response-score {
   margin: .8rem 0;
   display: grid;
@@ -1131,6 +1137,43 @@ input::placeholder { color: #667c87; }
 
 .request-program-section { scroll-margin-top: 132px; }
 .request-program-actions { margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: .55rem; }
+.request-program-stack {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(68, 212, 189, .24);
+  border-radius: var(--radius-small);
+  background: linear-gradient(145deg, rgba(14, 34, 45, .96), rgba(8, 21, 31, .96));
+}
+.request-program-stack-head {
+  margin-bottom: .8rem;
+  display: grid;
+  grid-template-columns: minmax(220px, .72fr) minmax(280px, 1.28fr);
+  gap: 1rem;
+  align-items: end;
+}
+.request-program-stack-head h3 { margin: .14rem 0 0; font-size: 1.06rem; }
+.request-program-stack-head > p { margin: 0; color: var(--text-soft); font-size: .68rem; line-height: 1.55; }
+.request-program-stack-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; }
+.request-program-stack-card {
+  min-width: 0;
+  padding: .78rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(255,255,255,.018);
+}
+.request-program-stack-order { color: var(--teal); font-family: var(--font-mono); font-size: .6rem; font-weight: 900; }
+.request-program-stack-card h4 { margin: .28rem 0 .4rem; color: var(--text-soft); font-size: .75rem; }
+.request-program-stack-card p { margin: 0 0 .5rem; color: var(--muted); font-size: .61rem; line-height: 1.48; }
+.request-program-stack-card small { display: block; color: var(--text-soft); font-size: .56rem; line-height: 1.45; }
+.request-program-stack-boundary {
+  margin: .75rem 0 0;
+  padding: .65rem .75rem;
+  border-left: 3px solid var(--amber);
+  color: var(--text-soft);
+  background: rgba(242, 198, 109, .045);
+  font-size: .62rem;
+  line-height: 1.5;
+}
 .request-program-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; }
 .request-program-card {
   min-width: 0;
@@ -1160,6 +1203,20 @@ input::placeholder { color: #667c87; }
 .request-program-source-links { padding-top: .5rem; display: grid; gap: .36rem; }
 .request-program-source-links a { color: var(--text-soft); font-size: .62rem; overflow-wrap: anywhere; }
 .request-program-link { margin-top: auto; }
+.request-program-supplement {
+  margin: 0 0 .8rem;
+  padding: .75rem;
+  border: 1px solid rgba(68, 212, 189, .3);
+  border-radius: 9px;
+  background: rgba(68, 212, 189, .035);
+}
+.request-program-supplement-head { margin-bottom: .55rem; display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+.request-program-supplement-label { color: var(--teal); font-size: .56rem; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+.request-program-supplement > strong { display: block; color: var(--text-soft); font-size: .72rem; line-height: 1.4; }
+.request-program-supplement-purpose { margin: .42rem 0 .65rem; color: var(--muted); font-size: .61rem; line-height: 1.47; }
+.request-program-supplement-meta { margin-bottom: .65rem; }
+.request-program-supplement-list { margin: .5rem 0 0; padding-left: 1rem; color: var(--text-soft); font-size: .59rem; line-height: 1.5; }
+.request-program-supplement-list li + li { margin-top: .3rem; }
 
 .bankability-section { scroll-margin-top: 132px; }
 .bankability-boundary {
@@ -2127,6 +2184,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .paid-data-package-grid { grid-template-columns: 1fr; }
   .vendor-response-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .vendor-response-grid, .vendor-response-method { grid-template-columns: 1fr; }
+  .request-program-stack-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .request-program-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .transaction-path-grid { grid-template-columns: 1fr; }
   .transaction-path-purpose { min-height: 0; }
@@ -2173,6 +2231,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .bank-package-card { min-height: 0; }
   .bank-package-card-description { min-height: 0; }
   .vendor-response-evidence { grid-template-columns: 1fr; }
+  .request-program-stack-head, .request-program-stack-grid { grid-template-columns: 1fr; }
   .request-program-grid { grid-template-columns: 1fr; }
   .request-program-rationale { min-height: 0; }
   .review-patent-proceedings { grid-template-columns: 1fr; }

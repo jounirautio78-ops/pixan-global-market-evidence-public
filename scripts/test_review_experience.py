@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v19 review-experience publication gates."""
+"""Mutation tests for the v20 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -112,6 +112,30 @@ class ReviewExperienceTests(unittest.TestCase):
         self.assert_data_rejected(
             requests=requests,
             needle="process response must not publish a private authority reference",
+        )
+
+    def test_rejects_legacy_request_programme_schema(self) -> None:
+        requests = copy.deepcopy(self.requests)
+        requests["schemaVersion"] = 2
+        self.assert_data_rejected(
+            requests=requests,
+            needle="schema version 3",
+        )
+
+    def test_rejects_missing_global_evidence_layer(self) -> None:
+        requests = copy.deepcopy(self.requests)
+        requests["evidenceStack"]["layers"].pop()
+        self.assert_data_rejected(
+            requests=requests,
+            needle="six-layer 195-state evidence stack",
+        )
+
+    def test_rejects_supplement_counted_as_another_country(self) -> None:
+        requests = copy.deepcopy(self.requests)
+        requests["supplementaryRequests"][0]["countsTowardCountryQueue"] = True
+        self.assert_data_rejected(
+            requests=requests,
+            needle="non-counting German BVL supplement",
         )
 
     def test_rejects_missing_cockpit_hook(self) -> None:
