@@ -75,6 +75,7 @@ from validate_vendor_response_control import (
     validate_source as validate_vendor_response_source,
 )
 from validate_review_experience import validate_all as validate_review_experience
+from validate_fx_rates import validate_all as validate_fx_rates
 
 
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
@@ -202,6 +203,14 @@ EXPECTED_SITE_FILES = {
     "site/data/vendor-response-control.csv",
     "site/data/market-values.json",
     "site/data/market-values.csv",
+    "site/data/evidence-lanes.json",
+    "site/data/donor-cockpit.json",
+    "site/data/country-scenarios.json",
+    "site/data/fx-rates.json",
+    "site/schemas/evidence-lanes.schema.json",
+    "site/schemas/donor-cockpit.schema.json",
+    "site/schemas/country-scenarios.schema.json",
+    "site/schemas/fx-rates.schema.json",
     "site/data/patent-history.json",
     "site/data/patent-family.csv",
     "site/downloads/pixan-bank-deck-short-fi.pptx",
@@ -257,6 +266,7 @@ MARKET_META_KEYS = {
 MARKET_EVIDENCE_STATUSES = {
     "official_observed",
     "official_provisional",
+    "official_table_derived",
     "derived_official_files",
     "institutional_supported",
     "commercial_estimate",
@@ -892,6 +902,11 @@ def validate_market_values(
             "https://www.intaste.de/tobacco-vanilla-nikotinsalz-revoltage-liquid",
             None,
         ),
+        "US-FTC-E-CIGARETTE-REPORT-2021": (
+            "official",
+            "https://www.ftc.gov/reports/e-cigarette-report-2021",
+            "https://www.ftc.gov/system/files/ftc_gov/pdf/E-CigaretteReportfor2021.pdf",
+        ),
     }
     source_by_id: dict[str, dict[str, Any]] = {}
     for index, item in enumerate(source_rows):
@@ -967,6 +982,13 @@ def validate_market_values(
         "DE-2026-RETAIL-PRICE-LOW-EUR-PER-ML": ("DE", 2026, "retail_price_input", 0.44, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
         "DE-2026-RETAIL-PRICE-BASE-EUR-PER-ML": ("DE", 2026, "retail_price_input", 0.79, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
         "DE-2026-RETAIL-PRICE-HIGH-EUR-PER-ML": ("DE", 2026, "retail_price_input", 1.09, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
+        "US-2015-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2015, "ftc_reported_cartridge_and_disposable_sales", 304170046, "USD", "official_table_derived", "sum_of_official_product_categories", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
+        "US-2016-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2016, "ftc_reported_cartridge_and_disposable_sales", 485707484, "USD", "official_table_derived", "sum_of_official_product_categories", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
+        "US-2017-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2017, "ftc_reported_cartridge_and_disposable_sales", 779836399, "USD", "official_table_derived", "sum_of_official_product_categories", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
+        "US-2018-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2018, "ftc_reported_cartridge_and_disposable_sales", 2043703005, "USD", "official_table_derived", "sum_of_official_product_categories", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
+        "US-2019-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2019, "ftc_reported_cartridge_and_disposable_sales", 2702608307, "USD", "official_table_derived", "corrected_official_table_sum", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
+        "US-2020-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2020, "ftc_reported_cartridge_and_disposable_sales", 2394423105, "USD", "official_table_derived", "corrected_and_expanded_official_table_sum", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
+        "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2021, "ftc_reported_cartridge_and_disposable_sales", 2763284338, "USD", "official_table_derived", "official_table_sum", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
     }
     for index, item in enumerate(observations):
         path = f"market observations[{index}]"
@@ -1056,6 +1078,25 @@ def validate_market_values(
                 errors.append(f"{path}: institutional secondary values must remain supported, non-observed benchmarks")
         if item.get("metric") == "retail_price_input" and item.get("evidenceStatus") != "published_price_input":
             errors.append(f"{path}: a retail listing must remain a price input, not observed market value")
+        if item.get("metric") == "ftc_reported_cartridge_and_disposable_sales":
+            if (
+                item.get("evidenceStatus") != "official_table_derived"
+                or item.get("productScope")
+                != "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system"
+                or item.get("marketValueBasis")
+                != "manufacturer_reported_sales_not_complete_consumer_retail_sell_through"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+                or item.get("sourceIds") != ["US-FTC-E-CIGARETTE-REPORT-2021"]
+            ):
+                errors.append(f"{path}: FTC series must remain a derived official-table manufacturer-sales route, not a donor")
+            if observation_id == "US-2020-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES" and (
+                "five prior recipients" not in str(item.get("limitationEn", ""))
+                or "three of the four first-time recipients" not in str(item.get("limitationEn", ""))
+            ):
+                errors.append(
+                    f"{path}: the 2020 FTC population must retain the five-prior plus three-of-four-new boundary"
+                )
         if observation_id == "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE":
             limitation = str(item.get("limitationEn", ""))
             if (
@@ -1099,6 +1140,13 @@ def validate_market_values(
         "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("vaping_component_sets_only", "PL-SEJM-I17526-O1"),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
         "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
+        "US-2015-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
+        "US-2016-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
+        "US-2017-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
+        "US-2018-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
+        "US-2019-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
+        "US-2020-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
+        "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
     }
     for observation_id, (product_scope, source_id) in expected_scope_sources.items():
         item = observations_by_id.get(observation_id, {})
@@ -1320,9 +1368,15 @@ def validate_market_values(
             {"D1", "D2", "D3", "D10"},
             {"D5", "D8"},
         ),
+        "US-2021-FTC-REPORTED-MANUFACTURER-SALES": (
+            "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+            {"D1", "D4", "D6", "D7", "D9"},
+            {"D2", "D3", "D5"},
+            {"D8", "D10"},
+        ),
     }
     if candidate_ids != set(expected_candidate_tests):
-        errors.append("donorCandidates must retain the four reviewed candidate tests")
+        errors.append("donorCandidates must retain the five reviewed candidate tests")
     for candidate_id, (reference_id, passed, failed, open_items) in expected_candidate_tests.items():
         candidate = candidate_by_id.get(candidate_id, {})
         actual = (
@@ -1958,6 +2012,7 @@ def main() -> None:
         validate_vendor_response_outputs(vendor_response_source, errors)
 
     errors.extend(validate_review_experience(ROOT))
+    errors.extend(validate_fx_rates(ROOT))
 
     scan_public_text("atlas", atlas, errors)
     scan_public_text("curated", curated, errors)

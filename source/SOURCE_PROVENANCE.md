@@ -43,6 +43,19 @@ Two public country links were corrected during human review rather than copied v
 
 Consequently, the public derivative hash proves the reviewed derivative, while the separate full-upstream hash proves the identity of the input. They are intentionally different records.
 
+## ECB annual-average EUR equivalents
+
+`source/fx-rates.json` is a separate, public-only conversion layer sourced from the European Central Bank’s official `EXR` dataset. It contains 14 annual-average spot-reference observations for the exact CAD, NZD, PLN, SEK and USD currency-year pairs used by the current annual monetary records. Every rate links to a year-bounded ECB Data API CSV query and records the review date `2026-07-24`.
+
+The ECB series key format is `EXR.A.<currency>.EUR.SP00.A`, and the quote is foreign-currency units per euro. The reproducible calculation is therefore `EUR equivalent = original monetary amount / currency units per EUR`. The source amount and source currency remain primary. Full published API `OBS_VALUE` precision is retained for the calculation; rounding occurs only when the browser displays the secondary EUR equivalent.
+
+The eligibility rule is deliberately narrow: the record must be a positive annual monetary total and its unit must equal its currency. Physical litres, product counts, tax rates and per-unit prices are not converted. If the annual period, official rate or FX dataset cannot be verified, the EUR result is `not_computed`; no commercial, unofficial or current spot substitute is used.
+
+- ECB EXR dataset metadata: <https://data.ecb.europa.eu/data/datasets/exr/data-information>
+- ECB reference-rate method and quote convention: <https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html>
+- Machine-readable reviewed layer: `source/fx-rates.json`
+- Public schema: `source/schemas/fx-rates.schema.json`
+
 ## Attribution, licence, and limits
 
 Marnet is credited for the upstream evidence-center source inventory. This project does not claim authorship of Marnet’s underlying work, and Marnet’s attribution does not imply approval of this project or its later transformations.

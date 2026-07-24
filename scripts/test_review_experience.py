@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v17 review-experience publication gates."""
+"""Mutation tests for the v18 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -20,6 +20,7 @@ class ReviewExperienceTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.atlas = load_json(DATA / "atlas.json")
         cls.market = load_json(DATA / "market-values.json")
+        cls.fx = load_json(DATA / "fx-rates.json")
         cls.patent = load_json(DATA / "patent-history.json")
         cls.requests = load_json(DATA / "top20-data-request-routes.json")
         cls.review_html = (SITE / "review.html").read_text(encoding="utf-8")
@@ -34,6 +35,7 @@ class ReviewExperienceTests(unittest.TestCase):
         market: dict | None = None,
         patent: dict | None = None,
         requests: dict | None = None,
+        fx: dict | None = None,
         needle: str,
     ) -> None:
         errors = validate_review_data(
@@ -41,12 +43,13 @@ class ReviewExperienceTests(unittest.TestCase):
             market or self.market,
             patent or self.patent,
             requests or self.requests,
+            fx if fx is not None else self.fx,
         )
         self.assertTrue(any(needle in error for error in errors), errors)
 
     def test_reviewed_baseline_passes(self) -> None:
         self.assertEqual(
-            validate_review_data(self.atlas, self.market, self.patent, self.requests),
+            validate_review_data(self.atlas, self.market, self.patent, self.requests, self.fx),
             [],
         )
         self.assertEqual(
@@ -114,12 +117,12 @@ class ReviewExperienceTests(unittest.TestCase):
     def test_rejects_missing_cockpit_hook(self) -> None:
         mutated = self.review_html.replace('id="decision-cockpit"', 'id="removed-cockpit"', 1)
         errors = validate_review_structure(mutated, self.index_html, self.review_js, self.i18n_js)
-        self.assertTrue(any("required v17 hooks" in error for error in errors), errors)
+        self.assertTrue(any("required v18 hooks" in error for error in errors), errors)
 
     def test_rejects_missing_donor_hook(self) -> None:
         mutated = self.index_html.replace('id="market-donor-ledger"', 'id="removed-donor-ledger"', 1)
         errors = validate_review_structure(self.review_html, mutated, self.review_js, self.i18n_js)
-        self.assertTrue(any("required v17 donor hooks" in error for error in errors), errors)
+        self.assertTrue(any("required v18 donor hooks" in error for error in errors), errors)
 
     def test_rejects_wall_clock_freshness(self) -> None:
         mutated = self.review_js.replace(
@@ -129,6 +132,45 @@ class ReviewExperienceTests(unittest.TestCase):
         )
         errors = validate_review_structure(self.review_html, self.index_html, mutated, self.i18n_js)
         self.assertTrue(any("Source freshness must be deterministic" in error for error in errors), errors)
+
+    def test_rejects_missing_current_market_card_hook(self) -> None:
+        mutated = self.review_js.replace(
+            "NZ-2024-RETAIL-RANGE",
+            "REMOVED-SCENARIO",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            mutated,
+            self.i18n_js,
+        )
+        self.assertTrue(any("required v18 reconciliation hook" in error for error in errors), errors)
+
+    def test_rejects_missing_nzd_2024_review_rate(self) -> None:
+        fx = copy.deepcopy(self.fx)
+        fx["rates"] = [
+            item for item in fx["rates"]
+            if not (item["currency"] == "NZD" and item["year"] == 2024)
+        ]
+        self.assert_data_rejected(
+            fx=fx,
+            needle="lacks required card rates",
+        )
+
+    def test_rejects_removed_review_eur_helper(self) -> None:
+        mutated = self.review_js.replace(
+            "function reviewEurEquivalentNode(",
+            "function removedReviewEurEquivalentNode(",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            mutated,
+            self.i18n_js,
+        )
+        self.assertTrue(any("reviewEurEquivalentNode" in error for error in errors), errors)
 
     def test_rejects_missing_view_translation(self) -> None:
         mutated = self.i18n_js.replace("Research Operations", "Removed operations label")

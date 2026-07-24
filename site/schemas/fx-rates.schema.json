@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/fx-rates.schema.json",
+  "title": "Pixan public ECB EUR-equivalent controls",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "asOf",
+    "targetCurrency",
+    "provider",
+    "calculationPolicy",
+    "rates"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "targetCurrency": {
+      "const": "EUR"
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "dataset",
+        "datasetUrl",
+        "methodologyUrl"
+      ],
+      "properties": {
+        "name": {
+          "const": "European Central Bank"
+        },
+        "dataset": {
+          "const": "EXR - Exchange Rates"
+        },
+        "datasetUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://data\\.ecb\\.europa\\.eu/"
+        },
+        "methodologyUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://www\\.ecb\\.europa\\.eu/"
+        }
+      }
+    },
+    "calculationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eligibleRecordPeriods",
+        "eligibleUnitRule",
+        "rateType",
+        "quoteConvention",
+        "formulaMachine",
+        "formulaEn",
+        "formulaFi",
+        "originalValueRuleEn",
+        "originalValueRuleFi",
+        "missingRateStatus",
+        "roundingRule"
+      ],
+      "properties": {
+        "eligibleRecordPeriods": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "calendar_year"
+            },
+            {
+              "const": "calendar_year_estimate"
+            }
+          ],
+          "items": false
+        },
+        "eligibleUnitRule": {
+          "const": "currency_must_equal_unit"
+        },
+        "rateType": {
+          "const": "annual_average_reference_rate"
+        },
+        "quoteConvention": {
+          "const": "currency_units_per_eur"
+        },
+        "formulaMachine": {
+          "const": "eur_equivalent = original_amount / currency_units_per_eur"
+        },
+        "formulaEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "formulaFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "originalValueRuleEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "originalValueRuleFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missingRateStatus": {
+          "const": "not_computed"
+        },
+        "roundingRule": {
+          "const": "calculate_with_full_published_obs_value_round_display_only"
+        }
+      }
+    },
+    "rates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/rate"
+      }
+    }
+  },
+  "$defs": {
+    "rate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rateId",
+        "seriesKey",
+        "currency",
+        "year",
+        "rateType",
+        "currencyUnitsPerEur",
+        "sourceUrl",
+        "reviewedAt",
+        "status"
+      ],
+      "properties": {
+        "rateId": {
+          "type": "string",
+          "pattern": "^ECB-EXR-A-[A-Z]{3}-EUR-SP00-A-[0-9]{4}$"
+        },
+        "seriesKey": {
+          "type": "string",
+          "pattern": "^EXR\\.A\\.[A-Z]{3}\\.EUR\\.SP00\\.A$"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "not": {
+            "const": "EUR"
+          }
+        },
+        "year": {
+          "type": "integer",
+          "minimum": 1999,
+          "maximum": 2100
+        },
+        "rateType": {
+          "const": "annual_average_reference_rate"
+        },
+        "currencyUnitsPerEur": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://data-api\\.ecb\\.europa\\.eu/service/data/EXR/"
+        },
+        "reviewedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "status": {
+          "const": "available"
+        }
+      }
+    }
+  }
+}

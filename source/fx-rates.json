@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "1.0",
+  "asOf": "2026-07-24",
+  "targetCurrency": "EUR",
+  "provider": {
+    "name": "European Central Bank",
+    "dataset": "EXR - Exchange Rates",
+    "datasetUrl": "https://data.ecb.europa.eu/data/datasets/exr/data-information",
+    "methodologyUrl": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+  },
+  "calculationPolicy": {
+    "eligibleRecordPeriods": [
+      "calendar_year",
+      "calendar_year_estimate"
+    ],
+    "eligibleUnitRule": "currency_must_equal_unit",
+    "rateType": "annual_average_reference_rate",
+    "quoteConvention": "currency_units_per_eur",
+    "formulaMachine": "eur_equivalent = original_amount / currency_units_per_eur",
+    "formulaEn": "EUR equivalent = original monetary amount divided by the ECB annual-average reference rate expressed as currency units per euro.",
+    "formulaFi": "EUR-vasta-arvo = alkuperäinen rahamäärä jaettuna ECB:n vuosikeskimääräisellä viitekurssilla, joka on ilmoitettu valuuttayksikköinä yhtä euroa kohti.",
+    "originalValueRuleEn": "The source value and source currency remain primary. The EUR figure is a secondary analytical equivalent, not an observed transaction value or a current spot conversion.",
+    "originalValueRuleFi": "Lähdearvo ja alkuperäinen valuutta säilyvät ensisijaisina. EUR-luku on toissijainen analyyttinen vasta-arvo, ei havaittu kauppa-arvo eikä nykyhetken spot-muunnos.",
+    "missingRateStatus": "not_computed",
+    "roundingRule": "calculate_with_full_published_obs_value_round_display_only"
+  },
+  "rates": [
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2015",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2015,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.109512890625,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2015&endPeriod=2015&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2016",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2016,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.1069031128405,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2016&endPeriod=2016&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2017",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2017,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.1296811764706,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2017&endPeriod=2017&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2018",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2018,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.1809545098039,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2018&endPeriod=2018&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2019",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2019,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.1194745098039,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2019&endPeriod=2019&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2020",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2020,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.1421961089494,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2020&endPeriod=2020&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2021",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2021,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.1827403100775,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2021&endPeriod=2021&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-USD-EUR-SP00-A-2025",
+      "seriesKey": "EXR.A.USD.EUR.SP00.A",
+      "currency": "USD",
+      "year": 2025,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.1299831372549,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2025&endPeriod=2025&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-CAD-EUR-SP00-A-2024",
+      "seriesKey": "EXR.A.CAD.EUR.SP00.A",
+      "currency": "CAD",
+      "year": 2024,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.482110546875,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-NZD-EUR-SP00-A-2022",
+      "seriesKey": "EXR.A.NZD.EUR.SP00.A",
+      "currency": "NZD",
+      "year": 2022,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.6582474708171,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.NZD.EUR.SP00.A?startPeriod=2022&endPeriod=2022&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-NZD-EUR-SP00-A-2023",
+      "seriesKey": "EXR.A.NZD.EUR.SP00.A",
+      "currency": "NZD",
+      "year": 2023,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.762151372549,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.NZD.EUR.SP00.A?startPeriod=2023&endPeriod=2023&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-NZD-EUR-SP00-A-2024",
+      "seriesKey": "EXR.A.NZD.EUR.SP00.A",
+      "currency": "NZD",
+      "year": 2024,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 1.788048828125,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.NZD.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-PLN-EUR-SP00-A-2025",
+      "seriesKey": "EXR.A.PLN.EUR.SP00.A",
+      "currency": "PLN",
+      "year": 2025,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 4.2396576470588,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.PLN.EUR.SP00.A?startPeriod=2025&endPeriod=2025&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-SEK-EUR-SP00-A-2024",
+      "seriesKey": "EXR.A.SEK.EUR.SP00.A",
+      "currency": "SEK",
+      "year": 2024,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 11.432519140625,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.SEK.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata",
+      "reviewedAt": "2026-07-24",
+      "status": "available"
+    }
+  ]
+}

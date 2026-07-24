@@ -6,8 +6,8 @@
     "status": "not_estimate_ready",
     "comparableFullYearMarketValueDonors": 0,
     "minimumRequiredDonors": 3,
-    "reasonEn": "New Zealand supplies an official 2024 specialist-retail lower bound, the European Commission publishes a supported 2023 EU benchmark, Canada supplies an official shipment-value proxy and Germany has a liquid-only model. None passes all ten donor criteria. A cross-country atlas estimate still requires at least three accepted donors plus regional and regulatory-archetype coverage.",
-    "reasonFi": "Uudesta-Seelannista on virallinen vuoden 2024 erikoisvähittäiskaupan alaraja, Euroopan komissio julkaisee tuetun vuoden 2023 EU-vertailuarvon, Kanadasta on virallinen toimitusarvon korvike ja Saksasta nestemalli. Yksikään ei täytä kaikkia kymmentä luovuttajaehtoa. Maiden välinen atlasestimaatti vaatii yhä vähintään kolme hyväksyttyä luovuttajaa sekä alue- ja sääntelytyyppien peiton."
+    "reasonEn": "New Zealand supplies an official 2024 specialist-retail lower bound and a supported retail sensitivity, the European Commission publishes a supported 2023 EU benchmark, Canada supplies an official shipment-value proxy, Germany has a liquid-only model and the United States has an official FTC manufacturer-reporting series. None passes all ten donor criteria. A cross-country atlas estimate still requires at least three accepted donors plus regional and regulatory-archetype coverage.",
+    "reasonFi": "Uudesta-Seelannista on virallinen vuoden 2024 erikoisvähittäiskaupan alaraja ja tuettu vähittäismyynnin herkkyyslaskelma, Euroopan komissio julkaisee tuetun vuoden 2023 EU-vertailuarvon, Kanadasta on virallinen toimitusarvon korvike, Saksasta nestemalli ja Yhdysvalloista virallinen FTC:n valmistajaraportointisarja. Yksikään ei täytä kaikkia kymmentä luovuttajaehtoa. Maiden välinen atlasestimaatti vaatii yhä vähintään kolme hyväksyttyä luovuttajaa sekä alue- ja sääntelytyyppien peiton."
   },
   "donorProtocol": {
     "protocolVersion": "1.0",
@@ -226,10 +226,44 @@
         "INTASTE-SAMURAI-2026",
         "INTASTE-REVOLTAGE-2026"
       ]
+    },
+    {
+      "candidateId": "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2021,
+      "referenceType": "observation",
+      "referenceId": "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "decision": "not_accepted",
+      "passedCriteria": [
+        "D1",
+        "D4",
+        "D6",
+        "D7",
+        "D9"
+      ],
+      "failedCriteria": [
+        "D2",
+        "D3",
+        "D5"
+      ],
+      "openCriteria": [
+        "D8",
+        "D10"
+      ],
+      "headlineEn": "FTC-reported cartridge-system and disposable manufacturer sales",
+      "headlineFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden valmistajamyynnit",
+      "decisionReasonEn": "The FTC series is an official and reproducible manufacturer-reporting route, but it is not complete consumer-retail sell-through. The reporting population changes after 2019, open-system products are excluded from this consistent series and the tax basis is not stated.",
+      "decisionReasonFi": "FTC:n sarja on virallinen ja toistettava valmistajaraportointireitti, mutta se ei ole täydellinen kuluttajavähittäismyynti. Raportoijajoukko muuttuu vuoden 2019 jälkeen, open-system-tuotteet jäävät tämän yhtenäisen sarjan ulkopuolelle eikä veroperustaa ilmoiteta.",
+      "nextEvidenceEn": "Reconcile the FTC series to a complete consumer-retail sell-through source with stable company and channel coverage, open-system inclusion and an explicit tax basis.",
+      "nextEvidenceFi": "Täsmäytä FTC-sarja täydelliseen kuluttajavähittäismyynnin lähteeseen, jossa yritys- ja kanavapeitto on vakaa, open-system-tuotteet sisältyvät ja veroperusta on yksiselitteinen.",
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ]
     }
   ],
-  "disclaimerEn": "Observed shipments, taxed volumes, excise receipts, commercial estimates, retail price inputs and modelled ranges are different measures. They must not be added or presented as one observed retail market value.",
-  "disclaimerFi": "Havaitut toimitukset, verotetut määrät, valmisteverotulot, kaupalliset arviot, vähittäishintasyötteet ja mallinnetut vaihteluvälit ovat eri mittareita. Niitä ei saa laskea yhteen tai esittää yhtenä havaittuna vähittäismarkkina-arvona.",
+  "disclaimerEn": "Manufacturer-reported sales, observed shipments, taxed volumes, excise receipts, commercial estimates, retail price inputs and modelled ranges are different measures. They must not be added or presented as one observed retail market value.",
+  "disclaimerFi": "Valmistajien raportoimat myynnit, havaitut toimitukset, verotetut määrät, valmisteverotulot, kaupalliset arviot, vähittäishintasyötteet ja mallinnetut vaihteluvälit ovat eri mittareita. Niitä ei saa laskea yhteen tai esittää yhtenä havaittuna vähittäismarkkina-arvona.",
   "sources": [
     {
       "sourceId": "CA-HC-VAPING-SALES-2024",
@@ -351,6 +385,14 @@
       "sourceKind": "retail_listing",
       "pageUrl": "https://www.intaste.de/tobacco-vanilla-nikotinsalz-revoltage-liquid",
       "retrievedAt": "2026-07-22"
+    },
+    {
+      "sourceId": "US-FTC-E-CIGARETTE-REPORT-2021",
+      "publisher": "Federal Trade Commission",
+      "sourceKind": "official",
+      "pageUrl": "https://www.ftc.gov/reports/e-cigarette-report-2021",
+      "downloadUrl": "https://www.ftc.gov/system/files/ftc_gov/pdf/E-CigaretteReportfor2021.pdf",
+      "retrievedAt": "2026-07-24"
     }
   ],
   "observations": [
@@ -1050,6 +1092,174 @@
       "labelFi": "Korkea vähittäishintasyöte: Revoltage Tobacco Vanilla -nikotiinisuola 10 ml",
       "limitationEn": "One online retailer listing observed in 2026; nicotine-strength variant price, product-specific and not a representative market average.",
       "limitationFi": "Yhden verkkokaupan vuoden 2026 nikotiinivahvuusvariantin tuotekohtainen hintahavainto; ei edustava markkinakeskiarvo."
+    },
+    {
+      "observationId": "US-2015-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2015,
+      "metric": "ftc_reported_cartridge_and_disposable_sales",
+      "value": 304170046,
+      "unit": "USD",
+      "currency": "USD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "sum_of_official_product_categories",
+      "productScope": "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system",
+      "marketValueBasis": "manufacturer_reported_sales_not_complete_consumer_retail_sell_through",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ],
+      "labelEn": "FTC-reported cartridge-system and disposable sales",
+      "labelFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden myynnit",
+      "limitationEn": "Arithmetic sum of the FTC table's cartridge-system and disposable categories for six then-leading manufacturers. Open-system products are excluded to retain a consistent subset. This is manufacturer-reported direct and indirect sales, not complete consumer-retail sell-through; channel completeness and tax basis are not established.",
+      "limitationFi": "FTC:n taulukon suljettujen järjestelmien ja kertakäyttötuotteiden luokkien aritmeettinen summa kuudelta silloiselta johtavalta valmistajalta. Open-system-tuotteet on rajattu pois yhtenäisen osajoukon säilyttämiseksi. Kyse on valmistajien raportoimasta suorasta ja epäsuorasta myynnistä, ei täydellisestä kuluttajavähittäismyynnistä; kanavapeittoa ja veroperustaa ei ole vahvistettu."
+    },
+    {
+      "observationId": "US-2016-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2016,
+      "metric": "ftc_reported_cartridge_and_disposable_sales",
+      "value": 485707484,
+      "unit": "USD",
+      "currency": "USD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "sum_of_official_product_categories",
+      "productScope": "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system",
+      "marketValueBasis": "manufacturer_reported_sales_not_complete_consumer_retail_sell_through",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ],
+      "labelEn": "FTC-reported cartridge-system and disposable sales",
+      "labelFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden myynnit",
+      "limitationEn": "Arithmetic sum of the FTC table's cartridge-system and disposable categories for six then-leading manufacturers. Open-system products are excluded to retain a consistent subset. This is manufacturer-reported direct and indirect sales, not complete consumer-retail sell-through; channel completeness and tax basis are not established.",
+      "limitationFi": "FTC:n taulukon suljettujen järjestelmien ja kertakäyttötuotteiden luokkien aritmeettinen summa kuudelta silloiselta johtavalta valmistajalta. Open-system-tuotteet on rajattu pois yhtenäisen osajoukon säilyttämiseksi. Kyse on valmistajien raportoimasta suorasta ja epäsuorasta myynnistä, ei täydellisestä kuluttajavähittäismyynnistä; kanavapeittoa ja veroperustaa ei ole vahvistettu."
+    },
+    {
+      "observationId": "US-2017-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2017,
+      "metric": "ftc_reported_cartridge_and_disposable_sales",
+      "value": 779836399,
+      "unit": "USD",
+      "currency": "USD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "sum_of_official_product_categories",
+      "productScope": "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system",
+      "marketValueBasis": "manufacturer_reported_sales_not_complete_consumer_retail_sell_through",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ],
+      "labelEn": "FTC-reported cartridge-system and disposable sales",
+      "labelFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden myynnit",
+      "limitationEn": "Arithmetic sum of the FTC table's cartridge-system and disposable categories for six then-leading manufacturers. Open-system products are excluded to retain a consistent subset. This is manufacturer-reported direct and indirect sales, not complete consumer-retail sell-through; channel completeness and tax basis are not established.",
+      "limitationFi": "FTC:n taulukon suljettujen järjestelmien ja kertakäyttötuotteiden luokkien aritmeettinen summa kuudelta silloiselta johtavalta valmistajalta. Open-system-tuotteet on rajattu pois yhtenäisen osajoukon säilyttämiseksi. Kyse on valmistajien raportoimasta suorasta ja epäsuorasta myynnistä, ei täydellisestä kuluttajavähittäismyynnistä; kanavapeittoa ja veroperustaa ei ole vahvistettu."
+    },
+    {
+      "observationId": "US-2018-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2018,
+      "metric": "ftc_reported_cartridge_and_disposable_sales",
+      "value": 2043703005,
+      "unit": "USD",
+      "currency": "USD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "sum_of_official_product_categories",
+      "productScope": "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system",
+      "marketValueBasis": "manufacturer_reported_sales_not_complete_consumer_retail_sell_through",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ],
+      "labelEn": "FTC-reported cartridge-system and disposable sales",
+      "labelFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden myynnit",
+      "limitationEn": "Arithmetic sum of the FTC table's cartridge-system and disposable categories for six then-leading manufacturers. Open-system products are excluded to retain a consistent subset. This is manufacturer-reported direct and indirect sales, not complete consumer-retail sell-through; channel completeness and tax basis are not established.",
+      "limitationFi": "FTC:n taulukon suljettujen järjestelmien ja kertakäyttötuotteiden luokkien aritmeettinen summa kuudelta silloiselta johtavalta valmistajalta. Open-system-tuotteet on rajattu pois yhtenäisen osajoukon säilyttämiseksi. Kyse on valmistajien raportoimasta suorasta ja epäsuorasta myynnistä, ei täydellisestä kuluttajavähittäismyynnistä; kanavapeittoa ja veroperustaa ei ole vahvistettu."
+    },
+    {
+      "observationId": "US-2019-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2019,
+      "metric": "ftc_reported_cartridge_and_disposable_sales",
+      "value": 2702608307,
+      "unit": "USD",
+      "currency": "USD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "corrected_official_table_sum",
+      "productScope": "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system",
+      "marketValueBasis": "manufacturer_reported_sales_not_complete_consumer_retail_sell_through",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ],
+      "labelEn": "FTC-reported cartridge-system and disposable sales",
+      "labelFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden myynnit",
+      "limitationEn": "Arithmetic sum of the corrected FTC table's cartridge-system and disposable categories for the five original reporting manufacturers still marketing e-cigarettes. Open-system products are excluded. The 2019 reporting population is not comparable with the expanded 2020–2021 population, so this is not a continuous complete-market series.",
+      "limitationFi": "Korjatun FTC-taulukon suljettujen järjestelmien ja kertakäyttötuotteiden luokkien aritmeettinen summa viideltä alkuperäiseltä edelleen sähkötupakkatuotteita markkinoineelta valmistajalta. Open-system-tuotteet on rajattu pois. Vuoden 2019 raportoijajoukko ei ole vertailukelpoinen laajennetun vuosien 2020–2021 joukon kanssa, joten kyse ei ole jatkuvasta koko markkinan sarjasta."
+    },
+    {
+      "observationId": "US-2020-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2020,
+      "metric": "ftc_reported_cartridge_and_disposable_sales",
+      "value": 2394423105,
+      "unit": "USD",
+      "currency": "USD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "corrected_and_expanded_official_table_sum",
+      "productScope": "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system",
+      "marketValueBasis": "manufacturer_reported_sales_not_complete_consumer_retail_sell_through",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ],
+      "labelEn": "FTC-reported cartridge-system and disposable sales",
+      "labelFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden myynnit",
+      "limitationEn": "Arithmetic sum of the corrected FTC table's cartridge-system and disposable categories. The 2020 table combines the five prior recipients with 2020 data from three of the four first-time recipients; all nine recipients are covered in 2021. Open-system products are excluded. The additional-company coverage means 2020 is not directly comparable with 2019, and this is not complete consumer-retail sell-through.",
+      "limitationFi": "Korjatun FTC-taulukon suljettujen järjestelmien ja kertakäyttötuotteiden luokkien aritmeettinen summa. Vuoden 2020 taulukko yhdistää viisi aiempaa vastaanottajaa niiden kolmen uuden vastaanottajan vuoden 2020 tietoihin, jotka neljästä uudesta vastaanottajasta pystyivät tiedot toimittamaan; vuonna 2021 mukana ovat kaikki yhdeksän vastaanottajaa. Open-system-tuotteet on rajattu pois. Lisäyritysten vuoksi vuosi 2020 ei ole suoraan vertailukelpoinen vuoden 2019 kanssa, eikä kyse ole täydellisestä kuluttajavähittäismyynnistä."
+    },
+    {
+      "observationId": "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
+      "countryIso2": "US",
+      "geography": "United States",
+      "year": 2021,
+      "metric": "ftc_reported_cartridge_and_disposable_sales",
+      "value": 2763284338,
+      "unit": "USD",
+      "currency": "USD",
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "official_table_sum",
+      "productScope": "cartridge_system_and_disposable_e_cigarette_products_excluding_open_system",
+      "marketValueBasis": "manufacturer_reported_sales_not_complete_consumer_retail_sell_through",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "US-FTC-E-CIGARETTE-REPORT-2021"
+      ],
+      "labelEn": "FTC-reported cartridge-system and disposable sales",
+      "labelFi": "FTC:lle raportoidut suljettujen järjestelmien ja kertakäyttötuotteiden myynnit",
+      "limitationEn": "Arithmetic sum of FTC-reported cartridge-system sales of USD 2,496,219,204 and disposable sales of USD 267,065,134 for nine leading manufacturers. Open-system products are excluded, tax basis is unstated and the result is not complete consumer-retail sell-through.",
+      "limitationFi": "FTC:lle raportoitujen yhdeksän johtavan valmistajan suljettujen järjestelmien 2 496 219 204 dollarin ja kertakäyttötuotteiden 267 065 134 dollarin myynnin aritmeettinen summa. Open-system-tuotteet on rajattu pois, veroperustaa ei ilmoiteta eikä tulos ole täydellinen kuluttajavähittäismyynti."
     }
   ],
   "models": [

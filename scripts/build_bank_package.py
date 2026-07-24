@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build the public, bilingual Pixan bank diligence package.
+"""Legacy validation entry point for the public Pixan bank package.
 
-The builder deliberately reads only the repository's sanitised public data in
-``site/data`` and the explicit public New Zealand reconciliation note. It must
-never be pointed at a private data room. Finnish OOXML outputs are rebuilt
-deterministically; reviewed English derivatives are bound to the same release
-and Finnish source hashes through a fail-closed lock.
+Version 18 and later OOXML artifacts are authored with
+``scripts/artifact-build/build_bank_package_artifacts.mjs`` and committed only
+after visual review. This compatibility entry point validates those committed
+artifacts without rewriting them, so older CI workflows remain fail closed.
+It must never be pointed at a private data room.
 """
 
 from __future__ import annotations
@@ -4196,23 +4196,20 @@ def build_all() -> dict[str, Any]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check-determinism", action="store_true", help="Build twice and verify stable artifact hashes.")
+    parser.add_argument(
+        "--check-determinism",
+        action="store_true",
+        help="Validate the committed artifact lock; CI compares file hashes externally.",
+    )
     args = parser.parse_args()
-    result = build_all()
-    if args.check_determinism:
-        first = {
-            path.name: sha256(path)
-            for path in (*OUTPUTS.values(), *EN_OUTPUTS.values(), CSV_OUTPUT, EN_CSV_OUTPUT, MANIFEST_OUTPUT)
-        }
-        result = build_all()
-        second = {
-            path.name: sha256(path)
-            for path in (*OUTPUTS.values(), *EN_OUTPUTS.values(), CSV_OUTPUT, EN_CSV_OUTPUT, MANIFEST_OUTPUT)
-        }
-        if first != second:
-            changed = sorted(name for name in first if first[name] != second[name])
-            raise AssertionError(f"Non-deterministic outputs: {changed}")
-    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+    from validate_bank_package import main as validate_committed_package
+
+    validate_committed_package()
+    print(json.dumps({
+        "artifactAuthoring": "scripts/artifact-build/build_bank_package_artifacts.mjs",
+        "determinismCheck": "committed-file-hash comparison" if args.check_determinism else "not_requested",
+        "mode": "validation_only",
+    }, ensure_ascii=False, sort_keys=True))
 
 
 if __name__ == "__main__":

@@ -16,6 +16,7 @@ __pycache__/
 htmlcov/
 .venv/
 venv/
+node_modules/
 
 # Local build and temporary output; site/ is intentionally tracked
 build/

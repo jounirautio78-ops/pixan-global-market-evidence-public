@@ -3,6 +3,45 @@
   "asOf": "2026-07-24",
   "releases": [
     {
+      "id": "2026-07-24-donor-conversion-cockpit-v18",
+      "version": "2026.07.24-18",
+      "publishedAt": "2026-07-24T11:53:14+03:00",
+      "titleEn": "Donor-conversion cockpit, New Zealand retail sensitivity and FTC series",
+      "titleFi": "Luovuttajamarkkinoiden ohjausnäkymä, Uuden-Seelannin vähittäisherkkyys ja FTC-sarja",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added a reproducible New Zealand 2024 identified-vaping retail sensitivity of NZD 533,662,383.68 / 641,811,687.89 / 731,175,792.50. It combines the specialist-retailer anchor with a general-retailer quantity-and-price model, excludes notifier supply-stage values and remains a supported model—not an observed national value or accepted donor.",
+          "textFi": "Lisättiin toistettava Uuden-Seelannin vuoden 2024 tunnistetun sähkötupakkavähittäismyynnin herkkyys 533 662 383,68 / 641 811 687,89 / 731 175 792,50 NZD. Se yhdistää erikoisvähittäiskaupan ankkurin yleisvähittäiskaupan määrä- ja hintamalliin, jättää ilmoittajien toimitusketjutason arvot pois ja säilyy tuettuna mallina—ei havaittuna kansallisena arvona tai hyväksyttynä luovuttajana."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Added the official-table-derived U.S. FTC cartridge-system-plus-disposable sales route for 2015–2021, ending at USD 2,763,284,338 in 2021. The record exposes the reporting-population break, open-system exclusion, manufacturer-reporting level and unstated tax basis, so it is not relabelled as complete consumer-retail sell-through.",
+          "textFi": "Lisättiin virallisista FTC-taulukoista johdettu Yhdysvaltain suljettujen järjestelmien ja kertakäyttötuotteiden myyntireitti vuosille 2015–2021; vuoden 2021 summa on 2 763 284 338 USD. Tietue näyttää raportoijajoukon katkoksen, open-system-tuotteiden rajauksen, valmistajaraportointitason ja ilmoittamattoman veroperustan, joten sitä ei nimetä uudelleen täydelliseksi kuluttajavähittäismyynniksi."
+        },
+        {
+          "category": "method",
+          "textEn": "Added three explicit evidence lanes, a source-linked D1–D10 donor-conversion cockpit and a country-year scenario lab. Missing or invalid inputs return not_computed rather than zero; a public global total remains blocked unless at least three donors and both coverage gates pass.",
+          "textFi": "Lisättiin kolme nimenomaista evidenssikaistaa, lähteistetty D1–D10-luovuttajamarkkinoiden ohjausnäkymä ja maa–vuosi-skenaariolaboratorio. Puuttuva tai virheellinen syöte palauttaa tilan not_computed eikä nollaa; julkinen maailman kokonaisluku pysyy estettynä, ellei vähintään kolme luovuttajaa ja molemmat peittoportit läpäise tarkistusta."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a fail-closed EUR comparison layer for every eligible monetary total. Original currencies remain primary; each secondary EUR figure uses the exact ECB EXR annual-average rate for the matching currency and year, exposes the formula and direct rate source, and returns not_computed when no compatible official rate exists. Physical quantities, tax rates and unit prices are not converted.",
+          "textFi": "Lisättiin varovaisuusperiaatteella toimiva EUR-vertailukerros jokaiselle kelpoiselle rahamäärälle. Alkuperäinen valuutta säilyy ensisijaisena; jokainen toissijainen EUR-luku käyttää täsmälleen oikean valuutan ja vuoden ECB EXR -vuosikeskiarvoa sekä näyttää kaavan ja suoran kurssilähteen. Jos yhteensopivaa virallista kurssia ei ole, tulos on not_computed. Fyysisiä määriä, verokantoja ja yksikköhintoja ei muunneta."
+        },
+        {
+          "category": "method",
+          "textEn": "Indexed all six official New Zealand 2023 annual-return workbooks and their integrity hashes. The Ministry's NZD 374 million minimum and 2,570 return count remain the only published aggregates; every new 2023 reconstruction is fail-closed as not_computed until the scope, quantity, duplication, supply-stage, tax and independent-reconciliation checks are complete.",
+          "textFi": "Indeksoitiin kaikki kuusi Uuden-Seelannin vuoden 2023 virallista vuosi-ilmoitustyökirjaa ja niiden eheystiivisteet. Ministeriön vähintään 374 miljoonan NZD:n luku ja 2 570 ilmoituksen määrä säilyvät ainoina julkaistuina koonteina; jokainen uusi vuoden 2023 rekonstruktio pysyy varovaisuusperiaatteella tilassa not_computed, kunnes rajaus-, määrä-, duplikaatti-, toimitusketju-, vero- ja riippumattoman täsmäytyksen tarkistukset valmistuvat."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Refreshed the bilingual lender/buyer package and Evidence Registers to the same release boundary. The public build contains only reviewed aggregates and methodology; respondent rows, business identifiers, private submissions and unlicensed data remain outside the repository.",
+          "textFi": "Päivitettiin kaksikielinen lainanantaja- ja ostajapaketti sekä evidenssirekisterit samaan julkaisuun. Julkinen versio sisältää vain tarkistetut koontiluvut ja menetelmät; vastaajarivit, yritystunnisteet, yksityiset toimitukset ja lisensoimaton data jäävät repositorion ulkopuolelle."
+        }
+      ]
+    },
+    {
       "id": "2026-07-24-donor-market-sprint-v17",
       "version": "2026.07.24-17",
       "publishedAt": "2026-07-24T01:12:32+03:00",

@@ -85,6 +85,8 @@ const REVIEW_MATRIX_DIMENSIONS = {
 
 let reviewData = null;
 let reviewMarketData = null;
+let reviewCountryScenarios = null;
+let reviewFxData = null;
 let reviewPatentData = null;
 let reviewChangelog = null;
 let reviewRequestData = null;
@@ -494,7 +496,11 @@ function renderReviewCalculationAudit(market) {
     direct.append(
       reviewNode("span", "calculation-kind", reviewL("FAKTA · virallinen suora proxy", "FACT · official direct proxy")),
       reviewNode("h3", "", reviewL("Kanada 2024 · valmistaja- ja maahantuojatoimitukset", "Canada 2024 · manufacturer/importer shipments")),
-      reviewNode("strong", "", reviewMarketFormat(canada.value, canada.currency)),
+      reviewNode("strong", "", reviewMarketFormat(canada.value, canada.currency))
+    );
+    const canadaEur = reviewEurEquivalentNode(canada);
+    if (canadaEur) direct.append(canadaEur);
+    direct.append(
       reviewNode("p", "", reviewIsFi() ? canada.limitationFi : canada.limitationEn),
       reviewObservationLink(canada, sourceMap)
     );
@@ -771,6 +777,208 @@ function reviewMarketFormat(value, currency) {
   }).format(number);
 }
 
+function assessReviewFxRates(data = reviewFxData) {
+  const policy = data?.calculationPolicy || {};
+  const datasetUrl = reviewUrl(data?.provider?.datasetUrl);
+  const methodologyUrl = reviewUrl(data?.provider?.methodologyUrl);
+  const eligiblePeriods = Array.isArray(policy.eligibleRecordPeriods)
+    ? policy.eligibleRecordPeriods
+    : [];
+  const policyValid = Boolean(
+    data?.schemaVersion === "1.0"
+    && data?.targetCurrency === "EUR"
+    && data?.provider?.name === "European Central Bank"
+    && datasetUrl
+    && new URL(datasetUrl).hostname === "data.ecb.europa.eu"
+    && methodologyUrl
+    && new URL(methodologyUrl).hostname === "www.ecb.europa.eu"
+    && eligiblePeriods.length === 2
+    && eligiblePeriods[0] === "calendar_year"
+    && eligiblePeriods[1] === "calendar_year_estimate"
+    && policy.eligibleUnitRule === "currency_must_equal_unit"
+    && policy.rateType === "annual_average_reference_rate"
+    && policy.quoteConvention === "currency_units_per_eur"
+    && policy.formulaMachine === "eur_equivalent = original_amount / currency_units_per_eur"
+    && policy.missingRateStatus === "not_computed"
+  );
+  const rateMap = new Map();
+  let recordsValid = Array.isArray(data?.rates) && data.rates.length > 0;
+  for (const rate of data?.rates || []) {
+    const currency = String(rate?.currency || "");
+    const year = Number(rate?.year);
+    const value = Number(rate?.currencyUnitsPerEur);
+    const sourceUrl = reviewUrl(rate?.sourceUrl);
+    const key = `${currency}:${year}`;
+    const valid = Boolean(
+      /^[A-Z]{3}$/.test(currency)
+      && currency !== "EUR"
+      && Number.isInteger(year)
+      && Number.isFinite(value)
+      && value > 0
+      && rate?.seriesKey === `EXR.A.${currency}.EUR.SP00.A`
+      && rate?.rateId === `ECB-EXR-A-${currency}-EUR-SP00-A-${year}`
+      && rate?.rateType === "annual_average_reference_rate"
+      && rate?.status === "available"
+      && sourceUrl
+      && new URL(sourceUrl).hostname === "data-api.ecb.europa.eu"
+      && !rateMap.has(key)
+    );
+    if (!valid) {
+      recordsValid = false;
+      continue;
+    }
+    rateMap.set(key, { ...rate, sourceUrl });
+  }
+  return {
+    valid: policyValid && recordsValid,
+    eligiblePeriods: new Set(eligiblePeriods),
+    rateMap: policyValid && recordsValid ? rateMap : new Map()
+  };
+}
+
+function assessReviewEurEquivalent(record) {
+  const value = Number(record?.value);
+  const currency = String(record?.currency || "");
+  const unit = String(record?.unit || "");
+  const year = Number(record?.year);
+  const period = String(record?.period || "");
+  if (!Number.isFinite(value) || value <= 0 || !/^[A-Z]{3}$/.test(currency) || unit !== currency) {
+    return { status: "ineligible", reason: "not_a_positive_monetary_total" };
+  }
+  if (currency === "EUR") return { status: "already_eur", eurValue: value };
+  const fx = assessReviewFxRates();
+  if (!fx.valid) return { status: "not_computed", reason: "fx_dataset_invalid_or_unavailable" };
+  if (!Number.isInteger(year) || !fx.eligiblePeriods.has(period)) {
+    return { status: "not_computed", reason: "period_not_compatible_with_annual_average" };
+  }
+  const rate = fx.rateMap.get(`${currency}:${year}`);
+  if (!rate) return { status: "not_computed", reason: "compatible_ecb_rate_missing" };
+  const eurValue = value / Number(rate.currencyUnitsPerEur);
+  if (!Number.isFinite(eurValue) || eurValue <= 0) {
+    return { status: "not_computed", reason: "conversion_not_finite" };
+  }
+  return { status: "computed", eurValue, rate };
+}
+
+function reviewEurEquivalentNode(record, prefix = "") {
+  const assessment = assessReviewEurEquivalent(record);
+  if (assessment.status === "ineligible" || assessment.status === "already_eur") return null;
+  const line = reviewNode("small", "eur-equivalent-line");
+  line.dataset.status = assessment.status;
+  const prefixText = prefix ? `${prefix}: ` : "";
+  if (assessment.status !== "computed") {
+    line.textContent = `${prefixText}${reviewL("EUR-vasta-arvo: not_computed", "EUR equivalent: not_computed")}`;
+    line.title = assessment.reason;
+    return line;
+  }
+  line.append(document.createTextNode(
+    `${prefixText}≈ ${reviewMarketFormat(assessment.eurValue, "EUR")} · `
+  ));
+  const source = reviewNode(
+    "a",
+    "eur-rate-link",
+    reviewL(`ECB-vuosikeskiarvo ${assessment.rate.year} ↗`, `ECB annual average ${assessment.rate.year} ↗`)
+  );
+  source.href = assessment.rate.sourceUrl;
+  source.target = "_blank";
+  source.rel = "noreferrer";
+  source.title = reviewL(
+    `${record.currency} per EUR ${Number(assessment.rate.currencyUnitsPerEur).toFixed(4)} · alkuperäinen määrä ÷ kurssi`,
+    `${record.currency} per EUR ${Number(assessment.rate.currencyUnitsPerEur).toFixed(4)} · original amount ÷ rate`
+  );
+  line.append(source);
+  return line;
+}
+
+function reviewFxDisclosureNode() {
+  const fx = assessReviewFxRates();
+  const box = reviewNode("div", "review-fx-disclosure");
+  if (!fx.valid) {
+    box.dataset.state = "error";
+    box.append(
+      reviewNode("strong", "", reviewL("EUR-vasta-arvot: not_computed", "EUR equivalents: not_computed")),
+      reviewNode("small", "", reviewL(
+        "ECB:n kurssiaineistoa ei voitu vahvistaa. Alkuperäisiä valuuttoja ei korvata eikä puuttuvia kursseja arvata.",
+        "The ECB rate dataset could not be verified. Original currencies are not replaced and missing rates are not inferred."
+      ))
+    );
+    return box;
+  }
+  box.dataset.state = "ready";
+  box.append(
+    reviewNode("strong", "", reviewL("EUR-vertailukerros", "EUR comparison layer")),
+    reviewNode("small", "", reviewL(
+      "Alkuperäinen valuutta on ensisijainen. EUR = alkuperäinen rahamäärä ÷ ECB:n vuosikeskiarvo (valuuttayksikköä per euro). Fyysisiä määriä, verokantoja ja yksikköhintoja ei muunneta; puuttuva kurssi merkitään not_computed.",
+      "Original currency is primary. EUR = original monetary amount ÷ ECB annual average (currency units per euro). Physical volumes, tax rates and unit prices are not converted; a missing rate is marked not_computed."
+    ))
+  );
+  const links = reviewNode("span", "review-fx-links");
+  for (const [label, url] of [
+    [reviewL("ECB EXR -aineisto ↗", "ECB EXR dataset ↗"), reviewFxData.provider.datasetUrl],
+    [reviewL("ECB:n viitekurssimenetelmä ↗", "ECB reference-rate method ↗"), reviewFxData.provider.methodologyUrl]
+  ]) {
+    const link = reviewNode("a", "", label);
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    links.append(link);
+  }
+  box.append(links);
+  return box;
+}
+
+function reviewScenarioComponentNode(record, scenarioKey) {
+  const component = record?.componentBreakdown?.[scenarioKey];
+  if (!component) return null;
+  const labels = {
+    low: reviewL("Matala", "Low"),
+    base: reviewL("Perus", "Base"),
+    high: reviewL("Korkea", "High")
+  };
+  const monetaryRecord = (value) => ({
+    value,
+    currency: record.currency,
+    unit: record.currency,
+    year: record.year,
+    period: "calendar_year"
+  });
+  const specialist = assessReviewEurEquivalent(monetaryRecord(component.specialistRetailNzd));
+  const general = assessReviewEurEquivalent(monetaryRecord(component.generalRetailRpsNzd));
+  const combined = assessReviewEurEquivalent(monetaryRecord(component.combinedNzd));
+  const group = reviewNode("div", "review-scenario-component");
+  group.append(reviewNode(
+    "code",
+    "",
+    `${labels[scenarioKey]}: ${record.currency} ${reviewNumber(component.specialistRetailNzd, 2)} + ${record.currency} ${reviewNumber(component.generalRetailRpsNzd, 2)} = ${record.currency} ${reviewNumber(component.combinedNzd, 2)}`
+  ));
+  if ([specialist, general, combined].some((item) => item.status !== "computed")) {
+    const line = reviewNode(
+      "small",
+      "eur-equivalent-line",
+      reviewL("EUR-komponentit: not_computed", "EUR components: not_computed")
+    );
+    line.dataset.status = "not_computed";
+    group.append(line);
+    return group;
+  }
+  const line = reviewNode("small", "eur-equivalent-line");
+  line.dataset.status = "computed";
+  line.append(document.createTextNode(
+    `≈ EUR ${reviewNumber(specialist.eurValue, 2)} + EUR ${reviewNumber(general.eurValue, 2)} = EUR ${reviewNumber(combined.eurValue, 2)} · `
+  ));
+  const source = reviewNode(
+    "a",
+    "eur-rate-link",
+    reviewL(`ECB-vuosikeskiarvo ${combined.rate.year} ↗`, `ECB annual average ${combined.rate.year} ↗`)
+  );
+  source.href = combined.rate.sourceUrl;
+  source.target = "_blank";
+  source.rel = "noreferrer";
+  line.append(source);
+  group.append(line);
+  return group;
+}
+
 function reviewDonorGeography(candidate) {
   const country = (reviewData?.countries || []).find((item) => item.iso2 === candidate?.countryIso2);
   if (country) return reviewIsFi() ? country.nameFi || country.name : country.name || country.nameFi;
@@ -952,27 +1160,87 @@ function renderReviewDonorLedger(market) {
   root.setAttribute("aria-busy", "false");
 }
 
+function reviewScenarioRange(record) {
+  const values = Object.fromEntries(["low", "base", "high"].map((key) => [
+    key,
+    Number(record?.inputs?.[key]?.value)
+  ]));
+  const sourcesValid = ["low", "base", "high"].every((key) => (
+    Array.isArray(record?.inputs?.[key]?.sourceIds)
+    && record.inputs[key].sourceIds.length > 0
+  ));
+  const valuesValid = ["low", "base", "high"].every(
+    (key) => Number.isFinite(values[key]) && values[key] > 0
+  );
+  const componentsValid = ["low", "base", "high"].every((key) => {
+    const component = record?.componentBreakdown?.[key];
+    const specialist = Number(component?.specialistRetailNzd);
+    const general = Number(component?.generalRetailRpsNzd);
+    const combined = Number(component?.combinedNzd);
+    return [specialist, general, combined].every((value) => Number.isFinite(value) && value > 0)
+      && Math.abs((specialist + general) - combined) < 0.01
+      && Math.abs(combined - values[key]) < 0.01;
+  });
+  return record?.declaredStatus === "computed"
+    && record?.evidenceStatus === "supported_model_not_observed_national_value"
+    && record?.accepted === false
+    && valuesValid
+    && componentsValid
+    && sourcesValid
+    && values.low <= values.base
+    && values.base <= values.high
+    ? values
+    : null;
+}
+
 function renderReviewMarket(market) {
   const observations = Array.isArray(market?.observations) ? market.observations : [];
   const models = Array.isArray(market?.models) ? market.models : [];
   const commercial = observations.filter((item) => item.metric === "commercial_market_estimate" && item.currency === "USD" && Number(item.year) === 2025);
   const newZealandLowerBound = observations.find((item) => item.observationId === "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND");
   const newZealandRawSum = observations.find((item) => item.observationId === "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM");
+  const newZealandScenarioRecord = (reviewCountryScenarios?.countryYearScenarios || []).find(
+    (item) => item.scenarioId === "NZ-2024-RETAIL-RANGE"
+  );
+  const newZealandScenario = reviewScenarioRange(newZealandScenarioRecord);
+  const ftc2021 = observations.find((item) => item.observationId === "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES");
   const euBenchmark = observations.find((item) => item.observationId === "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK");
   const canada = observations.find((item) => item.observationId === "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE");
   const germany = models.find((item) => item.modelId === "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE");
   const sourceMap = new Map((market?.sources || []).map((source) => [source.sourceId, source]));
-  const cards = commercial.map((item) => ({
-    label: reviewIsFi() ? item.labelFi : item.labelEn,
-    value: reviewMarketFormat(item.value, item.currency),
-    note: reviewIsFi() ? item.limitationFi : item.limitationEn,
-    url: reviewUrl(sourceMap.get(item.sourceIds?.[0])?.pageUrl)
-  }));
+  const cards = [];
+  if (newZealandScenario) {
+    cards.push({
+      label: reviewL("Uusi-Seelanti · 2024 tuettu vähittäisherkkyys", "New Zealand · 2024 supported retail sensitivity"),
+      value: `${reviewMarketFormat(newZealandScenario.low, newZealandScenarioRecord.currency)}–${reviewMarketFormat(newZealandScenario.high, newZealandScenarioRecord.currency)} · ${reviewL("perus", "base")} ${reviewMarketFormat(newZealandScenario.base, newZealandScenarioRecord.currency)}`,
+      note: reviewL(
+        "Tunnistettu sähkötupakkamyynti: erikoisvähittäiskaupan ankkuri + yleisvähittäiskaupan RPS-määrä- ja hintamalli. Tuettu malli, ei havaittu täydellinen kansallinen arvo eikä hyväksytty donor; GST, peitto ja riippumaton täsmäytys ovat avoimia.",
+        "Identified-vaping sales: specialist-retailer anchor plus a general-retailer RPS quantity-and-price model. Supported model—not an observed complete national value or accepted donor; GST, coverage and independent reconciliation remain open."
+      ),
+      scenarioComponents: newZealandScenarioRecord,
+      url: reviewUrl(sourceMap.get(newZealandScenarioRecord.sourceIds?.[0])?.pageUrl),
+      methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md"
+    });
+  }
+  if (ftc2021) {
+    cards.push({
+      label: reviewL("Yhdysvallat · 2021 FTC:n taulukoista johdettu reitti", "United States · 2021 FTC table-derived route"),
+      value: reviewMarketFormat(ftc2021.value, ftc2021.currency),
+      note: reviewL(
+        "Suljettujen järjestelmien ja kertakäyttötuotteiden valmistajaraportointi yhdeksältä johtavalta valmistajalta. Open-system-tuotteet puuttuvat, veroperustaa ei ilmoiteta eikä luku ole täydellinen kuluttajavähittäismyynti tai hyväksytty donor.",
+        "Manufacturer-reported cartridge-system and disposable sales from nine leading manufacturers. Open-system products are excluded, the tax basis is unstated, and the figure is neither complete consumer-retail sell-through nor an accepted donor."
+      ),
+      eurRecords: [{ record: ftc2021 }],
+      url: reviewUrl(sourceMap.get(ftc2021.sourceIds?.[0])?.pageUrl),
+      methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/US_FTC_2015_2021_REPORTED_SALES.md"
+    });
+  }
   cards.push(
     {
       label: reviewL("Uusi-Seelanti · 2024 virallisten tiedostojen täsmäytys", "New Zealand · 2024 official-file reconciliation"),
       value: newZealandRawSum ? reviewMarketFormat(newZealandRawSum.value, newZealandRawSum.currency) : "—",
       note: reviewL("29 virallista tiedostoa · raakasumma 280,685 milj. NZD täsmää viralliseen ≥280 milj. otsikkolukuun · toistuvien rivien herkkyys 264,561 milj. NZD; ei puhdistettu kansallinen arvo eikä luovuttajamarkkina", "29 official files · raw sum NZD 280.685m reconciles the official ≥NZD 280m headline · repeated-row sensitivity NZD 264.561m; not a cleaned national value or donor market"),
+      eurRecords: newZealandRawSum ? [{ record: newZealandRawSum }] : [],
       url: reviewUrl(sourceMap.get(newZealandLowerBound?.sourceIds?.[0])?.pageUrl),
       methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md"
     },
@@ -980,24 +1248,47 @@ function renderReviewMarket(market) {
       label: reviewL("Euroopan unioni · 2023 komission julkaisema vertailuarvo", "European Union · 2023 Commission-published benchmark"),
       value: euBenchmark ? reviewMarketFormat(euBenchmark.value, euBenchmark.currency) : "—",
       note: reviewL("Euromonitoriin ja ulkopuoliseen tutkimukseen perustuva toissijainen koonti; liitteen maadata ei kata Kyprosta, Luxemburgia ja Maltaa; ei virallinen havaittu luovuttajamarkkina", "Secondary compilation based on Euromonitor and an external study; the annex country data do not cover Cyprus, Luxembourg or Malta; not an official observed donor market"),
+      eurRecords: euBenchmark ? [{ record: euBenchmark }] : [],
       url: reviewUrl(sourceMap.get(euBenchmark?.sourceIds?.[0])?.pageUrl),
       methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/EU_2023_E_CIGARETTE_BENCHMARK_RECONCILIATION.md"
     },
     {
       label: reviewL("Kanada · 2024 virallinen toimitusarvo", "Canada · 2024 official shipment value"),
       value: canada ? reviewMarketFormat(canada.value, canada.currency) : "—",
-      note: reviewL("Valmistaja-/maahantuojatoimitukset tukulle ja vähittäiskaupalle; ei kuluttajamyynti", "Manufacturer/importer shipments to wholesale and retail; not consumer sales")
+      note: reviewL("Valmistaja-/maahantuojatoimitukset tukulle ja vähittäiskaupalle; ei kuluttajamyynti", "Manufacturer/importer shipments to wholesale and retail; not consumer sales"),
+      eurRecords: canada ? [{ record: canada }] : []
     },
     {
       label: reviewL("Saksa · 2025 nestemalli", "Germany · 2025 liquid model"),
       value: germany ? `${reviewMarketFormat(germany.low, germany.currency)}–${reviewMarketFormat(germany.high, germany.currency)}` : "—",
-      note: reviewL("Verotettu neste × 2026 hintakori; matala luottamus, ei laitteita", "Taxed liquid × 2026 price basket; low confidence, excludes devices")
+      note: reviewL("Verotettu neste × 2026 hintakori; matala luottamus, ei laitteita", "Taxed liquid × 2026 price basket; low confidence, excludes devices"),
+      eurRecords: []
     }
   );
+  cards.push(...commercial.map((item) => ({
+    label: reviewIsFi() ? item.labelFi : item.labelEn,
+    value: reviewMarketFormat(item.value, item.currency),
+    note: reviewIsFi() ? item.limitationFi : item.limitationEn,
+    eurRecords: [{ record: item }],
+    url: reviewUrl(sourceMap.get(item.sourceIds?.[0])?.pageUrl)
+  })));
   const host = reviewById("review-market-metrics");
   host.replaceChildren(...cards.map((item) => {
     const card = reviewNode("article", "panel review-market-card");
-    card.append(reviewNode("span", "kicker", item.label), reviewNode("strong", "", item.value), reviewNode("small", "", item.note));
+    card.append(reviewNode("span", "kicker", item.label), reviewNode("strong", "", item.value));
+    for (const descriptor of item.eurRecords || []) {
+      const eurLine = reviewEurEquivalentNode(descriptor.record, descriptor.label || "");
+      if (eurLine) card.append(eurLine);
+    }
+    if (item.scenarioComponents) {
+      const components = reviewNode("div", "review-scenario-components");
+      for (const key of ["low", "base", "high"]) {
+        const component = reviewScenarioComponentNode(item.scenarioComponents, key);
+        if (component) components.append(component);
+      }
+      card.append(components);
+    }
+    card.append(reviewNode("small", "", item.note));
     if (item.url) {
       const link = reviewNode("a", "", reviewL("Avaa julkaisijan lähde →", "Open publisher source →"));
       link.href = item.url;
@@ -1022,9 +1313,9 @@ function renderReviewMarket(market) {
     ? readiness.reasonFi || "Vahvistettuja, vertailukelpoisia koko vuoden luovuttajamarkkinoita ei vielä ole riittävästi maailmanestimaatin julkaisemiseen."
     : readiness.reasonEn || "There are not yet enough verified, comparable full-year donor markets to release a global atlas estimate.");
   const rule = reviewNode("p", "muted", reviewIsFi()
-    ? "Raha, verot, fyysiset määrät ja mallinnetut vaihteluvälit näytetään erikseen eikä niitä summata."
-    : "Monetary observations, excise, physical quantities and modelled ranges remain separate and are never added together.");
-  note.replaceChildren(status, explanation, rule);
+    ? "Raha, verot, fyysiset määrät ja mallinnetut vaihteluvälit näytetään erikseen eikä niitä summata. Alkuperäinen valuutta säilyy ensisijaisena; EUR-vastine on ECB:n vuosikeskiarvolla laskettu vertailuluku, ei spot-arvo."
+    : "Monetary observations, excise, physical quantities and modelled ranges remain separate and are never added together. Original currency remains primary; the EUR equivalent uses the ECB annual average and is not a spot value.");
+  note.replaceChildren(status, explanation, rule, reviewFxDisclosureNode());
   renderReviewDonorLedger(market);
 }
 
@@ -1556,9 +1847,11 @@ async function initReview() {
     if (reviewData) renderReview(reviewData);
   });
   try {
-    const [atlasResult, marketResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
+    const [atlasResult, marketResult, scenarioResult, fxResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
       fetch("data/atlas.json", { cache: "no-store" }),
       fetch("data/market-values.json", { cache: "no-store" }),
+      fetch("data/country-scenarios.json", { cache: "no-store" }),
+      fetch("data/fx-rates.json", { cache: "no-store" }),
       fetch("data/patent-history.json", { cache: "no-store" }),
       fetch("data/changelog.json", { cache: "no-store" }),
       fetch("data/top20-data-request-routes.json", { cache: "no-store" })
@@ -1578,6 +1871,26 @@ async function initReview() {
     } catch (error) {
       reviewMarketData = null;
       console.warn("Optional market-value dataset unavailable", error);
+    }
+
+    try {
+      if (scenarioResult.status !== "fulfilled" || !scenarioResult.value.ok) throw new Error(`HTTP ${scenarioResult.status === "fulfilled" ? scenarioResult.value.status : "network error"}`);
+      const scenarioData = await scenarioResult.value.json();
+      if (!Array.isArray(scenarioData.countryYearScenarios)) throw new Error("schema validation failed");
+      reviewCountryScenarios = scenarioData;
+    } catch (error) {
+      reviewCountryScenarios = null;
+      console.warn("Optional country-scenario dataset unavailable", error);
+    }
+
+    try {
+      if (fxResult.status !== "fulfilled" || !fxResult.value.ok) throw new Error(`HTTP ${fxResult.status === "fulfilled" ? fxResult.value.status : "network error"}`);
+      const fxData = await fxResult.value.json();
+      if (!assessReviewFxRates(fxData).valid) throw new Error("schema validation failed");
+      reviewFxData = fxData;
+    } catch (error) {
+      reviewFxData = null;
+      console.warn("Optional ECB FX dataset unavailable", error);
     }
 
     try {
