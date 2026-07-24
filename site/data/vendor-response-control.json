@@ -323,8 +323,8 @@
       "evidenceReceivedCount": 0,
       "mandatoryGatePassCount": 0,
       "product": "Passport Nicotine / e-vapour country series",
-      "publicStatusEn": "Two written responses and an 8-page brochure received. Quote, numerical-sample, Germany-evaluation and brand-field requests were sent on 2026-07-24. Euromonitor says it can provide samples, detailed answers and pricing after the role/access model is clarified; that clarification is pending and has not been sent. Pending: numerical Germany sample, written brand-field confirmation, price, method, coverage and written derived-output rights. The brochure's 100-country list is not confirmed e-vapour country-product coverage.",
-      "publicStatusFi": "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; täsmennys odottaa eikä sitä ole lähetetty. Odottavat: numeerinen Saksa-näyte, kirjallinen brändikenttävahvistus, hinta, menetelmä, peitto ja kirjalliset johdettujen tuotosten oikeudet. Esitteen 100 maan lista ei ole vahvistettu sähkötupakan maa–tuote-peitto.",
+      "publicStatusEn": "Two written responses and an 8-page brochure received. Quote, numerical-sample, Germany-evaluation and brand-field requests were sent on 2026-07-24. Euromonitor says it can provide samples, detailed answers and pricing after the role/access model is clarified; a role/access clarification was sent on 2026-07-24. Pending: numerical Germany sample, written brand-field confirmation, itemised price, method, country-product coverage matrix, licence and written derived-output rights. The brochure's 100-country list is not confirmed e-vapour country-product coverage. No score, purchase, fee or commitment is established.",
+      "publicStatusFi": "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; rooli- ja käyttömallin täsmennys lähetettiin 24.7.2026. Odottavat: numeerinen Saksa-näyte, kirjallinen brändikenttävahvistus, eritelty hinta, menetelmä, maa–tuote-peittomatriisi, lisenssi ja kirjalliset johdettujen tuotosten oikeudet. Esitteen 100 maan lista ei ole vahvistettu sähkötupakan maa–tuote-peitto. Pistemäärää, ostoa, maksua tai sitoumusta ei ole osoitettu.",
       "purchaseAuthorised": false,
       "receivedEvidence": {
         "coverageMatrix": false,
@@ -407,5 +407,5 @@
       "weightedScore": null
     }
   ],
-  "version": "2026.07.24-20"
+  "version": "2026.07.24-21"
 }

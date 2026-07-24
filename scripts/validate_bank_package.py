@@ -254,10 +254,10 @@ def validate_v18_market_bindings(errors: list[str]) -> None:
     observations = market.get("observations")
     sources = market.get("sources")
     if not isinstance(observations, list) or len(observations) != 43:
-        errors.append("v20 bank package requires exactly 43 market observations")
+        errors.append("v21 bank package requires exactly 43 market observations")
         return
     if not isinstance(sources, list) or len(sources) != 20:
-        errors.append("v20 bank package requires exactly 20 market sources")
+        errors.append("v21 bank package requires exactly 20 market sources")
     observation_by_id = {
         item.get("observationId"): item
         for item in observations
@@ -275,7 +275,7 @@ def validate_v18_market_bindings(errors: list[str]) -> None:
     if len(official) != 34 or {item["countryIso2"] for item in official} != {
         "CA", "DE", "FI", "NZ", "PL", "SE", "US"
     }:
-        errors.append("v20 bank package requires 34 official records across seven reviewed countries")
+        errors.append("v21 bank package requires 34 official records across seven reviewed countries")
 
     exact_observations = {
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": (
@@ -1146,11 +1146,11 @@ def validate_manifest(errors: list[str]) -> None:
     if manifest.get("asOf") != changelog.get("asOf"):
         errors.append("manifest asOf must match the public changelog")
     if (
-        expected_release.get("id") != "2026-07-24-global-authority-replication-v20"
-        or expected_release.get("version") != "2026.07.24-20"
+        expected_release.get("id") != "2026-07-24-euromonitor-access-clarification-v21"
+        or expected_release.get("version") != "2026.07.24-21"
         or manifest.get("asOf") != "2026-07-24"
     ):
-        errors.append("bank package must be locked to release 2026.07.24-20 as of 2026-07-24")
+        errors.append("bank package must be locked to release 2026.07.24-21 as of 2026-07-24")
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
         errors.append("manifest publicBoundary must contain exactly en and fi")
@@ -1239,7 +1239,7 @@ def validate_manifest(errors: list[str]) -> None:
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 53 for rows in csv_rows_by_language.values()):
-        errors.append("both v20 Evidence Registers must contain exactly 53 reviewed rows")
+        errors.append("both v21 Evidence Registers must contain exactly 53 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1344,7 +1344,7 @@ def validate_manifest(errors: list[str]) -> None:
                     "0/3",
                     "d1–d10",
                     "1,219 mrd cad",
-                    "2026.07.24-20",
+                    "2026.07.24-21",
                 )
                 if not is_english
                 else (
@@ -1356,7 +1356,7 @@ def validate_manifest(errors: list[str]) -> None:
                     "0/3",
                     "d1–d10",
                     "cad 1.219bn",
-                    "2026.07.24-20",
+                    "2026.07.24-21",
                 )
             )
             fx_markers = deck_fx_markers(

@@ -616,7 +616,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v20 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "Validated v21 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
         "waterfall, deterministic 20-source ledger, separated operations view and required UI hooks."
     )
 

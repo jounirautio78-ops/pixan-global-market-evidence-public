@@ -15,9 +15,9 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v20", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v20", "renders");
-const releaseVersion = "2026.07.24-20";
+const qaDir = path.join(repo, "tmp", "bank-v21", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v21", "renders");
+const releaseVersion = "2026.07.24-21";
 const artifactToolPackageUrl = new URL("../package.json", import.meta.resolve("@oai/artifact-tool"));
 const artifactToolPackage = JSON.parse(await fs.readFile(artifactToolPackageUrl, "utf8"));
 if (
@@ -152,7 +152,7 @@ const deckUpdates = {
     short: {
       shapes: {
         "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
-        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.24-20 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Ruotsin hallitus; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Ruotsin hallitus; FTC; European Commission; IMARC; GVR; Fortune",
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
         "sh/ih8ju9sn": "34",
         "sh/kbm987y5": "virallista vuosihavaintoa 7 maasta",
@@ -170,7 +170,7 @@ const deckUpdates = {
         "sh/cf2tcr61": "Tekninen ero on patenttivaatimuksissa",
         "sh/dcbud0ra": "Asiakkuus vaatii kolmen ostajaryhmän validoinnin",
         "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
-        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.24-20 · 2026-07-24 · Lähteet: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
         "sh/pc76hkr2": "34",
         "sh/h4bupgn6": "virallista vuosihavaintoa 7 maasta",
@@ -193,7 +193,7 @@ const deckUpdates = {
         "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
         "sh/0f2lgnmp": "Atlas kattaa 195 maata; ei markkina-arvoa",
         "sh/wbydknq1": "Kanadalla on retail- ja toimitusankkurit",
-        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.24-20 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "1,219 mrd CAD",
         "sh/c3e1gjyd": "kuluttajavähittäismyynti",
         "sh/a1wze9g7": "1,161 mrd CAD",
@@ -209,7 +209,7 @@ const deckUpdates = {
         "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
         "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
         "sh/8jup8rad": "90 päivää muuttaa aukot kontrolleiksi",
-        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.24-20 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
+        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
         "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 34 virallista vuosihavaintoa 7 maasta, mutta luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
         "sh/bq9orito": "Valitut viralliset reitit: 34 havaintoa 7 maasta",
         "sh/6hw3y9sb": "Nykyinen hyväksytty donor-portti on 0/3; kaikki 5 ehdokasta jäivät ulkopuolelle.",
@@ -231,7 +231,7 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": "Independent public evidence summary · 2026.07.24-20 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Swedish Government; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/doj29oba": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Swedish Government; FTC; European Commission; IMARC; GVR; Fortune",
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
         "sh/ih8ju9sn": "34",
         "sh/kbm987y5": "official annual observations from 7 countries",
@@ -243,7 +243,7 @@ const deckUpdates = {
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.24-20 · 2026-07-24 · Sources: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Market size remains a range — not a single value",
         "sh/pc76hkr2": "34",
         "sh/h4bupgn6": "official annual observations from 7 countries",
@@ -260,7 +260,7 @@ const deckUpdates = {
     large: {
       shapes: {
         "sh/wbydknq1": "Canada has retail and shipment anchors",
-        "sh/5grehs7i": "Independent public evidence summary · 2026.07.24-20 · 2026-07-24 · Sources: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "CAD 1.219bn",
         "sh/c3e1gjyd": "consumer retail sales",
         "sh/a1wze9g7": "CAD 1.161bn",
@@ -269,7 +269,7 @@ const deckUpdates = {
         "sh/y5wjitgj": "plus 1.252m litres",
         "sh/z650byxo": "Retail exceeds shipments by CAD 58.4m (+5.03%); quality, channel, scope and tax gaps keep Canada outside the donor count.",
         "sh/hsvy50re": "Statistics Canada retail and Health Canada shipments are separate transaction levels. All 2024 RCS quarters are quality E; the bridge remains unresolved.",
-        "sh/21gnuts7": "Independent public evidence summary · 2026.07.24-20 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
+        "sh/21gnuts7": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
         "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 34 official annual observations from 7 countries, but the donor gate is 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
         "sh/bq9orito": "Selected official routes: 34 observations across 7 countries",
         "sh/6hw3y9sb": "The current accepted-donor gate is 0/3; all 5 candidates remain outside the count.",
@@ -1506,11 +1506,11 @@ async function writeReleaseLocks(artifacts) {
   const changelog = JSON.parse(await fs.readFile(path.join(dataDir, "changelog.json"), "utf8"));
   const release = changelog.releases?.[0];
   if (
-    release?.id !== "2026-07-24-global-authority-replication-v20"
+    release?.id !== "2026-07-24-euromonitor-access-clarification-v21"
     || release?.version !== releaseVersion
     || changelog.asOf !== "2026-07-24"
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v20 release");
+    throw new Error("The public changelog is not locked to the reviewed v21 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -1579,7 +1579,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 34 official observations across seven countries, five donor candidates, Canada retail series, New Zealand retail sensitivity and FTC route share one v20 release boundary. The v20 request-stack and vendor-gate updates add method and process controls, not a new market observation or accepted donor.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 34 official observations across seven countries, five donor candidates, Canada retail series, New Zealand retail sensitivity and FTC route share one v21 release boundary. The v21 Euromonitor role/access status update is an administrative outreach checkpoint, not a new market observation, accepted donor, vendor score or purchase authorisation.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,

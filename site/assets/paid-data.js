@@ -48,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.24-20"
+      || raw.version !== "2026.07.24-21"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -123,8 +123,8 @@
         "No response · follow-up 28 Jul"
       ),
       written_response_brochure_received_quote_request_sent: l(
-        "Vastaus saatu · Saksa-näyte ja brändikentät pyydetty",
-        "Response received · Germany sample and brand fields requested"
+        "Vastaus saatu · käyttömallin täsmennys lähetetty · näyte odottaa",
+        "Response received · access clarification sent · sample pending"
       ),
       blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
       submitted_confirmation_received: l("Vastaanotto vahvistettu", "Submission confirmed")
