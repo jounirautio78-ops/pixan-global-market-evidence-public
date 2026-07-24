@@ -43,6 +43,16 @@ Two public country links were corrected during human review rather than copied v
 
 Consequently, the public derivative hash proves the reviewed derivative, while the separate full-upstream hash proves the identity of the input. They are intentionally different records.
 
+## Sweden FHM official-response aggregate
+
+`source/market-observations.json` contains 36 official Swedish registration-structure observations for 2018–2026: reporting entities, notified products, active products and withdrawn products. The Public Health Agency of Sweden supplied the aggregate table in an official public-record response received on 24 July 2026.
+
+The contextual public source is FHM's canonical guidance page for [electronic cigarettes and refill containers](https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/). The exact historical aggregate was supplied in an authority workbook and is not reproduced by the current public product list. The workbook and correspondence remain outside this public repository; no sender, recipient, message identifier or other correspondence metadata is published.
+
+The reviewed table and field mapping are documented in `source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md`. For every year, notified products equal active plus withdrawn products. The 2018–2025 years are authority-supplied labels, not assumed calendar-year flows or year-end snapshots. The 2026 values are explicitly a current snapshot as of 24 July 2026, not a completed annual total.
+
+These records are structural counts only. They are not annual sales, sold device units, sold liquid volume, market value, market share or donor evidence. They have no currency and are ineligible for both EUR conversion and the donor count.
+
 ## ECB annual-average EUR equivalents
 
 `source/fx-rates.json` is a separate, public-only conversion layer sourced from the European Central Bank’s official `EXR` dataset. It contains 20 annual-average spot-reference observations for the exact CAD, NZD, PLN, SEK and USD currency-year pairs used by the current annual monetary records. Every rate links to a year-bounded ECB Data API CSV query and records the review date `2026-07-24`.

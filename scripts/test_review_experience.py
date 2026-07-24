@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v20 review-experience publication gates."""
+"""Mutation tests for the v22 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -27,6 +27,8 @@ class ReviewExperienceTests(unittest.TestCase):
         cls.index_html = (SITE / "index.html").read_text(encoding="utf-8")
         cls.review_js = (SITE / "assets" / "review.js").read_text(encoding="utf-8")
         cls.i18n_js = (SITE / "assets" / "i18n.js").read_text(encoding="utf-8")
+        cls.request_program_js = (SITE / "assets" / "request-program.js").read_text(encoding="utf-8")
+        cls.app_js = (SITE / "assets" / "app.js").read_text(encoding="utf-8")
 
     def assert_data_rejected(
         self,
@@ -53,9 +55,48 @@ class ReviewExperienceTests(unittest.TestCase):
             [],
         )
         self.assertEqual(
-            validate_review_structure(self.review_html, self.index_html, self.review_js, self.i18n_js),
+            validate_review_structure(
+                self.review_html,
+                self.index_html,
+                self.review_js,
+                self.i18n_js,
+                self.request_program_js,
+                self.app_js,
+            ),
             [],
         )
+
+    def test_rejects_missing_sweden_structure_card(self) -> None:
+        mutated = self.review_html.replace(
+            'id="sweden-structure-card"',
+            'id="removed-sweden-structure-card"',
+            1,
+        )
+        errors = validate_review_structure(
+            mutated,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+        )
+        self.assertTrue(any("required v18 hooks" in error for error in errors), errors)
+
+    def test_rejects_sweden_structure_without_sales_boundary(self) -> None:
+        mutated = self.request_program_js.replace(
+            "does not measure sales, market value, devices sold, e-liquid millilitres",
+            "contains market information",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            mutated,
+            self.app_js,
+        )
+        self.assertTrue(any("Sweden hook" in error for error in errors), errors)
 
     def test_rejects_relabelled_consumer_retail_value(self) -> None:
         market = copy.deepcopy(self.market)
@@ -111,7 +152,7 @@ class ReviewExperienceTests(unittest.TestCase):
         germany["dispatch"]["publicAuthorityReference"] = "private-ticket"
         self.assert_data_rejected(
             requests=requests,
-            needle="process response must not publish a private authority reference",
+            needle="authority response must not publish a private reference",
         )
 
     def test_rejects_legacy_request_programme_schema(self) -> None:

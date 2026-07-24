@@ -97,7 +97,6 @@ class DataRequestBoundaryTests(unittest.TestCase):
             "DE": "registered_and_processing_confirmed",
             "FI": "registered_processing_notice_received",
             "DK": "automated_receipt_acknowledged",
-            "SE": "automated_route_correction_received",
         }
         actual = {
             route["countryIso2"]: route["dispatch"]["responseState"]
@@ -112,6 +111,25 @@ class DataRequestBoundaryTests(unittest.TestCase):
         ))
         self.assertIn("substantive data", self.program["independenceNoticeEn"])
         self.assertIn("sisällöllisenä datana", self.program["independenceNoticeFi"])
+
+    def test_sweden_response_is_structural_data_with_sales_unavailable(self) -> None:
+        sweden = next(
+            route for route in self.program["routes"] if route["countryIso2"] == "SE"
+        )
+        self.assertEqual(sweden["dispatch"], {
+            "state": "sent",
+            "sentOn": "2026-07-23",
+            "publicAuthorityReference": None,
+            "responseState": "official_structural_data_received_sales_not_available",
+        })
+        self.assertIn(
+            "official aggregate registration-structure counts",
+            self.program["independenceNoticeEn"],
+        )
+        self.assertIn("not annual sales", self.program["independenceNoticeEn"])
+        self.assertIn("donor evidence", self.program["independenceNoticeEn"])
+        self.assertIn("ei vuosimyynnistä", self.program["independenceNoticeFi"])
+        self.assertIn("luovuttajaevidenssistä", self.program["independenceNoticeFi"])
 
     def test_rejects_top_level_sent_flag(self) -> None:
         self.assert_rejected(lambda item: item.__setitem__("sent", True))
@@ -247,6 +265,35 @@ class DataRequestBoundaryTests(unittest.TestCase):
         def mutate(item) -> None:
             route = next(route for route in item["routes"] if route["countryIso2"] == "FI")
             route["dispatch"]["publicAuthorityReference"] = "DIARY 12345"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_structural_response_reference_even_if_format_looks_public(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "SE")
+            route["dispatch"]["publicAuthorityReference"] = "DIARY 67890"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_sweden_response_relabelled_as_sales_data(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "SE")
+            route["dispatch"]["responseState"] = "official_annual_sales_data_received"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_missing_sweden_sales_boundary(self) -> None:
+        self.assert_rejected(
+            lambda item: item.__setitem__(
+                "independenceNoticeEn",
+                item["independenceNoticeEn"].replace("not annual sales", "annual sales"),
+            )
+        )
+
+    def test_rejects_missing_sweden_public_context_source(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "SE")
+            route["officialSources"].pop()
 
         self.assert_rejected(mutate)
 

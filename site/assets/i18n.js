@@ -3,6 +3,25 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
+  const UI_RELEASE_V22 = Object.freeze({
+    id: "2026-07-24-sweden-registration-structure-v22",
+    version: "2026.07.24-22",
+    publishedAt: "2026-07-24T17:30:06+03:00",
+    titleEn: "Sweden official registration-structure response",
+    titleFi: "Ruotsin virallinen rekisterirakennevastaus",
+    items: Object.freeze([
+      Object.freeze({
+        category: "market_data",
+        textEn: "Added the official 2018–2026 Sweden series for reporting actors and notified, active and withdrawn products. The 2026 row is a snapshot; the series is not sales, value or volume evidence.",
+        textFi: "Lisättiin Ruotsin virallinen vuosien 2018–2026 sarja raportoivista toimijoista sekä ilmoitetuista, aktiivisista ja poistetuista tuotteista. Vuoden 2026 rivi on tilannekuva; sarja ei ole myynti-, arvo- tai volyymievidenssiä."
+      }),
+      Object.freeze({
+        category: "operations",
+        textEn: "Authority-response status now separates three process-only responses, one official structural response and zero sales-data responses. The donor gate and global total remain unchanged.",
+        textFi: "Viranomaisvastausten tila erottaa nyt kolme vain prosessia koskevaa vastausta, yhden virallisen rakennevastauksen ja nolla myyntidatavastausta. Donor-portti ja maailman kokonaisluku eivät muutu."
+      })
+    ])
+  });
 
   const STATIC_PAIRS = [
     ["Siirry sisältöön", "Skip to content"],
@@ -448,8 +467,8 @@
     ["Tarkistetut viralliset reitit olemassa olevien aggregoitujen myynti-, valmistevero-, tulli- ja tuoteilmoitustietojen pyytämiseksi. Järjestys on operatiivinen — ei markkinakokoluokitus.", "Verified official routes for existing aggregate sales, excise, customs and product-notification records. The ranking is operational—not a market-size ranking."],
     ["Tietopyyntöjen tilarajaus", "Data-request status boundary"],
     ["TILA", "STATUS"],
-    ["12 lähetetty · 8 luonnosta · 4 prosessivastausta · 0 sisällöllistä viranomaisdatavastausta", "12 sent · 8 drafts · 4 process responses · 0 substantive authority-data responses"],
-    ["Julkinen seuranta sisältää tietosuojatut kategoriset prosessitilat neljälle maareitille. Vastaanottokuittaukset, diaarimerkinnät, reititysilmoitukset, reittikorjaukset, viiveilmoitukset ja mahdollista maksua koskevat ilmoitukset eivät ole sisällöllisiä datavastauksia eivätkä osoita markkina-arvoa. Maksua ei ole hyväksytty. Ladattavat mallit säilyvät LUONNOS — EI LÄHETETTY -tilassa.", "Public tracking includes privacy-safe categorical process states for four country routes. Acknowledgements, diary entries, routing notices, route corrections, delay notices and possible-fee notices are not substantive data responses and do not establish a market value. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."],
+    ["12 lähetetty · 8 luonnosta · 1 täydentävä Saksan reitti · 3 vain prosessivastausta · 1 virallinen rakennevastaus · 0 myyntidatavastausta", "12 sent · 8 drafts · 1 supplementary German route · 3 process-only responses · 1 official structural response · 0 sales-data responses"],
+    ["Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Se ei ole myynti-, arvo- tai volyymievidenssiä, ja vuoden 2026 rivi on snapshot. Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata. Maksua ei ole hyväksytty. Ladattavat mallit säilyvät LUONNOS — EI LÄHETETTY -tilassa.", "The Sweden response contains official registration-structure counts only. It is not sales, value or volume evidence, and the 2026 row is a snapshot. The supplementary BVL request belongs to Germany and adds no country. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."],
     ["Lataa reittitaulukko CSV", "Download route table CSV"],
     ["Lataa englanninkielinen pyyntömalli", "Download English request template"],
     ["Lataa suomenkielinen pyyntömalli", "Download Finnish request template"],
@@ -659,6 +678,7 @@
     localizeLinks,
     languageUrl
   };
+  window.PixanUiRelease = UI_RELEASE_V22;
 
   init();
 })();

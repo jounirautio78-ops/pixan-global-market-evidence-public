@@ -37,6 +37,26 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
+RELEASE_ID = "2026-07-24-sweden-registration-structure-v22"
+RELEASE_VERSION = "2026.07.24-22"
+FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
+FHM_SOURCE_URL = (
+    "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
+    "tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/"
+    "elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/"
+)
+SWEDEN_STRUCTURE_BASIS = "official_registration_structure_count_not_sales_or_market_value"
+SWEDEN_STRUCTURE_METRICS = {
+    "reporting_entities_count": "REPORTING-ENTITIES",
+    "notified_products_count": "NOTIFIED-PRODUCTS",
+    "active_products_count": "ACTIVE-PRODUCTS",
+    "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
+}
+EXPECTED_MARKET_OBSERVATIONS = 79
+EXPECTED_MARKET_SOURCES = 21
+EXPECTED_OFFICIAL_OBSERVATIONS = 70
+EXPECTED_OFFICIAL_MARKET_MEASURES = 34
+EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
     "Väite",
@@ -99,11 +119,9 @@ EUR_EQUIVALENT_HEADERS = {
 EUR_EQUIVALENT_SHEET_NAMES = {"fi": "Eurovastineet", "en": "EUR equivalents"}
 EXPECTED_TEMPLATE_INPUTS = {
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
-    "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-en.pptx",
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
     "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-en.xlsx",
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-fi.pptx",
-    "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-fi.pptx",
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-fi.pptx",
     "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-fi.xlsx",
 }
@@ -128,6 +146,7 @@ EXPECTED_INPUTS = {
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
+    "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
 }
 EXPECTED_ARTIFACTS = {
     "short-deck-fi": {
@@ -135,12 +154,6 @@ EXPECTED_ARTIFACTS = {
         "language": "fi",
         "path": "downloads/pixan-bank-deck-short-fi.pptx",
         "slideCount": 6,
-    },
-    "medium-deck-fi": {
-        "kind": "pptx",
-        "language": "fi",
-        "path": "downloads/pixan-bank-deck-medium-fi.pptx",
-        "slideCount": 12,
     },
     "large-deck-fi": {
         "kind": "pptx",
@@ -159,12 +172,6 @@ EXPECTED_ARTIFACTS = {
         "path": "downloads/pixan-bank-deck-short-en.pptx",
         "slideCount": 6,
     },
-    "medium-deck-en": {
-        "kind": "pptx",
-        "language": "en",
-        "path": "downloads/pixan-bank-deck-medium-en.pptx",
-        "slideCount": 12,
-    },
     "large-deck-en": {
         "kind": "pptx",
         "language": "en",
@@ -177,34 +184,6 @@ EXPECTED_ARTIFACTS = {
         "path": "downloads/pixan-bank-evidence-register-en.xlsx",
     },
 }
-MEDIUM_SECTION_TITLES = [
-    "rahoitusteesi",
-    "ongelma",
-    "patentoitu ratkaisu",
-    "patentti ja ip-status",
-    "tekninen erottautuminen",
-    "markkinan koko ja rajaus",
-    "asiakkaat ja ostoperuste",
-    "kilpailu ja vaihtoehdot",
-    "validointi ja nykyinen näyttö",
-    "kaupallistamismalli",
-    "taloudellinen malli ja herkkyydet",
-    "riskit, hallintatoimet ja seuraavat vaiheet",
-]
-EN_MEDIUM_SECTION_TITLES = [
-    "financing thesis",
-    "problem",
-    "patented solution",
-    "patent and ip status",
-    "technical differentiation",
-    "market size and scope",
-    "customers and purchase rationale",
-    "competition and alternatives",
-    "validation and current evidence",
-    "commercialisation model",
-    "financial model and sensitivities",
-    "risks, controls and next steps",
-]
 FORBIDDEN_TEXT = (
     "/users/",
     "\\users\\",
@@ -245,7 +224,7 @@ SENSITIVE_QUERY_KEYS = {
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-def validate_v18_market_bindings(errors: list[str]) -> None:
+def validate_v22_market_bindings(errors: list[str]) -> None:
     try:
         market = load_json(MARKET_VALUES_PATH)
     except ValueError as error:
@@ -253,11 +232,24 @@ def validate_v18_market_bindings(errors: list[str]) -> None:
         return
     observations = market.get("observations")
     sources = market.get("sources")
-    if not isinstance(observations, list) or len(observations) != 43:
-        errors.append("v21 bank package requires exactly 43 market observations")
+    if not isinstance(observations, list) or len(observations) != EXPECTED_MARKET_OBSERVATIONS:
+        errors.append(
+            f"v22 bank package requires exactly {EXPECTED_MARKET_OBSERVATIONS} market observations"
+        )
         return
-    if not isinstance(sources, list) or len(sources) != 20:
-        errors.append("v21 bank package requires exactly 20 market sources")
+    if not isinstance(sources, list) or len(sources) != EXPECTED_MARKET_SOURCES:
+        errors.append(f"v22 bank package requires exactly {EXPECTED_MARKET_SOURCES} market sources")
+        sources = [] if not isinstance(sources, list) else sources
+    source_by_id = {
+        item.get("sourceId"): item
+        for item in sources
+        if isinstance(item, dict) and isinstance(item.get("sourceId"), str)
+    }
+    if len(source_by_id) != len(sources):
+        errors.append("market sources must have unique string sourceId values")
+    fhm_source = source_by_id.get(FHM_SOURCE_ID)
+    if not isinstance(fhm_source, dict) or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
+        errors.append("v22 market sources must retain the reviewed public FHM reference")
     observation_by_id = {
         item.get("observationId"): item
         for item in observations
@@ -269,13 +261,95 @@ def validate_v18_market_bindings(errors: list[str]) -> None:
     official = [
         item
         for item in observations
-        if isinstance(item.get("countryIso2"), str)
-        and str(item.get("evidenceStatus", "")).startswith("official")
+        if str(item.get("evidenceStatus", "")).startswith("official")
     ]
-    if len(official) != 34 or {item["countryIso2"] for item in official} != {
+    sweden_structure = [
+        item
+        for item in observations
+        if item.get("marketValueBasis") == SWEDEN_STRUCTURE_BASIS
+        or FHM_SOURCE_ID in item.get("sourceIds", [])
+    ]
+    sweden_structure_ids = {
+        item.get("observationId") for item in sweden_structure if isinstance(item, dict)
+    }
+    official_market_measures = [
+        item for item in official if item.get("observationId") not in sweden_structure_ids
+    ]
+    if len(official) != EXPECTED_OFFICIAL_OBSERVATIONS:
+        errors.append(
+            f"v22 bank package requires exactly {EXPECTED_OFFICIAL_OBSERVATIONS} official observations"
+        )
+    if (
+        len(official_market_measures) != EXPECTED_OFFICIAL_MARKET_MEASURES
+        or {item.get("countryIso2") for item in official_market_measures} != {
         "CA", "DE", "FI", "NZ", "PL", "SE", "US"
-    }:
-        errors.append("v21 bank package requires 34 official records across seven reviewed countries")
+        }
+    ):
+        errors.append(
+            "v22 bank package requires 34 official market measures across seven reviewed countries"
+        )
+
+    expected_structure_ids = {
+        f"SE-{year}-FHM-{suffix}"
+        for year in range(2018, 2027)
+        for suffix in SWEDEN_STRUCTURE_METRICS.values()
+    }
+    if (
+        len(sweden_structure) != EXPECTED_SWEDEN_STRUCTURE_COUNTS
+        or sweden_structure_ids != expected_structure_ids
+    ):
+        errors.append(
+            "v22 bank package requires the exact 36-record Swedish FHM structure series"
+        )
+    for item in sweden_structure:
+        value = item.get("value")
+        metric = item.get("metric")
+        snapshot = item.get("year") == 2026
+        expected_unit = "reporting_entity" if metric == "reporting_entities_count" else "product"
+        if (
+            item.get("countryIso2") != "SE"
+            or item.get("geography") != "Sweden"
+            or metric not in SWEDEN_STRUCTURE_METRICS
+            or isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not float(value).is_integer()
+            or value < 0
+            or item.get("unit") != expected_unit
+            or item.get("currency") is not None
+            or item.get("period")
+            != (
+                "current_snapshot_as_of_2026_07_24"
+                if snapshot
+                else "authority_supplied_year_label"
+            )
+            or item.get("finality")
+            != (
+                "official_current_snapshot"
+                if snapshot
+                else "official_response_year_label"
+            )
+            or item.get("marketValueBasis") != SWEDEN_STRUCTURE_BASIS
+            or item.get("comparableMarketValue") is not False
+            or item.get("atlasEstimate") is not False
+            or not str(item.get("evidenceStatus", "")).startswith("official")
+            or item.get("sourceIds") != [FHM_SOURCE_ID]
+        ):
+            errors.append(
+                "Swedish FHM structure record is not a non-sales count: "
+                f"{item.get('observationId')!r}"
+            )
+        if snapshot:
+            snapshot_text = " ".join(
+                str(item.get(field, ""))
+                for field in ("period", "finality", "limitationEn", "limitationFi")
+            ).casefold()
+            if (
+                item.get("period") == "calendar_year"
+                or ("snapshot" not in snapshot_text and "tilannekuva" not in snapshot_text)
+            ):
+                errors.append(
+                    f"{item.get('observationId')}: 2026 must be disclosed as a snapshot, not a full year"
+                )
 
     exact_observations = {
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": (
@@ -314,7 +388,7 @@ def validate_v18_market_bindings(errors: list[str]) -> None:
             or item.get("comparableMarketValue") is not False
             or item.get("atlasEstimate") is not False
         ):
-            errors.append(f"v18 reviewed observation binding differs: {observation_id}")
+            errors.append(f"v22 reviewed observation binding differs: {observation_id}")
 
     protocol = market.get("donorProtocol")
     criteria = protocol.get("criteria") if isinstance(protocol, dict) else None
@@ -382,6 +456,11 @@ def validate_artifact_builder_fx_contract(builder_text: str, errors: list[str]) 
         "[FX methodology]": "deck FX methodology notes",
         "fxSourcesInDeckNotes": "deck-source QA lock",
         "eurEquivalentRowsAfterReopen": "workbook-row QA lock",
+        "validateV22MarketEvidence": "v22 market-role validation",
+        FHM_SOURCE_ID: "Swedish FHM source binding",
+        SWEDEN_STRUCTURE_BASIS: "Swedish non-sales structure-role marker",
+        "officialMarketMeasures: 34": "34 official market-measure lock",
+        "swedenRegisterStructure: 36": "36 Swedish register-count lock",
     }
     for token, description in required_tokens.items():
         if token not in builder_text:
@@ -848,6 +927,7 @@ def validate_slide_source_notes(
         rates.get(("USD", 2021), {}).get("sourceUrl"),
         rates.get(("CAD", 2024), {}).get("sourceUrl"),
     } - {None}
+    required_source_urls = {*required_fx_urls, FHM_SOURCE_URL}
     formula = fx.get("calculationPolicy", {}).get("formulaEn")
     try:
         presentation = Presentation(path)
@@ -866,10 +946,10 @@ def validate_slide_source_notes(
             errors.append(f"{label}: slide {index} [Sources] block lacks a public HTTPS source")
         if "[FX methodology]" not in notes or not formula or formula not in notes:
             errors.append(f"{label}: slide {index} notes lack the reviewed FX methodology")
-        for required_url in required_fx_urls:
+        for required_url in required_source_urls:
             if required_url not in notes:
                 errors.append(
-                    f"{label}: slide {index} notes lack required FX source {required_url}"
+                    f"{label}: slide {index} notes lack required reviewed source {required_url}"
                 )
 
 
@@ -1146,11 +1226,13 @@ def validate_manifest(errors: list[str]) -> None:
     if manifest.get("asOf") != changelog.get("asOf"):
         errors.append("manifest asOf must match the public changelog")
     if (
-        expected_release.get("id") != "2026-07-24-euromonitor-access-clarification-v21"
-        or expected_release.get("version") != "2026.07.24-21"
+        expected_release.get("id") != RELEASE_ID
+        or expected_release.get("version") != RELEASE_VERSION
         or manifest.get("asOf") != "2026-07-24"
     ):
-        errors.append("bank package must be locked to release 2026.07.24-21 as of 2026-07-24")
+        errors.append(
+            f"bank package must be locked to release {RELEASE_VERSION} as of 2026-07-24"
+        )
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
         errors.append("manifest publicBoundary must contain exactly en and fi")
@@ -1232,14 +1314,14 @@ def validate_manifest(errors: list[str]) -> None:
         if isinstance(item, dict) and isinstance(item.get("id"), str)
     }
     if set(artifact_by_id) != set(EXPECTED_ARTIFACTS) or len(artifact_by_id) != len(artifacts):
-        errors.append("manifest artifacts must contain exactly the eight approved downloads")
+        errors.append("manifest artifacts must contain exactly the six approved downloads")
 
     csv_rows_by_language = {
         "fi": read_register_csv(REGISTER_CSV_PATH, REGISTER_HEADERS, ALLOWED_STATUSES, errors),
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 53 for rows in csv_rows_by_language.values()):
-        errors.append("both v21 Evidence Registers must contain exactly 53 reviewed rows")
+        errors.append("both v22 Evidence Registers must contain exactly 53 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1254,6 +1336,12 @@ def validate_manifest(errors: list[str]) -> None:
             "1 219 160 000",
             "5,03 %",
             "D1–D10",
+            "79 havaintoa 21 lähteestä",
+            "34 markkinamittariin",
+            "36 Ruotsin FHM-rekisterirakenteen lukuun",
+            "eivät ole myyntiä",
+            "26 000 litraa",
+            "80 000 000 SEK",
         ),
         "en": (
             "280,684,512.81",
@@ -1268,13 +1356,19 @@ def validate_manifest(errors: list[str]) -> None:
             "1,219,160,000",
             "5.03%",
             "D1–D10",
+            "79 observations from 21 sources",
+            "34 market measures",
+            "36 Swedish FHM register-structure counts",
+            "are not sales",
+            "26,000 litres",
+            "SEK 80,000,000",
         ),
     }
     for language, rows in csv_rows_by_language.items():
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v18 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v22 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1334,47 +1428,43 @@ def validate_manifest(errors: list[str]) -> None:
             expected_boundary = "independent public evidence" if is_english else "julkinen riippumaton"
             if expected_boundary not in combined:
                 errors.append(f"{relative}: public-boundary disclosure is missing")
-            v18_deck_markers = (
+            v22_deck_markers = (
                 (
                     "533,7–731,2 milj. nzd",
                     "2,763 mrd usd",
                     "4,99 mrd eur",
-                    "34",
+                    "34 markkinamittaria",
+                    "36 ruotsin fhm",
+                    "ei myyntiä",
                     "7 maasta",
                     "0/3",
                     "d1–d10",
                     "1,219 mrd cad",
-                    "2026.07.24-21",
+                    RELEASE_VERSION,
                 )
                 if not is_english
                 else (
                     "nzd 533.7–731.2m",
                     "usd 2.763bn",
                     "eur 4.99bn",
-                    "34",
+                    "34 market measures",
+                    "36 swedish fhm register",
+                    "not sales",
                     "7 countries",
                     "0/3",
                     "d1–d10",
                     "cad 1.219bn",
-                    "2026.07.24-21",
+                    RELEASE_VERSION,
                 )
             )
             fx_markers = deck_fx_markers(
                 expected_eur_rows,
                 "en" if is_english else "fi",
             )
-            v18_deck_markers = (*v18_deck_markers, *fx_markers)
-            for marker in v18_deck_markers:
+            v22_deck_markers = (*v22_deck_markers, *fx_markers)
+            for marker in v22_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v18 market marker is missing: {marker!r}")
-            if artifact_id in {"medium-deck-fi", "medium-deck-en"} and len(texts) == 12:
-                titles = EN_MEDIUM_SECTION_TITLES if is_english else MEDIUM_SECTION_TITLES
-                for index, expected_title in enumerate(titles):
-                    normalized = " ".join(texts[index].casefold().split())
-                    if expected_title not in normalized:
-                        errors.append(
-                            f"{relative}: slide {index + 1} lacks requested section title {expected_title!r}"
-                        )
+                    errors.append(f"{relative}: v22 market marker is missing: {marker!r}")
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
             row_count = validate_workbook(
@@ -1390,7 +1480,7 @@ def validate_manifest(errors: list[str]) -> None:
 
 def main() -> None:
     errors: list[str] = []
-    validate_v18_market_bindings(errors)
+    validate_v22_market_bindings(errors)
     validate_manifest(errors)
     if errors:
         for error in errors:
@@ -1398,7 +1488,7 @@ def main() -> None:
         print(f"Bank-package validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated bilingual public bank package: English and Finnish 6/12/30-slide decks, "
+        "Validated bilingual public bank package: English and Finnish 6- and 30-slide decks, "
         "Evidence Register parity, release-lock and SHA-256 integrity, safe OOXML and public-data-only boundary."
     )
 

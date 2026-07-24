@@ -58,14 +58,12 @@ INPUT_FILES = (
 
 OUTPUTS = {
     "short-deck": DOWNLOAD_DIR / "pixan-bank-deck-short-fi.pptx",
-    "medium-deck": DOWNLOAD_DIR / "pixan-bank-deck-medium-fi.pptx",
     "large-deck": DOWNLOAD_DIR / "pixan-bank-deck-large-fi.pptx",
     "evidence-register": DOWNLOAD_DIR / "pixan-bank-evidence-register-fi.xlsx",
 }
 CSV_OUTPUT = DATA_DIR / "bank-evidence-register.csv"
 EN_OUTPUTS = {
     "short-deck-en": DOWNLOAD_DIR / "pixan-bank-deck-short-en.pptx",
-    "medium-deck-en": DOWNLOAD_DIR / "pixan-bank-deck-medium-en.pptx",
     "large-deck-en": DOWNLOAD_DIR / "pixan-bank-deck-large-en.pptx",
     "evidence-register-en": DOWNLOAD_DIR / "pixan-bank-evidence-register-en.xlsx",
 }
@@ -74,6 +72,25 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
+RELEASE_ID = "2026-07-24-sweden-registration-structure-v22"
+RELEASE_VERSION = "2026.07.24-22"
+FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
+FHM_SOURCE_URL = (
+    "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
+    "tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/"
+    "elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/"
+)
+SWEDEN_STRUCTURE_BASIS = "official_registration_structure_count_not_sales_or_market_value"
+SWEDEN_STRUCTURE_METRICS = {
+    "reporting_entities_count": "REPORTING-ENTITIES",
+    "notified_products_count": "NOTIFIED-PRODUCTS",
+    "active_products_count": "ACTIVE-PRODUCTS",
+    "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
+}
+EXPECTED_MARKET_OBSERVATIONS = 79
+EXPECTED_MARKET_SOURCES = 21
+EXPECTED_OFFICIAL_MARKET_MEASURES = 34
+EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
     "Väite",
@@ -137,6 +154,29 @@ SLIDE_H = Inches(7.5)
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def is_sweden_structure_count(item: dict[str, Any]) -> bool:
+    return (
+        item.get("marketValueBasis") == SWEDEN_STRUCTURE_BASIS
+        or FHM_SOURCE_ID in item.get("sourceIds", [])
+    )
+
+
+def split_official_market_roles(
+    observations: Iterable[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    official = [
+        item
+        for item in observations
+        if str(item.get("evidenceStatus", "")).startswith("official")
+    ]
+    structure = [item for item in observations if is_sweden_structure_count(item)]
+    structure_ids = {item.get("observationId") for item in structure}
+    market_measures = [
+        item for item in official if item.get("observationId") not in structure_ids
+    ]
+    return market_measures, structure
 
 
 def sha256(path: Path) -> str:
@@ -456,11 +496,14 @@ def build_context() -> dict[str, Any]:
             "Market and patent source ids must be globally unique: " + ", ".join(source_id_collisions)
         )
 
+    official_market_measures, sweden_structure_counts = split_official_market_roles(
+        market["observations"]
+    )
     official_country_codes = sorted(
         {
             item["countryIso2"]
-            for item in market["observations"]
-            if item["geography"] != "Global" and item["evidenceStatus"].startswith("official")
+            for item in official_market_measures
+            if item["geography"] != "Global" and isinstance(item.get("countryIso2"), str)
         }
     )
     retail_donors = int(market["meta"]["modelReadiness"]["comparableFullYearMarketValueDonors"])
@@ -480,6 +523,8 @@ def build_context() -> dict[str, Any]:
         "market_sources": market_sources,
         "patent_sources": patent_sources,
         "official_country_codes": official_country_codes,
+        "official_market_measures": official_market_measures,
+        "sweden_structure_counts": sweden_structure_counts,
         "retail_donors": retail_donors,
         "grade_counts": grade_counts,
     }
@@ -499,7 +544,10 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     unique_index(patent_history["monetisation"]["sequence"], "phaseId", "monetisation phase")
     market_sources = unique_index(ctx["market"]["sources"], "sourceId", "market source")
     patent_sources = unique_index(patent_history["sources"], "sourceId", "patent source")
-    expected_market_counts = ctx.get("_regression_expected_market_counts", (29, 17))
+    expected_market_counts = ctx.get(
+        "_regression_expected_market_counts",
+        (EXPECTED_MARKET_OBSERVATIONS, EXPECTED_MARKET_SOURCES),
+    )
     if (
         not isinstance(expected_market_counts, tuple)
         or len(expected_market_counts) != 2
@@ -507,7 +555,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or len(market_sources) != expected_market_counts[1]
     ):
         raise ValueError(
-            "Bank package v17 requires the reviewed market observation and source counts"
+            "Bank package v22 requires the reviewed market observation and source counts"
         )
     source_id_collisions = sorted(set(market_sources) & set(patent_sources))
     if source_id_collisions:
@@ -525,6 +573,9 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             raise ValueError(
                 f"Market source {source_id} must exist with sourceKind {expected_kind!r}"
             )
+    fhm_source = market_sources.get(FHM_SOURCE_ID)
+    if fhm_source is None or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
+        raise ValueError("Bank package v22 requires the reviewed public FHM reference")
 
     def require_source_ids(item: dict[str, Any], source_map: dict[str, Any], label: str) -> None:
         source_ids = item.get("sourceIds")
@@ -754,37 +805,101 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         ctx["atlas"]["summary"]["universe"],
         "UN research-universe components",
     )
+    official_observations, sweden_structure_observations = split_official_market_roles(
+        observations
+    )
     official_country_codes = sorted(
         {
             item["countryIso2"]
-            for item in observations
+            for item in official_observations
             if item.get("geography") != "Global"
             and isinstance(item.get("countryIso2"), str)
-            and str(item.get("evidenceStatus", "")).startswith("official")
         }
     )
     official_country_names_fi = [country_name(code) for code in official_country_codes]
-    official_observations = [
-        item
-        for item in observations
-        if item.get("countryIso2") in official_country_codes
-        and str(item.get("evidenceStatus", "")).startswith("official")
-    ]
     expected_official_observation_count = ctx.get(
         "_regression_expected_official_observation_count",
-        20,
+        EXPECTED_OFFICIAL_MARKET_MEASURES,
     )
-    if len(official_observations) != expected_official_observation_count or official_country_codes != [
-        "CA",
-        "DE",
-        "FI",
-        "NZ",
-        "PL",
-        "SE",
-    ]:
+    expected_structure_count = ctx.get(
+        "_regression_expected_sweden_structure_count",
+        EXPECTED_SWEDEN_STRUCTURE_COUNTS,
+    )
+    if (
+        len(official_observations) != expected_official_observation_count
+        or official_country_codes != ["CA", "DE", "FI", "NZ", "PL", "SE", "US"]
+    ):
         raise ValueError(
-            "Bank package v17 requires 20 official records across CA, DE, FI, NZ, PL and SE"
+            "Bank package v22 requires 34 official market measures across seven reviewed countries"
         )
+    expected_structure_ids = {
+        f"SE-{year}-FHM-{suffix}"
+        for year in range(2018, 2027)
+        for suffix in SWEDEN_STRUCTURE_METRICS.values()
+    }
+    actual_structure_ids = {
+        item.get("observationId") for item in sweden_structure_observations
+    }
+    if (
+        len(sweden_structure_observations) != expected_structure_count
+        or (
+            expected_structure_count == EXPECTED_SWEDEN_STRUCTURE_COUNTS
+            and actual_structure_ids != expected_structure_ids
+        )
+    ):
+        raise ValueError("Bank package v22 requires the 36-record Swedish FHM structure series")
+    for item in sweden_structure_observations:
+        value = item.get("value")
+        snapshot = item.get("year") == 2026
+        expected_unit = (
+            "reporting_entity"
+            if item.get("metric") == "reporting_entities_count"
+            else "product"
+        )
+        if (
+            item.get("countryIso2") != "SE"
+            or item.get("geography") != "Sweden"
+            or item.get("metric") not in SWEDEN_STRUCTURE_METRICS
+            or isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not float(value).is_integer()
+            or value < 0
+            or item.get("unit") != expected_unit
+            or item.get("currency") is not None
+            or item.get("period")
+            != (
+                "current_snapshot_as_of_2026_07_24"
+                if snapshot
+                else "authority_supplied_year_label"
+            )
+            or item.get("finality")
+            != (
+                "official_current_snapshot"
+                if snapshot
+                else "official_response_year_label"
+            )
+            or item.get("marketValueBasis") != SWEDEN_STRUCTURE_BASIS
+            or item.get("comparableMarketValue") is not False
+            or item.get("atlasEstimate") is not False
+            or not str(item.get("evidenceStatus", "")).startswith("official")
+            or item.get("sourceIds") != [FHM_SOURCE_ID]
+        ):
+            raise ValueError(
+                "Swedish FHM structure record is not a non-sales count: "
+                f"{item.get('observationId')!r}"
+            )
+        if snapshot:
+            snapshot_text = " ".join(
+                str(item.get(field, ""))
+                for field in ("period", "finality", "limitationEn", "limitationFi")
+            ).casefold()
+            if (
+                item.get("period") == "calendar_year"
+                or ("snapshot" not in snapshot_text and "tilannekuva" not in snapshot_text)
+            ):
+                raise ValueError(
+                    f"{item.get('observationId')}: 2026 must be a snapshot, not a full year"
+                )
 
     ca_value = market_observation("CA", "manufacturer_importer_shipments_value")
     ca_year = observation_year(ca_value)
@@ -1217,7 +1332,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
     if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
-        raise ValueError("Bank package v21 requires exactly five reviewed donor candidates")
+        raise ValueError("Bank package v22 requires exactly five reviewed donor candidates")
     candidate_ids = {
         "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
         "EU-2023-COMMISSION-BENCHMARK",
@@ -1226,7 +1341,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v21 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v22 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
             raise ValueError("Every v17 donor candidate must remain outside the accepted count")
@@ -1405,6 +1520,8 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "official_country_names_fi": official_country_names_fi,
         "official_country_count": len(official_country_codes),
         "official_observation_count": len(official_observations),
+        "sweden_structure_observations": sweden_structure_observations,
+        "sweden_structure_count": len(sweden_structure_observations),
         "retail_donors": int(ctx["market"]["meta"]["modelReadiness"]["comparableFullYearMarketValueDonors"]),
         "minimum_required_donors": int(ctx["market"]["meta"]["modelReadiness"]["minimumRequiredDonors"]),
         "market_readiness": ctx["market"]["meta"]["modelReadiness"],
@@ -1454,7 +1571,9 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "global_publishers": observation_publishers(global_observations),
         "global_source_ids": [source_id for item in global_observations for source_id in item["sourceIds"]],
         "market_country_rows": market_country_rows,
-        "market_publishers": observation_publishers(official_observations),
+        "market_publishers": observation_publishers(
+            [*official_observations, *sweden_structure_observations]
+        ),
         "alerts": alerts,
         "au_alert": au_alert,
         "fi_alert": fi_alert,
@@ -1510,6 +1629,7 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
     pl_volume = facts["pl_volume_observation"]
     pl_excise = facts["pl_excise_observation"]
     se_volume = facts["se_volume_observation"]
+    se_excise = facts["se_excise_observation"]
     nz_retail_lower_bound = facts["nz_retail_lower_bound"]
     nz_workbook_raw_sum = facts["nz_workbook_raw_sum"]
     nz_identified_vaping_raw_sum = facts["nz_identified_vaping_raw_sum"]
@@ -1707,15 +1827,20 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Ei puutetta universumin määrittelyssä; evidenssipeitto on erillinen asia.",
         ),
         row(
-            f"Hyväksyttyjä vuosittaisia virallisia määrähavaintoja on {fi_elative_cardinal(facts['official_country_count'])} maasta.",
+            "Julkinen markkina-aineisto sisältää 79 havaintoa 21 lähteestä; "
+            f"70 virallista havaintoa jakautuvat {facts['official_observation_count']} "
+            f"markkinamittariin ja {facts['sweden_structure_count']} Ruotsin "
+            "FHM-rekisterirakenteen lukuun.",
             "Markkinan koko",
-            f"Hyväksytyt maat ovat {fi_join(official_country_names_fi)}. "
-            f"{facts['official_observation_count']} virallista tietuetta sisältävät eri tapahtumatasoja, "
-            "valuuttoja ja tuoterajauksia.",
+            f"Markkinamittarit kattavat maat {fi_join(official_country_names_fi)}. "
+            "FHM-luvut kuvaavat vuosien 2018–2026 raportoivia toimijoita sekä ilmoitettuja, "
+            "aktiivisia ja markkinoilta poistettuja tuotteita; ne eivät ole myyntiä tai markkina-arvoa.",
             "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
             as_of,
-            "Uniikit maat vuosihavainnoista, joiden evidenceStatus alkaa official_.",
-            "Virallinen julkaisu ei tee mittareista automaattisesti vertailukelpoisia maiden välillä.",
+            "79 = 43 aiempaa havaintoa + 36 FHM-rakennelukua; 70 virallista = "
+            "34 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään.",
+            "Vuosi 2026 on FHM-sarjassa tilannekuva, ei valmis vuosijakso. "
+            "Virallinen julkaisu ei tee mittareista automaattisesti vertailukelpoisia.",
             "Vahvistettu",
             "Tarvitaan vertailukelpoiset laite- ja nestemyyntisarjat muista maista.",
         ),
@@ -1892,17 +2017,28 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Tarvitaan toteuman lopullisuus ja veropohjan täsmäytys.",
         ),
         row(
-            "Ruotsissa verotettiin "
-            f"{format_local_number(se_volume['value'])} litraa nikotiininestettä "
-            f"vuonna {observation_year(se_volume)}.",
+            "Ruotsin julkinen evidenssi yhdistää vuoden 2024 veroankkurin ja "
+            f"{facts['sweden_structure_count']} virallista FHM-rekisterirakenteen lukua "
+            "vuosilta 2018–2026; rekisteriluvut eivät ole myyntiä tai markkina-arvoa.",
             "Markkinan koko",
-            se_volume["limitationFi"],
-            sources(*se_volume["sourceIds"]),
-            str(observation_year(se_volume)),
-            "Hallituksen laskentaperusteessa ilmoitettu määrä.",
-            "Verotettu nikotiinineste ei kata koko sähkötupakkamarkkinaa.",
+            f"Vuonna {observation_year(se_volume)} verotettiin "
+            f"{format_local_number(se_volume['value'])} litraa nikotiininestettä ja "
+            f"valmisteverotulo oli pyöristetysti "
+            f"{format_local_number(se_excise['value'])} SEK. "
+            "Viranomaisen toimittamassa ja 24.7.2026 tarkistetussa työkirjassa on "
+            "9 vuosilabelia × 4 rakennemittaria. Julkinen FHM-sivu dokumentoi "
+            "ilmoitusjärjestelmän, ei siinä julkaistua numeerista sarjaa.",
+            sources(*se_volume["sourceIds"], FHM_SOURCE_ID),
+            "2026-07-24",
+            "36 = 9 vuotta (2018–2026) × 4 rekisterirakenteen mittaria. "
+            "Veroankkuri, 34 markkinamittaria ja 36 rakennelukua pidetään erillään.",
+            "Rakenneluvuista ei päätellä myyntiarvoa, myyntimäärää tai markkinaosuutta. "
+            "Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja "
+            "vuosivirtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken "
+            "tilannekuva eikä sitä vuositasoiteta.",
             "Vahvistettu",
-            "Tarvitaan toteutunut vähittäismyynti ja laitedata.",
+            "Tarvitaan toteutunut kuluttajamyynti EUR-määräisenä, laitekappaleet ja ml-määrät "
+            "sekä julkisesti uudelleenkäytettävä numeerinen FHM-sarja.",
         ),
         row(
             f"{fi_cardinal(len(global_observations)).capitalize()} kaupallista vuoden {global_year} "
@@ -2660,7 +2796,7 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
         exact.extend(
             (4, value)
             for value in (
-                str(v["official_observation_count"]),
+                f"{v['official_observation_count']} + {v['sweden_structure_count']}",
                 v["nz_workbook_raw_sum"],
                 v["eu_market_benchmark"],
             )
@@ -2676,6 +2812,7 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
                 (4, v["donor_protocol_label"]),
                 (4, str(v["donor_candidate_count"])),
                 (4, str(v["official_country_count"])),
+                (4, str(v["sweden_structure_count"])),
                 (4, v["nz_raw_dedup_sensitivity"]),
                 (4, v["nz_identified_vaping_raw_sum"]),
             )
@@ -2688,7 +2825,7 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
         exact.extend(
             (6, value)
             for value in (
-                str(v["official_observation_count"]),
+                f"{v['official_observation_count']} + {v['sweden_structure_count']}",
                 v["nz_workbook_raw_sum"],
                 v["eu_market_benchmark"],
             )
@@ -2714,6 +2851,7 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
                 (6, v["donor_gate"]),
                 (6, v["donor_protocol_label"]),
                 (6, str(v["official_country_count"])),
+                (6, str(v["sweden_structure_count"])),
                 (6, v["nz_raw_dedup_sensitivity"]),
                 (6, v["nz_identified_vaping_raw_sum"]),
                 (9, str(v["official_country_count"])),
@@ -2774,6 +2912,7 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
                 (2, v["ep_publication"]),
                 (2, str(v["german_official_proceeding_count"])),
                 (2, str(v["official_observation_count"])),
+                (2, str(v["sweden_structure_count"])),
                 (2, str(v["official_country_count"])),
                 (2, v["donor_gate"]),
                 (6, fi_cardinal(v["b2_claim_count"])),
@@ -2797,6 +2936,7 @@ def validate_finnish_deck_fact_tokens(prs: Presentation, ctx: dict[str, Any], de
                 (12, str(v["un_member_count"])),
                 (13, str(v["official_country_count"])),
                 (13, str(v["official_observation_count"])),
+                (13, str(v["sweden_structure_count"])),
                 (14, str(v["ca_year"])),
                 (16, str(v["model"]["year"])),
                 (16, str(v["model_price_year"])),
@@ -2891,19 +3031,6 @@ def regression_check_finnish_deck_fact_binding(ctx: dict[str, Any]) -> None:
         if not any(changed_range in value for value in short_strings[3]):
             raise AssertionError("Canonical market mutation did not reach visible Finnish short-deck text")
 
-        # Medium deck: amended-claim count is read from the current patent payload.
-        medium_ctx = copy.deepcopy(ctx)
-        medium_ctx["patent_history"]["patent"]["claimScopeSummaryEn"] = re.sub(
-            r"B2 specification contains \d+ claims",
-            "B2 specification contains 8 claims",
-            medium_ctx["patent_history"]["patent"]["claimScopeSummaryEn"],
-        )
-        medium_path = root / "medium-fi.pptx"
-        build_medium_deck(medium_ctx, medium_path)
-        medium_strings = presentation_slide_strings(Presentation(medium_path))
-        if "8" not in medium_strings[3]:
-            raise AssertionError("Canonical patent mutation did not reach visible Finnish medium-deck text")
-
         # Large deck + register: latest CA observations, latest official judgment,
         # alert date and price-input citation must all propagate from one context.
         large_ctx = copy.deepcopy(ctx)
@@ -2949,13 +3076,14 @@ def regression_check_finnish_deck_fact_binding(ctx: dict[str, Any]) -> None:
             len(large_ctx["market"]["observations"]),
             len(large_ctx["market"]["sources"]),
         )
+        regression_market_measures, regression_structure_counts = split_official_market_roles(
+            large_ctx["market"]["observations"]
+        )
         large_ctx["_regression_expected_official_observation_count"] = len(
-            [
-                item
-                for item in large_ctx["market"]["observations"]
-                if isinstance(item.get("countryIso2"), str)
-                and str(item.get("evidenceStatus", "")).startswith("official")
-            ]
+            regression_market_measures
+        )
+        large_ctx["_regression_expected_sweden_structure_count"] = len(
+            regression_structure_counts
         )
 
         legal_source = copy.deepcopy(
@@ -3355,8 +3483,9 @@ def build_short_deck(ctx: dict[str, Any], path: Path) -> None:
         prs, ctx, 4, "Markkina-aineisto on läpinäkyvä mutta ei vielä valmis globaaliksi arvoksi", "Markkina",
         [
             (
-                str(v["official_observation_count"]),
-                f"virallista vuosihavaintoa {v['official_country_count']} maasta",
+                f"{v['official_observation_count']} + {v['sweden_structure_count']}",
+                f"markkinamittaria {v['official_country_count']} maasta + Ruotsin "
+                "FHM-rekisterirakenteen lukua; rakenneluvut eivät ole myyntiä",
             ),
             (
                 v["nz_workbook_raw_sum"],
@@ -3420,8 +3549,9 @@ def build_medium_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_metrics(prs, ctx, 6, "Markkinakoko on tällä hetkellä haarukka ja havaintokokoelma — ei yksi luku", "6 · Markkinan koko ja rajaus",
                   [
                       (
-                          str(v["official_observation_count"]),
-                          f"virallista vuosihavaintoa {v['official_country_count']} maasta",
+                          f"{v['official_observation_count']} + {v['sweden_structure_count']}",
+                          f"markkinamittaria {v['official_country_count']} maasta + Ruotsin "
+                          "FHM-rekisterirakenteen lukua; rakenneluvut eivät ole myyntiä",
                       ),
                       (
                           v["nz_workbook_raw_sum"],
@@ -3480,7 +3610,7 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     cover_slide(prs, ctx, "Laaja 30 dian tutkija- ja rahoituspäätöspaketti", 30)
     slide_claim(prs, ctx, 2, "Rahoitettavuus on mahdollisuus, ei nykyinen johtopäätös", "Rahoitusteesi",
                 "Viralliset patentti- ja oikeuslähteet oikeuttavat jatkodiligencen; ne eivät vielä osoita vakuusarvoa tai takaisinmaksua.",
-                [f"EPO:n muutettu {v['ep_publication']} ja {v['de_country']}n {fi_cardinal(v['german_official_proceeding_count'])} virallista ratkaisua muodostavat oikeusnäytön ankkurin.", f"Markkina-aineistossa on {v['official_observation_count']} virallista vuosihavaintoa {v['official_country_count']} maasta, mutta luovuttajaportti on {v['donor_gate']}.", "Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen."],
+                [f"EPO:n muutettu {v['ep_publication']} ja {v['de_country']}n {fi_cardinal(v['german_official_proceeding_count'])} virallista ratkaisua muodostavat oikeusnäytön ankkurin.", f"Markkina-aineistossa on {v['official_observation_count']} markkinamittaria {v['official_country_count']} maasta sekä {v['sweden_structure_count']} Ruotsin FHM-rekisterirakenteen lukua; rakenneluvut eivät ole myyntiä tai markkina-arvoa. Luovuttajaportti on {v['donor_gate']}.", "Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen."],
                 "Suositus", "Avaa 90 päivän ehdollinen diligence, ei lopullista luottopäätöstä.", f"EPO; {v['de_country']} — viralliset tuomiot; WIPO" )
     slide_table(prs, ctx, 3, "Kolme perustetta jatkaa — ja kolme rajaa olla kiirehtimättä", "Rahoitusteesi",
                 ["Vahva signaali", "Mitä se tukee", "Mitä se ei todista"],
@@ -3537,10 +3667,10 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
                   [(str(v["grade_counts"][grade]), f"{grade}-luokan maata") for grade in v["grade_labels"]],
                   f"{v['atlas_evidence_count']} evidenssimerkintää; universumin YK-osuus on {v['un_member_count']} jäsenvaltiota.",
                   f"Luokat {v['grade_range']} kuvaavat evidenssikypsyyttä, eivät markkinan kokoa tai kaupallista houkuttelevuutta.", "UN; Atlas" )
-    slide_table(prs, ctx, 13, f"{v['official_observation_count']} virallista havaintoa {v['official_country_count']} maasta mittaavat eri asioita", "Markkina",
+    slide_table(prs, ctx, 13, f"{v['official_observation_count']} markkinamittaria {v['official_country_count']} maasta + {v['sweden_structure_count']} Ruotsin FHM-rakennelukua; rakenneluvut eivät ole myyntiä", "Markkina",
                 ["Maa", "Vuosi", "Virallinen havainto"],
                 v["market_country_rows"],
-                "Litroja, toimitusarvoja ja valmisteveroja ei summata yhdeksi markkinaksi.", v["market_sources"], [1.6,2.1,8.3],
+                "Litroja, toimitusarvoja, valmisteveroja ja rekisterirakenteen lukumääriä ei summata yhdeksi markkinaksi.", v["market_sources"], [1.6,2.1,8.3],
                 two_line_title=True )
     slide_metrics(prs, ctx, 14, f"{v['ca_country']} on vahva toimitusmyynnin ankkuri, ei retail-arvon luovuttaja", v["ca_country"],
                   [(v["ca_value"], "valmistaja-/maahantuojatoimitukset"), (v["ca_units"], "raportoitua yksikkömäärää"), (v["ca_litres"], "raportoitua nestettä")],
@@ -3990,14 +4120,13 @@ def verify_english_release_lock(ctx: dict[str, Any], english_rows: list[list[str
 
     source_specs = {
         "short-deck-fi": OUTPUTS["short-deck"],
-        "medium-deck-fi": OUTPUTS["medium-deck"],
         "large-deck-fi": OUTPUTS["large-deck"],
         "evidence-register-fi": OUTPUTS["evidence-register"],
     }
     source_items = lock.get("sourceArtifacts")
     source_by_id = {item.get("id"): item for item in source_items or [] if isinstance(item, dict)}
     if set(source_by_id) != set(source_specs) or len(source_by_id) != len(source_items or []):
-        raise ValueError("English package lock must bind all four Finnish source artifacts")
+        raise ValueError("English package lock must bind all three Finnish source artifacts")
     for artifact_id, path in source_specs.items():
         item = source_by_id[artifact_id]
         expected_path = str(path.relative_to(ROOT))
@@ -4006,14 +4135,13 @@ def verify_english_release_lock(ctx: dict[str, Any], english_rows: list[list[str
 
     artifact_specs = {
         "short-deck-en": (EN_OUTPUTS["short-deck-en"], "pptx", "slideCount", 6),
-        "medium-deck-en": (EN_OUTPUTS["medium-deck-en"], "pptx", "slideCount", 12),
         "large-deck-en": (EN_OUTPUTS["large-deck-en"], "pptx", "slideCount", 30),
         "evidence-register-en": (EN_OUTPUTS["evidence-register-en"], "xlsx", "rowCount", len(english_rows)),
     }
     artifacts = lock.get("artifacts")
     artifact_by_id = {item.get("id"): item for item in artifacts or [] if isinstance(item, dict)}
     if set(artifact_by_id) != set(artifact_specs) or len(artifact_by_id) != len(artifacts or []):
-        raise ValueError("English package lock must contain exactly four reviewed artifacts")
+        raise ValueError("English package lock must contain exactly three reviewed artifacts")
     for artifact_id, (path, kind, count_key, count) in artifact_specs.items():
         item = artifact_by_id[artifact_id]
         expected_keys = {"id", "kind", "path", "sha256", "bytes", count_key}
@@ -4025,7 +4153,6 @@ def verify_english_release_lock(ctx: dict[str, Any], english_rows: list[list[str
             raise ValueError(f"English package artifact lock differs: {artifact_id}")
 
     inspect_english_pptx(EN_OUTPUTS["short-deck-en"], 6)
-    inspect_english_pptx(EN_OUTPUTS["medium-deck-en"], 12, require_medium_titles=True)
     inspect_english_pptx(EN_OUTPUTS["large-deck-en"], 30)
     inspect_english_xlsx(EN_OUTPUTS["evidence-register-en"], english_rows)
     for path in EN_OUTPUTS.values():
@@ -4152,11 +4279,9 @@ def write_manifest(
         "inputs": [{"path": str(path.relative_to(ROOT)), "sha256": sha256(path)} for path in manifest_inputs],
         "artifacts": [
             artifact_entry("short-deck-en", EN_OUTPUTS["short-deck-en"], kind="pptx", language="en", title_fi="Suppea pankkidekki (englanti)", title_en="Concise bank deck (English)", slide_count=6),
-            artifact_entry("medium-deck-en", EN_OUTPUTS["medium-deck-en"], kind="pptx", language="en", title_fi="Keskikokoinen pankkidekki (englanti)", title_en="Core bank deck (English)", slide_count=12),
             artifact_entry("large-deck-en", EN_OUTPUTS["large-deck-en"], kind="pptx", language="en", title_fi="Laaja pankkidekki (englanti)", title_en="Extended bank deck (English)", slide_count=30),
             artifact_entry("evidence-register-en", EN_OUTPUTS["evidence-register-en"], kind="xlsx", language="en", title_fi="Evidence Register (englanti)", title_en="Evidence Register (English)", row_count=len(english_rows)),
             artifact_entry("short-deck-fi", OUTPUTS["short-deck"], kind="pptx", language="fi", title_fi="Suppea pankkidekki (suomi)", title_en="Concise bank deck (Finnish)", slide_count=6),
-            artifact_entry("medium-deck-fi", OUTPUTS["medium-deck"], kind="pptx", language="fi", title_fi="Keskikokoinen pankkidekki (suomi)", title_en="Core bank deck (Finnish)", slide_count=12),
             artifact_entry("large-deck-fi", OUTPUTS["large-deck"], kind="pptx", language="fi", title_fi="Laaja pankkidekki (suomi)", title_en="Extended bank deck (Finnish)", slide_count=30),
             artifact_entry("evidence-register-fi", OUTPUTS["evidence-register"], kind="xlsx", language="fi", title_fi="Evidence Register (suomi)", title_en="Evidence Register (Finnish)", row_count=len(rows)),
         ],
@@ -4178,14 +4303,12 @@ def build_all() -> dict[str, Any]:
         raise ValueError("Bilingual Evidence Register parity failed:\n- " + "\n- ".join(parity_errors))
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
     build_short_deck(ctx, OUTPUTS["short-deck"])
-    build_medium_deck(ctx, OUTPUTS["medium-deck"])
     build_large_deck(ctx, OUTPUTS["large-deck"])
     build_workbook(ctx, rows, OUTPUTS["evidence-register"])
     write_csv(rows, CSV_OUTPUT)
     write_english_csv(english_rows, EN_CSV_OUTPUT)
 
     inspect_pptx(OUTPUTS["short-deck"], 6)
-    inspect_pptx(OUTPUTS["medium-deck"], 12)
     inspect_pptx(OUTPUTS["large-deck"], 30)
     inspect_xlsx(OUTPUTS["evidence-register"], len(rows))
     for path in OUTPUTS.values():

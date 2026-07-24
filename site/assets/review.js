@@ -82,6 +82,7 @@ const REVIEW_MATRIX_DIMENSIONS = {
   taxRevenue: ["vero", "tax"],
   customs: ["tulli", "customs"]
 };
+const REVIEW_STRUCTURAL_RESPONSE_COUNTRIES = new Set(["SE"]);
 
 let reviewData = null;
 let reviewMarketData = null;
@@ -288,12 +289,33 @@ function reviewRequestSummary() {
   const routes = Array.isArray(reviewRequestData?.routes) ? reviewRequestData.routes : [];
   const sent = routes.filter((route) => route.status === "sent").length;
   const drafts = routes.filter((route) => route.status === "draft_not_sent").length;
-  const processResponses = routes.filter((route) => {
+  const responseRecorded = (route) => {
     const state = route.dispatch?.responseState;
     return typeof state === "string" && !["not_publicly_recorded", "not_applicable"].includes(state);
+  };
+  const officialStructuralResponses = routes.filter(
+    (route) => route.status === "sent"
+      && responseRecorded(route)
+      && REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2)
+  ).length;
+  const processResponses = routes.filter((route) => {
+    return responseRecorded(route)
+      && !REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2);
   }).length;
-  const substantiveResponses = routes.filter((route) => route.dispatch?.substantiveDataResponse === true).length;
-  return { routes: routes.length, sent, drafts, processResponses, substantiveResponses };
+  const germanSupplements = (reviewRequestData?.supplementaryRequests || []).filter(
+    (request) => request.countryIso2 === "DE"
+      && request.status === "sent"
+      && request.countsTowardCountryQueue === false
+  ).length;
+  return {
+    routes: routes.length,
+    sent,
+    drafts,
+    germanSupplements,
+    processResponses,
+    officialStructuralResponses,
+    salesResponses: 0
+  };
 }
 
 function renderDecisionCockpit(data) {
@@ -338,8 +360,8 @@ function renderDecisionCockpit(data) {
       : reviewL("Patenttihistorian tukiaineisto ei ole saatavilla.", "The patent-history supporting dataset is unavailable."),
     reviewRequestData
       ? reviewL(
-        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.processResponses} prosessivastausta ja ${request.substantiveResponses} sisällöllistä datavastausta.`,
-        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.processResponses} process responses and ${request.substantiveResponses} substantive data responses.`
+        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.germanSupplements} täydentävä Saksan reitti, ${request.processResponses} vain prosessivastausta, ${request.officialStructuralResponses} virallinen rakennevastaus ja ${request.salesResponses} myyntidatavastausta.`,
+        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.germanSupplements} supplementary German route, ${request.processResponses} process-only responses, ${request.officialStructuralResponses} official structural response and ${request.salesResponses} sales-data responses.`
       )
       : reviewL("Viranomaisreittien tukiaineisto ei ole saatavilla.", "The authority-route supporting dataset is unavailable.")
   ];
@@ -398,9 +420,9 @@ function renderResearchOperationsOverview() {
   }
   const request = reviewRequestSummary();
   const metrics = [
-    [reviewL("Viranomaisreitit", "Authority routes"), request.routes, reviewL("Maailmanlaajuinen priorisoitu tutkimusjono", "Prioritised global research queue")],
-    [reviewL("Lähetetty / luonnos", "Sent / draft"), `${request.sent} / ${request.drafts}`, reviewL("Julkinen reittitila; ei toimitus- tai vastausvahvistus", "Public route status; not delivery or response confirmation")],
-    [reviewL("Prosessi / sisältödata", "Process / substantive data"), `${request.processResponses} / ${request.substantiveResponses}`, reviewL("Kuittaus tai reititys ei ole markkinadataa", "Acknowledgement or routing is not market data")],
+    [reviewL("Lähetetty / luonnos", "Sent / draft"), `${request.sent} / ${request.drafts}`, reviewL("20 maan priorisoitu tutkimusjono", "Prioritised 20-country research queue")],
+    [reviewL("Täydentävä Saksan reitti", "German supplementary route"), request.germanSupplements, reviewL("Ei lisää maata 12/8-laskureihin", "Adds no country to the 12/8 counts")],
+    [reviewL("Vain prosessi / rakenne / myynti", "Process-only / structural / sales"), `${request.processResponses} / ${request.officialStructuralResponses} / ${request.salesResponses}`, reviewL("Ruotsin rakennetieto ei ole myyntiä, arvoa tai volyymia", "Sweden structural evidence is not sales, value or volume")],
     [reviewL("Ostovaltuudet", "Purchase authorisations"), 0, reviewL("Ei ostoa, tilausta tai automaattista ulkoista toimintoa", "No purchase, subscription or automatic external action")]
   ];
   host.replaceChildren(...metrics.map(([label, value, note]) => {
@@ -1479,14 +1501,21 @@ function renderReviewMarketUnavailable() {
 const REVIEW_CHANGE_STORAGE_KEY = "pixan-global-market-evidence-last-seen-release-v4";
 const reviewReleaseToken = (release) => release ? `${release.id}:${release.version || "unversioned"}` : "";
 
-function prepareReviewChangeView() {
+function reviewPublicReleases() {
   const releases = Array.isArray(reviewChangelog?.releases)
     ? [...reviewChangelog.releases].sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))
     : [];
+  if (releases.length) return releases;
+  const uiRelease = window.PixanUiRelease;
+  return uiRelease ? [uiRelease] : [];
+}
+
+function prepareReviewChangeView() {
+  const releases = reviewPublicReleases();
   const current = releases[0] || null;
   let lastSeen = null;
   try { lastSeen = localStorage.getItem(REVIEW_CHANGE_STORAGE_KEY); } catch (_) { /* local storage may be disabled */ }
-  let mode = reviewChangelog ? "none" : "unavailable";
+  let mode = releases.length ? "none" : "unavailable";
   let visible = [];
   if (current && !lastSeen) {
     mode = "first";
@@ -1934,9 +1963,7 @@ function renderReviewPatent() {
 }
 
 function renderReviewMeta(data) {
-  const latestRelease = Array.isArray(reviewChangelog?.releases)
-    ? [...reviewChangelog.releases].sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))[0]
-    : null;
+  const latestRelease = reviewPublicReleases()[0] || null;
   const asOf = latestRelease?.publishedAt || data.meta?.asOf || data.meta?.generatedAt || "";
   const time = reviewById("review-as-of");
   time.textContent = reviewFormatDate(asOf);

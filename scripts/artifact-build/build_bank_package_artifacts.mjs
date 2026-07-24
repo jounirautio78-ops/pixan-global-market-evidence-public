@@ -15,9 +15,32 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v21", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v21", "renders");
-const releaseVersion = "2026.07.24-21";
+const qaDir = path.join(repo, "tmp", "bank-v22", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v22", "renders");
+const releaseVersion = "2026.07.24-22";
+const releaseId = "2026-07-24-sweden-registration-structure-v22";
+const fhmSourceId = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24";
+const fhmSourceUrl = "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/";
+const swedenStructureBasis = "official_registration_structure_count_not_sales_or_market_value";
+const swedenStructureMetrics = [
+  "reporting_entities_count",
+  "notified_products_count",
+  "active_products_count",
+  "withdrawn_products_count",
+];
+const swedenStructureSuffixByMetric = new Map([
+  ["reporting_entities_count", "REPORTING-ENTITIES"],
+  ["notified_products_count", "NOTIFIED-PRODUCTS"],
+  ["active_products_count", "ACTIVE-PRODUCTS"],
+  ["withdrawn_products_count", "WITHDRAWN-PRODUCTS"],
+]);
+const expectedMarketCounts = {
+  observations: 79,
+  sources: 21,
+  official: 70,
+  officialMarketMeasures: 34,
+  swedenRegisterStructure: 36,
+};
 const artifactToolPackageUrl = new URL("../package.json", import.meta.resolve("@oai/artifact-tool"));
 const artifactToolPackage = JSON.parse(await fs.readFile(artifactToolPackageUrl, "utf8"));
 if (
@@ -27,14 +50,13 @@ if (
   throw new Error("Unable to resolve the active @oai/artifact-tool package version");
 }
 const artifactToolVersion = artifactToolPackage.version;
+const publicDeckNames = Object.freeze(["short", "large"]);
 
 const seedPaths = [
   "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
-  "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-en.pptx",
   "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
   "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-en.xlsx",
   "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-fi.pptx",
-  "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-fi.pptx",
   "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-fi.pptx",
   "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-fi.xlsx",
 ];
@@ -47,6 +69,7 @@ const DECK_SOURCE_URLS = [
   "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
   "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
   "https://www.ftc.gov/reports/e-cigarette-report-2021",
+  fhmSourceUrl,
   "https://www.wipo.int/en/web/ip-financing",
 ];
 
@@ -66,6 +89,10 @@ const SOURCE_METADATA = new Map([
   [
     "https://www.un.org/en/about-us/non-member-states",
     ["UN-NON-MEMBER-STATES", "United Nations", "official_reference"],
+  ],
+  [
+    fhmSourceUrl,
+    [fhmSourceId, "Public Health Agency of Sweden", "official_reference"],
   ],
 ]);
 
@@ -152,10 +179,10 @@ const deckUpdates = {
     short: {
       shapes: {
         "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
-        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Ruotsin hallitus; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Ruotsin hallitus; FHM; FTC; European Commission; IMARC; GVR; Fortune",
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
-        "sh/ih8ju9sn": "34",
-        "sh/kbm987y5": "virallista vuosihavaintoa 7 maasta",
+        "sh/ih8ju9sn": "34 + 36",
+        "sh/kbm987y5": "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
         "sh/i94r6xgz": "533,7–731,2 milj. NZD",
         "sh/jadsz2xk": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
         "sh/v6tsv2xo": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
@@ -170,17 +197,17 @@ const deckUpdates = {
         "sh/cf2tcr61": "Tekninen ero on patenttivaatimuksissa",
         "sh/dcbud0ra": "Asiakkuus vaatii kolmen ostajaryhmän validoinnin",
         "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
-        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
-        "sh/pc76hkr2": "34",
-        "sh/h4bupgn6": "virallista vuosihavaintoa 7 maasta",
+        "sh/pc76hkr2": "34 + 36",
+        "sh/h4bupgn6": "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
         "sh/v2tcn650": "533,7–731,2 milj. NZD",
         "sh/u1kbu1ov": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
         "sh/i54bylor": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
         "sh/cbe5g3ih": "Kanada 2024: retail 1,219 mrd CAD; toimitukset 1,161 mrd CAD; kaikki retail-neljännekset E-laatua ja silta avoin. FTC 2021 2,763 mrd USD on valmistajaraportointia. Reittejä ei summata.",
       },
       tables: {
-        "tb/nq547y9g": [[3, 2, "7 maan viralliset reitit"]],
+        "tb/nq547y9g": [[3, 2, "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä"]],
         "tb/rexkf2d4": [[1, 2, "0/3 retail-luovuttajaa; 5 ehdokasta jäi D1–D10-portin ulkopuolelle"]],
       },
     },
@@ -193,7 +220,7 @@ const deckUpdates = {
         "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
         "sh/0f2lgnmp": "Atlas kattaa 195 maata; ei markkina-arvoa",
         "sh/wbydknq1": "Kanadalla on retail- ja toimitusankkurit",
-        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "1,219 mrd CAD",
         "sh/c3e1gjyd": "kuluttajavähittäismyynti",
         "sh/a1wze9g7": "1,161 mrd CAD",
@@ -209,9 +236,9 @@ const deckUpdates = {
         "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
         "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
         "sh/8jup8rad": "90 päivää muuttaa aukot kontrolleiksi",
-        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.24-21 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
-        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 34 virallista vuosihavaintoa 7 maasta, mutta luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
-        "sh/bq9orito": "Valitut viralliset reitit: 34 havaintoa 7 maasta",
+        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
+        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 34 markkinamittaria 7 maasta sekä 36 Ruotsin FHM-rekisterirakenteen lukua vuosilta 2018–2026; luvut eivät ole myyntiä tai markkina-arvoa. Luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
+        "sh/bq9orito": "34 markkinamittaria + 36 Ruotsin FHM-rekisterilukua (ei myyntiä)",
         "sh/6hw3y9sb": "Nykyinen hyväksytty donor-portti on 0/3; kaikki 5 ehdokasta jäivät ulkopuolelle.",
         "sh/rip4retw": "•  Jokaisen ehdokkaan on läpäistävä kaikki 10 ehtoa (D1–D10).\n•  Uuden-Seelannin 533,7–731,2 milj. NZD vähittäisherkkyys on tuettu malli; FTC:n 2,763 mrd USD vuoden 2021 reitti on valmistajaraportointia. Kumpikaan ei ole täydellinen kuluttajavähittäisarvo tai hyväksytty donor.\n•  Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä.",
       },
@@ -231,10 +258,10 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Swedish Government; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/doj29oba": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Swedish Government; FHM; FTC; European Commission; IMARC; GVR; Fortune",
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
-        "sh/ih8ju9sn": "34",
-        "sh/kbm987y5": "official annual observations from 7 countries",
+        "sh/ih8ju9sn": "34 + 36",
+        "sh/kbm987y5": "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
         "sh/i94r6xgz": "NZD 533.7–731.2m",
         "sh/jadsz2xk": "New Zealand 2024: supported retail sensitivity",
         "sh/v6tsv2xo": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
@@ -243,24 +270,24 @@ const deckUpdates = {
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Market-values; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Market size remains a range — not a single value",
-        "sh/pc76hkr2": "34",
-        "sh/h4bupgn6": "official annual observations from 7 countries",
+        "sh/pc76hkr2": "34 + 36",
+        "sh/h4bupgn6": "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
         "sh/v2tcn650": "NZD 533.7–731.2m",
         "sh/u1kbu1ov": "New Zealand 2024: supported retail sensitivity",
         "sh/i54bylor": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
         "sh/cbe5g3ih": "Canada 2024: retail CAD 1.219bn; shipments CAD 1.161bn; all retail quarters quality E and bridge open. FTC 2021 USD 2.763bn is manufacturer reporting. Do not sum the routes.",
       },
       tables: {
-        "tb/nq547y9g": [[3, 2, "official routes from 7 countries"]],
+        "tb/nq547y9g": [[3, 2, "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales"]],
         "tb/rexkf2d4": [[1, 2, "0/3 retail-value donors; 5 candidates remain outside the D1–D10 gate"]],
       },
     },
     large: {
       shapes: {
         "sh/wbydknq1": "Canada has retail and shipment anchors",
-        "sh/5grehs7i": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "CAD 1.219bn",
         "sh/c3e1gjyd": "consumer retail sales",
         "sh/a1wze9g7": "CAD 1.161bn",
@@ -269,9 +296,9 @@ const deckUpdates = {
         "sh/y5wjitgj": "plus 1.252m litres",
         "sh/z650byxo": "Retail exceeds shipments by CAD 58.4m (+5.03%); quality, channel, scope and tax gaps keep Canada outside the donor count.",
         "sh/hsvy50re": "Statistics Canada retail and Health Canada shipments are separate transaction levels. All 2024 RCS quarters are quality E; the bridge remains unresolved.",
-        "sh/21gnuts7": "Independent public evidence summary · 2026.07.24-21 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FTC",
-        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 34 official annual observations from 7 countries, but the donor gate is 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
-        "sh/bq9orito": "Selected official routes: 34 observations across 7 countries",
+        "sh/21gnuts7": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
+        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 34 market measures across 7 countries plus 36 Swedish FHM register-structure counts for 2018–2026; the counts are not sales or market value. The donor gate remains 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
+        "sh/bq9orito": "34 market measures + 36 Swedish FHM register counts (not sales)",
         "sh/6hw3y9sb": "The current accepted-donor gate is 0/3; all 5 candidates remain outside the count.",
         "sh/rip4retw": "•  Every candidate must pass all 10 criteria (D1–D10).\n•  New Zealand's NZD 533.7–731.2m retail sensitivity is a supported model; the FTC's 2021 USD 2.763bn route is manufacturer reporting. Neither is complete consumer-retail value or an accepted donor.\n•  Coverage across regions and regulatory types, plus direct validation in major economies, is still required.",
       },
@@ -622,6 +649,136 @@ function buildEurEquivalentRows(market, scenarios, fxData) {
   return rows;
 }
 
+function validateV22MarketEvidence(market) {
+  const observations = market?.observations;
+  const sources = market?.sources;
+  if (
+    !Array.isArray(observations)
+    || observations.length !== expectedMarketCounts.observations
+  ) {
+    throw new Error(
+      `v22 bank package requires exactly ${expectedMarketCounts.observations} market observations`,
+    );
+  }
+  if (!Array.isArray(sources) || sources.length !== expectedMarketCounts.sources) {
+    throw new Error(
+      `v22 bank package requires exactly ${expectedMarketCounts.sources} market sources`,
+    );
+  }
+
+  const observationIds = observations.map((item) => item?.observationId);
+  if (
+    observationIds.some((value) => typeof value !== "string" || !value)
+    || new Set(observationIds).size !== observations.length
+  ) {
+    throw new Error("v22 market observations must have unique non-empty observationId values");
+  }
+  const sourceIds = sources.map((item) => item?.sourceId);
+  if (
+    sourceIds.some((value) => typeof value !== "string" || !value)
+    || new Set(sourceIds).size !== sources.length
+  ) {
+    throw new Error("v22 market sources must have unique non-empty sourceId values");
+  }
+
+  const official = observations.filter(
+    (item) => String(item?.evidenceStatus ?? "").startsWith("official"),
+  );
+  const swedenStructure = observations.filter(
+    (item) => (
+      item?.marketValueBasis === swedenStructureBasis
+      || (item?.sourceIds ?? []).includes(fhmSourceId)
+    ),
+  );
+  const officialMarketMeasures = official.filter((item) => !swedenStructure.includes(item));
+  if (official.length !== expectedMarketCounts.official) {
+    throw new Error(
+      `v22 bank package requires ${expectedMarketCounts.official} official observations`,
+    );
+  }
+  if (officialMarketMeasures.length !== expectedMarketCounts.officialMarketMeasures) {
+    throw new Error(
+      `v22 bank package requires ${expectedMarketCounts.officialMarketMeasures} official market measures`,
+    );
+  }
+  if (swedenStructure.length !== expectedMarketCounts.swedenRegisterStructure) {
+    throw new Error(
+      `v22 bank package requires ${expectedMarketCounts.swedenRegisterStructure} Swedish FHM register-structure counts`,
+    );
+  }
+  const officialMeasureCountries = new Set(
+    officialMarketMeasures.map((item) => item.countryIso2).filter(Boolean),
+  );
+  if (
+    JSON.stringify([...officialMeasureCountries].sort())
+    !== JSON.stringify(["CA", "DE", "FI", "NZ", "PL", "SE", "US"])
+  ) {
+    throw new Error("v22 official market measures must retain the seven reviewed countries");
+  }
+
+  const expectedStructureIds = new Set();
+  for (let year = 2018; year <= 2026; year += 1) {
+    for (const metric of swedenStructureMetrics) {
+      expectedStructureIds.add(`SE-${year}-FHM-${swedenStructureSuffixByMetric.get(metric)}`);
+    }
+  }
+  for (const item of swedenStructure) {
+    const snapshot = item.year === 2026;
+    const expectedUnit = item.metric === "reporting_entities_count"
+      ? "reporting_entity"
+      : "product";
+    if (
+      !expectedStructureIds.delete(item.observationId)
+      || item.countryIso2 !== "SE"
+      || item.geography !== "Sweden"
+      || !swedenStructureMetrics.includes(item.metric)
+      || !Number.isInteger(Number(item.value))
+      || Number(item.value) < 0
+      || item.unit !== expectedUnit
+      || item.currency !== null
+      || item.period !== (snapshot
+        ? "current_snapshot_as_of_2026_07_24"
+        : "authority_supplied_year_label")
+      || item.finality !== (snapshot
+        ? "official_current_snapshot"
+        : "official_response_year_label")
+      || item.marketValueBasis !== swedenStructureBasis
+      || item.comparableMarketValue !== false
+      || item.atlasEstimate !== false
+      || !String(item.evidenceStatus ?? "").startsWith("official")
+      || JSON.stringify(item.sourceIds) !== JSON.stringify([fhmSourceId])
+    ) {
+      throw new Error(
+        `Swedish FHM structure record is not a non-sales count: ${item.observationId ?? "unknown"}`,
+      );
+    }
+    if (snapshot) {
+      const snapshotDisclosure = [
+        item.period,
+        item.finality,
+        item.limitationEn,
+        item.limitationFi,
+      ].join(" ").toLowerCase();
+      if (
+        item.period === "calendar_year"
+        || (!snapshotDisclosure.includes("snapshot") && !snapshotDisclosure.includes("tilannekuva"))
+      ) {
+        throw new Error(`${item.observationId}: 2026 must be disclosed as a snapshot, not a full year`);
+      }
+    }
+  }
+  if (expectedStructureIds.size) {
+    throw new Error(
+      `Swedish FHM structure series is incomplete: ${[...expectedStructureIds].join(", ")}`,
+    );
+  }
+
+  const fhmSource = sources.find((item) => item.sourceId === fhmSourceId);
+  if (!fhmSource || fhmSource.pageUrl !== fhmSourceUrl) {
+    throw new Error("v22 market sources must retain the reviewed public FHM reference");
+  }
+}
+
 function formatDeckNumber(value, digits, language) {
   const output = Number(value).toFixed(digits);
   return language === "fi" ? output.replace(".", ",") : output;
@@ -796,30 +953,63 @@ function upgradeRegister(rows, language) {
     || row[0].includes("27 virallisista reiteistä")
     || row[0].includes("34 annual observations")
     || row[0].includes("34 virallisista reiteistä")
+    || row[0].includes("79 observations")
+    || row[0].includes("79 havaintoa")
   ));
   if (countIndex < 0) throw new Error(`${language}: official-observation row not found`);
   output[countIndex] = language === "fi"
     ? [
-      "Julkinen paketti sisältää 34 virallisista reiteistä johdettua vuosihavaintoa 7 maasta.",
+      "Julkinen markkina-aineisto sisältää 79 havaintoa 21 lähteestä; 70 virallista havaintoa jakautuvat 34 markkinamittariin ja 36 Ruotsin FHM-rekisterirakenteen lukuun.",
       "Markkinakoko",
-      "Maat ovat Kanada, Saksa, Suomi, Uusi-Seelanti, Puola, Ruotsi ja Yhdysvallat. Havaintojen transaktiotasot, valuutat ja tuoterajaukset eroavat.",
+      "Markkinamittarit kattavat Kanadan, Saksan, Suomen, Uuden-Seelannin, Puolan, Ruotsin ja Yhdysvallat. FHM-luvut kuvaavat vuosien 2018–2026 raportoivia toimijoita sekä ilmoitettuja, aktiivisia ja markkinoilta poistettuja tuotteita; ne eivät ole myyntiä tai markkina-arvoa.",
       "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
       "2026-07-24",
-      "Niiden vuosihavaintojen määrä, joiden evidenceStatus alkaa official_-tunnisteella.",
-      "Virallinen julkaisu ei tee mittareista automaattisesti yhteismitallisia.",
+      "79 = 43 aiempaa havaintoa + 36 FHM-rakennelukua; 70 virallista = 34 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään eikä niitä summata markkinaksi.",
+      "Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja kalenterivuoden virtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken tilannekuva, ei valmis vuosijakso. Virallinen lähde ei tee eri mittareista yhteismitallisia.",
       "Vahvistettu",
       "Lisämaista tarvitaan yhteismitalliset vuotuiset laite- ja nestemäisen kuluttajavähittäisarvon sarjat.",
     ]
     : [
-      "The public package contains 34 annual observations sourced from official routes across seven countries.",
+      "The public market dataset contains 79 observations from 21 sources; its 70 official observations split into 34 market measures and 36 Swedish FHM register-structure counts.",
       "Market size",
-      "The countries are Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. Transaction levels, currencies and product scopes differ.",
+      "The market measures cover Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",
       "site/data/market-values.json (machine-readable source file of the public site)",
       "2026-07-24",
-      "Count of annual observations whose evidenceStatus begins official_.",
-      "Official publication does not make the metrics automatically comparable.",
+      "79 = 43 prior observations + 36 FHM structure counts; 70 official = 34 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
+      "The 2018–2025 figures are authority-supplied year labels, not assumed calendar-year flows or year-end snapshots. The 2026 FHM records are a current snapshot, not a completed annual period. Official sourcing does not make unlike metrics comparable.",
       "Confirmed",
       "Comparable annual device and liquid consumer-retail-value series are required from additional countries.",
+    ];
+
+  const swedenIndex = output.findIndex((row) => (
+    row[0].startsWith(language === "fi" ? "Ruotsissa verotettiin" : "Sweden taxed")
+    || row[0].startsWith(language === "fi"
+      ? "Ruotsin julkinen evidenssi yhdistää"
+      : "Sweden's public evidence combines")
+  ));
+  if (swedenIndex < 0) throw new Error(`${language}: Sweden register row not found`);
+  output[swedenIndex] = language === "fi"
+    ? [
+      "Ruotsin julkinen evidenssi yhdistää vuoden 2024 veroankkurin ja 36 virallista FHM-rekisterirakenteen lukua vuosilta 2018–2026; rekisteriluvut eivät ole myyntiä tai markkina-arvoa.",
+      "Markkinakoko",
+      "Vuonna 2024 verotettiin 26 000 litraa nikotiininestettä ja valmisteverotulo oli pyöristetysti 80 000 000 SEK. Viranomaisen toimittamassa ja 24.7.2026 tarkistetussa työkirjassa on 9 vuosilabelia × 4 rakennemittaria: raportoivat toimijat sekä ilmoitetut, aktiiviset ja markkinoilta poistetut tuotteet. Julkinen FHM-sivu dokumentoi ilmoitusjärjestelmän, ei siinä julkaistua numeerista sarjaa.",
+      `https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf ; ${fhmSourceUrl} ; site/data/market-values.json`,
+      "2026-07-24",
+      "36 = 9 vuotta (2018–2026) × 4 rekisterirakenteen mittaria. Veroankkuri, 34 markkinamittaria ja 36 rakennelukua pidetään erillään.",
+      "Rakenneluvuista ei päätellä myyntiarvoa, myyntimäärää tai markkinaosuutta. Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja vuosivirtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken tilannekuva eikä sitä vuositasoiteta.",
+      "Vahvistettu",
+      "Tarvitaan toteutunut kuluttajamyynti EUR-määräisenä, laitekappaleet ja ml-määrät sekä julkisesti uudelleenkäytettävä numeerinen FHM-sarja.",
+    ]
+    : [
+      "Sweden's public evidence combines a 2024 tax anchor with 36 official FHM register-structure counts for 2018–2026; the register counts are not sales or market value.",
+      "Market size",
+      "Sweden taxed 26,000 litres of nicotine liquid in 2024 and reported rounded excise receipts of SEK 80,000,000. An authority-supplied workbook received and reviewed on 24 July 2026 contains 9 year labels × 4 structure metrics: reporting entities and notified, active and withdrawn products. The public FHM page documents the notification system; it is not presented as publishing the numeric series.",
+      `https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf ; ${fhmSourceUrl} ; site/data/market-values.json`,
+      "2026-07-24",
+      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 34 market measures and 36 structure counts remain separate.",
+      "No sales value, sales volume or market share is inferred from the structure counts. The 2018–2025 figures are authority-supplied year labels, not assumed annual flows or year-end snapshots. The 2026 records are a current snapshot and are not annualised.",
+      "Confirmed",
+      "Observed consumer sales in euros, device units and liquid millilitres, plus a publicly reusable numeric FHM series, are still required.",
     ];
 
   const donorIndex = output.findIndex((row) => row[0].includes(language === "fi"
@@ -1233,7 +1423,7 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
   titleBlock(
     summary,
     "H",
-    isFi ? "Pixan · julkisen evidenssipaketin yhteenveto" : "Pixan · public evidence package summary",
+    isFi ? "Pixan · evidenssipaketin yhteenveto" : "Pixan · public evidence package summary",
     isFi
       ? "Riippumaton julkinen evidenssikooste. Ei Pixan Oy:n virallinen kanta; ei tilintarkastus, arvonmääritys, oikeudellinen lausunto, sijoitussuositus tai lainasuositus."
       : "Independent public evidence summary. Not Pixan Oy's official position; not an audit, valuation, legal opinion, investment recommendation or lending recommendation.",
@@ -1474,11 +1664,9 @@ function artifactManifestEntry(id, artifact) {
   const isRegister = id.startsWith("evidence-register");
   const titles = {
     "short-deck-en": ["Suppea pankkidekki (englanti)", "Concise bank deck (English)"],
-    "medium-deck-en": ["Keskikokoinen pankkidekki (englanti)", "Core bank deck (English)"],
     "large-deck-en": ["Laaja pankkidekki (englanti)", "Extended bank deck (English)"],
     "evidence-register-en": ["Evidence Register (englanti)", "Evidence Register (English)"],
     "short-deck-fi": ["Suppea pankkidekki (suomi)", "Concise bank deck (Finnish)"],
-    "medium-deck-fi": ["Keskikokoinen pankkidekki (suomi)", "Core bank deck (Finnish)"],
     "large-deck-fi": ["Laaja pankkidekki (suomi)", "Extended bank deck (Finnish)"],
     "evidence-register-fi": ["Evidence Register (suomi)", "Evidence Register (Finnish)"],
   };
@@ -1496,7 +1684,7 @@ function artifactManifestEntry(id, artifact) {
   };
   if (isRegister) entry.rowCount = artifact.rowCount;
   else {
-    if (!["short", "medium", "large"].includes(deckName)) throw new Error(`Unknown deck id ${id}`);
+    if (!publicDeckNames.includes(deckName)) throw new Error(`Unknown deck id ${id}`);
     entry.slideCount = artifact.slideCount;
   }
   return entry;
@@ -1506,19 +1694,17 @@ async function writeReleaseLocks(artifacts) {
   const changelog = JSON.parse(await fs.readFile(path.join(dataDir, "changelog.json"), "utf8"));
   const release = changelog.releases?.[0];
   if (
-    release?.id !== "2026-07-24-euromonitor-access-clarification-v21"
+    release?.id !== releaseId
     || release?.version !== releaseVersion
     || changelog.asOf !== "2026-07-24"
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v21 release");
+    throw new Error("The public changelog is not locked to the reviewed v22 release");
   }
   const artifactOrder = [
     "short-deck-en",
-    "medium-deck-en",
     "large-deck-en",
     "evidence-register-en",
     "short-deck-fi",
-    "medium-deck-fi",
     "large-deck-fi",
     "evidence-register-fi",
   ];
@@ -1542,6 +1728,7 @@ async function writeReleaseLocks(artifacts) {
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
+    "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
   ];
   const reviewedInputs = reviewedInputPaths.map((relative) => ({
     path: relative,
@@ -1579,7 +1766,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 34 official observations across seven countries, five donor candidates, Canada retail series, New Zealand retail sensitivity and FTC route share one v21 release boundary. The v21 Euromonitor role/access status update is an administrative outreach checkpoint, not a new market observation, accepted donor, vendor score or purchase authorisation.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 21-source market dataset share one v22 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. The FHM counts describe reporting and product-register structure, are not sales or market value, and do not change the 0/3 donor gate.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,
@@ -1632,6 +1819,7 @@ async function main() {
   const scenarios = JSON.parse(await fs.readFile(path.join(dataDir, "country-scenarios.json"), "utf8"));
   const publicFx = JSON.parse(await fs.readFile(path.join(dataDir, "fx-rates.json"), "utf8"));
   const sourceFx = JSON.parse(await fs.readFile(path.join(sourceDir, "fx-rates.json"), "utf8"));
+  validateV22MarketEvidence(market);
   validateReviewedFx(publicFx, sourceFx);
   const publicFxSchemaPath = path.join(repo, "site", "schemas", "fx-rates.schema.json");
   const sourceFxSchemaPath = path.join(sourceDir, "schemas", "fx-rates.schema.json");
@@ -1675,7 +1863,7 @@ async function main() {
 
   const artifacts = {};
   for (const language of ["en", "fi"]) {
-    for (const deckName of ["short", "medium", "large"]) {
+    for (const deckName of publicDeckNames) {
       artifacts[`${deckName}-deck-${language}`] = await buildDeck(
         language,
         deckName,

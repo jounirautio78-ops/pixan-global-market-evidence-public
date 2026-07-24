@@ -1854,14 +1854,21 @@ function renderMarket() {
 const CHANGE_STORAGE_KEY = "pixan-global-market-evidence-last-seen-release-v4";
 const releaseToken = (release) => release ? `${release.id}:${release.version || "unversioned"}` : "";
 
-function prepareChangeView() {
+function publicReleases() {
   const releases = Array.isArray(state.changelog?.releases)
     ? [...state.changelog.releases].sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))
     : [];
+  if (releases.length) return releases;
+  const uiRelease = window.PixanUiRelease;
+  return uiRelease ? [uiRelease] : [];
+}
+
+function prepareChangeView() {
+  const releases = publicReleases();
   const current = releases[0] || null;
   let lastSeen = null;
   try { lastSeen = localStorage.getItem(CHANGE_STORAGE_KEY); } catch (_) { /* local storage may be disabled */ }
-  let mode = state.changelog ? "none" : "unavailable";
+  let mode = releases.length ? "none" : "unavailable";
   let visible = [];
   if (current && !lastSeen) {
     mode = "first";
@@ -2606,9 +2613,7 @@ function renderLocalizedView() {
 
 function renderMeta() {
   const snapshot = valueAt(state.data, ["meta.generatedAt", "meta.snapshotDate", "meta.updatedAt"], "");
-  const latestRelease = Array.isArray(state.changelog?.releases)
-    ? [...state.changelog.releases].sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))[0]
-    : null;
+  const latestRelease = publicReleases()[0] || null;
   const updatedAt = latestRelease?.publishedAt || snapshot;
   const sourceCommit = valueAt(state.data, ["meta.sourceCommit", "meta.legacySourceCommit", "sourceAttribution.commit"], "—");
   byId("snapshot-date").textContent = formatDate(updatedAt);

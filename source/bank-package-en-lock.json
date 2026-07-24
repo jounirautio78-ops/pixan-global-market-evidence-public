@@ -1,23 +1,19 @@
 {
   "schemaVersion": 2,
   "release": {
-    "id": "2026-07-24-euromonitor-access-clarification-v21",
-    "version": "2026.07.24-21",
-    "publishedAt": "2026-07-24T16:54:03+03:00"
+    "id": "2026-07-24-sweden-registration-structure-v22",
+    "version": "2026.07.24-22",
+    "publishedAt": "2026-07-24T17:30:06+03:00"
   },
   "asOf": "2026-07-24",
   "reviewedInputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "ad1956ee7bfc8c6b05c05e8baa3860adb5272ad673211da13a0a4613b66f671b"
+      "sha256": "4be530d7be0a68db3b94efd6b04aba87d35c38e43ada9816c87644bf555f8862"
     },
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
       "sha256": "04799215ef72cf1b2d6eba434ee56497dcf26c7351adb5660914ebe76571f53f"
-    },
-    {
-      "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-en.pptx",
-      "sha256": "d0ab5f1f61fcc9d5a4221f2ce062df5227ccce8f29c0c4ef9000db4cb25bf946"
     },
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
@@ -30,10 +26,6 @@
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-fi.pptx",
       "sha256": "dcfdcc1bfc3055e940bae7d6521d1aafe12125573c295e4bb6dddd040f25cd1e"
-    },
-    {
-      "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-fi.pptx",
-      "sha256": "381ad617af73d5a8be80c354aa8c7c1272b10a4a9d623585bd57cdcc187879cf"
     },
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-fi.pptx",
@@ -49,11 +41,11 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "c4be857537feba252697cd2f585078892a4b545804ac2d0e18d53ed6f73911da"
+      "sha256": "ad07eaf0ae078ec39745f4df40685664ad4ff8ddb6916926dafc1d624cfe17b5"
     },
     {
       "path": "site/data/market-values.json",
-      "sha256": "7738e70ce2bd2ad328abb1883ad8fb4a47bbfc27a7826a6dc0c7ef6fceee2956"
+      "sha256": "5e5e841f95fdd26b7b6ed38de3e13c59bc0999e9017628a2d604e90ca8dc5057"
     },
     {
       "path": "site/data/patent-history.json",
@@ -81,7 +73,7 @@
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "d94ef5a503ad355565a9a06b9e428e932628febd4ae8639424081661d580b2ff"
+      "sha256": "dd436c41fd36072bb133f5010f776216b004089b7b682d55571b42d75fbbf7ba"
     },
     {
       "path": "source/fx-rates.json",
@@ -110,6 +102,10 @@
     {
       "path": "source/US_FTC_2015_2021_REPORTED_SALES.md",
       "sha256": "b61c2a911ab41813f91f10fc763147a808e87f18eeaf2c217c291bfb50e969c5"
+    },
+    {
+      "path": "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
+      "sha256": "262e8bf01bf81c960089ad3fd0675523f880afae6df1c6adb0358ad8ddfc697d"
     }
   ],
   "artifacts": [
@@ -118,26 +114,17 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "f065a1d343d0ed0bb21573d2f42af0af342558378f9dc96c042e6b563bc92990",
-      "bytes": 55730,
+      "sha256": "3361fed75d9ad41c78c2eb870cff2ec99bd5c062cee8626d3b0cbc95f066738e",
+      "bytes": 56382,
       "slideCount": 6
-    },
-    {
-      "id": "medium-deck-en",
-      "kind": "pptx",
-      "language": "en",
-      "path": "site/downloads/pixan-bank-deck-medium-en.pptx",
-      "sha256": "3d28bfa25f03b21e6caf1a7204b9d1685e83fe16764895cf3d1cc92d773553fc",
-      "bytes": 83539,
-      "slideCount": 12
     },
     {
       "id": "large-deck-en",
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "aeab6061e1543218e26e9d70ebe9592d85d42fb05e59183af3bb5fb987c82460",
-      "bytes": 166674,
+      "sha256": "e6ecc0f47e332155d59ad191cb1c01e671887e00730609ae906d9b34fc33b7eb",
+      "bytes": 169938,
       "slideCount": 30
     },
     {
@@ -145,8 +132,8 @@
       "kind": "xlsx",
       "language": "en",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "bc7d2e8b27451e8e0c7949031b7e2785faf8c19f5f84f925a66c07305eeeeb84",
-      "bytes": 36005,
+      "sha256": "9b309b776e11165594701972299a521af634b355d48715c91fc1a6fe80c69745",
+      "bytes": 36679,
       "rowCount": 53
     },
     {
@@ -154,26 +141,17 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "456b7c2a06fb756fb1a1910c4fad05908a2293788a656ef6926ff70ee3b9ac1f",
-      "bytes": 56055,
+      "sha256": "18946dabb923f8ca694b4b2a93d387e82bcb3b607eb1e8fc73bd794fe4ad1bcd",
+      "bytes": 56739,
       "slideCount": 6
-    },
-    {
-      "id": "medium-deck-fi",
-      "kind": "pptx",
-      "language": "fi",
-      "path": "site/downloads/pixan-bank-deck-medium-fi.pptx",
-      "sha256": "bd83790d8f5f9a9f7539ccaba80110f207766bdb6f9d2b45265c1101ce2d6159",
-      "bytes": 84036,
-      "slideCount": 12
     },
     {
       "id": "large-deck-fi",
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "0edcd52fb9eebd30248fd256cedc92ec467d90123fb68139e5c0060e83bd80fe",
-      "bytes": 168238,
+      "sha256": "a7378be58aa52984525bf3a02979298ef8d1868282a877397bae8915ada7f7a4",
+      "bytes": 171470,
       "slideCount": 30
     },
     {
@@ -181,8 +159,8 @@
       "kind": "xlsx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "1ea42cdc8f7dc74cb7a9ebd8d13634d0eb449f619ebb7a1a73dba6500845ed19",
-      "bytes": 37104,
+      "sha256": "348e135008de1984794a929608aaa4ee3ae45fc95ae7d601f9bae0d6fbe83200",
+      "bytes": 37879,
       "rowCount": 53
     }
   ],
@@ -197,10 +175,6 @@
         "sha256": "04799215ef72cf1b2d6eba434ee56497dcf26c7351adb5660914ebe76571f53f"
       },
       {
-        "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-en.pptx",
-        "sha256": "d0ab5f1f61fcc9d5a4221f2ce062df5227ccce8f29c0c4ef9000db4cb25bf946"
-      },
-      {
         "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
         "sha256": "90c6a77486256f18c80bfb9929ba16390a3d446ff7d9c2f3b4fcbea207c317cb"
       },
@@ -213,10 +187,6 @@
         "sha256": "dcfdcc1bfc3055e940bae7d6521d1aafe12125573c295e4bb6dddd040f25cd1e"
       },
       {
-        "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-fi.pptx",
-        "sha256": "381ad617af73d5a8be80c354aa8c7c1272b10a4a9d623585bd57cdcc187879cf"
-      },
-      {
         "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-fi.pptx",
         "sha256": "3796e464a205ac13f1d1636081c0be4de6e339fce9adaac604d313308283a666"
       },
@@ -225,7 +195,7 @@
         "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
       }
     ],
-    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers, 34 official observations across seven countries, five donor candidates, Canada retail series, New Zealand retail sensitivity and FTC route share one v21 release boundary. The v21 Euromonitor role/access status update is an administrative outreach checkpoint, not a new market observation, accepted donor, vendor score or purchase authorisation.",
+    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 21-source market dataset share one v22 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. The FHM counts describe reporting and product-register structure, are not sales or market value, and do not change the 0/3 donor gate.",
     "qualityAssurance": {
       "exactRegisterRowsAfterReopen": true,
       "summaryFormulasAfterReopen": true,

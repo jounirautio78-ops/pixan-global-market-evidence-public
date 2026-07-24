@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the v20 decision, donor, audit and freshness views."""
+"""Fail-closed validation for the v22 decision, donor, response and freshness views."""
 
 from __future__ import annotations
 
@@ -23,7 +23,9 @@ EXPECTED_PROCESS_STATES = {
     "DE": "registered_and_processing_confirmed",
     "DK": "automated_receipt_acknowledged",
     "FI": "registered_processing_notice_received",
-    "SE": "automated_route_correction_received",
+}
+EXPECTED_STRUCTURAL_STATES = {
+    "SE": "official_structural_data_received_sales_not_available",
 }
 GERMANY_MODEL_ID = "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE"
 GERMANY_VOLUME_ID = "DE-2025-TAXED-LIQUID-VOLUME-L"
@@ -47,6 +49,7 @@ REQUIRED_REVIEW_IDS = {
     "cockpit-gates-list",
     "research-operations-overview",
     "research-operations-metrics",
+    "sweden-structure-card",
     "review-calculation-audit",
     "review-calculation-audit-status",
     "review-calculation-audit-summary",
@@ -100,6 +103,10 @@ REQUIRED_I18N_EN = {
     "No automatic publication, spending or external action",
     "Donor-market acceptance gate",
     "The 0/3 gate changes only when a candidate passes every criterion.",
+    "3 process-only responses",
+    "1 official structural response",
+    "0 sales-data responses",
+    "The Sweden response contains official registration-structure counts only.",
 }
 
 
@@ -153,11 +160,11 @@ def validate_review_data(
     sources = market.get("sources")
     observations = market.get("observations")
     models = market.get("models")
-    if not isinstance(sources, list) or len(sources) != 20:
-        errors.append("Freshness ledger requires exactly 20 reviewed market sources for v20")
+    if not isinstance(sources, list) or len(sources) != 21:
+        errors.append("Freshness ledger requires exactly 21 reviewed market sources for v22")
         sources = []
-    if not isinstance(observations, list) or len(observations) != 43:
-        errors.append("v20 market baseline must contain exactly 43 observations")
+    if not isinstance(observations, list) or len(observations) != 79:
+        errors.append("v22 market baseline must contain exactly 79 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -211,9 +218,21 @@ def validate_review_data(
         if str(item.get("evidenceStatus", "")).startswith("official_")
     ]
     official_countries = {item.get("countryIso2") for item in official}
-    if len(official) != 34 or official_countries != EXPECTED_OFFICIAL_COUNTRIES:
+    structural_official = [
+        item for item in official
+        if item.get("marketValueBasis") == "official_registration_structure_count_not_sales_or_market_value"
+    ]
+    market_measure_official = [item for item in official if item not in structural_official]
+    if (
+        len(official) != 70
+        or official_countries != EXPECTED_OFFICIAL_COUNTRIES
+        or len(structural_official) != 36
+        or {item.get("countryIso2") for item in structural_official} != {"SE"}
+        or len(market_measure_official) != 34
+    ):
         errors.append(
-            "v20 official numeric baseline must retain 34 observations across CA, DE, FI, NZ, PL, SE and US"
+            "v22 must retain 34 official market-measure observations plus 36 Sweden "
+            "registration-structure observations across the seven reviewed countries"
         )
     official_retail = [
         item for item in official
@@ -228,7 +247,7 @@ def validate_review_data(
         or {item.get("countryIso2") for item in official_retail} != {"CA", "NZ"}
         or any(item.get("comparableMarketValue") is not False for item in official_retail)
     ):
-        errors.append("v20 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
+        errors.append("v22 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
 
     readiness = market.get("meta", {}).get("modelReadiness", {})
     declared_donors = readiness.get("comparableFullYearMarketValueDonors")
@@ -305,7 +324,7 @@ def validate_review_data(
             else:
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
-            "latest_period": 10,
+            "latest_period": 11,
             "previous_full_year": 3,
             "historical_only": 7,
         }:
@@ -376,18 +395,32 @@ def validate_review_data(
     drafts = [route for route in routes if route.get("status") == "draft_not_sent"]
     if len(sent) != 12 or len(drafts) != 8:
         errors.append("Request programme must remain 12 sent and 8 draft routes")
-    process = {
+    recorded_responses = {
         route.get("countryIso2"): route.get("dispatch", {}).get("responseState")
         for route in routes
         if route.get("dispatch", {}).get("responseState")
         not in {"not_publicly_recorded", "not_applicable"}
     }
+    process = {
+        country: state
+        for country, state in recorded_responses.items()
+        if country in EXPECTED_PROCESS_STATES
+    }
+    structural = {
+        country: state
+        for country, state in recorded_responses.items()
+        if country in EXPECTED_STRUCTURAL_STATES
+    }
     if process != EXPECTED_PROCESS_STATES:
-        errors.append(f"Process-response baseline must remain the four reviewed categorical states: {process}")
+        errors.append(f"Process-only response baseline must remain DE, DK and FI: {process}")
+    if structural != EXPECTED_STRUCTURAL_STATES:
+        errors.append(f"Structural-data response baseline must remain Sweden only: {structural}")
+    if set(recorded_responses) != set(EXPECTED_PROCESS_STATES) | set(EXPECTED_STRUCTURAL_STATES):
+        errors.append(f"Unexpected authority response countries: {recorded_responses}")
     for route in routes:
-        if route.get("countryIso2") in EXPECTED_PROCESS_STATES:
+        if route.get("countryIso2") in set(EXPECTED_PROCESS_STATES) | set(EXPECTED_STRUCTURAL_STATES):
             if route.get("dispatch", {}).get("publicAuthorityReference") is not None:
-                errors.append(f"{route.get('countryIso2')}: process response must not publish a private authority reference")
+                errors.append(f"{route.get('countryIso2')}: authority response must not publish a private reference")
 
     if fx is not None:
         policy = fx.get("calculationPolicy", {})
@@ -483,6 +516,8 @@ def validate_review_structure(
     index_html: str,
     review_js: str,
     i18n_js: str | None = None,
+    request_program_js: str | None = None,
+    app_js: str | None = None,
 ) -> list[str]:
     errors: list[str] = []
     id_list = re.findall(r"""\bid=["']([^"']+)["']""", review_html)
@@ -526,10 +561,12 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-24-20") < 7:
-        errors.append("review.html asset cache-busters must all use the v20 release")
-    if index_html.count("2026-07-24-20") < 4:
-        errors.append("index.html asset cache-busters must all use the v20 release")
+    if review_html.count("2026-07-24-22") < 7:
+        errors.append("review.html asset cache-busters must all use the v22 release")
+    if index_html.count("2026-07-24-22") < 4:
+        errors.append("index.html asset cache-busters must all use the v22 release")
+    if "2026-07-24-20" in review_html or "2026-07-24-20" in index_html:
+        errors.append("stale v20 cache-busters remain in the v22 pages")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -580,6 +617,52 @@ def validate_review_structure(
         for text in REQUIRED_I18N_EN:
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
+        for release_hook in (
+            "2026-07-24-sweden-registration-structure-v22",
+            'version: "2026.07.24-22"',
+            'publishedAt: "2026-07-24T17:30:06+03:00"',
+            "The 2026 row is a snapshot",
+            "The donor gate and global total remain unchanged.",
+        ):
+            if release_hook not in i18n_js:
+                errors.append(f"i18n.js lacks required v22 UI release hook {release_hook!r}")
+    if request_program_js is not None:
+        required_rows = (
+            "[2018, 226, 18356, 16264, 2092]",
+            "[2019, 310, 24525, 17704, 6821]",
+            "[2020, 369, 29125, 18745, 10380]",
+            "[2021, 399, 31243, 19251, 11992]",
+            "[2022, 431, 34163, 20256, 13907]",
+            "[2023, 544, 40593, 25278, 15315]",
+            "[2024, 619, 48036, 30371, 17665]",
+            "[2025, 663, 52889, 32899, 19990]",
+            "[2026, 687, 55273, 32889, 22384]",
+        )
+        for hook in (
+            "SWEDEN_STRUCTURAL_RESPONSE",
+            "function renderSwedenStructure(",
+            "function responseCounts(",
+            "STRUCTURE ONLY · NOT SALES",
+            "does not measure sales, market value, devices sold, e-liquid millilitres",
+            "sales: 0",
+            *required_rows,
+        ):
+            if hook not in request_program_js:
+                errors.append(f"request-program.js lacks required v22 Sweden hook {hook!r}")
+        if "4 process responses" in request_program_js:
+            errors.append("request-program.js still presents Sweden as a process-only response")
+    if app_js is not None:
+        if "function publicReleases(" not in app_js or "window.PixanUiRelease" not in app_js:
+            errors.append("app.js does not expose the v22 UI release to metadata and returning visitors")
+    for hook in (
+        "REVIEW_STRUCTURAL_RESPONSE_COUNTRIES",
+        "officialStructuralResponses",
+        "salesResponses: 0",
+        "function reviewPublicReleases(",
+        "window.PixanUiRelease",
+    ):
+        if hook not in review_js:
+            errors.append(f"review.js lacks required v22 response hook {hook!r}")
     for page_name, page in (("review.html", review_html), ("index.html", index_html)):
         for language, label in (("fi", "Suomi"), ("en", "English")):
             pattern = (
@@ -602,9 +685,18 @@ def validate_all(root: Path = ROOT) -> list[str]:
     index_html = (root / "site" / "index.html").read_text(encoding="utf-8")
     review_js = (root / "site" / "assets" / "review.js").read_text(encoding="utf-8")
     i18n_js = (root / "site" / "assets" / "i18n.js").read_text(encoding="utf-8")
+    request_program_js = (root / "site" / "assets" / "request-program.js").read_text(encoding="utf-8")
+    app_js = (root / "site" / "assets" / "app.js").read_text(encoding="utf-8")
     return [
         *validate_review_data(atlas, market, patent, requests, fx),
-        *validate_review_structure(review_html, index_html, review_js, i18n_js),
+        *validate_review_structure(
+            review_html,
+            index_html,
+            review_js,
+            i18n_js,
+            request_program_js,
+            app_js,
+        ),
     ]
 
 
@@ -616,8 +708,8 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v21 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
-        "waterfall, deterministic 20-source ledger, separated operations view and required UI hooks."
+        "Validated v22 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "waterfall, Sweden structural-only response, deterministic 21-source ledger and required UI hooks."
     )
 
 
