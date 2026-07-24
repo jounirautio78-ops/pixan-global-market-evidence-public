@@ -54,9 +54,15 @@ jobs:
           python scripts/test_data_request_program.py
           python scripts/test_vendor_response_control.py
           python scripts/test_paid_data_procurement_privacy.py
+          python scripts/test_review_experience.py
+          python scripts/test_donor_cockpit.py
+          python scripts/test_fx_rates.py
           python scripts/validate_data_request_program.py
           python scripts/validate_paid_data_procurement.py
           python scripts/validate_vendor_response_control.py
+          python scripts/validate_review_experience.py
+          python scripts/validate_donor_cockpit.py
+          python scripts/validate_fx_rates.py
           python scripts/validate_public.py
           python scripts/validate_bank_package.py
           python scripts/test_public_privacy.py
