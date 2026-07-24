@@ -103,12 +103,14 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "role/access clarification is pending and has not been sent",
+            "role/access clarification was sent on 2026-07-24",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
+        self.assertNotIn("pending and has not been sent", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertNotIn("meeting", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
         self.assertNotIn("account history", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
         self.assertNotIn("single-user", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
+        self.assertNotIn("consultant", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
         self.assertNotIn("CEO", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertIn(
             "No reviewable numerical Germany sample, written brand-field confirmation, itemised price, detailed methodology",
@@ -119,7 +121,7 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "purchase, fee or commitment",
+            "score, purchase, fee or commitment",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
 

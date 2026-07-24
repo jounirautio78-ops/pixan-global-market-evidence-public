@@ -151,21 +151,22 @@ EXPECTED_VENDORS = {
             "Two written responses and an 8-page brochure received. Quote, numerical-sample, "
             "Germany-evaluation and brand-field requests were sent on 2026-07-24. "
             "Euromonitor says it can provide samples, detailed answers and pricing after the "
-            "role/access model is clarified; that clarification is pending and has not been "
-            "sent. Pending: numerical Germany sample, written brand-field confirmation, "
-            "price, method, coverage and written derived-output rights. "
+            "role/access model is clarified; a role/access clarification was sent on 2026-07-24. "
+            "Pending: numerical Germany sample, written brand-field confirmation, itemised "
+            "price, method, country-product coverage matrix, licence and written derived-output rights. "
             "The brochure's 100-country list is not confirmed e-vapour "
-            "country-product coverage."
+            "country-product coverage. No score, purchase, fee or commitment is established."
         ),
         "publicStatusFi": (
             "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen "
             "näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. "
             "Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia "
-            "ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; täsmennys odottaa "
-            "eikä sitä ole lähetetty. Odottavat: numeerinen Saksa-näyte, kirjallinen "
-            "brändikenttävahvistus, hinta, menetelmä, peitto ja kirjalliset johdettujen "
-            "tuotosten oikeudet. "
-            "Esitteen 100 maan lista ei ole vahvistettu sähkötupakan maa–tuote-peitto."
+            "ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; rooli- ja käyttömallin "
+            "täsmennys lähetettiin 24.7.2026. Odottavat: numeerinen Saksa-näyte, kirjallinen "
+            "brändikenttävahvistus, eritelty hinta, menetelmä, maa–tuote-peittomatriisi, "
+            "lisenssi ja kirjalliset johdettujen tuotosten oikeudet. Esitteen 100 maan lista "
+            "ei ole vahvistettu sähkötupakan maa–tuote-peitto. Pistemäärää, ostoa, maksua tai "
+            "sitoumusta ei ole osoitettu."
         ),
     },
     "niq-rms-pilot": {
@@ -399,7 +400,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.24-20" or not valid_date(source.get("asOf")):
+    if source.get("version") != "2026.07.24-21" or not valid_date(source.get("asOf")):
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,

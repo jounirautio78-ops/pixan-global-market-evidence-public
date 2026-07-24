@@ -13,8 +13,8 @@ const workbookPath = path.join(
   "downloads",
   "pixan-paid-data-procurement-fi-en.xlsx",
 );
-const temporaryPath = `${workbookPath}.v20.tmp`;
-const qaDir = path.join(repo, "tmp", "paid-data-v20", "renders");
+const temporaryPath = `${workbookPath}.v21.tmp`;
+const qaDir = path.join(repo, "tmp", "paid-data-v21", "renders");
 const sheetNames = [
   "Decision",
   "Priorities",
@@ -40,20 +40,20 @@ const ecigBoundary = [
 ];
 const euromonitorState = [
   [
-    "TWO WRITTEN RESPONSES + BROCHURE RECEIVED · GERMANY SAMPLE + PRICING PENDING · "
-      + "ROLE/ACCESS CLARIFICATION PENDING · NOT SENT\n"
-      + "FI: KAKSI KIRJALLISTA VASTAUSTA + ESITE SAATU · SAKSA-NÄYTE + HINNOITTELU ODOTTAVAT · "
-      + "ROOLI-/KÄYTTÖMALLIN TÄSMENNYS ODOTTAA · EI LÄHETETTY",
+    "TWO WRITTEN RESPONSES + BROCHURE RECEIVED · ROLE/ACCESS CLARIFICATION SENT · "
+      + "GERMANY SAMPLE + PRICING PENDING\n"
+      + "FI: KAKSI KIRJALLISTA VASTAUSTA + ESITE SAATU · ROOLI-/KÄYTTÖMALLIN TÄSMENNYS "
+      + "LÄHETETTY · SAKSA-NÄYTE + HINNOITTELU ODOTTAVAT",
   ],
 ];
 const euromonitorBoundary = [
   [
     "Status only. Euromonitor says it can provide samples, detailed answers and pricing after "
-      + "the role/access model is clarified. The role/access clarification is pending and has not "
-      + "been sent. The brochure and vendor statement about expanded granularity are "
-      + "not numerical market evidence. The Germany sample, written brand confirmation, itemised "
-      + "price, detailed method, coverage, licence and written derived-output rights remain pending. "
-      + "No usable data, purchase, fee or commitment.",
+      + "the role/access model is clarified. A role/access clarification was sent on 2026-07-24. "
+      + "The brochure and vendor statement about expanded granularity are not numerical market "
+      + "evidence. The Germany sample, written brand confirmation, itemised price, detailed method, "
+      + "country-product coverage matrix, licence and written derived-output rights remain pending. "
+      + "No usable data, score, purchase, fee or commitment.",
   ],
 ];
 
@@ -61,7 +61,7 @@ const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(workbookPa
 const decision = workbook.worksheets.getItem("Decision");
 decision.getRange("A3").values = [[
   "Independent decision support · No purchase authorised · "
-    + "Version 2026.07.24-20 · Verified 2026-07-24",
+    + "Version 2026.07.24-21 · Verified 2026-07-24",
 ]];
 const scorecard = workbook.worksheets.getItem("Response Scorecard");
 scorecard.getRange("A3").values = [[
@@ -90,8 +90,9 @@ for (const sheetName of sheetNames) {
       if (
         values[row][column] === "2026.07.23-3"
         || values[row][column] === "2026.07.24-19"
+        || values[row][column] === "2026.07.24-20"
       ) {
-        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.24-20"]];
+        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.24-21"]];
       }
     }
   }
@@ -117,7 +118,7 @@ if (
   || reviewed.ecigSourceFormula[0][0] !== "='Sources'!C6"
   || reviewed.euromonitorSourceFormula[0][0] !== "='Sources'!C9"
 ) {
-  throw new Error("Reopened paid-data workbook differs from the reviewed v20 state");
+  throw new Error("Reopened paid-data workbook differs from the reviewed v21 state");
 }
 
 await fs.mkdir(qaDir, { recursive: true });
@@ -137,10 +138,10 @@ for (const sheetName of sheetNames) {
 
 await fs.rename(temporaryPath, workbookPath);
 await fs.writeFile(
-  path.join(repo, "tmp", "paid-data-v20", "artifact-build.json"),
+  path.join(repo, "tmp", "paid-data-v21", "artifact-build.json"),
   `${JSON.stringify(
     {
-      release: "2026.07.24-20",
+      release: "2026.07.24-21",
       workbook: "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
       renderedSheets: sheetNames,
       reviewed,
@@ -150,4 +151,4 @@ await fs.writeFile(
   )}\n`,
   "utf8",
 );
-console.log(`Updated and rendered paid-data workbook for 2026.07.24-20: ${workbookPath}`);
+console.log(`Updated and rendered paid-data workbook for 2026.07.24-21: ${workbookPath}`);

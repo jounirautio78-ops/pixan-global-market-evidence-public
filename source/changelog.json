@@ -3,6 +3,30 @@
   "asOf": "2026-07-24",
   "releases": [
     {
+      "id": "2026-07-24-euromonitor-access-clarification-v21",
+      "version": "2026.07.24-21",
+      "publishedAt": "2026-07-24T16:54:03+03:00",
+      "titleEn": "Euromonitor role/access clarification recorded as sent with all evidence gates still open",
+      "titleFi": "Euromonitorin rooli- ja käyttömallin täsmennys kirjattu lähetetyksi kaikkien evidenssiporttien pysyessä avoimina",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Updated the privacy-safe commercial-data control to record that a role/access clarification was sent on 24 July 2026. The public record discloses no identity, message metadata, private correspondence, access arrangement or private file reference.",
+          "textFi": "Päivitettiin tietosuojattu kaupallisen datan valvonta kirjaamaan, että rooli- ja käyttömallin täsmennys lähetettiin 24.7.2026. Julkinen merkintä ei paljasta henkilöllisyyttä, viestimetatietoja, yksityistä kirjeenvaihtoa, käyttöjärjestelyä tai yksityistä tiedostoviitettä."
+        },
+        {
+          "category": "method",
+          "textEn": "The clarification is an administrative outreach action, not market evidence. No numerical Germany sample, written brand-field confirmation, itemised price, detailed methodology, country-product coverage matrix, licence or derived-output rights have been received. The route remains NOT SCORED with no purchase, fee or commitment authorised.",
+          "textFi": "Täsmennys on hallinnollinen yhteydenottotoimi, ei markkinaevidenssiä. Numeerista Saksa-näytettä, kirjallista brändikenttävahvistusta, eriteltyä hintaa, yksityiskohtaista menetelmää, maa–tuote-peittomatriisia, lisenssiä tai johdettujen tuotosten oikeuksia ei ole saatu. Reitti pysyy EI PISTEYTETTY -tilassa ilman valtuutettua ostoa, maksua tai sitoumusta."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Refreshed the bilingual 6-, 12- and 30-slide lender or buyer decks, both 53-row Evidence Registers and the paid-data procurement workbook to the same v21 release boundary. No market observation, donor decision or global estimate changed.",
+          "textFi": "Päivitettiin kaksikieliset 6, 12 ja 30 dian lainanantaja- tai ostajadekit, molemmat 53-riviset evidenssirekisterit ja maksullisen datan hankintatyökirja samaan v21-julkaisuun. Yksikään markkinahavainto, luovuttajapäätös tai maailmanestimaatti ei muuttunut."
+        }
+      ]
+    },
+    {
       "id": "2026-07-24-global-authority-replication-v20",
       "version": "2026.07.24-20",
       "publishedAt": "2026-07-24T16:18:12+03:00",

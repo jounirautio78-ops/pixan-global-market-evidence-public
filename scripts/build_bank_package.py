@@ -1217,7 +1217,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
     if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
-        raise ValueError("Bank package v20 requires exactly five reviewed donor candidates")
+        raise ValueError("Bank package v21 requires exactly five reviewed donor candidates")
     candidate_ids = {
         "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
         "EU-2023-COMMISSION-BENCHMARK",
@@ -1226,7 +1226,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v20 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v21 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
             raise ValueError("Every v17 donor candidate must remain outside the accepted count")

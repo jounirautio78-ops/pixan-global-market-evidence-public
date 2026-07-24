@@ -146,7 +146,7 @@
     if (!raw || raw.schemaVersion !== 2
       || raw.controlId !== "vendor-response-control-public"
       || raw.status !== "public_status_only_no_purchase_authorised"
-      || raw.version !== "2026.07.24-20"
+      || raw.version !== "2026.07.24-21"
       || !validDate(raw.asOf)
       || raw.scoreScale?.minimum !== 0
       || raw.scoreScale?.maximum !== 5
@@ -234,8 +234,8 @@
         "One vendor route has substantive responses · no scoreable vendor sample yet"
       ),
       "[data-vendor-response-boundary-copy]": l(
-        "Vastaanotettu esite ja toimittajan kuvaus tarkkuuden kasvusta eivät ole numeerista markkinaevidenssiä. Saksa-näyte, hinta, menetelmä, peitto ja kirjalliset johdettujen tuotosten oikeudet odottavat. Rooli- ja käyttömallin täsmennys odottaa eikä sitä ole lähetetty; osto-, tilaus-, NDA- tai automaattisen uusinnan valtuutusta ei ole.",
-        "The received brochure and vendor statement about increased granularity are not numerical market evidence. The Germany sample, price, method, coverage and written derived-output rights remain pending. The role/access clarification is pending and has not been sent; no purchase, subscription, NDA or auto-renewal is authorised."
+        "Vastaanotettu esite ja toimittajan kuvaus tarkkuuden kasvusta eivät ole numeerista markkinaevidenssiä. Rooli- ja käyttömallin täsmennys lähetettiin 24.7.2026, mutta Saksa-näyte, eritelty hinta, menetelmä, maa–tuote-peittomatriisi, lisenssi ja kirjalliset johdettujen tuotosten oikeudet odottavat. Pistemäärää, ostoa, tilausta, maksua, NDA:ta tai automaattista uusintaa ei ole valtuutettu.",
+        "The received brochure and vendor statement about increased granularity are not numerical market evidence. A role/access clarification was sent on 24 July 2026, but the Germany sample, itemised price, method, country-product coverage matrix, licence and written derived-output rights remain pending. No score, purchase, subscription, fee, NDA or auto-renewal is authorised."
       ),
       "[data-vendor-response-germany-kicker]": l(
         "Saksa · toimittajanäytteen kontrollimarkkina",
