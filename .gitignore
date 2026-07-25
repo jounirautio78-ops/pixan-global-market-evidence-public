@@ -17,6 +17,7 @@ htmlcov/
 .venv/
 venv/
 node_modules/
+node_modules
 
 # Local build and temporary output; site/ is intentionally tracked
 build/

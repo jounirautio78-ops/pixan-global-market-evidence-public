@@ -72,8 +72,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-24-sweden-registration-structure-v22"
-RELEASE_VERSION = "2026.07.24-22"
+RELEASE_ID = "2026-07-25-canada-donor-closure-v24"
+RELEASE_VERSION = "2026.07.25-24"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -555,7 +555,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or len(market_sources) != expected_market_counts[1]
     ):
         raise ValueError(
-            "Bank package v22 requires the reviewed market observation and source counts"
+            "Bank package v24 requires the reviewed market observation and source counts"
         )
     source_id_collisions = sorted(set(market_sources) & set(patent_sources))
     if source_id_collisions:
@@ -575,7 +575,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             )
     fhm_source = market_sources.get(FHM_SOURCE_ID)
     if fhm_source is None or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
-        raise ValueError("Bank package v22 requires the reviewed public FHM reference")
+        raise ValueError("Bank package v24 requires the reviewed public FHM reference")
 
     def require_source_ids(item: dict[str, Any], source_map: dict[str, Any], label: str) -> None:
         source_ids = item.get("sourceIds")
@@ -830,7 +830,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or official_country_codes != ["CA", "DE", "FI", "NZ", "PL", "SE", "US"]
     ):
         raise ValueError(
-            "Bank package v22 requires 34 official market measures across seven reviewed countries"
+            "Bank package v24 requires 34 official market measures across seven reviewed countries"
         )
     expected_structure_ids = {
         f"SE-{year}-FHM-{suffix}"
@@ -847,7 +847,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             and actual_structure_ids != expected_structure_ids
         )
     ):
-        raise ValueError("Bank package v22 requires the 36-record Swedish FHM structure series")
+        raise ValueError("Bank package v24 requires the 36-record Swedish FHM structure series")
     for item in sweden_structure_observations:
         value = item.get("value")
         snapshot = item.get("year") == 2026
@@ -1332,7 +1332,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
     if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
-        raise ValueError("Bank package v22 requires exactly five reviewed donor candidates")
+        raise ValueError("Bank package v24 requires exactly five reviewed donor candidates")
     candidate_ids = {
         "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
         "EU-2023-COMMISSION-BENCHMARK",
@@ -1341,7 +1341,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v22 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v24 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
             raise ValueError("Every v17 donor candidate must remain outside the accepted count")

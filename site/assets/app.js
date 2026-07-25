@@ -273,7 +273,12 @@ function renderMetrics() {
     .filter((item) => item.countryIso2 && !["commercial_estimate", "published_price_input"].includes(item.evidenceStatus))
     .map((item) => item.countryIso2));
   const officialRetail = new Set(marketObservations()
-    .filter((item) => item.countryIso2 && item.metric === "consumer_retail_market_value" && String(item.evidenceStatus).startsWith("official_"))
+    .filter(
+      (item) =>
+        item.countryIso2 &&
+        ["consumer_retail_market_value", "statcan_rcs_vaping_retail_sales"].includes(item.metric) &&
+        String(item.evidenceStatus).startsWith("official_")
+    )
     .map((item) => item.countryIso2));
   const officialRetailLowerBound = new Set(marketObservations()
     .filter((item) => item.countryIso2 && item.metric === "official_specialist_retail_sales_lower_bound" && String(item.evidenceStatus).startsWith("official_"))
@@ -282,7 +287,7 @@ function renderMetrics() {
   const metrics = [
     { label: l("Tutkimusmaailma", "Research universe"), value: `${list.length} / 195`, note: l("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets") },
     { label: l("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), value: `${quantified.size} / 195`, note: l("Tarkistettuja maakohtaisia raha-, vero- tai määräarvoja", "Reviewed country-level monetary, tax or volume records") },
-    { label: l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), value: `${officialRetailLowerBound.size} / 195`, note: l(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`) },
+    { label: l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), value: `${officialRetailLowerBound.size} / 195`, note: l(`${officialRetail.size} virallinen kuluttajavähittäismyynnin piste-estimaatti seurataan erikseen; kumpikaan reitti ei ole hyväksytty donor`, `${officialRetail.size} official consumer-retail point estimate is tracked separately; neither route is an accepted donor`) },
     { label: l("Atlaksen maamalli", "Atlas country model"), value: `${modelled.size} / 195`, note: l("Saksan nesteskenaario; matala luottamus, ei laitteita", "Germany liquid scenario; low confidence, excludes devices") }
   ];
   const grid = byId("metric-grid");
@@ -936,12 +941,17 @@ function renderMarketMetrics() {
   const requiredDonors = Number(donorLedger.gate?.minimumAcceptedDonors || readiness.minimumRequiredDonors || 3);
   const official = marketObservations().filter((item) => String(item.evidenceStatus).startsWith("official_"));
   const quantified = new Set(official.map((item) => item.countryIso2).filter(Boolean));
-  const officialRetail = new Set(official.filter((item) => item.metric === "consumer_retail_market_value").map((item) => item.countryIso2).filter(Boolean));
+  const officialRetail = new Set(
+    official
+      .filter((item) => ["consumer_retail_market_value", "statcan_rcs_vaping_retail_sales"].includes(item.metric))
+      .map((item) => item.countryIso2)
+      .filter(Boolean)
+  );
   const officialRetailLowerBound = new Set(official.filter((item) => item.metric === "official_specialist_retail_sales_lower_bound").map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
     [l("Atlaksen maailmanarvio", "Atlas global estimate"), l("Ei vielä julkaistu", "Not yet released"), l("Evidenssiraja ei vielä täyty", "Evidence threshold is not yet met")],
     [l("Määrällisesti dokumentoidut maat", "Quantified countries"), `${quantified.size} / 195`, l("Raha, vero tai määrä; ei aina kuluttajamyynti", "Money, tax or volume; not always consumer retail")],
-    [l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, l(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`)],
+    [l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, l(`${officialRetail.size} virallinen kuluttajavähittäismyynnin piste-estimaatti seurataan erikseen; kumpikaan reitti ei ole hyväksytty donor`, `${officialRetail.size} official consumer-retail point estimate is tracked separately; neither route is an accepted donor`)],
     [l("Vertailukelpoiset luovuttajamarkkinat", "Comparable donor markets"), `${acceptedDonors} / ${requiredDonors}`, l("Luku muuttuu vain, kun ehdokas läpäisee kaikki protokollakriteerit", "The count changes only when a candidate passes every protocol criterion")]
   ];
   const host = byId("market-metrics");

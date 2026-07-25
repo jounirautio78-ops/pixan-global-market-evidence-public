@@ -37,8 +37,8 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-07-24-sweden-registration-structure-v22"
-RELEASE_VERSION = "2026.07.24-22"
+RELEASE_ID = "2026-07-25-canada-donor-closure-v24"
+RELEASE_VERSION = "2026.07.25-24"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -145,6 +145,7 @@ EXPECTED_INPUTS = {
     "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+    "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
     "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
 }
@@ -234,11 +235,11 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     sources = market.get("sources")
     if not isinstance(observations, list) or len(observations) != EXPECTED_MARKET_OBSERVATIONS:
         errors.append(
-            f"v22 bank package requires exactly {EXPECTED_MARKET_OBSERVATIONS} market observations"
+            f"v24 bank package requires exactly {EXPECTED_MARKET_OBSERVATIONS} market observations"
         )
         return
     if not isinstance(sources, list) or len(sources) != EXPECTED_MARKET_SOURCES:
-        errors.append(f"v22 bank package requires exactly {EXPECTED_MARKET_SOURCES} market sources")
+        errors.append(f"v24 bank package requires exactly {EXPECTED_MARKET_SOURCES} market sources")
         sources = [] if not isinstance(sources, list) else sources
     source_by_id = {
         item.get("sourceId"): item
@@ -249,7 +250,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         errors.append("market sources must have unique string sourceId values")
     fhm_source = source_by_id.get(FHM_SOURCE_ID)
     if not isinstance(fhm_source, dict) or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
-        errors.append("v22 market sources must retain the reviewed public FHM reference")
+        errors.append("v24 market sources must retain the reviewed public FHM reference")
     observation_by_id = {
         item.get("observationId"): item
         for item in observations
@@ -277,7 +278,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     ]
     if len(official) != EXPECTED_OFFICIAL_OBSERVATIONS:
         errors.append(
-            f"v22 bank package requires exactly {EXPECTED_OFFICIAL_OBSERVATIONS} official observations"
+            f"v24 bank package requires exactly {EXPECTED_OFFICIAL_OBSERVATIONS} official observations"
         )
     if (
         len(official_market_measures) != EXPECTED_OFFICIAL_MARKET_MEASURES
@@ -286,7 +287,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         }
     ):
         errors.append(
-            "v22 bank package requires 34 official market measures across seven reviewed countries"
+            "v24 bank package requires 34 official market measures across seven reviewed countries"
         )
 
     expected_structure_ids = {
@@ -299,7 +300,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         or sweden_structure_ids != expected_structure_ids
     ):
         errors.append(
-            "v22 bank package requires the exact 36-record Swedish FHM structure series"
+            "v24 bank package requires the exact 36-record Swedish FHM structure series"
         )
     for item in sweden_structure:
         value = item.get("value")
@@ -388,7 +389,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
             or item.get("comparableMarketValue") is not False
             or item.get("atlasEstimate") is not False
         ):
-            errors.append(f"v22 reviewed observation binding differs: {observation_id}")
+            errors.append(f"v24 reviewed observation binding differs: {observation_id}")
 
     protocol = market.get("donorProtocol")
     criteria = protocol.get("criteria") if isinstance(protocol, dict) else None
@@ -456,7 +457,7 @@ def validate_artifact_builder_fx_contract(builder_text: str, errors: list[str]) 
         "[FX methodology]": "deck FX methodology notes",
         "fxSourcesInDeckNotes": "deck-source QA lock",
         "eurEquivalentRowsAfterReopen": "workbook-row QA lock",
-        "validateV22MarketEvidence": "v22 market-role validation",
+        "validateV22MarketEvidence": "v24 market-role validation",
         FHM_SOURCE_ID: "Swedish FHM source binding",
         SWEDEN_STRUCTURE_BASIS: "Swedish non-sales structure-role marker",
         "officialMarketMeasures: 34": "34 official market-measure lock",
@@ -1228,10 +1229,10 @@ def validate_manifest(errors: list[str]) -> None:
     if (
         expected_release.get("id") != RELEASE_ID
         or expected_release.get("version") != RELEASE_VERSION
-        or manifest.get("asOf") != "2026-07-24"
+        or manifest.get("asOf") != "2026-07-25"
     ):
         errors.append(
-            f"bank package must be locked to release {RELEASE_VERSION} as of 2026-07-24"
+            f"bank package must be locked to release {RELEASE_VERSION} as of 2026-07-25"
         )
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
@@ -1321,7 +1322,7 @@ def validate_manifest(errors: list[str]) -> None:
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 53 for rows in csv_rows_by_language.values()):
-        errors.append("both v22 Evidence Registers must contain exactly 53 reviewed rows")
+        errors.append("both v24 Evidence Registers must contain exactly 53 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1334,7 +1335,7 @@ def validate_manifest(errors: list[str]) -> None:
             "2 763 284 338",
             "4,99 mrd",
             "1 219 160 000",
-            "5,03 %",
+            "5,031748 %",
             "D1–D10",
             "79 havaintoa 21 lähteestä",
             "34 markkinamittariin",
@@ -1354,7 +1355,7 @@ def validate_manifest(errors: list[str]) -> None:
             "2,763,284,338",
             "4.99 billion",
             "1,219,160,000",
-            "5.03%",
+            "5.031748%",
             "D1–D10",
             "79 observations from 21 sources",
             "34 market measures",
@@ -1368,7 +1369,7 @@ def validate_manifest(errors: list[str]) -> None:
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v22 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v24 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1428,7 +1429,7 @@ def validate_manifest(errors: list[str]) -> None:
             expected_boundary = "independent public evidence" if is_english else "julkinen riippumaton"
             if expected_boundary not in combined:
                 errors.append(f"{relative}: public-boundary disclosure is missing")
-            v22_deck_markers = (
+            v24_deck_markers = (
                 (
                     "533,7–731,2 milj. nzd",
                     "2,763 mrd usd",
@@ -1439,7 +1440,7 @@ def validate_manifest(errors: list[str]) -> None:
                     "7 maasta",
                     "0/3",
                     "d1–d10",
-                    "1,219 mrd cad",
+                    "1,219160 mrd cad",
                     RELEASE_VERSION,
                 )
                 if not is_english
@@ -1453,7 +1454,7 @@ def validate_manifest(errors: list[str]) -> None:
                     "7 countries",
                     "0/3",
                     "d1–d10",
-                    "cad 1.219bn",
+                    "cad 1.219160bn",
                     RELEASE_VERSION,
                 )
             )
@@ -1461,10 +1462,10 @@ def validate_manifest(errors: list[str]) -> None:
                 expected_eur_rows,
                 "en" if is_english else "fi",
             )
-            v22_deck_markers = (*v22_deck_markers, *fx_markers)
-            for marker in v22_deck_markers:
+            v24_deck_markers = (*v24_deck_markers, *fx_markers)
+            for marker in v24_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v22 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v24 market marker is missing: {marker!r}")
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
             row_count = validate_workbook(

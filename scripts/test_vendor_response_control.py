@@ -23,7 +23,7 @@ class VendorResponseControlTests(unittest.TestCase):
         validate_source(copy.deepcopy(self.source), errors)
         self.assertEqual(errors, [])
 
-    def test_written_brochure_response_is_substantive_but_not_scoreable(self) -> None:
+    def test_germany_sample_and_quote_are_received_but_not_scoreable(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
         vendor = next(
             item
@@ -34,41 +34,22 @@ class VendorResponseControlTests(unittest.TestCase):
             vendor["responseState"],
             "substantive_response_received",
         )
-        self.assertEqual(
-            vendor["publicStatusEn"],
-            "Two written responses and an 8-page brochure received. Quote, numerical-sample, "
-            "Germany-evaluation and brand-field requests were sent on 2026-07-24. "
-            "Euromonitor says it can provide samples, detailed answers and pricing after the "
-            "role/access model is clarified; a role/access clarification was sent on 2026-07-24. "
-            "Pending: numerical Germany sample, written brand-field confirmation, itemised "
-            "price, method, country-product coverage matrix, licence and written derived-output rights. "
-            "The brochure's 100-country list is not confirmed e-vapour "
-            "country-product coverage. No score, purchase, fee or commitment is established.",
-        )
-        self.assertEqual(
-            vendor["publicStatusFi"],
-            "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen "
-            "näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. "
-            "Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia "
-            "ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; rooli- ja käyttömallin "
-            "täsmennys lähetettiin 24.7.2026. Odottavat: numeerinen Saksa-näyte, kirjallinen "
-            "brändikenttävahvistus, eritelty hinta, menetelmä, maa–tuote-peittomatriisi, "
-            "lisenssi ja kirjalliset johdettujen tuotosten oikeudet. Esitteen 100 maan lista "
-            "ei ole vahvistettu sähkötupakan maa–tuote-peitto. Pistemäärää, ostoa, maksua tai "
-            "sitoumusta ei ole osoitettu.",
-        )
-        self.assertIn("not confirmed e-vapour country-product coverage", vendor["publicStatusEn"])
-        self.assertIn("Germany-evaluation", vendor["publicStatusEn"])
-        self.assertIn("written brand-field confirmation", vendor["publicStatusEn"])
-        self.assertIn("role/access clarification was sent on 2026-07-24", vendor["publicStatusEn"])
-        self.assertNotIn("pending and has not been sent", vendor["publicStatusEn"])
-        self.assertIn("written derived-output rights", vendor["publicStatusEn"])
+        self.assertIn("Germany workbook sample", vendor["publicStatusEn"])
+        self.assertIn("two indicative annual package quotes", vendor["publicStatusEn"])
+        self.assertIn("roughly 75 e-vapour countries", vendor["publicStatusEn"])
+        self.assertIn("lacks comparable 2023–2024 Germany liquid totals", vendor["publicStatusEn"])
+        self.assertIn("data-room use", vendor["publicStatusEn"])
+        self.assertIn("NOT SCORED", vendor["publicStatusEn"])
         self.assertNotIn("CEO", vendor["publicStatusEn"])
         self.assertNotIn("single-consultant", vendor["publicStatusEn"])
         self.assertNotIn("single-user", vendor["publicStatusEn"])
         self.assertNotIn("consultant", vendor["publicStatusEn"])
         self.assertNotIn("account history", vendor["publicStatusEn"])
-        self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
+        self.assertFalse(vendor["receivedEvidence"]["sample"])
+        self.assertTrue(vendor["receivedEvidence"]["quote"])
+        self.assertFalse(vendor["receivedEvidence"]["methodology"])
+        self.assertEqual(vendor["evidenceReceivedCount"], 1)
+        self.assertEqual(vendor["mandatoryGatePassCount"], 0)
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])

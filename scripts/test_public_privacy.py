@@ -12,6 +12,7 @@ from validate_public import (
     private_identifier_fingerprint,
     scan_javascript_text,
     scan_repository_private_identifiers,
+    validate_repository_binary_allowlist,
 )
 
 
@@ -46,6 +47,22 @@ class JavaScriptPrivacyTests(unittest.TestCase):
             with patch("validate_public.PRIVATE_IDENTIFIER_FINGERPRINTS", fingerprints):
                 scan_repository_private_identifiers(errors, [Path(directory)])
         self.assertTrue(errors)
+
+    def test_repository_binary_allowlist_rejects_unreviewed_attachment(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            attachment = root / "confidential-vendor-sample.xlsx"
+            attachment.write_bytes(b"not a reviewed public artifact")
+            errors: list[str] = []
+            with (
+                patch("validate_public.ROOT", root),
+                patch("validate_public.ALLOWED_REPOSITORY_BINARY_ATTACHMENTS", frozenset()),
+            ):
+                validate_repository_binary_allowlist(errors)
+        self.assertTrue(
+            any("unexpected binary attachment" in error for error in errors),
+            errors,
+        )
 
 
 if __name__ == "__main__":

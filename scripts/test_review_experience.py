@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v22 review-experience publication gates."""
+"""Mutation tests for the v24 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -124,7 +124,7 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_future_retrieval_date(self) -> None:
         market = copy.deepcopy(self.market)
-        market["sources"][0]["retrievedAt"] = "2026-07-25"
+        market["sources"][0]["retrievedAt"] = "2026-07-26"
         self.assert_data_rejected(
             market=market,
             needle="retrievedAt cannot be later than market asOf",

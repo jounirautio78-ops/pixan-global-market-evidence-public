@@ -84,26 +84,26 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         )
         self.assertEqual(
             outreach["euromonitor-passport-nicotine"]["state"],
-            "written_response_brochure_received_quote_request_sent",
+            "germany_sample_and_quote_received_review_pending",
         )
         self.assertIn(
-            "overall 100-country Passport Tobacco list",
+            "partial numerical Germany sample",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "manufacturer or brand fields include VOOPOO, SMOK and Lost Vape or equivalent fields",
+            "two indicative annual package quotes",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "current Germany evaluation report plus Excel/CSV sample",
+            "roughly 75 e-vapour markets",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "Euromonitor subsequently stated that it can provide samples",
+            "exact country-product-year-measure matrix is missing",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "role/access clarification was sent on 2026-07-24",
+            "controlled lender, buyer, adviser and data-room use",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertNotIn("pending and has not been sent", outreach["euromonitor-passport-nicotine"]["noteEn"])
@@ -113,15 +113,11 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         self.assertNotIn("consultant", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
         self.assertNotIn("CEO", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertIn(
-            "No reviewable numerical Germany sample, written brand-field confirmation, itemised price, detailed methodology",
+            "no score or purchase is authorised",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "licence terms or written rights for derived client outputs",
-            outreach["euromonitor-passport-nicotine"]["noteEn"],
-        )
-        self.assertIn(
-            "score, purchase, fee or commitment",
+            "representative-sample, detailed-method, official-reconciliation, exact-coverage, complete-terms and written-transaction-rights gates remain open",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
 

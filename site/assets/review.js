@@ -348,8 +348,8 @@ function renderDecisionCockpit(data) {
     ),
     reviewMarketData
       ? reviewL(
-        `Virallista vuosittaista numeerista evidenssiä ${market.numericCountries.size} maasta; täydellisiä virallisia kuluttajavähittäisarvoja ${market.officialRetailCountries.size} ja virallisia vähittäismyynnin alaraja-ankkureita ${market.officialRetailLowerBoundCountries.size}.`,
-        `Official annual numeric evidence across ${market.numericCountries.size} countries; ${market.officialRetailCountries.size} complete official consumer-retail values and ${market.officialRetailLowerBoundCountries.size} official retail lower-bound anchors.`
+        `Virallista vuosittaista numeerista evidenssiä ${market.numericCountries.size} maasta; virallisia kuluttajavähittäismyynnin piste-estimaattireittejä ${market.officialRetailCountries.size} ja virallisia vähittäismyynnin alaraja-ankkureita ${market.officialRetailLowerBoundCountries.size}.`,
+        `Official annual numeric evidence across ${market.numericCountries.size} countries; official consumer-retail point-estimate routes: ${market.officialRetailCountries.size}; official retail lower-bound anchors: ${market.officialRetailLowerBoundCountries.size}.`
       )
       : reviewL("Markkina-arvon tukiaineisto ei ole saatavilla.", "The market-value supporting dataset is unavailable."),
     reviewPatentData
@@ -529,8 +529,8 @@ function renderReviewCalculationAudit(market) {
     if (canadaEur) direct.append(canadaEur);
     direct.append(
       reviewNode("p", "", reviewL(
-        "RCS mittaa kuluttajavähittäismyyntiä ja Health Canada valmistaja-/maahantuojatoimituksia. 5,03 prosentin ero on riippumaton kontrolli, ei valmis täsmäytys: kate, varasto, palautukset, ajoitus, tuoterajaus ja verokäsittely ovat vielä avoimia.",
-        "RCS measures consumer retail sales and Health Canada measures manufacturer/importer shipments. The 5.03% difference is an independent control, not a completed reconciliation: margin, inventory, returns, timing, product scope and tax treatment remain open."
+        "RCS mittaa kuluttajavähittäismyyntiä ja Health Canada valmistaja-/maahantuojatoimituksia. 5,03 prosentin ero on riippumaton kontrolli, ei valmis täsmäytys: kate-, varasto-, palautus-, ajoitus- ja tuoterajausvaikutukset ovat vielä avoimia. RCS:n valuutta- ja veroperusta on lähteistetty erikseen.",
+        "RCS measures consumer retail sales and Health Canada measures manufacturer/importer shipments. The 5.03% difference is an independent control, not a completed reconciliation: margin, inventory, returns, timing and product-scope effects remain open. The RCS currency and tax basis are separately source-linked."
       )),
       reviewObservationLink(canadaRetail, sourceMap),
       reviewObservationLink(canadaShipment, sourceMap)
@@ -779,13 +779,18 @@ function renderReviewMetrics(data) {
   const observations = Array.isArray(reviewMarketData?.observations) ? reviewMarketData.observations : [];
   const official = observations.filter((item) => String(item.evidenceStatus || "").startsWith("official_"));
   const quantified = new Set(official.map((item) => item.countryIso2).filter(Boolean));
-  const officialRetail = new Set(official.filter((item) => item.metric === "consumer_retail_market_value").map((item) => item.countryIso2).filter(Boolean));
+  const officialRetail = new Set(
+    official
+      .filter((item) => ["consumer_retail_market_value", "statcan_rcs_vaping_retail_sales"].includes(item.metric))
+      .map((item) => item.countryIso2)
+      .filter(Boolean)
+  );
   const officialRetailLowerBound = new Set(official.filter((item) => item.metric === "official_specialist_retail_sales_lower_bound").map((item) => item.countryIso2).filter(Boolean));
   const modelled = new Set((reviewMarketData?.models || []).map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
     [reviewL("Tutkimusmaailma", "Research universe"), `${countries.length} / 195`, reviewL("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets")],
     [reviewL("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), `${quantified.size} / 195`, reviewL("Raha-, vero- tai määräarvoja; mittarit pidetään erillään", "Monetary, tax or volume records; measures remain separate")],
-    [reviewL("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, reviewL(`${officialRetail.size} täydellistä virallista kuluttajamarkkina-arvoa; alaraja ei ole luovuttajamarkkina`, `${officialRetail.size} complete official consumer-retail values; a lower bound is not a donor market`)],
+    [reviewL("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, reviewL(`${officialRetail.size} virallinen kuluttajavähittäismyynnin piste-estimaatti seurataan erikseen; kumpikaan reitti ei ole hyväksytty donor`, `${officialRetail.size} official consumer-retail point estimate is tracked separately; neither route is an accepted donor`)],
     [reviewL("Atlaksen maamalli", "Atlas country model"), `${modelled.size} / 195`, reviewL("Saksan nesteskenaario; matala luottamus", "Germany liquid scenario; low confidence")]
   ];
   const host = reviewById("review-metrics");

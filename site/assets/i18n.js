@@ -3,22 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V22 = Object.freeze({
-    id: "2026-07-24-sweden-registration-structure-v22",
-    version: "2026.07.24-22",
-    publishedAt: "2026-07-24T17:30:06+03:00",
-    titleEn: "Sweden official registration-structure response",
-    titleFi: "Ruotsin virallinen rekisterirakennevastaus",
+  const UI_RELEASE_V24 = Object.freeze({
+    id: "2026-07-25-canada-donor-closure-v24",
+    version: "2026.07.25-24",
+    publishedAt: "2026-07-25T15:00:00+03:00",
+    titleEn: "Canada 2024 donor-closure review",
+    titleFi: "Kanadan vuoden 2024 donor-portin sulkemistarkistus",
     items: Object.freeze([
       Object.freeze({
-        category: "market_data",
-        textEn: "Added the official 2018–2026 Sweden series for reporting actors and notified, active and withdrawn products. The 2026 row is a snapshot; the series is not sales, value or volume evidence.",
-        textFi: "Lisättiin Ruotsin virallinen vuosien 2018–2026 sarja raportoivista toimijoista sekä ilmoitetuista, aktiivisista ja poistetuista tuotteista. Vuoden 2026 rivi on tilannekuva; sarja ei ole myynti-, arvo- tai volyymievidenssiä."
+        category: "evidence",
+        textEn: "Added a source-audited Canada 2024 closure pack. Statistics Canada's quarterly retail route is CAD 1,219,160,000 (EUR 822.58m); its same-survey monthly route differs by CAD 1,000, while Health Canada's independent shipment route is CAD 1,160,753,796.78.",
+        textFi: "Lisättiin lähdeauditoitu Kanadan vuoden 2024 sulkemispaketti. Statistics Canadan kvartaalipohjainen retail-reitti on 1 219 160 000 CAD (822,58 milj. EUR); saman kyselyn kuukausireitti eroaa 1 000 CAD, ja Health Canadan riippumaton toimitusreitti on 1 160 753 796,78 CAD."
       }),
       Object.freeze({
-        category: "operations",
-        textEn: "Authority-response status now separates three process-only responses, one official structural response and zero sales-data responses. The donor gate and global total remain unchanged.",
-        textFi: "Viranomaisvastausten tila erottaa nyt kolme vain prosessia koskevaa vastausta, yhden virallisen rakennevastauksen ja nolla myyntidatavastausta. Donor-portti ja maailman kokonaisluku eivät muutu."
+        category: "method",
+        textEn: "Canada now passes 7/10 donor criteria because the official RCS-to-MRTS chain closes D8. D5, D7 and D10 remain open, so Canada is NOT ACCEPTED, the donor gate remains 0/3 and the global total remains not_computed.",
+        textFi: "Kanada läpäisee nyt 7/10 donor-ehtoa, koska virallinen RCS–MRTS-lähdeketju sulkee D8:n. D5, D7 ja D10 ovat yhä avoinna, joten Kanada on EI HYVÄKSYTTY, donor-portti pysyy 0/3:ssa ja maailman kokonaisluku on edelleen not_computed."
+      }),
+      Object.freeze({
+        category: "diligence",
+        textEn: "The prior Euromonitor checkpoint is retained: No licensed values enter the public atlas, the partial sample is not representative and all six mandatory gates remain open. No purchase, fee or commitment is authorised.",
+        textFi: "Edellinen Euromonitor-tarkistuspiste säilyy: julkiseen atlakseen ei tuoda lisensoituja arvoja, osittainen näyte ei ole edustava ja kaikki kuusi pakollista porttia ovat avoinna. Ostoa, maksua tai sitoumusta ei ole valtuutettu."
       })
     ])
   });
@@ -446,7 +451,7 @@
     ["Maksullisen datan hankintarajaus", "Paid-data procurement boundary"],
     ["EI OSTOVALTUUTTA", "NO SPEND"],
     ["Mitään ostoa, tilausta tai toimittajasitoumusta ei ole valtuutettu", "No purchase, subscription or vendor commitment is authorised"],
-    ["Hinnat ovat päivättyjä julkisten sivujen havaintoja tai merkitty sanalla Tarjous. Jokainen osto edellyttää näytettä, menetelmää, täsmäytystä viralliseen dataan sekä kirjallisia rahoittaja-/M&A-datahuoneoikeuksia. Maksullista raakadataa ei saa julkaista täällä ilman erillistä lisenssiä.", "Prices are dated public page observations or marked Quote. Every purchase remains conditional on a sample, methodology, official-data reconciliation and written lender/M&A data-room rights. Raw paid data must not be published here without a separate licence."],
+    ["Hinnat ovat päivättyjä julkisten sivujen havaintoja tai tietosuojattuja tarjoustiloja. Täsmällisiä yksityisiä hintoja tai kaupallisia ehtoja ei julkaista. Jokainen osto edellyttää edustavaa näytettä, yksityiskohtaista menetelmää, täsmäytystä viralliseen dataan, täsmällistä peittoa, täydellisiä ehtoja sekä kirjallisia rahoittaja-/M&A-datahuoneoikeuksia. Maksullista raakadataa ei saa julkaista täällä ilman erillistä lisenssiä.", "Prices are dated public page observations or privacy-safe quote states. Exact private prices and commercial terms are not published. Every purchase remains conditional on a representative sample, detailed methodology, official-data reconciliation, exact coverage, complete terms and written lender/M&A data-room rights. Raw paid data must not be published here without a separate licence."],
     ["Lataa päätöstyökirja XLSX", "Download decision workbook XLSX"],
     ["Lataa hankintalista CSV", "Download shortlist CSV"],
     ["Lataa lähde-JSON", "Download source JSON"],
@@ -678,7 +683,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V22;
+  window.PixanUiRelease = UI_RELEASE_V24;
 
   init();
 })();

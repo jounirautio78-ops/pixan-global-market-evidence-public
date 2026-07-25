@@ -224,6 +224,26 @@ EXPECTED_SITE_FILES = {
     "site/downloads/data-request-template-fi.txt",
     "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
 }
+REPOSITORY_BINARY_ATTACHMENT_SUFFIXES = frozenset(
+    {".docx", ".eml", ".msg", ".pdf", ".pptx", ".xls", ".xlsx", ".zip"}
+)
+ALLOWED_REPOSITORY_BINARY_ATTACHMENTS = frozenset(
+    {
+        path
+        for path in EXPECTED_SITE_FILES
+        if Path(path).suffix.lower() in REPOSITORY_BINARY_ATTACHMENT_SUFFIXES
+    }
+    | {
+        "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
+        "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-en.pptx",
+        "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
+        "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-en.xlsx",
+        "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-fi.pptx",
+        "scripts/artifact-build/seeds/v17/pixan-bank-deck-medium-fi.pptx",
+        "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-fi.pptx",
+        "scripts/artifact-build/seeds/v17/pixan-bank-evidence-register-fi.xlsx",
+    }
+)
 
 PATENT_OUTPUT_TOP_LEVEL_KEYS = {
     "meta",
@@ -392,6 +412,31 @@ def scan_repository_private_identifiers(
                 except ValueError:
                     label = str(path)
                 errors.append(f"{label}: private identifier fingerprint is forbidden in repository text")
+
+
+def validate_repository_binary_allowlist(errors: list[str]) -> None:
+    """Reject unexpected office, archive and mail attachments anywhere in the public repo."""
+    found: set[str] = set()
+    for path in ROOT.rglob("*"):
+        if not path.is_file():
+            continue
+        relative = path.relative_to(ROOT)
+        if relative.parts and relative.parts[0] in {".git", "node_modules", "tmp"}:
+            continue
+        if path.suffix.lower() in REPOSITORY_BINARY_ATTACHMENT_SUFFIXES:
+            found.add(relative.as_posix())
+    unexpected = sorted(found - ALLOWED_REPOSITORY_BINARY_ATTACHMENTS)
+    missing = sorted(ALLOWED_REPOSITORY_BINARY_ATTACHMENTS - found)
+    if unexpected:
+        errors.append(
+            "repository contains unexpected binary attachment(s): "
+            + ", ".join(unexpected)
+        )
+    if missing:
+        errors.append(
+            "repository binary allowlist is missing reviewed artifact(s): "
+            + ", ".join(missing)
+        )
 
 
 def validate_meta(atlas: dict[str, Any], curated: dict[str, Any], errors: list[str]) -> None:
@@ -1202,8 +1247,7 @@ def validate_market_values(
             limitation = str(item.get("limitationEn", ""))
             if (
                 "current CAD" not in limitation
-                or "GST, HST, PST and QST are excluded" not in limitation
-                or "vaping-excise treatment is not explicit" not in limitation
+                or "excludes GST, HST, PST, QST and excise" not in limitation
                 or "not an accepted donor" not in limitation
             ):
                 errors.append(
@@ -1218,11 +1262,13 @@ def validate_market_values(
                     "the pure-play Internet channel gap"
                 )
             if item.get("year") in {2023, 2024, 2025} and (
-                "classified by goods sold" not in limitation or "telephone sales" not in limitation
+                "classified by goods sold" not in limitation
+                or "459993" not in limitation
+                or "459999" not in limitation
             ):
                 errors.append(
                     f"{path}: post-2022 Statistics Canada RCS values must retain "
-                    "the method-of-sale evidence and telephone-sales limit"
+                    "the method-of-sale evidence and NAICS coverage conflict"
                 )
             if item.get("year") in {2024, 2025} and (
                 "All four quarters carry status E" not in limitation
@@ -1596,9 +1642,9 @@ def validate_market_values(
         ),
         "CA-2024-STATCAN-RCS-RETAIL-SALES": (
             "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
-            {"D1", "D2", "D3", "D4", "D6", "D9"},
+            {"D1", "D2", "D3", "D4", "D6", "D8", "D9"},
             set(),
-            {"D5", "D7", "D8", "D10"},
+            {"D5", "D7", "D10"},
         ),
         "DE-2025-LIQUID-RETAIL-MODEL": (
             "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE",
@@ -2160,6 +2206,7 @@ def main() -> None:
             f"missing={sorted(EXPECTED_SITE_FILES - actual_site_files)}, "
             f"extra={sorted(actual_site_files - EXPECTED_SITE_FILES)}"
         )
+    validate_repository_binary_allowlist(errors)
     for path in (
         ATLAS_PATH,
         COUNTRIES_CSV_PATH,
