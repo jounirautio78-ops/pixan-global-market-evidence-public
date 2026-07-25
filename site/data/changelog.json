@@ -1,7 +1,55 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-24",
+  "asOf": "2026-07-25",
   "releases": [
+    {
+      "id": "2026-07-25-canada-donor-closure-v24",
+      "version": "2026.07.25-24",
+      "publishedAt": "2026-07-25T15:00:00+03:00",
+      "titleEn": "Canada 2024 donor-closure audit and independent calculation cross-check",
+      "titleFi": "Kanadan vuoden 2024 donor-sulkuauditointi ja riippumaton laskennan ristiintarkistus",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Closed the public-source Canada audit as far as current official evidence permits. Statistics Canada's quarterly 2024 consumer-retail point estimate remains CAD 1,219,160,000, or EUR 822.58 million at the ECB 2024 annual-average rate. A same-survey monthly reconstruction is CAD 1,219,161,000: only CAD 1,000 or 0.000082% higher. All 12 months and all four quarters are quality E.",
+          "textFi": "Suljettiin Kanadan julkisten lähteiden auditointi niin pitkälle kuin nykyinen virallinen näyttö sallii. Statistics Canadan neljännesreitin vuoden 2024 kuluttajavähittäismyynnin piste-estimaatti pysyy 1 219 160 000 CAD:ssa eli 822,58 miljoonassa eurossa ECB:n vuoden 2024 vuosikeskikurssilla. Saman kyselyn kuukausirekonstruktio on 1 219 161 000 CAD: vain 1 000 CAD eli 0,000082 % suurempi. Kaikilla 12 kuukausiarvolla ja neljällä neljänneksellä on E-laatu."
+        },
+        {
+          "category": "method",
+          "textEn": "The RCS-to-MRTS source chain now closes currency and tax criterion D8: the figures are in CAD and exclude GST/HST, provincial sales taxes and excise. Canada passes 7/10 criteria but remains NOT ACCEPTED. D5 is open because the published target-population endpoint 459993 conflicts with the official NAICS placement of vape specialists in 459999; D7 is open because an exact annual CV, imputation rate and bounded error interval are unavailable; D10 is open because the independent Health Canada bridge is not reconciled.",
+          "textFi": "RCS–MRTS-lähdeketju sulkee nyt valuutta- ja veroperustaa koskevan D8-ehdon: luvut ovat CAD-määräisiä ja rajaavat GST/HST:n, provinssien myyntiverot ja valmisteverot pois. Kanada läpäisee 7/10 ehtoa mutta pysyy tilassa EI HYVÄKSYTTY. D5 on avoin, koska julkaistu kohdejoukon päätepiste 459993 on ristiriidassa vape-erikoisliikkeiden virallisen NAICS 459999 -luokan kanssa; D7 on avoin, koska täsmällistä vuosi-CV:tä, imputointiastetta ja rajattua virheväliä ei ole saatavilla; D10 on avoin, koska riippumatonta Health Canada -siltaa ei ole täsmäytetty."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Health Canada's four official 2024 categories reproduce CAD 1,160,753,796.78 of manufacturer/importer net shipment value, 118,901,910 units and 1,251,843 litres. Retail exceeds shipments by CAD 58,406,203.22 (+5.03%), but the residual is not margin and the two transaction stages are neither summed nor presented as a market range. The bilingual 6-slide and 30-slide decks, both Evidence Registers and the public dashboard were refreshed to the same v24 boundary; the donor gate remains 0/3 and the global estimate remains not_computed.",
+          "textFi": "Health Canadan neljä virallista vuoden 2024 tuoteryhmää toistavat 1 160 753 796,78 CAD:n valmistaja-/maahantuojatoimitusten nettoarvon, 118 901 910 yksikköä ja 1 251 843 litraa. Vähittäismyynti ylittää toimitukset 58 406 203,22 CAD:lla (+5,03 %), mutta jäännös ei ole kate eikä kahta tapahtumatasoa summata tai esitetä markkinahaarukkana. Kaksikieliset 6 ja 30 dian dekit, molemmat Evidence Registerit ja julkinen dashboard päivitettiin samaan v24-rajaan; donor-portti pysyy 0/3:ssa ja maailmanestimaatti tilassa not_computed."
+        }
+      ]
+    },
+    {
+      "id": "2026-07-24-euromonitor-sample-quote-review-v23",
+      "version": "2026.07.24-23",
+      "publishedAt": "2026-07-24T20:00:00+03:00",
+      "titleEn": "Euromonitor partial Germany sample, quote and licence review",
+      "titleFi": "Euromonitorin osittaisen Saksa-näytteen, tarjouksen ja lisenssin tarkistus",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Recorded receipt of a partial Germany workbook sample, generic methodology, blank licence terms and two indicative annual package quotes. The quote indicator is received, but the sample is not representative enough for scoring: all six mandatory gates remain open, the route is NOT SCORED and no purchase, fee or commitment is authorised.",
+          "textFi": "Kirjattiin saaduksi osittainen Saksan työkirjanäyte, yleinen menetelmäkuvaus, tyhjä lisenssisopimus ja kaksi suuntaa-antavaa vuosipakettitarjousta. Tarjousindikaattori on vastaanotettu, mutta näyte ei ole riittävän edustava pisteytettäväksi: kaikki kuusi pakollista porttia ovat avoinna, reitti on EI PISTEYTETTY eikä ostoa, maksua tai sitoumusta ole valtuutettu."
+        },
+        {
+          "category": "method",
+          "textEn": "The sample establishes that relevant category, value or volume, company or brand and other evaluation fields exist. It does not contain the current comparable Germany liquid totals required for the public 2023–2024 official-anchor test. The vendor states roughly 75 e-vapour markets, but the exact country-product-year-measure matrix remains missing. No licensed values enter the public atlas, donor gate or global estimate.",
+          "textFi": "Näyte osoittaa olennaisten kategoria-, arvo- tai volyymi-, yhtiö- tai brändi- ja muiden arviointikenttien olemassaolon. Se ei sisällä julkisen vuosien 2023–2024 viranomaisankkuritestin edellyttämiä nykyisiä vertailukelpoisia Saksan nestemääriä. Toimittaja ilmoittaa noin 75 sähkötupakkamarkkinaa, mutta täsmällinen maa–tuote–vuosi–mittari-matriisi puuttuu. Lisensoituja arvoja ei viedä julkiseen atlakseen, donor-porttiin tai maailmanestimaattiin."
+        },
+        {
+          "category": "diligence",
+          "textEn": "The default licence does not yet establish the intended Pixan onward-sharing and controlled lender, buyer, adviser, data-room, public or legal-use rights. The bilingual 6-slide and 30-slide decks, both Evidence Registers and the paid-data workbook were refreshed to v23. A browser validation mismatch in the public request-programme view was also corrected.",
+          "textFi": "Vakiolisenssi ei vielä osoita aiottuja Pixanin edelleenjakelun eikä hallitun lainanantaja-, ostaja-, neuvonantaja-, datahuone-, julkisen tai oikeudellisen käytön oikeuksia. Kaksikieliset 6 ja 30 dian dekit, molemmat Evidence Registerit ja maksullisen datan työkirja päivitettiin v23-versioon. Julkisen tietopyyntönäkymän selaintarkistuksen ristiriita korjattiin samalla."
+        }
+      ]
+    },
     {
       "id": "2026-07-24-sweden-registration-structure-v22",
       "version": "2026.07.24-22",

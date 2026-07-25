@@ -6,7 +6,7 @@
 
   const EXPECTED_OUTREACH = new Map([
     ["ecig-global-market-database", "sent_followup_scheduled"],
-    ["euromonitor-passport-nicotine", "written_response_brochure_received_quote_request_sent"],
+    ["euromonitor-passport-nicotine", "germany_sample_and_quote_received_review_pending"],
     ["niq-rms-pilot", "blocked_not_submitted"],
     ["circana-us-tobacco-pilot", "submitted_confirmation_received"]
   ]);
@@ -48,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.24-21"
+      || raw.version !== "2026.07.25-24"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -88,6 +88,16 @@
         && (item.priceAmount !== null || item.currency !== null || !/quote/i.test(item.priceDisplay))) {
         throw new Error("quote-only item exposes an unsupported price");
       }
+      if (item.itemId === "euromonitor-passport-nicotine"
+        && (item.priceDisplay !== "Private indicative annual quotes received"
+          || /\d/.test(item.priceDisplay)
+          || item.sourceUrls.some((url) => ![
+            "https://www.euromonitor.com/smokeless-tobacco-e-vapour-products-and-heated-tobacco-in-denmark/report",
+            "https://www.euromonitor.com/terms-and-conditions",
+            "https://www.euromonitor.com/contact-us"
+          ].includes(url)))) {
+        throw new Error("Euromonitor public quote boundary differs");
+      }
     }
     if (!Array.isArray(raw.outreach) || raw.outreach.length !== EXPECTED_OUTREACH.size) {
       throw new Error("invalid outreach record count");
@@ -122,9 +132,9 @@
         "Ei vastausta · seuranta 28.7.",
         "No response · follow-up 28 Jul"
       ),
-      written_response_brochure_received_quote_request_sent: l(
-        "Vastaus saatu · käyttömallin täsmennys lähetetty · näyte odottaa",
-        "Response received · access clarification sent · sample pending"
+      germany_sample_and_quote_received_review_pending: l(
+        "Osittainen Saksa-näyte + tarjous saatu · tarkistus kesken",
+        "Partial Germany sample + quote received · review pending"
       ),
       blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
       submitted_confirmation_received: l("Vastaanotto vahvistettu", "Submission confirmed")
@@ -176,10 +186,17 @@
         node("p", "", isFi() ? item.coverageFi : item.coverageEn)
       );
       const price = node("td", "");
+      const receivedIndicativeQuote = outreach?.state
+        === "germany_sample_and_quote_received_review_pending";
       price.append(
         node("strong", "paid-data-price", item.priceDisplay),
         node("small", "", item.priceType === "vendor_quote"
-          ? l("Tarjous vaaditaan", "Vendor quote required")
+          ? receivedIndicativeQuote
+            ? l(
+              "Suuntaa-antava tarjous saatu · täsmälliset hinnat eivät ole julkisia",
+              "Indicative quote received · exact prices are not public"
+            )
+            : l("Tarjous vaaditaan", "Vendor quote required")
           : l("Julkinen listahavainto", "Public list-price observation"))
       );
       const decision = node("td", "");
@@ -212,7 +229,7 @@
     const publicPrices = programme.items.filter((item) => item.priceType === "public_list_price").length;
     const quotes = programme.items.length - publicPrices;
     const submitted = programme.outreach.filter((item) =>
-      ["sent", "sent_followup_scheduled", "written_response_brochure_received_quote_request_sent", "submitted_confirmation_received"]
+      ["sent", "sent_followup_scheduled", "germany_sample_and_quote_received_review_pending", "submitted_confirmation_received"]
         .includes(item.state)).length;
     const blocked = programme.outreach.filter((item) => item.state === "blocked_not_submitted").length;
     const status = root.querySelector("[data-paid-data-status]");

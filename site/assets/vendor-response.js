@@ -36,6 +36,12 @@
     "transactionUseRights",
     "totalCostTerms"
   ]);
+  const EXPECTED_RECEIVED_EVIDENCE = new Map([
+    ["ecig-global-market-database", new Set()],
+    ["euromonitor-passport-nicotine", new Set(["quote"])],
+    ["niq-rms-pilot", new Set()],
+    ["circana-us-tobacco-pilot", new Set()]
+  ]);
   const EXPECTED_GERMANY_ANCHORS = new Map([
     [2023, ["DE-2023-TAXED-LIQUID-VOLUME-L", 1241000, "final", "pass_test"]],
     [2024, ["DE-2024-TAXED-LIQUID-VOLUME-L", 1284000, "final", "pass_test"]],
@@ -146,7 +152,7 @@
     if (!raw || raw.schemaVersion !== 2
       || raw.controlId !== "vendor-response-control-public"
       || raw.status !== "public_status_only_no_purchase_authorised"
-      || raw.version !== "2026.07.24-21"
+      || raw.version !== "2026.07.25-24"
       || !validDate(raw.asOf)
       || raw.scoreScale?.minimum !== 0
       || raw.scoreScale?.maximum !== 5
@@ -188,18 +194,22 @@
     const vendorIds = new Set();
     for (const vendor of raw.vendors) {
       const expected = EXPECTED_STATES.get(vendor.vendorId);
+      const expectedReceived = EXPECTED_RECEIVED_EVIDENCE.get(vendor.vendorId);
       if (!expected || vendorIds.has(vendor.vendorId)
         || vendor.requestState !== expected[0] || vendor.responseState !== expected[1]
         || typeof vendor.vendor !== "string" || !vendor.vendor.trim()
         || typeof vendor.product !== "string" || !vendor.product.trim()
         || !objectKeysEqual(vendor.receivedEvidence, EXPECTED_EVIDENCE)
-        || Object.values(vendor.receivedEvidence).some((value) => value !== false)
+        || !expectedReceived
+        || [...EXPECTED_EVIDENCE].some((key) =>
+          vendor.receivedEvidence[key] !== expectedReceived.has(key))
+        || [...MANDATORY_EVIDENCE].some((key) => vendor.receivedEvidence[key] !== false)
         || !objectKeysEqual(vendor.criterionScores, new Set(EXPECTED_CRITERIA.keys()))
         || Object.values(vendor.criterionScores).some((value) => value !== null)
         || vendor.scoringState !== "not_scored"
         || vendor.weightedScore !== null
         || vendor.purchaseAuthorised !== false
-        || vendor.evidenceReceivedCount !== 0
+        || vendor.evidenceReceivedCount !== expectedReceived.size
         || vendor.mandatoryGatePassCount !== 0) {
         throw new Error("vendor record differs from the reviewed public state");
       }
@@ -230,12 +240,12 @@
         "This view separates outreach status from received evidence and scoring so a missing response never looks like a poor result."
       ),
       "[data-vendor-response-boundary-title]": l(
-        "Yhdellä toimittajareitillä on sisällöllisiä vastauksia · ei vielä pisteytettävää toimittajanäytettä",
-        "One vendor route has substantive responses · no scoreable vendor sample yet"
+        "Osittainen Saksa-näyte ja suuntaa-antavat tarjoukset saatu · 0/6 pakollista porttia läpäisty",
+        "Partial Germany sample and indicative quotes received · 0/6 mandatory gates passed"
       ),
       "[data-vendor-response-boundary-copy]": l(
-        "Vastaanotettu esite ja toimittajan kuvaus tarkkuuden kasvusta eivät ole numeerista markkinaevidenssiä. Rooli- ja käyttömallin täsmennys lähetettiin 24.7.2026, mutta Saksa-näyte, eritelty hinta, menetelmä, maa–tuote-peittomatriisi, lisenssi ja kirjalliset johdettujen tuotosten oikeudet odottavat. Pistemäärää, ostoa, tilausta, maksua, NDA:ta tai automaattista uusintaa ei ole valtuutettu.",
-        "The received brochure and vendor statement about increased granularity are not numerical market evidence. A role/access clarification was sent on 24 July 2026, but the Germany sample, itemised price, method, country-product coverage matrix, licence and written derived-output rights remain pending. No score, purchase, subscription, fee, NDA or auto-renewal is authorised."
+        "Osittainen työkirja osoittaa arviointikenttien olemassaolon, mutta se ei ole edustava näyte eikä mahdollista Saksan viranomaisankkuritestiä. Yleinen menetelmä ja kaksi suuntaa-antavaa vuosipakettitarjousta on saatu, mutta täsmällinen peitto, täydelliset kaupalliset ehdot ja kirjalliset transaktiokäyttöoikeudet puuttuvat. Julkisessa näkymässä ei näytetä täsmällisiä hintoja, lisensoituja arvoja tai toimittajaliitteitä. EI PISTEYTETTY; ostoa, tilausta, maksua, NDA:ta tai automaattista uusintaa ei ole valtuutettu.",
+        "The partial workbook proves that evaluation fields exist, but it is not a representative sample and cannot support the Germany official-anchor test. A generic method and two indicative annual package quotes were received, while exact coverage, complete commercial terms and written transaction-use rights remain missing. This public view discloses no exact prices, licensed values or vendor attachments. NOT SCORED; no purchase, subscription, fee, NDA or auto-renewal is authorised."
       ),
       "[data-vendor-response-germany-kicker]": l(
         "Saksa · toimittajanäytteen kontrollimarkkina",
@@ -274,8 +284,8 @@
         "Download source JSON"
       ),
       "[data-vendor-response-note]": l(
-        "Tila perustuu varmennettuun julkiseen tarkistuspisteeseen. Lähetys ei osoita toimittajan hyväksyntää, tarjouksen vastaanottoa, datan laatua tai ostokelpoisuutta.",
-        "Status reflects a verified public checkpoint. Dispatch does not establish vendor agreement, receipt of a quote, data quality or purchase readiness."
+        "Tila perustuu varmennettuun julkiseen tarkistuspisteeseen. Tarjouksen vastaanotto ei osoita edustavaa näytettä, varmennettua dataa, täydellisiä ehtoja tai ostokelpoisuutta.",
+        "Status reflects a verified public checkpoint. Receipt of a quote does not establish a representative sample, verified data, complete terms or purchase readiness."
       )
     };
     for (const [selector, value] of Object.entries(values)) {
@@ -316,8 +326,8 @@
         control.summary.substantiveResponses,
         "toimittajareittiä, joilla sisällöllisiä vastauksia",
         "vendor routes with substantive responses",
-        "esite saatu · vaihtoehdot pyydetty · ei pisteytettävää näytettä",
-        "brochure received · options requested · no scoreable sample",
+        "osittainen näyte + tarjous saatu · 0/6 porttia läpäisty",
+        "partial sample + quote received · 0/6 gates passed",
         "pending"
       ),
       summaryCard(
@@ -366,8 +376,10 @@
     const header = node("div", "vendor-response-card-head");
     const name = node("div", "");
     name.append(node("h3", "", vendor.vendor), node("p", "", vendor.product));
-    const statusLabel = vendor.responseState === "substantive_response_received"
-      ? l("VASTAUKSIA · NÄYTE PUUTTUU", "RESPONSES · SAMPLE PENDING")
+    const statusLabel = vendor.vendorId === "euromonitor-passport-nicotine"
+      ? l("OSITTAINEN NÄYTE · TARJOUS SAATU", "PARTIAL SAMPLE · QUOTE RECEIVED")
+      : vendor.responseState === "substantive_response_received"
+        ? l("VASTAUKSIA · NÄYTE PUUTTUU", "RESPONSES · SAMPLE PENDING")
       : vendor.requestState === "not_submitted_terms_gate"
         ? l("EI LÄHETETTY · EHTOPORTTI", "NOT SUBMITTED · TERMS GATE")
         : vendor.requestState === "submission_confirmed"

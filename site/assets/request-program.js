@@ -280,10 +280,10 @@
       || publicNotices.includes("yhtäkään pyyntöä ei ole lähetetty")) {
       throw new Error("false all-draft claim");
     }
-    if (!raw.independenceNoticeEn.toLowerCase().includes("privacy-safe categorical process state")
+    if (!raw.independenceNoticeEn.toLowerCase().includes("privacy-safe categorical process or evidence state")
       || !raw.independenceNoticeEn.toLowerCase().includes("substantive data")
       || !raw.independenceNoticeEn.toLowerCase().includes("fee commitment")
-      || !raw.independenceNoticeFi.toLowerCase().includes("tietosuojatun kategorisen prosessitilan")
+      || !raw.independenceNoticeFi.toLowerCase().includes("tietosuojatun kategorisen prosessi- tai evidenssitilan")
       || !raw.independenceNoticeFi.toLowerCase().includes("sisällöllisenä datana")
       || !raw.independenceNoticeFi.toLowerCase().includes("maksusitoumuksena")) {
       throw new Error("process-response boundary is missing");

@@ -1,0 +1,201 @@
+# Canada 2024 donor-closure pack
+
+Reviewed: 2026-07-25
+
+## Executive conclusion
+
+Canada provides a reproducible official 2024 consumer-retail point estimate for
+NAPCS 5619122:
+
+- quarterly RCS route: **CAD 1,219,160,000**;
+- ECB 2024 annual-average equivalent: **EUR 822,583,715.21**;
+- same-survey monthly RCS cross-check: **CAD 1,219,161,000**;
+- monthly-versus-quarterly difference: **CAD 1,000**, or **0.000082%** of
+  the quarterly annual sum.
+
+The point estimate is useful as a national official retail anchor. It is not an
+accepted donor market. Three criteria remain open: D5 national channel
+coverage, D7 method and missingness and D10 independent reconciliation. The
+official RCS-to-MRTS source chain closes D8: the figures are in CAD and exclude
+GST/HST, provincial sales taxes and excise. Canada therefore remains
+`not_accepted` at **7/10 passed**, and the public global-estimate gate remains
+**0/3**.
+
+The Health Canada 2024 manufacturer/importer shipment value is a separate,
+non-additive official route:
+
+- shipments: **CAD 1,160,753,796.78**, or **EUR 783,176,261.20**;
+- retail minus shipments: **CAD 58,406,203.22**, or
+  **EUR 39,407,454.01**;
+- retail / shipments: **1.0503174776**, or **+5.0317478%**;
+- residual / retail: **4.7906922%**.
+
+The residual is not labelled a retail margin. It may contain inventory, timing,
+returns, product-scope, reporting-coverage, tax-basis and measurement
+differences. The two routes are not summed and are not presented as a
+low-to-high market range.
+
+## D1-D10 decision
+
+| Criterion | Status | Evidence and decision |
+|:---|:---|:---|
+| D1 Complete calendar year | Passed | Four published 2024 quarters sum to CAD 1,219,160,000. |
+| D2 Consumer retail transaction | Passed | RCS measures sales of commodities by retailers; the reporting period is when the commodities were sold in retail stores. |
+| D3 Devices and consumables | Passed | NAPCS 5619122 includes electronic cigarettes, e-liquid refills, vaporizers and other e-liquid delivery systems. |
+| D4 Adjacent products controlled | Passed | NAPCS 5619122 is separate from tobacco products and accessories other than e-cigarettes. No heated-tobacco or broad tobacco aggregate is added. |
+| D5 National channel coverage | Open | NAICS 2022 classifies Internet, direct and mail-order retail by goods sold, and the retail questionnaire covers in-store, e-commerce, catalogue/mail/telephone and other methods. However, the current RCS method page states a target-population range ending at 459993, while Statistics Canada's NAICS definition assigns electronic-cigarette and vapour-liquid specialty retailing to 459999. The public table reports a broader `[459]` aggregate, so this may be a documentation defect, but the apparent gap is not quantified or officially resolved. |
+| D6 No supply-stage double counting | Passed | The RCS retail observation stands alone. Health Canada shipments are retained only as a separate cross-check and are never added to retail. |
+| D7 Method and missingness documented | Open | Statistics Canada documents sampling, weighting, imputation, calibration, revisions and quality-indicator construction. All 12 months and all four quarters in 2024 carry `E`. The public sources do not disclose an exact commodity-year CV, imputation rate, standard error or cross-period covariance, so the annual error boundary cannot be bounded. |
+| D8 Currency and tax basis | Passed | Currency is CAD. The RCS questionnaire excludes GST, HST, PST and QST. RCS is the commodity breakdown of MRTS, obtains each record's edited/imputed total from MRTS and is benchmarked to MRTS; Statistics Canada's official concepts note says MRTS sales exclude all taxes on products and services, including excise. |
+| D9 Public reproducibility | Passed | The quarterly and monthly vectors, source ZIPs, formulas, status flags and file hashes are public and reproducible without licensed or company-identifiable records. |
+| D10 Independent reconciliation | Open | Health Canada provides an independent supply-stage route, but the CAD 58,406,203.22 residual is not decomposed. The monthly RCS route is a same-survey QA check, not independent evidence. |
+
+## Reproduced 2024 retail calculation
+
+All published RCS values are in thousands of current Canadian dollars. The
+displayed values below multiply the source values by 1,000.
+
+| Route | Q1 CAD | Q2 CAD | Q3 CAD | Q4 CAD | Annual CAD | Quality |
+|:---|---:|---:|---:|---:|---:|:---|
+| Quarterly vector `v1456717514` | 284,774,000 | 302,814,000 | 312,004,000 | 319,568,000 | **1,219,160,000** | E / E / E / E |
+| Monthly vector `v1456717223`, summed into quarters | 284,775,000 | 302,814,000 | 312,004,000 | 319,568,000 | **1,219,161,000** | all 12 months E |
+| Difference | 1,000 | 0 | 0 | 0 | **1,000** | same-survey QA only |
+
+Formula:
+
+`annual CAD = Q1 CAD + Q2 CAD + Q3 CAD + Q4 CAD`
+
+The CAD 1,000 difference is compatible with source-level rounding or separate
+aggregation, but its cause is not asserted without Statistics Canada
+confirmation. The quarterly route remains the canonical published point
+estimate because it is the route already used by the public donor candidate.
+
+The 2023 monthly annual sum is CAD 2,000 above the quarterly annual sum. The
+2025 monthly route is not used as a full-year cross-check because December 2025
+is quality `F`, meaning too unreliable to publish. No missing month is treated
+as zero.
+
+## Health Canada shipment decomposition
+
+Health Canada defines these sales as manufacturer/importer shipments to a
+wholesaler or retailer, not individual consumer purchases. The reporting
+regulation defines net sales as sales less returns and requires values in CAD
+excluding taxes and duties.
+
+| Official 2024 product category | Shipment value CAD | Share of shipment value |
+|:---|---:|---:|
+| Vaping part or device without a vaping substance | 30,207,822.87 | 2.602% |
+| Vaping device containing a vaping substance | 558,947,200.26 | 48.154% |
+| Vaping part containing a vaping substance | 316,329,158.83 | 27.252% |
+| Vaping substance | 255,269,614.82 | 21.992% |
+| **Total** | **1,160,753,796.78** | **100.000%** |
+
+The same four national rows sum to **118,901,910 reported units** and
+**1,251,843 litres**. Province/territory values and unit counts reproduce the
+national aggregates. Two opposite one-litre category rounding differences
+cancel in the total.
+
+This decomposition cannot be converted into a retail device-versus-liquid
+split. A device or part containing liquid combines hardware and liquid value,
+and shipment-stage shares cannot be applied mechanically to the RCS retail
+total.
+
+## EUR equivalents
+
+Reviewed ECB 2024 annual-average rate:
+
+`1 EUR = 1.482110546875 CAD`
+
+Formula:
+
+`EUR equivalent = original CAD amount / 1.482110546875`
+
+| Measure | Original CAD | EUR equivalent |
+|:---|---:|---:|
+| RCS quarterly annual sum | 1,219,160,000.00 | **822,583,715.21** |
+| RCS monthly annual sum | 1,219,161,000.00 | **822,584,389.92** |
+| Health Canada shipment value | 1,160,753,796.78 | **783,176,261.20** |
+| Retail-minus-shipment residual | 58,406,203.22 | **39,407,454.01** |
+
+CAD remains the primary observation currency. EUR is a secondary comparison
+using the source-year annual-average reference rate.
+
+## Why no low/base/high range is published
+
+A defensible fail-closed representation is:
+
+- `low: not_computed`;
+- `base: CAD 1,219,160,000`;
+- `high: not_computed`;
+- `base_eur: EUR 822,583,715.21`;
+- `range_reason: exact annual standard error and covariance unavailable`.
+
+Quality `E` does not justify applying a mechanical plus/minus 25% range. The
+exact CV, imputation rate and covariance of the component periods are not
+published. Health Canada's shipment value is a different transaction stage and
+cannot be relabelled as a retail lower bound.
+
+## Permitted and prohibited claims
+
+Supported wording:
+
+> Statistics Canada's 2024 RCS quarterly observations imply a national
+> consumer-retail point estimate of CAD 1.219160 billion for NAPCS 5619122,
+> equivalent to EUR 822.58 million at the ECB 2024 annual-average rate. A
+> same-survey monthly reconstruction differs by only CAD 1,000. The estimate
+> remains quality E and is not an accepted donor market.
+
+Do not claim:
+
+- that CAD 1.219160 billion is an exact cash-register census total;
+- that EUR 783.18-822.58 million is a market uncertainty range;
+- that CAD 58.41 million is retailer margin;
+- that the shipment mix is a retail device/liquid split;
+- that D5, D7 or D10 has passed;
+- that Canada supports a public global market total.
+
+## Exact evidence needed to close the remaining gates
+
+1. **D5 — channel coverage:** Statistics Canada confirmation whether the RCS
+   target-population upper bound `459993` is an error, whether NAICS `459999`
+   is included in the 2024 `[44-45]` and `[459]` estimates, and the
+   vaping-specific coverage represented by take-none strata or other excluded
+   units.
+2. **D7 — uncertainty:** the exact 2024 NAPCS 5619122 monthly or annual CV,
+   imputation rate, standard error and any method for aggregating period
+   variances or covariance.
+3. **D10 — independent bridge:** a source-linked reconciliation of retail and
+   shipment stages covering inventory, timing, returns, product scope, tax,
+   reporting coverage and any retailer value added, or an independent
+   rights-cleared POS route covering the same national product-year boundary.
+
+## Canonical official sources and integrity controls
+
+- Statistics Canada quarterly table 20-10-0071-01:
+  https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101
+- Quarterly bulk ZIP:
+  https://www150.statcan.gc.ca/n1/en/tbl/csv/20100071-eng.zip
+- Quarterly ZIP SHA-256:
+  `283e8ec0159c048e4cfe5050f00232bff57aa6bd9add308d20492fd6af85e4b0`
+- Statistics Canada monthly table 20-10-0080-01:
+  https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001
+- Monthly bulk ZIP:
+  https://www150.statcan.gc.ca/n1/en/tbl/csv/20100080-eng.zip
+- Monthly ZIP SHA-256:
+  `7751fb46dc1bc77de6e5579f8f4e2456dbf1f8860dbf9275a089d5609fce6be3`
+- RCS methodology:
+  https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&Id=1544050
+- NAICS 2022 retail definition and vaping-specialist classification:
+  https://www23.statcan.gc.ca/imdb/p3VD.pl?CLV=4&CPV=45999&CST=27012022&CVD=1370274&D=1&Function=getVD&MLV=5&TVD=1369825&wbdisable=true
+- Statistics Canada 2025 tax-treatment discussion:
+  https://www150.statcan.gc.ca/n1/pub/36-28-0001/2025004/article/00001-eng.pdf
+- Health Canada vaping sales:
+  https://health-infobase.canada.ca/substance-use/vaping/sales/
+- Vaping Products Reporting Regulations:
+  https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-123/FullText.html
+- ECB EXR annual-average CAD/EUR query:
+  https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata
+
+This pack is independent research. It is not Pixan Oy's official position, an
+audit, valuation, legal opinion, investment recommendation or lending
+recommendation.

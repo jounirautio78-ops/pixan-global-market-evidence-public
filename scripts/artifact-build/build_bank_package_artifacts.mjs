@@ -15,10 +15,10 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v22", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v22", "renders");
-const releaseVersion = "2026.07.24-22";
-const releaseId = "2026-07-24-sweden-registration-structure-v22";
+const qaDir = path.join(repo, "tmp", "bank-v24", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v24", "renders");
+const releaseVersion = "2026.07.25-24";
+const releaseId = "2026-07-25-canada-donor-closure-v24";
 const fhmSourceId = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24";
 const fhmSourceUrl = "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/";
 const swedenStructureBasis = "official_registration_structure_count_not_sales_or_market_value";
@@ -68,6 +68,9 @@ const DECK_SOURCE_URLS = [
   "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206",
   "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
   "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
+  "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001",
+  "https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&Id=1544050",
+  "https://www150.statcan.gc.ca/n1/pub/36-28-0001/2025004/article/00001-eng.pdf",
   "https://www.ftc.gov/reports/e-cigarette-report-2021",
   fhmSourceUrl,
   "https://www.wipo.int/en/web/ip-financing",
@@ -179,14 +182,14 @@ const deckUpdates = {
     short: {
       shapes: {
         "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
-        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Ruotsin hallitus; FHM; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Health Canada; NZ Ministry of Health; European Commission; FHM; FTC",
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
         "sh/ih8ju9sn": "34 + 36",
         "sh/kbm987y5": "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
         "sh/i94r6xgz": "533,7–731,2 milj. NZD",
         "sh/jadsz2xk": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
         "sh/v6tsv2xo": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
-        "sh/p0batw72": "Kanada 2024: retail 1,219 mrd CAD; toimitukset 1,161 mrd CAD; kaikki retail-neljännekset E-laatua. NZ on malli; FTC 2021 2,763 mrd USD on valmistajaraportointia. Mittareita ei summata.",
+        "sh/p0batw72": "Kanada 2024 — retail 1,219160 mrd CAD; toimitukset 1,160754 mrd CAD; 7/10 (D5/D7/D10 avoinna). FTC 2021: 2,763 mrd USD, valmistajaraportointia. Ei summata.",
       },
     },
     medium: {
@@ -197,14 +200,14 @@ const deckUpdates = {
         "sh/cf2tcr61": "Tekninen ero on patenttivaatimuksissa",
         "sh/dcbud0ra": "Asiakkuus vaatii kolmen ostajaryhmän validoinnin",
         "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
-        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
         "sh/pc76hkr2": "34 + 36",
         "sh/h4bupgn6": "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
         "sh/v2tcn650": "533,7–731,2 milj. NZD",
         "sh/u1kbu1ov": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
         "sh/i54bylor": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
-        "sh/cbe5g3ih": "Kanada 2024: retail 1,219 mrd CAD; toimitukset 1,161 mrd CAD; kaikki retail-neljännekset E-laatua ja silta avoin. FTC 2021 2,763 mrd USD on valmistajaraportointia. Reittejä ei summata.",
+        "sh/cbe5g3ih": "Kanada 2024: retail 1,219160 mrd CAD; toimitukset 1,160754 mrd CAD. Saman kyselyn kuukausireitti eroaa 1 000 CAD. Kanada 7/10; D5/D7/D10 avoinna. Ei summata.",
       },
       tables: {
         "tb/nq547y9g": [[3, 2, "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä"]],
@@ -219,16 +222,16 @@ const deckUpdates = {
         "sh/dcbud0ra": "IP-historian ydintapahtumat ovat jäljitettävissä",
         "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
         "sh/0f2lgnmp": "Atlas kattaa 195 maata; ei markkina-arvoa",
-        "sh/wbydknq1": "Kanadalla on retail- ja toimitusankkurit",
-        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada 2024",
-        "sh/ehwvat8n": "1,219 mrd CAD",
-        "sh/c3e1gjyd": "kuluttajavähittäismyynti",
-        "sh/a1wze9g7": "1,161 mrd CAD",
-        "sh/b2507exs": "valmistaja-/maahantuojatoimitukset",
-        "sh/ls7idofu": "118,9 milj. yks.",
-        "sh/y5wjitgj": "lisäksi 1,252 milj. litraa",
-        "sh/z650byxo": "Retail ylittää toimitukset 58,4 milj. CAD (+5,03 %); laatu-, kanava-, scope- ja verokysymykset pitävät Kanadan donor-luvun ulkopuolella.",
-        "sh/hsvy50re": "Statistics Canadan retail-sarja ja Health Canadan toimitukset ovat eri tapahtumatasoja. Kaikki vuoden 2024 RCS-neljännekset ovat E-laatua; silta on avoin.",
+        "sh/wbydknq1": "Kanada 2024: vahva piste-estimaatti, 7/10",
+        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Health Canada 2024",
+        "sh/ehwvat8n": "1,219160 mrd CAD",
+        "sh/c3e1gjyd": "retail · 822,58 milj. EUR",
+        "sh/a1wze9g7": "1,160754 mrd CAD",
+        "sh/b2507exs": "toimitukset · 783,18 milj. EUR",
+        "sh/ls7idofu": "1 000 CAD",
+        "sh/y5wjitgj": "kuukausi–kvartaali-ero",
+        "sh/z650byxo": "Retail ylittää toimitukset 58,406 milj. CAD (+5,03 %), mutta jäännös ei ole kate tai markkinahaarukka. D8 on suljettu virallisella veroperustalla.",
+        "sh/hsvy50re": "Kanada läpäisee 7/10. D5: NAICS 459993/459999 -peitto. D7: tarkka vuositason virheraja puuttuu. D10: eri tapahtumatasojen silta on täsmäyttämättä.",
         "sh/9kby1g7m": "Saksan malli näyttää herkkyyden, ei myyntiä",
         "sh/mpgj6t8j": "Ei havaittua myyntiä. Laskelma käyttää vuoden 2025 alustavaa verotettua nestemäärää ja kolmea verkkokaupan vuoden 2026 hintaa. Rajattu tuotejakauma ja poikkeava ajankohta pitävät luottamustason matalana.",
         "sh/gbedwfmx": "Globaalit arviot ovat ristiintarkistus",
@@ -236,7 +239,7 @@ const deckUpdates = {
         "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
         "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
         "sh/8jup8rad": "90 päivää muuttaa aukot kontrolleiksi",
-        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.24-22 · 2026-07-24 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
+        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
         "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 34 markkinamittaria 7 maasta sekä 36 Ruotsin FHM-rekisterirakenteen lukua vuosilta 2018–2026; luvut eivät ole myyntiä tai markkina-arvoa. Luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
         "sh/bq9orito": "34 markkinamittaria + 36 Ruotsin FHM-rekisterilukua (ei myyntiä)",
         "sh/6hw3y9sb": "Nykyinen hyväksytty donor-portti on 0/3; kaikki 5 ehdokasta jäivät ulkopuolelle.",
@@ -246,7 +249,7 @@ const deckUpdates = {
         "tb/m983m983": [
           [0, 2, "Virallinen havainto / tuettu malli"],
           [1, 1, "2019–2025"],
-          [1, 2, "StatsCan retail 2024: 1,219 mrd CAD; kaikki neljännekset E-laatua. Health Canada -toimitukset: 1,161 mrd CAD, 5,03 % alemmat; silta avoin"],
+          [1, 2, "StatsCan retail 2024: 1,219160 mrd CAD / 822,58 milj. EUR; kuukausireitti +1 000 CAD. Kanada 7/10; D5, D7 ja D10 avoimia"],
           [4, 2, "virallinen raakareitti 280,685 milj. NZD; tunnistetun vaping-vähittäismyynnin tuettu herkkyys 533,7–731,2 milj. NZD, ei havaittu markkina-arvo"],
           [6, 0, "Yhdysvallat"],
           [6, 1, "2015–2021"],
@@ -258,26 +261,26 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Swedish Government; FHM; FTC; European Commission; IMARC; GVR; Fortune",
+        "sh/doj29oba": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Health Canada; NZ Ministry of Health; European Commission; FHM; FTC",
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
         "sh/ih8ju9sn": "34 + 36",
         "sh/kbm987y5": "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
         "sh/i94r6xgz": "NZD 533.7–731.2m",
         "sh/jadsz2xk": "New Zealand 2024: supported retail sensitivity",
         "sh/v6tsv2xo": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
-        "sh/p0batw72": "Canada 2024: retail CAD 1.219bn; shipments CAD 1.161bn; all retail quarters quality E. NZ is a model; FTC 2021 USD 2.763bn is manufacturer reporting. Do not sum the measures.",
+        "sh/p0batw72": "Canada 2024 — retail CAD 1.219160bn; shipments CAD 1.160754bn; 7/10 (D5/D7/D10 open). FTC 2021: USD 2.763bn, manufacturer reporting. Do not sum.",
       },
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Market size remains a range — not a single value",
         "sh/pc76hkr2": "34 + 36",
         "sh/h4bupgn6": "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
         "sh/v2tcn650": "NZD 533.7–731.2m",
         "sh/u1kbu1ov": "New Zealand 2024: supported retail sensitivity",
         "sh/i54bylor": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
-        "sh/cbe5g3ih": "Canada 2024: retail CAD 1.219bn; shipments CAD 1.161bn; all retail quarters quality E and bridge open. FTC 2021 USD 2.763bn is manufacturer reporting. Do not sum the routes.",
+        "sh/cbe5g3ih": "Canada 2024: retail CAD 1.219160bn; shipments CAD 1.160754bn. Same-survey monthly retail differs by CAD 1,000. Canada 7/10; D5/D7/D10 open. Do not sum.",
       },
       tables: {
         "tb/nq547y9g": [[3, 2, "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales"]],
@@ -286,17 +289,18 @@ const deckUpdates = {
     },
     large: {
       shapes: {
-        "sh/wbydknq1": "Canada has retail and shipment anchors",
-        "sh/5grehs7i": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Health Canada 2024",
-        "sh/ehwvat8n": "CAD 1.219bn",
-        "sh/c3e1gjyd": "consumer retail sales",
-        "sh/a1wze9g7": "CAD 1.161bn",
-        "sh/b2507exs": "manufacturer/importer shipments",
-        "sh/ls7idofu": "118.9m units",
-        "sh/y5wjitgj": "plus 1.252m litres",
-        "sh/z650byxo": "Retail exceeds shipments by CAD 58.4m (+5.03%); quality, channel, scope and tax gaps keep Canada outside the donor count.",
-        "sh/hsvy50re": "Statistics Canada retail and Health Canada shipments are separate transaction levels. All 2024 RCS quarters are quality E; the bridge remains unresolved.",
-        "sh/21gnuts7": "Independent public evidence summary · 2026.07.24-22 · 2026-07-24 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
+        "sh/4felwzu5": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Market-values model; Readiness, donorProtocol and donorCandidates",
+        "sh/wbydknq1": "Canada 2024: strong point estimate, 7/10",
+        "sh/5grehs7i": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Health Canada 2024",
+        "sh/ehwvat8n": "CAD 1.219160bn",
+        "sh/c3e1gjyd": "retail · EUR 822.58m",
+        "sh/a1wze9g7": "CAD 1.160754bn",
+        "sh/b2507exs": "shipments · EUR 783.18m",
+        "sh/ls7idofu": "CAD 1,000",
+        "sh/y5wjitgj": "monthly–quarterly gap",
+        "sh/z650byxo": "Retail is CAD 58.406m (+5.03%) above shipments. The residual is not margin or a market range; official tax evidence closes D8.",
+        "sh/hsvy50re": "Canada passes 7/10. D5: NAICS 459993/459999 coverage. D7: exact annual error boundary missing. D10: different transaction stages remain unreconciled.",
+        "sh/21gnuts7": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
         "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 34 market measures across 7 countries plus 36 Swedish FHM register-structure counts for 2018–2026; the counts are not sales or market value. The donor gate remains 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
         "sh/bq9orito": "34 market measures + 36 Swedish FHM register counts (not sales)",
         "sh/6hw3y9sb": "The current accepted-donor gate is 0/3; all 5 candidates remain outside the count.",
@@ -306,7 +310,7 @@ const deckUpdates = {
         "tb/m983m983": [
           [0, 2, "Official observation / supported model"],
           [1, 1, "2019–2025"],
-          [1, 2, "StatsCan retail 2024: CAD 1.219bn; every quarter quality E. Health Canada shipments: CAD 1.161bn, 5.03% lower; bridge open"],
+          [1, 2, "StatsCan retail 2024: CAD 1.219160bn / EUR 822.58m; monthly route +CAD 1,000. Canada 7/10; D5, D7 and D10 open"],
           [4, 2, "official raw route NZD 280.685m; supported identified-vaping retail sensitivity NZD 533.7–731.2m, not an observed market value"],
           [6, 0, "United States"],
           [6, 1, "2015–2021"],
@@ -516,7 +520,7 @@ function ensureSourceCoverage(sourceRows, registerRows, additionalUrls = []) {
       hostname,
       "register_reference",
     ];
-    output.push([sourceId, publisher, sourceClass, url, "2026-07-24"]);
+    output.push([sourceId, publisher, sourceClass, url, "2026-07-25"]);
     existingUrls.add(url);
   }
   const unresolved = [...registerUrls].filter((url) => !existingUrls.has(url));
@@ -657,12 +661,12 @@ function validateV22MarketEvidence(market) {
     || observations.length !== expectedMarketCounts.observations
   ) {
     throw new Error(
-      `v22 bank package requires exactly ${expectedMarketCounts.observations} market observations`,
+      `v24 bank package requires exactly ${expectedMarketCounts.observations} market observations`,
     );
   }
   if (!Array.isArray(sources) || sources.length !== expectedMarketCounts.sources) {
     throw new Error(
-      `v22 bank package requires exactly ${expectedMarketCounts.sources} market sources`,
+      `v24 bank package requires exactly ${expectedMarketCounts.sources} market sources`,
     );
   }
 
@@ -671,14 +675,14 @@ function validateV22MarketEvidence(market) {
     observationIds.some((value) => typeof value !== "string" || !value)
     || new Set(observationIds).size !== observations.length
   ) {
-    throw new Error("v22 market observations must have unique non-empty observationId values");
+    throw new Error("v24 market observations must have unique non-empty observationId values");
   }
   const sourceIds = sources.map((item) => item?.sourceId);
   if (
     sourceIds.some((value) => typeof value !== "string" || !value)
     || new Set(sourceIds).size !== sources.length
   ) {
-    throw new Error("v22 market sources must have unique non-empty sourceId values");
+    throw new Error("v24 market sources must have unique non-empty sourceId values");
   }
 
   const official = observations.filter(
@@ -693,17 +697,17 @@ function validateV22MarketEvidence(market) {
   const officialMarketMeasures = official.filter((item) => !swedenStructure.includes(item));
   if (official.length !== expectedMarketCounts.official) {
     throw new Error(
-      `v22 bank package requires ${expectedMarketCounts.official} official observations`,
+      `v24 bank package requires ${expectedMarketCounts.official} official observations`,
     );
   }
   if (officialMarketMeasures.length !== expectedMarketCounts.officialMarketMeasures) {
     throw new Error(
-      `v22 bank package requires ${expectedMarketCounts.officialMarketMeasures} official market measures`,
+      `v24 bank package requires ${expectedMarketCounts.officialMarketMeasures} official market measures`,
     );
   }
   if (swedenStructure.length !== expectedMarketCounts.swedenRegisterStructure) {
     throw new Error(
-      `v22 bank package requires ${expectedMarketCounts.swedenRegisterStructure} Swedish FHM register-structure counts`,
+      `v24 bank package requires ${expectedMarketCounts.swedenRegisterStructure} Swedish FHM register-structure counts`,
     );
   }
   const officialMeasureCountries = new Set(
@@ -713,7 +717,7 @@ function validateV22MarketEvidence(market) {
     JSON.stringify([...officialMeasureCountries].sort())
     !== JSON.stringify(["CA", "DE", "FI", "NZ", "PL", "SE", "US"])
   ) {
-    throw new Error("v22 official market measures must retain the seven reviewed countries");
+    throw new Error("v24 official market measures must retain the seven reviewed countries");
   }
 
   const expectedStructureIds = new Set();
@@ -775,7 +779,7 @@ function validateV22MarketEvidence(market) {
 
   const fhmSource = sources.find((item) => item.sourceId === fhmSourceId);
   if (!fhmSource || fhmSource.pageUrl !== fhmSourceUrl) {
-    throw new Error("v22 market sources must retain the reviewed public FHM reference");
+    throw new Error("v24 market sources must retain the reviewed public FHM reference");
   }
 }
 
@@ -840,17 +844,17 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
       ftcReplacement: ftcComputed
         ? `2,763 mrd USD (≈${formatDeckNumber(ftcEurValue / 1e9, 3, language)} mrd EUR; ECB 2021)`
         : "2,763 mrd USD (EUR not_computed)",
-      canadaRetailOriginal: "1,219 mrd CAD",
+      canadaRetailOriginal: "1,219160 mrd CAD",
       canadaRetailReplacement: canadaRetailComputed
-        ? `1,219 mrd CAD (≈${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)} milj. EUR; ECB 2024)`
-        : "1,219 mrd CAD (EUR not_computed)",
+        ? `1,219160 mrd CAD (≈${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)} milj. EUR; ECB 2024)`
+        : "1,219160 mrd CAD (EUR not_computed)",
       canadaRetailCardSubtitle: canadaRetailComputed
         ? `kuluttajavähittäismyynti · ≈${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)} milj. EUR`
         : "kuluttajavähittäismyynti · EUR not_computed",
-      canadaShipmentsOriginal: "1,161 mrd CAD",
+      canadaShipmentsOriginal: "1,160754 mrd CAD",
       canadaShipmentsReplacement: canadaShipmentsComputed
-        ? `1,161 mrd CAD (≈${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)} milj. EUR; ECB 2024)`
-        : "1,161 mrd CAD (EUR not_computed)",
+        ? `1,160754 mrd CAD (≈${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)} milj. EUR; ECB 2024)`
+        : "1,160754 mrd CAD (EUR not_computed)",
       canadaShipmentsCardSubtitle: canadaShipmentsComputed
         ? `toimitukset · ≈${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)} milj. EUR`
         : "toimitukset · EUR not_computed",
@@ -868,17 +872,17 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
     ftcReplacement: ftcComputed
       ? `USD 2.763bn (≈EUR ${formatDeckNumber(ftcEurValue / 1e9, 3, language)}bn; ECB 2021)`
       : "USD 2.763bn (EUR not_computed)",
-    canadaRetailOriginal: "CAD 1.219bn",
+    canadaRetailOriginal: "CAD 1.219160bn",
     canadaRetailReplacement: canadaRetailComputed
-      ? `CAD 1.219bn (≈EUR ${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)}m; ECB 2024)`
-      : "CAD 1.219bn (EUR not_computed)",
+      ? `CAD 1.219160bn (≈EUR ${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)}m; ECB 2024)`
+      : "CAD 1.219160bn (EUR not_computed)",
     canadaRetailCardSubtitle: canadaRetailComputed
       ? `consumer retail · ≈EUR ${formatDeckNumber(canadaRetailEurValue / 1e6, 1, language)}m`
       : "consumer retail · EUR not_computed",
-    canadaShipmentsOriginal: "CAD 1.161bn",
+    canadaShipmentsOriginal: "CAD 1.160754bn",
     canadaShipmentsReplacement: canadaShipmentsComputed
-      ? `CAD 1.161bn (≈EUR ${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)}m; ECB 2024)`
-      : "CAD 1.161bn (EUR not_computed)",
+      ? `CAD 1.160754bn (≈EUR ${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)}m; ECB 2024)`
+      : "CAD 1.160754bn (EUR not_computed)",
     canadaShipmentsCardSubtitle: canadaShipmentsComputed
       ? `shipments · ≈EUR ${formatDeckNumber(canadaShipmentsEurValue / 1e6, 1, language)}m`
       : "shipments · EUR not_computed",
@@ -1047,30 +1051,64 @@ function upgradeRegister(rows, language) {
     || row[0].startsWith(language === "fi"
       ? "Kanadan Statistics Canada -sarja"
       : "Statistics Canada's Canada series")
+    || row[0].startsWith(language === "fi"
+      ? "Kanadan virallinen vuoden 2024"
+      : "Canada's official 2024")
   ));
   if (canadaIndex < 0) throw new Error(`${language}: Canada register row not found`);
   output[canadaIndex] = language === "fi"
     ? [
-      "Kanadan Statistics Canada -sarja sisältää seitsemän koko vuoden kuluttajavähittäismyyntiestimaattia 2019–2025; vuoden 2024 arvo on 1 219 160 000 CAD.",
+      "Kanadan virallinen vuoden 2024 kuluttajavähittäismyynnin piste-estimaatti on 1 219 160 000 CAD eli 822 583 715,21 EUR; donor-testi läpäisee 7/10 ehtoa.",
       "Markkinakoko",
-      "Vuosisumma on neljän RCS-vuosineljänneksen summa NAPCS 5619122 -tuoteryhmälle. Health Canadan vuoden 2024 valmistaja-/maahantuojatoimitusarvo on 1 160 753 796,78 CAD.",
-      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
-      "2026-07-24",
-      "1 219 160 000 − 1 160 753 796,78 = 58 406 203,22 CAD; RCS / Health Canada = 1,0503175 eli +5,03 %.",
-      "Kaikilla vuoden 2024 neljänneksillä on E-laatuvaroitus. Sähkötupakkakohtaista kanavapeittoa ei ole määrällistetty eikä valmisteveroperustaa vahvistettu.",
+      "Neljän kvartaalin summa on 1 219 160 000 CAD; 12 kuukauden samaan kyselyyn perustuva summa on 1 219 161 000 CAD. Health Canadan vuoden 2024 valmistaja-/maahantuojatoimitusten nettoarvo on 1 160 753 796,78 CAD.",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-25",
+      "Kuukausi − kvartaali = 1 000 CAD (0,000082 %). Retail − toimitukset = 58 406 203,22 CAD; retail / toimitukset − 1 = 5,031748 %. ECB 2024: 1 219 160 000 / 1,482110546875 = 822 583 715,21 EUR.",
+      "D8 läpäisee: CAD sekä GST/HST-, provinssi- ja valmisteverojen poissulku on lähteistetty. Kuukausireitti on saman kyselyn QA, ei D10; retail- ja toimitusreitit eivät muodosta markkinahaarukkaa.",
       "Tuettu",
-      "Retail–toimitus-silta ei vielä selitä katetta, varastoa, palautuksia, ajoitusta, tuoterajausta eikä verokäsittelyä; Kanada ei ole hyväksytty donor.",
+      "D5:n NAICS 459993/459999 -peitto, D7:n vuositason virheraja ja D10:n retail–toimitus-silta ovat avoimia; Kanada ei ole hyväksytty donor.",
     ]
     : [
-      "Statistics Canada's Canada series contains seven full-year consumer-retail estimates for 2019–2025; the 2024 value is CAD 1,219,160,000.",
+      "Canada's official 2024 consumer-retail point estimate is CAD 1,219,160,000, or EUR 822,583,715.21; the donor test passes 7/10 criteria.",
       "Market size",
-      "The annual estimate is the sum of four RCS quarters for NAPCS 5619122. Health Canada's 2024 manufacturer/importer shipment value is CAD 1,160,753,796.78.",
-      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
-      "2026-07-24",
-      "CAD 1,219,160,000 − CAD 1,160,753,796.78 = CAD 58,406,203.22; RCS / Health Canada = 1.0503175, or +5.03%.",
-      "Every 2024 quarter carries quality flag E. Vaping-specific channel completeness is not quantified and the vaping-excise basis is not confirmed.",
+      "The four-quarter sum is CAD 1,219,160,000; the same-survey sum of 12 months is CAD 1,219,161,000. Health Canada's 2024 manufacturer/importer net shipment value is CAD 1,160,753,796.78.",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-25",
+      "Monthly − quarterly = CAD 1,000 (0.000082%). Retail − shipments = CAD 58,406,203.22; retail / shipments − 1 = 5.031748%. ECB 2024: 1,219,160,000 / 1.482110546875 = EUR 822,583,715.21.",
+      "D8 passes: CAD and exclusion of GST/HST, provincial sales taxes and excise are source-linked. The monthly route is same-survey QA, not D10; retail and shipments do not form a market range.",
       "Supported",
-      "The retail-to-shipment bridge does not yet explain margin, inventory, returns, timing, product scope or tax treatment; Canada is not an accepted donor.",
+      "D5 NAICS 459993/459999 coverage, D7 annual error boundary and D10 retail-to-shipment reconciliation remain open; Canada is not an accepted donor.",
+    ];
+
+  const canadaShipmentIndex = output.findIndex((row) => row[0].startsWith(language === "fi"
+    ? "Kanadan vuoden 2024 raportoidut toimitukset"
+    : "Canada's 2024 shipments included")
+    || row[0].startsWith(language === "fi"
+      ? "Health Canadan neljä vuoden 2024"
+      : "Health Canada's four 2024"));
+  if (canadaShipmentIndex < 0) throw new Error(`${language}: Canada shipment row not found`);
+  output[canadaShipmentIndex] = language === "fi"
+    ? [
+      "Health Canadan neljä vuoden 2024 tuoteryhmää summautuvat 1 160 753 796,78 CAD:n nettotoimitusarvoon, 118 901 910 yksikköön ja 1 251 843 litraan.",
+      "Markkinakoko",
+      "Arvo-osuudet ovat: laite tai osa ilman ainetta 2,602 %, aineen sisältävä laite 48,154 %, aineen sisältävä osa 27,252 % ja höyrystettävä aine 21,992 %. Kyse on toimituksista tukku- tai vähittäismyyjille, ei kuluttajaostoista.",
+      "https://health-infobase.canada.ca/substance-use/vaping/sales/ ; https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-123/FullText.html ; source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-25",
+      "30 207 822,87 + 558 947 200,26 + 316 329 158,83 + 255 269 614,82 = 1 160 753 796,78 CAD; osuudet lasketaan tästä summasta.",
+      "Nettomyynti on myynti vähennettynä palautuksilla ja arvot ilmoitetaan ilman veroja ja maksuja. Nestettä sisältävä laite tai osa yhdistää laite- ja neste-arvoa.",
+      "Vahvistettu",
+      "Toimitusosuuksia ei saa soveltaa retail-arvoon laite–neste-jaoksi eikä eri tapahtumatasoja summata.",
+    ]
+    : [
+      "Health Canada's four 2024 categories sum to CAD 1,160,753,796.78 of net shipment value, 118,901,910 units and 1,251,843 litres.",
+      "Market size",
+      "Value shares are: part/device without substance 2.602%, device with substance 48.154%, part with substance 27.252% and vaping substance 21.992%. These are shipments to wholesalers or retailers, not consumer purchases.",
+      "https://health-infobase.canada.ca/substance-use/vaping/sales/ ; https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-123/FullText.html ; source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-25",
+      "CAD 30,207,822.87 + 558,947,200.26 + 316,329,158.83 + 255,269,614.82 = CAD 1,160,753,796.78; shares use this total.",
+      "Net sales are sales less returns and values are reported excluding taxes and duties. A device or part containing substance combines hardware and liquid value.",
+      "Confirmed",
+      "Do not apply shipment shares to retail as a device/liquid split and do not add transaction stages.",
     ];
 
   const existingAddition = output.findIndex((row) => row[0].startsWith(language === "fi"
@@ -1237,6 +1275,13 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
         "sh/rq50vmp8",
         "sh/7a18rydc",
         "sh/8jup8rad",
+        "sh/0b65obm9",
+        "sh/wbih4b6d",
+        "sh/bq9orito",
+        "sh/k3y5ov21",
+        "sh/8v2pobax",
+        "sh/0r6p4nul",
+        "sh/ralgf21g",
       ],
     }[deckName];
     for (const shapeId of singleLineTitleIds) {
@@ -1245,6 +1290,12 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
       title.text.wrap = "none";
       title.text.autoFit = "shrinkText";
     }
+  }
+  if (language === "en" && deckName === "large") {
+    const title = presentation.resolve("sh/bq9orito");
+    title.text.fontSize = 32;
+    title.text.wrap = "none";
+    title.text.autoFit = "shrinkText";
   }
   if (deckName === "medium") {
     presentation.resolve("sh/cbe5g3ih").text.fontSize = 18;
@@ -1430,7 +1481,7 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
   );
   summary.getRange("A5:B8").values = [
     [isFi ? "Versio" : "Version", releaseVersion],
-    [isFi ? "Päivitetty" : "Updated", "2026-07-24"],
+    [isFi ? "Päivitetty" : "Updated", "2026-07-25"],
     [isFi ? "Rajaus" : "Scope", isFi
       ? "Julkinen ja riippumaton evidenssikooste; faktat, laskelmat, tulkinnat ja oletukset on erotettu."
       : "Public and independent evidence summary; facts, calculations, interpretations and assumptions are separated."],
@@ -1696,9 +1747,9 @@ async function writeReleaseLocks(artifacts) {
   if (
     release?.id !== releaseId
     || release?.version !== releaseVersion
-    || changelog.asOf !== "2026-07-24"
+    || changelog.asOf !== "2026-07-25"
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v22 release");
+    throw new Error("The public changelog is not locked to the reviewed v24 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -1727,6 +1778,7 @@ async function writeReleaseLocks(artifacts) {
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+    "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
     "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
   ];
@@ -1766,7 +1818,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 21-source market dataset share one v22 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. The FHM counts describe reporting and product-register structure, are not sales or market value, and do not change the 0/3 donor gate.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 21-source market dataset share one v24 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. Canada 2024 passes 7/10 donor criteria but remains not accepted because D5, D7 and D10 are open. The FHM counts describe reporting and product-register structure, are not sales or market value, and do not change the 0/3 donor gate.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,
@@ -1875,6 +1927,9 @@ async function main() {
   }
   artifacts["evidence-register-fi"] = await buildWorkbook("fi", fiRows, fiSourceRows, eurRows);
   artifacts["evidence-register-en"] = await buildWorkbook("en", enRows, enSourceRows, eurRows);
+  for (const artifact of Object.values(artifacts)) {
+    await fs.rm(`${artifact.path}.inspect.ndjson`, { force: true });
+  }
   const releaseLocks = await writeReleaseLocks(artifacts);
   const qa = {
     artifacts,

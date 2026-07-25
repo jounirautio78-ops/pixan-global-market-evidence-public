@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "controlId": "vendor-response-control-public",
-  "asOf": "2026-07-24",
-  "version": "2026.07.24-21",
+  "asOf": "2026-07-25",
+  "version": "2026.07.25-24",
   "status": "public_status_only_no_purchase_authorised",
   "publicBoundaryEn": "This public control shows only privacy-safe request status, evidence completeness and the scoring method. It does not publish correspondence, personal data, vendor files, unlicensed data or confidential commercial terms.",
   "publicBoundaryFi": "Tämä julkinen valvontanäkymä näyttää vain tietoturvallisen pyyntötilan, evidenssin täydellisyyden ja pisteytysmenetelmän. Se ei julkaise kirjeenvaihtoa, henkilötietoja, toimittajatiedostoja, lisensoimatonta dataa tai luottamuksellisia kaupallisia ehtoja.",
@@ -20,8 +20,8 @@
     "scopeFi": "Virallinen verotettujen tupakankorvikkeiden nestetilavuus. Tämä fyysisen määrän ankkuri ei mittaa laitteita, verotonta tai laitonta myyntiä eikä koko vähittäismarkkina-arvoa.",
     "unit": "litre",
     "status": "not_testable",
-    "statusReasonEn": "No reviewable vendor numerical sample for Germany has been received, so deviations cannot yet be calculated.",
-    "statusReasonFi": "Saksasta ei ole saatu tarkistettavaa toimittajan numeerista näytettä, joten poikkeamia ei voida vielä laskea.",
+    "statusReasonEn": "A partial numerical Germany sample has been received, but it does not contain the current comparable annual Germany liquid totals required for the public 2023–2024 official-anchor test. Deviations cannot be calculated.",
+    "statusReasonFi": "Osittainen numeerinen Saksa-näyte on saatu, mutta se ei sisällä julkisen vuosien 2023–2024 viranomaisankkuritestin edellyttämiä nykyisiä vertailukelpoisia Saksan vuotuisia nestemääriä. Poikkeamia ei voida laskea.",
     "officialAnchors": [
       {
         "observationId": "DE-2023-TAXED-LIQUID-VOLUME-L",
@@ -309,13 +309,13 @@
       "product": "Passport Nicotine / e-vapour country series",
       "requestState": "request_sent",
       "responseState": "substantive_response_received",
-      "publicStatusEn": "Two written responses and an 8-page brochure received. Quote, numerical-sample, Germany-evaluation and brand-field requests were sent on 2026-07-24. Euromonitor says it can provide samples, detailed answers and pricing after the role/access model is clarified; a role/access clarification was sent on 2026-07-24. Pending: numerical Germany sample, written brand-field confirmation, itemised price, method, country-product coverage matrix, licence and written derived-output rights. The brochure's 100-country list is not confirmed e-vapour country-product coverage. No score, purchase, fee or commitment is established.",
-      "publicStatusFi": "Kaksi kirjallista vastausta ja 8-sivuinen esite on saatu. Tarjous-, numeerinen näyte-, Saksa-arviointi- ja brändikenttäpyynnöt lähetettiin 24.7.2026. Euromonitor ilmoittaa voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; rooli- ja käyttömallin täsmennys lähetettiin 24.7.2026. Odottavat: numeerinen Saksa-näyte, kirjallinen brändikenttävahvistus, eritelty hinta, menetelmä, maa–tuote-peittomatriisi, lisenssi ja kirjalliset johdettujen tuotosten oikeudet. Esitteen 100 maan lista ei ole vahvistettu sähkötupakan maa–tuote-peitto. Pistemäärää, ostoa, maksua tai sitoumusta ei ole osoitettu.",
+      "publicStatusEn": "A Germany workbook sample, generic methodology, blank licence terms and two indicative annual package quotes were received on 2026-07-24. The sample exposes category, value/volume, company/brand, channel, nicotine-strength and user fields, but is deliberately sparse and lacks comparable 2023–2024 Germany liquid totals. The vendor states roughly 75 e-vapour countries; the exact country-product matrix remains missing. Default terms do not yet confirm Pixan onward sharing or controlled lender, buyer, adviser and data-room use, and restrict public and legal use. A quote is recorded as received, but the sparse workbook does not pass the representative-sample gate; all six mandatory gates remain open. NOT SCORED; no purchase, fee or commitment is authorised.",
+      "publicStatusFi": "Saksan työkirjanäyte, yleinen menetelmäkuvaus, tyhjä lisenssisopimus ja kaksi suuntaa-antavaa vuosipakettitarjousta saatiin 24.7.2026. Näyte sisältää kategoria-, arvo-/volyymi-, yhtiö-/brändi-, kanava-, nikotiinivahvuus- ja käyttäjäkenttiä, mutta se on tarkoituksella suppea eikä sisällä vertailukelpoisia Saksan vuosien 2023–2024 nestemääriä. Toimittaja ilmoittaa noin 75 sähkötupakkamaata; täsmällinen maa–tuote-matriisi puuttuu. Vakioehdot eivät vielä vahvista Pixanin edelleenjakelua tai hallittua lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat julkista ja oikeudellista käyttöä. Tarjous on kirjattu saaduksi, mutta suppea työkirja ei läpäise edustavan näytteen porttia; kaikki kuusi pakollista porttia ovat avoinna. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu.",
       "receivedEvidence": {
         "sample": false,
         "methodology": false,
         "coverageMatrix": false,
-        "quote": false,
+        "quote": true,
         "officialAnchorReconciliation": false,
         "transactionUseRights": false,
         "totalCostTerms": false

@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
   "release": {
-    "id": "2026-07-24-sweden-registration-structure-v22",
-    "version": "2026.07.24-22",
-    "publishedAt": "2026-07-24T17:30:06+03:00"
+    "id": "2026-07-25-canada-donor-closure-v24",
+    "version": "2026.07.25-24",
+    "publishedAt": "2026-07-25T15:00:00+03:00"
   },
-  "asOf": "2026-07-24",
+  "asOf": "2026-07-25",
   "reviewedInputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "4be530d7be0a68db3b94efd6b04aba87d35c38e43ada9816c87644bf555f8862"
+      "sha256": "7fad278195fae05517bd0e6c8285b92573f211d6a99abac8a822e9ec81749b4a"
     },
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
@@ -41,11 +41,11 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "ad07eaf0ae078ec39745f4df40685664ad4ff8ddb6916926dafc1d624cfe17b5"
+      "sha256": "ed19c8f26f09d367aa7eacb215ba04b174cc134fa46f37278efffe438d487b55"
     },
     {
       "path": "site/data/market-values.json",
-      "sha256": "5e5e841f95fdd26b7b6ed38de3e13c59bc0999e9017628a2d604e90ca8dc5057"
+      "sha256": "cc1dd29130e5d5e1082b7a3a4e4aa89bb6d9231b73b365fd9af983b66e318596"
     },
     {
       "path": "site/data/patent-history.json",
@@ -53,7 +53,7 @@
     },
     {
       "path": "site/data/donor-cockpit.json",
-      "sha256": "f9c1957c8de439f9a7a4fad4029a3ca7c44d928c04ee05bef1bfefdbb45a3347"
+      "sha256": "b09afd748ced3ffead2f2e940891d8554a7f73979d776ec8bc0ef9b69b69b5f7"
     },
     {
       "path": "site/data/country-scenarios.json",
@@ -73,7 +73,7 @@
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "dd436c41fd36072bb133f5010f776216b004089b7b682d55571b42d75fbbf7ba"
+      "sha256": "f48bc02fa21ebef386e2cfd612e55857b974566b200f375b59319c8934b315a1"
     },
     {
       "path": "source/fx-rates.json",
@@ -97,7 +97,11 @@
     },
     {
       "path": "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
-      "sha256": "687cfbb135eaa4b6bd819d2f30c26317a0eded7a3fb8637ab906d6105db4b018"
+      "sha256": "120b142633900db722b362c5a51a3d80790879a1b94a987914902f9aad426b85"
+    },
+    {
+      "path": "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+      "sha256": "b76df06c492279b4f7356e8479a3fa8201a259eeadd13f1ebaeaf2f2eca62ba0"
     },
     {
       "path": "source/US_FTC_2015_2021_REPORTED_SALES.md",
@@ -114,8 +118,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "3361fed75d9ad41c78c2eb870cff2ec99bd5c062cee8626d3b0cbc95f066738e",
-      "bytes": 56382,
+      "sha256": "b7aa77c3a686e74873f26d75ea99968945e135f022cf9c0dc0ab8e0794458571",
+      "bytes": 56808,
       "slideCount": 6
     },
     {
@@ -123,8 +127,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "e6ecc0f47e332155d59ad191cb1c01e671887e00730609ae906d9b34fc33b7eb",
-      "bytes": 169938,
+      "sha256": "8258a6c6e655ac165cd58461e8489d6d02e9820d024ff84460d58fbd871a8504",
+      "bytes": 172353,
       "slideCount": 30
     },
     {
@@ -132,8 +136,8 @@
       "kind": "xlsx",
       "language": "en",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "9b309b776e11165594701972299a521af634b355d48715c91fc1a6fe80c69745",
-      "bytes": 36679,
+      "sha256": "5649ead12663b716d05f515bd35b61465a6dfa38cf6a3e2d18cf7789c63f6ad9",
+      "bytes": 37187,
       "rowCount": 53
     },
     {
@@ -141,8 +145,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "18946dabb923f8ca694b4b2a93d387e82bcb3b607eb1e8fc73bd794fe4ad1bcd",
-      "bytes": 56739,
+      "sha256": "e9a47b76041de2cfaa7df5ce96b6842992811426f55c18d7ac33f5cacd3cd90b",
+      "bytes": 57145,
       "slideCount": 6
     },
     {
@@ -150,8 +154,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "a7378be58aa52984525bf3a02979298ef8d1868282a877397bae8915ada7f7a4",
-      "bytes": 171470,
+      "sha256": "bbb516add414347d97af129269d50b2ddd84f232a222f07ad31d613b43607324",
+      "bytes": 174033,
       "slideCount": 30
     },
     {
@@ -159,8 +163,8 @@
       "kind": "xlsx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "348e135008de1984794a929608aaa4ee3ae45fc95ae7d601f9bae0d6fbe83200",
-      "bytes": 37879,
+      "sha256": "eec71a5cb29d7ceb32177384324433e90f6853fb2590737467b521892eab473e",
+      "bytes": 38365,
       "rowCount": 53
     }
   ],
@@ -195,7 +199,7 @@
         "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
       }
     ],
-    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 21-source market dataset share one v22 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. The FHM counts describe reporting and product-register structure, are not sales or market value, and do not change the 0/3 donor gate.",
+    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 21-source market dataset share one v24 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. Canada 2024 passes 7/10 donor criteria but remains not accepted because D5, D7 and D10 are open. The FHM counts describe reporting and product-register structure, are not sales or market value, and do not change the 0/3 donor gate.",
     "qualityAssurance": {
       "exactRegisterRowsAfterReopen": true,
       "summaryFormulasAfterReopen": true,

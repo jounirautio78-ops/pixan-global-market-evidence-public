@@ -188,8 +188,8 @@
         "nameFi": "Health Canada"
       },
       "priorityCode": "A2",
-      "rationaleEn": "Health Canada's official shipment series and Statistics Canada's Retail Commodity Survey create a direct shipment-to-retail comparison. A secondary clarification request on the retail tax basis and annual use of quarterly estimates was sent on 2026-07-24; no reply is publicly recorded.",
-      "rationaleFi": "Health Canadan virallinen toimitussarja ja Statistics Canadan Retail Commodity Survey muodostavat suoran toimitus–vähittäismyynti-vertailun. Vähittäismyynnin veropohjaa ja neljännesvuosiarvioiden vuosikäyttöä koskeva täydentävä täsmennyspyyntö lähetettiin 24.7.2026; julkista vastausta ei ole kirjattu.",
+      "rationaleEn": "Health Canada's official shipment series and Statistics Canada's Retail Commodity Survey create a direct shipment-to-retail comparison. The official RCS-to-MRTS chain now establishes the retail currency and tax basis, closing D8. A clarification request sent on 2026-07-24 remains outstanding for the NAICS 459993/459999 coverage conflict, exact annual quality bounds and independent retail-to-shipment reconciliation.",
+      "rationaleFi": "Health Canadan virallinen toimitussarja ja Statistics Canadan Retail Commodity Survey muodostavat suoran toimitus–vähittäismyynti-vertailun. Virallinen RCS–MRTS-lähdeketju vahvistaa nyt vähittäismyynnin valuutta- ja veroperustan ja sulkee D8:n. 24.7.2026 lähetetty täsmennyspyyntö odottaa vastausta NAICS 459993/459999 -peittoristiriidasta, vuositason täsmällisestä virherajasta ja riippumattomasta retail–toimitus-täsmäytyksestä.",
       "recordsRequestedEn": [
         "Machine-readable semi-annual manufacturer/importer shipment records by province, category, units, liquid volume and reported value",
         "Reporting coverage, suppressed cells, revisions and audit or quality-control metadata",

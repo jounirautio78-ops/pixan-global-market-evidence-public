@@ -132,11 +132,12 @@ quantified in the table.
 ## Tax boundary
 
 The questionnaire explicitly instructs respondents to exclude GST, HST, PST
-and QST from total and commodity retail sales. The questionnaire does not
-explicitly state whether federal or provincial vaping excise duties embedded in
-retail prices are included or excluded. The series is therefore tax-exclusive
-for the named general sales taxes, but the vaping-excise basis remains
-unresolved. No excise adjustment is made.
+and QST from total and commodity retail sales. RCS is the commodity breakdown
+of the Monthly Retail Trade Survey (MRTS), obtains each edited or imputed record
+total from MRTS and is benchmarked to MRTS. Statistics Canada's official April
+2025 concepts note states that MRTS sales exclude all taxes on products and
+services, including excise. The RCS series is therefore treated as current CAD
+excluding the named sales taxes and excise. No tax adjustment is made.
 
 ## Classification and comparability boundary
 
@@ -153,9 +154,33 @@ These records remain `comparableMarketValue: false` and
 `atlasEstimate: false`. They materially improve Canada's consumer-retail
 evidence, but donor acceptance remains blocked at least by:
 
-1. unresolved vaping-excise treatment;
-2. the pre-2023 pure-play Internet/mail-order gap;
-3. lack of a public vaping-specific response/coverage reconciliation;
-4. weak published precision, especially all-`E` quarters in 2024 and 2025;
-5. lack of independent reconciliation against Health Canada shipment values,
+1. the pre-2023 pure-play Internet/mail-order gap;
+2. lack of a public vaping-specific response/coverage reconciliation;
+3. weak published precision, especially all-`E` quarters in 2024 and 2025;
+4. lack of independent reconciliation against Health Canada shipment values,
    excise, scanner data or another non-duplicative retail route.
+
+## 2024 closure audit
+
+The 25 July 2026 closure audit adds a second, same-survey calculation route and
+an exact Health Canada category decomposition without changing the canonical
+quarterly headline:
+
+- the monthly RCS vector sums to CAD 1,219,161,000 for 2024, only CAD 1,000
+  above the quarterly annual sum;
+- all 12 monthly values and all four quarterly values carry quality `E`;
+- Health Canada's four 2024 shipment-value categories sum to
+  CAD 1,160,753,796.78, 118,901,910 units and 1,251,843 litres;
+- the CAD 58,406,203.22 retail-minus-shipment residual is not treated as
+  margin, a lower bound or an uncertainty range;
+- the apparent RCS target-population endpoint at NAICS 459993 conflicts with
+  the official NAICS placement of electronic-cigarette and vapour-liquid
+  specialty retailers in 459999;
+- the RCS-to-MRTS source chain establishes a CAD basis excluding GST/HST,
+  provincial sales taxes and excise, while a bounded annual error interval
+  remains unavailable.
+
+Canada therefore remains `not_accepted` at 7/10 passed criteria. D5, D7 and D10
+remain open. The full formulas, product decomposition, EUR conversion,
+allowed wording and exact follow-up evidence are recorded in
+[`CANADA_2024_DONOR_CLOSURE_PACK.md`](CANADA_2024_DONOR_CLOSURE_PACK.md).

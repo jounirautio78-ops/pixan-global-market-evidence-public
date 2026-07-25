@@ -221,26 +221,26 @@
       "Acquire the licensed country table and method, transaction definition, channel coverage, tax basis and an independent reconciliation; complete Cyprus, Luxembourg and Malta."
     ],
     [
-      "Statistics Canada's Canada series contains seven full-year consumer-retail estimates for 2019–2025; the 2024 value is CAD 1,219,160,000.",
+      "Canada's official 2024 consumer-retail point estimate is CAD 1,219,160,000, or EUR 822,583,715.21; the donor test passes 7/10 criteria.",
       "Market size",
-      "The annual estimate is the sum of four RCS quarters for NAPCS 5619122. Health Canada's 2024 manufacturer/importer shipment value is CAD 1,160,753,796.78.",
-      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
-      "2026-07-24",
-      "CAD 1,219,160,000 − CAD 1,160,753,796.78 = CAD 58,406,203.22; RCS / Health Canada = 1.0503175, or +5.03%.",
-      "Every 2024 quarter carries quality flag E. Vaping-specific channel completeness is not quantified and the vaping-excise basis is not confirmed.",
+      "The four-quarter sum is CAD 1,219,160,000; the same-survey sum of 12 months is CAD 1,219,161,000. Health Canada's 2024 manufacturer/importer net shipment value is CAD 1,160,753,796.78.",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-25",
+      "Monthly − quarterly = CAD 1,000 (0.000082%). Retail − shipments = CAD 58,406,203.22; retail / shipments − 1 = 5.031748%. ECB 2024: 1,219,160,000 / 1.482110546875 = EUR 822,583,715.21.",
+      "D8 passes: CAD and exclusion of GST/HST, provincial sales taxes and excise are source-linked. The monthly route is same-survey QA, not D10; retail and shipments do not form a market range.",
       "Supported",
-      "The retail-to-shipment bridge does not yet explain margin, inventory, returns, timing, product scope or tax treatment; Canada is not an accepted donor."
+      "D5 NAICS 459993/459999 coverage, D7 annual error boundary and D10 retail-to-shipment reconciliation remain open; Canada is not an accepted donor."
     ],
     [
-      "Canada's 2024 shipments included 1,251,843 litres.",
+      "Health Canada's four 2024 categories sum to CAD 1,160,753,796.78 of net shipment value, 118,901,910 units and 1,251,843 litres.",
       "Market size",
-      "The total covers the reported vaporisable-substance categories. It is a physical volume, not a retail market value.",
-      "https://health-infobase.canada.ca/substance-use/vaping/sales/",
-      "2024",
-      "Sum of the reported liquid-containing product categories.",
-      "Physical volume is not treated as market value.",
+      "Value shares are: part/device without substance 2.602%, device with substance 48.154%, part with substance 27.252% and vaping substance 21.992%. These are shipments to wholesalers or retailers, not consumer purchases.",
+      "https://health-infobase.canada.ca/substance-use/vaping/sales/ ; https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-123/FullText.html ; source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-25",
+      "CAD 30,207,822.87 + 558,947,200.26 + 316,329,158.83 + 255,269,614.82 = CAD 1,160,753,796.78; shares use this total.",
+      "Net sales are sales less returns and values are reported excluding taxes and duties. A device or part containing substance combines hardware and liquid value.",
       "Confirmed",
-      "Product mix, average price and retail-channel evidence are required."
+      "Do not apply shipment shares to retail as a device/liquid split and do not add transaction stages."
     ],
     [
       "Germany's taxed liquid volume increased from 1.241 million litres to 1.518 million litres in 2023–2025.",

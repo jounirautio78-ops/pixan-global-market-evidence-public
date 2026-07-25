@@ -64,7 +64,7 @@ PRICE_TYPES = {"public_list_price", "vendor_quote"}
 OUTREACH_KEYS = {"itemId", "state", "recordedOn", "noteEn", "noteFi"}
 EXPECTED_OUTREACH = {
     "ecig-global-market-database": "sent_followup_scheduled",
-    "euromonitor-passport-nicotine": "written_response_brochure_received_quote_request_sent",
+    "euromonitor-passport-nicotine": "germany_sample_and_quote_received_review_pending",
     "niq-rms-pilot": "blocked_not_submitted",
     "circana-us-tobacco-pilot": "submitted_confirmation_received",
 }
@@ -74,8 +74,8 @@ EXPECTED_OUTREACH_NOTES = {
         "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 24.7.2026 mennessä. Ensimmäinen seuranta on 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
     ),
     "euromonitor-passport-nicotine": (
-        "Two written responses and an 8-page Tobacco brochure are recorded. The brochure documents an overall 100-country Passport Tobacco list, e-vapour category taxonomy, 2010-2029 market-size periods, 2014-2024 company and brand-share periods and 2010-2024 retail-channel periods; it does not confirm exact e-vapour country-product coverage. On 2026-07-24, non-binding follow-ups requested a multi-option quote, resending the missing numerical Excel/CSV sample, written confirmation whether manufacturer or brand fields include VOOPOO, SMOK and Lost Vape or equivalent fields, and a current Germany evaluation report plus Excel/CSV sample with actual annual values and volumes, EUR and tax basis, devices, pods or cartridges, liquids, history, forecasts, definitions, sources and observed/reported/modelled distinctions. Euromonitor subsequently stated that it can provide samples, detailed answers and pricing after the role/access model is clarified; its statement that coverage and granularity have expanded is vendor narrative, not proof of the current numerical dataset. A role/access clarification was sent on 2026-07-24. No reviewable numerical Germany sample, written brand-field confirmation, itemised price, detailed methodology, confirmed e-vapour country-product coverage matrix, licence terms or written rights for derived client outputs, usable data, score, purchase, fee or commitment.",
-        "Kaksi kirjallista vastausta ja 8-sivuinen Tobacco-esite on kirjattu. Esite dokumentoi Passport Tobaccon 100 maan kokonaislistan, sähkötupakkatuotteiden luokittelun, markkinakokosarjojen ajanjakson 2010–2029, yritys- ja brändiosuuksien ajanjakson 2014–2024 sekä vähittäiskanavasarjojen ajanjakson 2010–2024; se ei vahvista täsmällistä sähkötupakan maa–tuote-peittoa. Ei-sitovissa jatkoviesteissä 24.7.2026 pyydettiin monivaihtoehtoinen tarjous, puuttuvan numeerisen Excel/CSV-näytteen uudelleenlähetys, kirjallinen vahvistus siitä, sisältävätkö valmistaja- tai brändikentät VOOPOO-, SMOK- ja Lost Vape -tiedot tai vastaavat kentät, sekä nykyinen Saksan arviointiraportti ja Excel/CSV-näyte todellisilla vuotuisilla arvoilla ja määrillä, EUR- ja veroperustalla, laite-, pod-/patruuna- ja nestemäärillä, historialla, ennusteilla, määritelmillä, lähteillä sekä observed/reported/modelled-erottelulla. Euromonitor ilmoitti tämän jälkeen voivansa toimittaa näytteitä, yksityiskohtaisia vastauksia ja hinnoittelua, kun rooli- ja käyttömalli on täsmennetty; väite peiton ja tarkkuuden kasvusta on toimittajan kuvaus, ei näyttö nykyisestä numeerisesta aineistosta. Rooli- ja käyttömallin täsmennys lähetettiin 24.7.2026. Ei tarkistettavaa numeerista Saksa-näytettä, kirjallista brändikenttävahvistusta, eriteltyä hintaa, yksityiskohtaista menetelmää, vahvistettua sähkötupakan maa–tuote-peittomatriisia, lisenssiehtoja tai kirjallisia oikeuksia johdettuihin asiakastuotoksiin, käyttökelpoista dataa, pistemäärää, ostoa, maksua eikä sitoumusta.",
+        "A partial numerical Germany sample, generic methodology, blank corporate licence terms and two indicative annual package quotes were received on 2026-07-24. The sample proves relevant category, value/volume, company/brand and other evaluation fields exist, but it does not contain the current comparable annual Germany liquid totals required for the public 2023–2024 official-anchor test. The vendor states roughly 75 e-vapour markets; the exact country-product-year-measure matrix is missing. Default terms do not yet confirm Pixan onward sharing or controlled lender, buyer, adviser and data-room use and restrict public and legal uses. A quote is received, but no score or purchase is authorised; the representative-sample, detailed-method, official-reconciliation, exact-coverage, complete-terms and written-transaction-rights gates remain open.",
+        "Osittainen numeerinen Saksa-näyte, yleinen menetelmäkuvaus, tyhjä yrityslisenssisopimus ja kaksi suuntaa-antavaa vuosipakettitarjousta saatiin 24.7.2026. Näyte osoittaa olennaisten kategoria-, arvo-/volyymi-, yhtiö-/brändi- ja muiden arviointikenttien olemassaolon, mutta se ei sisällä julkisen vuosien 2023–2024 viranomaisankkuritestin edellyttämiä nykyisiä vertailukelpoisia Saksan vuotuisia nestemääriä. Toimittaja ilmoittaa noin 75 sähkötupakkamarkkinaa; täsmällinen maa–tuote–vuosi–mittari-matriisi puuttuu. Vakioehdot eivät vielä vahvista Pixanin edelleenjakelua tai hallittua lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat julkista ja oikeudellista käyttöä. Tarjous on saatu, mutta pistemäärää tai ostoa ei ole valtuutettu; edustavan näytteen, yksityiskohtaisen menetelmän, viranomaistäsmäytyksen, täsmällisen peiton, täydellisten ehtojen ja kirjallisten transaktio-oikeuksien portit ovat avoinna.",
     ),
     "niq-rms-pilot": (
         "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
@@ -110,7 +110,7 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-EXPECTED_XLSX_SHA256 = "ecd00a78e69914666f57b273447e66ee5dff1afa5220ba6b2c12a56b2a4e209d"
+EXPECTED_XLSX_SHA256 = "dd38469704c476e3514b3370eab31d015f2cd4099375e69ca0b8ffe1e9ba60fa"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
@@ -125,10 +125,10 @@ EXPECTED_RESPONSE_ROWS = (
         "euromonitor-passport-nicotine",
         "Euromonitor International",
         "Passport Nicotine / e-vapour country series",
-        "TWO WRITTEN RESPONSES + BROCHURE RECEIVED · ROLE/ACCESS CLARIFICATION SENT · GERMANY SAMPLE + PRICING PENDING\nFI: KAKSI KIRJALLISTA VASTAUSTA + ESITE SAATU · ROOLI-/KÄYTTÖMALLIN TÄSMENNYS LÄHETETTY · SAKSA-NÄYTE + HINNOITTELU ODOTTAVAT",
+        "GERMANY SAMPLE + METHOD + TWO QUOTES RECEIVED · 0/6 GATES PASS · NOT SCORED\nFI: SAKSA-NÄYTE + MENETELMÄ + KAKSI TARJOUSTA SAATU · 0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
         None,
         "='Sources'!C9",
-        "Status only. Euromonitor says it can provide samples, detailed answers and pricing after the role/access model is clarified. A role/access clarification was sent on 2026-07-24. The brochure and vendor statement about expanded granularity are not numerical market evidence. The Germany sample, written brand confirmation, itemised price, detailed method, country-product coverage matrix, licence and written derived-output rights remain pending. No usable data, score, purchase, fee or commitment.",
+        "Status only. A sparse Germany sample, generic methodology and two indicative quotes were received. The workbook does not satisfy the representative-sample gate; all six mandatory gates remain OPEN. No licensed values are published. NOT SCORED; no purchase, fee or commitment.",
     ),
     (
         "niq-rms-pilot",
@@ -217,7 +217,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         return
     if source.get("status") != "decision_support_only_no_purchase_authorised":
         errors.append("source must state that no purchase is authorised")
-    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.24-21":
+    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.25-24":
         errors.append("source date or version is invalid")
 
     weights = source.get("weights")
@@ -410,6 +410,50 @@ def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
         )
         if priority.cell(index, 14).value != expected_formula:
             errors.append(f"paid-data XLSX weighted-score formula differs at row {index}")
+    euromonitor_item = next(
+        item
+        for item in source["items"]
+        if item["itemId"] == "euromonitor-passport-nicotine"
+    )
+    expected_euromonitor_decision = "\n".join(
+        (
+            euromonitor_item["decisionEn"],
+            euromonitor_item["conditionsEn"],
+            "",
+            f'FI: {euromonitor_item["decisionFi"]}',
+            euromonitor_item["conditionsFi"],
+        )
+    )
+    if priority["F7"].value != euromonitor_item["priceDisplay"]:
+        errors.append("paid-data XLSX Euromonitor quote status differs")
+    if priority["G7"].value != expected_euromonitor_decision:
+        errors.append("paid-data XLSX Euromonitor decision boundary differs")
+
+    decision = workbook["Decision"]
+    if decision["A3"].value != (
+        "Independent decision support · No purchase authorised · "
+        "Version 2026.07.25-24 · Verified 2026-07-25"
+    ):
+        errors.append("paid-data XLSX decision release boundary differs")
+    if not isinstance(decision["A10"].value, str) or not all(
+        phrase in decision["A10"].value
+        for phrase in (
+            "Do not buy Euromonitor before a full Germany sample",
+            "Älä osta Euromonitoria ennen kuin täysi Saksa-näyte",
+            "Buy at most one global master",
+        )
+    ):
+        errors.append("paid-data XLSX recommended decision differs")
+    recommended_package = next(
+        item for item in source["packageOptions"] if item["id"] == "recommended"
+    )
+    if decision["M17"].value != recommended_package["knownPrice"]:
+        errors.append("paid-data XLSX recommended package price status differs")
+    if decision["O17"].value != (
+        f'{recommended_package["unknownComponentsEn"]}\n\n'
+        f'FI: {recommended_package["unknownComponentsFi"]}'
+    ):
+        errors.append("paid-data XLSX recommended package unknowns differ")
 
     response = workbook["Response Scorecard"]
     expected_response_headers = [
