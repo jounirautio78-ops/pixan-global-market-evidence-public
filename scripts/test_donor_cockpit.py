@@ -34,6 +34,7 @@ class DonorCockpitTests(unittest.TestCase):
         lanes: dict | None = None,
         cockpit: dict | None = None,
         scenarios: dict | None = None,
+        market: dict | None = None,
         index_html: str | None = None,
         app_js: str | None = None,
     ) -> list[str]:
@@ -41,7 +42,7 @@ class DonorCockpitTests(unittest.TestCase):
             lanes or self.lanes,
             cockpit or self.cockpit,
             scenarios or self.scenarios,
-            self.market,
+            market or self.market,
             index_html or self.index_html,
             app_js or self.app_js,
         )
@@ -95,10 +96,24 @@ class DonorCockpitTests(unittest.TestCase):
             needle="declared donor decision does not match",
         )
 
+    def test_rejects_cockpit_market_status_drift(self) -> None:
+        market = copy.deepcopy(self.market)
+        candidate = market["donorCandidates"][2]
+        candidate["passedCriteria"].remove("D1")
+        candidate["openCriteria"].append("D1")
+        self.assert_rejected(
+            market=market,
+            needle=(
+                "Donor candidate CA-2024-STATCAN-RCS-RETAIL-SALES: passed "
+                "D1-D10 status set differs"
+            ),
+        )
+
     def test_rejects_missing_blocking_criterion_closure_coverage(self) -> None:
         cockpit = copy.deepcopy(self.cockpit)
         candidate = cockpit["candidates"][0]
-        candidate["closureActions"][0]["criterionIds"].remove("D3")
+        criterion_id = candidate["closureActions"][0]["criterionIds"][0]
+        candidate["closureActions"][0]["criterionIds"].remove(criterion_id)
         self.assert_rejected(
             cockpit=cockpit,
             needle="closure actions must cover every failed/open criterion exactly once",
@@ -107,7 +122,8 @@ class DonorCockpitTests(unittest.TestCase):
     def test_rejects_blocking_criterion_duplicated_across_closure_actions(self) -> None:
         cockpit = copy.deepcopy(self.cockpit)
         candidate = cockpit["candidates"][0]
-        candidate["closureActions"][1]["criterionIds"].append("D3")
+        criterion_id = candidate["closureActions"][0]["criterionIds"][0]
+        candidate["closureActions"][1]["criterionIds"].append(criterion_id)
         self.assert_rejected(
             cockpit=cockpit,
             needle="blocking criteria must not be duplicated across closure actions",
@@ -146,7 +162,7 @@ class DonorCockpitTests(unittest.TestCase):
         mutations = (
             (
                 "statusAsOf",
-                "2026-07-26",
+                "2026-07-27",
                 ".statusAsOf must be no later than cockpit asOf",
             ),
             (

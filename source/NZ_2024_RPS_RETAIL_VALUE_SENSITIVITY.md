@@ -4,14 +4,16 @@
 **Evidence lane:** `public_reproducible`
 **Donor decision:** not accepted
 **Observation year:** 2024
-**Reviewed:** 2026-07-24
+**Reviewed:** 2026-07-26
 
 ## Result
 
-The Ministry of Health's 2024 general-retailer files report product quantities
-but not retail value. A reproducible hierarchical price crosswalk values those
-quantities from recommended retail prices reported separately by specialist
-vape retailers.
+The Ministry of Health's 2024 general-retailer RPS files report product
+quantities but not retail value. A reproducible hierarchical price crosswalk
+values those quantities from recommended retail prices reported separately by
+specialist vape retailers. The observed specialist-retailer input now has a
+public deterministic product split and return-class reconciliation in
+`source/NZ_2024_DONOR_CLOSURE_PACK.md`.
 
 | Component | Low (NZD) | Base (NZD) | High (NZD) |
 |---|---:|---:|---:|
@@ -51,7 +53,8 @@ and raw positive-quantity RPS rows.
    type and scope distributions use unique-UPC median prices so repeated
    retailer lines do not directly determine the fallback distribution.
 5. Manufacturer/importer notifier rows are excluded. AVP/AIS and RPS are
-   distinct retail-return classes under the Ministry's filing instructions.
+   distinct return classes under the Ministry's filing instructions: AVP/AIS
+   are specialist retailers, while RPS covers general retailers.
 6. No licence, company, brand, flavour or UPC value is published.
 
 All 141,028 positive-quantity RPS rows received a price through one of the
@@ -64,7 +67,8 @@ price represents the actual transaction price at a general retailer.
   observed general-retailer revenue.
 - Filing completeness, late returns, nil returns and unresolved data-quality
   issues prevent a complete national-coverage claim.
-- The official page and reviewed user guide do not state the GST basis.
+- The official page and reviewed annual-return guide do not state the GST
+  basis.
 - No independent tax, customs or retail-scanner reconciliation is available in
   this release.
 - Exact repeated rows are shown only as a sensitivity because their business
@@ -74,10 +78,11 @@ price represents the actual transaction price at a general retailer.
 
 - [New Zealand Ministry of Health: 2024 annual returns](https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024)
 - [New Zealand Ministry of Health: annual-sales-return requirements](https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return)
-- [New Zealand Ministry of Health: 2025 annual-sales-return user guide](https://www.health.govt.nz/system/files/2025-11/notifiable-products-annual-sales-return-2025-user-guide.pdf)
+- [New Zealand Ministry of Health: annual-return user guide used for return-role definitions](https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf)
+- [New Zealand 2024 donor-closure pack](NZ_2024_DONOR_CLOSURE_PACK.md)
 
-The current guide confirms that general retailers use RPS returns, specialist
-premises and internet sites use AVP/AIS returns, and manufacturers/importers use
-notifier returns. It also instructs specialist retailers to report RRP,
-quantity sold and total sales revenue, while the reviewed RPS publication
-contains quantity but no direct value.
+The official instructions confirm that general retailers use RPS returns,
+specialist premises and internet sites use AVP/AIS returns, and
+manufacturers/importers use notifier returns. Specialist retailer returns
+report RRP, quantity sold and total sales revenue, while the reviewed RPS
+publication contains quantity but no direct value.

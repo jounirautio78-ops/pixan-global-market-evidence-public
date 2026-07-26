@@ -1,7 +1,31 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-25",
+  "asOf": "2026-07-26",
   "releases": [
+    {
+      "id": "2026-07-26-new-zealand-donor-closure-v25",
+      "version": "2026.07.26-25",
+      "publishedAt": "2026-07-26T11:19:19+03:00",
+      "titleEn": "New Zealand 2024 product-scope and supply-stage donor closure",
+      "titleFi": "Uuden-Seelannin vuoden 2024 tuoterajauksen ja toimitusketjutason donor-sulku",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Published a deterministic reconstruction of all 29 official 2024 annual-return workbooks. The specialist-retailer identified-vaping subtotal is NZD 274,180,410.21: NZD 189,402,451.96 consumables, NZD 84,709,409.85 devices/hardware and NZD 68,548.40 mixed systems. Adjacent notifiable products of NZD 2,137,085.24 and unresolved product type of NZD 4,367,017.37 are separately quantified and excluded.",
+          "textFi": "Julkaistiin kaikkien 29 virallisen vuoden 2024 vuosi-ilmoitustyökirjan deterministinen rekonstruktio. Erikoisvähittäiskaupan tunnistettu sähkötupakkasumma on 274 180 410,21 NZD: kulutustarvikkeet 189 402 451,96 NZD, laitteet ja hardware 84 709 409,85 NZD sekä sekajärjestelmät 68 548,40 NZD. Viereiset ilmoitusvelvolliset tuotteet 2 137 085,24 NZD ja ratkaisematon tuotetyyppi 4 367 017,37 NZD määrällistetään erikseen ja rajataan pois."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a public 29-file URL/hash manifest, privacy-safe parser and reviewed aggregate output. All observed Total sales value comes from AIS and AVP specialist-retailer files; Notifier and RPS observed value is not added. D3, D4 and D6 pass. GST treatment remains explicitly unknown, correcting an earlier cockpit inconsistency.",
+          "textFi": "Lisättiin julkinen 29 tiedoston URL-/tiivistemanifesti, tietosuojattu laskentaohjelma ja tarkistettu koontitulos. Kaikki havaittu Total sales -arvo tulee AIS- ja AVP-erikoisvähittäiskaupan tiedostoista; Notifier- ja RPS-arvoa ei lisätä. D3, D4 ja D6 läpäisevät. GST-käsittely pysyy yksiselitteisesti tuntemattomana, mikä korjaa aiemman cockpit-ristiriidan."
+        },
+        {
+          "category": "diligence",
+          "textEn": "New Zealand now passes 7/10 criteria but remains NOT ACCEPTED: D5 fails because observed national general-retail value is absent, while D8 GST basis and D10 independent reconciliation remain open. The separate NZD 533.66m / 641.81m / 731.18m RPS sensitivity remains a supported model, not observed national revenue. The bilingual 6-slide and 30-slide decks, both Evidence Registers and the dashboard were refreshed to the same v25 boundary; the donor gate remains 0/3 and the global estimate remains not_computed.",
+          "textFi": "Uusi-Seelanti läpäisee nyt 7/10 ehtoa mutta pysyy tilassa EI HYVÄKSYTTY: D5 hylätään, koska havaittu valtakunnallinen yleisvähittäiskaupan arvo puuttuu, ja D8:n GST-perusta sekä D10:n riippumaton täsmäytys ovat avoimia. Erillinen 533,66 / 641,81 / 731,18 miljoonan NZD:n RPS-herkkyys pysyy tuettuna mallina eikä havaittuna kansallisena liikevaihtona. Kaksikieliset 6 ja 30 dian dekit, molemmat Evidence Registerit ja dashboard päivitettiin samaan v25-rajaan; donor-portti pysyy 0/3:ssa ja maailmanestimaatti tilassa not_computed."
+        }
+      ]
+    },
     {
       "id": "2026-07-25-canada-donor-closure-v24",
       "version": "2026.07.25-24",

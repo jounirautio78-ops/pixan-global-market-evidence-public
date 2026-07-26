@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1",
-  "asOf": "2026-07-25",
+  "asOf": "2026-07-26",
   "protocol": {
     "protocolVersion": "1.0",
     "acceptanceRuleEn": "A country-year enters the public donor count only when D1–D10 all pass with source-linked evidence. Failed, open or structurally invalid records remain outside the count.",
@@ -87,53 +87,44 @@
   },
   "candidates": [
     {
-      "candidateId": "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
+      "candidateId": "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL",
       "candidateType": "country_year",
       "countryIso2": "NZ",
       "geography": "New Zealand",
       "year": 2024,
       "referenceType": "observation",
-      "referenceId": "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND",
+      "referenceId": "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM",
       "evidenceLaneId": "public_reproducible",
       "declaredDecision": "not_accepted",
-      "headlineEn": "Official specialist-retail sales lower bound",
-      "headlineFi": "Virallinen erikoisvähittäiskaupan myynnin alaraja",
+      "headlineEn": "Reproduced specialist-retailer identified-vaping subtotal",
+      "headlineFi": "Toistettu erikoisvähittäiskaupan tunnistettu sähkötupakkasumma",
       "criterionStatuses": [
         {"criterionId": "D1", "status": "passed"},
         {"criterionId": "D2", "status": "passed"},
-        {"criterionId": "D3", "status": "open"},
-        {"criterionId": "D4", "status": "failed"},
+        {"criterionId": "D3", "status": "passed"},
+        {"criterionId": "D4", "status": "passed"},
         {"criterionId": "D5", "status": "failed"},
         {"criterionId": "D6", "status": "passed"},
         {"criterionId": "D7", "status": "passed"},
-        {"criterionId": "D8", "status": "passed"},
+        {"criterionId": "D8", "status": "open"},
         {"criterionId": "D9", "status": "passed"},
         {"criterionId": "D10", "status": "open"}
       ],
-      "blockerEn": "The official value is an incomplete specialist-retail lower bound, excludes general retail and contains adjacent notifiable-product scope.",
-      "blockerFi": "Virallinen luku on puutteellinen erikoisvähittäiskaupan alaraja, jättää yleisvähittäiskaupan pois ja sisältää viereisten ilmoitusvelvollisten tuotteiden rajauksen.",
-      "nextEvidenceEn": "Reproduce the full retailer aggregate, separate vaping-only products and quantify missing channels; then reconcile against an independent route.",
-      "nextEvidenceFi": "Toista koko vähittäiskaupan koonti, erottele vain sähkötupakkatuotteet ja määrällistä puuttuvat kanavat; täsmäytä sitten riippumattomaan reittiin.",
-      "acquisitionRouteEn": "New Zealand Ministry of Health annual-return workbooks and methodology, followed by an official, tax, import or retail-scanner reconciliation.",
-      "acquisitionRouteFi": "Uuden-Seelannin terveysministeriön vuosi-ilmoitustyökirjat ja menetelmä, minkä jälkeen viranomais-, vero-, tuonti- tai kassapaneelitäsmäytys.",
+      "blockerEn": "The NZD 274,180,410.21 subtotal is vaping-only and supply-stage controlled, but it remains incomplete specialist retail: general-retail value is unobserved, GST treatment is unstated and no independent route validates it.",
+      "blockerFi": "274 180 410,21 NZD:n summa on sähkötupakkarajattu ja toimitusketjutaso hallittu, mutta se on yhä puutteellinen erikoisvähittäiskaupan luku: yleisvähittäiskaupan arvoa ei ole havaittu, GST-käsittelyä ei ole ilmoitettu eikä riippumaton reitti validoi sitä.",
+      "nextEvidenceEn": "Obtain an observed national general-retail value and return-completeness denominator, confirm the GST basis, and reconcile the same 2024 boundary against an independent route.",
+      "nextEvidenceFi": "Hanki havaittu valtakunnallinen yleisvähittäiskaupan arvo ja ilmoitusten peiton nimittäjä, vahvista GST-perusta ja täsmäytä sama vuoden 2024 rajaus riippumattomaan reittiin.",
+      "acquisitionRouteEn": "New Zealand Ministry of Health coverage and GST clarification, followed by a non-duplicative tax, customs, POS or direct official reconciliation.",
+      "acquisitionRouteFi": "Uuden-Seelannin terveysministeriön peitto- ja GST-täsmennys, minkä jälkeen riippumaton vero-, tulli-, POS- tai suora viranomaistäsmäytys.",
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
-      "lastReviewedAt": "2026-07-24",
-      "sourceIds": ["NZ-MOH-ANNUAL-RETURNS-2024"],
+      "lastReviewedAt": "2026-07-26",
+      "sourceIds": [
+        "NZ-MOH-ANNUAL-RETURNS-2024",
+        "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
+        "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE"
+      ],
       "closureActions": [
-        {
-          "actionId": "NZ-PRODUCT-SCOPE-20260724",
-          "criterionIds": ["D3", "D4"],
-          "ownerRole": "independent_research_team",
-          "routeType": "public_source_reconstruction",
-          "routeEn": "Reproduce the Ministry annual-return workbooks and separate vaping-only devices and consumables from adjacent notifiable products.",
-          "routeFi": "Toista ministeriön vuosi-ilmoitustyökirjat ja erottele sähkötupakan laitteet sekä kulutustarvikkeet viereisistä ilmoitusvelvollisista tuotteista.",
-          "evidenceTargetEn": "A reproducible vaping-only total with devices, consumables and every adjacent category separately quantified.",
-          "evidenceTargetFi": "Toistettava vain sähkötupakkatuotteita koskeva summa, jossa laitteet, kulutustarvikkeet ja jokainen viereinen tuoteryhmä on määrällistetty erikseen.",
-          "publicStatus": "in_progress",
-          "statusAsOf": "2026-07-24",
-          "nextFollowUpOn": "2026-07-31"
-        },
         {
           "actionId": "NZ-CHANNEL-TAX-20260724",
           "criterionIds": ["D5"],
@@ -148,6 +139,19 @@
           "nextFollowUpOn": "2026-08-07"
         },
         {
+          "actionId": "NZ-GST-BASIS-20260726",
+          "criterionIds": ["D8"],
+          "ownerRole": "public_authority",
+          "routeType": "official_aggregate_request",
+          "routeEn": "Seek Ministry confirmation whether AIS/AVP total net sales revenue is GST-inclusive or GST-exclusive and how discounts, refunds and returns are treated.",
+          "routeFi": "Pyydä ministeriöltä vahvistus siitä, onko AIS/AVP:n total net sales revenue GST:n sisältävä vai GST:n poissulkeva ja miten alennukset, hyvitykset ja palautukset käsitellään.",
+          "evidenceTargetEn": "An explicit currency, GST and net-revenue treatment applicable to the published 2024 specialist-retailer fields.",
+          "evidenceTargetFi": "Vuoden 2024 julkaistuihin erikoisvähittäiskaupan kenttiin soveltuva yksiselitteinen valuutta-, GST- ja nettomyyntikäsittely.",
+          "publicStatus": "queued",
+          "statusAsOf": "2026-07-26",
+          "nextFollowUpOn": "2026-08-07"
+        },
+        {
           "actionId": "NZ-INDEPENDENT-CHECK-20260724",
           "criterionIds": ["D10"],
           "ownerRole": "independent_validator",
@@ -157,7 +161,7 @@
           "evidenceTargetEn": "A signed or reproducible bridge that explains scope, timing, channel and tax differences.",
           "evidenceTargetFi": "Allekirjoitettu tai toistettava silta, joka selittää rajaus-, ajoitus-, kanava- ja veroerot.",
           "publicStatus": "queued",
-          "statusAsOf": "2026-07-24",
+          "statusAsOf": "2026-07-26",
           "nextFollowUpOn": "2026-08-07"
         }
       ]

@@ -3,27 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V24 = Object.freeze({
-    id: "2026-07-25-canada-donor-closure-v24",
-    version: "2026.07.25-24",
-    publishedAt: "2026-07-25T15:00:00+03:00",
-    titleEn: "Canada 2024 donor-closure review",
-    titleFi: "Kanadan vuoden 2024 donor-portin sulkemistarkistus",
+  const UI_RELEASE_V25 = Object.freeze({
+    id: "2026-07-26-new-zealand-donor-closure-v25",
+    version: "2026.07.26-25",
+    publishedAt: "2026-07-26T11:19:19+03:00",
+    titleEn: "New Zealand 2024 donor-closure review",
+    titleFi: "Uuden-Seelannin vuoden 2024 donor-sulkutarkistus",
     items: Object.freeze([
       Object.freeze({
         category: "evidence",
-        textEn: "Added a source-audited Canada 2024 closure pack. Statistics Canada's quarterly retail route is CAD 1,219,160,000 (EUR 822.58m); its same-survey monthly route differs by CAD 1,000, while Health Canada's independent shipment route is CAD 1,160,753,796.78.",
-        textFi: "Lisättiin lähdeauditoitu Kanadan vuoden 2024 sulkemispaketti. Statistics Canadan kvartaalipohjainen retail-reitti on 1 219 160 000 CAD (822,58 milj. EUR); saman kyselyn kuukausireitti eroaa 1 000 CAD, ja Health Canadan riippumaton toimitusreitti on 1 160 753 796,78 CAD."
+        textEn: "Added a public 29-file manifest, deterministic parser and audited New Zealand closure pack. The 2024 specialist-retailer identified-vaping subtotal is NZD 274.18m: NZD 189.40m consumables, NZD 84.71m devices/hardware and NZD 0.07m mixed systems.",
+        textFi: "Lisättiin julkinen 29 tiedoston manifesti, deterministinen laskentaohjelma ja auditoitu Uuden-Seelannin sulkemispaketti. Vuoden 2024 erikoisvähittäiskaupan tunnistettu sähkötupakkasumma on 274,18 milj. NZD: kulutustarvikkeet 189,40, laitteet ja hardware 84,71 sekä sekajärjestelmät 0,07 milj. NZD."
       }),
       Object.freeze({
         category: "method",
-        textEn: "Canada now passes 7/10 donor criteria because the official RCS-to-MRTS chain closes D8. D5, D7 and D10 remain open, so Canada is NOT ACCEPTED, the donor gate remains 0/3 and the global total remains not_computed.",
-        textFi: "Kanada läpäisee nyt 7/10 donor-ehtoa, koska virallinen RCS–MRTS-lähdeketju sulkee D8:n. D5, D7 ja D10 ovat yhä avoinna, joten Kanada on EI HYVÄKSYTTY, donor-portti pysyy 0/3:ssa ja maailman kokonaisluku on edelleen not_computed."
+        textEn: "New Zealand now passes D3, D4 and D6 and reaches 7/10 criteria. D5 fails because observed national general-retail value is absent; D8 GST basis and D10 independent reconciliation remain open. New Zealand is NOT ACCEPTED, the donor gate remains 0/3 and the global total remains not_computed.",
+        textFi: "Uusi-Seelanti läpäisee nyt D3-, D4- ja D6-ehdot ja saavuttaa 7/10 ehtoa. D5 hylätään, koska havaittu valtakunnallinen yleisvähittäiskaupan arvo puuttuu; D8:n GST-perusta ja D10:n riippumaton täsmäytys ovat avoimia. Uusi-Seelanti on EI HYVÄKSYTTY, donor-portti pysyy 0/3:ssa ja maailman kokonaisluku tilassa not_computed."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "The prior Euromonitor checkpoint is retained: No licensed values enter the public atlas, the partial sample is not representative and all six mandatory gates remain open. No purchase, fee or commitment is authorised.",
-        textFi: "Edellinen Euromonitor-tarkistuspiste säilyy: julkiseen atlakseen ei tuoda lisensoituja arvoja, osittainen näyte ei ole edustava ja kaikki kuusi pakollista porttia ovat avoinna. Ostoa, maksua tai sitoumusta ei ole valtuutettu."
+        textEn: "AIS and AVP provide all observed value. Notifier value and modelled RPS general-retail value are not added. GST is explicitly unknown; the separate NZD 533.66m / 641.81m / 731.18m RPS sensitivity remains a model, not observed national revenue.",
+        textFi: "AIS ja AVP tuottavat kaiken havaitun arvon. Notifier-arvoa eikä mallinnettua RPS-yleisvähittäiskaupan arvoa lisätä. GST on yksiselitteisesti tuntematon; erillinen 533,66 / 641,81 / 731,18 milj. NZD:n RPS-herkkyys pysyy mallina eikä havaittuna kansallisena liikevaihtona."
       })
     ])
   });
@@ -683,7 +683,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V24;
+  window.PixanUiRelease = UI_RELEASE_V25;
 
   init();
 })();

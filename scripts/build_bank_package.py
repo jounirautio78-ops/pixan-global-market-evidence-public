@@ -47,6 +47,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "site" / "data"
 DOWNLOAD_DIR = ROOT / "site" / "downloads"
 NZ_RECONCILIATION_SOURCE = ROOT / "source" / "NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md"
+NZ_DONOR_CLOSURE_SOURCE = ROOT / "source" / "NZ_2024_DONOR_CLOSURE_PACK.md"
+NZ_WORKBOOK_MANIFEST_SOURCE = ROOT / "source" / "NZ_2024_WORKBOOK_MANIFEST.json"
+NZ_PRODUCT_SCOPE_AUDIT_SOURCE = ROOT / "source" / "NZ_2024_PRODUCT_SCOPE_AUDIT.json"
+NZ_REPRODUCTION_PARSER_SOURCE = ROOT / "scripts" / "analyze_nz_2024_returns.py"
 
 INPUT_FILES = (
     DATA_DIR / "atlas.json",
@@ -54,6 +58,10 @@ INPUT_FILES = (
     DATA_DIR / "patent-history.json",
     DATA_DIR / "changelog.json",
     NZ_RECONCILIATION_SOURCE,
+    NZ_DONOR_CLOSURE_SOURCE,
+    NZ_WORKBOOK_MANIFEST_SOURCE,
+    NZ_PRODUCT_SCOPE_AUDIT_SOURCE,
+    NZ_REPRODUCTION_PARSER_SOURCE,
 )
 
 OUTPUTS = {
@@ -72,8 +80,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-25-canada-donor-closure-v24"
-RELEASE_VERSION = "2026.07.25-24"
+RELEASE_ID = "2026-07-26-new-zealand-donor-closure-v25"
+RELEASE_VERSION = "2026.07.26-25"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -88,7 +96,7 @@ SWEDEN_STRUCTURE_METRICS = {
     "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
 }
 EXPECTED_MARKET_OBSERVATIONS = 79
-EXPECTED_MARKET_SOURCES = 21
+EXPECTED_MARKET_SOURCES = 23
 EXPECTED_OFFICIAL_MARKET_MEASURES = 34
 EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
@@ -481,8 +489,18 @@ def build_context() -> dict[str, Any]:
         raise ValueError("changelog.json must contain at least one release")
     release = max(changelog["releases"], key=lambda item: item["publishedAt"])
     as_of = changelog["asOf"]
-    if any(data.get("meta", {}).get("asOf", data.get("asOf")) != as_of for data in (atlas, market, patent)):
-        raise ValueError("Public inputs do not share the changelog as-of date")
+    if (
+        release.get("id") != RELEASE_ID
+        or release.get("version") != RELEASE_VERSION
+        or as_of != "2026-07-26"
+    ):
+        raise ValueError("Public inputs are not locked to the reviewed v25 release")
+    if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
+        raise ValueError("Current market inputs do not share the changelog as-of date")
+    for label, data in (("atlas", atlas), ("patent history", patent)):
+        source_as_of = data.get("meta", {}).get("asOf", data.get("asOf"))
+        if not isinstance(source_as_of, str) or parse_iso_date(source_as_of) > parse_iso_date(as_of):
+            raise ValueError(f"{label} as-of date is invalid or later than the release boundary")
 
     observations = unique_index(market["observations"], "observationId", "market observation")
     models = unique_index(market["models"], "modelId", "market model")
@@ -555,7 +573,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or len(market_sources) != expected_market_counts[1]
     ):
         raise ValueError(
-            "Bank package v24 requires the reviewed market observation and source counts"
+            "Bank package v25 requires the reviewed market observation and source counts"
         )
     source_id_collisions = sorted(set(market_sources) & set(patent_sources))
     if source_id_collisions:
@@ -575,7 +593,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             )
     fhm_source = market_sources.get(FHM_SOURCE_ID)
     if fhm_source is None or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
-        raise ValueError("Bank package v24 requires the reviewed public FHM reference")
+        raise ValueError("Bank package v25 requires the reviewed public FHM reference")
 
     def require_source_ids(item: dict[str, Any], source_map: dict[str, Any], label: str) -> None:
         source_ids = item.get("sourceIds")
@@ -830,7 +848,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or official_country_codes != ["CA", "DE", "FI", "NZ", "PL", "SE", "US"]
     ):
         raise ValueError(
-            "Bank package v24 requires 34 official market measures across seven reviewed countries"
+            "Bank package v25 requires 34 official market measures across seven reviewed countries"
         )
     expected_structure_ids = {
         f"SE-{year}-FHM-{suffix}"
@@ -847,7 +865,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             and actual_structure_ids != expected_structure_ids
         )
     ):
-        raise ValueError("Bank package v24 requires the 36-record Swedish FHM structure series")
+        raise ValueError("Bank package v25 requires the 36-record Swedish FHM structure series")
     for item in sweden_structure_observations:
         value = item.get("value")
         snapshot = item.get("year") == 2026
@@ -1119,12 +1137,29 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         for value in re.findall(r"NZD ([\d,]+\.\d{2})", vaping_limit)
     ]
     if vaping_amounts != [
+        189_402_451.96,
+        84_709_409.85,
+        68_548.40,
         274_180_410.21,
         2_137_085.24,
         4_367_017.37,
         258_327_110.88,
     ]:
         raise ValueError("New Zealand identified-vaping split or sensitivity differs")
+    nz_scope_audit = read_json(NZ_PRODUCT_SCOPE_AUDIT_SOURCE)
+    nz_scope_buckets = nz_scope_audit.get("productScopeBuckets", {})
+    nz_scope_published = nz_scope_audit.get("publishedAggregates", {})
+    audited_amounts = [
+        nz_scope_buckets.get("vaping_consumable", {}).get("reportedTotalSalesNzd"),
+        nz_scope_buckets.get("vaping_device_or_hardware", {}).get("reportedTotalSalesNzd"),
+        nz_scope_buckets.get("vaping_mixed_system", {}).get("reportedTotalSalesNzd"),
+        nz_scope_published.get("identifiedVapingSalesNzd"),
+        nz_scope_published.get("identifiedAdjacentSalesNzd"),
+        nz_scope_published.get("unresolvedProductTypeSalesNzd"),
+        nz_scope_published.get("identifiedVapingDeduplicatedSensitivityNzd"),
+    ]
+    if audited_amounts != vaping_amounts:
+        raise ValueError("New Zealand market observation differs from the reviewed scope audit")
 
     eu_market_benchmark = market_observation_by_id(
         "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK"
@@ -1332,16 +1367,16 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
     if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
-        raise ValueError("Bank package v24 requires exactly five reviewed donor candidates")
+        raise ValueError("Bank package v25 requires exactly five reviewed donor candidates")
     candidate_ids = {
-        "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND",
+        "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL",
         "EU-2023-COMMISSION-BENCHMARK",
         "CA-2024-STATCAN-RCS-RETAIL-SALES",
         "DE-2025-LIQUID-RETAIL-MODEL",
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v24 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v25 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
             raise ValueError("Every v17 donor candidate must remain outside the accepted count")
@@ -1376,6 +1411,27 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
                 raise ValueError(f"Donor candidate refers to unknown model {reference_id!r}")
         else:
             raise ValueError("Donor candidate referenceType must be observation or model")
+    nz_donor_candidate = required_single(
+        (
+            item
+            for item in donor_candidates
+            if item.get("candidateId") == "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL"
+        ),
+        "New Zealand 2024 donor candidate",
+    )
+    if (
+        nz_donor_candidate.get("referenceType") != "observation"
+        or nz_donor_candidate.get("referenceId")
+        != "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM"
+        or nz_donor_candidate.get("decision") != "not_accepted"
+        or nz_donor_candidate.get("passedCriteria")
+        != ["D1", "D2", "D3", "D4", "D6", "D7", "D9"]
+        or nz_donor_candidate.get("failedCriteria") != ["D5"]
+        or nz_donor_candidate.get("openCriteria") != ["D8", "D10"]
+    ):
+        raise ValueError(
+            "New Zealand must remain not accepted at 7/10 with D5 failed and D8/D10 open"
+        )
     readiness = ctx["market"]["meta"].get("modelReadiness")
     if (
         not isinstance(readiness, dict)
@@ -1465,21 +1521,12 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
                 f"{format_millions(excise['value'], excise['currency'])} valmisteveroa"
             )
         else:
-            retail_lower_bounds = [
-                item
-                for item in country_items
-                if item.get("metric") == "official_specialist_retail_sales_lower_bound"
-            ]
-            lower_bound = required_single(
-                retail_lower_bounds,
-                f"{code} official specialist-retail lower-bound observation",
-            )
             summary_text = (
-                f"otsikko vähintään {format_millions(lower_bound['value'], lower_bound['currency'])}; "
-                f"{format_millions(nz_workbook_raw_sum['value'], nz_workbook_raw_sum['currency'])} "
-                f"{raw_file_count} tiedoston raakasumma; "
-                f"{format_millions(raw_dedup_sensitivity, nz_workbook_raw_sum['currency'])} "
-                "toistorivien poistamisen herkkyys, ei korjattu estimaatti"
+                f"AIS/AVP-vaping {format_millions(vaping_amounts[3], nz_workbook_raw_sum['currency'])}; "
+                f"kulutustarvikkeet {format_millions(vaping_amounts[0], nz_workbook_raw_sum['currency'])}; "
+                f"laitteet/hardware {format_millions(vaping_amounts[1], nz_workbook_raw_sum['currency'])}; "
+                f"sekajärjestelmät {format_millions(vaping_amounts[2], nz_workbook_raw_sum['currency'])}; "
+                "donor 7/10, D5 hylätty, D8/D10 avoinna"
             )
         market_country_rows.append([country_name(code), year_label(country_items), summary_text])
 
@@ -1550,10 +1597,14 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "nz_raw_numeric_cell_count": raw_numeric_cell_count,
         "nz_raw_repeated_signature_count": raw_repeated_signature_count,
         "nz_raw_dedup_sensitivity": raw_dedup_sensitivity,
-        "nz_identified_vaping_amount": vaping_amounts[0],
-        "nz_adjacent_amount": vaping_amounts[1],
-        "nz_unresolved_amount": vaping_amounts[2],
-        "nz_vaping_dedup_sensitivity": vaping_amounts[3],
+        "nz_consumables_amount": vaping_amounts[0],
+        "nz_devices_hardware_amount": vaping_amounts[1],
+        "nz_mixed_systems_amount": vaping_amounts[2],
+        "nz_identified_vaping_amount": vaping_amounts[3],
+        "nz_adjacent_amount": vaping_amounts[4],
+        "nz_unresolved_amount": vaping_amounts[5],
+        "nz_vaping_dedup_sensitivity": vaping_amounts[6],
+        "nz_donor_candidate": nz_donor_candidate,
         "eu_market_benchmark": eu_market_benchmark,
         "model": model,
         "model_prices": model_prices,
@@ -1827,7 +1878,7 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Ei puutetta universumin määrittelyssä; evidenssipeitto on erillinen asia.",
         ),
         row(
-            "Julkinen markkina-aineisto sisältää 79 havaintoa 21 lähteestä; "
+            "Julkinen markkina-aineisto sisältää 79 havaintoa 23 lähteestä; "
             f"70 virallista havaintoa jakautuvat {facts['official_observation_count']} "
             f"markkinamittariin ja {facts['sweden_structure_count']} Ruotsin "
             "FHM-rekisterirakenteen lukuun.",
@@ -1848,7 +1899,7 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             f"Hyväksyttyjä virallisia koko vuoden kansallisia kuluttajavähittäisarvon luovuttajamarkkinoita on {fi_cardinal(facts['retail_donors'])}.",
             "Markkinan koko",
             f"comparableFullYearMarketValueDonors = {facts['retail_donors']}. "
-            f"Neljä ehdokastestiä on julkaistu saman 10 ehdon protokollan mukaan.",
+            f"Viisi ehdokastestiä on julkaistu saman 10 ehdon protokollan mukaan.",
             "site/data/market-values.json (modelReadiness, donorProtocol ja donorCandidates)",
             as_of,
             "Ehdokas lasketaan luovuttajaksi vain, jos D1–D10 täyttyvät kaikki; hylätty tai avoin ehto pitää sen lukumäärän ulkopuolella.",
@@ -1883,18 +1934,34 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Raakasumma ei ole puhdistettu kansallinen markkina-arvo. Yleisvähittäiskauppa, puuttuvat ilmoitukset ja GST-käsittely ovat avoimia.",
         ),
         row(
-            "Varovainen tekstiluokitus tunnistaa Uuden-Seelannin vuoden 2024 sähkötupakkatuoterivien raakasummaksi 274 180 410,21 NZD.",
+            "Uuden-Seelannin vuoden 2024 AIS/AVP-erikoisvähittäiskaupan tunnistettu sähkötupakkasumma on 274 180 410,21 NZD; donor-testi läpäisee 7/10 ehtoa, mutta maa ei ole hyväksytty donor.",
             "Markkinan koko",
-            f"Viereisiksi ilmoitusvelvollisiksi tuotteiksi tunnistettiin {format_local_number(facts['nz_adjacent_amount'], 2)} NZD "
-            f"ja ratkaisemattomaksi tuotetyypiksi {format_local_number(facts['nz_unresolved_amount'], 2)} NZD. "
-            f"Sähkötupakkarivien toistorivien poistamisen herkkyys on "
-            f"{format_local_number(facts['nz_vaping_dedup_sensitivity'], 2)} NZD, mutta se ei ole korjattu estimaatti.",
-            sources(*nz_identified_vaping_raw_sum["sourceIds"]) + " ; source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
+            f"Kulutustarvikkeet ovat {format_local_number(facts['nz_consumables_amount'], 2)} NZD, "
+            f"laitteet/hardware {format_local_number(facts['nz_devices_hardware_amount'], 2)} NZD ja "
+            f"sekajärjestelmät {format_local_number(facts['nz_mixed_systems_amount'], 2)} NZD. "
+            f"Viereiset ilmoitusvelvolliset tuotteet {format_local_number(facts['nz_adjacent_amount'], 2)} NZD "
+            f"ja ratkaisemattomat tuotetyypit {format_local_number(facts['nz_unresolved_amount'], 2)} NZD "
+            "määrällistetään erikseen ja rajataan pois. Havaittu arvo tulee vain AIS/AVP-työkirjoista; "
+            "Notifier- ja RPS-arvoa ei lisätä.",
+            sources(*nz_identified_vaping_raw_sum["sourceIds"])
+            + " ; source/NZ_2024_DONOR_CLOSURE_PACK.md"
+            + " ; source/NZ_2024_WORKBOOK_MANIFEST.json"
+            + " ; source/NZ_2024_PRODUCT_SCOPE_AUDIT.json"
+            + " ; scripts/analyze_nz_2024_returns.py",
             as_of,
-            "Konservatiivinen Product type -tekstiluokitus virallisten XLSX-tiedostojen tuoteriveille; luokittelu- ja toistoriviherkkyys raportoidaan erikseen.",
-            "Tuotetyyppikentän virheet ja ratkaisemattomat rivit estävät kattavan sähkötupakkamarkkinan tulkinnan.",
+            f"{format_local_number(facts['nz_consumables_amount'], 2)} + "
+            f"{format_local_number(facts['nz_devices_hardware_amount'], 2)} + "
+            f"{format_local_number(facts['nz_mixed_systems_amount'], 2)} = "
+            f"{format_local_number(facts['nz_identified_vaping_amount'], 2)} NZD. "
+            "Viereiset ja ratkaisemattomat luokat käsitellään ennen vaping-summaa ja jätetään siitä pois. "
+            "Kaikkien 29 tiedoston URL:t, koot ja SHA-256-tiivisteet validoidaan ennen aggregointia.",
+            "Deterministinen tuoterajaus on julkinen. Yleisvähittäiskaupan havaittu arvo puuttuu, "
+            "GST-perusta on tuntematon, täsmälleen toistuvien rivien "
+            f"{format_local_number(facts['nz_vaping_dedup_sensitivity'], 2)} NZD herkkyys ei ole "
+            "korjattu estimaatti eikä riippumatonta täsmäytystä ole.",
             "Tuettu",
-            "Hanki viranomaisen tuotekoodisanasto, toistorivien semantiikka, täydellinen kanavapeitto ja GST-perusta. Luku ei kelpaa luovuttajaksi.",
+            "D5 hylätään puuttuvan kansallisen kanavapeiton vuoksi; D8:n GST-perusta ja D10:n "
+            "riippumaton täsmäytys ovat avoimia. Donor-portti pysyy 0/3:ssa.",
         ),
         row(
             "Euroopan komissio julkaisee vuoden 2023 EU:n sähkötupakkamarkkinan 4,99 mrd euron vertailuarvon.",
@@ -2312,7 +2379,7 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Markkinan koko",
             f"{fi_cardinal(facts['retail_donors']).capitalize()} hyväksyttyä luovuttajamarkkinaa alittaa "
             f"{fi_cardinal(facts['minimum_required_donors'])}n luovuttajan minimikynnyksen. "
-            "Julkaistuissa Uuden-Seelannin, EU:n, Kanadan ja Saksan ehdokastesteissä jokaisessa on vähintään yksi hylätty ehto.",
+            "Julkaistuissa Uuden-Seelannin, EU:n, Kanadan, Saksan ja Yhdysvaltain ehdokastesteissä jokaisessa on vähintään yksi hylätty tai avoin ehto.",
             "site/data/market-values.json (modelReadiness, donorProtocol ja donorCandidates)",
             as_of,
             "Hard gate: jokaisen luovuttajan on läpäistävä D1–D10, ja lisäksi tarvitaan vähintään "
@@ -2706,6 +2773,11 @@ def common_values(ctx: dict[str, Any]) -> dict[str, Any]:
             facts["nz_identified_vaping_amount"],
             nz_workbook_raw_sum["currency"],
         ),
+        "nz_consumables": format_local_number(facts["nz_consumables_amount"], 2),
+        "nz_devices_hardware": format_local_number(facts["nz_devices_hardware_amount"], 2),
+        "nz_mixed_systems": format_local_number(facts["nz_mixed_systems_amount"], 2),
+        "nz_adjacent": format_local_number(facts["nz_adjacent_amount"], 2),
+        "nz_unresolved": format_local_number(facts["nz_unresolved_amount"], 2),
         "eu_year": observation_year(eu_market_benchmark),
         "eu_market_benchmark": eu_market_benchmark_display,
         "eu_scope": eu_market_benchmark["limitationFi"],
@@ -3488,19 +3560,21 @@ def build_short_deck(ctx: dict[str, Any], path: Path) -> None:
                 "FHM-rekisterirakenteen lukua; rakenneluvut eivät ole myyntiä",
             ),
             (
-                v["nz_workbook_raw_sum"],
-                f"{v['nz_country']} {v['nz_year']}: {v['nz_raw_file_count']} tiedoston raakasumma",
+                v["nz_identified_vaping_raw_sum"],
+                f"{v['nz_country']} {v['nz_year']}: tunnistettu AIS/AVP-vaping-summa",
             ),
             (
                 v["eu_market_benchmark"],
                 f"EU {v['eu_year']}: komission julkaisema vertailuarvo",
             ),
         ],
-        f"{v['donor_candidate_count']}/{v['donor_candidate_count']} ehdokasta hylättiin "
-        f"{v['donor_protocol_label']}-protokollassa; hyväksytty donor-portti on {v['donor_gate']}.",
-        f"Uuden-Seelannin raakasumma täsmää viralliseen ≥280 milj. NZD otsikkoon. Täsmälleen "
-        f"toistuvien rivien poistamisen {v['nz_raw_dedup_sensitivity']} herkkyys ei ole korjattu "
-        f"estimaatti; tunnistettu vaping-raakasumma on {v['nz_identified_vaping_raw_sum']}. EU-luku "
+        f"Uusi-Seelanti läpäisee 7/10: D5 hylätään sekä D8 ja D10 ovat avoimia. "
+        f"Kaikki {v['donor_candidate_count']} ehdokasta ovat silti ulkona; donor-portti on {v['donor_gate']}.",
+        f"Uuden-Seelannin AIS/AVP-summa jakautuu kulutustarvikkeisiin {v['nz_consumables']} NZD, "
+        f"laitteisiin/hardwareen {v['nz_devices_hardware']} NZD ja sekajärjestelmiin "
+        f"{v['nz_mixed_systems']} NZD. Viereiset {v['nz_adjacent']} NZD ja ratkaisemattomat "
+        f"{v['nz_unresolved']} NZD rajataan pois. Erillinen 533,7–731,2 milj. NZD RPS-herkkyys "
+        "on tuettu malli, ei havaittu kansallinen arvo. EU-luku "
         "on kaupalliseen Euromonitor 2025 -aineistoon perustuva tuettu vertailuarvo; Kypros, Luxemburg "
         f"ja Malta puuttuvat. Kaupallinen {v['global_range']} on vain sanity check; mittareita ei summata.",
         f"{v['market_sources']}; {'; '.join(v['eu_publishers'])}; {v['global_sources']}",
@@ -3610,7 +3684,7 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     cover_slide(prs, ctx, "Laaja 30 dian tutkija- ja rahoituspäätöspaketti", 30)
     slide_claim(prs, ctx, 2, "Rahoitettavuus on mahdollisuus, ei nykyinen johtopäätös", "Rahoitusteesi",
                 "Viralliset patentti- ja oikeuslähteet oikeuttavat jatkodiligencen; ne eivät vielä osoita vakuusarvoa tai takaisinmaksua.",
-                [f"EPO:n muutettu {v['ep_publication']} ja {v['de_country']}n {fi_cardinal(v['german_official_proceeding_count'])} virallista ratkaisua muodostavat oikeusnäytön ankkurin.", f"Markkina-aineistossa on {v['official_observation_count']} markkinamittaria {v['official_country_count']} maasta sekä {v['sweden_structure_count']} Ruotsin FHM-rekisterirakenteen lukua; rakenneluvut eivät ole myyntiä tai markkina-arvoa. Luovuttajaportti on {v['donor_gate']}.", "Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen."],
+                [f"EPO:n muutettu {v['ep_publication']} ja {v['de_country']}n {fi_cardinal(v['german_official_proceeding_count'])} virallista ratkaisua muodostavat oikeusnäytön ankkurin.", f"Uuden-Seelannin toistettava AIS/AVP-summa on 274 180 410,21 NZD; maa läpäisee 7/10, mutta D5 hylätään sekä D8 ja D10 ovat avoimia. Luovuttajaportti pysyy {v['donor_gate']}:ssa.", "Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen."],
                 "Suositus", "Avaa 90 päivän ehdollinen diligence, ei lopullista luottopäätöstä.", f"EPO; {v['de_country']} — viralliset tuomiot; WIPO" )
     slide_table(prs, ctx, 3, "Kolme perustetta jatkaa — ja kolme rajaa olla kiirehtimättä", "Rahoitusteesi",
                 ["Vahva signaali", "Mitä se tukee", "Mitä se ei todista"],
@@ -3693,8 +3767,8 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
                   "EU:n vertailuarvo tukee mittaluokan ristiintarkistusta; kaupallinen haarukka on leveä, koska tuoterajaukset ja metodit voivat poiketa.",
                   "EU-luku perustuu kaupalliseen Euromonitor 2025 -aineistoon; Kypros, Luxemburg ja Malta puuttuvat. Se ei ole kansallinen luovuttajamarkkina. Arvioita verrataan, ei summata tai käytetä automaattisesti rojaltipohjana.", f"{v['global_sources']}; {'; '.join(v['eu_publishers'])}" )
     slide_claim(prs, ctx, 18, f"Hyväksyttävä maailmanestimaatti tarvitsee vähintään {v['minimum_required_donors']} yhteensopivaa luovuttajaa", "Metodi",
-                f"Nykyinen hyväksytty donor-portti on {v['donor_gate']}; kaikki {v['donor_candidate_count']} ehdokasta jäivät ulkopuolelle.",
-                [f"Jokaisen ehdokkaan on läpäistävä kaikki {v['donor_criterion_count']} ehtoa ({v['donor_protocol_label']}).", f"{v['nz_country']}n {v['nz_workbook_raw_sum']} raakasumma ja {v['nz_raw_dedup_sensitivity']} toistoriviherkkyys eivät ole puhdistettu estimaatti; EU:n vertailuarvo, Kanadan toimitusproxy ja Saksan nestemalli hylättiin myös luovuttajina.", "Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä."],
+                f"Uusi-Seelanti on 7/10: D5 hylätty, D8 ja D10 avoinna. Kaikki {v['donor_candidate_count']} ehdokasta ovat ulkona; donor-portti on {v['donor_gate']}.",
+                [f"Uuden-Seelannin tunnistettu AIS/AVP-summa {v['nz_identified_vaping_raw_sum']} jakautuu kulutustarvikkeisiin {v['nz_consumables']} NZD, laitteisiin/hardwareen {v['nz_devices_hardware']} NZD ja sekajärjestelmiin {v['nz_mixed_systems']} NZD.", f"Viereiset {v['nz_adjacent']} NZD ja ratkaisemattomat {v['nz_unresolved']} NZD rajataan pois. Erillinen 533,7–731,2 milj. NZD RPS-herkkyys on tuettu malli, ei havaittu kansallinen arvo.", "Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä."],
                 "Vasta sitten", "Trianguloi kysyntä-, vero-, tulli-, yritys- ja hintamenetelmät. Vertaa tuloksia; älä lisää vaihtoehtoisia arvioita yhteen.", "Market-values modelReadiness, donorProtocol ja donorCandidates" )
     slide_table(prs, ctx, 19, "Markkinan ja patentin väliin tarvitaan viisi läpinäkyvää suodatinta", "Arvosilta",
                 ["Taso", "Suodatin", "Näyttö"],

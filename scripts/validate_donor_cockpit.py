@@ -283,6 +283,116 @@ def computed_donor_decision(
     )
 
 
+def validate_donor_candidate_parity(
+    cockpit: dict[str, Any],
+    market: dict[str, Any],
+    errors: list[str],
+) -> None:
+    cockpit_records = cockpit.get("candidates")
+    market_records = market.get("donorCandidates")
+    if not isinstance(cockpit_records, list) or not isinstance(market_records, list):
+        errors.append(
+            "Donor cockpit and market observations require candidate arrays for parity"
+        )
+        return
+
+    def index_records(
+        records: list[Any],
+        label: str,
+    ) -> dict[str, dict[str, Any]]:
+        indexed: dict[str, dict[str, Any]] = {}
+        for index, record in enumerate(records):
+            if not isinstance(record, dict):
+                errors.append(f"{label}[{index}] must be an object for donor parity")
+                continue
+            candidate_id = record.get("candidateId")
+            if not isinstance(candidate_id, str) or not candidate_id:
+                errors.append(f"{label}[{index}].candidateId must be non-empty for donor parity")
+                continue
+            if candidate_id in indexed:
+                errors.append(f"{label} contains duplicate candidateId {candidate_id}")
+                continue
+            indexed[candidate_id] = record
+        return indexed
+
+    cockpit_by_id = index_records(cockpit_records, "cockpit.candidates")
+    market_by_id = index_records(market_records, "market.donorCandidates")
+    cockpit_ids = set(cockpit_by_id)
+    market_ids = set(market_by_id)
+    if cockpit_ids != market_ids:
+        errors.append(
+            "Donor cockpit and market observations candidateIds differ: "
+            f"cockpit-only={sorted(cockpit_ids - market_ids)}, "
+            f"market-only={sorted(market_ids - cockpit_ids)}"
+        )
+
+    for candidate_id in sorted(cockpit_ids & market_ids):
+        cockpit_candidate = cockpit_by_id[candidate_id]
+        market_candidate = market_by_id[candidate_id]
+        path = f"Donor candidate {candidate_id}"
+
+        for key in ("referenceType", "referenceId"):
+            if cockpit_candidate.get(key) != market_candidate.get(key):
+                errors.append(
+                    f"{path}: {key} differs between cockpit and market observations"
+                )
+        if cockpit_candidate.get("declaredDecision") != market_candidate.get("decision"):
+            errors.append(
+                f"{path}: decision differs between cockpit and market observations"
+            )
+
+        cockpit_statuses: dict[str, set[str]] = {
+            status: set() for status in sorted(STATUS_VALUES)
+        }
+        raw_statuses = cockpit_candidate.get("criterionStatuses")
+        if not isinstance(raw_statuses, list):
+            errors.append(f"{path}: cockpit criterionStatuses is invalid for donor parity")
+            raw_statuses = []
+        for item in raw_statuses:
+            if not isinstance(item, dict):
+                errors.append(f"{path}: cockpit criterion status is invalid for donor parity")
+                continue
+            criterion_id = item.get("criterionId")
+            status = item.get("status")
+            if (
+                not isinstance(criterion_id, str)
+                or criterion_id not in EXPECTED_CRITERIA
+                or not isinstance(status, str)
+                or status not in STATUS_VALUES
+            ):
+                errors.append(f"{path}: cockpit criterion status is invalid for donor parity")
+                continue
+            if criterion_id in cockpit_statuses[status]:
+                errors.append(
+                    f"{path}: cockpit repeats {criterion_id} in {status} status"
+                )
+            cockpit_statuses[status].add(criterion_id)
+
+        market_statuses: dict[str, set[str]] = {}
+        for status in sorted(STATUS_VALUES):
+            key = f"{status}Criteria"
+            values = market_candidate.get(key)
+            if (
+                not isinstance(values, list)
+                or any(
+                    not isinstance(value, str) or value not in EXPECTED_CRITERIA
+                    for value in values
+                )
+                or len(values) != len(set(values))
+            ):
+                errors.append(f"{path}: market {key} is invalid for donor parity")
+                values = []
+            market_statuses[status] = set(values)
+
+        for status in sorted(STATUS_VALUES):
+            if cockpit_statuses[status] != market_statuses[status]:
+                errors.append(
+                    f"{path}: {status} D1-D10 status set differs between cockpit "
+                    f"and market observations; cockpit={sorted(cockpit_statuses[status])}, "
+                    f"market={sorted(market_statuses[status])}"
+                )
+
+
 def validate_donors(
     cockpit: dict[str, Any],
     market: dict[str, Any],
@@ -801,6 +911,7 @@ def validate_donor_controls(
     errors: list[str] = []
     validate_lanes(lanes, errors)
     accepted = validate_donors(cockpit, market, errors)
+    validate_donor_candidate_parity(cockpit, market, errors)
     validate_scenarios(scenarios, cockpit, market, accepted, errors)
     validate_structure(index_html, app_js, errors)
     validate_privacy(lanes, cockpit, scenarios, errors)

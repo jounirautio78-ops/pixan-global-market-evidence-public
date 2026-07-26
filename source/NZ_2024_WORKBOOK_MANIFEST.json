@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "1.0",
+  "sourcePage": "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
+  "retrievedAt": "2026-07-23T22:21:31.595Z",
+  "files": [
+    {
+      "year": 2024,
+      "label": "AIS returns 2024",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AIS-returns-2024.xlsx",
+      "fileName": "2024-01-AIS-returns-2024.xlsx",
+      "bytes": 1734117,
+      "sha256": "ab7edaf29aa782e2291da385e6ef2ecadeaed74d12fd3bc7d54640aedd085531"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 1",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-1.xlsx",
+      "fileName": "2024-02-AVP-returns-2024-part-1.xlsx",
+      "bytes": 1142434,
+      "sha256": "4cad05168abc6703f49be3f3a5d426155b528e13e85c16879e9bb1291e6ca80f"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 2",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-2.xlsx",
+      "fileName": "2024-03-AVP-returns-2024-part-2.xlsx",
+      "bytes": 1676742,
+      "sha256": "10fd426a3426dfd07b26cf759b2baac43635c92863dcb223e5da86303baf0923"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 3",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-3.xlsx",
+      "fileName": "2024-04-AVP-returns-2024-part-3.xlsx",
+      "bytes": 1348092,
+      "sha256": "d7288d9c5beb709877485029b1ad8c68f0d5b473889c653595724ee552ea75fd"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 4",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-4.xlsx",
+      "fileName": "2024-05-AVP-returns-2024-part-4.xlsx",
+      "bytes": 2021802,
+      "sha256": "6408c8306f473aab7e492d9e806a53e3b5e7e6081b1eaa8d42c208867d6d5283"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 5",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-5.xlsx",
+      "fileName": "2024-06-AVP-returns-2024-part-5.xlsx",
+      "bytes": 2025239,
+      "sha256": "df8c1c5f876a68a5e589a659f14341fda9ebca2146db990a686fe8cb2e8a66be"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 6",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-6.xlsx",
+      "fileName": "2024-07-AVP-returns-2024-part-6.xlsx",
+      "bytes": 1990313,
+      "sha256": "db2dfdda8669eeab4335300d3c6793f3ca6f7c2396e7a174268db20623136e70"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 7",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-7.xlsx",
+      "fileName": "2024-08-AVP-returns-2024-part-7.xlsx",
+      "bytes": 770484,
+      "sha256": "fa3eb8cf7d2c8f47ccd6172ee585caabe1ba13bdf5e9e774bac954c048fc3b29"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 8",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-8.xlsx",
+      "fileName": "2024-09-AVP-returns-2024-part-8.xlsx",
+      "bytes": 2788857,
+      "sha256": "ea5e36debf0a8167cc032b31edf8dec0d7b57f1a8a946074d9d90a65a795bdbf"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 9",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-9.xlsx",
+      "fileName": "2024-10-AVP-returns-2024-part-9.xlsx",
+      "bytes": 2091354,
+      "sha256": "37cf7f4e8b8bd8f27ee3c6803a619aa826a9f2c3155d9f6965ea2141968d0587"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 10",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-10.xlsx",
+      "fileName": "2024-11-AVP-returns-2024-part-10.xlsx",
+      "bytes": 1942601,
+      "sha256": "d069d6aee67a245d977334185984ff87c3cc635d02f12a177e32466462f716b7"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 11",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-11.xlsx",
+      "fileName": "2024-12-AVP-returns-2024-part-11.xlsx",
+      "bytes": 3138427,
+      "sha256": "dff9704a089f87274a613569721749b35f37d851bb5085a4c59d535dac87404e"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 12",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-12.xlsx",
+      "fileName": "2024-13-AVP-returns-2024-part-12.xlsx",
+      "bytes": 2080704,
+      "sha256": "ed921d6830f41a5322b5584ca134dec1922a674dcb5e4b2fa8551fed6dbd35a5"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 13",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-13.xlsx",
+      "fileName": "2024-14-AVP-returns-2024-part-13.xlsx",
+      "bytes": 2735676,
+      "sha256": "ef4c8b9c1fd16b5af1d899d9ae86fd1ec5e4aafb477eaa429525684f4d6d7c48"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 14",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-14.xlsx",
+      "fileName": "2024-15-AVP-returns-2024-part-14.xlsx",
+      "bytes": 1468149,
+      "sha256": "29cdf5d77081375a2f3c337ca4d0a6f14a5d344c9f9d9a402e359089a16b51bb"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 15",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-15.xlsx",
+      "fileName": "2024-16-AVP-returns-2024-part-15.xlsx",
+      "bytes": 1659008,
+      "sha256": "62960b1e759680f191a599a55801b4208b6c696699743e3c3974f12820935d00"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 16",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-16.xlsx",
+      "fileName": "2024-17-AVP-returns-2024-part-16.xlsx",
+      "bytes": 2709732,
+      "sha256": "59b65abfeebd614a7af753b2dd448b78729a1cbdba3f4f373055e77fd32d1a87"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 17",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-17.xlsx",
+      "fileName": "2024-18-AVP-returns-2024-part-17.xlsx",
+      "bytes": 2165404,
+      "sha256": "7c424b65b78e025b301613603877356ab28acb93070f1714af70db6571a98f74"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 18",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-18.xlsx",
+      "fileName": "2024-19-AVP-returns-2024-part-18.xlsx",
+      "bytes": 2025758,
+      "sha256": "a322b941a0f082dcf02a1611cdb8e3586c63241a0e706f1026e4119e71c619fb"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 19",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-19.xlsx",
+      "fileName": "2024-20-AVP-returns-2024-part-19.xlsx",
+      "bytes": 2150739,
+      "sha256": "0bae53570240bdcbcee0227399c23afa2baa68b264d809ae1091975cb3cbaf41"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 20",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-20.xlsx",
+      "fileName": "2024-21-AVP-returns-2024-part-20.xlsx",
+      "bytes": 706138,
+      "sha256": "1bae433f8ff8b0186c9219c1f2242312b1405caae5369b548c9bd72145b76886"
+    },
+    {
+      "year": 2024,
+      "label": "AVP returns 2024 part 21",
+      "url": "https://www.health.govt.nz/system/files/2025-09/AVP-returns-2024-part-21.xlsx",
+      "fileName": "2024-22-AVP-returns-2024-part-21.xlsx",
+      "bytes": 2100582,
+      "sha256": "8bb79e8421b9c83e750e764d49332944f801f80977833c0a1065a4a5ab39406e"
+    },
+    {
+      "year": 2024,
+      "label": "Notifier returns 2024",
+      "url": "https://www.health.govt.nz/system/files/2025-09/Notifier-returns-2024.xlsx",
+      "fileName": "2024-23-Notifier-returns-2024.xlsx",
+      "bytes": 913071,
+      "sha256": "7f61485fe72043a23d2a778350928e6be44bb2335ec67cc6ae02ca3a0232f134"
+    },
+    {
+      "year": 2024,
+      "label": "RPS returns 2024 part 1",
+      "url": "https://www.health.govt.nz/system/files/2025-09/RPS-returns-2024-part-1.xlsx",
+      "fileName": "2024-24-RPS-returns-2024-part-1.xlsx",
+      "bytes": 1279524,
+      "sha256": "4bcd1b112efd8ff93141350734a470ceb224950fa87c022ebeb16f9f22fb68b2"
+    },
+    {
+      "year": 2024,
+      "label": "RPS returns 2024 part 2",
+      "url": "https://www.health.govt.nz/system/files/2025-09/RPS-returns-2024-part-2.xlsx",
+      "fileName": "2024-25-RPS-returns-2024-part-2.xlsx",
+      "bytes": 1201889,
+      "sha256": "42b4c5d5f7c84d7fc8dacd0f0d0c8045a9a26949d22ba8027994e964926e3820"
+    },
+    {
+      "year": 2024,
+      "label": "RPS returns 2024 part 3",
+      "url": "https://www.health.govt.nz/system/files/2025-09/RPS-returns-2024-part-3.xlsx",
+      "fileName": "2024-26-RPS-returns-2024-part-3.xlsx",
+      "bytes": 1745256,
+      "sha256": "ead6dd5b474eac3f0ccb6bb1e16d4a99efb7abad00c92248345b24447c5d2144"
+    },
+    {
+      "year": 2024,
+      "label": "RPS returns 2024 part 4",
+      "url": "https://www.health.govt.nz/system/files/2025-09/RPS-returns-2024-part-4.xlsx",
+      "fileName": "2024-27-RPS-returns-2024-part-4.xlsx",
+      "bytes": 1473981,
+      "sha256": "907a81ac417172d05940272cb2781bc176834a6bca0f34105278956678059581"
+    },
+    {
+      "year": 2024,
+      "label": "RPS returns 2024 part 5",
+      "url": "https://www.health.govt.nz/system/files/2025-09/RPS-returns-2024-part-5.xlsx",
+      "fileName": "2024-28-RPS-returns-2024-part-5.xlsx",
+      "bytes": 726184,
+      "sha256": "1986e6e929429869077484a61115089d3d1308dad3e728d2bedceb567a9d52f7"
+    },
+    {
+      "year": 2024,
+      "label": "RPS returns 2024 part 6",
+      "url": "https://www.health.govt.nz/system/files/2025-09/RPS-returns-2024-part-6.xlsx",
+      "fileName": "2024-29-RPS-returns-2024-part-6.xlsx",
+      "bytes": 543613,
+      "sha256": "e56bd847f771107f0863a022a2b4d84b992182dae4f4d35731ebd34361715a61"
+    }
+  ]
+}

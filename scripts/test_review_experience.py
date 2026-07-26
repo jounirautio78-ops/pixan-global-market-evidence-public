@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v24 review-experience publication gates."""
+"""Mutation tests for the v25 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -124,10 +124,30 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_future_retrieval_date(self) -> None:
         market = copy.deepcopy(self.market)
-        market["sources"][0]["retrievedAt"] = "2026-07-26"
+        market["sources"][0]["retrievedAt"] = "2026-07-27"
         self.assert_data_rejected(
             market=market,
             needle="retrievedAt cannot be later than market asOf",
+        )
+
+    def test_rejects_changed_market_source_set(self) -> None:
+        market = copy.deepcopy(self.market)
+        market["sources"][0]["sourceId"] = "REMOVED-REVIEWED-SOURCE"
+        self.assert_data_rejected(
+            market=market,
+            needle="exact 23-source set",
+        )
+
+    def test_rejects_changed_nz_observation_sources(self) -> None:
+        market = copy.deepcopy(self.market)
+        observation = next(
+            item for item in market["observations"]
+            if item["observationId"] == "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM"
+        )
+        observation["sourceIds"].pop()
+        self.assert_data_rejected(
+            market=market,
+            needle="identified-vaping observation differs",
         )
 
     def test_rejects_unearned_donor(self) -> None:
@@ -144,6 +164,19 @@ class ReviewExperienceTests(unittest.TestCase):
         self.assert_data_rejected(
             market=market,
             needle="donor candidates must all remain not accepted",
+        )
+
+    def test_rejects_changed_nz_donor_closure_status(self) -> None:
+        market = copy.deepcopy(self.market)
+        candidate = next(
+            item for item in market["donorCandidates"]
+            if item["candidateId"] == "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL"
+        )
+        candidate["passedCriteria"].remove("D4")
+        candidate["openCriteria"].append("D4")
+        self.assert_data_rejected(
+            market=market,
+            needle="New Zealand donor candidate differs from the reviewed 7/10 closure decision",
         )
 
     def test_rejects_process_response_as_public_reference(self) -> None:
@@ -200,8 +233,8 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_missing_current_market_card_hook(self) -> None:
         mutated = self.review_js.replace(
-            "NZ-2024-RETAIL-RANGE",
-            "REMOVED-SCENARIO",
+            "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM",
+            "REMOVED-IDENTIFIED-VAPING-OBSERVATION",
             1,
         )
         errors = validate_review_structure(
@@ -210,7 +243,21 @@ class ReviewExperienceTests(unittest.TestCase):
             mutated,
             self.i18n_js,
         )
-        self.assertTrue(any("required v18 reconciliation hook" in error for error in errors), errors)
+        self.assertTrue(any("required v25 reconciliation hook" in error for error in errors), errors)
+
+    def test_rejects_missing_nz_closure_pack_hook(self) -> None:
+        mutated = self.review_js.replace(
+            "source/NZ_2024_DONOR_CLOSURE_PACK.md",
+            "source/REMOVED_NZ_2024_DONOR_CLOSURE_PACK.md",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            mutated,
+            self.i18n_js,
+        )
+        self.assertTrue(any("required v25 reconciliation hook" in error for error in errors), errors)
 
     def test_rejects_missing_nzd_2024_review_rate(self) -> None:
         fx = copy.deepcopy(self.fx)
