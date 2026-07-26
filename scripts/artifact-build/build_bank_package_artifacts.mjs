@@ -15,10 +15,10 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v24", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v24", "renders");
-const releaseVersion = "2026.07.25-24";
-const releaseId = "2026-07-25-canada-donor-closure-v24";
+const qaDir = path.join(repo, "tmp", "bank-v25", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v25", "renders");
+const releaseVersion = "2026.07.26-25";
+const releaseId = "2026-07-26-new-zealand-donor-closure-v25";
 const fhmSourceId = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24";
 const fhmSourceUrl = "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/";
 const swedenStructureBasis = "official_registration_structure_count_not_sales_or_market_value";
@@ -36,7 +36,7 @@ const swedenStructureSuffixByMetric = new Map([
 ]);
 const expectedMarketCounts = {
   observations: 79,
-  sources: 21,
+  sources: 23,
   official: 70,
   officialMarketMeasures: 34,
   swedenRegisterStructure: 36,
@@ -67,6 +67,8 @@ const DECK_SOURCE_URLS = [
   "https://www.rechtsprechung-im-internet.de/jportal/?quelle=jlink&docid=JURE269032275&psml=bsjrsprod.psml",
   "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206",
   "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
+  "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return",
+  "https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf",
   "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
   "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001",
   "https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&Id=1544050",
@@ -182,13 +184,13 @@ const deckUpdates = {
     short: {
       shapes: {
         "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
-        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Health Canada; NZ Ministry of Health; European Commission; FHM; FTC",
+        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.26-25 · 2026-07-26 · Lähteet: Statistics Canada; Health Canada; NZ Ministry of Health; European Commission; FHM; FTC",
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
         "sh/ih8ju9sn": "34 + 36",
         "sh/kbm987y5": "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
-        "sh/i94r6xgz": "533,7–731,2 milj. NZD",
-        "sh/jadsz2xk": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
-        "sh/v6tsv2xo": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
+        "sh/i94r6xgz": "274,180 milj. NZD",
+        "sh/jadsz2xk": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
+        "sh/v6tsv2xo": "Uusi-Seelanti läpäisee 7/10: D5 hylätty, D8 ja D10 avoinna. Ei hyväksytty; donor-portti 0/3.",
         "sh/p0batw72": "Kanada 2024 — retail 1,219160 mrd CAD; toimitukset 1,160754 mrd CAD; 7/10 (D5/D7/D10 avoinna). FTC 2021: 2,763 mrd USD, valmistajaraportointia. Ei summata.",
       },
     },
@@ -200,13 +202,13 @@ const deckUpdates = {
         "sh/cf2tcr61": "Tekninen ero on patenttivaatimuksissa",
         "sh/dcbud0ra": "Asiakkuus vaatii kolmen ostajaryhmän validoinnin",
         "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
-        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.26-25 · 2026-07-26 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
         "sh/pc76hkr2": "34 + 36",
         "sh/h4bupgn6": "34 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
-        "sh/v2tcn650": "533,7–731,2 milj. NZD",
-        "sh/u1kbu1ov": "Uusi-Seelanti 2024: tuettu vähittäisherkkyys",
-        "sh/i54bylor": "5/5 ehdokasta jäi D1–D10-portin ulkopuolelle; hyväksytty donor-portti on 0/3.",
+        "sh/v2tcn650": "274,180 milj. NZD",
+        "sh/u1kbu1ov": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
+        "sh/i54bylor": "Uusi-Seelanti läpäisee 7/10: D5 hylätty, D8 ja D10 avoinna. Ei hyväksytty; donor-portti 0/3.",
         "sh/cbe5g3ih": "Kanada 2024: retail 1,219160 mrd CAD; toimitukset 1,160754 mrd CAD. Saman kyselyn kuukausireitti eroaa 1 000 CAD. Kanada 7/10; D5/D7/D10 avoinna. Ei summata.",
       },
       tables: {
@@ -223,7 +225,7 @@ const deckUpdates = {
         "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
         "sh/0f2lgnmp": "Atlas kattaa 195 maata; ei markkina-arvoa",
         "sh/wbydknq1": "Kanada 2024: vahva piste-estimaatti, 7/10",
-        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.26-25 · 2026-07-26 · Lähteet: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "1,219160 mrd CAD",
         "sh/c3e1gjyd": "retail · 822,58 milj. EUR",
         "sh/a1wze9g7": "1,160754 mrd CAD",
@@ -239,18 +241,18 @@ const deckUpdates = {
         "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
         "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
         "sh/8jup8rad": "90 päivää muuttaa aukot kontrolleiksi",
-        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.25-24 · 2026-07-25 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
-        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Markkina-aineistossa on 34 markkinamittaria 7 maasta sekä 36 Ruotsin FHM-rekisterirakenteen lukua vuosilta 2018–2026; luvut eivät ole myyntiä tai markkina-arvoa. Luovuttajaportti on 0/3.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
+        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.26-25 · 2026-07-26 · Lähteet: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
+        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  Uuden-Seelannin toistettava AIS/AVP-summa on 274 180 410,21 NZD; maa läpäisee 7/10, mutta D5 hylätään sekä D8 ja D10 ovat avoimia. Donor-portti pysyy 0/3:ssa.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
         "sh/bq9orito": "34 markkinamittaria + 36 Ruotsin FHM-rekisterilukua (ei myyntiä)",
-        "sh/6hw3y9sb": "Nykyinen hyväksytty donor-portti on 0/3; kaikki 5 ehdokasta jäivät ulkopuolelle.",
-        "sh/rip4retw": "•  Jokaisen ehdokkaan on läpäistävä kaikki 10 ehtoa (D1–D10).\n•  Uuden-Seelannin 533,7–731,2 milj. NZD vähittäisherkkyys on tuettu malli; FTC:n 2,763 mrd USD vuoden 2021 reitti on valmistajaraportointia. Kumpikaan ei ole täydellinen kuluttajavähittäisarvo tai hyväksytty donor.\n•  Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä.",
+        "sh/6hw3y9sb": "Uusi-Seelanti 7/10: D5 hylätty, D8 ja D10 avoinna. Kaikki 5 ehdokasta ovat ulkona; donor-portti 0/3.",
+        "sh/rip4retw": "•  Uuden-Seelannin tunnistettu AIS/AVP-summa 274,180 milj. NZD jakautuu kulutustarvikkeisiin 189 402 451,96, laitteisiin/hardwareen 84 709 409,85 ja sekajärjestelmiin 68 548,40 NZD.\n•  Viereiset 2 137 085,24 ja ratkaisemattomat 4 367 017,37 NZD rajataan pois. Maa läpäisee 7/10; D5 hylätään sekä D8 ja D10 ovat avoimia.\n•  Erillinen 533,7–731,2 milj. NZD RPS-herkkyys on tuettu malli, ei havaittu kansallinen arvo. Donor-portti pysyy 0/3:ssa.",
       },
       tables: {
         "tb/m983m983": [
           [0, 2, "Virallinen havainto / tuettu malli"],
           [1, 1, "2019–2025"],
           [1, 2, "StatsCan retail 2024: 1,219160 mrd CAD / 822,58 milj. EUR; kuukausireitti +1 000 CAD. Kanada 7/10; D5, D7 ja D10 avoimia"],
-          [4, 2, "virallinen raakareitti 280,685 milj. NZD; tunnistetun vaping-vähittäismyynnin tuettu herkkyys 533,7–731,2 milj. NZD, ei havaittu markkina-arvo"],
+          [4, 2, "tunnistettu AIS/AVP-vaping-summa 274,180 milj. NZD; kulutustarvikkeet 189,402 + laitteet/hardware 84,709 + sekajärjestelmät 0,069 milj. NZD. NZ 7/10; D5 hylätty, D8/D10 avoinna"],
           [6, 0, "Yhdysvallat"],
           [6, 1, "2015–2021"],
           [6, 2, "FTC: suljettujen järjestelmien ja kertakäyttötuotteiden raportoitu myynti 2,763 mrd USD vuonna 2021; valmistajaraportointia"],
@@ -261,25 +263,25 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Health Canada; NZ Ministry of Health; European Commission; FHM; FTC",
+        "sh/doj29oba": "Independent public evidence summary · 2026.07.26-25 · 2026-07-26 · Sources: Statistics Canada; Health Canada; NZ Ministry of Health; European Commission; FHM; FTC",
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
         "sh/ih8ju9sn": "34 + 36",
         "sh/kbm987y5": "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
-        "sh/i94r6xgz": "NZD 533.7–731.2m",
-        "sh/jadsz2xk": "New Zealand 2024: supported retail sensitivity",
-        "sh/v6tsv2xo": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
+        "sh/i94r6xgz": "NZD 274.180m",
+        "sh/jadsz2xk": "New Zealand 2024: identified AIS/AVP subtotal",
+        "sh/v6tsv2xo": "New Zealand passes 7/10: D5 failed; D8 and D10 open. Not accepted; the donor gate remains 0/3.",
         "sh/p0batw72": "Canada 2024 — retail CAD 1.219160bn; shipments CAD 1.160754bn; 7/10 (D5/D7/D10 open). FTC 2021: USD 2.763bn, manufacturer reporting. Do not sum.",
       },
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.26-25 · 2026-07-26 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Market size remains a range — not a single value",
         "sh/pc76hkr2": "34 + 36",
         "sh/h4bupgn6": "34 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
-        "sh/v2tcn650": "NZD 533.7–731.2m",
-        "sh/u1kbu1ov": "New Zealand 2024: supported retail sensitivity",
-        "sh/i54bylor": "5/5 candidates remain outside the D1–D10 gate; the accepted-donor count is 0/3.",
+        "sh/v2tcn650": "NZD 274.180m",
+        "sh/u1kbu1ov": "New Zealand 2024: identified AIS/AVP subtotal",
+        "sh/i54bylor": "New Zealand passes 7/10: D5 failed; D8 and D10 open. Not accepted; the donor gate remains 0/3.",
         "sh/cbe5g3ih": "Canada 2024: retail CAD 1.219160bn; shipments CAD 1.160754bn. Same-survey monthly retail differs by CAD 1,000. Canada 7/10; D5/D7/D10 open. Do not sum.",
       },
       tables: {
@@ -289,9 +291,9 @@ const deckUpdates = {
     },
     large: {
       shapes: {
-        "sh/4felwzu5": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Market-values model; Readiness, donorProtocol and donorCandidates",
+        "sh/4felwzu5": "Independent public evidence summary · 2026.07.26-25 · 2026-07-26 · Sources: Market-values model; Readiness, donorProtocol and donorCandidates",
         "sh/wbydknq1": "Canada 2024: strong point estimate, 7/10",
-        "sh/5grehs7i": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Independent public evidence summary · 2026.07.26-25 · 2026-07-26 · Sources: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "CAD 1.219160bn",
         "sh/c3e1gjyd": "retail · EUR 822.58m",
         "sh/a1wze9g7": "CAD 1.160754bn",
@@ -300,18 +302,18 @@ const deckUpdates = {
         "sh/y5wjitgj": "monthly–quarterly gap",
         "sh/z650byxo": "Retail is CAD 58.406m (+5.03%) above shipments. The residual is not margin or a market range; official tax evidence closes D8.",
         "sh/hsvy50re": "Canada passes 7/10. D5: NAICS 459993/459999 coverage. D7: exact annual error boundary missing. D10: different transaction stages remain unreconciled.",
-        "sh/21gnuts7": "Independent public evidence summary · 2026.07.25-24 · 2026-07-25 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
-        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The market dataset contains 34 market measures across 7 countries plus 36 Swedish FHM register-structure counts for 2018–2026; the counts are not sales or market value. The donor gate remains 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
+        "sh/21gnuts7": "Independent public evidence summary · 2026.07.26-25 · 2026-07-26 · Sources: Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
+        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  New Zealand's reproducible AIS/AVP subtotal is NZD 274,180,410.21; it passes 7/10, but D5 fails and D8/D10 remain open. The donor gate remains 0/3.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
         "sh/bq9orito": "34 market measures + 36 Swedish FHM register counts (not sales)",
-        "sh/6hw3y9sb": "The current accepted-donor gate is 0/3; all 5 candidates remain outside the count.",
-        "sh/rip4retw": "•  Every candidate must pass all 10 criteria (D1–D10).\n•  New Zealand's NZD 533.7–731.2m retail sensitivity is a supported model; the FTC's 2021 USD 2.763bn route is manufacturer reporting. Neither is complete consumer-retail value or an accepted donor.\n•  Coverage across regions and regulatory types, plus direct validation in major economies, is still required.",
+        "sh/6hw3y9sb": "New Zealand is 7/10: D5 failed; D8 and D10 open. All 5 candidates remain outside; the donor gate is 0/3.",
+        "sh/rip4retw": "•  New Zealand's identified AIS/AVP subtotal of NZD 274.180m comprises NZD 189,402,451.96 consumables, NZD 84,709,409.85 devices/hardware and NZD 68,548.40 mixed systems.\n•  NZD 2,137,085.24 adjacent and NZD 4,367,017.37 unresolved rows are excluded. New Zealand passes 7/10; D5 fails and D8/D10 remain open.\n•  The separate NZD 533.7–731.2m RPS sensitivity remains a supported model, not observed national value. The donor gate remains 0/3.",
       },
       tables: {
         "tb/m983m983": [
           [0, 2, "Official observation / supported model"],
           [1, 1, "2019–2025"],
           [1, 2, "StatsCan retail 2024: CAD 1.219160bn / EUR 822.58m; monthly route +CAD 1,000. Canada 7/10; D5, D7 and D10 open"],
-          [4, 2, "official raw route NZD 280.685m; supported identified-vaping retail sensitivity NZD 533.7–731.2m, not an observed market value"],
+          [4, 2, "identified AIS/AVP vaping subtotal NZD 274.180m: consumables 189.402 + devices/hardware 84.709 + mixed systems 0.069m. NZ 7/10; D5 failed, D8/D10 open"],
           [6, 0, "United States"],
           [6, 1, "2015–2021"],
           [6, 2, "FTC: reported cartridge-system-plus-disposable sales reached USD 2.763bn in 2021; manufacturer reporting"],
@@ -324,11 +326,11 @@ const deckUpdates = {
 const registerAdditions = {
   fi: [
     [
-      "Uuden-Seelannin vuoden 2024 tunnistetun sähkötupakkavähittäismyynnin tuettu herkkyysväli on 533 662 383,68–731 175 792,50 NZD ja perusskenaario 641 811 687,89 NZD.",
+      "Uuden-Seelannin erillinen vuoden 2024 RPS-vähittäisherkkyys on tuettu malli: 533 662 383,68–731 175 792,50 NZD ja perusskenaario 641 811 687,89 NZD.",
       "Markkinakoko",
       "Matalan, perus- ja korkean skenaarion yhdistetyt arvot ovat 533 662 383,68 / 641 811 687,89 / 731 175 792,50 NZD. Malli yhdistää erikoisvähittäiskaupan ankkurin yleisvähittäiskaupan määrä- ja hintamalliin.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
-      "2026-07-24",
+      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md ; source/NZ_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-26",
       "Matala (täsmällisten rivien deduplikointi): 258 327 110,88 + 275 335 272,80 = 533 662 383,68 NZD. Perus (raportoidut/raakrivit): 274 180 410,21 + 367 631 277,68 = 641 811 687,89 NZD. Korkea (raportoidut/raakrivit): 274 180 410,21 + 456 995 382,29 = 731 175 792,50 NZD.",
       "GST-käsittely, palautusten täydellisyys ja riippumaton täsmäytys ovat avoimia; ilmoittajien toimitusketjutason arvot on jätetty pois.",
       "Tuettu",
@@ -339,7 +341,7 @@ const registerAdditions = {
       "Markkinakoko",
       "Ministeriön julkaisema koonti on vähintään 374 milj. NZD ja 2 570 ilmoitusta. Se sisältää kaikki ilmoitettavat tuotteet, myös heated tobacco -tuotteet, ja ministeriö varoittaa laadusta.",
       "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2023 ; source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
-      "2026-07-24",
+      "2026-07-26",
       "Kuusi virallista tiedostoa on eheystiivistetty; kaikki uusi laskenta palauttaa tilan not_computed.",
       "Tuoterajaus, määräkentät, duplikaatit, toimitusketjutaso, veroperusta ja riippumaton täsmäytys ovat ratkaisematta.",
       "Vahvistettu",
@@ -361,7 +363,7 @@ const registerAdditions = {
       "Markkinakoko",
       "Viisi ehdokasta on arvioitu samoilla 10 D1–D10-kriteerillä; yksikään ei ole hyväksytty. Lisäksi alue- ja sääntelytyyppien peittoporttien on läpäistävä tarkistus.",
       "site/data/evidence-lanes.json ; site/data/donor-cockpit.json ; site/data/country-scenarios.json",
-      "2026-07-24",
+      "2026-07-26",
       "Fail-closed-portit: puuttuva tai virheellinen syöte tuottaa tilan not_computed eikä nollaa.",
       "Vain tarkistetut julkiset koontitiedot ja menetelmät ovat julkisella kaistalla; lisensoitu ja yksityinen aineisto eivät siirry repositorioon.",
       "Vahvistettu",
@@ -370,11 +372,11 @@ const registerAdditions = {
   ],
   en: [
     [
-      "New Zealand's supported 2024 identified-vaping retail sensitivity is NZD 533,662,383.68–731,175,792.50, with a base case of NZD 641,811,687.89.",
+      "New Zealand's separate supported 2024 RPS retail-sensitivity model is NZD 533,662,383.68–731,175,792.50, with a base case of NZD 641,811,687.89.",
       "Market size",
       "The combined low, base and high cases are NZD 533,662,383.68 / 641,811,687.89 / 731,175,792.50. The model combines the specialist-retailer anchor with a general-retailer quantity-and-price model.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
-      "2026-07-24",
+      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md ; source/NZ_2024_DONOR_CLOSURE_PACK.md",
+      "2026-07-26",
       "Low (exact-row deduplication): NZD 258,327,110.88 + 275,335,272.80 = 533,662,383.68. Base (reported/raw rows): NZD 274,180,410.21 + 367,631,277.68 = 641,811,687.89. High (reported/raw rows): NZD 274,180,410.21 + 456,995,382.29 = 731,175,792.50.",
       "GST treatment, return completeness and independent reconciliation are open; notifier supply-stage values are excluded.",
       "Supported",
@@ -385,7 +387,7 @@ const registerAdditions = {
       "Market size",
       "The Ministry's published aggregate is at least NZD 374 million and 2,570 returns. It covers all notifiable products, including heated tobacco, and the Ministry warns about data quality.",
       "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2023 ; source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
-      "2026-07-24",
+      "2026-07-26",
       "Six official files are integrity-hashed; every new computation returns not_computed.",
       "Product scope, quantity fields, duplication, supply-chain level, tax basis and independent reconciliation remain unresolved.",
       "Confirmed",
@@ -407,7 +409,7 @@ const registerAdditions = {
       "Market size",
       "Five candidates are assessed against the same ten D1–D10 criteria; none is accepted. The regional and regulatory-archetype coverage gates must also pass.",
       "site/data/evidence-lanes.json ; site/data/donor-cockpit.json ; site/data/country-scenarios.json",
-      "2026-07-24",
+      "2026-07-26",
       "Fail-closed gates: a missing or invalid input returns not_computed rather than zero.",
       "Only reviewed public aggregates and methods enter the public lane; licensed and private material do not enter the repository.",
       "Confirmed",
@@ -520,7 +522,7 @@ function ensureSourceCoverage(sourceRows, registerRows, additionalUrls = []) {
       hostname,
       "register_reference",
     ];
-    output.push([sourceId, publisher, sourceClass, url, "2026-07-25"]);
+    output.push([sourceId, publisher, sourceClass, url, "2026-07-26"]);
     existingUrls.add(url);
   }
   const unresolved = [...registerUrls].filter((url) => !existingUrls.has(url));
@@ -653,7 +655,7 @@ function buildEurEquivalentRows(market, scenarios, fxData) {
   return rows;
 }
 
-function validateV22MarketEvidence(market) {
+function validateV25MarketEvidence(market) {
   const observations = market?.observations;
   const sources = market?.sources;
   if (
@@ -661,12 +663,12 @@ function validateV22MarketEvidence(market) {
     || observations.length !== expectedMarketCounts.observations
   ) {
     throw new Error(
-      `v24 bank package requires exactly ${expectedMarketCounts.observations} market observations`,
+      `v25 bank package requires exactly ${expectedMarketCounts.observations} market observations`,
     );
   }
   if (!Array.isArray(sources) || sources.length !== expectedMarketCounts.sources) {
     throw new Error(
-      `v24 bank package requires exactly ${expectedMarketCounts.sources} market sources`,
+      `v25 bank package requires exactly ${expectedMarketCounts.sources} market sources`,
     );
   }
 
@@ -675,14 +677,14 @@ function validateV22MarketEvidence(market) {
     observationIds.some((value) => typeof value !== "string" || !value)
     || new Set(observationIds).size !== observations.length
   ) {
-    throw new Error("v24 market observations must have unique non-empty observationId values");
+    throw new Error("v25 market observations must have unique non-empty observationId values");
   }
   const sourceIds = sources.map((item) => item?.sourceId);
   if (
     sourceIds.some((value) => typeof value !== "string" || !value)
     || new Set(sourceIds).size !== sources.length
   ) {
-    throw new Error("v24 market sources must have unique non-empty sourceId values");
+    throw new Error("v25 market sources must have unique non-empty sourceId values");
   }
 
   const official = observations.filter(
@@ -697,17 +699,17 @@ function validateV22MarketEvidence(market) {
   const officialMarketMeasures = official.filter((item) => !swedenStructure.includes(item));
   if (official.length !== expectedMarketCounts.official) {
     throw new Error(
-      `v24 bank package requires ${expectedMarketCounts.official} official observations`,
+      `v25 bank package requires ${expectedMarketCounts.official} official observations`,
     );
   }
   if (officialMarketMeasures.length !== expectedMarketCounts.officialMarketMeasures) {
     throw new Error(
-      `v24 bank package requires ${expectedMarketCounts.officialMarketMeasures} official market measures`,
+      `v25 bank package requires ${expectedMarketCounts.officialMarketMeasures} official market measures`,
     );
   }
   if (swedenStructure.length !== expectedMarketCounts.swedenRegisterStructure) {
     throw new Error(
-      `v24 bank package requires ${expectedMarketCounts.swedenRegisterStructure} Swedish FHM register-structure counts`,
+      `v25 bank package requires ${expectedMarketCounts.swedenRegisterStructure} Swedish FHM register-structure counts`,
     );
   }
   const officialMeasureCountries = new Set(
@@ -717,7 +719,7 @@ function validateV22MarketEvidence(market) {
     JSON.stringify([...officialMeasureCountries].sort())
     !== JSON.stringify(["CA", "DE", "FI", "NZ", "PL", "SE", "US"])
   ) {
-    throw new Error("v24 official market measures must retain the seven reviewed countries");
+    throw new Error("v25 official market measures must retain the seven reviewed countries");
   }
 
   const expectedStructureIds = new Set();
@@ -779,7 +781,40 @@ function validateV22MarketEvidence(market) {
 
   const fhmSource = sources.find((item) => item.sourceId === fhmSourceId);
   if (!fhmSource || fhmSource.pageUrl !== fhmSourceUrl) {
-    throw new Error("v24 market sources must retain the reviewed public FHM reference");
+    throw new Error("v25 market sources must retain the reviewed public FHM reference");
+  }
+  const nzObservation = observations.find(
+    (item) => item.observationId === "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM",
+  );
+  const nzCandidate = (market?.donorCandidates ?? []).find(
+    (item) => item.candidateId === "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL",
+  );
+  const nzAudit = JSON.parse(
+    fsSync.readFileSync(path.join(sourceDir, "NZ_2024_PRODUCT_SCOPE_AUDIT.json"), "utf8"),
+  );
+  const nzBuckets = nzAudit?.productScopeBuckets ?? {};
+  const nzPublished = nzAudit?.publishedAggregates ?? {};
+  if (
+    Number(nzObservation?.value) !== 274180410.21
+    || Number(nzBuckets?.vaping_consumable?.reportedTotalSalesNzd) !== 189402451.96
+    || Number(nzBuckets?.vaping_device_or_hardware?.reportedTotalSalesNzd) !== 84709409.85
+    || Number(nzBuckets?.vaping_mixed_system?.reportedTotalSalesNzd) !== 68548.40
+    || Number(nzPublished?.identifiedAdjacentSalesNzd) !== 2137085.24
+    || Number(nzPublished?.unresolvedProductTypeSalesNzd) !== 4367017.37
+  ) {
+    throw new Error("v25 New Zealand product-scope aggregates differ from the reviewed audit");
+  }
+  if (
+    nzCandidate?.decision !== "not_accepted"
+    || JSON.stringify(nzCandidate?.passedCriteria) !== JSON.stringify([
+      "D1", "D2", "D3", "D4", "D6", "D7", "D9",
+    ])
+    || JSON.stringify(nzCandidate?.failedCriteria) !== JSON.stringify(["D5"])
+    || JSON.stringify(nzCandidate?.openCriteria) !== JSON.stringify(["D8", "D10"])
+    || market?.meta?.modelReadiness?.comparableFullYearMarketValueDonors !== 0
+    || market?.meta?.modelReadiness?.minimumRequiredDonors !== 3
+  ) {
+    throw new Error("v25 New Zealand must remain not accepted at 7/10 with a 0/3 donor gate");
   }
 }
 
@@ -789,8 +824,11 @@ function formatDeckNumber(value, digits, language) {
 }
 
 function prominentDeckFxPhrases(language, market, scenarios, fxData) {
-  const nz = (scenarios?.countryYearScenarios ?? []).find(
+  const nzModel = (scenarios?.countryYearScenarios ?? []).find(
     (item) => item.scenarioId === "NZ-2024-RETAIL-RANGE",
+  );
+  const nzObserved = (market?.observations ?? []).find(
+    (item) => item.observationId === "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM",
   );
   const ftc = (market?.observations ?? []).find(
     (item) => item.observationId === "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",
@@ -801,29 +839,41 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
   const canadaShipments = (market?.observations ?? []).find(
     (item) => item.observationId === "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE",
   );
-  const nzLow = assessArtifactEur({
-    value: nz?.inputs?.low?.value,
-    currency: nz?.currency,
-    unit: nz?.currency,
-    year: nz?.year,
+  const nzModelLow = assessArtifactEur({
+    value: nzModel?.inputs?.low?.value,
+    currency: nzModel?.currency,
+    unit: nzModel?.currency,
+    year: nzModel?.year,
     period: "calendar_year",
   }, fxData);
-  const nzHigh = assessArtifactEur({
-    value: nz?.inputs?.high?.value,
-    currency: nz?.currency,
-    unit: nz?.currency,
-    year: nz?.year,
+  const nzModelHigh = assessArtifactEur({
+    value: nzModel?.inputs?.high?.value,
+    currency: nzModel?.currency,
+    unit: nzModel?.currency,
+    year: nzModel?.year,
     period: "calendar_year",
   }, fxData);
+  const nzObservedEur = assessArtifactEur(nzObserved, fxData);
   const ftcEur = assessArtifactEur(ftc, fxData);
   const canadaRetailEur = assessArtifactEur(canadaRetail, fxData);
   const canadaShipmentsEur = assessArtifactEur(canadaShipments, fxData);
-  const nzComputed = nzLow.status === "computed" && nzHigh.status === "computed";
+  const nzModelComputed = (
+    nzModelLow.status === "computed"
+    && nzModelHigh.status === "computed"
+  );
+  const nzObservedComputed = nzObservedEur.status === "computed";
   const ftcComputed = ftcEur.status === "computed";
   const canadaRetailComputed = canadaRetailEur.status === "computed";
   const canadaShipmentsComputed = canadaShipmentsEur.status === "computed";
-  const nzEurLow = nzComputed ? Number(nz.inputs.low.value) / nzLow.rateValue : null;
-  const nzEurHigh = nzComputed ? Number(nz.inputs.high.value) / nzHigh.rateValue : null;
+  const nzModelEurLow = nzModelComputed
+    ? Number(nzModel.inputs.low.value) / nzModelLow.rateValue
+    : null;
+  const nzModelEurHigh = nzModelComputed
+    ? Number(nzModel.inputs.high.value) / nzModelHigh.rateValue
+    : null;
+  const nzObservedEurValue = nzObservedComputed
+    ? Number(nzObserved.value) / nzObservedEur.rateValue
+    : null;
   const ftcEurValue = ftcComputed ? Number(ftc.value) / ftcEur.rateValue : null;
   const canadaRetailEurValue = canadaRetailComputed
     ? Number(canadaRetail.value) / canadaRetailEur.rateValue
@@ -833,12 +883,16 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
     : null;
   if (language === "fi") {
     return {
-      nzOriginal: "533,7–731,2 milj. NZD",
-      nzReplacement: nzComputed
-        ? `533,7–731,2 milj. NZD (≈${formatDeckNumber(nzEurLow / 1e6, 1, language)}–${formatDeckNumber(nzEurHigh / 1e6, 1, language)} milj. EUR; ECB 2024)`
+      nzObservedOriginal: "274,180 milj. NZD",
+      nzObservedReplacement: nzObservedComputed
+        ? `274,180 milj. NZD (≈${formatDeckNumber(nzObservedEurValue / 1e6, 1, language)} milj. EUR; ECB 2024)`
+        : "274,180 milj. NZD (EUR not_computed)",
+      nzModelOriginal: "533,7–731,2 milj. NZD",
+      nzModelReplacement: nzModelComputed
+        ? `533,7–731,2 milj. NZD (≈${formatDeckNumber(nzModelEurLow / 1e6, 1, language)}–${formatDeckNumber(nzModelEurHigh / 1e6, 1, language)} milj. EUR; ECB 2024)`
         : "533,7–731,2 milj. NZD (EUR not_computed)",
-      nzCardSubtitle: nzComputed
-        ? `≈${formatDeckNumber(nzEurLow / 1e6, 1, language)}–${formatDeckNumber(nzEurHigh / 1e6, 1, language)} milj. EUR · ECB 2024`
+      nzCardSubtitle: nzObservedComputed
+        ? `tunnistettu AIS/AVP-summa · ≈${formatDeckNumber(nzObservedEurValue / 1e6, 1, language)} milj. EUR`
         : "EUR not_computed · NZ 2024",
       ftcOriginal: "2,763 mrd USD",
       ftcReplacement: ftcComputed
@@ -861,12 +915,16 @@ function prominentDeckFxPhrases(language, market, scenarios, fxData) {
     };
   }
   return {
-    nzOriginal: "NZD 533.7–731.2m",
-    nzReplacement: nzComputed
-      ? `NZD 533.7–731.2m (≈EUR ${formatDeckNumber(nzEurLow / 1e6, 1, language)}–${formatDeckNumber(nzEurHigh / 1e6, 1, language)}m; ECB 2024)`
+    nzObservedOriginal: "NZD 274.180m",
+    nzObservedReplacement: nzObservedComputed
+      ? `NZD 274.180m (≈EUR ${formatDeckNumber(nzObservedEurValue / 1e6, 1, language)}m; ECB 2024)`
+      : "NZD 274.180m (EUR not_computed)",
+    nzModelOriginal: "NZD 533.7–731.2m",
+    nzModelReplacement: nzModelComputed
+      ? `NZD 533.7–731.2m (≈EUR ${formatDeckNumber(nzModelEurLow / 1e6, 1, language)}–${formatDeckNumber(nzModelEurHigh / 1e6, 1, language)}m; ECB 2024)`
       : "NZD 533.7–731.2m (EUR not_computed)",
-    nzCardSubtitle: nzComputed
-      ? `≈EUR ${formatDeckNumber(nzEurLow / 1e6, 1, language)}–${formatDeckNumber(nzEurHigh / 1e6, 1, language)}m · ECB 2024`
+    nzCardSubtitle: nzObservedComputed
+      ? `identified AIS/AVP subtotal · ≈EUR ${formatDeckNumber(nzObservedEurValue / 1e6, 1, language)}m`
       : "EUR not_computed · NZ 2024",
     ftcOriginal: "USD 2.763bn",
     ftcReplacement: ftcComputed
@@ -963,26 +1021,59 @@ function upgradeRegister(rows, language) {
   if (countIndex < 0) throw new Error(`${language}: official-observation row not found`);
   output[countIndex] = language === "fi"
     ? [
-      "Julkinen markkina-aineisto sisältää 79 havaintoa 21 lähteestä; 70 virallista havaintoa jakautuvat 34 markkinamittariin ja 36 Ruotsin FHM-rekisterirakenteen lukuun.",
+      "Julkinen markkina-aineisto sisältää 79 havaintoa 23 lähteestä; 70 virallista havaintoa jakautuvat 34 markkinamittariin ja 36 Ruotsin FHM-rekisterirakenteen lukuun.",
       "Markkinakoko",
       "Markkinamittarit kattavat Kanadan, Saksan, Suomen, Uuden-Seelannin, Puolan, Ruotsin ja Yhdysvallat. FHM-luvut kuvaavat vuosien 2018–2026 raportoivia toimijoita sekä ilmoitettuja, aktiivisia ja markkinoilta poistettuja tuotteita; ne eivät ole myyntiä tai markkina-arvoa.",
       "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
-      "2026-07-24",
+      "2026-07-26",
       "79 = 43 aiempaa havaintoa + 36 FHM-rakennelukua; 70 virallista = 34 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään eikä niitä summata markkinaksi.",
       "Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja kalenterivuoden virtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken tilannekuva, ei valmis vuosijakso. Virallinen lähde ei tee eri mittareista yhteismitallisia.",
       "Vahvistettu",
       "Lisämaista tarvitaan yhteismitalliset vuotuiset laite- ja nestemäisen kuluttajavähittäisarvon sarjat.",
     ]
     : [
-      "The public market dataset contains 79 observations from 21 sources; its 70 official observations split into 34 market measures and 36 Swedish FHM register-structure counts.",
+      "The public market dataset contains 79 observations from 23 sources; its 70 official observations split into 34 market measures and 36 Swedish FHM register-structure counts.",
       "Market size",
       "The market measures cover Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",
       "site/data/market-values.json (machine-readable source file of the public site)",
-      "2026-07-24",
+      "2026-07-26",
       "79 = 43 prior observations + 36 FHM structure counts; 70 official = 34 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
       "The 2018–2025 figures are authority-supplied year labels, not assumed calendar-year flows or year-end snapshots. The 2026 FHM records are a current snapshot, not a completed annual period. Official sourcing does not make unlike metrics comparable.",
       "Confirmed",
       "Comparable annual device and liquid consumer-retail-value series are required from additional countries.",
+    ];
+
+  const nzScopeIndex = output.findIndex((row) => (
+    row[0].startsWith(language === "fi"
+      ? "Varovainen tekstiluokitus"
+      : "A conservative text classification")
+    || row[0].startsWith(language === "fi"
+      ? "Uuden-Seelannin vuoden 2024 AIS/AVP"
+      : "New Zealand's 2024 AIS/AVP")
+  ));
+  if (nzScopeIndex < 0) throw new Error(`${language}: New Zealand scope row not found`);
+  output[nzScopeIndex] = language === "fi"
+    ? [
+      "Uuden-Seelannin vuoden 2024 AIS/AVP-erikoisvähittäiskaupan tunnistettu sähkötupakkasumma on 274 180 410,21 NZD; donor-testi läpäisee 7/10 ehtoa, mutta maa ei ole hyväksytty donor.",
+      "Markkinakoko",
+      "Kulutustarvikkeet ovat 189 402 451,96 NZD, laitteet/hardware 84 709 409,85 NZD ja sekajärjestelmät 68 548,40 NZD. Viereiset ilmoitusvelvolliset tuotteet 2 137 085,24 NZD ja ratkaisemattomat tuotetyypit 4 367 017,37 NZD määrällistetään erikseen ja rajataan pois. Havaittu arvo tulee vain AIS/AVP-työkirjoista; Notifier- ja RPS-arvoa ei lisätä.",
+      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return ; https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf ; source/NZ_2024_DONOR_CLOSURE_PACK.md ; source/NZ_2024_WORKBOOK_MANIFEST.json ; source/NZ_2024_PRODUCT_SCOPE_AUDIT.json ; scripts/analyze_nz_2024_returns.py",
+      "2026-07-26",
+      "189 402 451,96 + 84 709 409,85 + 68 548,40 = 274 180 410,21 NZD. Viereiset ja ratkaisemattomat luokat käsitellään ennen vaping-summaa ja jätetään siitä pois. Kaikkien 29 tiedoston URL:t, koot ja SHA-256-tiivisteet validoidaan ennen aggregointia.",
+      "Deterministinen tuoterajaus on julkinen. Yleisvähittäiskaupan havaittu arvo puuttuu, GST-perusta on tuntematon, täsmälleen toistuvien rivien herkkyys ei ole korjattu estimaatti eikä riippumatonta täsmäytystä ole.",
+      "Tuettu",
+      "D5 hylätään puuttuvan kansallisen kanavapeiton vuoksi; D8:n GST-perusta ja D10:n riippumaton täsmäytys ovat avoimia. Donor-portti pysyy 0/3:ssa.",
+    ]
+    : [
+      "New Zealand's 2024 AIS/AVP specialist-retailer identified-vaping subtotal is NZD 274,180,410.21; the donor test passes 7/10 criteria, but New Zealand is not an accepted donor.",
+      "Market size",
+      "Consumables are NZD 189,402,451.96, devices/hardware NZD 84,709,409.85 and mixed systems NZD 68,548.40. Adjacent notifiable products of NZD 2,137,085.24 and unresolved product types of NZD 4,367,017.37 are separately quantified and excluded. All observed value comes from AIS/AVP workbooks; no Notifier or RPS value is added.",
+      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return ; https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf ; source/NZ_2024_DONOR_CLOSURE_PACK.md ; source/NZ_2024_WORKBOOK_MANIFEST.json ; source/NZ_2024_PRODUCT_SCOPE_AUDIT.json ; scripts/analyze_nz_2024_returns.py",
+      "2026-07-26",
+      "NZD 189,402,451.96 + 84,709,409.85 + 68,548.40 = NZD 274,180,410.21. Adjacent and unresolved classes are applied before the vaping subtotal and excluded. URLs, byte sizes and SHA-256 hashes for all 29 files are validated before aggregation.",
+      "The deterministic scope rules are public. Observed general-retail value is absent, the GST basis is unknown, exact-row-deduplication sensitivity is not a corrected estimate and no independent reconciliation has passed.",
+      "Supported",
+      "D5 fails for missing national channel coverage; D8 GST basis and D10 independent reconciliation remain open. The donor gate remains 0/3.",
     ];
 
   const swedenIndex = output.findIndex((row) => (
@@ -1026,7 +1117,7 @@ function upgradeRegister(rows, language) {
       "Markkinakoko",
       "comparableFullYearMarketValueDonors = 0. Viisi ehdokasta on julkaistu samaa kymmenen ehdon protokollaa vasten.",
       "site/data/market-values.json (modelReadiness, donorProtocol ja donorCandidates)",
-      "2026-07-24",
+      "2026-07-26",
       "Ehdokas tulee donor-lukuun vain, kun D1–D10 läpäisevät tarkistuksen; hylätty tai avoin ehto pitää sen luvun ulkopuolella.",
       "Virallisia alarajoja, institutionaalisia vertailuarvoja, toimitusarvoja, veroja, fyysisiä määriä ja malleja ei nimetä täydelliseksi kuluttajavähittäisarvoksi.",
       "Vahvistettu",
@@ -1037,7 +1128,7 @@ function upgradeRegister(rows, language) {
       "Market size",
       "comparableFullYearMarketValueDonors = 0. Five candidate tests are published against the same ten-criterion protocol.",
       "site/data/market-values.json (modelReadiness, donorProtocol and donorCandidates)",
-      "2026-07-24",
+      "2026-07-26",
       "A candidate enters the donor count only when D1–D10 all pass; a failed or open criterion keeps it outside the count.",
       "Official lower bounds, institutional benchmarks, shipment values, tax receipts, physical volumes and models are not relabelled as complete consumer-retail value.",
       "Confirmed",
@@ -1111,15 +1202,16 @@ function upgradeRegister(rows, language) {
       "Do not apply shipment shares to retail as a device/liquid split and do not add transaction stages.",
     ];
 
-  const existingAddition = output.findIndex((row) => row[0].startsWith(language === "fi"
-    ? "Uuden-Seelannin vuoden 2024 tunnistetun"
-    : "New Zealand's supported 2024 identified"));
+  const existingAddition = output.findIndex((row) => (
+    row[0].startsWith(language === "fi"
+      ? "Uuden-Seelannin erillinen vuoden 2024 RPS"
+      : "New Zealand's separate supported 2024 RPS")
+    || row[0].startsWith(language === "fi"
+      ? "Uuden-Seelannin vuoden 2024 tunnistetun"
+      : "New Zealand's supported 2024 identified")
+  ));
   if (existingAddition < 0) {
-    const anchor = output.findIndex((row) => row[0].startsWith(language === "fi"
-      ? "Varovainen tekstiluokitus"
-      : "A conservative text classification"));
-    if (anchor < 0) throw new Error(`${language}: New Zealand insertion anchor not found`);
-    output.splice(anchor + 1, 0, ...registerAdditions[language]);
+    output.splice(nzScopeIndex + 1, 0, ...registerAdditions[language]);
   } else {
     output.splice(existingAddition, registerAdditions[language].length, ...registerAdditions[language]);
   }
@@ -1134,7 +1226,7 @@ function upgradeRegister(rows, language) {
       "Markkinakoko",
       "Nolla hyväksyttyä donoria alittaa kolmen vähimmäisrajan. Uuden-Seelannin, EU:n, Kanadan, Saksan ja Yhdysvaltain 5 julkaistulla ehdokkaalla on jokaisella vähintään yksi hylätty tai avoin D1–D10-ehto; myös alue- ja sääntelytyyppien peittoportit puuttuvat.",
       "site/data/market-values.json (modelReadiness, donorProtocol ja donorCandidates)",
-      "2026-07-24",
+      "2026-07-26",
       "Kova portti: jokaisen donorin on läpäistävä D1–D10, ja lisäksi tarvitaan vähintään kolme yhteensopivaa donoria sekä molemmat peittoportit.",
       "Viralliset alarajat ja ulkoiset vertailuarvot säilyvät ristiintarkistuksina, mutta niitä ei lasketa hyväksytyiksi donoreiksi.",
       "Vahvistettu",
@@ -1145,7 +1237,7 @@ function upgradeRegister(rows, language) {
       "Market size",
       "Zero accepted donors is below the minimum of three. Each of the five published New Zealand, EU, Canada, Germany and United States candidates has at least one failed or open D1–D10 criterion; the regional and regulatory-archetype coverage gates also remain unmet.",
       "site/data/market-values.json (modelReadiness, donorProtocol and donorCandidates)",
-      "2026-07-24",
+      "2026-07-26",
       "Hard gate: every donor must pass D1–D10, and at least three compatible donors plus both coverage gates are required.",
       "Official lower bounds and external benchmarks remain useful cross-checks but are not counted as accepted donors.",
       "Confirmed",
@@ -1176,8 +1268,12 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
   const snapshot = await presentation.inspect({ kind: "textbox,shape", maxChars: 600000 });
   for (const line of snapshot.ndjson.split("\n").filter(Boolean)) {
     const record = JSON.parse(line);
-    if (typeof record.text !== "string" || !record.text.includes("2026.07.24-17")) continue;
-    rewriteText(presentation.resolve(record.id), record.text.replaceAll("2026.07.24-17", releaseVersion));
+    if (typeof record.text !== "string") continue;
+    const reviewedText = record.text
+      .replaceAll("2026.07.24-17", releaseVersion)
+      .replaceAll("2026-07-24", "2026-07-26");
+    if (reviewedText === record.text) continue;
+    rewriteText(presentation.resolve(record.id), reviewedText);
   }
   const update = deckUpdates[language][deckName];
   const fxPhrases = prominentDeckFxPhrases(language, market, scenarios, fxData);
@@ -1191,9 +1287,16 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
   let canadaFxMarkers = 0;
   const withFxEquivalents = (text) => {
     let output = String(text);
-    if (output.includes(fxPhrases.nzOriginal)) {
+    if (output.includes(fxPhrases.nzObservedOriginal)) {
       nzFxMarkers += 1;
-      output = output.replaceAll(fxPhrases.nzOriginal, fxPhrases.nzReplacement);
+      output = output.replaceAll(
+        fxPhrases.nzObservedOriginal,
+        fxPhrases.nzObservedReplacement,
+      );
+    }
+    if (output.includes(fxPhrases.nzModelOriginal)) {
+      nzFxMarkers += 1;
+      output = output.replaceAll(fxPhrases.nzModelOriginal, fxPhrases.nzModelReplacement);
     }
     if (output.includes(fxPhrases.ftcOriginal)) {
       ftcFxMarkers += 1;
@@ -1302,6 +1405,11 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
   }
   if (deckName === "short") {
     presentation.resolve("sh/p0batw72").text.fontSize = 18;
+    if (language === "en") {
+      const marketScopeSubtitle = presentation.resolve("sh/kbm987y5");
+      marketScopeSubtitle.text.fontSize = 17;
+      marketScopeSubtitle.text.autoFit = "shrinkText";
+    }
   }
   if (language === "fi" && deckName === "large") {
     presentation.resolve("sh/mpgj6t8j").text.fontSize = 18;
@@ -1456,9 +1564,9 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
     });
   }
   const nzAdditionIndex = rows.findIndex((row) => row[0].startsWith(isFi
-    ? "Uuden-Seelannin vuoden 2024 tunnistetun"
-    : "New Zealand's supported 2024 identified"));
-  if (nzAdditionIndex < 0) throw new Error(`${language}: New Zealand supported-model row is missing`);
+    ? "Uuden-Seelannin vuoden 2024 AIS/AVP"
+    : "New Zealand's 2024 AIS/AVP"));
+  if (nzAdditionIndex < 0) throw new Error(`${language}: New Zealand closure row is missing`);
   const nzAdditionSheetRow = nzAdditionIndex + 2;
   register.getRange(`A${nzAdditionSheetRow}:I${nzAdditionSheetRow}`).format.rowHeightPx = 124;
   register.getRange(`F${nzAdditionSheetRow}`).format.fill = COLORS.paleTeal;
@@ -1481,7 +1589,7 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
   );
   summary.getRange("A5:B8").values = [
     [isFi ? "Versio" : "Version", releaseVersion],
-    [isFi ? "Päivitetty" : "Updated", "2026-07-25"],
+    [isFi ? "Päivitetty" : "Updated", "2026-07-26"],
     [isFi ? "Rajaus" : "Scope", isFi
       ? "Julkinen ja riippumaton evidenssikooste; faktat, laskelmat, tulkinnat ja oletukset on erotettu."
       : "Public and independent evidence summary; facts, calculations, interpretations and assumptions are separated."],
@@ -1747,9 +1855,9 @@ async function writeReleaseLocks(artifacts) {
   if (
     release?.id !== releaseId
     || release?.version !== releaseVersion
-    || changelog.asOf !== "2026-07-25"
+    || changelog.asOf !== "2026-07-26"
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v24 release");
+    throw new Error("The public changelog is not locked to the reviewed v25 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -1775,6 +1883,10 @@ async function writeReleaseLocks(artifacts) {
     "source/fx-rates.json",
     "source/schemas/fx-rates.schema.json",
     "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
+    "source/NZ_2024_DONOR_CLOSURE_PACK.md",
+    "source/NZ_2024_WORKBOOK_MANIFEST.json",
+    "source/NZ_2024_PRODUCT_SCOPE_AUDIT.json",
+    "scripts/analyze_nz_2024_returns.py",
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
@@ -1818,7 +1930,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 21-source market dataset share one v24 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. Canada 2024 passes 7/10 donor criteria but remains not accepted because D5, D7 and D10 are open. The FHM counts describe reporting and product-register structure, are not sales or market value, and do not change the 0/3 donor gate.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 79-observation, 23-source market dataset share one v25 release boundary. The 70 official observations are explicitly separated into 34 market measures across seven countries and 36 Swedish FHM register-structure counts for 2018–2026. New Zealand's reproducible AIS/AVP identified-vaping subtotal is NZD 274,180,410.21: NZD 189,402,451.96 consumables, NZD 84,709,409.85 devices or hardware and NZD 68,548.40 mixed systems; NZD 2,137,085.24 adjacent and NZD 4,367,017.37 unresolved rows are excluded. New Zealand passes 7/10 but remains not accepted because D5 fails and D8/D10 are open. The separate RPS sensitivity remains a supported model, not observed national value. The donor gate remains 0/3.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,
@@ -1871,7 +1983,7 @@ async function main() {
   const scenarios = JSON.parse(await fs.readFile(path.join(dataDir, "country-scenarios.json"), "utf8"));
   const publicFx = JSON.parse(await fs.readFile(path.join(dataDir, "fx-rates.json"), "utf8"));
   const sourceFx = JSON.parse(await fs.readFile(path.join(sourceDir, "fx-rates.json"), "utf8"));
-  validateV22MarketEvidence(market);
+  validateV25MarketEvidence(market);
   validateReviewedFx(publicFx, sourceFx);
   const publicFxSchemaPath = path.join(repo, "site", "schemas", "fx-rates.schema.json");
   const sourceFxSchemaPath = path.join(sourceDir, "schemas", "fx-rates.schema.json");

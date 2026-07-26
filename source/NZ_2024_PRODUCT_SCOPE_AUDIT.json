@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.0",
+  "reviewDate": "2026-07-26",
+  "sourcePage": "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
+  "sourceIntegrity": {
+    "manifestSha256": "95b1c97e57b82b81b220ff3295b067c347474aacb1f8cb4d3d6244f454391343",
+    "filesValidated": 29,
+    "downloadedBytes": 50355870,
+    "fileCounts": {
+      "AIS": 1,
+      "AVP": 21,
+      "Notifier": 1,
+      "RPS": 6
+    }
+  },
+  "publicationBoundary": "Aggregate output only. No respondent, licence code, business identity, brand, flavour or UPC is emitted.",
+  "classificationMethod": {
+    "normalisation": "casefold; hyphen to space; collapse whitespace",
+    "precedence": [
+      "adjacent_notifiable_product",
+      "vaping_consumable",
+      "vaping_mixed_system",
+      "vaping_device_or_hardware",
+      "vaping_other_explicit",
+      "unresolved_product_type"
+    ],
+    "terms": {
+      "adjacent_notifiable_product": [
+        "smokeless tobacco",
+        "herbal smoking"
+      ],
+      "vaping_consumable": [
+        "vaping substance",
+        "e liquid",
+        "freebase",
+        "nicotine salt"
+      ],
+      "vaping_mixed_system": [
+        "disposable",
+        "prefilled",
+        "pod",
+        "cartridge"
+      ],
+      "vaping_device_or_hardware": [
+        "vaping device",
+        "vape device",
+        "vapin device",
+        "device",
+        "kit",
+        "tank"
+      ],
+      "vaping_other_explicit": [
+        "vaping",
+        "vape"
+      ]
+    },
+    "unmatchedTreatment": "unresolved_product_type; excluded from identified vaping",
+    "rounding": "Currency aggregates are summed before half-up rounding to two decimals."
+  },
+  "rowQuality": {
+    "dataRows": 882422,
+    "rowsWithNumericTotalSales": 612765,
+    "rowsWithoutNumericTotalSales": 269657,
+    "rowsWithNumericRrpAndQuantity": 686872,
+    "rowsWhereTotalEqualsRrpTimesQuantity": 471474,
+    "rowsWhereTotalDiffersFromRrpTimesQuantity": 136528,
+    "exactRepeatedRowSignaturesBeyondFirst": 95144
+  },
+  "returnClasses": {
+    "AIS": {
+      "files": 1,
+      "dataRows": 29689,
+      "rowsWithNumericTotalSales": 29086,
+      "reportedTotalSalesNzd": 20959634.48
+    },
+    "AVP": {
+      "files": 21,
+      "dataRows": 689277,
+      "rowsWithNumericTotalSales": 583679,
+      "reportedTotalSalesNzd": 259724878.33
+    },
+    "Notifier": {
+      "files": 1,
+      "dataRows": 18410,
+      "rowsWithNumericTotalSales": 0,
+      "reportedTotalSalesNzd": 0.0
+    },
+    "RPS": {
+      "files": 6,
+      "dataRows": 145046,
+      "rowsWithNumericTotalSales": 0,
+      "reportedTotalSalesNzd": 0.0
+    }
+  },
+  "productScopeBuckets": {
+    "vaping_consumable": {
+      "distinctNormalisedProductTypes": 10,
+      "dataRows": 570514,
+      "rowsWithNumericTotalSales": 396041,
+      "reportedTotalSalesNzd": 189402451.96,
+      "salesAfterExactRowDeduplicationSensitivityNzd": 178468519.31,
+      "salesOnRepeatedExactRowsNzd": 10933932.64
+    },
+    "vaping_device_or_hardware": {
+      "distinctNormalisedProductTypes": 17,
+      "dataRows": 284841,
+      "rowsWithNumericTotalSales": 204370,
+      "reportedTotalSalesNzd": 84709409.85,
+      "salesAfterExactRowDeduplicationSensitivityNzd": 79804162.88,
+      "salesOnRepeatedExactRowsNzd": 4905246.97
+    },
+    "vaping_mixed_system": {
+      "distinctNormalisedProductTypes": 30,
+      "dataRows": 846,
+      "rowsWithNumericTotalSales": 370,
+      "reportedTotalSalesNzd": 68548.4,
+      "salesAfterExactRowDeduplicationSensitivityNzd": 54428.69,
+      "salesOnRepeatedExactRowsNzd": 14119.71
+    },
+    "vaping_other_explicit": {
+      "distinctNormalisedProductTypes": 1,
+      "dataRows": 2,
+      "rowsWithNumericTotalSales": 0,
+      "reportedTotalSalesNzd": 0.0,
+      "salesAfterExactRowDeduplicationSensitivityNzd": 0.0,
+      "salesOnRepeatedExactRowsNzd": 0.0
+    },
+    "adjacent_notifiable_product": {
+      "distinctNormalisedProductTypes": 4,
+      "dataRows": 5964,
+      "rowsWithNumericTotalSales": 2384,
+      "reportedTotalSalesNzd": 2137085.24,
+      "salesAfterExactRowDeduplicationSensitivityNzd": 2135965.24,
+      "salesOnRepeatedExactRowsNzd": 1120.0
+    },
+    "unresolved_product_type": {
+      "distinctNormalisedProductTypes": 1903,
+      "dataRows": 20255,
+      "rowsWithNumericTotalSales": 9600,
+      "reportedTotalSalesNzd": 4367017.37,
+      "salesAfterExactRowDeduplicationSensitivityNzd": 4097978.93,
+      "salesOnRepeatedExactRowsNzd": 269038.44
+    }
+  },
+  "publishedAggregates": {
+    "allNumericTotalSalesCellsNzd": 280684512.81,
+    "identifiedVapingSalesNzd": 274180410.21,
+    "identifiedVapingDeduplicatedSensitivityNzd": 258327110.88,
+    "identifiedAdjacentSalesNzd": 2137085.24,
+    "unresolvedProductTypeSalesNzd": 4367017.37,
+    "allSalesAfterExactRowDeduplicationSensitivityNzd": 264561055.05,
+    "salesOnRepeatedExactRowsNzd": 16123457.76,
+    "roundedBucketPartitionMinusRawTotalNzd": 0.01
+  },
+  "interpretationBoundary": {
+    "observedValueStage": "AIS and AVP specialist-retailer reported sales only",
+    "notifierReportedSalesAdded": false,
+    "rpsReportedSalesAdded": false,
+    "generalRetailValueStatus": "modelled separately; not part of this observed subtotal",
+    "gstBasis": "unknown",
+    "nationalCoverage": "incomplete",
+    "donorDecision": "not_accepted"
+  }
+}

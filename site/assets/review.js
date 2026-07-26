@@ -1362,8 +1362,7 @@ function renderReviewMarket(market) {
   const observations = Array.isArray(market?.observations) ? market.observations : [];
   const models = Array.isArray(market?.models) ? market.models : [];
   const commercial = observations.filter((item) => item.metric === "commercial_market_estimate" && item.currency === "USD" && Number(item.year) === 2025);
-  const newZealandLowerBound = observations.find((item) => item.observationId === "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND");
-  const newZealandRawSum = observations.find((item) => item.observationId === "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM");
+  const newZealandVapingSum = observations.find((item) => item.observationId === "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM");
   const newZealandScenarioRecord = (reviewCountryScenarios?.countryYearScenarios || []).find(
     (item) => item.scenarioId === "NZ-2024-RETAIL-RANGE"
   );
@@ -1403,12 +1402,15 @@ function renderReviewMarket(market) {
   }
   cards.push(
     {
-      label: reviewL("Uusi-Seelanti · 2024 virallisten tiedostojen täsmäytys", "New Zealand · 2024 official-file reconciliation"),
-      value: newZealandRawSum ? reviewMarketFormat(newZealandRawSum.value, newZealandRawSum.currency) : "—",
-      note: reviewL("29 virallista tiedostoa · raakasumma 280,685 milj. NZD täsmää viralliseen ≥280 milj. otsikkolukuun · toistuvien rivien herkkyys 264,561 milj. NZD; ei puhdistettu kansallinen arvo eikä luovuttajamarkkina", "29 official files · raw sum NZD 280.685m reconciles the official ≥NZD 280m headline · repeated-row sensitivity NZD 264.561m; not a cleaned national value or donor market"),
-      eurRecords: newZealandRawSum ? [{ record: newZealandRawSum }] : [],
-      url: reviewUrl(sourceMap.get(newZealandLowerBound?.sourceIds?.[0])?.pageUrl),
-      methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md"
+      label: reviewL("Uusi-Seelanti · 2024 tunnistettu sähkötupakkasumma", "New Zealand · 2024 identified-vaping subtotal"),
+      value: newZealandVapingSum ? reviewMarketFormat(newZealandVapingSum.value, newZealandVapingSum.currency) : "—",
+      note: reviewL(
+        "29 virallista tiedostoa · kulutustarvikkeet 189,402 milj. NZD + laitteet/hardware 84,709 milj. NZD + sekajärjestelmät 0,069 milj. NZD. Viereiset 2,137 milj. NZD ja ratkaisemattomat 4,367 milj. NZD on rajattu pois. AIS/AVP-arvo vain; 7/10, EI HYVÄKSYTTY, koska D5 hylätty ja D8/D10 avoimia.",
+        "29 official files · NZD 189.402m consumables + NZD 84.709m devices/hardware + NZD 0.069m mixed systems. NZD 2.137m adjacent and NZD 4.367m unresolved rows are excluded. AIS/AVP value only; 7/10, NOT ACCEPTED because D5 fails and D8/D10 remain open."
+      ),
+      eurRecords: newZealandVapingSum ? [{ record: newZealandVapingSum }] : [],
+      url: reviewUrl(sourceMap.get(newZealandVapingSum?.sourceIds?.[0])?.pageUrl),
+      methodUrl: "https://github.com/jounirautio78-ops/pixan-global-market-evidence-public/blob/main/source/NZ_2024_DONOR_CLOSURE_PACK.md"
     },
     {
       label: reviewL("Euroopan unioni · 2023 komission julkaisema vertailuarvo", "European Union · 2023 Commission-published benchmark"),

@@ -90,6 +90,12 @@ CURATED_PATH = ROOT / "source" / "curated.json"
 UPSTREAM_SHA_PATH = ROOT / "source" / "marnet-upstream.sha256"
 PAID_DATA_SOURCE_PATH = ROOT / "source" / "paid-data-procurement.json"
 SWEDEN_FHM_MEMO_PATH = ROOT / "source" / "SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md"
+NZ_2024_MANIFEST_PATH = ROOT / "source" / "NZ_2024_WORKBOOK_MANIFEST.json"
+NZ_2024_SCOPE_AUDIT_PATH = ROOT / "source" / "NZ_2024_PRODUCT_SCOPE_AUDIT.json"
+NZ_2024_RECONCILIATION_PATH = ROOT / "source" / "NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md"
+NZ_2024_CLOSURE_PACK_PATH = ROOT / "source" / "NZ_2024_DONOR_CLOSURE_PACK.md"
+NZ_2024_MANIFEST_SHA256 = "95b1c97e57b82b81b220ff3295b067c347474aacb1f8cb4d3d6244f454391343"
+NZ_2024_SCOPE_AUDIT_SHA256 = "4f6bb08650eb03716b114536c9bc08bcb4a80deb87c326527c891ad05187bb9b"
 FORBIDDEN_RAW_PATH = ROOT / "source" / "marnet-dashboard.json"
 SOCIAL_IMAGE_PATH = OUTPUT_DIR.parent / "assets" / "og-pixan-global-market-evidence.png"
 SOCIAL_IMAGE_URL = (
@@ -296,6 +302,14 @@ MARKET_EVIDENCE_STATUSES = {
 def load_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def sha256_path(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def contains_private_identifier(
@@ -772,6 +786,275 @@ def validate_summary(atlas: dict[str, Any], errors: list[str]) -> None:
         errors.append("summary.legalAnchorCount does not match legal")
 
 
+def validate_nz_2024_static_audit(
+    manifest: dict[str, Any],
+    audit: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Validate the privacy-safe, reproducible New Zealand 2024 aggregate."""
+    source_page = (
+        "https://www.health.govt.nz/regulation-legislation/"
+        "vaping-herbal-smoking-and-smokeless-tobacco/requirements/"
+        "complete-a-notifiable-product-annual-return/annual-returns-2024"
+    )
+    actual_manifest_sha = sha256_path(NZ_2024_MANIFEST_PATH)
+    actual_audit_sha = sha256_path(NZ_2024_SCOPE_AUDIT_PATH)
+    if actual_manifest_sha != NZ_2024_MANIFEST_SHA256:
+        errors.append("New Zealand 2024 workbook manifest differs from its published SHA-256")
+    if actual_audit_sha != NZ_2024_SCOPE_AUDIT_SHA256:
+        errors.append("New Zealand 2024 aggregate audit differs from its published SHA-256")
+
+    if set(manifest) != {"schemaVersion", "sourcePage", "retrievedAt", "files"}:
+        errors.append("New Zealand 2024 workbook manifest uses an unexpected schema")
+    if manifest.get("schemaVersion") != "1.0" or manifest.get("sourcePage") != source_page:
+        errors.append("New Zealand 2024 workbook manifest must retain its reviewed version and official source")
+    try:
+        retrieved_at = datetime.fromisoformat(str(manifest.get("retrievedAt")).replace("Z", "+00:00"))
+        if retrieved_at.tzinfo is None:
+            raise ValueError
+    except ValueError:
+        errors.append("New Zealand 2024 workbook manifest retrievedAt must be timezone-aware ISO 8601")
+
+    files = manifest.get("files")
+    if not isinstance(files, list) or len(files) != 29:
+        errors.append("New Zealand 2024 workbook manifest must contain exactly 29 files")
+        files = []
+    file_names: set[str] = set()
+    urls: set[str] = set()
+    class_counts = Counter()
+    total_bytes = 0
+    for index, item in enumerate(files):
+        path = f"New Zealand 2024 manifest files[{index}]"
+        if not isinstance(item, dict) or set(item) != {
+            "year", "label", "url", "fileName", "bytes", "sha256"
+        }:
+            errors.append(f"{path} uses an unexpected schema")
+            continue
+        label = item.get("label")
+        file_name = item.get("fileName")
+        url = item.get("url")
+        byte_count = item.get("bytes")
+        file_hash = item.get("sha256")
+        if item.get("year") != 2024:
+            errors.append(f"{path}.year must be 2024")
+        if not isinstance(label, str) or not label:
+            errors.append(f"{path}.label must be non-empty")
+        if (
+            not isinstance(file_name, str)
+            or not re.fullmatch(
+                r"2024-\d{2}-(?:AIS-returns-2024|AVP-returns-2024-part-\d+|"
+                r"Notifier-returns-2024|RPS-returns-2024-part-\d+)\.xlsx",
+                file_name,
+            )
+            or file_name in file_names
+        ):
+            errors.append(f"{path}.fileName is invalid or duplicated")
+        elif "AIS-returns" in file_name:
+            class_counts["AIS"] += 1
+        elif "AVP-returns" in file_name:
+            class_counts["AVP"] += 1
+        elif "Notifier-returns" in file_name:
+            class_counts["Notifier"] += 1
+        elif "RPS-returns" in file_name:
+            class_counts["RPS"] += 1
+        file_names.add(str(file_name))
+        parsed_url = urlparse(url) if isinstance(url, str) else None
+        if (
+            not parsed_url
+            or parsed_url.scheme != "https"
+            or parsed_url.hostname != "www.health.govt.nz"
+            or not parsed_url.path.endswith(".xlsx")
+            or url in urls
+        ):
+            errors.append(f"{path}.url must be a unique official HTTPS workbook URL")
+        urls.add(str(url))
+        if isinstance(byte_count, bool) or not isinstance(byte_count, int) or byte_count <= 0:
+            errors.append(f"{path}.bytes must be a positive integer")
+        else:
+            total_bytes += byte_count
+        if not isinstance(file_hash, str) or not SHA256_RE.fullmatch(file_hash):
+            errors.append(f"{path}.sha256 must be a lowercase SHA-256")
+    if class_counts != Counter({"AVP": 21, "RPS": 6, "AIS": 1, "Notifier": 1}):
+        errors.append(f"New Zealand 2024 manifest return-class counts differ: {dict(class_counts)}")
+    if total_bytes != 50_355_870:
+        errors.append(f"New Zealand 2024 manifest byte total must be 50,355,870, found {total_bytes}")
+
+    expected_audit_keys = {
+        "schemaVersion",
+        "reviewDate",
+        "sourcePage",
+        "sourceIntegrity",
+        "publicationBoundary",
+        "classificationMethod",
+        "rowQuality",
+        "returnClasses",
+        "productScopeBuckets",
+        "publishedAggregates",
+        "interpretationBoundary",
+    }
+    if set(audit) != expected_audit_keys:
+        errors.append("New Zealand 2024 aggregate audit uses an unexpected top-level schema")
+    if (
+        audit.get("schemaVersion") != "1.0"
+        or audit.get("reviewDate") != "2026-07-26"
+        or audit.get("sourcePage") != source_page
+    ):
+        errors.append("New Zealand 2024 aggregate audit must retain its reviewed version, date and source")
+    expected_integrity = {
+        "manifestSha256": NZ_2024_MANIFEST_SHA256,
+        "filesValidated": 29,
+        "downloadedBytes": 50_355_870,
+        "fileCounts": {"AIS": 1, "AVP": 21, "Notifier": 1, "RPS": 6},
+    }
+    if audit.get("sourceIntegrity") != expected_integrity:
+        errors.append("New Zealand 2024 aggregate audit source-integrity controls differ")
+    if audit.get("publicationBoundary") != (
+        "Aggregate output only. No respondent, licence code, business identity, "
+        "brand, flavour or UPC is emitted."
+    ):
+        errors.append("New Zealand 2024 aggregate audit must retain its privacy-safe publication boundary")
+
+    classification = audit.get("classificationMethod")
+    if (
+        not isinstance(classification, dict)
+        or classification.get("normalisation") != "casefold; hyphen to space; collapse whitespace"
+        or classification.get("precedence") != [
+            "adjacent_notifiable_product",
+            "vaping_consumable",
+            "vaping_mixed_system",
+            "vaping_device_or_hardware",
+            "vaping_other_explicit",
+            "unresolved_product_type",
+        ]
+        or classification.get("unmatchedTreatment")
+        != "unresolved_product_type; excluded from identified vaping"
+        or classification.get("rounding")
+        != "Currency aggregates are summed before half-up rounding to two decimals."
+        or classification.get("terms") != {
+            "adjacent_notifiable_product": ["smokeless tobacco", "herbal smoking"],
+            "vaping_consumable": ["vaping substance", "e liquid", "freebase", "nicotine salt"],
+            "vaping_mixed_system": ["disposable", "prefilled", "pod", "cartridge"],
+            "vaping_device_or_hardware": [
+                "vaping device", "vape device", "vapin device", "device", "kit", "tank"
+            ],
+            "vaping_other_explicit": ["vaping", "vape"],
+        }
+    ):
+        errors.append("New Zealand 2024 aggregate audit classification rules differ")
+
+    expected_row_quality = {
+        "dataRows": 882_422,
+        "rowsWithNumericTotalSales": 612_765,
+        "rowsWithoutNumericTotalSales": 269_657,
+        "rowsWithNumericRrpAndQuantity": 686_872,
+        "rowsWhereTotalEqualsRrpTimesQuantity": 471_474,
+        "rowsWhereTotalDiffersFromRrpTimesQuantity": 136_528,
+        "exactRepeatedRowSignaturesBeyondFirst": 95_144,
+    }
+    if audit.get("rowQuality") != expected_row_quality:
+        errors.append("New Zealand 2024 aggregate audit row-quality facts differ")
+
+    expected_return_classes = {
+        "AIS": (1, 29_689, 29_086, 20_959_634.48),
+        "AVP": (21, 689_277, 583_679, 259_724_878.33),
+        "Notifier": (1, 18_410, 0, 0.0),
+        "RPS": (6, 145_046, 0, 0.0),
+    }
+    return_classes = audit.get("returnClasses")
+    if not isinstance(return_classes, dict) or set(return_classes) != set(expected_return_classes):
+        errors.append("New Zealand 2024 aggregate audit return classes differ")
+        return_classes = {}
+    for return_class, expected in expected_return_classes.items():
+        item = return_classes.get(return_class, {})
+        actual = (
+            item.get("files"),
+            item.get("dataRows"),
+            item.get("rowsWithNumericTotalSales"),
+            item.get("reportedTotalSalesNzd"),
+        )
+        if actual != expected or set(item) != {
+            "files", "dataRows", "rowsWithNumericTotalSales", "reportedTotalSalesNzd"
+        }:
+            errors.append(f"New Zealand 2024 {return_class} aggregate differs from the reviewed result")
+
+    expected_buckets = {
+        "vaping_consumable": (10, 570_514, 396_041, 189_402_451.96, 178_468_519.31, 10_933_932.64),
+        "vaping_device_or_hardware": (17, 284_841, 204_370, 84_709_409.85, 79_804_162.88, 4_905_246.97),
+        "vaping_mixed_system": (30, 846, 370, 68_548.40, 54_428.69, 14_119.71),
+        "vaping_other_explicit": (1, 2, 0, 0.0, 0.0, 0.0),
+        "adjacent_notifiable_product": (4, 5_964, 2_384, 2_137_085.24, 2_135_965.24, 1_120.0),
+        "unresolved_product_type": (1_903, 20_255, 9_600, 4_367_017.37, 4_097_978.93, 269_038.44),
+    }
+    buckets = audit.get("productScopeBuckets")
+    if not isinstance(buckets, dict) or set(buckets) != set(expected_buckets):
+        errors.append("New Zealand 2024 aggregate audit product-scope buckets differ")
+        buckets = {}
+    for bucket, expected in expected_buckets.items():
+        item = buckets.get(bucket, {})
+        actual = (
+            item.get("distinctNormalisedProductTypes"),
+            item.get("dataRows"),
+            item.get("rowsWithNumericTotalSales"),
+            item.get("reportedTotalSalesNzd"),
+            item.get("salesAfterExactRowDeduplicationSensitivityNzd"),
+            item.get("salesOnRepeatedExactRowsNzd"),
+        )
+        if actual != expected:
+            errors.append(f"New Zealand 2024 product-scope bucket {bucket} differs")
+
+    expected_aggregates = {
+        "allNumericTotalSalesCellsNzd": 280_684_512.81,
+        "identifiedVapingSalesNzd": 274_180_410.21,
+        "identifiedVapingDeduplicatedSensitivityNzd": 258_327_110.88,
+        "identifiedAdjacentSalesNzd": 2_137_085.24,
+        "unresolvedProductTypeSalesNzd": 4_367_017.37,
+        "allSalesAfterExactRowDeduplicationSensitivityNzd": 264_561_055.05,
+        "salesOnRepeatedExactRowsNzd": 16_123_457.76,
+        "roundedBucketPartitionMinusRawTotalNzd": 0.01,
+    }
+    aggregates = audit.get("publishedAggregates")
+    if aggregates != expected_aggregates:
+        errors.append("New Zealand 2024 published aggregate totals differ")
+    if (
+        not math.isclose(
+            sum(expected_buckets[name][3] for name in (
+                "vaping_consumable",
+                "vaping_device_or_hardware",
+                "vaping_mixed_system",
+                "vaping_other_explicit",
+            )),
+            expected_aggregates["identifiedVapingSalesNzd"],
+            rel_tol=0,
+            abs_tol=0.001,
+        )
+        or not math.isclose(
+            expected_return_classes["AIS"][3] + expected_return_classes["AVP"][3],
+            expected_aggregates["allNumericTotalSalesCellsNzd"],
+            rel_tol=0,
+            abs_tol=0.001,
+        )
+        or expected_return_classes["Notifier"][3] != 0
+        or expected_return_classes["RPS"][3] != 0
+    ):
+        errors.append("New Zealand 2024 published aggregate partition does not reconcile")
+
+    if audit.get("interpretationBoundary") != {
+        "observedValueStage": "AIS and AVP specialist-retailer reported sales only",
+        "notifierReportedSalesAdded": False,
+        "rpsReportedSalesAdded": False,
+        "generalRetailValueStatus": "modelled separately; not part of this observed subtotal",
+        "gstBasis": "unknown",
+        "nationalCoverage": "incomplete",
+        "donorDecision": "not_accepted",
+    }:
+        errors.append("New Zealand 2024 interpretation boundary differs from the reviewed decision")
+
+    for path in (NZ_2024_RECONCILIATION_PATH, NZ_2024_CLOSURE_PACK_PATH):
+        document = path.read_text(encoding="utf-8")
+        if NZ_2024_MANIFEST_SHA256 not in document or NZ_2024_SCOPE_AUDIT_SHA256 not in document:
+            errors.append(f"{path.name} must publish both reviewed New Zealand 2024 SHA-256 values")
+
+
 def validate_market_values(
     source: dict[str, Any],
     market_values: dict[str, Any],
@@ -874,8 +1157,8 @@ def validate_market_values(
     if not isinstance(source_rows, list) or not source_rows:
         errors.append("market-observations.json sources must be a non-empty array")
         source_rows = []
-    if len(source_rows) != 21:
-        errors.append("market-observations.json must contain exactly 21 reviewed market sources")
+    if len(source_rows) != 23:
+        errors.append("market-observations.json must contain exactly 23 reviewed market sources")
     expected_source_urls = {
         "CA-HC-VAPING-SALES-2024": (
             "official",
@@ -935,6 +1218,16 @@ def validate_market_values(
         "NZ-MOH-ANNUAL-RETURNS-2024": (
             "official",
             "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024",
+            None,
+        ),
+        "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS": (
+            "official",
+            "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return",
+            None,
+        ),
+        "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE": (
+            "official",
+            "https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf",
             None,
         ),
         "EU-EC-SWD-2025-560": (
@@ -1415,7 +1708,14 @@ def validate_market_values(
         "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND": ("regulated_notifiable_products_including_heated_tobacco", "NZ-MOH-ANNUAL-RETURNS-2023"),
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": ("notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products", "NZ-MOH-ANNUAL-RETURNS-2024"),
         "NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM": ("specialist_retail_product_rows_including_vaping_and_adjacent_notifiable_products", "NZ-MOH-ANNUAL-RETURNS-2024"),
-        "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM": ("specialist_retail_rows_with_product_type_text_identified_as_vaping", "NZ-MOH-ANNUAL-RETURNS-2024"),
+        "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM": (
+            "specialist_retail_rows_with_product_type_text_identified_as_vaping",
+            [
+                "NZ-MOH-ANNUAL-RETURNS-2024",
+                "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
+                "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
+            ],
+        ),
         "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
         "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
         "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
@@ -1434,7 +1734,8 @@ def validate_market_values(
     }
     for observation_id, (product_scope, source_id) in expected_scope_sources.items():
         item = observations_by_id.get(observation_id, {})
-        if item.get("productScope") != product_scope or item.get("sourceIds") != [source_id]:
+        expected_source_ids = source_id if isinstance(source_id, list) else [source_id]
+        if item.get("productScope") != product_scope or item.get("sourceIds") != expected_source_ids:
             errors.append(f"market observation {observation_id} must retain its conservative scope and official source")
     nz_raw_sum = observations_by_id.get("NZ-2024-SPECIALIST-RETAIL-PRODUCT-SALES-RAW-FILE-SUM", {})
     if (
@@ -1446,11 +1747,21 @@ def validate_market_values(
     nz_vaping_sum = observations_by_id.get("NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM", {})
     if (
         "274,180,410.21" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "189,402,451.96" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "84,709,409.85" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "68,548.40" not in str(nz_vaping_sum.get("limitationEn", ""))
         or "2,137,085.24" not in str(nz_vaping_sum.get("limitationEn", ""))
         or "4,367,017.37" not in str(nz_vaping_sum.get("limitationEn", ""))
         or "258,327,110.88" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "AIS/AVP" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "Notifier and RPS observed value is not added" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "unknown GST treatment" not in str(nz_vaping_sum.get("limitationEn", ""))
+        or "no independent reconciliation" not in str(nz_vaping_sum.get("limitationEn", ""))
     ):
-        errors.append("New Zealand vaping classification must retain its partition and repeated-row sensitivity boundary")
+        errors.append(
+            "New Zealand vaping classification must retain its deterministic split, "
+            "supply-stage controls and unresolved donor boundaries"
+        )
     eu_benchmark = observations_by_id.get("EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK", {})
     if (
         eu_benchmark.get("productScope")
@@ -1628,11 +1939,11 @@ def validate_market_values(
     if accepted_candidates != readiness.get("comparableFullYearMarketValueDonors"):
         errors.append("accepted donor-candidate count must equal modelReadiness donor count")
     expected_candidate_tests = {
-        "NZ-2024-OFFICIAL-RETAIL-LOWER-BOUND": (
-            "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND",
-            {"D1", "D2", "D6", "D7", "D9"},
-            {"D4", "D5"},
-            {"D3", "D8", "D10"},
+        "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL": (
+            "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM",
+            {"D1", "D2", "D3", "D4", "D6", "D7", "D9"},
+            {"D5"},
+            {"D8", "D10"},
         ),
         "EU-2023-COMMISSION-BENCHMARK": (
             "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK",
@@ -1673,6 +1984,13 @@ def validate_market_values(
         expected = (reference_id, "not_accepted", passed, failed, open_items)
         if actual != expected:
             errors.append(f"donor candidate {candidate_id} differs from its reviewed criterion test")
+    nz_candidate = candidate_by_id.get("NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL", {})
+    if nz_candidate.get("sourceIds") != [
+        "NZ-MOH-ANNUAL-RETURNS-2024",
+        "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
+        "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
+    ]:
+        errors.append("New Zealand donor candidate must retain the three reviewed official source IDs")
 
     try:
         expected_output = build_market_values()
@@ -2219,6 +2537,10 @@ def main() -> None:
         CURATED_PATH,
         PUBLIC_BASELINE_PATH,
         MARKET_OBSERVATIONS_PATH,
+        NZ_2024_MANIFEST_PATH,
+        NZ_2024_SCOPE_AUDIT_PATH,
+        NZ_2024_RECONCILIATION_PATH,
+        NZ_2024_CLOSURE_PACK_PATH,
         PATENT_HISTORY_PATH,
         CHANGELOG_PATH,
         UPSTREAM_METADATA_PATH,
@@ -2243,6 +2565,8 @@ def main() -> None:
     metadata = load_json(UPSTREAM_METADATA_PATH)
     market_source = load_json(MARKET_OBSERVATIONS_PATH)
     market_values = load_json(MARKET_VALUES_JSON_PATH)
+    nz_2024_manifest = load_json(NZ_2024_MANIFEST_PATH)
+    nz_2024_scope_audit = load_json(NZ_2024_SCOPE_AUDIT_PATH)
     patent_source = load_json(PATENT_HISTORY_PATH)
     patent_history = load_json(PATENT_HISTORY_JSON_PATH)
     changelog_source = load_json(CHANGELOG_PATH)
@@ -2272,6 +2596,10 @@ def main() -> None:
     else:
         validate_market_values(market_source, market_values, errors)
         validate_market_values_csv(market_values, errors)
+    if not isinstance(nz_2024_manifest, dict) or not isinstance(nz_2024_scope_audit, dict):
+        errors.append("New Zealand 2024 manifest and aggregate audit must contain objects")
+    else:
+        validate_nz_2024_static_audit(nz_2024_manifest, nz_2024_scope_audit, errors)
 
     if not isinstance(patent_source, dict) or not isinstance(patent_history, dict):
         errors.append("source and public patent-history files must contain objects")
@@ -2305,6 +2633,8 @@ def main() -> None:
     scan_public_text("metadata", metadata, errors)
     scan_public_text("market source", market_source, errors)
     scan_public_text("market values", market_values, errors)
+    scan_public_text("New Zealand 2024 workbook manifest", nz_2024_manifest, errors)
+    scan_public_text("New Zealand 2024 aggregate audit", nz_2024_scope_audit, errors)
     scan_public_text("patent source", patent_source, errors)
     scan_public_text("patent history", patent_history, errors)
     scan_public_text("changelog source", changelog_source, errors)
