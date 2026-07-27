@@ -505,6 +505,88 @@
     return element;
   }
 
+  function receiptLabel(evidenceType) {
+    const labels = {
+      sample: ["Näyteaineisto", "Sample material"],
+      methodology: ["Menetelmäaineisto", "Method material"],
+      coverageMatrix: ["Peittoaineisto", "Coverage material"],
+      quote: ["Tarjousasiakirja", "Quote document"],
+      officialAnchorReconciliation: [
+        "Viranomaistäsmäytystä koskeva aineisto",
+        "Official-reconciliation material"
+      ],
+      transactionUseRights: [
+        "Transaktio-oikeuksia koskeva aineisto",
+        "Rights-related material"
+      ],
+      totalCostTerms: [
+        "Kaupallisia ehtoja koskeva aineisto",
+        "Commercial-terms material"
+      ]
+    };
+    const label = labels[evidenceType.key];
+    return label ? l(label[0], label[1]) : l(evidenceType.labelFi, evidenceType.labelEn);
+  }
+
+  function renderReceiptLedger(vendor) {
+    const ledger = node("section", "vendor-response-receipts");
+    const header = node("div", "vendor-response-receipts-head");
+    const heading = node("div", "");
+    heading.append(
+      node("span", "", l("Vastaanottorekisteri", "Receipt ledger")),
+      node(
+        "h4",
+        "",
+        `${l("Aineistoa saatu", "Material received")} · ${
+          vendor.evidenceReceivedCount
+        }/${control.evidenceTypes.length}`
+      )
+    );
+    header.append(
+      heading,
+      node(
+        "p",
+        "",
+        l(
+          "Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.",
+          "Material receipt does not establish completeness or gate passage."
+        )
+      )
+    );
+
+    const list = node("ul", "vendor-response-receipt-list");
+    for (const evidenceType of control.evidenceTypes) {
+      const received = vendor.receivedEvidence[evidenceType.key] === true;
+      const item = node(
+        "li",
+        `vendor-response-receipt-item ${received ? "is-received" : "is-missing"}`
+      );
+      item.dataset.evidenceKey = evidenceType.key;
+      const mark = node(
+        "span",
+        "vendor-response-receipt-mark",
+        received ? "✓" : "—"
+      );
+      mark.setAttribute("aria-hidden", "true");
+      item.append(
+        mark,
+        node(
+          "span",
+          "vendor-response-receipt-label",
+          receiptLabel(evidenceType)
+        ),
+        node(
+          "strong",
+          "",
+          received ? l("Aineistoa saatu", "Material received") : l("Ei aineistoa", "No material")
+        )
+      );
+      list.append(item);
+    }
+    ledger.append(header, list);
+    return ledger;
+  }
+
   function renderVendor(vendor) {
     const card = node("article", "vendor-response-card");
     card.dataset.vendorState = vendor.requestState;
@@ -560,7 +642,14 @@
         renderGateResult(gate, vendor.gateResults[gate.gateCode])
       );
     }
-    card.append(header, narrative, score, renderQuoteIndicator(vendor), evidence);
+    card.append(
+      header,
+      narrative,
+      renderReceiptLedger(vendor),
+      score,
+      renderQuoteIndicator(vendor),
+      evidence
+    );
     return card;
   }
 

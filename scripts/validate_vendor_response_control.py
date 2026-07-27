@@ -28,6 +28,19 @@ from build_vendor_response_control import (
 ROOT = Path(__file__).resolve().parents[1]
 REVIEW_HTML = ROOT / "site" / "review.html"
 VENDOR_SCRIPT = ROOT / "site" / "assets" / "vendor-response.js"
+RECEIPT_LEDGER_HOOKS = (
+    "function receiptLabel(",
+    "function renderReceiptLedger(",
+    "vendor.receivedEvidence",
+    "vendor.evidenceReceivedCount",
+    "control.evidenceTypes",
+    "vendor-response-receipts",
+    "vendor-response-receipt-list",
+    "Material receipt does not establish completeness or gate passage.",
+    "Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.",
+    "Rights-related material",
+    "Commercial-terms material",
+)
 
 TOP_LEVEL_KEYS = {
     "schemaVersion",
@@ -605,7 +618,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.27-28" or source.get("asOf") != "2026-07-27":
+    if source.get("version") != "2026.07.27-29" or source.get("asOf") != "2026-07-27":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
@@ -872,6 +885,20 @@ def validate_site_integration(errors: list[str]) -> None:
             errors.append(f"review page lacks {marker}")
     if not VENDOR_SCRIPT.is_file():
         errors.append("site/assets/vendor-response.js is missing")
+    else:
+        validate_vendor_script_text(
+            VENDOR_SCRIPT.read_text(encoding="utf-8"),
+            errors,
+        )
+
+
+def validate_vendor_script_text(text: str, errors: list[str]) -> None:
+    missing = [hook for hook in RECEIPT_LEDGER_HOOKS if hook not in text]
+    if missing:
+        errors.append(
+            "vendor-response.js lacks the visible receipt-ledger hooks: "
+            + ", ".join(repr(hook) for hook in missing)
+        )
 
 
 def main() -> None:

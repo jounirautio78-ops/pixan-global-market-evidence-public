@@ -80,8 +80,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-27-review-integrity-hotfix-v28"
-RELEASE_VERSION = "2026.07.27-28"
+RELEASE_ID = "2026-07-27-visible-receipt-ledger-v29"
+RELEASE_VERSION = "2026.07.27-29"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -494,7 +494,7 @@ def build_context() -> dict[str, Any]:
         or release.get("version") != RELEASE_VERSION
         or as_of != "2026-07-27"
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v28 release")
+        raise ValueError("Public inputs are not locked to the reviewed v29 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
     for label, data in (("atlas", atlas), ("patent history", patent)):

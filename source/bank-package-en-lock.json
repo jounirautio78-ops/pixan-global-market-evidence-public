@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
   "release": {
-    "id": "2026-07-27-review-integrity-hotfix-v28",
-    "version": "2026.07.27-28",
-    "publishedAt": "2026-07-27T16:56:15+03:00"
+    "id": "2026-07-27-visible-receipt-ledger-v29",
+    "version": "2026.07.27-29",
+    "publishedAt": "2026-07-27T17:14:44+03:00"
   },
   "asOf": "2026-07-27",
   "reviewedInputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "068626ebda3fc6d5e28fb397020ba2975469cefdbc1ee4481715bbc5d34230ca"
+      "sha256": "45e04d3690866794536a9d9fc4c3a8fa47bef56fa0f1dd1003514348a0e55ee4"
     },
     {
       "path": "scripts/build_global_base.py",
@@ -53,7 +53,7 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "4c378734d6ee5c1389c705d59f2c5997ca468575e177826f38a0a877d7d37773"
+      "sha256": "f50512d7556712f06036db832b2041a5a882245d4db4aec6d750ce8812e70536"
     },
     {
       "path": "site/data/global-base-layer.json",
@@ -93,11 +93,11 @@
     },
     {
       "path": "site/data/vendor-response-control.json",
-      "sha256": "e86b3f1d1528f1e4e8ebcf7acb8762463e05a13edec5f5e9c8d95d8f7948eb23"
+      "sha256": "5d209397ba8ff1d70ee676ad814c884f594e51f2fbdca3272afac79122daa1bb"
     },
     {
       "path": "site/data/vendor-response-control.csv",
-      "sha256": "1fe8b6d3798cb3bc9010ccf48fd5be99eb2c29aed83f1f872a2981411fcebad3"
+      "sha256": "7a7a5e0ab3d4f71afe59a56c5e31f55cdad2f861ca9e341bf32bc34faf79a0a8"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
@@ -129,7 +129,7 @@
     },
     {
       "path": "source/vendor-response-control.json",
-      "sha256": "454a5a4434f1cda5a66b56bae40405867e4b4359af1fb7f9d141e54b6e2e0345"
+      "sha256": "3b589abdf16d96faa96c41568819e5c36be6fa58b7c4cefa7b83c64d77f70cf2"
     },
     {
       "path": "source/third-donor-screen.json",
@@ -218,8 +218,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "64534c81c364e1721f3d2d6b3a6021ec27c8e35921f4668f481a180922b0b2ab",
-      "bytes": 58502,
+      "sha256": "9f88257d109c05138a84e3950b3bed0c82c4070a0925e94f0ab111c21c9ded20",
+      "bytes": 58500,
       "slideCount": 6
     },
     {
@@ -227,8 +227,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "6b25da43994b0ffcdeb37a4ad1599213393eca7cca2936590ed70f66757246f3",
-      "bytes": 180702,
+      "sha256": "d8084a68da5ce5f3d936aaf9e8c92902c0a9455e2a899be24ce056198295fb89",
+      "bytes": 180684,
       "slideCount": 30
     },
     {
@@ -236,8 +236,8 @@
       "kind": "xlsx",
       "language": "en",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "85f2cb35029759c3c9f188c5865831a1b1c66677de5378a926fdad66545e8fa1",
-      "bytes": 38443,
+      "sha256": "fec33d5ed25d943f54f28c0fb5bbee53f5f93a96b691c4acbf92a831559aa92c",
+      "bytes": 38450,
       "rowCount": 53
     },
     {
@@ -245,8 +245,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "37a6e2e8dbf7eff7ff926216f04999d1e00289fb0bce4448e983fa4547b35e1a",
-      "bytes": 58802,
+      "sha256": "a508bf5bb65cedcca11197e42dc20a95ab9b6523b7d3061438d7b01290e2ada6",
+      "bytes": 58808,
       "slideCount": 6
     },
     {
@@ -254,8 +254,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "607ec1b2872629febe3496f8b645cac1b2f1c1d4e2eeb0744645398f617b4382",
-      "bytes": 182434,
+      "sha256": "80d7473c412d1f9530349e27ba969154d9f257314708c24281940128e2112979",
+      "bytes": 182395,
       "slideCount": 30
     },
     {
@@ -263,8 +263,8 @@
       "kind": "xlsx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "34295ee36016fc5a5fa22487b6122967bc3ce7eca7723e6731efb6e11f01870c",
-      "bytes": 39637,
+      "sha256": "8af0dfc4ff51967b8c7d6c380e77a569868c7c615c72591991495e80b302022d",
+      "bytes": 39640,
       "rowCount": 53
     }
   ],
@@ -299,7 +299,7 @@
         "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
       }
     ],
-    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 84-observation, 24-source market dataset share one v28 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. A separate 195-country open base contains 578 observed World Bank records, 190 same-source-year EUR GDP-per-capita equivalents and queued WHO and UN Comtrade routes; none is retail sales. Poland now has a 2020–2023 official e-liquid flow series and a 2025 device/component tax-base bridge but is not an accepted donor. New Zealand and Canada each remain not accepted at 7/10. Euromonitor remains 0/6 mandatory vendor gates and no purchase is authorised. The donor gate remains 0/3 and the global estimate remains not_computed.",
+    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 84-observation, 24-source market dataset share one v29 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. A separate 195-country open base contains 578 observed World Bank records, 190 same-source-year EUR GDP-per-capita equivalents and queued WHO and UN Comtrade routes; none is retail sales. Poland has a 2020–2023 official e-liquid flow series and a 2025 device/component tax-base bridge but is not an accepted donor. New Zealand and Canada each remain not accepted at 7/10. The public vendor cards visibly separate seven receipt indicators from the G1–G6 outcomes; Euromonitor records six received evidence categories but remains 0/6 mandatory gates, NOT SCORED and not authorised for purchase. The donor gate remains 0/3 and the global estimate remains not_computed.",
     "qualityAssurance": {
       "exactRegisterRowsAfterReopen": true,
       "summaryFormulasAfterReopen": true,

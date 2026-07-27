@@ -10,7 +10,10 @@ from unittest.mock import patch
 
 from build_vendor_response_control import load_source, normalised, score_vendor
 from public_privacy_guard import private_identifier_fingerprint
-from validate_vendor_response_control import validate_source
+from validate_vendor_response_control import (
+    validate_source,
+    validate_vendor_script_text,
+)
 
 
 class VendorResponseControlTests(unittest.TestCase):
@@ -338,6 +341,31 @@ class VendorResponseControlTests(unittest.TestCase):
             validate_source(candidate, errors)
         self.assertTrue(
             any("private identifier fingerprint" in error for error in errors),
+            errors,
+        )
+
+    def test_visible_receipt_ledger_hooks_are_fail_closed(self) -> None:
+        script = (
+            "function receiptLabel() { return ['Rights-related material', "
+            "'Commercial-terms material']; } "
+            "function renderReceiptLedger() { "
+            "return [vendor.receivedEvidence, vendor.evidenceReceivedCount, "
+            "control.evidenceTypes, 'vendor-response-receipts', "
+            "'vendor-response-receipt-list', "
+            "'Material receipt does not establish completeness or gate passage.', "
+            "'Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.']; }"
+        )
+        errors: list[str] = []
+        validate_vendor_script_text(script, errors)
+        self.assertEqual(errors, [])
+
+        errors = []
+        validate_vendor_script_text(
+            script.replace("vendor.receivedEvidence", "vendor.gateResults"),
+            errors,
+        )
+        self.assertTrue(
+            any("visible receipt-ledger hooks" in error for error in errors),
             errors,
         )
 
