@@ -3,27 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V28 = Object.freeze({
-    id: "2026-07-27-review-integrity-hotfix-v28",
-    version: "2026.07.27-28",
-    publishedAt: "2026-07-27T16:56:15+03:00",
-    titleEn: "Evidence-intake and fail-closed display integrity hotfix",
-    titleFi: "Evidenssin vastaanotto- ja fail-closed-näyttöjen eheyskorjaus",
+  const UI_RELEASE_V29 = Object.freeze({
+    id: "2026-07-27-visible-receipt-ledger-v29",
+    version: "2026.07.27-29",
+    publishedAt: "2026-07-27T17:14:44+03:00",
+    titleEn: "Visible vendor-evidence receipt ledger",
+    titleFi: "Näkyvä toimittajaevidenssin vastaanottorekisteri",
     items: Object.freeze([
       Object.freeze({
-        category: "method",
-        textEn: "Vendor-document receipt history is now separate from G1–G6 outcomes. Euromonitor shows six received evidence categories while remaining 0/6 passed, 6/6 evaluated, NOT SCORED and not authorised for purchase.",
-        textFi: "Toimittaja-asiakirjojen vastaanottohistoria on nyt erillään G1–G6-tuloksista. Euromonitor näyttää kuusi vastaanotettua evidenssiluokkaa mutta pysyy tilassa 0/6 läpäistyä, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu."
+        category: "usability",
+        textEn: "Every vendor card now shows a visible seven-item receipt ledger. Received and missing documents remain separate from the independent G1–G6 gate outcomes; receipt never implies that a gate passed.",
+        textFi: "Jokainen toimittajakortti näyttää nyt näkyvän seitsemän kohdan vastaanottorekisterin. Vastaanotetut ja puuttuvat asiakirjat pysyvät erillään riippumattomista G1–G6-porttituloksista; vastaanotto ei tarkoita portin läpäisyä."
       }),
       Object.freeze({
-        category: "usability",
-        textEn: "The open-country-base metric now fails closed. If the global-base asset is unavailable or invalid, the dashboard shows an unavailable state instead of borrowing the separate atlas count.",
-        textFi: "Avoimen maapohjan mittari toimii nyt fail-closed-periaatteella. Jos globaali pohja puuttuu tai on virheellinen, dashboard näyttää puuttuvan tilan eikä lainaa erillisen atlaksen maamäärää."
+        category: "method",
+        textEn: "Euromonitor visibly records six of seven evidence categories received while remaining 0/6 gates passed, 6/6 evaluated, NOT SCORED and not authorised for purchase.",
+        textFi: "Euromonitorilla näkyy kuusi seitsemästä vastaanotetusta evidenssiluokasta, mutta tila pysyy 0/6 läpäistyä porttia, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "The global-base schema now identifies the current public repository. Both deck sizes and Evidence Registers were refreshed; market values, donor decisions and the null global total are unchanged.",
-        textFi: "Globaalin pohjan schema tunnistaa nyt nykyisen julkisen repositorion. Molemmat dekkikoot ja Evidence Registerit päivitettiin; markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
+        textEn: "Both deck sizes and the two 53-row Evidence Registers were refreshed to v29. Evidence claims, calculations, market values, donor decisions and the null global total are unchanged.",
+        textFi: "Molemmat dekkikoot ja kaksi 53-rivistä Evidence Registeriä päivitettiin v29-versioon. Evidenssiväitteet, laskelmat, markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
       })
     ])
   });
@@ -710,7 +710,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V28;
+  window.PixanUiRelease = UI_RELEASE_V29;
 
   init();
 })();

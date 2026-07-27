@@ -505,6 +505,65 @@
     return element;
   }
 
+  function renderReceiptLedger(vendor) {
+    const ledger = node("section", "vendor-response-receipts");
+    const header = node("div", "vendor-response-receipts-head");
+    const heading = node("div", "");
+    heading.append(
+      node("span", "", l("Vastaanottorekisteri", "Receipt ledger")),
+      node(
+        "h4",
+        "",
+        `${l("Vastaanotettu aineisto", "Evidence received")} · ${
+          vendor.evidenceReceivedCount
+        }/${control.evidenceTypes.length}`
+      )
+    );
+    header.append(
+      heading,
+      node(
+        "p",
+        "",
+        l(
+          "Vastaanotto ei tarkoita portin läpäisyä.",
+          "Receipt does not mean the gate passed."
+        )
+      )
+    );
+
+    const list = node("ul", "vendor-response-receipt-list");
+    for (const evidenceType of control.evidenceTypes) {
+      const received = vendor.receivedEvidence[evidenceType.key] === true;
+      const item = node(
+        "li",
+        `vendor-response-receipt-item ${received ? "is-received" : "is-missing"}`
+      );
+      item.dataset.evidenceKey = evidenceType.key;
+      const mark = node(
+        "span",
+        "vendor-response-receipt-mark",
+        received ? "✓" : "—"
+      );
+      mark.setAttribute("aria-hidden", "true");
+      item.append(
+        mark,
+        node(
+          "span",
+          "vendor-response-receipt-label",
+          isFi() ? evidenceType.labelFi : evidenceType.labelEn
+        ),
+        node(
+          "strong",
+          "",
+          received ? l("Vastaanotettu", "Received") : l("Ei vastaanotettu", "Not received")
+        )
+      );
+      list.append(item);
+    }
+    ledger.append(header, list);
+    return ledger;
+  }
+
   function renderVendor(vendor) {
     const card = node("article", "vendor-response-card");
     card.dataset.vendorState = vendor.requestState;
@@ -560,7 +619,14 @@
         renderGateResult(gate, vendor.gateResults[gate.gateCode])
       );
     }
-    card.append(header, narrative, score, renderQuoteIndicator(vendor), evidence);
+    card.append(
+      header,
+      narrative,
+      renderReceiptLedger(vendor),
+      score,
+      renderQuoteIndicator(vendor),
+      evidence
+    );
     return card;
   }
 

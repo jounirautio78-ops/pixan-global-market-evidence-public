@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "controlId": "vendor-response-control-public",
   "asOf": "2026-07-27",
-  "version": "2026.07.27-28",
+  "version": "2026.07.27-29",
   "status": "public_status_only_no_purchase_authorised",
   "publicBoundaryEn": "This public control shows only privacy-safe request status, evidence completeness and the scoring method. It does not publish correspondence, personal data, vendor files, unlicensed data or confidential commercial terms.",
   "publicBoundaryFi": "Tämä julkinen valvontanäkymä näyttää vain tietoturvallisen pyyntötilan, evidenssin täydellisyyden ja pisteytysmenetelmän. Se ei julkaise kirjeenvaihtoa, henkilötietoja, toimittajatiedostoja, lisensoimatonta dataa tai luottamuksellisia kaupallisia ehtoja.",

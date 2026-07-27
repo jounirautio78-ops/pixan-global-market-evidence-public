@@ -3,6 +3,30 @@
   "asOf": "2026-07-27",
   "releases": [
     {
+      "id": "2026-07-27-visible-receipt-ledger-v29",
+      "version": "2026.07.27-29",
+      "publishedAt": "2026-07-27T17:14:44+03:00",
+      "titleEn": "Visible vendor-evidence receipt ledger",
+      "titleFi": "Näkyvä toimittajaevidenssin vastaanottorekisteri",
+      "items": [
+        {
+          "category": "usability",
+          "textEn": "Added a visible seven-item receipt ledger to every vendor card. Received documents are now shown separately from missing documents and from the independent G1–G6 gate outcomes; receipt never implies that a gate passed.",
+          "textFi": "Lisättiin jokaiselle toimittajakortille näkyvä seitsemän kohdan vastaanottorekisteri. Vastaanotetut asiakirjat näkyvät nyt erillään puuttuvista asiakirjoista ja riippumattomista G1–G6-porttituloksista; vastaanotto ei koskaan tarkoita portin läpäisyä."
+        },
+        {
+          "category": "method",
+          "textEn": "Euromonitor visibly records six of seven evidence categories received while remaining 0/6 gates passed, 6/6 evaluated, NOT SCORED and not authorised for purchase. Market values, donor decisions and the null global total are unchanged.",
+          "textFi": "Euromonitorilla näkyy kuusi seitsemästä vastaanotetusta evidenssiluokasta, mutta tila pysyy 0/6 läpäistyä porttia, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu. Markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Refreshed both bilingual deck sizes and the two 53-row Evidence Registers to the same v29 release boundary without changing evidence claims, calculations or procurement decisions.",
+          "textFi": "Päivitettiin molemmat kaksikieliset dekkikoot ja kaksi 53-rivistä Evidence Registeriä samaan v29-julkaisurajaan muuttamatta evidenssiväitteitä, laskelmia tai hankintapäätöksiä."
+        }
+      ]
+    },
+    {
       "id": "2026-07-27-review-integrity-hotfix-v28",
       "version": "2026.07.27-28",
       "publishedAt": "2026-07-27T16:56:15+03:00",
