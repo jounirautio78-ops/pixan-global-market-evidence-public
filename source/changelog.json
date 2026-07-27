@@ -3,6 +3,35 @@
   "asOf": "2026-07-27",
   "releases": [
     {
+      "id": "2026-07-27-five-country-method-sprint-v31",
+      "version": "2026.07.27-31",
+      "publishedAt": "2026-07-27T20:08:20+03:00",
+      "titleEn": "Five-country official-data methods and daily lender-package cadence",
+      "titleFi": "Viiden maan viranomaisdatamenetelmät ja pankkipaketin päivärytmi",
+      "items": [
+        {
+          "category": "method",
+          "textEn": "Promoted Austria, Belgium, Switzerland, Luxembourg and Norway from reviewed source leads to reviewed country-method plans after verifying official holders, required fields, formulas and fail-closed limits. The 195-country split is now 28 reviewed_method_plan, 0 reviewed_source_lead, 15 regional_tpd_pattern_only and 152 proxy_only_unscoped.",
+          "textFi": "Nostettiin Itävalta, Belgia, Sveitsi, Luxemburg ja Norja tarkistetuista lähdepoluista tarkistetuiksi maakohtaisiksi menetelmäsuunnitelmiksi, kun viralliset haltijat, tarvittavat kentät, kaavat ja fail-closed-rajat oli vahvistettu. 195 maan jako on nyt 28 reviewed_method_plan, 0 reviewed_source_lead, 15 regional_tpd_pattern_only ja 152 proxy_only_unscoped."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Sent public-data requests to the five countries' official tax, regulatory, health, statistics or customs functions. Public records show only country, function, date and sent state; mailbox identifiers, correspondence and personal metadata remain private. A sent request is not a response or a market value.",
+          "textFi": "Lähetettiin julkisen datan pyynnöt viiden maan virallisille vero-, sääntely-, terveys-, tilasto- tai tullifunktioille. Julkisiin tietoihin kirjataan vain maa, funktio, päivä ja lähetystila; postilaatikkotunnisteet, kirjeenvaihto ja henkilötiedot pysyvät yksityisinä. Lähetetty pyyntö ei ole vastaus eikä markkina-arvo."
+        },
+        {
+          "category": "usability",
+          "textEn": "Introduced an explicit once-per-Asia/Nicosia-calendar-day cadence for the downloadable bilingual decks and Evidence Registers. The live dashboard may improve intraday, while the current daily package retains its own release version, build timestamp and integrity hashes until the next permitted daily build.",
+          "textFi": "Otettiin käyttöön ladattavien kaksikielisten dekkien ja Evidence Registerien selkeä kerran Asia/Nicosia-kalenteripäivässä -rytmi. Live-dashboard voi tarkentua päivän aikana, kun taas nykyinen päiväpaketti säilyttää oman julkaisuversion, muodostusajan ja eheystiivisteet seuraavaan sallittuun päivämuodostukseen asti."
+        },
+        {
+          "category": "market_data",
+          "textEn": "No new country retail value is asserted. All five promoted plans remain not_computed and ineligible for the global roll-up; the donor gate remains 0/3 and the global retail value remains null.",
+          "textFi": "Uutta maakohtaista vähittäisarvoa ei väitetä. Kaikki viisi nostettua suunnitelmaa pysyvät not_computed-tilassa eivätkä kelpaa maailman roll-upiin; donor-portti pysyy 0/3:ssa ja maailman vähittäisarvo null-tilassa."
+        }
+      ]
+    },
+    {
       "id": "2026-07-27-method-control-and-vendor-gates-v30",
       "version": "2026.07.27-30",
       "publishedAt": "2026-07-27T18:46:00+03:00",

@@ -1,7 +1,7 @@
 # UN195 country method-control map
 
 **Reviewed:** 2026-07-27
-**Release:** `2026.07.27-30`
+**Release:** `2026.07.27-31`
 
 ## Purpose
 
@@ -18,6 +18,7 @@ The map is built from:
 - the reviewed 15-country third-donor acquisition screen;
 - current donor-control records;
 - the reviewed public source-lead baseline;
+- the reviewed five-country official-data method sprint;
 - the EU Tobacco Products Directive Article 20(7) reporting pattern; and
 - the controlled method and next-action taxonomies in
   `source/country-method-route-config.json`.
@@ -26,20 +27,22 @@ The map is built from:
 
 | Assignment class | Countries | Meaning |
 |---|---:|---|
-| `reviewed_method_plan` | 23 | A country-specific vaping evidence route has been reviewed. This does not mean that a retail value has been computed or accepted. |
-| `reviewed_source_lead` | 5 | A public source lead has been reviewed, but a precise country calculation method has not yet been assigned. |
+| `reviewed_method_plan` | 28 | A country-specific vaping evidence route has been reviewed. This does not mean that a retail value has been computed or accepted. |
+| `reviewed_source_lead` | 0 | No country is currently left in the intermediate reviewed-source-lead class. |
 | `regional_tpd_pattern_only` | 15 | The EU Article 20(7) reporting pattern is relevant, but the national data holder, implementation, access and aggregates remain unverified. |
 | `proxy_only_unscoped` | 152 | The country remains in the open context layer; no reviewed vaping-specific official calculation route has yet been scoped. |
 | **Total** | **195** | The classes are mutually exclusive and exhaustive. |
 
-The 23 reviewed country plans are:
+The 28 reviewed country plans are:
 
-`AE`, `AU`, `BR`, `CA`, `CN`, `DE`, `DK`, `ES`, `FI`, `FR`, `GB`, `ID`,
-`IT`, `JP`, `KR`, `NL`, `NZ`, `PH`, `PL`, `RU`, `SA`, `SE` and `US`.
+`AE`, `AT`, `AU`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `DK`, `ES`, `FI`,
+`FR`, `GB`, `ID`, `IT`, `JP`, `KR`, `LU`, `NL`, `NO`, `NZ`, `PH`, `PL`,
+`RU`, `SA`, `SE` and `US`.
 
-The five reviewed source leads are:
-
-`AT`, `BE`, `CH`, `LU` and `NO`.
+The five former source leads — `AT`, `BE`, `CH`, `LU` and `NO` — were
+promoted to reviewed country plans on 2026-07-27 after their official holders,
+required fields, calculation paths and limitations were reviewed. Their
+retail values remain `not_computed`.
 
 The 15 regional-pattern-only countries are:
 
@@ -53,18 +56,18 @@ are not double-counted.
 
 ## Reviewed country-method plans
 
-The 23 plans retain their actual transaction stage:
+The 28 plans retain their actual transaction stage:
 
 - `CA`: official consumer-retail survey;
 - `NZ`: specialist-retailer annual returns;
 - `DE`, `FI`: excise release plus statutory sales reporting;
 - `US`: manufacturer reporting plus independent POS validation;
-- `ES`, `ID`, `IT`, `PH`, `PL`, `SA`: excise-to-volume reconstruction;
-- `DK`, `FR`, `GB`, `SE`: statutory annual product-sales reporting;
+- `CH`, `ES`, `ID`, `IT`, `LU`, `PH`, `PL`, `SA`: excise-to-volume reconstruction;
+- `AT`, `BE`, `DK`, `FR`, `GB`, `SE`: statutory annual product-sales reporting;
 - `NL`: product registry plus aggregate-sales request;
 - `CN`: official production survey plus customs;
 - `JP`, `KR`: customs trade proxy;
-- `AU`: regulated lawful supply plus enforcement;
+- `AU`, `NO`: regulated lawful supply plus enforcement;
 - `RU`: marking-system retail withdrawals plus excise;
 - `BR`: enforcement and trade evidence only; and
 - `AE`: excise base linked to designated retail price.
@@ -72,6 +75,11 @@ The 23 plans retain their actual transaction stage:
 Customs, tax, reporting, registration, manufacturer and enforcement routes are
 not relabelled as consumer retail. A reviewed route is a controlled research
 plan, not a completed value calculation.
+
+The five-country sprint is documented in
+`source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md`. Public-safe request records
+show `sent` for all five countries. A sent request is not a response, and no
+mailbox identifier, private correspondence or personal metadata is published.
 
 ## Fail-closed rules
 

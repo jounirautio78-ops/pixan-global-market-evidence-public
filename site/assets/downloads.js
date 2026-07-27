@@ -99,6 +99,22 @@
     };
   }
 
+  function calendarDateInTimeZone(value, timeZone) {
+    const date = new Date(value);
+    if (Number.isNaN(date.valueOf())) throw new Error("invalid release timestamp");
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone
+    }).formatToParts(date);
+    const byType = new Map(parts.map((part) => [part.type, part.value]));
+    if (![byType.get("year"), byType.get("month"), byType.get("day")].every(nonEmpty)) {
+      throw new Error("invalid package calendar date");
+    }
+    return `${byType.get("year")}-${byType.get("month")}-${byType.get("day")}`;
+  }
+
   function normalizeManifest(raw) {
     if (!raw || typeof raw !== "object") throw new Error("invalid manifest");
     if (raw.schemaVersion !== 2 || raw.generatedFromPublicDataOnly !== true) {
@@ -115,6 +131,15 @@
     if (Number.isNaN(new Date(release.publishedAt).valueOf())) throw new Error("invalid release timestamp");
     if (!nonEmpty(raw.asOf) || !/^\d{4}-\d{2}-\d{2}$/.test(raw.asOf)) throw new Error("invalid dataset date");
     if (Number.isNaN(new Date(`${raw.asOf}T12:00:00Z`).valueOf())) throw new Error("invalid dataset date");
+    const cadence = raw.cadence;
+    if (!cadence || typeof cadence !== "object"
+      || Object.keys(cadence).sort().join(",") !== "dashboardMayUpdateIntraday,frequency,timeZone"
+      || cadence.frequency !== "once_daily"
+      || cadence.timeZone !== "Asia/Nicosia"
+      || cadence.dashboardMayUpdateIntraday !== true
+      || calendarDateInTimeZone(release.publishedAt, cadence.timeZone) !== raw.asOf) {
+      throw new Error("invalid once-daily package cadence");
+    }
     if (!Array.isArray(raw.languages) || raw.languages.length !== 2
       || !raw.languages.includes("en") || !raw.languages.includes("fi")) {
       throw new Error("unexpected package languages");
@@ -140,8 +165,45 @@
     return {
       ...raw,
       release,
+      cadence,
       artifacts: EXPECTED.map((item) => byId.get(item.id))
     };
+  }
+
+  function validateManifestAgainstChangelog(packageManifest, changelog) {
+    if (!changelog || typeof changelog !== "object"
+      || changelog.schemaVersion !== 1
+      || !Array.isArray(changelog.releases)
+      || !changelog.releases.length) {
+      throw new Error("invalid dashboard changelog");
+    }
+    const releaseMatches = changelog.releases.filter((release) => (
+      release
+      && release.id === packageManifest.release.id
+      && release.version === packageManifest.release.version
+      && release.publishedAt === packageManifest.release.publishedAt
+    ));
+    if (releaseMatches.length !== 1) throw new Error("package release is absent from dashboard history");
+
+    const latest = changelog.releases[0];
+    if (!latest || !nonEmpty(latest.publishedAt)) throw new Error("invalid latest dashboard release");
+    const packageDate = calendarDateInTimeZone(
+      packageManifest.release.publishedAt,
+      packageManifest.cadence.timeZone
+    );
+    const dashboardDate = calendarDateInTimeZone(
+      latest.publishedAt,
+      packageManifest.cadence.timeZone
+    );
+    if (packageDate !== dashboardDate
+      || packageDate !== packageManifest.asOf
+      || packageManifest.asOf !== changelog.asOf) {
+      throw new Error("package is older than the current dashboard calendar date");
+    }
+    if (new Date(packageManifest.release.publishedAt) > new Date(latest.publishedAt)) {
+      throw new Error("package release is newer than the dashboard release");
+    }
+    return packageManifest;
   }
 
   async function sha256Hex(bytes) {
@@ -183,6 +245,21 @@
       month: "short",
       year: "numeric",
       timeZone: "UTC"
+    }).format(date);
+  }
+
+  function formatDateTime(value, timeZone) {
+    const date = new Date(value);
+    if (Number.isNaN(date.valueOf())) return value;
+    return new Intl.DateTimeFormat(isFi() ? "fi-FI" : "en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+      timeZone,
+      timeZoneName: "short"
     }).format(date);
   }
 
@@ -290,6 +367,10 @@
     const release = root.querySelector("[data-bank-package-release]");
     root.querySelector("[data-bank-package-version]").textContent = manifest.release.version;
     root.querySelector("[data-bank-package-as-of]").textContent = formatDate(manifest.asOf);
+    root.querySelector("[data-bank-package-built-at]").textContent = formatDateTime(
+      manifest.release.publishedAt,
+      manifest.cadence.timeZone
+    );
     root.querySelector("[data-bank-package-count]").textContent = String(manifest.artifacts.length);
     release.hidden = false;
 
@@ -354,12 +435,23 @@
 
   async function load() {
     try {
-      const response = await fetch("data/bank-package-manifest.json", {
-        cache: "no-store",
-        credentials: "same-origin"
-      });
-      if (!response.ok) throw new Error(`Bank package manifest HTTP ${response.status}`);
-      manifest = await verifyArtifacts(normalizeManifest(await response.json()));
+      const [manifestResponse, changelogResponse] = await Promise.all([
+        fetch("data/bank-package-manifest.json", {
+          cache: "no-store",
+          credentials: "same-origin"
+        }),
+        fetch("data/changelog.json", {
+          cache: "no-store",
+          credentials: "same-origin"
+        })
+      ]);
+      if (!manifestResponse.ok) throw new Error(`Bank package manifest HTTP ${manifestResponse.status}`);
+      if (!changelogResponse.ok) throw new Error(`Dashboard changelog HTTP ${changelogResponse.status}`);
+      const packageManifest = normalizeManifest(await manifestResponse.json());
+      const changelog = await changelogResponse.json();
+      manifest = await verifyArtifacts(
+        validateManifestAgainstChangelog(packageManifest, changelog)
+      );
     } catch (error) {
       verifiedObjectUrls.splice(0).forEach((url) => URL.revokeObjectURL(url));
       loadError = error;

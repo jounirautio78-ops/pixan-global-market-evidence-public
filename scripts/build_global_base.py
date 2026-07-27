@@ -33,9 +33,12 @@ OUTPUT_SCHEMA_VERSION = "1.1"
 
 REVIEWED_METHOD_PLAN_COUNTRIES = {
     "AE",
+    "AT",
     "AU",
+    "BE",
     "BR",
     "CA",
+    "CH",
     "CN",
     "DE",
     "DK",
@@ -47,7 +50,9 @@ REVIEWED_METHOD_PLAN_COUNTRIES = {
     "IT",
     "JP",
     "KR",
+    "LU",
     "NL",
+    "NO",
     "NZ",
     "PH",
     "PL",
@@ -56,7 +61,8 @@ REVIEWED_METHOD_PLAN_COUNTRIES = {
     "SE",
     "US",
 }
-REVIEWED_SOURCE_LEAD_COUNTRIES = {"AT", "BE", "CH", "LU", "NO"}
+REVIEWED_SOURCE_LEAD_COUNTRIES: set[str] = set()
+FIVE_COUNTRY_REQUEST_COUNTRIES = {"AT", "BE", "CH", "LU", "NO"}
 REGIONAL_TPD_PATTERN_COUNTRIES = {
     "BG",
     "CY",
@@ -75,20 +81,23 @@ REGIONAL_TPD_PATTERN_COUNTRIES = {
     "SK",
 }
 EU_TPD_EXPLICIT_PLAN_COUNTRIES = {
+    "AT",
+    "BE",
     "DE",
     "DK",
     "ES",
     "FI",
     "FR",
     "IT",
+    "LU",
     "NL",
     "PL",
     "SE",
 }
-EU_TPD_SOURCE_LEAD_COUNTRIES = {"AT", "BE", "LU"}
+EU_TPD_SOURCE_LEAD_COUNTRIES: set[str] = set()
 EXPECTED_ASSIGNMENT_COUNTS = {
-    "reviewed_method_plan": 23,
-    "reviewed_source_lead": 5,
+    "reviewed_method_plan": 28,
+    "reviewed_source_lead": 0,
     "regional_tpd_pattern_only": 15,
     "proxy_only_unscoped": 152,
 }
@@ -427,9 +436,10 @@ def validate_method_route_sources(
         "MARNET_PUBLIC",
         "EU_TPD_20_7",
         "DONOR_CONTROL",
+        "FIVE_COUNTRY_SPRINT",
     }
     if set(provenance_map) != required_provenance_ids:
-        raise ValueError("method-route provenance basis set differs from v30 contract")
+        raise ValueError("method-route provenance basis set differs from v31 contract")
 
     country_plans = route_config.get("countryPlans")
     if not isinstance(country_plans, list):
@@ -441,7 +451,7 @@ def validate_method_route_sources(
     if len(country_plan_map) != len(country_plans) or None in country_plan_map:
         raise ValueError("method-route country plan ISO2 values must be unique and non-null")
     if set(country_plan_map) != REVIEWED_METHOD_PLAN_COUNTRIES:
-        raise ValueError("reviewed method-plan country set differs from v30 contract")
+        raise ValueError("reviewed method-plan country set differs from v31 contract")
 
     for iso2, plan in country_plan_map.items():
         if iso2 not in country_set:
@@ -462,14 +472,14 @@ def validate_method_route_sources(
             "NZ": "observed_partial_channel_only",
         }.get(iso2, "not_computed")
         if plan.get("retailValueStatus") != expected_status:
-            raise ValueError(f"{iso2} retail-value status differs from v30 contract")
+            raise ValueError(f"{iso2} retail-value status differs from v31 contract")
 
     source_leads = set(route_config.get("reviewedSourceLeads", []))
     regional_tpd = set(route_config.get("regionalTpdPatternCountries", []))
     if source_leads != REVIEWED_SOURCE_LEAD_COUNTRIES:
-        raise ValueError("reviewed source-lead country set differs from v30 contract")
+        raise ValueError("reviewed source-lead country set differs from v31 contract")
     if regional_tpd != REGIONAL_TPD_PATTERN_COUNTRIES:
-        raise ValueError("regional TPD-pattern country set differs from v30 contract")
+        raise ValueError("regional TPD-pattern country set differs from v31 contract")
     if (
         set(country_plan_map) & source_leads
         or set(country_plan_map) & regional_tpd
@@ -490,15 +500,49 @@ def validate_method_route_sources(
     if not isinstance(top20_items, list):
         raise ValueError("top20 route programme routes must be a list")
     top20_map = {route.get("countryIso2"): route for route in top20_items}
-    expected_top20 = REVIEWED_METHOD_PLAN_COUNTRIES - {"AE", "NZ", "SA"}
+    expected_top20 = REVIEWED_METHOD_PLAN_COUNTRIES - {
+        "AE",
+        "AT",
+        "BE",
+        "CH",
+        "LU",
+        "NO",
+        "NZ",
+        "SA",
+    }
     if len(top20_map) != 20 or set(top20_map) != expected_top20:
-        raise ValueError("top20 programme country set differs from v30 method map")
+        raise ValueError("top20 programme country set differs from v31 method map")
     for iso2, route in top20_map.items():
         request_state = route.get("status")
         if request_state not in {"sent", "draft_not_sent"}:
             raise ValueError(f"{iso2} has an unexpected top20 request state")
         if route.get("dispatch", {}).get("state") != request_state:
             raise ValueError(f"{iso2} top20 request and dispatch states differ")
+
+    country_request_items = route_config.get("countryRequests")
+    if not isinstance(country_request_items, list):
+        raise ValueError("method-route countryRequests must be a list")
+    country_request_map = {
+        item.get("countryIso2"): item
+        for item in country_request_items
+        if isinstance(item, dict)
+    }
+    if (
+        len(country_request_map) != len(country_request_items)
+        or set(country_request_map) != FIVE_COUNTRY_REQUEST_COUNTRIES
+    ):
+        raise ValueError("five-country request set differs from v31 contract")
+    for iso2, item in country_request_map.items():
+        if (
+            item.get("status") != "sent"
+            or item.get("sentOn") != route_config.get("asOf")
+            or item.get("programme") != "five_country_method_sprint"
+            or not isinstance(item.get("publicNoteEn"), str)
+            or not item["publicNoteEn"]
+            or not isinstance(item.get("publicNoteFi"), str)
+            or not item["publicNoteFi"]
+        ):
+            raise ValueError(f"{iso2} has an invalid five-country request record")
 
     third_donor_items = third_donor_screen.get("countries")
     if not isinstance(third_donor_items, list):
@@ -525,12 +569,12 @@ def validate_method_route_sources(
         if candidate.get("candidateType") == "country_year"
     }
     if set(donor_country_candidates) != {"CA", "DE", "NZ", "US"}:
-        raise ValueError("donor country-assessment set differs from v30 contract")
+        raise ValueError("donor country-assessment set differs from v31 contract")
     if any(
         candidate.get("declaredDecision") != "not_accepted"
         for candidate in donor_country_candidates.values()
     ):
-        raise ValueError("no donor country may be accepted in the v30 method map")
+        raise ValueError("no donor country may be accepted in the v31 method map")
 
     return {
         "methodMap": method_map,
@@ -540,6 +584,7 @@ def validate_method_route_sources(
         "sourceLeadCountries": source_leads,
         "regionalTpdCountries": regional_tpd,
         "top20Map": top20_map,
+        "countryRequestMap": country_request_map,
         "thirdDonorCountries": third_donor_countries,
         "donorCountryCandidates": donor_country_candidates,
     }
@@ -607,6 +652,8 @@ def country_method_route(
         provenance_basis_ids.append("THIRD_DONOR")
     if iso2 in source_leads:
         provenance_basis_ids.append("MARNET_PUBLIC")
+    if iso2 in controls["countryRequestMap"]:
+        provenance_basis_ids.append("FIVE_COUNTRY_SPRINT")
     if (
         iso2 in EU_TPD_EXPLICIT_PLAN_COUNTRIES
         or iso2 in EU_TPD_SOURCE_LEAD_COUNTRIES
@@ -639,7 +686,11 @@ def country_method_route(
         "requestState": (
             controls["top20Map"][iso2]["status"]
             if iso2 in controls["top20Map"]
-            else "not_in_top20_program"
+            else (
+                controls["countryRequestMap"][iso2]["status"]
+                if iso2 in controls["countryRequestMap"]
+                else "not_in_top20_program"
+            )
         ),
         "lastReviewedOn": route_config["asOf"],
         "boundaryEn": method["boundaryEn"],
@@ -738,17 +789,21 @@ def build_layer(
         country["methodRoute"]["retailValueStatus"]
         for country in countries
     )
-    if dict(assignment_counts) != EXPECTED_ASSIGNMENT_COUNTS:
+    normalized_assignment_counts = {
+        assignment_class: assignment_counts[assignment_class]
+        for assignment_class in EXPECTED_ASSIGNMENT_COUNTS
+    }
+    if normalized_assignment_counts != EXPECTED_ASSIGNMENT_COUNTS:
         raise ValueError(
             "generated method-route assignment counts differ from "
-            f"v30 contract: {dict(assignment_counts)}"
+            f"v31 contract: {normalized_assignment_counts}"
         )
     if retail_value_status_counts != {
         "official_point_estimate_quality_limited": 1,
         "observed_partial_channel_only": 1,
         "not_computed": 193,
     }:
-        raise ValueError("generated retail-value status counts differ from v30 contract")
+        raise ValueError("generated retail-value status counts differ from v31 contract")
 
     return {
         "schemaVersion": OUTPUT_SCHEMA_VERSION,

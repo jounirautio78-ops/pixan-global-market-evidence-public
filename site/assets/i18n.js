@@ -3,27 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V30 = Object.freeze({
-    id: "2026-07-27-method-control-and-vendor-gates-v30",
-    version: "2026.07.27-30",
-    publishedAt: "2026-07-27T18:46:00+03:00",
-    titleEn: "195-country method control and current vendor gates",
-    titleFi: "195 maan menetelmäkontrolli ja ajantasaiset toimittajaportit",
+  const UI_RELEASE_V31 = Object.freeze({
+    id: "2026-07-27-five-country-method-sprint-v31",
+    version: "2026.07.27-31",
+    publishedAt: "2026-07-27T20:08:20+03:00",
+    titleEn: "Five-country official-data methods and daily lender-package cadence",
+    titleFi: "Viiden maan viranomaisdatamenetelmät ja pankkipaketin päivärytmi",
     items: Object.freeze([
       Object.freeze({
         category: "method",
-        textEn: "The 195-country method control now separates 23 reviewed country plans, 5 reviewed source leads, 15 regional EU TPD patterns and 152 country-unscoped proxy routes. It does not claim 195 bespoke or measured market routes.",
-        textFi: "195 maan menetelmäkontrolli erottaa nyt 23 tarkistettua maasuunnitelmaa, 5 tarkistettua lähdepolkua, 15 alueellista EU TPD -mallia ja 152 maakohtaisesti rajaamatonta proxy-reittiä. Se ei väitä 195 yksilöllistä tai mitattua markkinareittiä."
+        textEn: "Austria, Belgium, Switzerland, Luxembourg and Norway now have reviewed country-specific official-data plans. The 195-country split is 28 reviewed plans, 0 reviewed source leads, 15 regional EU TPD patterns and 152 country-unscoped proxy routes.",
+        textFi: "Itävallalla, Belgialla, Sveitsillä, Luxemburgilla ja Norjalla on nyt tarkistetut maakohtaiset viranomaisdatasuunnitelmat. 195 maan jako on 28 tarkistettua suunnitelmaa, 0 tarkistettua lähdepolkua, 15 alueellista EU TPD -mallia ja 152 maakohtaisesti rajaamatonta proxy-reittiä."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Euromonitor's later 95-geography schema contains no populated country-year values and is not reconciled to the 78-country quote. All six gates are evaluated, none passes, and no purchase is authorised.",
-        textFi: "Euromonitorin myöhempi 95 maantieteen skeema ei sisällä täytettyjä maa–vuosi-arvoja eikä sitä ole täsmäytetty 78 maan tarjoukseen. Kaikki kuusi porttia on arvioitu, yksikään ei läpäise eikä ostoa ole valtuutettu."
+        textEn: "Aggregate public-data requests were sent to the five countries' official functions. Sent status is process evidence only; no response or new market value is implied.",
+        textFi: "Aggregoidun julkisen datan pyynnöt lähetettiin viiden maan virallisille funktioille. Lähetystila on vain prosessievidenssiä; se ei tarkoita vastausta eikä uutta markkina-arvoa."
       }),
       Object.freeze({
-        category: "diligence",
-        textEn: "Both deck sizes and the two 54-row Evidence Registers were refreshed to v30. Market observations and values are unchanged, the donor gate remains 0/3 and the global retail value remains null/not_computed.",
-        textFi: "Molemmat dekkikoot ja kaksi 54-rivistä Evidence Registeriä päivitettiin v30-versioon. Markkinahavainnot ja -arvot eivät muuttuneet, donor-portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
+        category: "usability",
+        textEn: "Downloadable decks and Evidence Registers now follow a once-per-Asia/Nicosia-calendar-day build policy. The dashboard may update intraday while the daily package keeps its own visible version, build time and integrity hashes.",
+        textFi: "Ladattavat dekit ja Evidence Registerit muodostetaan nyt kerran Asia/Nicosia-kalenteripäivässä. Dashboard voi päivittyä päivän aikana, ja päiväpaketilla näkyvät oma versio, muodostusaika ja eheystiivisteet."
       })
     ])
   });
@@ -457,14 +457,15 @@
     ["Pixan Global Market Evidence, etusivu", "Pixan Global Market Evidence, home"],
     ["Pixan Global Market Evidence, koko atlas", "Pixan Global Market Evidence, full atlas"],
     ["Julkinen pankki- ja due diligence -paketti", "Public bank and due-diligence package"],
-    ["Lataa aina nykyiseen julkaisuun sidotut aineistot", "Download files tied to the current evidence release"],
-    ["Dekit ja Evidence Register muodostetaan samasta tarkistetusta julkisesta aineistosta. Manifesti näyttää version, aineistopäivän ja tiedostokohtaisen tarkistustiivisteen.", "The decks and Evidence Register are generated from the same reviewed public dataset. The manifest exposes the release, data date and file-level integrity hash."],
+    ["Lataa päivän tarkistettu aineistopaketti", "Download today's reviewed evidence package"],
+    ["Dashboard voi päivittyä päivän aikana. Dekit ja Evidence Register muodostetaan enintään kerran vuorokaudessa (Asia/Nicosia), joten niiden julkaisuversio voi olla saman päivän dashboard-versiota aiempi.", "The dashboard may update during the day. The decks and Evidence Register are generated at most once per Asia/Nicosia calendar day, so their release may precede the dashboard's latest same-day release."],
+    ["Paketti muodostettu", "Package built"],
     ["Tiedostoja", "Files"],
     ["Julkisen pankkipaketin rajaus", "Public bank-package boundary"],
     ["Vain julkisesta aineistosta · riippumaton julkaisu", "Public data only · independent publication"],
     ["Tämä paketti ei ole Pixan Oy:n julkaisema tai hyväksymä. Se ei ole tarjous, arvonmääritys, sijoitus- tai lainaneuvonta, tilintarkastus eikä oikeudellinen lausunto.", "This package is not issued or endorsed by Pixan Oy. It is not an offer, valuation, investment or lending advice, audit or legal opinion."],
     ["Tarkistetaan nykyisiä latauksia…", "Checking current downloads…"],
-    ["Englannin- ja suomenkieliset tiedostot on lukittu samaan julkaisuun. Selain tarkistaa jokaisen tiedoston koon ja koko SHA-256-tiivisteen ennen latauslinkin näyttämistä.", "English and Finnish files are release-locked together. The browser verifies every file's size and full SHA-256 digest before showing its download link."],
+    ["Paketti muodostetaan enintään kerran Asia/Nicosia-kalenterivuorokaudessa. Englannin- ja suomenkieliset tiedostot on lukittu samaan päivittäiseen tilannekuvaan, ja selain tarkistaa jokaisen tiedoston koon sekä koko SHA-256-tiivisteen ennen latauslinkin näyttämistä.", "The package is generated at most once per Asia/Nicosia calendar day. English and Finnish files are locked to the same daily snapshot, and the browser verifies every file's size and full SHA-256 digest before showing its download link."],
     ["Maksullisen evidenssin hankinta · päätöstuki", "Paid evidence procurement · decision support"],
     ["Minkä datan rahoittamista Pixanin kannattaa harkita — ja missä järjestyksessä?", "What should Pixan consider funding—and in what order?"],
     ["Lista painottaa ensin tarkistettavaa vuosittaista maakohtaista markkinasarjaa, sitten havaittua vähittäismyyntivarmennusta ja vasta sen jälkeen kapeampia riski- ja parametriaukkoja.", "The shortlist prioritises a reviewable annual country-market series, then observed retail validation and only then narrower risk and parameter gaps."],
@@ -720,7 +721,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V30;
+  window.PixanUiRelease = UI_RELEASE_V31;
 
   init();
 })();
