@@ -37,8 +37,8 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-07-26-new-zealand-donor-closure-v25"
-RELEASE_VERSION = "2026.07.26-25"
+RELEASE_ID = "2026-07-27-first-donor-conversion-v26"
+RELEASE_VERSION = "2026.07.27-26"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -133,23 +133,31 @@ EXPECTED_INPUTS = {
     "site/data/changelog.json",
     "site/data/country-scenarios.json",
     "site/data/donor-cockpit.json",
+    "site/data/third-donor-screen.json",
     "site/data/evidence-lanes.json",
     "site/data/fx-rates.json",
     "site/data/market-values.json",
     "site/data/patent-history.json",
     "site/schemas/fx-rates.schema.json",
+    "site/schemas/third-donor-screen.schema.json",
     "source/bank-evidence-register-en.json",
     "source/bank-package-en-lock.json",
     "source/fx-rates.json",
+    "source/third-donor-screen.json",
     "source/schemas/fx-rates.schema.json",
+    "source/schemas/third-donor-screen.schema.json",
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
     "source/NZ_2024_DONOR_CLOSURE_PACK.md",
+    "source/NZ_2024_D8_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/NZ_2024_PRODUCT_SCOPE_AUDIT.json",
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/NZ_2024_WORKBOOK_MANIFEST.json",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
     "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
+    "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
+    "source/THIRD_DONOR_SCREEN_2026-07-27.md",
+    "source/FOLLOW_UP_DRAFTS_2026-07-28.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
     "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
 }
@@ -239,11 +247,11 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     sources = market.get("sources")
     if not isinstance(observations, list) or len(observations) != EXPECTED_MARKET_OBSERVATIONS:
         errors.append(
-            f"v25 bank package requires exactly {EXPECTED_MARKET_OBSERVATIONS} market observations"
+            f"v26 bank package requires exactly {EXPECTED_MARKET_OBSERVATIONS} market observations"
         )
         return
     if not isinstance(sources, list) or len(sources) != EXPECTED_MARKET_SOURCES:
-        errors.append(f"v25 bank package requires exactly {EXPECTED_MARKET_SOURCES} market sources")
+        errors.append(f"v26 bank package requires exactly {EXPECTED_MARKET_SOURCES} market sources")
         sources = [] if not isinstance(sources, list) else sources
     source_by_id = {
         item.get("sourceId"): item
@@ -254,7 +262,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         errors.append("market sources must have unique string sourceId values")
     fhm_source = source_by_id.get(FHM_SOURCE_ID)
     if not isinstance(fhm_source, dict) or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
-        errors.append("v25 market sources must retain the reviewed public FHM reference")
+        errors.append("v26 market sources must retain the reviewed public FHM reference")
     for source_id in {
         "NZ-MOH-ANNUAL-RETURNS-2024",
         "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
@@ -262,7 +270,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     }:
         source = source_by_id.get(source_id)
         if not isinstance(source, dict) or source.get("publisher") != "New Zealand Ministry of Health":
-            errors.append(f"v25 market sources lack reviewed New Zealand source {source_id}")
+            errors.append(f"v26 market sources lack reviewed New Zealand source {source_id}")
     observation_by_id = {
         item.get("observationId"): item
         for item in observations
@@ -290,7 +298,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     ]
     if len(official) != EXPECTED_OFFICIAL_OBSERVATIONS:
         errors.append(
-            f"v25 bank package requires exactly {EXPECTED_OFFICIAL_OBSERVATIONS} official observations"
+            f"v26 bank package requires exactly {EXPECTED_OFFICIAL_OBSERVATIONS} official observations"
         )
     if (
         len(official_market_measures) != EXPECTED_OFFICIAL_MARKET_MEASURES
@@ -299,7 +307,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         }
     ):
         errors.append(
-            "v25 bank package requires 34 official market measures across seven reviewed countries"
+            "v26 bank package requires 34 official market measures across seven reviewed countries"
         )
 
     expected_structure_ids = {
@@ -312,7 +320,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         or sweden_structure_ids != expected_structure_ids
     ):
         errors.append(
-            "v25 bank package requires the exact 36-record Swedish FHM structure series"
+            "v26 bank package requires the exact 36-record Swedish FHM structure series"
         )
     for item in sweden_structure:
         value = item.get("value")
@@ -401,7 +409,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
             or item.get("comparableMarketValue") is not False
             or item.get("atlasEstimate") is not False
         ):
-            errors.append(f"v25 reviewed observation binding differs: {observation_id}")
+            errors.append(f"v26 reviewed observation binding differs: {observation_id}")
 
     protocol = market.get("donorProtocol")
     criteria = protocol.get("criteria") if isinstance(protocol, dict) else None
@@ -434,7 +442,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         or nz_candidate.get("failedCriteria") != ["D5"]
         or nz_candidate.get("openCriteria") != ["D8", "D10"]
     ):
-        errors.append("New Zealand v25 donor candidate must remain 7/10 and not accepted")
+        errors.append("New Zealand v26 donor candidate must remain 7/10 and not accepted")
     if (
         readiness.get("comparableFullYearMarketValueDonors") != 0
         or readiness.get("minimumRequiredDonors") != 3
@@ -486,7 +494,7 @@ def validate_artifact_builder_fx_contract(builder_text: str, errors: list[str]) 
         "[FX methodology]": "deck FX methodology notes",
         "fxSourcesInDeckNotes": "deck-source QA lock",
         "eurEquivalentRowsAfterReopen": "workbook-row QA lock",
-        "validateV25MarketEvidence": "v25 market-role validation",
+        "validateV26MarketEvidence": "v26 market-role validation",
         FHM_SOURCE_ID: "Swedish FHM source binding",
         SWEDEN_STRUCTURE_BASIS: "Swedish non-sales structure-role marker",
         "officialMarketMeasures: 34": "34 official market-measure lock",
@@ -1272,10 +1280,10 @@ def validate_manifest(errors: list[str]) -> None:
     if (
         expected_release.get("id") != RELEASE_ID
         or expected_release.get("version") != RELEASE_VERSION
-        or manifest.get("asOf") != "2026-07-26"
+        or manifest.get("asOf") != "2026-07-27"
     ):
         errors.append(
-            f"bank package must be locked to release {RELEASE_VERSION} as of 2026-07-26"
+            f"bank package must be locked to release {RELEASE_VERSION} as of 2026-07-27"
         )
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
@@ -1365,7 +1373,7 @@ def validate_manifest(errors: list[str]) -> None:
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 53 for rows in csv_rows_by_language.values()):
-        errors.append("both v25 Evidence Registers must contain exactly 53 reviewed rows")
+        errors.append("both v26 Evidence Registers must contain exactly 53 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1422,7 +1430,7 @@ def validate_manifest(errors: list[str]) -> None:
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v25 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v26 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1482,7 +1490,7 @@ def validate_manifest(errors: list[str]) -> None:
             expected_boundary = "independent public evidence" if is_english else "julkinen riippumaton"
             if expected_boundary not in combined:
                 errors.append(f"{relative}: public-boundary disclosure is missing")
-            v25_deck_markers = (
+            v26_deck_markers = (
                 (
                     "274,180 milj. nzd",
                     "2,763 mrd usd",
@@ -1495,8 +1503,9 @@ def validate_manifest(errors: list[str]) -> None:
                     "d5",
                     "d8",
                     "d10",
+                    "puola",
                     "1,219160 mrd cad",
-                    "2026-07-26",
+                    "2026-07-27",
                     RELEASE_VERSION,
                 )
                 if not is_english
@@ -1512,8 +1521,9 @@ def validate_manifest(errors: list[str]) -> None:
                     "d5",
                     "d8",
                     "d10",
+                    "poland",
                     "cad 1.219160bn",
-                    "2026-07-26",
+                    "2026-07-27",
                     RELEASE_VERSION,
                 )
             )
@@ -1527,22 +1537,22 @@ def validate_manifest(errors: list[str]) -> None:
                 expected_eur_rows,
                 "en" if is_english else "fi",
             )
-            v25_deck_markers = (
-                *v25_deck_markers,
+            v26_deck_markers = (
+                *v26_deck_markers,
                 nz_observed_fx_marker,
                 ftc_fx_marker,
                 canada_retail_fx_marker,
                 canada_shipments_fx_marker,
             )
             if expected["slideCount"] == 30:
-                v25_deck_markers = (
-                    *v25_deck_markers,
+                v26_deck_markers = (
+                    *v26_deck_markers,
                     nz_model_fx_marker,
                     "nzd 533.7–731.2m" if is_english else "533,7–731,2 milj. nzd",
                 )
-            for marker in v25_deck_markers:
+            for marker in v26_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v25 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v26 market marker is missing: {marker!r}")
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
             row_count = validate_workbook(

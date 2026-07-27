@@ -80,8 +80,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-26-new-zealand-donor-closure-v25"
-RELEASE_VERSION = "2026.07.26-25"
+RELEASE_ID = "2026-07-27-first-donor-conversion-v26"
+RELEASE_VERSION = "2026.07.27-26"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -492,9 +492,9 @@ def build_context() -> dict[str, Any]:
     if (
         release.get("id") != RELEASE_ID
         or release.get("version") != RELEASE_VERSION
-        or as_of != "2026-07-26"
+        or as_of != "2026-07-27"
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v25 release")
+        raise ValueError("Public inputs are not locked to the reviewed v26 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
     for label, data in (("atlas", atlas), ("patent history", patent)):
@@ -573,7 +573,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or len(market_sources) != expected_market_counts[1]
     ):
         raise ValueError(
-            "Bank package v25 requires the reviewed market observation and source counts"
+            "Bank package v26 requires the reviewed market observation and source counts"
         )
     source_id_collisions = sorted(set(market_sources) & set(patent_sources))
     if source_id_collisions:
@@ -593,7 +593,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             )
     fhm_source = market_sources.get(FHM_SOURCE_ID)
     if fhm_source is None or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
-        raise ValueError("Bank package v25 requires the reviewed public FHM reference")
+        raise ValueError("Bank package v26 requires the reviewed public FHM reference")
 
     def require_source_ids(item: dict[str, Any], source_map: dict[str, Any], label: str) -> None:
         source_ids = item.get("sourceIds")
@@ -848,7 +848,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or official_country_codes != ["CA", "DE", "FI", "NZ", "PL", "SE", "US"]
     ):
         raise ValueError(
-            "Bank package v25 requires 34 official market measures across seven reviewed countries"
+            "Bank package v26 requires 34 official market measures across seven reviewed countries"
         )
     expected_structure_ids = {
         f"SE-{year}-FHM-{suffix}"
@@ -865,7 +865,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             and actual_structure_ids != expected_structure_ids
         )
     ):
-        raise ValueError("Bank package v25 requires the 36-record Swedish FHM structure series")
+        raise ValueError("Bank package v26 requires the 36-record Swedish FHM structure series")
     for item in sweden_structure_observations:
         value = item.get("value")
         snapshot = item.get("year") == 2026
@@ -1367,7 +1367,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
     if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
-        raise ValueError("Bank package v25 requires exactly five reviewed donor candidates")
+        raise ValueError("Bank package v26 requires exactly five reviewed donor candidates")
     candidate_ids = {
         "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL",
         "EU-2023-COMMISSION-BENCHMARK",
@@ -1376,7 +1376,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v25 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v26 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
             raise ValueError("Every v17 donor candidate must remain outside the accepted count")
@@ -3769,7 +3769,7 @@ def build_large_deck(ctx: dict[str, Any], path: Path) -> None:
     slide_claim(prs, ctx, 18, f"Hyväksyttävä maailmanestimaatti tarvitsee vähintään {v['minimum_required_donors']} yhteensopivaa luovuttajaa", "Metodi",
                 f"Uusi-Seelanti on 7/10: D5 hylätty, D8 ja D10 avoinna. Kaikki {v['donor_candidate_count']} ehdokasta ovat ulkona; donor-portti on {v['donor_gate']}.",
                 [f"Uuden-Seelannin tunnistettu AIS/AVP-summa {v['nz_identified_vaping_raw_sum']} jakautuu kulutustarvikkeisiin {v['nz_consumables']} NZD, laitteisiin/hardwareen {v['nz_devices_hardware']} NZD ja sekajärjestelmiin {v['nz_mixed_systems']} NZD.", f"Viereiset {v['nz_adjacent']} NZD ja ratkaisemattomat {v['nz_unresolved']} NZD rajataan pois. Erillinen 533,7–731,2 milj. NZD RPS-herkkyys on tuettu malli, ei havaittu kansallinen arvo.", "Alue- ja sääntelytyyppien peitto sekä suora validointi suurissa talouksissa vaaditaan vielä."],
-                "Vasta sitten", "Trianguloi kysyntä-, vero-, tulli-, yritys- ja hintamenetelmät. Vertaa tuloksia; älä lisää vaihtoehtoisia arvioita yhteen.", "Market-values modelReadiness, donorProtocol ja donorCandidates" )
+                "Vasta sitten", "Trianguloi kysyntä-, vero-, tulli-, yritys- ja hintamenetelmät. Vertaa tuloksia; älä lisää vaihtoehtoisia arvioita yhteen.", "Market-values model; Readiness, donorProtocol ja donorCandidates" )
     slide_table(prs, ctx, 19, "Markkinan ja patentin väliin tarvitaan viisi läpinäkyvää suodatinta", "Arvosilta",
                 ["Taso", "Suodatin", "Näyttö"],
                 [["1. Kokonaismarkkina", "Tuote- ja mittarirajaus", "Osittainen"], ["2. Oikeusalue", "Voimassa oleva operative claim", "Puuttuu globaalisti"], ["3. Relevantit tuotteet", "Claim chart", f"Rajattu näyttö: {v['de_country']}"], ["4. Relevantti myynti", "Tuote × maa × aika × net sales", "Puuttuu"], ["5. Kassavirta", "Rojalti/sovinto − kulut − verot − viive", "Puuttuu"]],

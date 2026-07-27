@@ -3,27 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V25 = Object.freeze({
-    id: "2026-07-26-new-zealand-donor-closure-v25",
-    version: "2026.07.26-25",
-    publishedAt: "2026-07-26T11:19:19+03:00",
-    titleEn: "New Zealand 2024 donor-closure review",
-    titleFi: "Uuden-Seelannin vuoden 2024 donor-sulkutarkistus",
+  const UI_RELEASE_V26 = Object.freeze({
+    id: "2026-07-27-first-donor-conversion-v26",
+    version: "2026.07.27-26",
+    publishedAt: "2026-07-27T09:00:00+03:00",
+    titleEn: "First-donor conversion sprint",
+    titleFi: "Ensimmäisen donorin sulkemissprintti",
     items: Object.freeze([
       Object.freeze({
         category: "evidence",
-        textEn: "Added a public 29-file manifest, deterministic parser and audited New Zealand closure pack. The 2024 specialist-retailer identified-vaping subtotal is NZD 274.18m: NZD 189.40m consumables, NZD 84.71m devices/hardware and NZD 0.07m mixed systems.",
-        textFi: "Lisättiin julkinen 29 tiedoston manifesti, deterministinen laskentaohjelma ja auditoitu Uuden-Seelannin sulkemispaketti. Vuoden 2024 erikoisvähittäiskaupan tunnistettu sähkötupakkasumma on 274,18 milj. NZD: kulutustarvikkeet 189,40, laitteet ja hardware 84,71 sekä sekajärjestelmät 0,07 milj. NZD."
+        textEn: "New official-source audits keep New Zealand D8/D10 and Canada D5/D7/D10 open. Both candidates remain not accepted at 7/10; the donor gate remains 0/3 and no global value is published.",
+        textFi: "Uudet virallisten lähteiden auditit pitävät Uuden-Seelannin D8/D10- ja Kanadan D5/D7/D10-ehdot avoimina. Molemmat ehdokkaat pysyvät tasolla 7/10 ilman hyväksyntää; donor-portti on edelleen 0/3 eikä maailmanarvoa julkaista."
       }),
       Object.freeze({
         category: "method",
-        textEn: "New Zealand now passes D3, D4 and D6 and reaches 7/10 criteria. D5 fails because observed national general-retail value is absent; D8 GST basis and D10 independent reconciliation remain open. New Zealand is NOT ACCEPTED, the donor gate remains 0/3 and the global total remains not_computed.",
-        textFi: "Uusi-Seelanti läpäisee nyt D3-, D4- ja D6-ehdot ja saavuttaa 7/10 ehtoa. D5 hylätään, koska havaittu valtakunnallinen yleisvähittäiskaupan arvo puuttuu; D8:n GST-perusta ja D10:n riippumaton täsmäytys ovat avoimia. Uusi-Seelanti on EI HYVÄKSYTTY, donor-portti pysyy 0/3:ssa ja maailman kokonaisluku tilassa not_computed."
+        textEn: "A source-linked 15-country acquisition screen names Poland as the practical primary programme, Finland, Denmark and France as the secondary wave, and Russia only as a high-friction source lead. The screen assigns no donor scores.",
+        textFi: "Lähteistetty 15 maan hankintaseulonta nimeää Puolan käytännölliseksi ensisijaiseksi ohjelmaksi, Suomen, Tanskan ja Ranskan toissijaiseksi aalloksi sekä Venäjän vain korkean kitkan lähdejohtolangaksi. Seulonta ei anna donor-pisteitä."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "AIS and AVP provide all observed value. Notifier value and modelled RPS general-retail value are not added. GST is explicitly unknown; the separate NZD 533.66m / 641.81m / 731.18m RPS sensitivity remains a model, not observed national revenue.",
-        textFi: "AIS ja AVP tuottavat kaiken havaitun arvon. Notifier-arvoa eikä mallinnettua RPS-yleisvähittäiskaupan arvoa lisätä. GST on yksiselitteisesti tuntematon; erillinen 533,66 / 641,81 / 731,18 milj. NZD:n RPS-herkkyys pysyy mallina eikä havaittuna kansallisena liikevaihtona."
+        textEn: "Three 28 July follow-ups are prepared but not sent: ECigIntelligence, one combined Euromonitor EU/Germany request and Circana United States. NIQ remains excluded until the terms and permitted-use gate is reviewed.",
+        textFi: "Kolme 28.7. seurantaa on valmisteltu mutta ei lähetetty: ECigIntelligence, yksi yhdistetty Euromonitorin EU/Saksa-pyyntö ja Circana Yhdysvallat. NIQ pysyy ulkopuolella, kunnes ehdot ja sallittu käyttö on tarkistettu."
       })
     ])
   });
@@ -545,6 +545,23 @@
     ["JULKINEN TILA", "PUBLIC STATUS"],
     ["Ei automaattista julkaisua, menoa tai ulkoista toimintoa", "No automatic publication, spending or external action"],
     ["Jokainen reitti, vastaus ja lähde edellyttää ihmisen tarkistusta, julkaisuoikeutta ja nykyisen tietosuojarajan noudattamista.", "Every route, response and source remains subject to human review, publication rights and the existing privacy boundary."],
+    ["Kolmannen maan hankintaseulonta · ei donor-arvio", "Third-country acquisition screen · not a donor assessment"],
+    ["Mihin seuraava virallisen datan ohjelma kannattaa kohdistaa", "Where the next official-data programme should focus"],
+    ["Järjestys vertailee julkisia virallisia hankintareittejä. Se ei anna D1–D10-pisteitä, hyväksy luovuttajamarkkinaa eikä muuta 0/3-porttia.", "The ranking compares public official acquisition routes. It does not assign D1–D10 scores, accept a donor market or change the 0/3 gate."],
+    ["Kolmannen maan seulonnan rajaus", "Third-country screening boundary"],
+    ["VAIN SEULONTA", "SCREEN ONLY"],
+    ["Puola on käytännöllinen ensisijainen ohjelma; Venäjä on vain korkean kitkan lähdejohtolanka", "Poland is the practical primary programme; Russia is a source-only, high-friction lead"],
+    ["Yksikään seulottu maa ei ole hyväksytty donor. Tämän aallon seurantaviestejä ei ole lähetetty eikä ostoa ole hyväksytty.", "No screened country is an accepted donor. No follow-up in this wave has been sent and no purchase has been authorised."],
+    ["Tarkistetut virallisen datan hankintareitit", "Reviewed official-data acquisition routes"],
+    ["Sija / maa", "Rank / country"],
+    ["Ohjelmaluokka", "Programme class"],
+    ["Virallinen evidenssisignaali", "Official evidence signal"],
+    ["Estävät puutteet", "Blocking gaps"],
+    ["Virallinen lähde", "Official source"],
+    ["Järjestys on hankintaprioriteetti, ei markkinakoko, patentin laajuus, pakoteneuvo tai donor-piste. Jokainen maa on arvioimatta D1–D10-protokollalla.", "Ranking is an acquisition priority, not market size, patent scope, sanctions advice or a donor score. Every country remains not assessed under D1–D10."],
+    ["Seuranta-aalto · 28. heinäkuuta 2026", "Follow-up wave · 28 July 2026"],
+    ["Valmistellut luonnokset pysyvät lähettämättä, kunnes lähetys hyväksytään erikseen", "Prepared drafts remain unsent until separately approved"],
+    ["Tarkistetaan kolmannen maan hankintaseulontaa…", "Checking the third-country acquisition screen…"],
     ["A–D-luokat ja peittoprosentit kuvaavat evidenssivalmiutta, eivät markkinakokoa tai markkinaosuutta. ”Ei vahvistettu” tarkoittaa puutetta tässä tarkistetussa julkisessa aineistossa — ei näyttöä siitä, ettei oikeutta tai markkinaa ole. Taulukkoa voi vierittää vaakasuunnassa pienillä näytöillä.", "A–D grades and coverage percentages describe evidence readiness, not market size or market share. “Not established” means missing from this reviewed public dataset—not proof that no right or market exists. The table scrolls horizontally on smaller screens."],
     ["Laskennan auditointiketju", "Calculation audit trail"],
     ["Havaitusta syötteestä raportoituun vaihteluväliin", "From observed input to reported range"],
@@ -683,7 +700,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V25;
+  window.PixanUiRelease = UI_RELEASE_V26;
 
   init();
 })();

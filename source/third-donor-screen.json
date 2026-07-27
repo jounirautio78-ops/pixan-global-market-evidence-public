@@ -1,0 +1,374 @@
+{
+  "schemaVersion": "1.0",
+  "asOf": "2026-07-27",
+  "status": "screening_only_not_donor_assessment",
+  "method": {
+    "ruleEn": "This screen ranks public official acquisition routes. It does not score D1-D10, accept a donor market or change the 0/3 gate.",
+    "ruleFi": "Seulonta järjestää julkiset viralliset tiedonhankintareitit. Se ei pisteytä D1-D10-ehtoja, hyväksy luovuttajamarkkinaa eikä muuta 0/3-porttia.",
+    "rankingBasisEn": "Priority reflects the strength of the official value or volume signal, feasibility of obtaining a national aggregate, scope clarity, reproducibility and operational friction.",
+    "rankingBasisFi": "Järjestys perustuu virallisen arvo- tai määräsignaalin vahvuuteen, valtakunnallisen koosteen saatavuuteen, rajauksen selkeyteen, toistettavuuteen ja operatiiviseen kitkaan."
+  },
+  "decision": {
+    "primaryProgrammeCountryIso2": "PL",
+    "sourceOnlyLeadCountryIso2": "RU",
+    "secondaryProgrammeCountryIso2": ["FI", "DK", "FR"],
+    "reasonEn": "Poland is the most practical third programme because its EU-CEG route already captures annual liquid volume, device count and sales method. Russia exposes the strongest new official value signal, but sanctions, illegal-market and reproducibility friction make it a source-only lead. Finland, Denmark and France form the secondary official-request wave.",
+    "reasonFi": "Puola on käytännöllisin kolmas ohjelma, koska sen EU-CEG-reitti sisältää jo vuotuisen nestemäärän, laitemäärän ja myyntitavan. Venäjä tarjoaa vahvimman uuden virallisen arvosignaalin, mutta pakote-, laiton markkina- ja toistettavuuskitka rajaavat sen vain lähdejohtolangaksi. Suomi, Tanska ja Ranska muodostavat toissijaisen viranomaispyyntöaallon."
+  },
+  "countries": [
+    {
+      "rank": 1,
+      "countryIso2": "RU",
+      "countryEn": "Russia",
+      "countryFi": "Venäjä",
+      "programmeClass": "source_only_high_friction",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "An official market report publishes marked retail value and liquid litres for a full year and separates adjacent product groups.",
+      "evidenceSignalFi": "Virallinen markkinaraportti julkaisee kokonaisen vuoden merkityn vähittäisarvon ja nestelitrat sekä erottaa viereisiä tuoteryhmiä.",
+      "blockingGapsEn": ["Device coverage", "Illegal-market boundary", "Independent reconciliation", "Operational and sanctions constraints"],
+      "blockingGapsFi": ["Laitepeitto", "Laittoman markkinan rajaus", "Riippumaton täsmäytys", "Operatiiviset ja pakoterajoitteet"],
+      "officialSources": [
+        {
+          "labelEn": "NNCK market review Q4 2025",
+          "labelFi": "NNCK:n markkinakatsaus Q4/2025",
+          "url": "https://nnck.gov.ru/hmenu/obzor-rynkov/2025/%D0%9E%D0%B1%D0%B7%D0%BE%D1%80%20%D0%9D%D0%A1%D0%9F%20-%204%D0%BA%D0%B22025.pdf",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "countryIso2": "PL",
+      "countryEn": "Poland",
+      "countryFi": "Puola",
+      "programmeClass": "primary_programme",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "The official EU-CEG route records year, liquid volume, device count and sales method.",
+      "evidenceSignalFi": "Virallinen EU-CEG-reitti kirjaa vuoden, nestemäärän, laitemäärän ja myyntitavan.",
+      "blockingGapsEn": ["Published national aggregate", "Consumer-retail value", "Coverage and missingness", "Independent reconciliation"],
+      "blockingGapsFi": ["Julkaistu valtakunnallinen kooste", "Kuluttajavähittäisarvo", "Peitto ja puuttuvuus", "Riippumaton täsmäytys"],
+      "officialSources": [
+        {
+          "labelEn": "Polish Bureau for Chemical Substances notification guidance",
+          "labelFi": "Puolan kemikaaliviraston ilmoitusohje",
+          "url": "https://www.gov.pl/web/chemical/notification-of-electronic-cigarettes-and-refill-containers",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "countryIso2": "FI",
+      "countryEn": "Finland",
+      "countryFi": "Suomi",
+      "programmeClass": "secondary_programme",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "Annual reporting by brand, type and sales method is required; the remote-sales ban narrows channel uncertainty.",
+      "evidenceSignalFi": "Vuosittainen raportointi brändin, tyypin ja myyntitavan mukaan on pakollista; etämyyntikielto kaventaa kanavaepävarmuutta.",
+      "blockingGapsEn": ["Public sales aggregate", "Device value", "Consumer-retail transaction level"],
+      "blockingGapsFi": ["Julkinen myyntikooste", "Laitteiden arvo", "Kuluttajavähittäiskaupan tapahtumataso"],
+      "officialSources": [
+        {
+          "labelEn": "Finnish Tobacco Act",
+          "labelFi": "Suomen tupakkalaki",
+          "url": "https://www.finlex.fi/api/media/statute-foreign-language-translation/687849/mainPdf/main.pdf",
+          "verifiedOn": "2026-07-27"
+        },
+        {
+          "labelEn": "Finnish Tax Administration tobacco excise",
+          "labelFi": "Verohallinnon tupakkavero-ohje",
+          "url": "https://www.vero.fi/yritykset-ja-yhteisot/verot-ja-maksut/valmisteverotus/tupakkavero/",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "countryIso2": "DK",
+      "countryEn": "Denmark",
+      "countryFi": "Tanska",
+      "programmeClass": "secondary_programme",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "The authority describes annual EU-CEG sales reporting for electronic cigarettes and refill containers.",
+      "evidenceSignalFi": "Viranomainen kuvaa sähkötupakoiden ja täyttösäiliöiden vuotuisen EU-CEG-myyntiraportoinnin.",
+      "blockingGapsEn": ["Aggregate availability", "Retail value", "Channel coverage", "Missingness"],
+      "blockingGapsFi": ["Koosteen saatavuus", "Vähittäisarvo", "Kanavapeitto", "Puuttuvuus"],
+      "officialSources": [
+        {
+          "labelEn": "Danish Safety Technology Authority EU-CEG guidance",
+          "labelFi": "Tanskan turvallisuusteknologiaviraston EU-CEG-ohje",
+          "url": "https://www.sik.dk/en/node/936",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "countryIso2": "FR",
+      "countryEn": "France",
+      "countryFi": "Ranska",
+      "programmeClass": "secondary_programme",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "ANSES has already analysed EU-CEG vaping sales records and their data-quality limits.",
+      "evidenceSignalFi": "ANSES on jo analysoinut EU-CEG:n sähkötupakkamyyntitietoja ja niiden laaturajoja.",
+      "blockingGapsEn": ["Current national value", "Completeness", "Consumer-retail boundary"],
+      "blockingGapsFi": ["Ajantasainen kansallinen arvo", "Täydellisyys", "Kuluttajavähittäiskaupan rajaus"],
+      "officialSources": [
+        {
+          "labelEn": "ANSES vaping-products portal",
+          "labelFi": "ANSES:n vaping-tuoteportaali",
+          "url": "https://www.anses.fr/fr/content/produits-du-vapotage",
+          "verifiedOn": "2026-07-27"
+        },
+        {
+          "labelEn": "ANSES official EU-CEG analysis",
+          "labelFi": "ANSES:n virallinen EU-CEG-analyysi",
+          "url": "https://www.anses.fr/fr/system/files?file=CONSO2018SA0189Ra-2.pdf",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 6,
+      "countryIso2": "AE",
+      "countryEn": "United Arab Emirates",
+      "countryFi": "Yhdistyneet arabiemiirikunnat",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "Devices and liquids are subject to excise and the taxable value route references a designated retail price.",
+      "evidenceSignalFi": "Laitteet ja nesteet kuuluvat valmisteveron piiriin, ja verotusarvoreitti viittaa määrättyyn vähittäishintaan.",
+      "blockingGapsEn": ["Public category total", "Observed consumer sell-through", "Independent volume bridge"],
+      "blockingGapsFi": ["Julkinen kategoriasumma", "Havaittu kuluttajamyynti", "Riippumaton määräsilta"],
+      "officialSources": [
+        {
+          "labelEn": "Federal Tax Authority excise registration",
+          "labelFi": "Liittovaltion veroviranomaisen valmisteverorekisteröinti",
+          "url": "https://tax.gov.ae/en/taxes/excise.tax/excise.tax.topics/mechanism.for.registering.excise.aspx",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "countryIso2": "CN",
+      "countryEn": "China",
+      "countryFi": "Kiina",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "An official statistical survey covers production, transactions, inventories and financial indicators.",
+      "evidenceSignalFi": "Virallinen tilastokysely kattaa tuotannon, liiketoimet, varastot ja taloudelliset tunnusluvut.",
+      "blockingGapsEn": ["Consumer-retail sell-through", "Public category aggregate", "Scope bridge to vaping only"],
+      "blockingGapsFi": ["Kuluttajavähittäismyynti", "Julkinen kategoriakooste", "Rajaus sähkötupakkatuotteisiin"],
+      "officialSources": [
+        {
+          "labelEn": "National Bureau of Statistics reporting programme",
+          "labelFi": "Kiinan tilastoviraston raportointiohjelma",
+          "url": "https://www.stats.gov.cn/fw/bmdcxmsp/bmzd/202402/t20240205_1947271.html",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "countryIso2": "GB",
+      "countryEn": "United Kingdom",
+      "countryFi": "Yhdistynyt kuningaskunta",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "Annual reporting includes device and liquid quantities and sales method.",
+      "evidenceSignalFi": "Vuosiraportointi sisältää laite- ja nestemäärät sekä myyntitavan.",
+      "blockingGapsEn": ["Public national aggregate", "Retail value", "Commercial-confidentiality boundary"],
+      "blockingGapsFi": ["Julkinen kansallinen kooste", "Vähittäisarvo", "Liikesalaisuusraja"],
+      "officialSources": [
+        {
+          "labelEn": "MHRA annual reporting guidance",
+          "labelFi": "MHRA:n vuosiraportointiohje",
+          "url": "https://www.gov.uk/government/publications/chapter-7-annual-reporting-guidance-great-britain/chapter-7-advice-on-submitting-annual-reports-for-electronic-cigarettes-and-refill-containers",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 9,
+      "countryIso2": "US",
+      "countryEn": "United States",
+      "countryFi": "Yhdysvallat",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "The FTC publishes manufacturer dollar sales and product-category evidence.",
+      "evidenceSignalFi": "FTC julkaisee valmistajien dollarimyynnin ja tuoteryhmäkohtaisia tietoja.",
+      "blockingGapsEn": ["Open-system products", "Vape-shop and online channels", "Current independent retail reconciliation"],
+      "blockingGapsFi": ["Avoimet järjestelmät", "Vapekauppa- ja verkkokanavat", "Ajantasainen riippumaton vähittäistäsmäytys"],
+      "officialSources": [
+        {
+          "labelEn": "FTC E-Cigarette Report 2021",
+          "labelFi": "FTC:n sähkötupakkaraportti 2021",
+          "url": "https://www.ftc.gov/reports/e-cigarette-report-2021",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 10,
+      "countryIso2": "NL",
+      "countryEn": "Netherlands",
+      "countryFi": "Alankomaat",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "A strong official product and ingredient register supports scope verification.",
+      "evidenceSignalFi": "Vahva virallinen tuote- ja ainesosarekisteri tukee tuoterajauksen tarkistamista.",
+      "blockingGapsEn": ["Annual national sales value", "Volume aggregate", "Consumer-retail transaction level"],
+      "blockingGapsFi": ["Vuotuinen kansallinen myyntiarvo", "Määräkooste", "Kuluttajavähittäiskaupan tapahtumataso"],
+      "officialSources": [
+        {
+          "labelEn": "RIVM tobacco-products register information",
+          "labelFi": "RIVM:n tupakkatuoterekisterin tiedot",
+          "url": "https://www.rivm.nl/tabak/wat-zit-er-in-producten",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 11,
+      "countryIso2": "IT",
+      "countryEn": "Italy",
+      "countryFi": "Italia",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "Excise and licensing administration can provide liquid-sales cross-checks.",
+      "evidenceSignalFi": "Valmistevero- ja lupahallinto voi tarjota nestemyynnin tarkistuspisteitä.",
+      "blockingGapsEn": ["Device sales", "Consumer-retail value", "Public annual category table"],
+      "blockingGapsFi": ["Laitemyynti", "Kuluttajavähittäisarvo", "Julkinen vuotuinen kategoriataulukko"],
+      "officialSources": [
+        {
+          "labelEn": "Italian Customs and Monopolies excise directorate",
+          "labelFi": "Italian tulli- ja monopoliviraston valmistevero-osasto",
+          "url": "https://www.adm.gov.it/portale/direzione-accise",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 12,
+      "countryIso2": "ES",
+      "countryEn": "Spain",
+      "countryFi": "Espanja",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "New tax reporting can create a future liquid-volume and tax series.",
+      "evidenceSignalFi": "Uusi veroraportointi voi muodostaa tulevan nestemäärä- ja verosarjan.",
+      "blockingGapsEn": ["Complete historical year", "Device sales", "Consumer-retail value"],
+      "blockingGapsFi": ["Täysi historiallinen vuosi", "Laitemyynti", "Kuluttajavähittäisarvo"],
+      "officialSources": [
+        {
+          "labelEn": "Spanish Law 7/2024",
+          "labelFi": "Espanjan laki 7/2024",
+          "url": "https://www.hacienda.gob.es/DocLeyes/REPOSITORIO%20NORMATIVA/89310.htm",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 13,
+      "countryIso2": "SE",
+      "countryEn": "Sweden",
+      "countryFi": "Ruotsi",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "Annual reporting exists by brand, type and sales method.",
+      "evidenceSignalFi": "Vuosittainen raportointi on olemassa brändin, tyypin ja myyntitavan mukaan.",
+      "blockingGapsEn": ["No ready official aggregate in the reviewed response", "Retail value", "Independent reconciliation"],
+      "blockingGapsFi": ["Tarkistetussa vastauksessa ei valmista virallista koostetta", "Vähittäisarvo", "Riippumaton täsmäytys"],
+      "officialSources": [
+        {
+          "labelEn": "Public Health Agency of Sweden notification guidance",
+          "labelFi": "Ruotsin kansanterveysviraston ilmoitusohje",
+          "url": "https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/living-conditions-and-lifestyle/andtg/legal-requirements/e-cigarettes-refill-containers/requirements-on-electronic-cigarettes-and-refill-containers/notification-on-electronic-cigarettes-and-refill-containers/",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 14,
+      "countryIso2": "PH",
+      "countryEn": "Philippines",
+      "countryFi": "Filippiinit",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "Liquid-volume excise returns and tax stamps can support a lower-bound route.",
+      "evidenceSignalFi": "Nestemäärään perustuvat valmisteveroilmoitukset ja veromerkit voivat tukea alarajareittiä.",
+      "blockingGapsEn": ["Device sales", "Consumer-retail sell-through", "Public aggregate"],
+      "blockingGapsFi": ["Laitemyynti", "Kuluttajavähittäismyynti", "Julkinen kooste"],
+      "officialSources": [
+        {
+          "labelEn": "BIR Form 2200-T",
+          "labelFi": "BIR-lomake 2200-T",
+          "url": "https://bir-cdn.bir.gov.ph/local/pdf/2200-T%20Aug.%202022%20ENCS%20Final.pdf",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "rank": 15,
+      "countryIso2": "SA",
+      "countryEn": "Saudi Arabia",
+      "countryFi": "Saudi-Arabia",
+      "programmeClass": "monitor",
+      "donorStatus": "not_assessed",
+      "evidenceSignalEn": "Devices and liquids fall within an official excise framework.",
+      "evidenceSignalFi": "Laitteet ja nesteet kuuluvat viralliseen valmisteverokehykseen.",
+      "blockingGapsEn": ["Public category total", "Consumer-retail bridge", "Annual device and liquid split"],
+      "blockingGapsFi": ["Julkinen kategoriasumma", "Kuluttajavähittäiskaupan silta", "Vuotuinen laite- ja nestejako"],
+      "officialSources": [
+        {
+          "labelEn": "ZATCA Excise Tax Implementing Regulations",
+          "labelFi": "ZATCA:n valmisteveron täytäntöönpanosäännöt",
+          "url": "https://zatca.gov.sa/en/RulesRegulations/Documents/Excise%20Tax%20Implementing%20Regulations.pdf",
+          "verifiedOn": "2026-07-27"
+        }
+      ]
+    }
+  ],
+  "followUpWave": {
+    "dueOn": "2026-07-28",
+    "draftState": "prepared_not_sent",
+    "items": [
+      {
+        "itemId": "ECIG-FIRST-FOLLOW-UP-20260728",
+        "vendor": "ECigIntelligence",
+        "route": "existing_thread",
+        "threadStatus": "awaiting_response",
+        "objectiveEn": "Request a review sample, exact country-year-product-channel matrix, methodology, licence rights and total commercial terms.",
+        "objectiveFi": "Pyydä tarkistusnäyte, tarkka maa-vuosi-tuote-kanavamatriisi, menetelmä, käyttöoikeudet ja täydet kaupalliset ehdot.",
+        "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
+      },
+      {
+        "itemId": "EUROMONITOR-COMBINED-FOLLOW-UP-20260728",
+        "vendor": "Euromonitor",
+        "route": "existing_thread",
+        "threadStatus": "awaiting_response",
+        "objectiveEn": "Combine the EU-country and Germany full-year requests and require a populated 2022-2025 Germany sample reconciled to official liquid-volume anchors.",
+        "objectiveFi": "Yhdistä EU-maadata- ja Saksan täyden vuoden pyynnöt sekä vaadi täytetty Saksan 2022-2025-näyte, joka täsmäytetään virallisiin nestemääräankkureihin.",
+        "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
+      },
+      {
+        "itemId": "CIRCANA-US-FOLLOW-UP-20260728",
+        "vendor": "Circana",
+        "route": "original_submission_channel",
+        "threadStatus": "original_channel_not_publicly_confirmed",
+        "objectiveEn": "Request a United States retail sample and explicit MULO, convenience, vape-shop, direct-to-consumer and online coverage.",
+        "objectiveFi": "Pyydä Yhdysvaltain vähittäismyyntinäyte sekä yksiselitteinen MULO-, convenience-, vapekauppa-, suora kuluttaja- ja verkkokanavapeitto.",
+        "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
+      }
+    ],
+    "excluded": [
+      {
+        "vendor": "NIQ",
+        "reasonEn": "No follow-up is prepared until the terms-acceptance and permitted-use gate has been reviewed.",
+        "reasonFi": "Seurantaa ei valmistella ennen kuin ehtojen hyväksyntä- ja sallittu käyttö -portti on tarkistettu."
+      }
+    ]
+  },
+  "boundaryEn": "No screened country is an accepted donor. No follow-up in this wave has been sent, no purchase has been authorised and no private quote or correspondence is published.",
+  "boundaryFi": "Yksikään seulottu maa ei ole hyväksytty luovuttajamarkkina. Tämän aallon seurantaviestejä ei ole lähetetty, ostoa ei ole hyväksytty eikä yksityistä tarjousta tai kirjeenvaihtoa julkaista."
+}

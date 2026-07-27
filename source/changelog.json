@@ -1,7 +1,31 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-26",
+  "asOf": "2026-07-27",
   "releases": [
+    {
+      "id": "2026-07-27-first-donor-conversion-v26",
+      "version": "2026.07.27-26",
+      "publishedAt": "2026-07-27T09:00:00+03:00",
+      "titleEn": "First-donor conversion sprint and third-country acquisition screen",
+      "titleFi": "Ensimmäisen donorin sulkemissprintti ja kolmannen maan hankintaseulonta",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Completed new official-source audits for New Zealand D8/D10 and Canada D5/D7/D10. Neither audit supports a criterion change: both candidates remain NOT ACCEPTED at 7/10, the donor gate remains 0/3 and the global estimate remains not_computed. The audit memos state exactly what evidence would be required to close each remaining gate.",
+          "textFi": "Valmistuivat uudet virallisten lähteiden auditit Uuden-Seelannin D8/D10- ja Kanadan D5/D7/D10-ehdoille. Kumpikaan auditointi ei tue kriteerimuutosta: molemmat ehdokkaat pysyvät tilassa EI HYVÄKSYTTY tasolla 7/10, donor-portti pysyy 0/3:ssa ja maailmanestimaatti tilassa not_computed. Auditointimuistiot yksilöivät täsmälleen näytön, jota jokaisen avoimen portin sulkeminen vaatii."
+        },
+        {
+          "category": "method",
+          "textEn": "Published a source-linked 15-country acquisition screen without assigning donor scores. Poland is the primary practical third-country programme; Finland, Denmark and France form the secondary official-request wave. Russia is retained only as a high-friction official-source lead and is not treated as an operationally preferred route.",
+          "textFi": "Julkaistiin lähteistetty 15 maan hankintaseulonta ilman donor-pisteytystä. Puola on ensisijainen käytännöllinen kolmannen maan ohjelma; Suomi, Tanska ja Ranska muodostavat toissijaisen viranomaispyyntöaallon. Venäjä säilytetään vain korkean kitkan virallisena lähdejohtolankana eikä sitä käsitellä operatiivisesti ensisijaisena reittinä."
+        },
+        {
+          "category": "usability",
+          "textEn": "Added a bilingual research-operations view for the third-donor programme and the 28 July vendor follow-up wave. Three follow-ups are prepared but NOT SENT: ECigIntelligence, one combined Euromonitor EU/Germany request and Circana United States. NIQ remains excluded until the terms and permitted-use gate is reviewed. The two deck sizes and both Evidence Registers are refreshed to the same v26 boundary.",
+          "textFi": "Lisättiin kaksikielinen tutkimusoperaationäkymä kolmannen donorin ohjelmalle ja 28.7. toimittajaseuranta-aallolle. Kolme seurantaa on valmisteltu mutta EI LÄHETETTY: ECigIntelligence, yksi yhdistetty Euromonitorin EU/Saksa-pyyntö ja Circana Yhdysvallat. NIQ pysyy ulkopuolella, kunnes ehdot ja sallittu käyttö on tarkistettu. Kaksi dekkikokoa ja molemmat Evidence Registerit päivitettiin samaan v26-rajaan."
+        }
+      ]
+    },
     {
       "id": "2026-07-26-new-zealand-donor-closure-v25",
       "version": "2026.07.26-25",

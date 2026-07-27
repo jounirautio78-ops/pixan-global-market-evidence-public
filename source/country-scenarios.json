@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "asOf": "2026-07-26",
+  "asOf": "2026-07-27",
   "calculationPolicy": {
     "requiredRangeInputs": ["low", "base", "high"],
     "missingInputStatus": "not_computed",

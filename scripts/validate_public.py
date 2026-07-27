@@ -94,6 +94,10 @@ NZ_2024_MANIFEST_PATH = ROOT / "source" / "NZ_2024_WORKBOOK_MANIFEST.json"
 NZ_2024_SCOPE_AUDIT_PATH = ROOT / "source" / "NZ_2024_PRODUCT_SCOPE_AUDIT.json"
 NZ_2024_RECONCILIATION_PATH = ROOT / "source" / "NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md"
 NZ_2024_CLOSURE_PACK_PATH = ROOT / "source" / "NZ_2024_DONOR_CLOSURE_PACK.md"
+THIRD_DONOR_SOURCE_PATH = ROOT / "source" / "third-donor-screen.json"
+THIRD_DONOR_PUBLIC_PATH = ROOT / "site" / "data" / "third-donor-screen.json"
+THIRD_DONOR_SOURCE_SCHEMA_PATH = ROOT / "source" / "schemas" / "third-donor-screen.schema.json"
+THIRD_DONOR_PUBLIC_SCHEMA_PATH = ROOT / "site" / "schemas" / "third-donor-screen.schema.json"
 NZ_2024_MANIFEST_SHA256 = "95b1c97e57b82b81b220ff3295b067c347474aacb1f8cb4d3d6244f454391343"
 NZ_2024_SCOPE_AUDIT_SHA256 = "4f6bb08650eb03716b114536c9bc08bcb4a80deb87c326527c891ad05187bb9b"
 FORBIDDEN_RAW_PATH = ROOT / "source" / "marnet-dashboard.json"
@@ -212,10 +216,12 @@ EXPECTED_SITE_FILES = {
     "site/data/market-values.csv",
     "site/data/evidence-lanes.json",
     "site/data/donor-cockpit.json",
+    "site/data/third-donor-screen.json",
     "site/data/country-scenarios.json",
     "site/data/fx-rates.json",
     "site/schemas/evidence-lanes.schema.json",
     "site/schemas/donor-cockpit.schema.json",
+    "site/schemas/third-donor-screen.schema.json",
     "site/schemas/country-scenarios.schema.json",
     "site/schemas/fx-rates.schema.json",
     "site/data/patent-history.json",
@@ -2401,6 +2407,174 @@ def validate_patent_family_csv(patent_history: dict[str, Any], errors: list[str]
         errors.append("patent-family.csv differs from patent-history.json deterministic parity")
 
 
+def validate_third_donor_screen(
+    source: dict[str, Any],
+    public: dict[str, Any],
+    source_schema: dict[str, Any],
+    public_schema: dict[str, Any],
+    errors: list[str],
+) -> None:
+    """Validate the public acquisition screen without promoting it into the donor ledger."""
+    if public != source:
+        errors.append("site/data/third-donor-screen.json must match the reviewed source exactly")
+    if public_schema != source_schema:
+        errors.append("public third-donor schema must match the reviewed source schema exactly")
+    if (
+        source_schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema"
+        or source_schema.get("title") != "Pixan public third-donor screening control"
+        or source_schema.get("type") != "object"
+    ):
+        errors.append("third-donor-screen schema metadata is invalid")
+
+    expected_top = {
+        "schemaVersion",
+        "asOf",
+        "status",
+        "method",
+        "decision",
+        "countries",
+        "followUpWave",
+        "boundaryEn",
+        "boundaryFi",
+    }
+    if set(source) != expected_top:
+        errors.append("third-donor-screen.json must use the exact reviewed top-level schema")
+    if source.get("schemaVersion") != "1.0":
+        errors.append("third-donor screen schemaVersion must be 1.0")
+    if source.get("asOf") != "2026-07-27":
+        errors.append("third-donor screen must be reviewed as of 2026-07-27")
+    if source.get("status") != "screening_only_not_donor_assessment":
+        errors.append("third-donor screen must remain screening-only")
+
+    decision = source.get("decision")
+    if not isinstance(decision, dict):
+        errors.append("third-donor screen decision must be an object")
+        decision = {}
+    if (
+        decision.get("primaryProgrammeCountryIso2") != "PL"
+        or decision.get("sourceOnlyLeadCountryIso2") != "RU"
+        or decision.get("secondaryProgrammeCountryIso2") != ["FI", "DK", "FR"]
+    ):
+        errors.append("third-donor programme decision must remain PL / RU / [FI, DK, FR]")
+
+    countries = source.get("countries")
+    expected_iso2 = [
+        "RU", "PL", "FI", "DK", "FR", "AE", "CN", "GB",
+        "US", "NL", "IT", "ES", "SE", "PH", "SA",
+    ]
+    if not isinstance(countries, list) or len(countries) != 15:
+        errors.append("third-donor screen must contain exactly 15 country routes")
+        countries = []
+    actual_iso2 = [item.get("countryIso2") for item in countries if isinstance(item, dict)]
+    actual_ranks = [item.get("rank") for item in countries if isinstance(item, dict)]
+    if actual_iso2 != expected_iso2 or len(set(actual_iso2)) != len(expected_iso2):
+        errors.append("third-donor country order must remain the reviewed 15-country ranking")
+    if actual_ranks != list(range(1, 16)):
+        errors.append("third-donor ranks must be unique and sequential from 1 to 15")
+
+    expected_classes = {
+        "RU": "source_only_high_friction",
+        "PL": "primary_programme",
+        "FI": "secondary_programme",
+        "DK": "secondary_programme",
+        "FR": "secondary_programme",
+    }
+    as_of = date(2026, 7, 27)
+    official_source_count = 0
+    for index, country in enumerate(countries):
+        path = f"third-donor countries[{index}]"
+        if not isinstance(country, dict):
+            errors.append(f"{path} must be an object")
+            continue
+        iso2 = country.get("countryIso2")
+        expected_class = expected_classes.get(iso2, "monitor")
+        if country.get("programmeClass") != expected_class:
+            errors.append(f"{path}.programmeClass differs from the reviewed decision")
+        if country.get("donorStatus") != "not_assessed":
+            errors.append(f"{path}.donorStatus must remain not_assessed")
+        for key in ("countryEn", "countryFi", "evidenceSignalEn", "evidenceSignalFi"):
+            if not isinstance(country.get(key), str) or not country[key].strip():
+                errors.append(f"{path}.{key} must be a non-empty string")
+        for key in ("blockingGapsEn", "blockingGapsFi"):
+            value = country.get(key)
+            if not isinstance(value, list) or not value or not all(isinstance(item, str) and item.strip() for item in value):
+                errors.append(f"{path}.{key} must contain public blocking gaps")
+        sources = country.get("officialSources")
+        if not isinstance(sources, list) or not sources:
+            errors.append(f"{path}.officialSources must contain at least one official route")
+            continue
+        official_source_count += len(sources)
+        for source_index, item in enumerate(sources):
+            source_path = f"{path}.officialSources[{source_index}]"
+            if not isinstance(item, dict):
+                errors.append(f"{source_path} must be an object")
+                continue
+            if not is_https_url(item.get("url")):
+                errors.append(f"{source_path}.url must be a safe public HTTPS URL")
+            try:
+                verified_on = date.fromisoformat(str(item.get("verifiedOn")))
+                if verified_on > as_of:
+                    errors.append(f"{source_path}.verifiedOn cannot be future-dated")
+            except ValueError:
+                errors.append(f"{source_path}.verifiedOn must be an ISO date")
+            for key in ("labelEn", "labelFi"):
+                if not isinstance(item.get(key), str) or not item[key].strip():
+                    errors.append(f"{source_path}.{key} must be a non-empty string")
+    if official_source_count != 17:
+        errors.append("third-donor screen must retain exactly 17 reviewed official-source links")
+
+    follow_up = source.get("followUpWave")
+    if not isinstance(follow_up, dict):
+        errors.append("third-donor follow-up wave must be an object")
+        follow_up = {}
+    if follow_up.get("dueOn") != "2026-07-28":
+        errors.append("third-donor follow-up wave must remain due on 2026-07-28")
+    if follow_up.get("draftState") != "prepared_not_sent":
+        errors.append("third-donor follow-up wave must remain prepared and not sent")
+    items = follow_up.get("items")
+    if not isinstance(items, list):
+        errors.append("third-donor follow-up items must be an array")
+        items = []
+    vendors = [item.get("vendor") for item in items if isinstance(item, dict)]
+    item_ids = [item.get("itemId") for item in items if isinstance(item, dict)]
+    if vendors != ["ECigIntelligence", "Euromonitor", "Circana"]:
+        errors.append("third-donor follow-up vendors must remain ECigIntelligence, Euromonitor and Circana")
+    if len(item_ids) != 3 or len(set(item_ids)) != 3 or any(not item_id for item_id in item_ids):
+        errors.append("third-donor follow-up item IDs must be unique and complete")
+    if any(item.get("draftFile") != "FOLLOW_UP_DRAFTS_2026-07-28.md" for item in items if isinstance(item, dict)):
+        errors.append("third-donor follow-up items must point to the reviewed draft file")
+    excluded = follow_up.get("excluded")
+    if (
+        not isinstance(excluded, list)
+        or len(excluded) != 1
+        or not isinstance(excluded[0], dict)
+        or excluded[0].get("vendor") != "NIQ"
+    ):
+        errors.append("NIQ must remain excluded from the 2026-07-28 follow-up wave")
+
+    forbidden_keys = {
+        "accepted",
+        "criterionStatuses",
+        "passedCriteria",
+        "failedCriteria",
+        "openCriteria",
+        "score",
+        "sentAt",
+        "purchaseAuthorised",
+        "purchaseAuthorized",
+    }
+    stack: list[Any] = [source]
+    while stack:
+        value = stack.pop()
+        if isinstance(value, dict):
+            if forbidden_keys & set(value):
+                errors.append("third-donor screen contains a donor-score, sent-state or purchase-authorisation field")
+                break
+            stack.extend(value.values())
+        elif isinstance(value, list):
+            stack.extend(value)
+
+
 def validate_changelog(source: dict[str, Any], public: dict[str, Any], errors: list[str]) -> None:
     """Validate deterministic release metadata used only for device-local visit comparison."""
     if set(source) != {"schemaVersion", "asOf", "releases"} or source.get("schemaVersion") != 1:
@@ -2541,6 +2715,10 @@ def main() -> None:
         NZ_2024_SCOPE_AUDIT_PATH,
         NZ_2024_RECONCILIATION_PATH,
         NZ_2024_CLOSURE_PACK_PATH,
+        THIRD_DONOR_SOURCE_PATH,
+        THIRD_DONOR_PUBLIC_PATH,
+        THIRD_DONOR_SOURCE_SCHEMA_PATH,
+        THIRD_DONOR_PUBLIC_SCHEMA_PATH,
         PATENT_HISTORY_PATH,
         CHANGELOG_PATH,
         UPSTREAM_METADATA_PATH,
@@ -2567,6 +2745,10 @@ def main() -> None:
     market_values = load_json(MARKET_VALUES_JSON_PATH)
     nz_2024_manifest = load_json(NZ_2024_MANIFEST_PATH)
     nz_2024_scope_audit = load_json(NZ_2024_SCOPE_AUDIT_PATH)
+    third_donor_source = load_json(THIRD_DONOR_SOURCE_PATH)
+    third_donor_public = load_json(THIRD_DONOR_PUBLIC_PATH)
+    third_donor_source_schema = load_json(THIRD_DONOR_SOURCE_SCHEMA_PATH)
+    third_donor_public_schema = load_json(THIRD_DONOR_PUBLIC_SCHEMA_PATH)
     patent_source = load_json(PATENT_HISTORY_PATH)
     patent_history = load_json(PATENT_HISTORY_JSON_PATH)
     changelog_source = load_json(CHANGELOG_PATH)
@@ -2600,6 +2782,22 @@ def main() -> None:
         errors.append("New Zealand 2024 manifest and aggregate audit must contain objects")
     else:
         validate_nz_2024_static_audit(nz_2024_manifest, nz_2024_scope_audit, errors)
+
+    if (
+        not isinstance(third_donor_source, dict)
+        or not isinstance(third_donor_public, dict)
+        or not isinstance(third_donor_source_schema, dict)
+        or not isinstance(third_donor_public_schema, dict)
+    ):
+        errors.append("third-donor source, public data and schemas must contain objects")
+    else:
+        validate_third_donor_screen(
+            third_donor_source,
+            third_donor_public,
+            third_donor_source_schema,
+            third_donor_public_schema,
+            errors,
+        )
 
     if not isinstance(patent_source, dict) or not isinstance(patent_history, dict):
         errors.append("source and public patent-history files must contain objects")
@@ -2635,6 +2833,8 @@ def main() -> None:
     scan_public_text("market values", market_values, errors)
     scan_public_text("New Zealand 2024 workbook manifest", nz_2024_manifest, errors)
     scan_public_text("New Zealand 2024 aggregate audit", nz_2024_scope_audit, errors)
+    scan_public_text("third-donor screen source", third_donor_source, errors)
+    scan_public_text("third-donor screen schema", third_donor_source_schema, errors)
     scan_public_text("patent source", patent_source, errors)
     scan_public_text("patent history", patent_history, errors)
     scan_public_text("changelog source", changelog_source, errors)

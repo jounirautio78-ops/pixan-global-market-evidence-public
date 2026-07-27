@@ -34,6 +34,7 @@ PUBLIC_SCHEMA_DIR = ROOT / "site" / "schemas"
 PUBLIC_CONTROL_FILES = (
     "evidence-lanes.json",
     "donor-cockpit.json",
+    "third-donor-screen.json",
     "country-scenarios.json",
     "fx-rates.json",
 )
@@ -1271,6 +1272,7 @@ def write_outputs(
     for schema_name in (
         "evidence-lanes.schema.json",
         "donor-cockpit.schema.json",
+        "third-donor-screen.schema.json",
         "country-scenarios.schema.json",
         "fx-rates.schema.json",
     ):
