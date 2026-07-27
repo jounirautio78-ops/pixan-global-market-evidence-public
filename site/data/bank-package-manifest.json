@@ -2,9 +2,9 @@
   "schemaVersion": 2,
   "generatedFromPublicDataOnly": true,
   "release": {
-    "id": "2026-07-27-global-base-poland-v27",
-    "version": "2026.07.27-27",
-    "publishedAt": "2026-07-27T16:08:35+03:00"
+    "id": "2026-07-27-review-integrity-hotfix-v28",
+    "version": "2026.07.27-28",
+    "publishedAt": "2026-07-27T16:56:15+03:00"
   },
   "asOf": "2026-07-27",
   "languages": [
@@ -44,7 +44,7 @@
   "inputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "1cd556a1ab05a8a81670fac6ecbf70a06457df2d62242d270ba8d989f544ea21"
+      "sha256": "068626ebda3fc6d5e28fb397020ba2975469cefdbc1ee4481715bbc5d34230ca"
     },
     {
       "path": "scripts/build_global_base.py",
@@ -56,7 +56,7 @@
     },
     {
       "path": "scripts/build_vendor_response_control.py",
-      "sha256": "00c1d896a301262a5d072cdeec1daad89d431e81fa949eb311f7647a9aa7a549"
+      "sha256": "af697f7ffb48d2403c583257c55f1115c6558635a47f5dbfdbe8fde1a5eecf30"
     },
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
@@ -88,7 +88,7 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "7fc2f0d55e21c611518cb4a979fd34e08ce9881359bf5eb2160d2dd66ec03f04"
+      "sha256": "4c378734d6ee5c1389c705d59f2c5997ca468575e177826f38a0a877d7d37773"
     },
     {
       "path": "site/data/global-base-layer.json",
@@ -128,11 +128,11 @@
     },
     {
       "path": "site/data/vendor-response-control.json",
-      "sha256": "34571bfa725c8c5860a52d51b0084381474122af5bdba8ca1b0b286785d0bd58"
+      "sha256": "e86b3f1d1528f1e4e8ebcf7acb8762463e05a13edec5f5e9c8d95d8f7948eb23"
     },
     {
       "path": "site/data/vendor-response-control.csv",
-      "sha256": "ad75690090cf94142850dc3af9d321f3349d944f0b83b9bffebe86092f2e029e"
+      "sha256": "1fe8b6d3798cb3bc9010ccf48fd5be99eb2c29aed83f1f872a2981411fcebad3"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
@@ -140,7 +140,7 @@
     },
     {
       "path": "site/schemas/global-base-layer.schema.json",
-      "sha256": "15d0f425dc3da8c793ad443924b7fe8f0a3bffe6e9c79a4c07e7ba5f4146805e"
+      "sha256": "b479a8705831e55131671012671ec325335af0597609cf1ea7a410918b31f8a2"
     },
     {
       "path": "site/schemas/third-donor-screen.schema.json",
@@ -164,7 +164,7 @@
     },
     {
       "path": "source/vendor-response-control.json",
-      "sha256": "ba643f098d5d88deb7f570536bde59fd690005a6f33058dfae6a0eb23eafa251"
+      "sha256": "454a5a4434f1cda5a66b56bae40405867e4b4359af1fb7f9d141e54b6e2e0345"
     },
     {
       "path": "source/third-donor-screen.json",
@@ -176,7 +176,7 @@
     },
     {
       "path": "source/schemas/global-base-layer.schema.json",
-      "sha256": "15d0f425dc3da8c793ad443924b7fe8f0a3bffe6e9c79a4c07e7ba5f4146805e"
+      "sha256": "b479a8705831e55131671012671ec325335af0597609cf1ea7a410918b31f8a2"
     },
     {
       "path": "source/schemas/third-donor-screen.schema.json",
@@ -248,7 +248,7 @@
     },
     {
       "path": "source/bank-package-en-lock.json",
-      "sha256": "f29b54ca5bf2ac3f5d5c889d9c5adfe5fcfd12fb1cf20072912f5f1c8582afe9"
+      "sha256": "ec24bb6c22a75b906c5717a884f7585465a0fb04ecf78aa598c7b1b2fd6e88d5"
     }
   ],
   "artifacts": [
@@ -260,8 +260,8 @@
       "titleEn": "Concise bank deck (English)",
       "fileName": "pixan-bank-deck-short-en.pptx",
       "path": "downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "61365ffab28658cd06ed8ebb2f58273800268e029f866b65779f67a6d6fe7d8d",
-      "bytes": 58491,
+      "sha256": "64534c81c364e1721f3d2d6b3a6021ec27c8e35921f4668f481a180922b0b2ab",
+      "bytes": 58502,
       "slideCount": 6
     },
     {
@@ -272,8 +272,8 @@
       "titleEn": "Extended bank deck (English)",
       "fileName": "pixan-bank-deck-large-en.pptx",
       "path": "downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "15c23d81fc183bb1b28981595d4a0478362c92bafe7925c77040f2e3e7125315",
-      "bytes": 180621,
+      "sha256": "6b25da43994b0ffcdeb37a4ad1599213393eca7cca2936590ed70f66757246f3",
+      "bytes": 180702,
       "slideCount": 30
     },
     {
@@ -284,8 +284,8 @@
       "titleEn": "Evidence Register (English)",
       "fileName": "pixan-bank-evidence-register-en.xlsx",
       "path": "downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "828590aece897998b083aa44f306822b8a5a61e45f72f8e16fc52577be89db21",
-      "bytes": 38434,
+      "sha256": "85f2cb35029759c3c9f188c5865831a1b1c66677de5378a926fdad66545e8fa1",
+      "bytes": 38443,
       "rowCount": 53
     },
     {
@@ -296,8 +296,8 @@
       "titleEn": "Concise bank deck (Finnish)",
       "fileName": "pixan-bank-deck-short-fi.pptx",
       "path": "downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "45c8c9e1eb7f4cdbee87fdb3cf4896bb9b5a65b2a5c66a3174871743606951a0",
-      "bytes": 58806,
+      "sha256": "37a6e2e8dbf7eff7ff926216f04999d1e00289fb0bce4448e983fa4547b35e1a",
+      "bytes": 58802,
       "slideCount": 6
     },
     {
@@ -308,8 +308,8 @@
       "titleEn": "Extended bank deck (Finnish)",
       "fileName": "pixan-bank-deck-large-fi.pptx",
       "path": "downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "9d141b4d5c951a58e359eec262e6543f8c75d1000facc0dfa8d48c37a7632b0c",
-      "bytes": 182343,
+      "sha256": "607ec1b2872629febe3496f8b645cac1b2f1c1d4e2eeb0744645398f617b4382",
+      "bytes": 182434,
       "slideCount": 30
     },
     {
@@ -320,7 +320,7 @@
       "titleEn": "Evidence Register (Finnish)",
       "fileName": "pixan-bank-evidence-register-fi.xlsx",
       "path": "downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "9caf5c3a021f41acf638463d3370b7a98bae875c83bd252f28f3b158a4de32e4",
+      "sha256": "34295ee36016fc5a5fa22487b6122967bc3ce7eca7723e6731efb6e11f01870c",
       "bytes": 39637,
       "rowCount": 53
     }

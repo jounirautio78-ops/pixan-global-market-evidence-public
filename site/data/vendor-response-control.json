@@ -367,7 +367,7 @@
         "transactionLicenceFit": null
       },
       "evaluatedGateCount": 6,
-      "evidenceReceivedCount": 1,
+      "evidenceReceivedCount": 6,
       "gateResults": {
         "G1": {
           "reasonCodes": [
@@ -417,13 +417,13 @@
       "purchaseAuthorised": false,
       "quoteReceived": true,
       "receivedEvidence": {
-        "coverageMatrix": false,
-        "methodology": false,
+        "coverageMatrix": true,
+        "methodology": true,
         "officialAnchorReconciliation": false,
         "quote": true,
-        "sample": false,
-        "totalCostTerms": false,
-        "transactionUseRights": false
+        "sample": true,
+        "totalCostTerms": true,
+        "transactionUseRights": true
       },
       "requestState": "request_sent",
       "responseState": "substantive_response_received",
@@ -577,5 +577,5 @@
       "weightedScore": null
     }
   ],
-  "version": "2026.07.27-27"
+  "version": "2026.07.27-28"
 }

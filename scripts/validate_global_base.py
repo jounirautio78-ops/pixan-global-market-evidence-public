@@ -46,6 +46,10 @@ OBSERVATION_KEYS = {
     "retailSalesEligible",
     "sourceUrl",
 }
+EXPECTED_SCHEMA_ID = (
+    "https://jounirautio78-ops.github.io/"
+    "pixan-global-market-evidence-public/schemas/global-base-layer.schema.json"
+)
 
 
 def require(condition: bool, message: str) -> None:
@@ -265,6 +269,10 @@ def validate_files(
         source_schema.get("$schema")
         == "https://json-schema.org/draft/2020-12/schema",
         "schema draft identifier is missing",
+    )
+    require(
+        source_schema.get("$id") == EXPECTED_SCHEMA_ID,
+        "schema publication identifier differs",
     )
     return layer
 

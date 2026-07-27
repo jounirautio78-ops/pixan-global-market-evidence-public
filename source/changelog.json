@@ -3,6 +3,30 @@
   "asOf": "2026-07-27",
   "releases": [
     {
+      "id": "2026-07-27-review-integrity-hotfix-v28",
+      "version": "2026.07.27-28",
+      "publishedAt": "2026-07-27T16:56:15+03:00",
+      "titleEn": "Evidence-intake and fail-closed display integrity hotfix",
+      "titleFi": "Evidenssin vastaanotto- ja fail-closed-näyttöjen eheyskorjaus",
+      "items": [
+        {
+          "category": "method",
+          "textEn": "Separated vendor-document receipt history from G1–G6 gate outcomes. Euromonitor now shows the six evidence categories in which material was actually received while still reporting 0/6 gates passed, 6/6 evaluated, NOT SCORED and no purchase authorisation.",
+          "textFi": "Erotettiin toimittaja-asiakirjojen vastaanottohistoria G1–G6-porttien tuloksista. Euromonitor näyttää nyt kuusi evidenssiluokkaa, joissa aineistoa todella vastaanotettiin, mutta raportoi edelleen 0/6 läpäistyä ja 6/6 arvioitua porttia, EI PISTEYTETTY -tilan sekä ostovaltuutuksen puuttumisen."
+        },
+        {
+          "category": "usability",
+          "textEn": "Made the open-country-base metric fail closed: if the global-base asset is unavailable or invalid, the dashboard displays an unavailable state instead of substituting the separate atlas country count.",
+          "textFi": "Muutettiin avoimen maapohjan mittari fail-closed-tilaan: jos globaalin pohjan aineisto ei ole saatavilla tai kelvollinen, dashboard näyttää puuttuvan tilan eikä korvaa sitä erillisen atlaksen maamäärällä."
+        },
+        {
+          "category": "method",
+          "textEn": "Corrected the global-base JSON Schema identifier to the current public repository URL and refreshed both bilingual deck sizes and Evidence Registers to the same v28 release boundary. Market values, donor decisions and the null global total are unchanged.",
+          "textFi": "Korjattiin globaalin pohjan JSON Scheman tunniste nykyisen julkisen repositorion osoitteeseen ja päivitettiin molemmat kaksikieliset dekkikoot sekä Evidence Registerit samaan v28-julkaisurajaan. Markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
+        }
+      ]
+    },
+    {
       "id": "2026-07-27-global-base-poland-v27",
       "version": "2026.07.27-27",
       "publishedAt": "2026-07-27T16:08:35+03:00",
