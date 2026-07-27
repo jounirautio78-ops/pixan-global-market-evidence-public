@@ -69,6 +69,22 @@ class ReviewExperienceTests(unittest.TestCase):
             [],
         )
 
+    def test_rejects_atlas_count_substituted_for_missing_global_base(self) -> None:
+        mutated = self.app_js.replace(
+            'state.globalBase ? `${state.globalBase.countries.length} / 195` : "— / 195"',
+            '`${list.length} / 195`',
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            mutated,
+        )
+        self.assertTrue(any("must fail closed" in error for error in errors), errors)
+
     def test_rejects_missing_sweden_structure_card(self) -> None:
         mutated = self.review_html.replace(
             'id="sweden-structure-card"',

@@ -110,14 +110,10 @@ def normalised(source: dict[str, Any]) -> dict[str, Any]:
     result = copy.deepcopy(source)
     for vendor in result["vendors"]:
         gate_results = gate_results_by_evidence_key(vendor, result["mandatoryGates"])
-        # Compatibility booleans mean gate PASS, not merely that a document was
-        # received. The four-state gateResults object is the authoritative view.
-        evidence = {
-            evidence_key: gate_result["status"] == "pass"
-            for evidence_key, gate_result in gate_results.items()
-        }
-        evidence["quote"] = vendor["quoteReceived"]
-        vendor["receivedEvidence"] = evidence
+        # Receipt state is canonical intake history. It deliberately remains
+        # separate from the four-state gate outcome: a received but incomplete
+        # document may leave its gate failed or not testable.
+        evidence = vendor["receivedEvidence"]
         score = score_vendor(vendor, result["criteria"], result["mandatoryGates"])
         vendor["evidenceReceivedCount"] = sum(
             value is True for value in evidence.values()

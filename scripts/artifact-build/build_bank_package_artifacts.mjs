@@ -15,10 +15,10 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v27", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v27", "renders");
-const releaseVersion = "2026.07.27-27";
-const releaseId = "2026-07-27-global-base-poland-v27";
+const qaDir = path.join(repo, "tmp", "bank-v28", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v28", "renders");
+const releaseVersion = "2026.07.27-28";
+const releaseId = "2026-07-27-review-integrity-hotfix-v28";
 const fhmSourceId = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24";
 const fhmSourceUrl = "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/";
 const swedenStructureBasis = "official_registration_structure_count_not_sales_or_market_value";
@@ -192,7 +192,7 @@ const deckUpdates = {
     short: {
       shapes: {
         "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
-        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.27-27 · 2026-07-27 · Lähteet: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC",
+        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.27-28 · 2026-07-27 · Lähteet: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC",
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
         "sh/ih8ju9sn": "195",
         "sh/kbm987y5": "578 WB-havaintoa · 39 markkinamittaria",
@@ -210,7 +210,7 @@ const deckUpdates = {
         "sh/cf2tcr61": "Tekninen ero on patenttivaatimuksissa",
         "sh/dcbud0ra": "Asiakkuus vaatii kolmen ostajaryhmän validoinnin",
         "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
-        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.27-27 · 2026-07-27 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.27-28 · 2026-07-27 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
         "sh/pc76hkr2": "39 + 36",
         "sh/h4bupgn6": "39 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
@@ -232,9 +232,9 @@ const deckUpdates = {
         "sh/dcbud0ra": "IP-historian ydintapahtumat ovat jäljitettävissä",
         "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
         "sh/0f2lgnmp": "195 maan avoin pohja: 578 WB-havaintoa; ei myyntiä",
-        "sh/4felwzu5": "Julkinen riippumaton evidenssikooste · 2026.07.27-27 · 2026-07-27 · Lähteet: Market-values model; Readiness, donorProtocol ja donorCandidates",
+        "sh/4felwzu5": "Julkinen riippumaton evidenssikooste · 2026.07.27-28 · 2026-07-27 · Lähteet: Market-values model; Readiness, donorProtocol ja donorCandidates",
         "sh/wbydknq1": "Kanada 2024: vahva piste-estimaatti, 7/10",
-        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.27-27 · 2026-07-27 · Lähteet: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.27-28 · 2026-07-27 · Lähteet: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "1,219160 mrd CAD",
         "sh/c3e1gjyd": "retail · 822,58 milj. EUR",
         "sh/a1wze9g7": "1,160754 mrd CAD",
@@ -254,7 +254,7 @@ const deckUpdates = {
         "sh/t4butcri": "Puola: 2020–2023 virallinen e-nestevirta ja vuoden 2025 laite-/osasarjaverosilta; retail-arvo ja D1–D10-silta puuttuvat.",
         "sh/98ruxsre": "Euromonitor 0/6 pakollista porttia; oikeuksiltaan selvä retail-data vain hyväksytyn näytteen jälkeen.",
         "sh/218rq9kr": "Hyväksy donor vain, jos kaikki kymmenen ehtoa läpäisevät. Muuten 0/3 ja not_computed säilyvät.",
-        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.27-27 · 2026-07-27 · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Puolan valtiovarainministeriö; FHM; FTC",
+        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.27-28 · 2026-07-27 · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Puolan valtiovarainministeriö; FHM; FTC",
         "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  195 maan pohjassa on 578 WB-havaintoa; Puolan 2020–2023 virta ja 2025 verosilta vahvistavat tutkimuspohjaa, mutta eivät avaa 0/3 donor-porttia.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
         "sh/bq9orito": "39 markkinamittaria + 36 Ruotsin FHM-rekisterilukua; lisäksi 195 maan proxy-pohja (ei myyntiä)",
         "sh/6hw3y9sb": "Uusi-Seelanti 7/10: D5 hylätty, D8 ja D10 avoinna. Kaikki 5 ehdokasta ovat ulkona; donor-portti 0/3.",
@@ -278,7 +278,7 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": "Independent public evidence summary · 2026.07.27-27 · 2026-07-27 · Sources: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC",
+        "sh/doj29oba": "Independent public evidence summary · 2026.07.27-28 · 2026-07-27 · Sources: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC",
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
         "sh/ih8ju9sn": "195",
         "sh/kbm987y5": "578 WB records; 39 market measures + 36 Swedish FHM register counts; not sales",
@@ -290,7 +290,7 @@ const deckUpdates = {
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.27-27 · 2026-07-27 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.27-28 · 2026-07-27 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
         "sh/zi98nu94": "Market size remains a range — not a single value",
         "sh/pc76hkr2": "39 + 36",
         "sh/h4bupgn6": "39 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
@@ -307,9 +307,9 @@ const deckUpdates = {
     large: {
       shapes: {
         "sh/0f2lgnmp": "195-country open base: 578 WB records; not sales",
-        "sh/4felwzu5": "Independent public evidence summary · 2026.07.27-27 · 2026-07-27 · Sources: Market-values model; Readiness, donorProtocol and donorCandidates",
+        "sh/4felwzu5": "Independent public evidence summary · 2026.07.27-28 · 2026-07-27 · Sources: Market-values model; Readiness, donorProtocol and donorCandidates",
         "sh/wbydknq1": "Canada 2024: strong point estimate, 7/10",
-        "sh/5grehs7i": "Independent public evidence summary · 2026.07.27-27 · 2026-07-27 · Sources: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": "Independent public evidence summary · 2026.07.27-28 · 2026-07-27 · Sources: Statistics Canada; Health Canada 2024",
         "sh/ehwvat8n": "CAD 1.219160bn",
         "sh/c3e1gjyd": "retail · EUR 822.58m",
         "sh/a1wze9g7": "CAD 1.160754bn",
@@ -323,7 +323,7 @@ const deckUpdates = {
         "sh/t4butcri": "Poland: official 2020–2023 e-liquid flow and a 2025 device/component tax bridge; retail value and a D1–D10 bridge remain missing.",
         "sh/98ruxsre": "Euromonitor is 0/6 mandatory gates; use rights-cleared retail data only after an accepted sample.",
         "sh/218rq9kr": "Accept a donor only if all ten criteria pass. Otherwise retain 0/3 and not_computed.",
-        "sh/21gnuts7": "Independent public evidence summary · 2026.07.27-27 · 2026-07-27 · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Polish Ministry of Finance; FHM; FTC",
+        "sh/21gnuts7": "Independent public evidence summary · 2026.07.27-28 · 2026-07-27 · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; Polish Ministry of Finance; FHM; FTC",
         "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The 195-country base contains 578 WB records; Poland's 2020–2023 flow and 2025 tax bridge strengthen the research base but do not unlock the 0/3 donor gate.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
         "sh/bq9orito": "39 market measures + 36 Swedish FHM register counts; plus a 195-country proxy base (not sales)",
         "sh/6hw3y9sb": "New Zealand is 7/10: D5 failed; D8 and D10 open. All 5 candidates remain outside; the donor gate is 0/3.",
@@ -2104,7 +2104,7 @@ async function writeReleaseLocks(artifacts) {
     || release?.version !== releaseVersion
     || changelog.asOf !== "2026-07-27"
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v27 release");
+    throw new Error("The public changelog is not locked to the reviewed v28 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -2198,7 +2198,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 84-observation, 24-source market dataset share one v27 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. A separate 195-country open base contains 578 observed World Bank records, 190 same-source-year EUR GDP-per-capita equivalents and queued WHO and UN Comtrade routes; none is retail sales. Poland now has a 2020–2023 official e-liquid flow series and a 2025 device/component tax-base bridge but is not an accepted donor. New Zealand and Canada each remain not accepted at 7/10. Euromonitor remains 0/6 mandatory vendor gates and no purchase is authorised. The donor gate remains 0/3 and the global estimate remains not_computed.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 53-row bilingual registers and 84-observation, 24-source market dataset share one v28 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. A separate 195-country open base contains 578 observed World Bank records, 190 same-source-year EUR GDP-per-capita equivalents and queued WHO and UN Comtrade routes; none is retail sales. Poland now has a 2020–2023 official e-liquid flow series and a 2025 device/component tax-base bridge but is not an accepted donor. New Zealand and Canada each remain not accepted at 7/10. Euromonitor remains 0/6 mandatory vendor gates and no purchase is authorised. The donor gate remains 0/3 and the global estimate remains not_computed.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,

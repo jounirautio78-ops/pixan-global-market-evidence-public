@@ -149,6 +149,14 @@ class GeneratedArtifactTests(unittest.TestCase):
             )
             self.assertIsNone(country["routes"]["unComtradeVapingTrade"]["value"])
 
+    def test_schema_id_points_to_the_current_publication(self) -> None:
+        schema = json.loads(SOURCE_SCHEMA_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(
+            schema["$id"],
+            "https://jounirautio78-ops.github.io/"
+            "pixan-global-market-evidence-public/schemas/global-base-layer.schema.json",
+        )
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

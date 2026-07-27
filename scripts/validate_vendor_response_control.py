@@ -254,6 +254,16 @@ EUROMONITOR_GATE_RESULTS = {
         ],
     },
 }
+EMPTY_RECEIPTS = {key: False for key in EVIDENCE_KEYS}
+EUROMONITOR_RECEIPTS = {
+    "sample": True,
+    "methodology": True,
+    "coverageMatrix": True,
+    "quote": True,
+    "officialAnchorReconciliation": False,
+    "transactionUseRights": True,
+    "totalCostTerms": True,
+}
 EXPECTED_VENDORS = {
     "ecig-global-market-database": {
         "vendor": "ECigIntelligence",
@@ -269,6 +279,7 @@ EXPECTED_VENDORS = {
             "ei ole kirjattu; ensimmäinen seuranta 28.7.2026, jos vastausta ei kuulu"
         ),
         "quoteReceived": False,
+        "receivedEvidence": EMPTY_RECEIPTS,
         "gateResults": uniform_missing_gate_results("EVIDENCE_NOT_RECEIVED"),
     },
     "euromonitor-passport-nicotine": {
@@ -306,6 +317,7 @@ EXPECTED_VENDORS = {
             "maksua tai sitoumusta ei ole valtuutettu."
         ),
         "quoteReceived": True,
+        "receivedEvidence": EUROMONITOR_RECEIPTS,
         "gateResults": EUROMONITOR_GATE_RESULTS,
     },
     "niq-rms-pilot": {
@@ -316,6 +328,7 @@ EXPECTED_VENDORS = {
         "publicStatusEn": "Not submitted; terms gate",
         "publicStatusFi": "Ei lähetetty; ehtoraja",
         "quoteReceived": False,
+        "receivedEvidence": EMPTY_RECEIPTS,
         "gateResults": uniform_missing_gate_results("ROUTE_NOT_SUBMITTED"),
     },
     "circana-us-tobacco-pilot": {
@@ -326,6 +339,7 @@ EXPECTED_VENDORS = {
         "publicStatusEn": "Submission confirmed; response pending",
         "publicStatusFi": "Vastaanotto vahvistettu; vastaus odottaa",
         "quoteReceived": False,
+        "receivedEvidence": EMPTY_RECEIPTS,
         "gateResults": uniform_missing_gate_results("EVIDENCE_NOT_RECEIVED"),
     },
 }
@@ -338,6 +352,7 @@ VENDOR_KEYS = {
     "publicStatusEn",
     "publicStatusFi",
     "quoteReceived",
+    "receivedEvidence",
     "gateResults",
     "criterionScores",
     "scoringState",
@@ -590,7 +605,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.27-27" or source.get("asOf") != "2026-07-27":
+    if source.get("version") != "2026.07.27-28" or source.get("asOf") != "2026-07-27":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
@@ -699,9 +714,19 @@ def validate_source(source: Any, errors: list[str]) -> None:
             "publicStatusEn",
             "publicStatusFi",
             "quoteReceived",
+            "receivedEvidence",
         ):
             if vendor[field] != expected[field]:
                 errors.append(f"{vendor_id}: {field} differs from the reviewed public state")
+        receipts = vendor.get("receivedEvidence")
+        if (
+            not isinstance(receipts, dict)
+            or set(receipts) != EVIDENCE_KEYS
+            or any(not isinstance(value, bool) for value in receipts.values())
+        ):
+            errors.append(f"{vendor_id}: received-evidence schema differs")
+        elif receipts.get("quote") is not vendor.get("quoteReceived"):
+            errors.append(f"{vendor_id}: quote receipt state differs")
         gate_results = vendor.get("gateResults")
         validate_gate_results(vendor_id, gate_results, errors)
         if gate_results != expected["gateResults"]:
@@ -716,6 +741,13 @@ def validate_source(source: Any, errors: list[str]) -> None:
         if vendor.get("purchaseAuthorised") is not False:
             errors.append(f"{vendor_id}: purchase authorisation must remain false")
         if isinstance(gate_results, dict) and isinstance(scores, dict):
+            if isinstance(receipts, dict):
+                for gate_id, result in gate_results.items():
+                    evidence_key = MANDATORY_GATE_RULES[gate_id]["evidenceKey"]
+                    if result.get("status") == "pass" and receipts.get(evidence_key) is not True:
+                        errors.append(
+                            f"{vendor_id}: {gate_id} cannot pass without received evidence"
+                        )
             if score_vendor(vendor, criteria, gates) is not None:
                 errors.append(f"{vendor_id}: vendor cannot be scored before the mandatory gates pass")
     if seen != set(EXPECTED_VENDORS):
@@ -742,6 +774,9 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
 
     if output_json_bytes:
         output = json.loads(output_json_bytes)
+        source_vendor_by_id = {
+            vendor["vendorId"]: vendor for vendor in source.get("vendors", [])
+        }
         if set(output) != OUTPUT_TOP_LEVEL_KEYS:
             errors.append("public JSON top-level schema differs")
         if set(output.get("summary", {})) != SUMMARY_KEYS:
@@ -761,19 +796,12 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
             gate_results = vendor.get("gateResults")
             validate_gate_results(vendor_id, gate_results, errors)
             if isinstance(gate_results, dict):
-                expected_pass_bools = {
-                    MANDATORY_GATE_RULES[gate_id]["evidenceKey"]: (
-                        gate_result.get("status") == "pass"
-                    )
-                    for gate_id, gate_result in gate_results.items()
-                    if gate_id in MANDATORY_GATE_RULES
-                    and isinstance(gate_result, dict)
-                }
-                expected_pass_bools["quote"] = vendor.get("quoteReceived") is True
-                if vendor.get("receivedEvidence") != expected_pass_bools:
+                expected_receipts = source_vendor_by_id.get(vendor_id, {}).get(
+                    "receivedEvidence"
+                )
+                if vendor.get("receivedEvidence") != expected_receipts:
                     errors.append(
-                        f"{vendor_id}: compatibility evidence booleans must be "
-                        "derived from gate PASS states"
+                        f"{vendor_id}: received-evidence intake history differs"
                     )
                 evaluated_count = sum(
                     isinstance(result, dict) and result.get("status") != "missing"
@@ -788,7 +816,7 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
                 if vendor.get("mandatoryGatePassCount") != pass_count:
                     errors.append(f"{vendor_id}: mandatory gate PASS count differs")
                 if vendor.get("evidenceReceivedCount") != sum(
-                    value is True for value in expected_pass_bools.values()
+                    value is True for value in (expected_receipts or {}).values()
                 ):
                     errors.append(f"{vendor_id}: evidence received count differs")
             if vendor.get("weightedScore") is not None:

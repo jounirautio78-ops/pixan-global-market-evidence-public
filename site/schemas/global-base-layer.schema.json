@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://marnet-collab.github.io/pixan-evidence-center/schemas/global-base-layer.schema.json",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/global-base-layer.schema.json",
   "title": "Pixan global base layer",
   "type": "object",
   "additionalProperties": false,

@@ -57,6 +57,44 @@
     ["niq-rms-pilot", false],
     ["circana-us-tobacco-pilot", false]
   ]);
+  const EXPECTED_RECEIPTS = new Map([
+    ["ecig-global-market-database", {
+      sample: false,
+      methodology: false,
+      coverageMatrix: false,
+      quote: false,
+      officialAnchorReconciliation: false,
+      transactionUseRights: false,
+      totalCostTerms: false
+    }],
+    ["euromonitor-passport-nicotine", {
+      sample: true,
+      methodology: true,
+      coverageMatrix: true,
+      quote: true,
+      officialAnchorReconciliation: false,
+      transactionUseRights: true,
+      totalCostTerms: true
+    }],
+    ["niq-rms-pilot", {
+      sample: false,
+      methodology: false,
+      coverageMatrix: false,
+      quote: false,
+      officialAnchorReconciliation: false,
+      transactionUseRights: false,
+      totalCostTerms: false
+    }],
+    ["circana-us-tobacco-pilot", {
+      sample: false,
+      methodology: false,
+      coverageMatrix: false,
+      quote: false,
+      officialAnchorReconciliation: false,
+      transactionUseRights: false,
+      totalCostTerms: false
+    }]
+  ]);
   const EXPECTED_GERMANY_ANCHORS = new Map([
     [2023, ["DE-2023-TAXED-LIQUID-VOLUME-L", 1241000, "final", "pass_test"]],
     [2024, ["DE-2024-TAXED-LIQUID-VOLUME-L", 1284000, "final", "pass_test"]],
@@ -218,6 +256,7 @@
       const expected = EXPECTED_STATES.get(vendor.vendorId);
       const expectedGateStatuses = EXPECTED_GATE_STATUSES.get(vendor.vendorId);
       const expectedQuoteReceived = EXPECTED_QUOTE_RECEIVED.get(vendor.vendorId);
+      const expectedReceipts = EXPECTED_RECEIPTS.get(vendor.vendorId);
       const gateCodes = [...EXPECTED_GATE_CODES.keys()];
       if (!expected || vendorIds.has(vendor.vendorId)
         || vendor.requestState !== expected[0] || vendor.responseState !== expected[1]
@@ -239,10 +278,14 @@
               typeof reason !== "string" || !/^[A-Z0-9_]+$/.test(reason));
         })
         || !objectKeysEqual(vendor.receivedEvidence, EXPECTED_EVIDENCE)
+        || !expectedReceipts
         || vendor.receivedEvidence.quote !== vendor.quoteReceived
+        || [...EXPECTED_EVIDENCE].some((key) =>
+          typeof vendor.receivedEvidence[key] !== "boolean"
+          || vendor.receivedEvidence[key] !== expectedReceipts[key])
         || raw.mandatoryGates.some((gate) =>
-          vendor.receivedEvidence[gate.evidenceKey]
-            !== (vendor.gateResults[gate.gateCode].status === "pass"))
+          vendor.gateResults[gate.gateCode].status === "pass"
+            && vendor.receivedEvidence[gate.evidenceKey] !== true)
         || !objectKeysEqual(vendor.criterionScores, new Set(EXPECTED_CRITERIA.keys()))
         || Object.values(vendor.criterionScores).some((value) => value !== null)
         || vendor.scoringState !== "not_scored"

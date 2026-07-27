@@ -3,27 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V27 = Object.freeze({
-    id: "2026-07-27-global-base-poland-v27",
-    version: "2026.07.27-27",
-    publishedAt: "2026-07-27T16:08:35+03:00",
-    titleEn: "195-country open base and Poland reconstruction",
-    titleFi: "195 maan avoin pohja ja Puolan rekonstruktio",
+  const UI_RELEASE_V28 = Object.freeze({
+    id: "2026-07-27-review-integrity-hotfix-v28",
+    version: "2026.07.27-28",
+    publishedAt: "2026-07-27T16:56:15+03:00",
+    titleEn: "Evidence-intake and fail-closed display integrity hotfix",
+    titleFi: "Evidenssin vastaanotto- ja fail-closed-näyttöjen eheyskorjaus",
     items: Object.freeze([
       Object.freeze({
-        category: "evidence",
-        textEn: "Published a fail-closed 195-country open base: 578 observed World Bank records, 190 same-source-year EUR GDP-per-capita equivalents and 195 queued WHO plus 195 queued UN Comtrade routes. None is vaping retail sales.",
-        textFi: "Julkaistiin fail-closed 195 maan avoin pohja: 578 havaittua World Bank -tietuetta, 190 saman lähdevuoden EUR-vasta-arvoa BKT/asukas-luvuille sekä 195 jonossa olevaa WHO- ja 195 UN Comtrade -reittiä. Mikään niistä ei ole sähkötupakkavähittäismyyntiä."
+        category: "method",
+        textEn: "Vendor-document receipt history is now separate from G1–G6 outcomes. Euromonitor shows six received evidence categories while remaining 0/6 passed, 6/6 evaluated, NOT SCORED and not authorised for purchase.",
+        textFi: "Toimittaja-asiakirjojen vastaanottohistoria on nyt erillään G1–G6-tuloksista. Euromonitor näyttää kuusi vastaanotettua evidenssiluokkaa mutta pysyy tilassa 0/6 läpäistyä, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu."
       }),
       Object.freeze({
-        category: "method",
-        textEn: "Poland now has an official 2020–2023 e-liquid flow series and a deterministic 2025 tax-base bridge for 4,382,500 devices and 62,500 component sets. These are not retail value and do not make Poland an accepted donor.",
-        textFi: "Puolalla on nyt virallinen vuosien 2020–2023 e-nestevirran sarja ja deterministinen vuoden 2025 veropohjasilta 4 382 500 laitteelle ja 62 500 osasarjalle. Ne eivät ole vähittäisarvo eivätkä tee Puolasta hyväksyttyä donoria."
+        category: "usability",
+        textEn: "The open-country-base metric now fails closed. If the global-base asset is unavailable or invalid, the dashboard shows an unavailable state instead of borrowing the separate atlas count.",
+        textFi: "Avoimen maapohjan mittari toimii nyt fail-closed-periaatteella. Jos globaali pohja puuttuu tai on virheellinen, dashboard näyttää puuttuvan tilan eikä lainaa erillisen atlaksen maamäärää."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Vendor sample control now distinguishes pass, fail, not testable and missing. Euromonitor remains 0/6 mandatory gates; receipt of a quote is separate and no purchase is authorised. The 28 July follow-up remains conditional on no new reply.",
-        textFi: "Toimittajanäytteen valvonta erottaa nyt läpäisyn, hylkäyksen, ei-testattavan ja puuttuvan. Euromonitor pysyy tasolla 0/6 pakollista porttia; tarjouksen saaminen on erillinen tieto eikä ostoa ole valtuutettu. Seuranta 28.7. tehdään vain, jos uutta vastausta ei ole."
+        textEn: "The global-base schema now identifies the current public repository. Both deck sizes and Evidence Registers were refreshed; market values, donor decisions and the null global total are unchanged.",
+        textFi: "Globaalin pohjan schema tunnistaa nyt nykyisen julkisen repositorion. Molemmat dekkikoot ja Evidence Registerit päivitettiin; markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
       })
     ])
   });
@@ -710,7 +710,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V27;
+  window.PixanUiRelease = UI_RELEASE_V28;
 
   init();
 })();

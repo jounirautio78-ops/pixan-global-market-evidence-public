@@ -46,9 +46,13 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertNotIn("single-user", vendor["publicStatusEn"])
         self.assertNotIn("consultant", vendor["publicStatusEn"])
         self.assertNotIn("account history", vendor["publicStatusEn"])
-        self.assertFalse(vendor["receivedEvidence"]["sample"])
+        self.assertTrue(vendor["receivedEvidence"]["sample"])
         self.assertTrue(vendor["receivedEvidence"]["quote"])
-        self.assertFalse(vendor["receivedEvidence"]["methodology"])
+        self.assertTrue(vendor["receivedEvidence"]["methodology"])
+        self.assertTrue(vendor["receivedEvidence"]["coverageMatrix"])
+        self.assertFalse(vendor["receivedEvidence"]["officialAnchorReconciliation"])
+        self.assertTrue(vendor["receivedEvidence"]["transactionUseRights"])
+        self.assertTrue(vendor["receivedEvidence"]["totalCostTerms"])
         self.assertEqual(
             {
                 gate_id: result["status"]
@@ -64,7 +68,7 @@ class VendorResponseControlTests(unittest.TestCase):
             },
         )
         self.assertTrue(vendor["quoteReceived"])
-        self.assertEqual(vendor["evidenceReceivedCount"], 1)
+        self.assertEqual(vendor["evidenceReceivedCount"], 6)
         self.assertEqual(vendor["evaluatedGateCount"], 6)
         self.assertEqual(vendor["mandatoryGatePassCount"], 0)
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
