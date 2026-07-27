@@ -54,9 +54,12 @@ NZ_REPRODUCTION_PARSER_SOURCE = ROOT / "scripts" / "analyze_nz_2024_returns.py"
 
 INPUT_FILES = (
     DATA_DIR / "atlas.json",
+    DATA_DIR / "global-base-layer.json",
     DATA_DIR / "market-values.json",
     DATA_DIR / "patent-history.json",
     DATA_DIR / "changelog.json",
+    ROOT / "source" / "country-method-route-config.json",
+    ROOT / "source" / "COUNTRY_METHOD_ROUTE_MAP.md",
     NZ_RECONCILIATION_SOURCE,
     NZ_DONOR_CLOSURE_SOURCE,
     NZ_WORKBOOK_MANIFEST_SOURCE,
@@ -80,8 +83,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-27-visible-receipt-ledger-v29"
-RELEASE_VERSION = "2026.07.27-29"
+RELEASE_ID = "2026-07-27-method-control-and-vendor-gates-v30"
+RELEASE_VERSION = "2026.07.27-30"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -481,6 +484,7 @@ def source_url(source_id: str, market_sources: dict[str, Any], patent_sources: d
 
 def build_context() -> dict[str, Any]:
     atlas = read_json(DATA_DIR / "atlas.json")
+    global_base = read_json(DATA_DIR / "global-base-layer.json")
     market = read_json(DATA_DIR / "market-values.json")
     patent = read_json(DATA_DIR / "patent-history.json")
     changelog = read_json(DATA_DIR / "changelog.json")
@@ -494,13 +498,32 @@ def build_context() -> dict[str, Any]:
         or release.get("version") != RELEASE_VERSION
         or as_of != "2026-07-27"
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v29 release")
+        raise ValueError("Public inputs are not locked to the reviewed v30 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
-    for label, data in (("atlas", atlas), ("patent history", patent)):
+    for label, data in (
+        ("atlas", atlas),
+        ("global base", global_base),
+        ("patent history", patent),
+    ):
         source_as_of = data.get("meta", {}).get("asOf", data.get("asOf"))
         if not isinstance(source_as_of, str) or parse_iso_date(source_as_of) > parse_iso_date(as_of):
             raise ValueError(f"{label} as-of date is invalid or later than the release boundary")
+    method_control = global_base.get("methodRouteControl", {})
+    method_summary = method_control.get("summary", {})
+    if (
+        global_base.get("schemaVersion") != "1.1"
+        or method_control.get("version") != RELEASE_VERSION
+        or method_summary.get("countryCount") != 195
+        or method_summary.get("reviewedMethodPlanCount") != 23
+        or method_summary.get("reviewedSourceLeadCount") != 5
+        or method_summary.get("regionalTpdPatternOnlyCount") != 15
+        or method_summary.get("proxyOnlyUnscopedCount") != 152
+        or method_summary.get("eligibleForGlobalRollupCount") != 0
+        or method_summary.get("donorAcceptedCount") != 0
+        or global_base.get("globalRetailSales", {}).get("value") is not None
+    ):
+        raise ValueError("Global base is not locked to the reviewed v30 method-control boundary")
 
     observations = unique_index(market["observations"], "observationId", "market observation")
     models = unique_index(market["models"], "modelId", "market model")
@@ -529,6 +552,7 @@ def build_context() -> dict[str, Any]:
 
     return {
         "atlas": atlas,
+        "global_base": global_base,
         "market": market,
         "patent_history": patent,
         "changelog": changelog,
@@ -1982,6 +2006,26 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Vahvistettu",
             "Maakohtaiset vuosittaiset laite- ja e-nestemyyntiarvot, WHO-reitin "
             "numeerinen poiminta ja UN Comtrade -luokituksen validointi puuttuvat.",
+        ),
+        row(
+            "195 maan menetelmäkontrolli erottaa 23 tarkistettua maasuunnitelmaa, "
+            "5 tarkistettua lähdepolkua, 15 alueellista EU TPD -raportointimallia "
+            "ja 152 maakohtaisesti rajaamatonta proxy-reittiä.",
+            "Markkinan rajaus",
+            "Jokaisella maalla on näkyvä menetelmäluokka, seuraava evidenssitoimi ja "
+            "lähdeperusta. Luokitus ei ole myyntihavainto: kaikilla 195 maalla "
+            "eligibleForGlobalRollup=false ja donorAccepted=false.",
+            "site/data/global-base-layer.json ; source/country-method-route-config.json ; "
+            "source/COUNTRY_METHOD_ROUTE_MAP.md",
+            as_of,
+            "195 = 23 reviewed_method_plan + 5 reviewed_source_lead + "
+            "15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
+            "Vain 23 maalla on tarkistettu maakohtainen menetelmäsuunnitelma. "
+            "Viisi lähdepolkua ja 15 alueellista TPD-mallia eivät osoita kansallista "
+            "myyntisarjaa; 152 reittiä vaatii maakohtaisen rajauksen.",
+            "Vahvistettu",
+            "Yksikään menetelmäluokka ei korvaa vuosittaista laite- ja e-nestemyynnin "
+            "arvoa, veroperustaa, kanavapeittoa tai D1–D10-hyväksyntää.",
         ),
         row(
             "Julkinen markkina-aineisto sisältää 84 havaintoa 24 lähteestä; "

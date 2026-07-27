@@ -1,0 +1,336 @@
+{
+  "schemaVersion": "1.0",
+  "asOf": "2026-07-27",
+  "version": "2026.07.27-30",
+  "status": "research_route_map_not_market_values",
+  "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",
+  "boundaryFi": "Kartta osoittaa läpinäkyvän evidenssin hankinta- ja laskentareitin jokaiselle UN195-valtiolle. Se ei väitä, että 195 vähittäismarkkinaa olisi mitattu. Reitti, pyyntö, proxy, malli tai osittaisen kanavan havainto ei ole vähittäismarkkina-arvo, ellei taustalla oleva evidenssi osoita tätä erikseen.",
+  "defaultPlan": {
+    "primaryMethodId": "official_route_not_scoped",
+    "secondaryMethodIds": [],
+    "retailValueStatus": "not_computed",
+    "nextEvidenceEn": "Scope a country-specific official route before any retail-value calculation. The open World Bank base remains context only; WHO prevalence and UN Comtrade routes remain queued and non-retail.",
+    "nextEvidenceFi": "Rajaa maakohtainen viranomaisreitti ennen vähittäisarvon laskentaa. Avoin World Bank -pohja on vain taustatietoa; WHO:n prevalenssi- ja UN Comtrade -reitit pysyvät jonossa eivätkä ole vähittäismyyntiä."
+  },
+  "reviewedSourceLeads": [
+    "AT",
+    "BE",
+    "CH",
+    "LU",
+    "NO"
+  ],
+  "regionalTpdPatternCountries": [
+    "BG",
+    "CY",
+    "CZ",
+    "EE",
+    "GR",
+    "HR",
+    "HU",
+    "IE",
+    "LT",
+    "LV",
+    "MT",
+    "PT",
+    "RO",
+    "SI",
+    "SK"
+  ],
+  "provenanceSources": [
+    {
+      "basisId": "UN195",
+      "labelEn": "Fixed UN195 sovereign-state catalogue",
+      "labelFi": "Kiinteä UN195-valtioluettelo",
+      "path": "scripts/build_atlas.py::COUNTRY_CATALOG"
+    },
+    {
+      "basisId": "OPEN_BASE",
+      "labelEn": "Open demographic, economic and queued proxy base",
+      "labelFi": "Avoin demografinen, taloudellinen ja jonotettu proxy-pohja",
+      "path": "source/global-base-config.json"
+    },
+    {
+      "basisId": "TOP20",
+      "labelEn": "Reviewed 20-country official-data request programme",
+      "labelFi": "Tarkistettu 20 maan viranomaisdataohjelma",
+      "path": "source/top20-data-request-routes.json"
+    },
+    {
+      "basisId": "THIRD_DONOR",
+      "labelEn": "Reviewed third-donor acquisition screen",
+      "labelFi": "Tarkistettu kolmannen donorin hankintaseulonta",
+      "path": "source/third-donor-screen.json"
+    },
+    {
+      "basisId": "MARNET_PUBLIC",
+      "labelEn": "Reviewed public source-lead baseline",
+      "labelFi": "Tarkistettu julkisten lähdejohtolankojen pohja",
+      "path": "source/marnet-public-baseline.json"
+    },
+    {
+      "basisId": "EU_TPD_20_7",
+      "labelEn": "EU Tobacco Products Directive Article 20(7) reporting pattern",
+      "labelFi": "EU:n tupakkatuotedirektiivin 20(7) artiklan raportointimalli",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32014L0040"
+    },
+    {
+      "basisId": "DONOR_CONTROL",
+      "labelEn": "D1-D10 donor acceptance control",
+      "labelFi": "D1–D10-donor-hyväksyntäkontrolli",
+      "path": "source/donor-cockpit.json"
+    }
+  ],
+  "nextActions": [
+    {
+      "nextActionId": "close_retail_d5_d7_d10",
+      "labelEn": "Close channel coverage, uncertainty and independent retail reconciliation",
+      "labelFi": "Sulje kanavapeitto, epävarmuus ja riippumaton vähittäistäsmäytys"
+    },
+    {
+      "nextActionId": "close_partial_channel_tax_reconciliation",
+      "labelEn": "Close omitted channels, tax basis and independent national reconciliation",
+      "labelFi": "Sulje puuttuvat kanavat, veroperusta ja riippumaton kansallinen täsmäytys"
+    },
+    {
+      "nextActionId": "reconcile_excise_sales_price_pos",
+      "labelEn": "Reconcile excise or statutory volumes to same-year prices and retail POS",
+      "labelFi": "Täsmäytä valmistevero- tai lakisääteiset määrät saman vuoden hintoihin ja kassamyyntiin"
+    },
+    {
+      "nextActionId": "bridge_manufacturer_to_retail_pos",
+      "labelEn": "Bridge manufacturer reporting to an independent consumer-retail POS total",
+      "labelFi": "Siltaa valmistajaraportointi riippumattomaan kuluttajavähittäisen kassamyyntiin"
+    },
+    {
+      "nextActionId": "reconstruct_tax_base_then_retail_bridge",
+      "labelEn": "Reconstruct the taxed base, then add price, tax, stock, export and channel bridges",
+      "labelFi": "Laske veropohja takaisin ja lisää hinta-, vero-, varasto-, vienti- ja kanavasillat"
+    },
+    {
+      "nextActionId": "request_statutory_sales_aggregate",
+      "labelEn": "Obtain annual statutory sales aggregates and reporting-population coverage",
+      "labelFi": "Hanki vuotuiset lakisääteiset myyntiaggregaatit ja raportoijajoukon peitto"
+    },
+    {
+      "nextActionId": "registry_to_sales_aggregate",
+      "labelEn": "Bridge the product registry to annual aggregate units, liquids and value",
+      "labelFi": "Siltaa tuoterekisteri vuotuisiin kappale-, neste- ja arvoaggregaatteihin"
+    },
+    {
+      "nextActionId": "production_trade_to_domestic_sellthrough",
+      "labelEn": "Reconcile production and trade to domestic lawful consumer sell-through",
+      "labelFi": "Täsmäytä tuotanto ja kauppa kotimaan lailliseen kuluttajamyyntiin"
+    },
+    {
+      "nextActionId": "classify_customs_scope_then_domestic_bridge",
+      "labelEn": "Validate customs product codes, then build the domestic sell-through bridge",
+      "labelFi": "Vahvista tullin tuotekoodit ja rakenna kotimaisen kuluttajamyynnin silta"
+    },
+    {
+      "nextActionId": "separate_lawful_supply_enforcement_retail",
+      "labelEn": "Separate lawful supply, enforcement and consumer retail",
+      "labelFi": "Erota laillinen tarjonta, valvonta ja kuluttajavähittäismyynti"
+    },
+    {
+      "nextActionId": "reproduce_marked_retail_and_illicit_boundary",
+      "labelEn": "Reproduce marking-system totals and quantify the lawful or illicit boundary",
+      "labelFi": "Toista merkintäjärjestelmän summat ja määrällistä laillisen ja laittoman markkinan raja"
+    },
+    {
+      "nextActionId": "establish_lawful_market_scope",
+      "labelEn": "Establish whether a measurable lawful market exists before any valuation",
+      "labelFi": "Vahvista mitattavan laillisen markkinan olemassaolo ennen arvonmääritystä"
+    },
+    {
+      "nextActionId": "obtain_designated_price_tax_totals",
+      "labelEn": "Obtain public designated-price tax bases, physical units and sell-through checks",
+      "labelFi": "Hanki julkiset määrätyn hinnan veropohjat, fyysiset määrät ja kuluttajamyyntitarkistukset"
+    },
+    {
+      "nextActionId": "validate_country_source_lead",
+      "labelEn": "Validate the reviewed source lead before assigning a country calculation method",
+      "labelFi": "Vahvista tarkistettu lähdejohtolanka ennen maakohtaisen laskentamenetelmän nimeämistä"
+    },
+    {
+      "nextActionId": "identify_national_tpd_holder_and_request_aggregate",
+      "labelEn": "Identify the national Article 20(7) data holder and request annual aggregates",
+      "labelFi": "Tunnista kansallinen 20(7) artiklan tietojen haltija ja pyydä vuosiaggregaatit"
+    },
+    {
+      "nextActionId": "scope_country_specific_official_route",
+      "labelEn": "Scope a country-specific official route before any retail-value calculation",
+      "labelFi": "Rajaa maakohtainen viranomaisreitti ennen vähittäisarvon laskentaa"
+    }
+  ],
+  "methods": [
+    {
+      "methodId": "official_retail_survey",
+      "labelEn": "Official consumer-retail survey",
+      "labelFi": "Virallinen kuluttajavähittäiskysely",
+      "transactionStage": "consumer_retail",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Can establish a retail point estimate only when product scope, national channel coverage, tax basis, method and uncertainty are documented and an independent reconciliation is available.",
+      "boundaryFi": "Voi osoittaa vähittäiskaupan piste-estimaatin vain, kun tuoterajaus, valtakunnallinen kanavapeitto, veroperusta, menetelmä ja epävarmuus on dokumentoitu ja riippumaton täsmäytys on saatavilla."
+    },
+    {
+      "methodId": "specialist_retail_annual_returns",
+      "labelEn": "Specialist-retailer annual returns",
+      "labelFi": "Erikoisvähittäiskaupan vuosiraportit",
+      "transactionStage": "specialist_retail",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Observed specialist-retailer value remains a partial-channel lower-bound signal until general retail, tax basis, reporting coverage and independent reconciliation are closed.",
+      "boundaryFi": "Havaittu erikoisvähittäiskaupan arvo pysyy osittaisen kanavan alarajasignaalina, kunnes yleisvähittäiskauppa, veroperusta, raportointipeitto ja riippumaton täsmäytys on ratkaistu."
+    },
+    {
+      "methodId": "excise_plus_statutory_sales",
+      "labelEn": "Excise release plus statutory sales reporting",
+      "labelFi": "Valmisteverollinen luovutus ja lakisääteinen myyntiraportointi",
+      "transactionStage": "mixed_official",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Physical volumes can be reconciled across official systems, but a consumer-retail value still requires same-year prices, channel weights, tax treatment and an independent retail check.",
+      "boundaryFi": "Fyysiset määrät voidaan täsmäyttää virallisissa järjestelmissä, mutta kuluttajavähittäisarvo vaatii lisäksi saman vuoden hinnat, kanavapainot, verokäsittelyn ja riippumattoman vähittäistarkistuksen."
+    },
+    {
+      "methodId": "statutory_annual_sales_reporting",
+      "labelEn": "Statutory annual product-sales reporting",
+      "labelFi": "Lakisääteinen vuotuinen tuotemyyntiraportointi",
+      "transactionStage": "regulatory_reporting",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
+      "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
+    },
+    {
+      "methodId": "excise_to_volume_reconstruction",
+      "labelEn": "Excise-to-volume reconstruction",
+      "labelFi": "Valmisteverosta määräksi takaisinlaskenta",
+      "transactionStage": "tax_release",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
+      "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
+    },
+    {
+      "methodId": "manufacturer_reporting_plus_pos",
+      "labelEn": "Manufacturer reporting plus independent POS",
+      "labelFi": "Valmistajaraportointi ja riippumaton kassamyynti",
+      "transactionStage": "manufacturer_and_retail_validation",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Manufacturer-reported sales or shipments remain a supply-stage measure. A rights-cleared same-period POS total is required for a consumer-retail bridge.",
+      "boundaryFi": "Valmistajien raportoitu myynti tai toimitukset pysyvät toimitusvaiheen mittarina. Kuluttajavähittäissilta vaatii käyttöoikeuksiltaan selvitetyn saman ajanjakson POS-kokonaisarvon."
+    },
+    {
+      "methodId": "commercial_pos_validation",
+      "labelEn": "Rights-cleared commercial POS validation",
+      "labelFi": "Käyttöoikeuksiltaan selvitetty kaupallinen POS-tarkistus",
+      "transactionStage": "consumer_retail_validation",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "A commercial POS series is usable only after sample, coverage, projection, product taxonomy, licence and official-anchor reconciliation gates pass.",
+      "boundaryFi": "Kaupallinen POS-sarja on käyttökelpoinen vasta, kun näyte-, peitto-, projektio-, tuotetaksonomia-, lisenssi- ja viranomaisankkurin täsmäytysportit läpäisevät."
+    },
+    {
+      "methodId": "customs_trade_proxy",
+      "labelEn": "Customs trade proxy",
+      "labelFi": "Tullikaupan proxy",
+      "transactionStage": "border_trade",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Imports and exports measure border-stage trade, not domestic retail sell-through. Domestic production, inventories, re-exports, duties, margins, product-code scope and illicit flows remain separate.",
+      "boundaryFi": "Tuonti ja vienti mittaavat rajavaiheen kauppaa, eivät kotimaan vähittäismyyntiä. Kotimainen tuotanto, varastot, jälleenvienti, verot, katteet, tuotekoodirajaus ja laittomat virrat pysyvät erillään."
+    },
+    {
+      "methodId": "production_survey_plus_customs",
+      "labelEn": "Official production survey plus customs",
+      "labelFi": "Virallinen tuotantokysely ja tulli",
+      "transactionStage": "production_and_border_trade",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Production, transactions, inventories and exports can support a supply bridge but do not establish domestic consumer retail without sell-through and channel evidence.",
+      "boundaryFi": "Tuotanto, liiketoimet, varastot ja vienti voivat tukea toimitussiltaa, mutta eivät osoita kotimaan kuluttajavähittäismyyntiä ilman sell-through- ja kanavanäyttöä."
+    },
+    {
+      "methodId": "regulated_supply_plus_enforcement",
+      "labelEn": "Regulated lawful supply plus enforcement",
+      "labelFi": "Säännelty laillinen tarjonta ja valvonta",
+      "transactionStage": "regulated_supply",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Lawful supply, notifications and enforcement must remain separate. Seizures and surrenders are not lawful sales and cannot be added to market value.",
+      "boundaryFi": "Laillinen tarjonta, ilmoitukset ja valvonta pidetään erillään. Takavarikot ja luovutukset eivät ole laillista myyntiä eikä niitä saa lisätä markkina-arvoon."
+    },
+    {
+      "methodId": "marking_system_retail_plus_excise",
+      "labelEn": "Marking-system retail withdrawals plus excise",
+      "labelFi": "Merkintäjärjestelmän vähittäisluovutukset ja valmistevero",
+      "transactionStage": "marked_retail_and_tax",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Marked retail withdrawals can be a strong official signal, but legal-market scope, device coverage, access, sanctions, reproducibility and independent reconciliation must pass.",
+      "boundaryFi": "Merkityt vähittäisluovutukset voivat olla vahva virallinen signaali, mutta laillisen markkinan rajauksen, laitepeiton, saatavuuden, pakotteiden, toistettavuuden ja riippumattoman täsmäytyksen on läpäistävä."
+    },
+    {
+      "methodId": "enforcement_trade_only",
+      "labelEn": "Enforcement and trade evidence only",
+      "labelFi": "Vain valvonta- ja kauppaevidenssi",
+      "transactionStage": "enforcement_and_border_trade",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "In a prohibited or predominantly illicit market, seizures and trade records are enforcement signals, not lawful domestic sales or consumer-retail value.",
+      "boundaryFi": "Kielletyllä tai pääosin laittomalla markkinalla takavarikot ja kauppatiedot ovat valvontasignaaleja, eivät laillista kotimaan myyntiä tai kuluttajavähittäisarvoa."
+    },
+    {
+      "methodId": "product_registry_plus_sales_request",
+      "labelEn": "Product registry plus aggregate-sales request",
+      "labelFi": "Tuoterekisteri ja aggregoidun myynnin tietopyyntö",
+      "transactionStage": "regulatory_structure",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "Product and operator counts support scope and reporting-population checks but do not establish units sold or retail value.",
+      "boundaryFi": "Tuote- ja toimijamäärät tukevat rajauksen ja raportoijajoukon tarkistusta, mutta eivät osoita myytyjä määriä tai vähittäisarvoa."
+    },
+    {
+      "methodId": "excise_designated_retail_price",
+      "labelEn": "Excise base linked to designated retail price",
+      "labelFi": "Määrättyyn vähittäishintaan sidottu valmisteveropohja",
+      "transactionStage": "tax_designated_price",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "A tax base linked to a designated retail price can support a retail-equivalent reconstruction only after public category totals, physical units and an observed sell-through check are available.",
+      "boundaryFi": "Määrättyyn vähittäishintaan sidottu veropohja voi tukea vähittäismyyntivastaavuutta vasta, kun julkiset kategoriasummat, fyysiset määrät ja havaittu sell-through-tarkistus ovat saatavilla."
+    },
+    {
+      "methodId": "eu_tpd_annual_reporting_pattern",
+      "labelEn": "EU TPD Article 20(7) annual-reporting pattern",
+      "labelFi": "EU:n TPD 20(7) artiklan vuosi-ilmoitusmalli",
+      "transactionStage": "regulatory_reporting_pattern",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
+      "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
+    },
+    {
+      "methodId": "official_route_not_scoped",
+      "labelEn": "Country-specific official route not yet scoped",
+      "labelFi": "Maakohtaista viranomaisreittiä ei ole vielä rajattu",
+      "transactionStage": "unscoped",
+      "canEstablishRetailValueAlone": false,
+      "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
+      "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
+    }
+  ],
+  "countryPlans": [
+    {"countryIso2": "CA", "primaryMethodId": "official_retail_survey", "secondaryMethodIds": ["manufacturer_reporting_plus_pos", "commercial_pos_validation"], "retailValueStatus": "official_point_estimate_quality_limited"},
+    {"countryIso2": "NZ", "primaryMethodId": "specialist_retail_annual_returns", "secondaryMethodIds": ["commercial_pos_validation"], "retailValueStatus": "observed_partial_channel_only"},
+    {"countryIso2": "DE", "primaryMethodId": "excise_plus_statutory_sales", "secondaryMethodIds": ["commercial_pos_validation"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "US", "primaryMethodId": "manufacturer_reporting_plus_pos", "secondaryMethodIds": ["commercial_pos_validation"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "PL", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["statutory_annual_sales_reporting", "commercial_pos_validation"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "FI", "primaryMethodId": "excise_plus_statutory_sales", "secondaryMethodIds": ["commercial_pos_validation"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "DK", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "FR", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["customs_trade_proxy"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "GB", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["commercial_pos_validation"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "SE", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "IT", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "ES", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
+    {"countryIso2": "NL", "primaryMethodId": "product_registry_plus_sales_request", "secondaryMethodIds": ["statutory_annual_sales_reporting"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "CN", "primaryMethodId": "production_survey_plus_customs", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
+    {"countryIso2": "JP", "primaryMethodId": "customs_trade_proxy", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
+    {"countryIso2": "KR", "primaryMethodId": "customs_trade_proxy", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
+    {"countryIso2": "AU", "primaryMethodId": "regulated_supply_plus_enforcement", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
+    {"countryIso2": "RU", "primaryMethodId": "marking_system_retail_plus_excise", "secondaryMethodIds": ["customs_trade_proxy"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "BR", "primaryMethodId": "enforcement_trade_only", "secondaryMethodIds": ["customs_trade_proxy"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "ID", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["customs_trade_proxy"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "PH", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["enforcement_trade_only"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "AE", "primaryMethodId": "excise_designated_retail_price", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
+    {"countryIso2": "SA", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": [], "retailValueStatus": "not_computed"}
+  ]
+}

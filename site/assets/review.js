@@ -2203,7 +2203,7 @@ async function initReview() {
         && country.routes?.unComtradeVapingTrade?.acquisitionStatus === "queued"
       ));
       if (
-        globalBase.schemaVersion !== "1.0"
+        globalBase.schemaVersion !== "1.1"
         || globalBase.asOf !== "2026-07-27"
         || !Array.isArray(globalBase.countries)
         || globalBase.countries.length !== 195

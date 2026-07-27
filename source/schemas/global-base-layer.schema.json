@@ -10,12 +10,13 @@
     "meta",
     "sources",
     "summary",
+    "methodRouteControl",
     "countries",
     "globalRetailSales"
   ],
   "properties": {
     "schemaVersion": {
-      "const": "1.0"
+      "const": "1.1"
     },
     "asOf": {
       "type": "string",
@@ -34,6 +35,9 @@
     },
     "summary": {
       "$ref": "#/$defs/summary"
+    },
+    "methodRouteControl": {
+      "$ref": "#/$defs/methodRouteControl"
     },
     "countries": {
       "type": "array",
@@ -578,6 +582,413 @@
         }
       }
     },
+    "methodRouteControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "asOf",
+        "status",
+        "boundaryEn",
+        "boundaryFi",
+        "summary",
+        "methods",
+        "nextActions",
+        "provenanceSources"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}-[0-9]+$"
+        },
+        "asOf": {
+          "type": "string",
+          "format": "date"
+        },
+        "status": {
+          "const": "research_route_map_not_market_values"
+        },
+        "boundaryEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "boundaryFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/methodRouteSummary"
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 16,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/methodDefinition"
+          }
+        },
+        "nextActions": {
+          "type": "array",
+          "minItems": 16,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/nextActionDefinition"
+          }
+        },
+        "provenanceSources": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "items": {
+            "$ref": "#/$defs/provenanceSource"
+          }
+        }
+      }
+    },
+    "methodRouteSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "countryCount",
+        "reviewedMethodPlanCount",
+        "reviewedSourceLeadCount",
+        "regionalTpdPatternOnlyCount",
+        "proxyOnlyUnscopedCount",
+        "reviewedNationalRouteOrLeadCount",
+        "nonDefaultRouteCount",
+        "retailValueStatusCounts",
+        "eligibleForGlobalRollupCount",
+        "donorAcceptedCount"
+      ],
+      "properties": {
+        "countryCount": {
+          "const": 195
+        },
+        "reviewedMethodPlanCount": {
+          "const": 23
+        },
+        "reviewedSourceLeadCount": {
+          "const": 5
+        },
+        "regionalTpdPatternOnlyCount": {
+          "const": 15
+        },
+        "proxyOnlyUnscopedCount": {
+          "const": 152
+        },
+        "reviewedNationalRouteOrLeadCount": {
+          "const": 28
+        },
+        "nonDefaultRouteCount": {
+          "const": 43
+        },
+        "retailValueStatusCounts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "officialPointEstimateQualityLimited",
+            "observedPartialChannelOnly",
+            "notComputed"
+          ],
+          "properties": {
+            "officialPointEstimateQualityLimited": {
+              "const": 1
+            },
+            "observedPartialChannelOnly": {
+              "const": 1
+            },
+            "notComputed": {
+              "const": 193
+            }
+          }
+        },
+        "eligibleForGlobalRollupCount": {
+          "const": 0
+        },
+        "donorAcceptedCount": {
+          "const": 0
+        }
+      }
+    },
+    "methodDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "methodId",
+        "labelEn",
+        "labelFi",
+        "transactionStage",
+        "canEstablishRetailValueAlone",
+        "boundaryEn",
+        "boundaryFi"
+      ],
+      "properties": {
+        "methodId": {
+          "$ref": "#/$defs/methodId"
+        },
+        "labelEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "labelFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transactionStage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canEstablishRetailValueAlone": {
+          "const": false
+        },
+        "boundaryEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "boundaryFi": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "methodId": {
+      "enum": [
+        "official_retail_survey",
+        "specialist_retail_annual_returns",
+        "excise_plus_statutory_sales",
+        "statutory_annual_sales_reporting",
+        "excise_to_volume_reconstruction",
+        "manufacturer_reporting_plus_pos",
+        "commercial_pos_validation",
+        "customs_trade_proxy",
+        "production_survey_plus_customs",
+        "regulated_supply_plus_enforcement",
+        "marking_system_retail_plus_excise",
+        "enforcement_trade_only",
+        "product_registry_plus_sales_request",
+        "excise_designated_retail_price",
+        "eu_tpd_annual_reporting_pattern",
+        "official_route_not_scoped"
+      ]
+    },
+    "nextActionDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nextActionId",
+        "labelEn",
+        "labelFi"
+      ],
+      "properties": {
+        "nextActionId": {
+          "$ref": "#/$defs/nextActionId"
+        },
+        "labelEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "labelFi": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "nextActionId": {
+      "enum": [
+        "close_retail_d5_d7_d10",
+        "close_partial_channel_tax_reconciliation",
+        "reconcile_excise_sales_price_pos",
+        "bridge_manufacturer_to_retail_pos",
+        "reconstruct_tax_base_then_retail_bridge",
+        "request_statutory_sales_aggregate",
+        "registry_to_sales_aggregate",
+        "production_trade_to_domestic_sellthrough",
+        "classify_customs_scope_then_domestic_bridge",
+        "separate_lawful_supply_enforcement_retail",
+        "reproduce_marked_retail_and_illicit_boundary",
+        "establish_lawful_market_scope",
+        "obtain_designated_price_tax_totals",
+        "validate_country_source_lead",
+        "identify_national_tpd_holder_and_request_aggregate",
+        "scope_country_specific_official_route"
+      ]
+    },
+    "provenanceSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "basisId",
+        "labelEn",
+        "labelFi"
+      ],
+      "properties": {
+        "basisId": {
+          "$ref": "#/$defs/provenanceBasisId"
+        },
+        "labelEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "labelFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "path"
+          ]
+        },
+        {
+          "required": [
+            "url"
+          ]
+        }
+      ]
+    },
+    "provenanceBasisId": {
+      "enum": [
+        "UN195",
+        "OPEN_BASE",
+        "TOP20",
+        "THIRD_DONOR",
+        "MARNET_PUBLIC",
+        "EU_TPD_20_7",
+        "DONOR_CONTROL"
+      ]
+    },
+    "countryMethodRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignmentClass",
+        "reviewLevel",
+        "primaryMethodId",
+        "secondaryMethodIds",
+        "primaryMethodLabelEn",
+        "primaryMethodLabelFi",
+        "transactionStage",
+        "nextActionId",
+        "nextActionEn",
+        "nextActionFi",
+        "provenanceBasisIds",
+        "retailValueStatus",
+        "eligibleForGlobalRollup",
+        "donorAssessmentState",
+        "donorAccepted",
+        "requestState",
+        "lastReviewedOn",
+        "boundaryEn",
+        "boundaryFi"
+      ],
+      "properties": {
+        "assignmentClass": {
+          "enum": [
+            "reviewed_method_plan",
+            "reviewed_source_lead",
+            "regional_tpd_pattern_only",
+            "proxy_only_unscoped"
+          ]
+        },
+        "reviewLevel": {
+          "enum": [
+            "country_method_reviewed",
+            "source_lead_reviewed_method_unassigned",
+            "regional_pattern_reviewed_national_route_unverified",
+            "country_specific_route_not_reviewed"
+          ]
+        },
+        "primaryMethodId": {
+          "$ref": "#/$defs/methodId"
+        },
+        "secondaryMethodIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/methodId"
+          }
+        },
+        "primaryMethodLabelEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primaryMethodLabelFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transactionStage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nextActionId": {
+          "$ref": "#/$defs/nextActionId"
+        },
+        "nextActionEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nextActionFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenanceBasisIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/provenanceBasisId"
+          }
+        },
+        "retailValueStatus": {
+          "enum": [
+            "official_point_estimate_quality_limited",
+            "observed_partial_channel_only",
+            "not_computed"
+          ]
+        },
+        "eligibleForGlobalRollup": {
+          "const": false
+        },
+        "donorAssessmentState": {
+          "enum": [
+            "assessed_not_accepted",
+            "not_assessed"
+          ]
+        },
+        "donorAccepted": {
+          "const": false
+        },
+        "requestState": {
+          "enum": [
+            "sent",
+            "draft_not_sent",
+            "not_in_top20_program"
+          ]
+        },
+        "lastReviewedOn": {
+          "type": "string",
+          "format": "date"
+        },
+        "boundaryEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "boundaryFi": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "country": {
       "type": "object",
       "additionalProperties": false,
@@ -588,6 +999,7 @@
         "region",
         "worldBank",
         "routes",
+        "methodRoute",
         "retailSalesEligible"
       ],
       "properties": {
@@ -642,6 +1054,9 @@
               "$ref": "#/$defs/queuedRouteObservation"
             }
           }
+        },
+        "methodRoute": {
+          "$ref": "#/$defs/countryMethodRoute"
         },
         "retailSalesEligible": {
           "const": false

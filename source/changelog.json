@@ -3,6 +3,35 @@
   "asOf": "2026-07-27",
   "releases": [
     {
+      "id": "2026-07-27-method-control-and-vendor-gates-v30",
+      "version": "2026.07.27-30",
+      "publishedAt": "2026-07-27T18:46:00+03:00",
+      "titleEn": "195-country method control and current vendor gates",
+      "titleFi": "195 maan menetelmäkontrolli ja ajantasaiset toimittajaportit",
+      "items": [
+        {
+          "category": "method",
+          "textEn": "Added a 195-country method-control map that distinguishes 23 reviewed country-specific method plans, 5 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes. It does not claim 195 bespoke or measured market routes.",
+          "textFi": "Lisättiin 195 maan menetelmäkontrollikartta, joka erottaa 23 tarkistettua maakohtaista menetelmäsuunnitelmaa, 5 tarkistettua lähdepolkua, 15 alueellista EU TPD -raportointimallia ja 152 maakohtaisesti rajaamatonta proxy-reittiä. Kartta ei väitä 195 yksilöllistä tai mitattua markkinareittiä."
+        },
+        {
+          "category": "usability",
+          "textEn": "Every country now exposes its method class, transaction stage, provenance basis, next evidence action and retail/donor boundary. All 195 remain ineligible for the global roll-up and none is accepted as a donor merely because a research route exists.",
+          "textFi": "Jokaisella maalla näkyvät nyt menetelmäluokka, tapahtumavaihe, lähdeperusta, seuraava evidenssitoimi sekä retail- ja donor-raja. Kaikki 195 pysyvät kelpaamattomina maailman roll-upiin eikä yhtäkään hyväksytä donoriksi pelkän tutkimusreitin olemassaolon perusteella."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Updated the public-safe Euromonitor status for the later eight-tab schema workbook: it lists 95 geographies but contains no populated country-year value cells and is not reconciled to the 78-country quote. Record-level status flags, product-scope bridge, data-room rights and all-in commercial terms remain unresolved; all six gates are evaluated, none passes, and no purchase is authorised.",
+          "textFi": "Päivitettiin Euromonitorin julkinen tilanne myöhemmän kahdeksan välilehden skeematyökirjan perusteella: se listaa 95 maantiedettä mutta ei sisällä täytettyjä maa–vuosi-arvosoluja eikä sitä ole täsmäytetty 78 maan tarjoukseen. Tietuetason tilamerkinnät, tuoterajaussilta, datahuoneoikeudet ja kaikki kaupalliset ehdot ovat ratkaisematta; kaikki kuusi porttia on arvioitu, yksikään ei läpäise eikä ostoa ole valtuutettu."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Refreshed the bilingual 6-slide and 30-slide decks and both 54-row Evidence Registers to the same v30 boundary. Market observations and values are unchanged, the donor gate remains 0/3 and the global retail value remains null/not_computed.",
+          "textFi": "Päivitettiin kaksikieliset 6 ja 30 dian dekit sekä molemmat 54-riviset Evidence Registerit samaan v30-rajaan. Markkinahavainnot ja -arvot eivät muuttuneet, donor-portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
+        }
+      ]
+    },
+    {
       "id": "2026-07-27-visible-receipt-ledger-v29",
       "version": "2026.07.27-29",
       "publishedAt": "2026-07-27T17:14:44+03:00",

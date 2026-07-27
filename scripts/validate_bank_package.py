@@ -37,8 +37,8 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-07-27-visible-receipt-ledger-v29"
-RELEASE_VERSION = "2026.07.27-29"
+RELEASE_ID = "2026-07-27-method-control-and-vendor-gates-v30"
+RELEASE_VERSION = "2026.07.27-30"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -153,6 +153,8 @@ EXPECTED_INPUTS = {
     "source/fx-rates.json",
     "source/global-base-config.json",
     "source/global-base-observations.json",
+    "source/country-method-route-config.json",
+    "source/COUNTRY_METHOD_ROUTE_MAP.md",
     "source/third-donor-screen.json",
     "source/vendor-response-control.json",
     "source/schemas/fx-rates.schema.json",
@@ -1385,8 +1387,8 @@ def validate_manifest(errors: list[str]) -> None:
         "fi": read_register_csv(REGISTER_CSV_PATH, REGISTER_HEADERS, ALLOWED_STATUSES, errors),
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
-    if any(len(rows) != 53 for rows in csv_rows_by_language.values()):
-        errors.append("both v27 Evidence Registers must contain exactly 53 reviewed rows")
+    if any(len(rows) != 54 for rows in csv_rows_by_language.values()):
+        errors.append("both v30 Evidence Registers must contain exactly 54 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1412,6 +1414,10 @@ def validate_manifest(errors: list[str]) -> None:
             "578 havaittua World Bank",
             "194/195",
             "190/195",
+            "23 reviewed_method_plan",
+            "5 reviewed_source_lead",
+            "15 regional_tpd_pattern_only",
+            "152 proxy_only_unscoped",
             "1 451 529 litraa vuonna 2020",
             "4 382 500",
             "62 500",
@@ -1443,6 +1449,10 @@ def validate_manifest(errors: list[str]) -> None:
             "578 observed World Bank",
             "194/195",
             "190/195",
+            "23 reviewed_method_plan",
+            "5 reviewed_source_lead",
+            "15 regional_tpd_pattern_only",
+            "152 proxy_only_unscoped",
             "1,451,529 litres in 2020",
             "4,382,500",
             "62,500",

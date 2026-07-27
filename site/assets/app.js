@@ -66,6 +66,44 @@ const REGIONS_FI = {
   Africa: "Afrikka", Americas: "Amerikat", Asia: "Aasia", Europe: "Eurooppa", Oceania: "Oseania"
 };
 
+const METHOD_ROUTE_CLASS_LABELS = {
+  reviewed_method_plan: ["tarkistettu maakohtainen suunnitelma", "reviewed country method plan"],
+  reviewed_source_lead: ["tarkistettu lähdejohtolanka", "reviewed source lead"],
+  regional_tpd_pattern_only: ["alueellinen TPD-raportointimalli", "regional TPD reporting pattern"],
+  proxy_only_unscoped: ["vain proxy / vielä rajaamatta", "proxy only / not yet scoped"]
+};
+
+const TRANSACTION_STAGE_LABELS = {
+  border_trade: ["rajatason kauppa", "border-stage trade"],
+  consumer_retail: ["kuluttajavähittäismyynti", "consumer retail"],
+  consumer_retail_validation: ["kuluttajavähittäisen tarkistus", "consumer-retail validation"],
+  enforcement_and_border_trade: ["valvonta ja rajatason kauppa", "enforcement and border-stage trade"],
+  manufacturer_and_retail_validation: ["valmistajavaihe ja vähittäistarkistus", "manufacturer stage and retail validation"],
+  marked_retail_and_tax: ["merkityt vähittäisluovutukset ja vero", "marked retail withdrawals and tax"],
+  mixed_official: ["usean viranomaisvaiheen yhdistelmä", "mixed official transaction stages"],
+  production_and_border_trade: ["tuotanto ja rajatason kauppa", "production and border-stage trade"],
+  regulated_supply: ["säännelty laillinen tarjonta", "regulated lawful supply"],
+  regulatory_reporting: ["lakisääteinen raportointi", "statutory reporting"],
+  regulatory_reporting_pattern: ["sääntelyn raportointimalli", "regulatory reporting pattern"],
+  regulatory_structure: ["sääntelyrakenne", "regulatory structure"],
+  specialist_retail: ["erikoisvähittäiskauppa", "specialist retail"],
+  tax_designated_price: ["veropohjaan määrätty hinta", "tax-designated price"],
+  tax_release: ["verollinen luovutus", "tax release"],
+  unscoped: ["tapahtumavaihe rajaamatta", "transaction stage not scoped"]
+};
+
+const RETAIL_VALUE_STATUS_LABELS = {
+  official_point_estimate_quality_limited: ["virallinen piste-estimaatti · laaturajoitettu", "official point estimate · quality limited"],
+  observed_partial_channel_only: ["havaittu vain osittaisesta kanavasta", "observed partial channel only"],
+  not_computed: ["ei laskettu", "not computed"]
+};
+
+const DONOR_ASSESSMENT_LABELS = {
+  assessed_not_accepted: ["arvioitu · ei hyväksytty", "assessed · not accepted"],
+  not_accepted: ["ei hyväksytty", "not accepted"],
+  not_assessed: ["ei arvioitu", "not assessed"]
+};
+
 const EVIDENCE_TITLES_EN = {
   "MARNET-001": "Health Canada · Vaping sales",
   "MARNET-002": "Statistics Canada · CIMT 2025",
@@ -169,6 +207,7 @@ const state = {
   countryQuery: "",
   region: "",
   grade: "",
+  methodRouteClass: "",
   evidenceQuery: "",
   evidenceGrade: "",
   patentQuery: "",
@@ -1947,6 +1986,136 @@ function globalBaseCountry(iso2) {
   return (state.globalBase?.countries || []).find((item) => item.iso2 === iso2) || null;
 }
 
+function methodRouteControl() {
+  return state.globalBase?.methodRouteControl || null;
+}
+
+function methodRouteFor(iso2) {
+  return globalBaseCountry(iso2)?.methodRoute || null;
+}
+
+function methodRouteClassLabel(value) {
+  return l(...(METHOD_ROUTE_CLASS_LABELS[value] || [String(value || "—").replaceAll("_", " "), String(value || "—").replaceAll("_", " ")]));
+}
+
+function methodRouteEnumLabel(value, labels) {
+  return l(...(labels[value] || [String(value || "—").replaceAll("_", " "), String(value || "—").replaceAll("_", " ")]));
+}
+
+function methodRouteDefinition(methodId) {
+  return (methodRouteControl()?.methods || []).find((item) => item.methodId === methodId) || null;
+}
+
+function methodRouteAction(nextActionId) {
+  return (methodRouteControl()?.nextActions || []).find((item) => item.nextActionId === nextActionId) || null;
+}
+
+function methodRouteProvenance(basisId) {
+  return (methodRouteControl()?.provenanceSources || []).find((item) => item.basisId === basisId) || null;
+}
+
+function methodRouteLocalized(item, key, fallback = "—") {
+  if (!item) return fallback;
+  return isFi()
+    ? item[`${key}Fi`] || item[key] || item[`${key}En`] || fallback
+    : item[`${key}En`] || item[key] || item[`${key}Fi`] || fallback;
+}
+
+function methodRouteClassCount(classId) {
+  const summary = methodRouteControl()?.summary || {};
+  const camel = classId.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+  const candidates = [
+    summary.assignmentClassCounts?.[classId],
+    summary.byAssignmentClass?.[classId],
+    summary[`${camel}Count`],
+    summary[camel]
+  ];
+  for (const candidate of candidates) {
+    const value = Number(typeof candidate === "object" ? candidate?.count : candidate);
+    if (Number.isInteger(value) && value >= 0) return value;
+  }
+  return (state.globalBase?.countries || []).filter((country) => country.methodRoute?.assignmentClass === classId).length;
+}
+
+function methodRouteRollupEligibleCount() {
+  const summary = methodRouteControl()?.summary || {};
+  for (const candidate of [
+    summary.eligibleForGlobalRollupCount,
+    summary.globalRollupEligibleCount,
+    summary.rollupEligibleCount
+  ]) {
+    const value = Number(candidate);
+    if (Number.isInteger(value) && value >= 0) return value;
+  }
+  return (state.globalBase?.countries || []).filter((country) => country.methodRoute?.eligibleForGlobalRollup === true).length;
+}
+
+function hasMethodRouteMap() {
+  return Boolean(methodRouteControl()) || (state.globalBase?.countries || []).some((country) => country.methodRoute);
+}
+
+function renderMethodRouteSummary() {
+  const host = byId("method-route-summary");
+  const filter = byId("method-route-filter");
+  if (!host) return;
+  host.replaceChildren();
+  const available = hasMethodRouteMap();
+  if (filter) {
+    filter.disabled = !available;
+    if (!available) {
+      state.methodRouteClass = "";
+      filter.value = "";
+    } else {
+      filter.value = state.methodRouteClass;
+    }
+  }
+  if (!available) {
+    host.append(node("p", "empty-state", l(
+      "Menetelmäkontrollia ei ole tässä pohjakerroksen versiossa. Maalukuja ei päätellä tai täytetä oletuksilla.",
+      "The method-control map is not present in this base-layer version. Country values are not inferred or filled with assumptions."
+    )));
+    return;
+  }
+  host.append(
+    globalBaseCard(
+      `${methodRouteClassCount("reviewed_method_plan")} / 195`,
+      "tarkistettua maakohtaista suunnitelmaa",
+      "reviewed country method plans",
+      "menetelmä on arvioitu; markkina-arvo voi silti puuttua",
+      "method reviewed; market value may still be missing"
+    ),
+    globalBaseCard(
+      `${methodRouteClassCount("reviewed_source_lead")} / 195`,
+      "tarkistettua lähdejohtolankaa",
+      "reviewed source leads",
+      "johtolanka on arvioitu; laskentamenetelmää ei ole vielä osoitettu",
+      "lead reviewed; calculation method not yet assigned"
+    ),
+    globalBaseCard(
+      `${methodRouteClassCount("regional_tpd_pattern_only")} / 195`,
+      "alueellista TPD-mallireittiä",
+      "regional TPD pattern routes",
+      "direktiivimalli; kansallinen haltija ja data on vielä vahvistettava",
+      "directive pattern; national holder and data still require verification"
+    ),
+    globalBaseCard(
+      `${methodRouteClassCount("proxy_only_unscoped")} / 195`,
+      "vain proxy / vielä rajaamatta",
+      "proxy only / not yet scoped",
+      "avoin taustapohja; puuttuva ei ole nolla",
+      "open context base; missing is not zero"
+    ),
+    globalBaseCard(
+      `${methodRouteRollupEligibleCount()} / 195`,
+      "kelpaa maailman vähittäissummaan",
+      "eligible for global retail roll-up",
+      "D1–D10-hyväksyntä vaaditaan erikseen",
+      "separate D1–D10 acceptance is required",
+      "blocked"
+    )
+  );
+}
+
 function globalBaseCard(value, labelFi, labelEn, detailFi, detailEn, tone = "") {
   const card = node("article", `global-base-card${tone ? ` global-base-card-${tone}` : ""}`);
   card.append(
@@ -1973,6 +2142,7 @@ function renderGlobalBase() {
       "Avoimen maapohjan tiedostoa ei voitu vahvistaa. Puuttuvia arvoja ei korvata nollilla.",
       "The open country-base file could not be verified. Missing values are not replaced with zeroes."
     )));
+    renderMethodRouteSummary();
     return;
   }
   const population = globalBaseMeasureSummary("population_total");
@@ -2018,6 +2188,7 @@ function renderGlobalBase() {
       "blocked"
     )
   );
+  renderMethodRouteSummary();
   panel.dataset.state = "ready";
   panel.setAttribute("aria-busy", "false");
   status.dataset.state = "ready";
@@ -2063,7 +2234,11 @@ function filteredCountries() {
   const query = state.countryQuery.trim().toLocaleLowerCase(isFi() ? "fi" : "en");
   return countries().filter((country) => {
     const names = [country.name, country.nameFi, country.iso2, country.iso3].filter(Boolean).join(" ").toLocaleLowerCase(isFi() ? "fi" : "en");
-    return (!query || names.includes(query)) && (!state.region || country.region === state.region) && (!state.grade || gradeOf(country) === state.grade);
+    const assignmentClass = methodRouteFor(country.iso2)?.assignmentClass || "";
+    return (!query || names.includes(query))
+      && (!state.region || country.region === state.region)
+      && (!state.grade || gradeOf(country) === state.grade)
+      && (!state.methodRouteClass || assignmentClass === state.methodRouteClass);
   });
 }
 
@@ -2109,9 +2284,20 @@ function renderCountries() {
     coverageWrap.append(coverageTrack, node("b", "", `${coverage}%`));
     coverageCell.append(coverageWrap);
 
+    const findingCell = node("td");
+    const finding = node("div", "country-name");
+    const findingCopy = node("span");
+    const assignmentClass = methodRouteFor(country.iso2)?.assignmentClass;
+    findingCopy.append(
+      node("strong", "", currentSummary(country)),
+      node("small", "", assignmentClass ? methodRouteClassLabel(assignmentClass) : l("Menetelmäreitti ei saatavilla", "Method route unavailable"))
+    );
+    finding.append(findingCopy);
+    findingCell.append(finding);
+
     const actionCell = node("td");
     actionCell.append(node("button", "row-action", "→"));
-    row.append(nameCell, node("td", "", isFi() ? REGIONS_FI[country.region] || country.region || "—" : country.region || "—"), gradeCell, coverageCell, node("td", "", currentSummary(country)), actionCell);
+    row.append(nameCell, node("td", "", isFi() ? REGIONS_FI[country.region] || country.region || "—" : country.region || "—"), gradeCell, coverageCell, findingCell, actionCell);
     body.append(row);
   }
   byId("country-count").textContent = isFi() ? `${list.length} / ${countries().length} maata` : `${list.length} / ${countries().length} countries`;
@@ -2144,6 +2330,115 @@ function openCountry(country) {
   }
   dimensionsSection.append(dimensions);
   body.append(dimensionsSection);
+
+  const methodRoute = methodRouteFor(country.iso2);
+  const methodSection = node("section", "dialog-section global-base-country");
+  methodSection.append(node("h3", "", l("Maakohtainen menetelmäkontrolli", "Country method control")));
+  if (methodRoute) {
+    const routeGrid = node("div", "global-base-country-grid");
+    const primaryMethod = methodRouteDefinition(methodRoute.primaryMethodId);
+    const secondaryMethods = (Array.isArray(methodRoute.secondaryMethodIds) ? methodRoute.secondaryMethodIds : [])
+      .map((methodId) => methodRouteLocalized(methodRouteDefinition(methodId), "label", methodId));
+    const primaryLabel = methodRouteLocalized(
+      methodRoute,
+      "primaryMethodLabel",
+      methodRouteLocalized(primaryMethod, "label", methodRoute.primaryMethodId || "—")
+    );
+    const transactionStage = methodRoute.transactionStage || primaryMethod?.transactionStage;
+    const action = methodRouteAction(methodRoute.nextActionId);
+    const nextAction = methodRouteLocalized(
+      methodRoute,
+      "nextAction",
+      methodRouteLocalized(methodRoute, "nextEvidence", methodRouteLocalized(action, "label", "—"))
+    );
+    const provenanceItems = Array.isArray(methodRoute.provenanceBasisIds)
+      ? methodRoute.provenanceBasisIds
+      : Array.isArray(methodRoute.provenance) ? methodRoute.provenance : [];
+    const provenanceLabels = provenanceItems.map((item) => {
+      if (item && typeof item === "object") {
+        const basisId = item.basisId || item.id;
+        return methodRouteLocalized(item, "label", methodRouteLocalized(methodRouteProvenance(basisId), "label", basisId || "—"));
+      }
+      return methodRouteLocalized(methodRouteProvenance(item), "label", item || "—");
+    });
+    const detailCard = (labelFi, labelEn, value, detail = "") => {
+      const item = node("article", "global-base-country-item");
+      item.append(node("span", "", l(labelFi, labelEn)), node("strong", "", value || "—"));
+      if (detail) item.append(node("small", "", detail));
+      return item;
+    };
+    routeGrid.append(
+      detailCard(
+        "Osoitusluokka",
+        "Assignment class",
+        methodRouteClassLabel(methodRoute.assignmentClass),
+        methodRoute.reviewLevel ? methodRouteEnumLabel(methodRoute.reviewLevel, {}) : ""
+      ),
+      detailCard(
+        "Ensisijainen menetelmä",
+        "Primary method",
+        primaryLabel,
+        secondaryMethods.length
+          ? l(`Toissijaiset: ${secondaryMethods.join(" · ")}`, `Secondary: ${secondaryMethods.join(" · ")}`)
+          : ""
+      ),
+      detailCard(
+        "Tapahtumavaihe",
+        "Transaction stage",
+        methodRouteEnumLabel(transactionStage, TRANSACTION_STAGE_LABELS),
+        l("Säilytetään erillään kuluttajavähittäismyynnistä.", "Kept distinct from consumer retail.")
+      ),
+      detailCard(
+        "Seuraava evidenssitoimi",
+        "Next evidence action",
+        nextAction,
+        methodRoute.nextActionId || ""
+      ),
+      detailCard(
+        "Vähittäisarvon tila",
+        "Retail-value status",
+        methodRouteEnumLabel(methodRoute.retailValueStatus, RETAIL_VALUE_STATUS_LABELS),
+        methodRoute.eligibleForGlobalRollup === true
+          ? l("Kelvollinen maailman vähittäissummaan.", "Eligible for the global retail roll-up.")
+          : l("Ei kelpaa maailman vähittäissummaan.", "Not eligible for the global retail roll-up.")
+      ),
+      detailCard(
+        "Donor-portti",
+        "Donor gate",
+        methodRouteEnumLabel(methodRoute.donorAssessmentState, DONOR_ASSESSMENT_LABELS),
+        methodRoute.donorAccepted === true
+          ? l("Hyväksytty donor.", "Accepted donor.")
+          : l("Ei hyväksytty donor.", "Not an accepted donor.")
+      ),
+      detailCard(
+        "Jäljitettävyys",
+        "Provenance",
+        provenanceLabels.join(" · ") || l("Ei julkaistua jäljitettävyysketjua", "No published provenance chain"),
+        [
+          provenanceItems.map((item) => typeof item === "object" ? item.basisId || item.id : item).filter(Boolean).join(" · "),
+          methodRoute.lastReviewedOn ? l(`Tarkistettu ${formatDate(methodRoute.lastReviewedOn)}`, `Reviewed ${formatDate(methodRoute.lastReviewedOn)}`) : ""
+        ].filter(Boolean).join(" · ")
+      )
+    );
+    const boundary = methodRouteLocalized(
+      methodRoute,
+      "boundary",
+      methodRouteLocalized(primaryMethod, "boundary", l(
+        "Menetelmäreitti ei itsessään osoita vähittäismarkkina-arvoa tai donor-hyväksyntää.",
+        "The method route does not by itself establish a retail market value or donor acceptance."
+      ))
+    );
+    methodSection.append(
+      routeGrid,
+      node("p", "global-base-country-boundary", boundary)
+    );
+  } else {
+    methodSection.append(node("p", "", l(
+      "Tämän pohjakerroksen versiosta puuttuu maakohtainen menetelmäkontrolli. Puutetta ei tulkita nollamarkkinaksi eikä määrällistetyksi reitiksi.",
+      "This base-layer version has no country method-control record. The absence is not treated as a zero market or a quantified route."
+    )));
+  }
+  body.append(methodSection);
 
   const base = globalBaseCountry(country.iso2);
   const baseSection = node("section", "dialog-section global-base-country");
@@ -2755,6 +3050,7 @@ function bindEvents() {
   byId("country-search").addEventListener("input", (event) => { state.countryQuery = event.target.value; renderCountries(); });
   byId("region-filter").addEventListener("change", (event) => { state.region = event.target.value; renderCountries(); });
   byId("grade-filter").addEventListener("change", (event) => { state.grade = event.target.value; renderCountries(); });
+  byId("method-route-filter").addEventListener("change", (event) => { state.methodRouteClass = event.target.value; renderCountries(); });
   byId("evidence-search").addEventListener("input", (event) => { state.evidenceQuery = event.target.value; renderEvidence(); });
   byId("evidence-grade-filter").addEventListener("change", (event) => { state.evidenceGrade = event.target.value; renderEvidence(); });
   byId("patent-family-search").addEventListener("input", (event) => { state.patentQuery = event.target.value; renderLegal(); });
@@ -2854,7 +3150,7 @@ async function loadData() {
       && country.routes?.unComtradeVapingTrade?.acquisitionStatus === "queued"
     ));
     if (
-      globalBase.schemaVersion !== "1.0"
+      !["1.0", "1.1"].includes(globalBase.schemaVersion)
       || globalBase.asOf !== "2026-07-27"
       || !Array.isArray(globalBase.countries)
       || globalBase.countries.length !== 195

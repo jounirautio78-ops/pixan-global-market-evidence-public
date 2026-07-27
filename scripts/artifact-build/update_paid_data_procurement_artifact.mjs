@@ -14,8 +14,8 @@ const workbookPath = path.join(
   "pixan-paid-data-procurement-fi-en.xlsx",
 );
 const sourcePath = path.join(repo, "source", "paid-data-procurement.json");
-const temporaryPath = `${workbookPath}.v24.tmp`;
-const qaDir = path.join(repo, "tmp", "paid-data-v24", "renders");
+const temporaryPath = `${workbookPath}.v30.tmp`;
+const qaDir = path.join(repo, "tmp", "paid-data-v30", "renders");
 const sheetNames = [
   "Decision",
   "Priorities",
@@ -41,26 +41,28 @@ const ecigBoundary = [
 ];
 const euromonitorState = [
   [
-    "GERMANY SAMPLE + METHOD + TWO QUOTES RECEIVED · 0/6 GATES PASS · NOT SCORED\n"
-      + "FI: SAKSA-NÄYTE + MENETELMÄ + KAKSI TARJOUSTA SAATU · "
+    "EXPANDED SAMPLE + 78-MARKET LIST + 95-GEOGRAPHY SCHEMA + THREE QUOTES RECEIVED · "
+      + "0/6 GATES PASS · NOT SCORED\n"
+      + "FI: LAAJENNETTU NÄYTE + 78 MARKKINAN LISTA + 95 MAANTIETEEN SKEEMA + "
+      + "KOLME TARJOUSTA SAATU · "
       + "0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
   ],
 ];
 const euromonitorBoundary = [
   [
-    "Status only. A sparse Germany sample, generic methodology and two indicative quotes were "
-      + "received. The workbook does not satisfy the representative-sample gate; all six mandatory "
-      + "gates remain OPEN. No licensed values are published. NOT SCORED; no purchase, fee or "
-      + "commitment.",
+    "Status only. An expanded Germany sample, 78-market list, generic methodology, standard terms, "
+      + "three indicative quotes and a later blank-value 95-geography schema were received. "
+      + "All six mandatory gates remain OPEN. No licensed values or private quote amounts are "
+      + "published. NOT SCORED; no purchase, fee or commitment.",
   ],
 ];
 
 const source = JSON.parse(await fs.readFile(sourcePath, "utf8"));
 if (
-  source?.version !== "2026.07.25-24"
+  source?.version !== "2026.07.27-30"
   || source?.status !== "decision_support_only_no_purchase_authorised"
 ) {
-  throw new Error("Canonical paid-data source is not the reviewed v24 no-purchase release");
+  throw new Error("Canonical paid-data source is not the reviewed v30 no-purchase release");
 }
 const euromonitorItem = source.items.find(
   (item) => item.itemId === "euromonitor-passport-nicotine",
@@ -81,21 +83,21 @@ const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(workbookPa
 const decision = workbook.worksheets.getItem("Decision");
 decision.getRange("A3").values = [[
   "Independent decision support · No purchase authorised · "
-    + "Version 2026.07.25-24 · Verified 2026-07-25",
+    + "Version 2026.07.27-30 · Verified 2026-07-27",
 ]];
 decision.getRange("A10").values = [[
   "1) Continue sample and transaction-rights evaluation with ECigIntelligence and Euromonitor "
-    + "in parallel. 2) Buy at most one global master. Do not buy Euromonitor before a full "
-    + "Germany sample, exact coverage matrix, category-specific method and written Pixan, lender, "
-    + "buyer, adviser, data-room and audit-archive rights pass review. 3) Add a tightly scoped "
-    + "NIQ/Circana POS pilot only as a validation layer for Germany, the United States and the "
-    + "United Kingdom.\n\n"
+    + "in parallel. 2) Buy at most one global master; do not buy before a populated 2022–2025 "
+    + "Germany test, reconciled 78/95 country-product-field-year coverage, record-level status "
+    + "flags, a legally approved NDA data-room Special Condition and complete all-in commercial "
+    + "terms pass review. 3) Consider a tightly scoped NIQ/Circana POS pilot only as a later "
+    + "validation layer for selected countries.\n\n"
     + "FI: 1) Jatka ECigIntelligencen ja Euromonitorin näyte- ja transaktio-oikeuksien arviointia "
-    + "rinnakkain. 2) Osta enintään yksi globaali pääaineisto. Älä osta Euromonitoria ennen kuin "
-    + "täysi Saksa-näyte, täsmällinen peittomatriisi, kategoriakohtainen menetelmä sekä kirjalliset "
-    + "Pixan-, lainanantaja-, ostaja-, neuvonantaja-, datahuone- ja tarkastusarkisto-oikeudet "
-    + "läpäisevät tarkistuksen. 3) Lisää rajattu NIQ/Circana-POS-pilotti vain varmennuskerrokseksi "
-    + "Saksaan, Yhdysvaltoihin ja Britanniaan.",
+    + "rinnakkain. 2) Osta enintään yksi globaali pääaineisto; älä osta ennen kuin täytetty "
+    + "Saksan 2022–2025-testi, täsmäytetty 78/95 maan maa–tuote–kenttä–vuosi-peitto, "
+    + "tietuetason tilamerkinnät, legal-tiimin hyväksymä NDA-datahuone-erityisehto ja täydelliset "
+    + "kaikki kustannukset kattavat kaupalliset ehdot läpäisevät tarkistuksen. 3) Harkitse rajattua "
+    + "NIQ/Circana-POS-pilottia vasta myöhempänä varmennuskerroksena valituille maille.",
 ]];
 decision.getRange("M17").values = [[recommendedPackage.knownPrice]];
 decision.getRange("O17").values = [[
@@ -122,6 +124,7 @@ scorecard.getRange("X15").values = euromonitorBoundary;
 const priorities = workbook.worksheets.getItem("Priorities");
 priorities.getRange("F7").values = [[euromonitorItem.priceDisplay]];
 priorities.getRange("G7").values = [[euromonitorDecision]];
+priorities.getRange("A7:P7").format.rowHeightPx = 360;
 
 for (const sheetName of sheetNames) {
   const sheet = workbook.worksheets.getItem(sheetName);
@@ -134,8 +137,10 @@ for (const sheetName of sheetNames) {
         || values[row][column] === "2026.07.24-20"
         || values[row][column] === "2026.07.24-21"
         || values[row][column] === "2026.07.24-22"
+        || values[row][column] === "2026.07.25-24"
+        || values[row][column] === "2026.07.27-29"
       ) {
-        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.25-24"]];
+        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.27-30"]];
       }
     }
   }
@@ -164,7 +169,7 @@ const reviewed = {
 if (
   reviewed.release[0][0] !== (
     "Independent decision support · No purchase authorised · "
-      + "Version 2026.07.25-24 · Verified 2026-07-25"
+      + "Version 2026.07.27-30 · Verified 2026-07-27"
   )
   || reviewed.recommendedPackagePrice[0][0] !== recommendedPackage.knownPrice
   || reviewed.recommendedPackageUnknowns[0][0] !== (
@@ -179,7 +184,7 @@ if (
   || reviewed.ecigSourceFormula[0][0] !== "='Sources'!C6"
   || reviewed.euromonitorSourceFormula[0][0] !== "='Sources'!C9"
 ) {
-  throw new Error("Reopened paid-data workbook differs from the reviewed v24 state");
+  throw new Error("Reopened paid-data workbook differs from the reviewed v30 state");
 }
 
 await fs.mkdir(qaDir, { recursive: true });
@@ -200,10 +205,10 @@ for (const sheetName of sheetNames) {
 await fs.rename(temporaryPath, workbookPath);
 await fs.rm(`${temporaryPath}.inspect.ndjson`, { force: true });
 await fs.writeFile(
-  path.join(repo, "tmp", "paid-data-v24", "artifact-build.json"),
+  path.join(repo, "tmp", "paid-data-v30", "artifact-build.json"),
   `${JSON.stringify(
     {
-      release: "2026.07.25-24",
+      release: "2026.07.27-30",
       workbook: "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
       renderedSheets: sheetNames,
       reviewed,
@@ -213,4 +218,4 @@ await fs.writeFile(
   )}\n`,
   "utf8",
 );
-console.log(`Updated and rendered paid-data workbook for 2026.07.25-24: ${workbookPath}`);
+console.log(`Updated and rendered paid-data workbook for 2026.07.27-30: ${workbookPath}`);
