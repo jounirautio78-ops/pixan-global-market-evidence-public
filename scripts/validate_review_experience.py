@@ -1026,8 +1026,8 @@ def validate_review_structure(
             "2026-07-27-visible-receipt-ledger-v29",
             'version: "2026.07.27-29"',
             'publishedAt: "2026-07-27T17:14:44+03:00"',
-            "visible seven-item receipt ledger",
-            "six of seven evidence categories received",
+            "visible seven-item material-receipt ledger",
+            "material received in six of seven document categories",
             "Evidence Registers were refreshed to v29",
         ):
             if release_hook not in i18n_js:

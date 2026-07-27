@@ -346,12 +346,14 @@ class VendorResponseControlTests(unittest.TestCase):
 
     def test_visible_receipt_ledger_hooks_are_fail_closed(self) -> None:
         script = (
+            "function receiptLabel() { return ['Rights-related material', "
+            "'Commercial-terms material']; } "
             "function renderReceiptLedger() { "
             "return [vendor.receivedEvidence, vendor.evidenceReceivedCount, "
             "control.evidenceTypes, 'vendor-response-receipts', "
             "'vendor-response-receipt-list', "
-            "'Receipt does not mean the gate passed.', "
-            "'Vastaanotto ei tarkoita portin läpäisyä.']; }"
+            "'Material receipt does not establish completeness or gate passage.', "
+            "'Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.']; }"
         )
         errors: list[str] = []
         validate_vendor_script_text(script, errors)

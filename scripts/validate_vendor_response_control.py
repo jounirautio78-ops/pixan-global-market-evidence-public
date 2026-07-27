@@ -29,14 +29,17 @@ ROOT = Path(__file__).resolve().parents[1]
 REVIEW_HTML = ROOT / "site" / "review.html"
 VENDOR_SCRIPT = ROOT / "site" / "assets" / "vendor-response.js"
 RECEIPT_LEDGER_HOOKS = (
+    "function receiptLabel(",
     "function renderReceiptLedger(",
     "vendor.receivedEvidence",
     "vendor.evidenceReceivedCount",
     "control.evidenceTypes",
     "vendor-response-receipts",
     "vendor-response-receipt-list",
-    "Receipt does not mean the gate passed.",
-    "Vastaanotto ei tarkoita portin läpäisyä.",
+    "Material receipt does not establish completeness or gate passage.",
+    "Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.",
+    "Rights-related material",
+    "Commercial-terms material",
 )
 
 TOP_LEVEL_KEYS = {

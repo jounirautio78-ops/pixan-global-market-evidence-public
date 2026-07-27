@@ -12,13 +12,13 @@
     items: Object.freeze([
       Object.freeze({
         category: "usability",
-        textEn: "Every vendor card now shows a visible seven-item receipt ledger. Received and missing documents remain separate from the independent G1–G6 gate outcomes; receipt never implies that a gate passed.",
-        textFi: "Jokainen toimittajakortti näyttää nyt näkyvän seitsemän kohdan vastaanottorekisterin. Vastaanotetut ja puuttuvat asiakirjat pysyvät erillään riippumattomista G1–G6-porttituloksista; vastaanotto ei tarkoita portin läpäisyä."
+        textEn: "Every vendor card now shows a visible seven-item material-receipt ledger. Received and missing material remain separate from the independent G1–G6 gate outcomes; receipt establishes neither completeness nor gate passage.",
+        textFi: "Jokainen toimittajakortti näyttää nyt näkyvän seitsemän kohdan aineiston vastaanottorekisterin. Vastaanotettu ja puuttuva aineisto pysyvät erillään riippumattomista G1–G6-porttituloksista; vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä."
       }),
       Object.freeze({
         category: "method",
-        textEn: "Euromonitor visibly records six of seven evidence categories received while remaining 0/6 gates passed, 6/6 evaluated, NOT SCORED and not authorised for purchase.",
-        textFi: "Euromonitorilla näkyy kuusi seitsemästä vastaanotetusta evidenssiluokasta, mutta tila pysyy 0/6 läpäistyä porttia, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu."
+        textEn: "Euromonitor visibly records material received in six of seven document categories while remaining 0/6 gates passed, 6/6 evaluated, NOT SCORED and not authorised for purchase.",
+        textFi: "Euromonitorilla näkyy aineistoa vastaanotetuksi kuudessa seitsemästä asiakirjaluokasta, mutta tila pysyy 0/6 läpäistyä porttia, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu."
       }),
       Object.freeze({
         category: "diligence",

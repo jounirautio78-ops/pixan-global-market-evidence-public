@@ -505,6 +505,29 @@
     return element;
   }
 
+  function receiptLabel(evidenceType) {
+    const labels = {
+      sample: ["Näyteaineisto", "Sample material"],
+      methodology: ["Menetelmäaineisto", "Method material"],
+      coverageMatrix: ["Peittoaineisto", "Coverage material"],
+      quote: ["Tarjousasiakirja", "Quote document"],
+      officialAnchorReconciliation: [
+        "Viranomaistäsmäytystä koskeva aineisto",
+        "Official-reconciliation material"
+      ],
+      transactionUseRights: [
+        "Transaktio-oikeuksia koskeva aineisto",
+        "Rights-related material"
+      ],
+      totalCostTerms: [
+        "Kaupallisia ehtoja koskeva aineisto",
+        "Commercial-terms material"
+      ]
+    };
+    const label = labels[evidenceType.key];
+    return label ? l(label[0], label[1]) : l(evidenceType.labelFi, evidenceType.labelEn);
+  }
+
   function renderReceiptLedger(vendor) {
     const ledger = node("section", "vendor-response-receipts");
     const header = node("div", "vendor-response-receipts-head");
@@ -514,7 +537,7 @@
       node(
         "h4",
         "",
-        `${l("Vastaanotettu aineisto", "Evidence received")} · ${
+        `${l("Aineistoa saatu", "Material received")} · ${
           vendor.evidenceReceivedCount
         }/${control.evidenceTypes.length}`
       )
@@ -525,8 +548,8 @@
         "p",
         "",
         l(
-          "Vastaanotto ei tarkoita portin läpäisyä.",
-          "Receipt does not mean the gate passed."
+          "Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.",
+          "Material receipt does not establish completeness or gate passage."
         )
       )
     );
@@ -550,12 +573,12 @@
         node(
           "span",
           "vendor-response-receipt-label",
-          isFi() ? evidenceType.labelFi : evidenceType.labelEn
+          receiptLabel(evidenceType)
         ),
         node(
           "strong",
           "",
-          received ? l("Vastaanotettu", "Received") : l("Ei vastaanotettu", "Not received")
+          received ? l("Aineistoa saatu", "Material received") : l("Ei aineistoa", "No material")
         )
       );
       list.append(item);

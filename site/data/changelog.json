@@ -11,13 +11,13 @@
       "items": [
         {
           "category": "usability",
-          "textEn": "Added a visible seven-item receipt ledger to every vendor card. Received documents are now shown separately from missing documents and from the independent G1–G6 gate outcomes; receipt never implies that a gate passed.",
-          "textFi": "Lisättiin jokaiselle toimittajakortille näkyvä seitsemän kohdan vastaanottorekisteri. Vastaanotetut asiakirjat näkyvät nyt erillään puuttuvista asiakirjoista ja riippumattomista G1–G6-porttituloksista; vastaanotto ei koskaan tarkoita portin läpäisyä."
+          "textEn": "Added a visible seven-item material-receipt ledger to every vendor card. Received material is shown separately from missing material and from the independent G1–G6 gate outcomes; receipt establishes neither completeness nor gate passage.",
+          "textFi": "Lisättiin jokaiselle toimittajakortille näkyvä seitsemän kohdan aineiston vastaanottorekisteri. Vastaanotettu aineisto näkyy erillään puuttuvasta aineistosta ja riippumattomista G1–G6-porttituloksista; vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä."
         },
         {
           "category": "method",
-          "textEn": "Euromonitor visibly records six of seven evidence categories received while remaining 0/6 gates passed, 6/6 evaluated, NOT SCORED and not authorised for purchase. Market values, donor decisions and the null global total are unchanged.",
-          "textFi": "Euromonitorilla näkyy kuusi seitsemästä vastaanotetusta evidenssiluokasta, mutta tila pysyy 0/6 läpäistyä porttia, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu. Markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
+          "textEn": "Euromonitor visibly records material received in six of seven document categories while remaining 0/6 gates passed, 6/6 evaluated, NOT SCORED and not authorised for purchase. Market values, donor decisions and the null global total are unchanged.",
+          "textFi": "Euromonitorilla näkyy aineistoa vastaanotetuksi kuudessa seitsemästä asiakirjaluokasta, mutta tila pysyy 0/6 läpäistyä porttia, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu. Markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
         },
         {
           "category": "diligence",
