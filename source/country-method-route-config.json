@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "asOf": "2026-07-27",
-  "version": "2026.07.27-30",
+  "version": "2026.07.27-31",
   "status": "research_route_map_not_market_values",
   "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",
   "boundaryFi": "Kartta osoittaa läpinäkyvän evidenssin hankinta- ja laskentareitin jokaiselle UN195-valtiolle. Se ei väitä, että 195 vähittäismarkkinaa olisi mitattu. Reitti, pyyntö, proxy, malli tai osittaisen kanavan havainto ei ole vähittäismarkkina-arvo, ellei taustalla oleva evidenssi osoita tätä erikseen.",
@@ -12,13 +12,7 @@
     "nextEvidenceEn": "Scope a country-specific official route before any retail-value calculation. The open World Bank base remains context only; WHO prevalence and UN Comtrade routes remain queued and non-retail.",
     "nextEvidenceFi": "Rajaa maakohtainen viranomaisreitti ennen vähittäisarvon laskentaa. Avoin World Bank -pohja on vain taustatietoa; WHO:n prevalenssi- ja UN Comtrade -reitit pysyvät jonossa eivätkä ole vähittäismyyntiä."
   },
-  "reviewedSourceLeads": [
-    "AT",
-    "BE",
-    "CH",
-    "LU",
-    "NO"
-  ],
+  "reviewedSourceLeads": [],
   "regionalTpdPatternCountries": [
     "BG",
     "CY",
@@ -35,6 +29,48 @@
     "RO",
     "SI",
     "SK"
+  ],
+  "countryRequests": [
+    {
+      "countryIso2": "AT",
+      "status": "sent",
+      "sentOn": "2026-07-27",
+      "programme": "five_country_method_sprint",
+      "publicNoteEn": "Aggregate excise-volume and statutory annual-sales requests sent to official functions.",
+      "publicNoteFi": "Aggregoitujen valmisteveromäärien ja lakisääteisen vuosimyynnin pyynnöt lähetetty viranomaisfunktioille."
+    },
+    {
+      "countryIso2": "BE",
+      "status": "sent",
+      "sentOn": "2026-07-27",
+      "programme": "five_country_method_sprint",
+      "publicNoteEn": "Aggregate EU-CEG annual-sales request sent to the official national function.",
+      "publicNoteFi": "Aggregoitu EU-CEG-vuosimyyntipyyntö lähetetty viralliselle kansalliselle funktiolle."
+    },
+    {
+      "countryIso2": "CH",
+      "status": "sent",
+      "sentOn": "2026-07-27",
+      "programme": "five_country_method_sprint",
+      "publicNoteEn": "Aggregate excise, trade and product-notification requests sent to official functions.",
+      "publicNoteFi": "Aggregoidut valmistevero-, kauppa- ja tuoteilmoituspyynnöt lähetetty viranomaisfunktioille."
+    },
+    {
+      "countryIso2": "LU",
+      "status": "sent",
+      "sentOn": "2026-07-27",
+      "programme": "five_country_method_sprint",
+      "publicNoteEn": "Aggregate excise, fiscal-mark and EU-CEG requests sent to official functions.",
+      "publicNoteFi": "Aggregoidut valmistevero-, veromerkki- ja EU-CEG-pyynnöt lähetetty viranomaisfunktioille."
+    },
+    {
+      "countryIso2": "NO",
+      "status": "sent",
+      "sentOn": "2026-07-27",
+      "programme": "five_country_method_sprint",
+      "publicNoteEn": "Aggregate lawful-supply, trade-code and enforcement requests sent to official functions.",
+      "publicNoteFi": "Aggregoidut laillisen tarjonnan, kauppakoodien ja valvonnan pyynnöt lähetetty viranomaisfunktioille."
+    }
   ],
   "provenanceSources": [
     {
@@ -78,6 +114,12 @@
       "labelEn": "D1-D10 donor acceptance control",
       "labelFi": "D1–D10-donor-hyväksyntäkontrolli",
       "path": "source/donor-cockpit.json"
+    },
+    {
+      "basisId": "FIVE_COUNTRY_SPRINT",
+      "labelEn": "Reviewed Austria, Belgium, Switzerland, Luxembourg and Norway official-data method sprint",
+      "labelFi": "Tarkistettu Itävallan, Belgian, Sveitsin, Luxemburgin ja Norjan viranomaisdatamenetelmäsprintti",
+      "path": "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md"
     }
   ],
   "nextActions": [
@@ -331,6 +373,11 @@
     {"countryIso2": "ID", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["customs_trade_proxy"], "retailValueStatus": "not_computed"},
     {"countryIso2": "PH", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["enforcement_trade_only"], "retailValueStatus": "not_computed"},
     {"countryIso2": "AE", "primaryMethodId": "excise_designated_retail_price", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
-    {"countryIso2": "SA", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": [], "retailValueStatus": "not_computed"}
+    {"countryIso2": "SA", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
+    {"countryIso2": "AT", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["excise_to_volume_reconstruction", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "BE", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["excise_to_volume_reconstruction", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "CH", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["customs_trade_proxy", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "LU", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["statutory_annual_sales_reporting", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {"countryIso2": "NO", "primaryMethodId": "regulated_supply_plus_enforcement", "secondaryMethodIds": ["customs_trade_proxy"], "retailValueStatus": "not_computed"}
   ]
 }

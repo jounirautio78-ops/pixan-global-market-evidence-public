@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the v27 review surface and evidence baseline."""
+"""Fail-closed validation for the current review surface and evidence baseline."""
 
 from __future__ import annotations
 
@@ -941,10 +941,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-27-30") < 7:
-        errors.append("review.html asset cache-busters must all use the v30 release")
-    if index_html.count("2026-07-27-30") < 4:
-        errors.append("index.html asset cache-busters must all use the v30 release")
+    if review_html.count("2026-07-27-31") < 7:
+        errors.append("review.html asset cache-busters must all use the v31 release")
+    if index_html.count("2026-07-27-31") < 4:
+        errors.append("index.html asset cache-busters must all use the v31 release")
     if any(
         stale in review_html or stale in index_html
         for stale in (
@@ -958,9 +958,10 @@ def validate_review_structure(
             "2026-07-27-27",
             "2026-07-27-28",
             "2026-07-27-29",
+            "2026-07-27-30",
         )
     ):
-        errors.append("stale cache-busters remain in the v30 pages")
+        errors.append("stale cache-busters remain in the v31 pages")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -1026,15 +1027,15 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-27-method-control-and-vendor-gates-v30",
-            'version: "2026.07.27-30"',
-            'publishedAt: "2026-07-27T18:46:00+03:00"',
-            "195-country method control",
-            "95-geography schema",
-            "54-row Evidence Registers",
+            "2026-07-27-five-country-method-sprint-v31",
+            'version: "2026.07.27-31"',
+            'publishedAt: "2026-07-27T20:08:20+03:00"',
+            "Five-country official-data methods",
+            "once-per-Asia/Nicosia-calendar-day",
+            "28 reviewed plans",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v30 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v31 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1151,7 +1152,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v30 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "Validated v31 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 24-source ledger and required UI hooks."
     )

@@ -235,8 +235,8 @@ def validate_layer_details(
     summary = method_control.get("summary", {})
     expected_summary = {
         "countryCount": 195,
-        "reviewedMethodPlanCount": 23,
-        "reviewedSourceLeadCount": 5,
+        "reviewedMethodPlanCount": 28,
+        "reviewedSourceLeadCount": 0,
         "regionalTpdPatternOnlyCount": 15,
         "proxyOnlyUnscopedCount": 152,
         "reviewedNationalRouteOrLeadCount": 28,
@@ -249,7 +249,7 @@ def validate_layer_details(
         "eligibleForGlobalRollupCount": 0,
         "donorAcceptedCount": 0,
     }
-    require(summary == expected_summary, "method-route summary differs from v30 contract")
+    require(summary == expected_summary, "method-route summary differs from v31 contract")
     require(
         method_control.get("methods") == method_route_config["methods"],
         "published method definitions differ from route config",
@@ -336,9 +336,13 @@ def validate_layer_details(
         else:
             require(eur["value"] is None, "not_computed EUR value must be null")
 
+    normalized_assignment_counts = {
+        assignment_class: assignment_counts[assignment_class]
+        for assignment_class in EXPECTED_ASSIGNMENT_COUNTS
+    }
     require(
-        dict(assignment_counts) == EXPECTED_ASSIGNMENT_COUNTS,
-        "per-country method assignment counts differ from 23/5/15/152",
+        normalized_assignment_counts == EXPECTED_ASSIGNMENT_COUNTS,
+        "per-country method assignment counts differ from 28/0/15/152",
     )
     require(
         retail_status_counts
@@ -424,9 +428,14 @@ def validate_csv(layer: dict[str, Any], csv_text: str) -> None:
         "public CSV donor-acceptance flag must always be false",
     )
     require(
-        Counter(row["method_assignment_class"] for row in actual_rows)
+        {
+            assignment_class: Counter(
+                row["method_assignment_class"] for row in actual_rows
+            )[assignment_class]
+            for assignment_class in EXPECTED_ASSIGNMENT_COUNTS
+        }
         == EXPECTED_ASSIGNMENT_COUNTS,
-        "public CSV method-assignment counts differ from 23/5/15/152",
+        "public CSV method-assignment counts differ from 28/0/15/152",
     )
     require(
         Counter(row["method_retail_value_status"] for row in actual_rows)
@@ -549,7 +558,7 @@ def main() -> int:
         f"{len(layer['countries'])} countries, "
         f"{layer['summary']['observedCount']} observed, "
         f"{layer['summary']['queuedCount']} queued, "
-        "23/5/15/152 method-control assignments, global retail sales blocked."
+        "28/0/15/152 method-control assignments, global retail sales blocked."
     )
     return 0
 

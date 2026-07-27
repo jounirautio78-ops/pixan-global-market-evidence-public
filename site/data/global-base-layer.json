@@ -129,15 +129,15 @@
     }
   },
   "methodRouteControl": {
-    "version": "2026.07.27-30",
+    "version": "2026.07.27-31",
     "asOf": "2026-07-27",
     "status": "research_route_map_not_market_values",
     "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",
     "boundaryFi": "Kartta osoittaa läpinäkyvän evidenssin hankinta- ja laskentareitin jokaiselle UN195-valtiolle. Se ei väitä, että 195 vähittäismarkkinaa olisi mitattu. Reitti, pyyntö, proxy, malli tai osittaisen kanavan havainto ei ole vähittäismarkkina-arvo, ellei taustalla oleva evidenssi osoita tätä erikseen.",
     "summary": {
       "countryCount": 195,
-      "reviewedMethodPlanCount": 23,
-      "reviewedSourceLeadCount": 5,
+      "reviewedMethodPlanCount": 28,
+      "reviewedSourceLeadCount": 0,
       "regionalTpdPatternOnlyCount": 15,
       "proxyOnlyUnscopedCount": 152,
       "reviewedNationalRouteOrLeadCount": 28,
@@ -420,6 +420,12 @@
         "labelEn": "D1-D10 donor acceptance control",
         "labelFi": "D1–D10-donor-hyväksyntäkontrolli",
         "path": "source/donor-cockpit.json"
+      },
+      {
+        "basisId": "FIVE_COUNTRY_SPRINT",
+        "labelEn": "Reviewed Austria, Belgium, Switzerland, Luxembourg and Norway official-data method sprint",
+        "labelFi": "Tarkistettu Itävallan, Belgian, Sveitsin, Luxemburgin ja Norjan viranomaisdatamenetelmäsprintti",
+        "path": "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md"
       }
     ]
   },
@@ -16806,32 +16812,34 @@
         }
       },
       "methodRoute": {
-        "assignmentClass": "reviewed_source_lead",
-        "reviewLevel": "source_lead_reviewed_method_unassigned",
-        "primaryMethodId": "official_route_not_scoped",
+        "assignmentClass": "reviewed_method_plan",
+        "reviewLevel": "country_method_reviewed",
+        "primaryMethodId": "statutory_annual_sales_reporting",
         "secondaryMethodIds": [
+          "excise_to_volume_reconstruction",
+          "product_registry_plus_sales_request",
           "eu_tpd_annual_reporting_pattern"
         ],
-        "primaryMethodLabelEn": "Country-specific official route not yet scoped",
-        "primaryMethodLabelFi": "Maakohtaista viranomaisreittiä ei ole vielä rajattu",
-        "transactionStage": "unscoped",
-        "nextActionId": "validate_country_source_lead",
-        "nextActionEn": "Validate the reviewed source lead before assigning a country calculation method",
-        "nextActionFi": "Vahvista tarkistettu lähdejohtolanka ennen maakohtaisen laskentamenetelmän nimeämistä",
+        "primaryMethodLabelEn": "Statutory annual product-sales reporting",
+        "primaryMethodLabelFi": "Lakisääteinen vuotuinen tuotemyyntiraportointi",
+        "transactionStage": "regulatory_reporting",
+        "nextActionId": "request_statutory_sales_aggregate",
+        "nextActionEn": "Obtain annual statutory sales aggregates and reporting-population coverage",
+        "nextActionFi": "Hanki vuotuiset lakisääteiset myyntiaggregaatit ja raportoijajoukon peitto",
         "provenanceBasisIds": [
           "UN195",
           "OPEN_BASE",
-          "MARNET_PUBLIC",
+          "FIVE_COUNTRY_SPRINT",
           "EU_TPD_20_7"
         ],
         "retailValueStatus": "not_computed",
         "eligibleForGlobalRollup": false,
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
-        "requestState": "not_in_top20_program",
+        "requestState": "sent",
         "lastReviewedOn": "2026-07-27",
-        "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
-        "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
+        "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
+        "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
       "retailSalesEligible": false
     },
@@ -17044,32 +17052,34 @@
         }
       },
       "methodRoute": {
-        "assignmentClass": "reviewed_source_lead",
-        "reviewLevel": "source_lead_reviewed_method_unassigned",
-        "primaryMethodId": "official_route_not_scoped",
+        "assignmentClass": "reviewed_method_plan",
+        "reviewLevel": "country_method_reviewed",
+        "primaryMethodId": "statutory_annual_sales_reporting",
         "secondaryMethodIds": [
+          "excise_to_volume_reconstruction",
+          "product_registry_plus_sales_request",
           "eu_tpd_annual_reporting_pattern"
         ],
-        "primaryMethodLabelEn": "Country-specific official route not yet scoped",
-        "primaryMethodLabelFi": "Maakohtaista viranomaisreittiä ei ole vielä rajattu",
-        "transactionStage": "unscoped",
-        "nextActionId": "validate_country_source_lead",
-        "nextActionEn": "Validate the reviewed source lead before assigning a country calculation method",
-        "nextActionFi": "Vahvista tarkistettu lähdejohtolanka ennen maakohtaisen laskentamenetelmän nimeämistä",
+        "primaryMethodLabelEn": "Statutory annual product-sales reporting",
+        "primaryMethodLabelFi": "Lakisääteinen vuotuinen tuotemyyntiraportointi",
+        "transactionStage": "regulatory_reporting",
+        "nextActionId": "request_statutory_sales_aggregate",
+        "nextActionEn": "Obtain annual statutory sales aggregates and reporting-population coverage",
+        "nextActionFi": "Hanki vuotuiset lakisääteiset myyntiaggregaatit ja raportoijajoukon peitto",
         "provenanceBasisIds": [
           "UN195",
           "OPEN_BASE",
-          "MARNET_PUBLIC",
+          "FIVE_COUNTRY_SPRINT",
           "EU_TPD_20_7"
         ],
         "retailValueStatus": "not_computed",
         "eligibleForGlobalRollup": false,
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
-        "requestState": "not_in_top20_program",
+        "requestState": "sent",
         "lastReviewedOn": "2026-07-27",
-        "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
-        "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
+        "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
+        "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
       "retailSalesEligible": false
     },
@@ -19310,32 +19320,34 @@
         }
       },
       "methodRoute": {
-        "assignmentClass": "reviewed_source_lead",
-        "reviewLevel": "source_lead_reviewed_method_unassigned",
-        "primaryMethodId": "official_route_not_scoped",
+        "assignmentClass": "reviewed_method_plan",
+        "reviewLevel": "country_method_reviewed",
+        "primaryMethodId": "excise_to_volume_reconstruction",
         "secondaryMethodIds": [
+          "statutory_annual_sales_reporting",
+          "product_registry_plus_sales_request",
           "eu_tpd_annual_reporting_pattern"
         ],
-        "primaryMethodLabelEn": "Country-specific official route not yet scoped",
-        "primaryMethodLabelFi": "Maakohtaista viranomaisreittiä ei ole vielä rajattu",
-        "transactionStage": "unscoped",
-        "nextActionId": "validate_country_source_lead",
-        "nextActionEn": "Validate the reviewed source lead before assigning a country calculation method",
-        "nextActionFi": "Vahvista tarkistettu lähdejohtolanka ennen maakohtaisen laskentamenetelmän nimeämistä",
+        "primaryMethodLabelEn": "Excise-to-volume reconstruction",
+        "primaryMethodLabelFi": "Valmisteverosta määräksi takaisinlaskenta",
+        "transactionStage": "tax_release",
+        "nextActionId": "reconstruct_tax_base_then_retail_bridge",
+        "nextActionEn": "Reconstruct the taxed base, then add price, tax, stock, export and channel bridges",
+        "nextActionFi": "Laske veropohja takaisin ja lisää hinta-, vero-, varasto-, vienti- ja kanavasillat",
         "provenanceBasisIds": [
           "UN195",
           "OPEN_BASE",
-          "MARNET_PUBLIC",
+          "FIVE_COUNTRY_SPRINT",
           "EU_TPD_20_7"
         ],
         "retailValueStatus": "not_computed",
         "eligibleForGlobalRollup": false,
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
-        "requestState": "not_in_top20_program",
+        "requestState": "sent",
         "lastReviewedOn": "2026-07-27",
-        "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
-        "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
+        "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
+        "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
       "retailSalesEligible": false
     },
@@ -20140,29 +20152,31 @@
         }
       },
       "methodRoute": {
-        "assignmentClass": "reviewed_source_lead",
-        "reviewLevel": "source_lead_reviewed_method_unassigned",
-        "primaryMethodId": "official_route_not_scoped",
-        "secondaryMethodIds": [],
-        "primaryMethodLabelEn": "Country-specific official route not yet scoped",
-        "primaryMethodLabelFi": "Maakohtaista viranomaisreittiä ei ole vielä rajattu",
-        "transactionStage": "unscoped",
-        "nextActionId": "validate_country_source_lead",
-        "nextActionEn": "Validate the reviewed source lead before assigning a country calculation method",
-        "nextActionFi": "Vahvista tarkistettu lähdejohtolanka ennen maakohtaisen laskentamenetelmän nimeämistä",
+        "assignmentClass": "reviewed_method_plan",
+        "reviewLevel": "country_method_reviewed",
+        "primaryMethodId": "regulated_supply_plus_enforcement",
+        "secondaryMethodIds": [
+          "customs_trade_proxy"
+        ],
+        "primaryMethodLabelEn": "Regulated lawful supply plus enforcement",
+        "primaryMethodLabelFi": "Säännelty laillinen tarjonta ja valvonta",
+        "transactionStage": "regulated_supply",
+        "nextActionId": "separate_lawful_supply_enforcement_retail",
+        "nextActionEn": "Separate lawful supply, enforcement and consumer retail",
+        "nextActionFi": "Erota laillinen tarjonta, valvonta ja kuluttajavähittäismyynti",
         "provenanceBasisIds": [
           "UN195",
           "OPEN_BASE",
-          "MARNET_PUBLIC"
+          "FIVE_COUNTRY_SPRINT"
         ],
         "retailValueStatus": "not_computed",
         "eligibleForGlobalRollup": false,
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
-        "requestState": "not_in_top20_program",
+        "requestState": "sent",
         "lastReviewedOn": "2026-07-27",
-        "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
-        "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
+        "boundaryEn": "Lawful supply, notifications and enforcement must remain separate. Seizures and surrenders are not lawful sales and cannot be added to market value.",
+        "boundaryFi": "Laillinen tarjonta, ilmoitukset ja valvonta pidetään erillään. Takavarikot ja luovutukset eivät ole laillista myyntiä eikä niitä saa lisätä markkina-arvoon."
       },
       "retailSalesEligible": false
     },
@@ -21454,29 +21468,32 @@
         }
       },
       "methodRoute": {
-        "assignmentClass": "reviewed_source_lead",
-        "reviewLevel": "source_lead_reviewed_method_unassigned",
-        "primaryMethodId": "official_route_not_scoped",
-        "secondaryMethodIds": [],
-        "primaryMethodLabelEn": "Country-specific official route not yet scoped",
-        "primaryMethodLabelFi": "Maakohtaista viranomaisreittiä ei ole vielä rajattu",
-        "transactionStage": "unscoped",
-        "nextActionId": "validate_country_source_lead",
-        "nextActionEn": "Validate the reviewed source lead before assigning a country calculation method",
-        "nextActionFi": "Vahvista tarkistettu lähdejohtolanka ennen maakohtaisen laskentamenetelmän nimeämistä",
+        "assignmentClass": "reviewed_method_plan",
+        "reviewLevel": "country_method_reviewed",
+        "primaryMethodId": "excise_to_volume_reconstruction",
+        "secondaryMethodIds": [
+          "customs_trade_proxy",
+          "product_registry_plus_sales_request"
+        ],
+        "primaryMethodLabelEn": "Excise-to-volume reconstruction",
+        "primaryMethodLabelFi": "Valmisteverosta määräksi takaisinlaskenta",
+        "transactionStage": "tax_release",
+        "nextActionId": "reconstruct_tax_base_then_retail_bridge",
+        "nextActionEn": "Reconstruct the taxed base, then add price, tax, stock, export and channel bridges",
+        "nextActionFi": "Laske veropohja takaisin ja lisää hinta-, vero-, varasto-, vienti- ja kanavasillat",
         "provenanceBasisIds": [
           "UN195",
           "OPEN_BASE",
-          "MARNET_PUBLIC"
+          "FIVE_COUNTRY_SPRINT"
         ],
         "retailValueStatus": "not_computed",
         "eligibleForGlobalRollup": false,
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
-        "requestState": "not_in_top20_program",
+        "requestState": "sent",
         "lastReviewedOn": "2026-07-27",
-        "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
-        "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
+        "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
+        "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
       "retailSalesEligible": false
     },

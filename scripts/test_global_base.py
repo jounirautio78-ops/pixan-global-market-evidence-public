@@ -162,8 +162,8 @@ class MethodRouteControlTests(unittest.TestCase):
             layer["methodRouteControl"]["summary"],
             {
                 "countryCount": 195,
-                "reviewedMethodPlanCount": 23,
-                "reviewedSourceLeadCount": 5,
+                "reviewedMethodPlanCount": 28,
+                "reviewedSourceLeadCount": 0,
                 "regionalTpdPatternOnlyCount": 15,
                 "proxyOnlyUnscopedCount": 152,
                 "reviewedNationalRouteOrLeadCount": 28,
@@ -216,6 +216,29 @@ class MethodRouteControlTests(unittest.TestCase):
         self.assertEqual(route["retailValueStatus"], "not_computed")
         self.assertEqual(route["donorAssessmentState"], "not_assessed")
 
+    def test_five_country_sprint_has_reviewed_sent_fail_closed_routes(self) -> None:
+        layer = self.build()
+        routes = {
+            country["iso2"]: country["methodRoute"]
+            for country in layer["countries"]
+        }
+        expected_primary = {
+            "AT": "statutory_annual_sales_reporting",
+            "BE": "statutory_annual_sales_reporting",
+            "CH": "excise_to_volume_reconstruction",
+            "LU": "excise_to_volume_reconstruction",
+            "NO": "regulated_supply_plus_enforcement",
+        }
+        for iso2, primary_method in expected_primary.items():
+            route = routes[iso2]
+            self.assertEqual(route["assignmentClass"], "reviewed_method_plan")
+            self.assertEqual(route["primaryMethodId"], primary_method)
+            self.assertEqual(route["requestState"], "sent")
+            self.assertEqual(route["retailValueStatus"], "not_computed")
+            self.assertFalse(route["eligibleForGlobalRollup"])
+            self.assertFalse(route["donorAccepted"])
+            self.assertIn("FIVE_COUNTRY_SPRINT", route["provenanceBasisIds"])
+
     def test_rejects_method_that_claims_standalone_retail_value(self) -> None:
         mutated = copy.deepcopy(self.method_routes)
         mutated["methods"][0]["canEstablishRetailValueAlone"] = True
@@ -229,7 +252,7 @@ class MethodRouteControlTests(unittest.TestCase):
 
     def test_rejects_assignment_membership_drift(self) -> None:
         mutated = copy.deepcopy(self.method_routes)
-        mutated["reviewedSourceLeads"][-1] = "CA"
+        mutated["reviewedSourceLeads"] = ["CA"]
         with self.assertRaisesRegex(ValueError, "source-lead country set differs"):
             validate_method_route_sources(
                 mutated,
@@ -270,7 +293,7 @@ class GeneratedArtifactTests(unittest.TestCase):
         self.assertEqual(layer["schemaVersion"], "1.1")
         self.assertEqual(
             layer["methodRouteControl"]["summary"]["reviewedMethodPlanCount"],
-            23,
+            28,
         )
         self.assertEqual(layer["globalRetailSales"]["status"], "blocked")
         self.assertIsNone(layer["globalRetailSales"]["value"])

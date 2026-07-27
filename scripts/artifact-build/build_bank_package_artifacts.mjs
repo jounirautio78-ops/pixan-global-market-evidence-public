@@ -19,6 +19,11 @@ const qaDir = path.join(repo, "tmp", "bank-v30", "qa");
 const renderRoot = path.join(repo, "tmp", "bank-v30", "renders");
 const releaseVersion = "2026.07.27-30";
 const releaseId = "2026-07-27-method-control-and-vendor-gates-v30";
+const packageCadence = Object.freeze({
+  frequency: "once_daily",
+  timeZone: "Asia/Nicosia",
+  dashboardMayUpdateIntraday: true,
+});
 const fhmSourceId = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24";
 const fhmSourceUrl = "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/";
 const swedenStructureBasis = "official_registration_structure_count_not_sales_or_market_value";
@@ -447,6 +452,65 @@ function sha256(filePath) {
 
 function sha256Text(value) {
   return crypto.createHash("sha256").update(String(value)).digest("hex");
+}
+
+function calendarDateInTimeZone(value, timeZone) {
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) throw new Error(`Invalid release timestamp: ${value}`);
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone,
+  }).formatToParts(date);
+  const byType = new Map(parts.map((part) => [part.type, part.value]));
+  return `${byType.get("year")}-${byType.get("month")}-${byType.get("day")}`;
+}
+
+async function assertDailyBuildWindow() {
+  const changelog = JSON.parse(await fs.readFile(path.join(dataDir, "changelog.json"), "utf8"));
+  const release = changelog.releases?.[0];
+  if (typeof release?.publishedAt !== "string") {
+    throw new Error("The public changelog lacks a valid target release timestamp");
+  }
+  const targetDate = calendarDateInTimeZone(release.publishedAt, packageCadence.timeZone);
+  if (changelog.asOf !== targetDate) {
+    throw new Error("The target release and changelog asOf are on different Asia/Nicosia dates");
+  }
+
+  let existingManifest;
+  try {
+    existingManifest = JSON.parse(
+      await fs.readFile(path.join(dataDir, "bank-package-manifest.json"), "utf8"),
+    );
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+    existingManifest = null;
+  }
+  if (existingManifest) {
+    const existingPublishedAt = existingManifest?.release?.publishedAt;
+    if (typeof existingPublishedAt !== "string") {
+      throw new Error("Existing bank-package manifest lacks a valid release timestamp");
+    }
+    const existingDate = calendarDateInTimeZone(
+      existingPublishedAt,
+      packageCadence.timeZone,
+    );
+    if (existingDate === targetDate) {
+      throw new Error(
+        `Bank-package artifacts may be generated at most once per ${packageCadence.timeZone} calendar day; ${targetDate} already has a package snapshot.`,
+      );
+    }
+    if (existingDate > targetDate) {
+      throw new Error("Existing bank-package snapshot is newer than the target artifact release");
+    }
+  }
+  if (
+    release.id !== releaseId
+    || release.version !== releaseVersion
+  ) {
+    throw new Error("The public changelog is not locked to the target artifact release");
+  }
 }
 
 function deckSeedPath(language, deckName) {
@@ -2181,6 +2245,7 @@ async function writeReleaseLocks(artifacts) {
     "source/global-base-observations.json",
     "source/country-method-route-config.json",
     "source/COUNTRY_METHOD_ROUTE_MAP.md",
+    "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
     "source/vendor-response-control.json",
     "source/third-donor-screen.json",
     "source/schemas/fx-rates.schema.json",
@@ -2263,6 +2328,7 @@ async function writeReleaseLocks(artifacts) {
       publishedAt: release.publishedAt,
     },
     asOf: changelog.asOf,
+    cadence: packageCadence,
     languages: ["en", "fi"],
     publicBoundary: {
       en: "Independent public evidence summary. Not Pixan Oy's official position; not an audit, valuation, legal opinion, investment recommendation or lending recommendation.",
@@ -2286,6 +2352,7 @@ async function writeReleaseLocks(artifacts) {
 }
 
 async function main() {
+  await assertDailyBuildWindow();
   await fs.mkdir(qaDir, { recursive: true });
   await fs.mkdir(renderRoot, { recursive: true });
   const market = JSON.parse(await fs.readFile(path.join(dataDir, "market-values.json"), "utf8"));

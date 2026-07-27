@@ -9,11 +9,13 @@ import json
 import re
 import sys
 import zipfile
+from datetime import datetime
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlparse
 from xml.etree import ElementTree as ET
+from zoneinfo import ZoneInfo
 
 from openpyxl import load_workbook
 from pptx import Presentation
@@ -39,6 +41,12 @@ SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
 RELEASE_ID = "2026-07-27-method-control-and-vendor-gates-v30"
 RELEASE_VERSION = "2026.07.27-30"
+PACKAGE_TIME_ZONE = "Asia/Nicosia"
+EXPECTED_PACKAGE_CADENCE = {
+    "frequency": "once_daily",
+    "timeZone": PACKAGE_TIME_ZONE,
+    "dashboardMayUpdateIntraday": True,
+}
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -176,6 +184,9 @@ EXPECTED_INPUTS = {
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
     "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
 }
+POST_V30_EXPECTED_INPUTS = {
+    "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
+}
 EXPECTED_ARTIFACTS = {
     "short-deck-fi": {
         "kind": "pptx",
@@ -250,6 +261,102 @@ SENSITIVE_QUERY_KEYS = {
     "x-amz-signature",
 }
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def parse_release_timestamp(value: Any, label: str, errors: list[str]) -> datetime | None:
+    if not isinstance(value, str):
+        errors.append(f"{label} must be an ISO-8601 timestamp with an explicit offset")
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        errors.append(f"{label} must be a valid ISO-8601 timestamp")
+        return None
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        errors.append(f"{label} must include an explicit UTC offset")
+        return None
+    return parsed
+
+
+def validate_daily_package_snapshot(
+    manifest: dict[str, Any],
+    changelog: dict[str, Any],
+    errors: list[str],
+) -> bool:
+    """Return whether reviewed-input hash drift is allowed for this package snapshot."""
+
+    cadence = manifest.get("cadence")
+    if cadence != EXPECTED_PACKAGE_CADENCE:
+        errors.append(
+            "manifest cadence must be exactly once_daily in Asia/Nicosia and allow intraday dashboard updates"
+        )
+
+    releases = changelog.get("releases")
+    if not isinstance(releases, list) or not releases or not all(
+        isinstance(release, dict) for release in releases
+    ):
+        errors.append("public changelog must contain at least one release object")
+        return False
+
+    manifest_release = manifest.get("release")
+    if not isinstance(manifest_release, dict) or set(manifest_release) != {
+        "id",
+        "version",
+        "publishedAt",
+    }:
+        errors.append("manifest release must contain exactly id, version and publishedAt")
+        return False
+
+    matching_indexes = [
+        index
+        for index, release in enumerate(releases)
+        if {
+            key: release.get(key) for key in ("id", "version", "publishedAt")
+        }
+        == manifest_release
+    ]
+    if len(matching_indexes) != 1:
+        errors.append("manifest release must match exactly one public changelog release")
+        return False
+
+    latest_release = {
+        key: releases[0].get(key) for key in ("id", "version", "publishedAt")
+    }
+    manifest_timestamp = parse_release_timestamp(
+        manifest_release.get("publishedAt"),
+        "manifest release publishedAt",
+        errors,
+    )
+    latest_timestamp = parse_release_timestamp(
+        latest_release.get("publishedAt"),
+        "latest changelog release publishedAt",
+        errors,
+    )
+    if manifest_timestamp is None or latest_timestamp is None:
+        return False
+
+    package_date = manifest_timestamp.astimezone(ZoneInfo(PACKAGE_TIME_ZONE)).date()
+    dashboard_date = latest_timestamp.astimezone(ZoneInfo(PACKAGE_TIME_ZONE)).date()
+    if package_date != dashboard_date:
+        errors.append(
+            "bank package is older than the current dashboard calendar date in Asia/Nicosia"
+        )
+        return False
+    if manifest.get("asOf") != changelog.get("asOf") or manifest.get("asOf") != package_date.isoformat():
+        errors.append(
+            "manifest asOf, changelog asOf and the Asia/Nicosia package calendar date must match"
+        )
+        return False
+
+    release_index = matching_indexes[0]
+    if release_index == 0:
+        return False
+    if manifest_timestamp >= latest_timestamp:
+        errors.append(
+            "an earlier changelog package snapshot must precede the latest same-day release timestamp"
+        )
+        return False
+    return cadence == EXPECTED_PACKAGE_CADENCE
 
 
 def validate_v22_market_bindings(errors: list[str]) -> None:
@@ -1271,6 +1378,7 @@ def validate_manifest(errors: list[str]) -> None:
         "generatedFromPublicDataOnly",
         "release",
         "asOf",
+        "cadence",
         "languages",
         "publicBoundary",
         "templateInputs",
@@ -1284,17 +1392,15 @@ def validate_manifest(errors: list[str]) -> None:
         errors.append("manifest must declare schemaVersion 2 and public-data-only generation")
     if manifest.get("languages") != ["en", "fi"]:
         errors.append("manifest languages must be exactly en and fi")
-    latest_release = changelog.get("releases", [{}])[0]
-    expected_release = {
-        key: latest_release.get(key) for key in ("id", "version", "publishedAt")
-    }
-    if manifest.get("release") != expected_release:
-        errors.append("manifest release must match the newest public changelog release")
-    if manifest.get("asOf") != changelog.get("asOf"):
-        errors.append("manifest asOf must match the public changelog")
+    allow_reviewed_input_drift = validate_daily_package_snapshot(
+        manifest,
+        changelog,
+        errors,
+    )
+    package_release = manifest.get("release", {})
     if (
-        expected_release.get("id") != RELEASE_ID
-        or expected_release.get("version") != RELEASE_VERSION
+        package_release.get("id") != RELEASE_ID
+        or package_release.get("version") != RELEASE_VERSION
         or manifest.get("asOf") != "2026-07-27"
     ):
         errors.append(
@@ -1362,13 +1468,20 @@ def validate_manifest(errors: list[str]) -> None:
     input_by_path = {
         item.get("path"): item for item in inputs if isinstance(item, dict) and set(item) == {"path", "sha256"}
     }
-    if set(input_by_path) != EXPECTED_INPUTS or len(input_by_path) != len(inputs):
+    expected_input_paths = (
+        EXPECTED_INPUTS
+        if package_release.get("version") == "2026.07.27-30"
+        else EXPECTED_INPUTS | POST_V30_EXPECTED_INPUTS
+    )
+    if set(input_by_path) != expected_input_paths or len(input_by_path) != len(inputs):
         errors.append("manifest inputs must be the exact reviewed public-data allowlist")
     for relative, item in input_by_path.items():
         path = ROOT / relative
         if not path.is_file():
             errors.append(f"manifest input is missing: {relative}")
-        elif item.get("sha256") != sha256(path):
+        elif not SHA256_RE.fullmatch(str(item.get("sha256", ""))):
+            errors.append(f"manifest input hash is invalid: {relative}")
+        elif item.get("sha256") != sha256(path) and not allow_reviewed_input_drift:
             errors.append(f"manifest input hash differs: {relative}")
 
     artifacts = manifest.get("artifacts")
