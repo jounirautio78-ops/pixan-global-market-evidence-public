@@ -34,10 +34,11 @@ class VendorResponseControlTests(unittest.TestCase):
             vendor["responseState"],
             "substantive_response_received",
         )
-        self.assertIn("Germany workbook sample", vendor["publicStatusEn"])
-        self.assertIn("two indicative annual package quotes", vendor["publicStatusEn"])
-        self.assertIn("roughly 75 e-vapour countries", vendor["publicStatusEn"])
-        self.assertIn("lacks comparable 2023–2024 Germany liquid totals", vendor["publicStatusEn"])
+        self.assertIn("expanded Germany workbook sample", vendor["publicStatusEn"])
+        self.assertIn("indicative annual package quotes", vendor["publicStatusEn"])
+        self.assertIn("78-market e-vapour value-coverage list", vendor["publicStatusEn"])
+        self.assertIn("private 2023–2024 numerical liquid-volume comparison", vendor["publicStatusEn"])
+        self.assertIn("retail-stage, tax-basis and product-scope bridge", vendor["publicStatusEn"])
         self.assertIn("data-room use", vendor["publicStatusEn"])
         self.assertIn("NOT SCORED", vendor["publicStatusEn"])
         self.assertNotIn("CEO", vendor["publicStatusEn"])
@@ -48,7 +49,23 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertFalse(vendor["receivedEvidence"]["sample"])
         self.assertTrue(vendor["receivedEvidence"]["quote"])
         self.assertFalse(vendor["receivedEvidence"]["methodology"])
+        self.assertEqual(
+            {
+                gate_id: result["status"]
+                for gate_id, result in vendor["gateResults"].items()
+            },
+            {
+                "G1": "not_testable",
+                "G2": "fail",
+                "G3": "fail",
+                "G4": "not_testable",
+                "G5": "fail",
+                "G6": "fail",
+            },
+        )
+        self.assertTrue(vendor["quoteReceived"])
         self.assertEqual(vendor["evidenceReceivedCount"], 1)
+        self.assertEqual(vendor["evaluatedGateCount"], 6)
         self.assertEqual(vendor["mandatoryGatePassCount"], 0)
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
@@ -132,6 +149,15 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertEqual(vendor["responseState"], "pending_no_acknowledgement")
         self.assertIn("2026-07-28", vendor["publicStatusEn"])
         self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
+        self.assertTrue(
+            all(
+                result == {
+                    "status": "missing",
+                    "reasonCodes": ["EVIDENCE_NOT_RECEIVED"],
+                }
+                for result in vendor["gateResults"].values()
+            )
+        )
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
@@ -151,7 +177,10 @@ class VendorResponseControlTests(unittest.TestCase):
         candidate = copy.deepcopy(self.source)
         vendor = candidate["vendors"][0]
         for gate in candidate["mandatoryGates"]:
-            vendor["receivedEvidence"][gate["evidenceKey"]] = True
+            vendor["gateResults"][gate["gateCode"]] = {
+                "status": "pass",
+                "reasonCodes": [],
+            }
         vendor["criterionScores"] = {
             criterion["id"]: 4 for criterion in candidate["criteria"]
         }
@@ -166,7 +195,10 @@ class VendorResponseControlTests(unittest.TestCase):
                 candidate = copy.deepcopy(self.source)
                 vendor = candidate["vendors"][0]
                 for gate in candidate["mandatoryGates"]:
-                    vendor["receivedEvidence"][gate["evidenceKey"]] = True
+                    vendor["gateResults"][gate["gateCode"]] = {
+                        "status": "pass",
+                        "reasonCodes": [],
+                    }
                 vendor["criterionScores"] = {
                     criterion["id"]: invalid for criterion in candidate["criteria"]
                 }
@@ -177,6 +209,78 @@ class VendorResponseControlTests(unittest.TestCase):
                         candidate["mandatoryGates"],
                     )
                 )
+
+    def test_gate_status_must_be_one_of_four_reviewed_states(self) -> None:
+        candidate = copy.deepcopy(self.source)
+        candidate["vendors"][0]["gateResults"]["G1"]["status"] = "partial"
+        errors: list[str] = []
+        validate_source(candidate, errors)
+        self.assertTrue(
+            any("invalid gate status" in error for error in errors),
+            errors,
+        )
+
+    def test_non_pass_gate_requires_a_reviewed_reason_code(self) -> None:
+        candidate = copy.deepcopy(self.source)
+        candidate["vendors"][0]["gateResults"]["G1"]["reasonCodes"] = []
+        errors: list[str] = []
+        validate_source(candidate, errors)
+        self.assertTrue(
+            any("non-PASS status requires a reason code" in error for error in errors),
+            errors,
+        )
+
+    def test_gate_rejects_reason_code_from_another_gate(self) -> None:
+        candidate = copy.deepcopy(self.source)
+        candidate["vendors"][0]["gateResults"]["G1"] = {
+            "status": "fail",
+            "reasonCodes": ["RIGHTS_DATA_ROOM_UNCONFIRMED"],
+        }
+        errors: list[str] = []
+        validate_source(candidate, errors)
+        self.assertTrue(
+            any("unreviewed reason code" in error for error in errors),
+            errors,
+        )
+
+    def test_gate_rejects_reason_status_mismatch(self) -> None:
+        candidate = copy.deepcopy(self.source)
+        candidate["vendors"][0]["gateResults"]["G1"] = {
+            "status": "fail",
+            "reasonCodes": ["SAMPLE_REQUIRED_YEARS_MISSING"],
+        }
+        errors: list[str] = []
+        validate_source(candidate, errors)
+        self.assertTrue(
+            any("inconsistent with status" in error for error in errors),
+            errors,
+        )
+
+    def test_pass_gate_cannot_carry_failure_reasons(self) -> None:
+        candidate = copy.deepcopy(self.source)
+        candidate["vendors"][0]["gateResults"]["G1"] = {
+            "status": "pass",
+            "reasonCodes": ["EVIDENCE_NOT_RECEIVED"],
+        }
+        errors: list[str] = []
+        validate_source(candidate, errors)
+        self.assertTrue(
+            any("PASS cannot carry failure reasons" in error for error in errors),
+            errors,
+        )
+
+    def test_quote_does_not_count_as_a_mandatory_gate_pass(self) -> None:
+        candidate = normalised(copy.deepcopy(self.source))
+        vendor = next(
+            item
+            for item in candidate["vendors"]
+            if item["vendorId"] == "euromonitor-passport-nicotine"
+        )
+        self.assertTrue(vendor["quoteReceived"])
+        self.assertTrue(vendor["receivedEvidence"]["quote"])
+        self.assertEqual(vendor["mandatoryGatePassCount"], 0)
+        self.assertEqual(vendor["scoringState"], "not_scored")
+        self.assertIsNone(vendor["weightedScore"])
 
     def test_public_source_rejects_premature_scores(self) -> None:
         candidate = copy.deepcopy(self.source)

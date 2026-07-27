@@ -3,6 +3,40 @@
   "asOf": "2026-07-27",
   "releases": [
     {
+      "id": "2026-07-27-global-base-poland-v27",
+      "version": "2026.07.27-27",
+      "publishedAt": "2026-07-27T16:08:35+03:00",
+      "titleEn": "195-country official-data base, Poland reconstruction and automated vendor gates",
+      "titleFi": "195 maan viranomaisdatapohja, Puolan rekonstruktio ja automatisoidut toimittajaportit",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added a deterministic 195-country open official-data base with 578 observed World Bank values. A further 390 WHO or UN Comtrade route records are queued and missing, not zero. No base-layer record is retail-sales eligible, so the retail-eligible count is zero and the global market value remains null.",
+          "textFi": "Lisättiin deterministinen 195 maan avoin viranomaisdatapohja, jossa on 578 havaittua World Bank -arvoa. Lisäksi 390 WHO- tai UN Comtrade -reittitietuetta odottaa ja puuttuu; niitä ei esitetä nollina. Yksikään pohjakerroksen tietue ei kelpaa vähittäismyynniksi, joten vähittäismyyntikelpoisten havaintojen määrä on nolla ja maailman markkina-arvo pysyy null-tilassa."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Expanded the reviewed market ledger to 84 observations from 24 sources. Of 75 official observations, 39 are market measures and 36 are Sweden FHM registration-structure records. Poland now includes official e-liquid litres for 2020–2023 and a deterministic 2025 device and component-set excise bridge; these are physical or tax-stage evidence, not consumer retail value or donor evidence.",
+          "textFi": "Laajennettiin tarkistettu markkinarekisteri 84 havaintoon 24 lähteestä. 75 virallisesta havainnosta 39 on markkinamittareita ja 36 Ruotsin FHM:n rekisterirakennetietoja. Puola sisältää nyt viralliset e-nestelitrat vuosille 2020–2023 sekä deterministisen vuoden 2025 laite- ja komponenttisarjojen valmisteverosillan; nämä ovat fyysistä tai verovaiheen evidenssiä, eivät kuluttajavähittäismyynnin arvoa tai donor-evidenssiä."
+        },
+        {
+          "category": "method",
+          "textEn": "Automated the four-state G1–G6 vendor-sample acceptance test and evaluated the expanded Euromonitor Germany sample plus 78-market list. A private numerical subtest is now possible, but the tax/stage/scope bridge, exact coverage matrix, current fields and transaction rights remain unresolved: 0/6 gates pass and 6/6 are evaluated. A written clarification and comparable 25-, 50- and 78-market package request was sent on 27 July 2026. Exact vendor values and terms are not published; the route remains NOT SCORED and no purchase is authorised. The donor gate remains 0/3 and no global value is released.",
+          "textFi": "Automatisoitiin nelitilainen G1–G6-toimittajanäytteen hyväksyntätesti ja arvioitiin Euromonitorin laajennettu Saksa-näyte sekä 78 markkinan lista. Yksityinen numeerinen osatesti on nyt mahdollinen, mutta vero-/vaihe-/rajaussilta, täsmällinen peittomatriisi, ajantasaiset kentät ja transaktio-oikeudet ovat ratkaisematta: 0/6 porttia läpäisee ja 6/6 on arvioitu. Kirjallinen täsmennys sekä vertailukelpoisten 25, 50 ja 78 markkinan pakettien tarjouspyyntö lähetettiin 27.7.2026. Toimittajan täsmällisiä arvoja tai ehtoja ei julkaista; reitti pysyy EI PISTEYTETTY -tilassa eikä ostoa ole valtuutettu. Donor-portti pysyy tasolla 0/3 eikä maailmanarvoa julkaista."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Recorded a privacy-safe French Customs response: annual partner-level value and quantity extracts were supplied for exact vaping-device codes across the 2018–2021 and 2022–2025 nomenclature break. Exact units and liquid, pod and cartridge classifications remain unresolved. A clarification request covering CN8/CN mappings, units, revisions and the appropriate seizure/destruction-data contact was sent on 27 July 2026. The extract is tracked as a supply-stage customs proxy, not retail market size, annual consumer sales or donor evidence; no raw authority workbook or correspondence is published.",
+          "textFi": "Kirjattiin tietosuojattu Ranskan tullin vastaus: vuosittaiset kumppanikohtaiset arvo- ja määräotteet toimitettiin täsmällisille sähkötupakan laitekoodeille vuosien 2018–2021 ja 2022–2025 nimikemuutoksen yli. Täsmälliset yksiköt sekä nesteiden, podien ja patruunoiden luokitukset ovat vielä ratkaisematta. NC8/CN-luokituksia, yksiköitä, revisioita sekä takavarikko- ja hävitysdatan oikeaa yhteyspistettä koskeva täsmennyspyyntö lähetettiin 27.7.2026. Ote kirjataan toimitusvaiheen tulliproxyksi, ei vähittäismarkkinan kooksi, vuosittaiseksi kuluttajamyynniksi tai luovuttajaevidenssiksi; raakaa viranomaistyökirjaa tai kirjeenvaihtoa ei julkaista."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Refreshed the bilingual 6-slide and 30-slide decks, both 53-row Evidence Registers and the public dashboard to the same v27 release boundary while preserving the independent-research and HOLD controls.",
+          "textFi": "Päivitettiin kaksikieliset 6 ja 30 dian dekit, molemmat 53-riviset Evidence Registerit ja julkinen dashboard samaan v27-julkaisurajaan säilyttäen riippumattoman tutkimuksen ja HOLD-rajaukset."
+        }
+      ]
+    },
+    {
       "id": "2026-07-27-first-donor-conversion-v26",
       "version": "2026.07.27-26",
       "publishedAt": "2026-07-27T09:00:00+03:00",

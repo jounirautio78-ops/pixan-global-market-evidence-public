@@ -2,9 +2,9 @@
   "schemaVersion": 2,
   "generatedFromPublicDataOnly": true,
   "release": {
-    "id": "2026-07-27-first-donor-conversion-v26",
-    "version": "2026.07.27-26",
-    "publishedAt": "2026-07-27T09:00:00+03:00"
+    "id": "2026-07-27-global-base-poland-v27",
+    "version": "2026.07.27-27",
+    "publishedAt": "2026-07-27T16:08:35+03:00"
   },
   "asOf": "2026-07-27",
   "languages": [
@@ -44,7 +44,19 @@
   "inputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "ff8dde408483dc06ccfeccaeed623ae8b43eb8132ce95c3038766090a319a6c9"
+      "sha256": "1cd556a1ab05a8a81670fac6ecbf70a06457df2d62242d270ba8d989f544ea21"
+    },
+    {
+      "path": "scripts/build_global_base.py",
+      "sha256": "7fb194173b5ae018f31120c830a0ae18de03b306a1f6e799d310a07b3e21dc43"
+    },
+    {
+      "path": "scripts/refresh_global_base.py",
+      "sha256": "e4efae762d0b8a1c3e62078a5fc14bae5582e6727933369f15b771579ecec61f"
+    },
+    {
+      "path": "scripts/build_vendor_response_control.py",
+      "sha256": "00c1d896a301262a5d072cdeec1daad89d431e81fa949eb311f7647a9aa7a549"
     },
     {
       "path": "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
@@ -76,11 +88,19 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "839e6c5eff37e613195aea4215f8f7ee47668720a77f8a37f9c0ced479b0cbb2"
+      "sha256": "7fc2f0d55e21c611518cb4a979fd34e08ce9881359bf5eb2160d2dd66ec03f04"
+    },
+    {
+      "path": "site/data/global-base-layer.json",
+      "sha256": "877b3828c5fd6f2c6864a46c2f4a55de303e391efc87a78afbbd783907161c4d"
+    },
+    {
+      "path": "site/data/global-base-layer.csv",
+      "sha256": "c2e80e848e6eca5ee30fb34f7ca090176e15f52ae7031d0a8903abf81696597b"
     },
     {
       "path": "site/data/market-values.json",
-      "sha256": "8436f1d323da70fef3220dbd76c757712375fbd66b404e2f53b7d534d9b67ac7"
+      "sha256": "4948eee1cc9dd3b1bf264a7bf1d27a6fab9a95a9d4c2157eefa69236d2d5d00e"
     },
     {
       "path": "site/data/patent-history.json",
@@ -92,7 +112,7 @@
     },
     {
       "path": "site/data/third-donor-screen.json",
-      "sha256": "769a451a2d9682631fa26b3255d519e0db190fc5eb82d4d037ecffee2cf4d2dd"
+      "sha256": "d6986822b0ea40122a5f860c540d30120e8c5018b187d17d5a963b9eefc1afce"
     },
     {
       "path": "site/data/country-scenarios.json",
@@ -104,11 +124,23 @@
     },
     {
       "path": "site/data/fx-rates.json",
-      "sha256": "0d688ed5f89d4e65974e75c2dda7bf9fd0b25e62c26c7ff5092a8aa4707c6722"
+      "sha256": "4e3e0c5f196bf416d7e5cf1d96e604f486b314b981b971c112c08bdff50c15b1"
+    },
+    {
+      "path": "site/data/vendor-response-control.json",
+      "sha256": "34571bfa725c8c5860a52d51b0084381474122af5bdba8ca1b0b286785d0bd58"
+    },
+    {
+      "path": "site/data/vendor-response-control.csv",
+      "sha256": "ad75690090cf94142850dc3af9d321f3349d944f0b83b9bffebe86092f2e029e"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
       "sha256": "9a974492c7cc4587c8a1f561a022d68ef525a6668b73ba5ea65cbbfa29a33e01"
+    },
+    {
+      "path": "site/schemas/global-base-layer.schema.json",
+      "sha256": "15d0f425dc3da8c793ad443924b7fe8f0a3bffe6e9c79a4c07e7ba5f4146805e"
     },
     {
       "path": "site/schemas/third-donor-screen.schema.json",
@@ -116,19 +148,35 @@
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "b4eb43e146594688f9e1536a80ba20b1b25fbcbc9856ce08cc5be2d4045b59cb"
+      "sha256": "54ccc5ecef4f951897af2efc584fa51537e6ed5416fa35ec9dcd3162868078f7"
     },
     {
       "path": "source/fx-rates.json",
-      "sha256": "0d688ed5f89d4e65974e75c2dda7bf9fd0b25e62c26c7ff5092a8aa4707c6722"
+      "sha256": "4e3e0c5f196bf416d7e5cf1d96e604f486b314b981b971c112c08bdff50c15b1"
+    },
+    {
+      "path": "source/global-base-config.json",
+      "sha256": "a3cb9eba98069d44edda1f4acc2debeb22241cda4bf315dedd52d75910ad4655"
+    },
+    {
+      "path": "source/global-base-observations.json",
+      "sha256": "89a6727050bfb727912652778bb7eb8ae0507951a1443d050af5593821d04ae2"
+    },
+    {
+      "path": "source/vendor-response-control.json",
+      "sha256": "ba643f098d5d88deb7f570536bde59fd690005a6f33058dfae6a0eb23eafa251"
     },
     {
       "path": "source/third-donor-screen.json",
-      "sha256": "769a451a2d9682631fa26b3255d519e0db190fc5eb82d4d037ecffee2cf4d2dd"
+      "sha256": "d6986822b0ea40122a5f860c540d30120e8c5018b187d17d5a963b9eefc1afce"
     },
     {
       "path": "source/schemas/fx-rates.schema.json",
       "sha256": "9a974492c7cc4587c8a1f561a022d68ef525a6668b73ba5ea65cbbfa29a33e01"
+    },
+    {
+      "path": "source/schemas/global-base-layer.schema.json",
+      "sha256": "15d0f425dc3da8c793ad443924b7fe8f0a3bffe6e9c79a4c07e7ba5f4146805e"
     },
     {
       "path": "source/schemas/third-donor-screen.schema.json",
@@ -180,7 +228,11 @@
     },
     {
       "path": "source/THIRD_DONOR_SCREEN_2026-07-27.md",
-      "sha256": "dd4b7e417755d3d6a821f740165c2bbafbf23fdcc5b9ec849db2b0888b0e340a"
+      "sha256": "ddc6a2d278e3b936f35663d11a7c5c79272349551637cd276c5819781244cb94"
+    },
+    {
+      "path": "source/POLAND_2020_2025_RECONSTRUCTION.md",
+      "sha256": "f982205f4f0f8f067d16b9e7813a482be045428fb112a3c457918db2b0945cdd"
     },
     {
       "path": "source/FOLLOW_UP_DRAFTS_2026-07-28.md",
@@ -196,7 +248,7 @@
     },
     {
       "path": "source/bank-package-en-lock.json",
-      "sha256": "c5e1277b4d53af8042e6aaff1eea9ef408dd34f8c620a729731e022694e96d1d"
+      "sha256": "f29b54ca5bf2ac3f5d5c889d9c5adfe5fcfd12fb1cf20072912f5f1c8582afe9"
     }
   ],
   "artifacts": [
@@ -208,8 +260,8 @@
       "titleEn": "Concise bank deck (English)",
       "fileName": "pixan-bank-deck-short-en.pptx",
       "path": "downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "151c55c111590b3b6ac1adbd2e3bebf48cb0c9003834974633a72c9665a7ad8e",
-      "bytes": 57793,
+      "sha256": "61365ffab28658cd06ed8ebb2f58273800268e029f866b65779f67a6d6fe7d8d",
+      "bytes": 58491,
       "slideCount": 6
     },
     {
@@ -220,8 +272,8 @@
       "titleEn": "Extended bank deck (English)",
       "fileName": "pixan-bank-deck-large-en.pptx",
       "path": "downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "b64eaba2c9ced286ee4c96118c7504f55767f22f630d3abb83f3b9e3040cec9c",
-      "bytes": 177137,
+      "sha256": "15c23d81fc183bb1b28981595d4a0478362c92bafe7925c77040f2e3e7125315",
+      "bytes": 180621,
       "slideCount": 30
     },
     {
@@ -232,8 +284,8 @@
       "titleEn": "Evidence Register (English)",
       "fileName": "pixan-bank-evidence-register-en.xlsx",
       "path": "downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "429a85280cfd7eb7d8f34591080182f608d4df0df2930b56690da51d39e81952",
-      "bytes": 37604,
+      "sha256": "828590aece897998b083aa44f306822b8a5a61e45f72f8e16fc52577be89db21",
+      "bytes": 38434,
       "rowCount": 53
     },
     {
@@ -244,8 +296,8 @@
       "titleEn": "Concise bank deck (Finnish)",
       "fileName": "pixan-bank-deck-short-fi.pptx",
       "path": "downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "27921e201b0b4a40da89d57f7bfd1b3ce0b773fee009aa168ed3b8b77f6b6017",
-      "bytes": 58108,
+      "sha256": "45c8c9e1eb7f4cdbee87fdb3cf4896bb9b5a65b2a5c66a3174871743606951a0",
+      "bytes": 58806,
       "slideCount": 6
     },
     {
@@ -256,8 +308,8 @@
       "titleEn": "Extended bank deck (Finnish)",
       "fileName": "pixan-bank-deck-large-fi.pptx",
       "path": "downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "a5ec838418d58d1efdf03fff37c1a1b5f21d3b5c881c575e2d637949df8e223a",
-      "bytes": 178868,
+      "sha256": "9d141b4d5c951a58e359eec262e6543f8c75d1000facc0dfa8d48c37a7632b0c",
+      "bytes": 182343,
       "slideCount": 30
     },
     {
@@ -268,8 +320,8 @@
       "titleEn": "Evidence Register (Finnish)",
       "fileName": "pixan-bank-evidence-register-fi.xlsx",
       "path": "downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "f84c7e7f4da3f10ea87b7906259972171c7b7eb5920ddd45ebc4cee289e5aa6f",
-      "bytes": 38791,
+      "sha256": "9caf5c3a021f41acf638463d3370b7a98bae875c83bd252f28f3b158a4de32e4",
+      "bytes": 39637,
       "rowCount": 53
     }
   ]

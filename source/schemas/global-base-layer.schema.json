@@ -1,0 +1,686 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marnet-collab.github.io/pixan-evidence-center/schemas/global-base-layer.schema.json",
+  "title": "Pixan global base layer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "asOf",
+    "meta",
+    "sources",
+    "summary",
+    "countries",
+    "globalRetailSales"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "countries": {
+      "type": "array",
+      "minItems": 195,
+      "maxItems": 195,
+      "items": {
+        "$ref": "#/$defs/country"
+      }
+    },
+    "globalRetailSales": {
+      "$ref": "#/$defs/globalRetailSales"
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "universe",
+        "countryCount",
+        "observationCount",
+        "generatedAt",
+        "snapshotWindow",
+        "selectionRuleEn",
+        "selectionRuleFi",
+        "publicationClass"
+      ],
+      "properties": {
+        "universe": {
+          "const": "UN193+VA+PS"
+        },
+        "countryCount": {
+          "const": 195
+        },
+        "observationCount": {
+          "const": 975
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "snapshotWindow": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "startYear",
+            "endYear",
+            "selection"
+          ],
+          "properties": {
+            "startYear": {
+              "const": 2020
+            },
+            "endYear": {
+              "const": 2024
+            },
+            "selection": {
+              "const": "latest_non_null"
+            }
+          }
+        },
+        "selectionRuleEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selectionRuleFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publicationClass": {
+          "const": "official_open_derived_snapshot"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceId",
+        "publisher",
+        "dataset",
+        "landingUrl",
+        "apiDocumentationUrl",
+        "licenseUrl",
+        "publicationPolicy"
+      ],
+      "properties": {
+        "sourceId": {
+          "enum": [
+            "WB-WDI",
+            "WHO-GHO",
+            "UN-COMTRADE"
+          ]
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dataset": {
+          "type": "string",
+          "minLength": 1
+        },
+        "landingUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "apiDocumentationUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "licenseUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "publicationPolicy": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observedCount",
+        "missingCount",
+        "queuedCount",
+        "measures",
+        "gdpEurEquivalent"
+      ],
+      "properties": {
+        "observedCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 975
+        },
+        "missingCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 975
+        },
+        "queuedCount": {
+          "const": 390
+        },
+        "measures": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/measureSummary"
+          }
+        },
+        "gdpEurEquivalent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "computedCount",
+            "notComputedCount",
+            "periodRule"
+          ],
+          "properties": {
+            "computedCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 195
+            },
+            "notComputedCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 195
+            },
+            "periodRule": {
+              "const": "same_source_year_only"
+            }
+          }
+        }
+      }
+    },
+    "measureSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measureId",
+        "sourceId",
+        "observedCount",
+        "missingCount",
+        "queuedCount",
+        "sourcePeriods",
+        "retailSalesEligible"
+      ],
+      "properties": {
+        "measureId": {
+          "enum": [
+            "population_total",
+            "population_ages_15_64",
+            "gdp_per_capita_current_usd",
+            "who_adult_current_ecig_prevalence",
+            "un_comtrade_vaping_trade"
+          ]
+        },
+        "sourceId": {
+          "enum": [
+            "WB-WDI",
+            "WHO-GHO",
+            "UN-COMTRADE"
+          ]
+        },
+        "observedCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 195
+        },
+        "missingCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 195
+        },
+        "queuedCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 195
+        },
+        "sourcePeriods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sourcePeriod",
+              "count"
+            ],
+            "properties": {
+              "sourcePeriod": {
+                "type": "integer",
+                "minimum": 2020,
+                "maximum": 2024
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 195
+              }
+            }
+          }
+        },
+        "retailSalesEligible": {
+          "const": false
+        }
+      }
+    },
+    "worldBankObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measureId",
+        "sourceId",
+        "sourceSeries",
+        "sourcePeriod",
+        "value",
+        "unit",
+        "currency",
+        "dataStatus",
+        "acquisitionStatus",
+        "missingReason",
+        "retailSalesEligible",
+        "sourceUrl"
+      ],
+      "properties": {
+        "measureId": {
+          "enum": [
+            "population_total",
+            "population_ages_15_64"
+          ]
+        },
+        "sourceId": {
+          "const": "WB-WDI"
+        },
+        "sourceSeries": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourcePeriod": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 2020,
+          "maximum": 2024
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "unit": {
+          "const": "person"
+        },
+        "currency": {
+          "type": "null"
+        },
+        "dataStatus": {
+          "enum": [
+            "observed",
+            "missing"
+          ]
+        },
+        "acquisitionStatus": {
+          "const": "validated"
+        },
+        "missingReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retailSalesEligible": {
+          "const": false
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "gdpObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measureId",
+        "sourceId",
+        "sourceSeries",
+        "sourcePeriod",
+        "value",
+        "unit",
+        "currency",
+        "dataStatus",
+        "acquisitionStatus",
+        "missingReason",
+        "retailSalesEligible",
+        "sourceUrl",
+        "eurEquivalent"
+      ],
+      "properties": {
+        "measureId": {
+          "const": "gdp_per_capita_current_usd"
+        },
+        "sourceId": {
+          "const": "WB-WDI"
+        },
+        "sourceSeries": {
+          "const": "NY.GDP.PCAP.CD"
+        },
+        "sourcePeriod": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 2020,
+          "maximum": 2024
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "unit": {
+          "const": "USD_per_person"
+        },
+        "currency": {
+          "const": "USD"
+        },
+        "dataStatus": {
+          "enum": [
+            "observed",
+            "missing"
+          ]
+        },
+        "acquisitionStatus": {
+          "const": "validated"
+        },
+        "missingReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retailSalesEligible": {
+          "const": false
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "eurEquivalent": {
+          "$ref": "#/$defs/eurEquivalent"
+        }
+      }
+    },
+    "eurEquivalent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "currency",
+        "sourcePeriod",
+        "periodRule",
+        "formula",
+        "status",
+        "value",
+        "rateId",
+        "rateYear",
+        "currencyUnitsPerEur",
+        "reason"
+      ],
+      "properties": {
+        "currency": {
+          "const": "EUR"
+        },
+        "sourcePeriod": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 2020,
+          "maximum": 2024
+        },
+        "periodRule": {
+          "const": "same_source_year_only"
+        },
+        "formula": {
+          "const": "usd_value / currency_units_per_eur"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "not_computed"
+          ]
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "rateId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rateYear": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 2020,
+          "maximum": 2024
+        },
+        "currencyUnitsPerEur": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "queuedRouteObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measureId",
+        "sourceId",
+        "sourceSeries",
+        "sourcePeriod",
+        "value",
+        "unit",
+        "currency",
+        "dataStatus",
+        "acquisitionStatus",
+        "missingReason",
+        "retailSalesEligible",
+        "sourceUrl"
+      ],
+      "properties": {
+        "measureId": {
+          "enum": [
+            "who_adult_current_ecig_prevalence",
+            "un_comtrade_vaping_trade"
+          ]
+        },
+        "sourceId": {
+          "enum": [
+            "WHO-GHO",
+            "UN-COMTRADE"
+          ]
+        },
+        "sourceSeries": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourcePeriod": {
+          "type": "null"
+        },
+        "value": {
+          "type": "null"
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "currency": {
+          "type": "null"
+        },
+        "dataStatus": {
+          "const": "missing"
+        },
+        "acquisitionStatus": {
+          "const": "queued"
+        },
+        "missingReason": {
+          "const": "not_retrieved_in_v27"
+        },
+        "retailSalesEligible": {
+          "const": false
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "country": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "iso2",
+        "name",
+        "nameFi",
+        "region",
+        "worldBank",
+        "routes",
+        "retailSalesEligible"
+      ],
+      "properties": {
+        "iso2": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nameFi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1
+        },
+        "worldBank": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "populationTotal",
+            "populationAges15To64",
+            "gdpPerCapitaCurrentUsd"
+          ],
+          "properties": {
+            "populationTotal": {
+              "$ref": "#/$defs/worldBankObservation"
+            },
+            "populationAges15To64": {
+              "$ref": "#/$defs/worldBankObservation"
+            },
+            "gdpPerCapitaCurrentUsd": {
+              "$ref": "#/$defs/gdpObservation"
+            }
+          }
+        },
+        "routes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "whoAdultCurrentEcigPrevalence",
+            "unComtradeVapingTrade"
+          ],
+          "properties": {
+            "whoAdultCurrentEcigPrevalence": {
+              "$ref": "#/$defs/queuedRouteObservation"
+            },
+            "unComtradeVapingTrade": {
+              "$ref": "#/$defs/queuedRouteObservation"
+            }
+          }
+        },
+        "retailSalesEligible": {
+          "const": false
+        }
+      }
+    },
+    "globalRetailSales": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "currency",
+        "eligibleObservationCount",
+        "ruleEn",
+        "ruleFi"
+      ],
+      "properties": {
+        "status": {
+          "const": "blocked"
+        },
+        "value": {
+          "type": "null"
+        },
+        "currency": {
+          "type": "null"
+        },
+        "eligibleObservationCount": {
+          "const": 0
+        },
+        "ruleEn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ruleFi": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

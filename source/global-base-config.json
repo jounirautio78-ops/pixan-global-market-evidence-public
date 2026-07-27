@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "asOf": "2026-07-27",
+  "universe": {
+    "id": "UN193+VA+PS",
+    "countryCount": 195,
+    "catalogSource": "scripts/build_atlas.py::COUNTRY_CATALOG"
+  },
+  "snapshotPolicy": {
+    "startYear": 2020,
+    "endYear": 2024,
+    "selection": "latest_non_null",
+    "sourcePeriodRuleEn": "The selected source year is retained. A latest-non-null value is never relabelled as a 2024 observation.",
+    "sourcePeriodRuleFi": "Valittu lähdevuosi säilytetään. Uusinta ei-tyhjää arvoa ei nimetä vuoden 2024 havainnoksi."
+  },
+  "sources": [
+    {
+      "sourceId": "WB-WDI",
+      "publisher": "World Bank",
+      "dataset": "World Development Indicators",
+      "landingUrl": "https://data.worldbank.org/",
+      "apiDocumentationUrl": "https://datahelpdesk.worldbank.org/knowledgebase/articles/898581-api-basic-call-structures",
+      "licenseUrl": "https://datacatalog.worldbank.org/public-licenses",
+      "publicationPolicy": "official_open_derived_snapshot"
+    },
+    {
+      "sourceId": "WHO-GHO",
+      "publisher": "World Health Organization",
+      "dataset": "Global Health Observatory",
+      "landingUrl": "https://www.who.int/data/gho",
+      "apiDocumentationUrl": "https://www.who.int/data/gho/info/gho-odata-api",
+      "licenseUrl": "https://data.who.int/about/data/terms-and-conditions",
+      "publicationPolicy": "route_only_queued_in_v27"
+    },
+    {
+      "sourceId": "UN-COMTRADE",
+      "publisher": "United Nations Statistics Division",
+      "dataset": "UN Comtrade",
+      "landingUrl": "https://comtradeplus.un.org/",
+      "apiDocumentationUrl": "https://uncomtrade.org/docs/un-comtrade-api/",
+      "licenseUrl": "https://comtradeplus.un.org/LicenseAgreement",
+      "publicationPolicy": "route_only_queued_no_raw_trade_in_v27"
+    }
+  ],
+  "measures": [
+    {
+      "measureId": "population_total",
+      "sourceId": "WB-WDI",
+      "sourceSeries": "SP.POP.TOTL",
+      "labelEn": "Population, total",
+      "labelFi": "Väestö yhteensä",
+      "unit": "person",
+      "currency": null,
+      "proxyClass": "demographic_denominator",
+      "retailSalesEligible": false,
+      "retrievalMode": "active"
+    },
+    {
+      "measureId": "population_ages_15_64",
+      "sourceId": "WB-WDI",
+      "sourceSeries": "SP.POP.1564.TO",
+      "labelEn": "Population ages 15–64, total",
+      "labelFi": "15–64-vuotiaiden väestö yhteensä",
+      "unit": "person",
+      "currency": null,
+      "proxyClass": "demographic_signal_not_automatic_who_denominator",
+      "retailSalesEligible": false,
+      "retrievalMode": "active"
+    },
+    {
+      "measureId": "gdp_per_capita_current_usd",
+      "sourceId": "WB-WDI",
+      "sourceSeries": "NY.GDP.PCAP.CD",
+      "labelEn": "GDP per capita, current US dollars",
+      "labelFi": "BKT asukasta kohti, käyvin Yhdysvaltain dollarein",
+      "unit": "USD_per_person",
+      "currency": "USD",
+      "proxyClass": "economic_scale_signal",
+      "retailSalesEligible": false,
+      "retrievalMode": "active"
+    },
+    {
+      "measureId": "who_adult_current_ecig_prevalence",
+      "sourceId": "WHO-GHO",
+      "sourceSeries": "TOBACCO_MPOWER_M2_PREVALENCE",
+      "labelEn": "Adult current e-cigarette prevalence, both sexes",
+      "labelFi": "Aikuisten nykyinen sähkösavukkeiden käyttö, molemmat sukupuolet",
+      "unit": "percent",
+      "currency": null,
+      "proxyClass": "user_prevalence_proxy_not_retail_sales",
+      "retailSalesEligible": false,
+      "retrievalMode": "queued"
+    },
+    {
+      "measureId": "un_comtrade_vaping_trade",
+      "sourceId": "UN-COMTRADE",
+      "sourceSeries": "HS2022:854340|240412",
+      "labelEn": "Vaping-related trade route",
+      "labelFi": "Sähkösavukkeisiin liittyvä kauppareitti",
+      "unit": null,
+      "currency": null,
+      "proxyClass": "trade_proxy_not_retail_sales",
+      "retailSalesEligible": false,
+      "retrievalMode": "queued"
+    }
+  ],
+  "eurPolicy": {
+    "eligibleMeasureId": "gdp_per_capita_current_usd",
+    "rateProvider": "European Central Bank",
+    "rateFile": "source/fx-rates.json",
+    "requiredCurrency": "USD",
+    "requiredRateType": "annual_average_reference_rate",
+    "requiredQuoteConvention": "currency_units_per_eur",
+    "periodRule": "same_source_year_only",
+    "formula": "eur_value = usd_value / currency_units_per_eur",
+    "missingRateStatus": "not_computed"
+  },
+  "globalRollup": {
+    "status": "blocked",
+    "eligibleConcept": "national_annual_consumer_retail_sales",
+    "retailSalesEligibleObservationCount": 0,
+    "ruleEn": "Demographic, economic, user, tax and trade proxies are not retail sales and are never summed into a global market value.",
+    "ruleFi": "Väestö-, talous-, käyttäjä-, vero- ja kauppaproksit eivät ole vähittäismyyntiä eikä niitä summata maailman markkina-arvoksi."
+  }
+}

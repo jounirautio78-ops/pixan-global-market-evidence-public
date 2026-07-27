@@ -18,10 +18,10 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-27-26">
-  <script defer src="assets/i18n.js?v=2026-07-27-26"></script>
-  <script defer src="assets/downloads.js?v=2026-07-27-26"></script>
-  <script defer src="assets/app.js?v=2026-07-27-26"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-27-27">
+  <script defer src="assets/i18n.js?v=2026-07-27-27"></script>
+  <script defer src="assets/downloads.js?v=2026-07-27-27"></script>
+  <script defer src="assets/app.js?v=2026-07-27-27"></script>
 </head>
 <body class="atlas-page" data-review-view="evidence">
   <a class="skip-link" href="#main">Siirry sisältöön</a>
@@ -78,6 +78,8 @@
           <a class="button button-secondary" href="review.html?view=review">Shareable review brief</a>
           <a class="button button-secondary" href="data/countries.csv" download>Lataa CSV</a>
           <a class="button button-ghost" href="data/atlas.json" download>Lataa JSON</a>
+          <a class="button button-secondary" href="data/global-base-layer.csv" download>Lataa 195 maan pohja CSV</a>
+          <a class="button button-ghost" href="data/global-base-layer.json" download>Lataa 195 maan pohja JSON</a>
         </div>
       </div>
       <aside class="disclosure-card" aria-label="Julkaisun rajaus">
@@ -409,6 +411,28 @@
         <p>Valitse valtio nähdäksesi nykyisen ankkurin, puutteet, lähteet ja seuraavan tutkimusreitin. Erikseen raportoituja markkina-alueita ja territorioita varten rakennetaan päällekkäisyyden estävä erillinen kerros.</p>
       </div>
 
+      <section class="panel global-base-panel" id="global-base-panel" aria-labelledby="global-base-title" aria-busy="true">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">Avoin vertailupohja · ei sähkötupakkamyyntiä</p>
+            <h3 id="global-base-title">195 maan demografinen ja taloudellinen pohjakerros</h3>
+          </div>
+          <span class="market-status-chip" id="global-base-status">Tarkistetaan…</span>
+        </div>
+        <aside class="global-base-boundary">
+          <strong>Maailman vähittäismyynti pysyy estettynä.</strong>
+          <p>Väestö, työikäinen väestö, BKT/asukas, käyttäjäprevalenssi ja tullivirta ovat tausta- tai proxymittareita. Niitä ei summata sähkötupakkamarkkinaksi.</p>
+        </aside>
+        <div class="global-base-grid" id="global-base-summary" aria-live="polite"></div>
+        <div class="global-base-footer">
+          <p id="global-base-method">World Bank -sarjoista valitaan uusin ei-tyhjä havainto vuosilta 2020–2024 ja todellinen lähdevuosi säilytetään. EUR-vasta-arvo lasketaan vain saman lähdevuoden EKP-kurssilla.</p>
+          <div class="global-base-actions">
+            <a class="button button-secondary button-small" href="data/global-base-layer.csv" download>Lataa pohjakerros CSV</a>
+            <a class="button button-ghost button-small" href="data/global-base-layer.json" download>Lataa pohjakerros JSON</a>
+          </div>
+        </div>
+      </section>
+
       <div class="toolbar" aria-label="Maataulukon suodattimet">
         <label class="search-field">
           <span class="sr-only">Hae maata</span>
@@ -709,7 +733,7 @@
     <div class="shell footer-grid">
       <div><strong>Pixan Global Market Evidence</strong><p>Riippumaton, julkisiin lähteisiin perustuva tutkimusprojekti.</p></div>
       <div><span>Rajaus</span><p>Ei Pixan Oy:n virallinen julkaisu. Ei sijoitus-, laina-, vero- tai oikeudellista neuvontaa.</p></div>
-      <div><span>Data</span><p><a href="data/atlas.json">JSON</a> · <a href="data/countries.csv">maat CSV</a> · <a href="data/evidence.csv">evidenssi CSV</a></p></div>
+      <div><span>Data</span><p><a href="data/atlas.json">JSON</a> · <a href="data/countries.csv">maat CSV</a> · <a href="data/global-base-layer.csv">195 maan pohja CSV</a> · <a href="data/evidence.csv">evidenssi CSV</a></p></div>
     </div>
   </footer>
 

@@ -76,6 +76,15 @@ from validate_vendor_response_control import (
 )
 from validate_review_experience import validate_all as validate_review_experience
 from validate_fx_rates import validate_all as validate_fx_rates
+from validate_global_base import (
+    CONFIG_PATH as GLOBAL_BASE_CONFIG_PATH,
+    CSV_OUTPUT_PATH as GLOBAL_BASE_CSV_PATH,
+    JSON_OUTPUT_PATH as GLOBAL_BASE_JSON_PATH,
+    OBSERVATIONS_PATH as GLOBAL_BASE_OBSERVATIONS_PATH,
+    PUBLIC_SCHEMA_PATH as GLOBAL_BASE_PUBLIC_SCHEMA_PATH,
+    SOURCE_SCHEMA_PATH as GLOBAL_BASE_SOURCE_SCHEMA_PATH,
+    validate_files as validate_global_base_files,
+)
 
 
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
@@ -219,11 +228,14 @@ EXPECTED_SITE_FILES = {
     "site/data/third-donor-screen.json",
     "site/data/country-scenarios.json",
     "site/data/fx-rates.json",
+    "site/data/global-base-layer.json",
+    "site/data/global-base-layer.csv",
     "site/schemas/evidence-lanes.schema.json",
     "site/schemas/donor-cockpit.schema.json",
     "site/schemas/third-donor-screen.schema.json",
     "site/schemas/country-scenarios.schema.json",
     "site/schemas/fx-rates.schema.json",
+    "site/schemas/global-base-layer.schema.json",
     "site/data/patent-history.json",
     "site/data/patent-family.csv",
     "site/downloads/pixan-bank-deck-short-fi.pptx",
@@ -1163,8 +1175,8 @@ def validate_market_values(
     if not isinstance(source_rows, list) or not source_rows:
         errors.append("market-observations.json sources must be a non-empty array")
         source_rows = []
-    if len(source_rows) != 23:
-        errors.append("market-observations.json must contain exactly 23 reviewed market sources")
+    if len(source_rows) != 24:
+        errors.append("market-observations.json must contain exactly 24 reviewed market sources")
     expected_source_urls = {
         "CA-HC-VAPING-SALES-2024": (
             "official",
@@ -1199,6 +1211,11 @@ def validate_market_values(
         "PL-SEJM-I17526-O1": (
             "official",
             "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+            None,
+        ),
+        "PL-MF-EXCISE-RATES-2025": (
+            "official",
+            "https://www.podatki.gov.pl/akcyza/stawki-podatkowe/",
             None,
         ),
         "SE-GOV-BERAKNINGSKONVENTIONER-2026": (
@@ -1329,8 +1346,8 @@ def validate_market_values(
     if not isinstance(observations, list) or not observations:
         errors.append("market-observations.json observations must be a non-empty array")
         observations = []
-    if len(observations) != 79:
-        errors.append("market-observations.json must contain exactly 79 reviewed observations")
+    if len(observations) != 84:
+        errors.append("market-observations.json must contain exactly 84 reviewed observations")
     observations_by_id: dict[str, dict[str, Any]] = {}
     expected_observations = {
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
@@ -1357,10 +1374,15 @@ def validate_market_values(
         "DE-2025-SUBSTITUTES-EXCISE-RECEIPTS": ("DE", 2025, "substitutes_excise_receipts", 404000000, "EUR", "official_provisional", "provisional", "excise_receipts_not_retail_market_value", False),
         "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("FI", 2025, "nicotine_e_liquid_taxed_volume", 11801.062, "litre", "official_observed", "published", "taxed_physical_volume_not_retail_market_value", False),
         "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("FI", 2025, "nicotine_e_liquid_excise_receipts", 3540319, "EUR", "official_observed", "published", "excise_receipts_not_retail_market_value", False),
-        "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2023, "reported_e_liquid_volume", 805441, "litre", "official_observed", "official_response", "official_reported_physical_volume_not_retail_market_value", False),
+        "PL-2020-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2020, "reported_e_liquid_volume", 1451529, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
+        "PL-2021-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2021, "reported_e_liquid_volume", 277265, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
+        "PL-2022-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2022, "reported_e_liquid_volume", 416088, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
+        "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2023, "reported_e_liquid_volume", 805441, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
         "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("PL", 2025, "e_liquid_excise_amount", 993100000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
         "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("PL", 2025, "vaping_device_excise_amount", 175300000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
         "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("PL", 2025, "vaping_component_sets_excise_amount", 2500000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
+        "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaping_device_excise_backsolved_units", 4382500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaping_component_sets_excise_backsolved_units", 62500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("SE", 2024, "nicotine_e_liquid_taxed_volume", 26000, "litre", "official_observed", "official_rounded", "taxed_physical_volume_not_retail_market_value", False),
         "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("SE", 2024, "nicotine_e_liquid_excise_receipts", 80000000, "SEK", "official_observed", "official_rounded", "excise_receipts_not_retail_market_value", False),
         "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE": (None, 2025, "commercial_market_estimate", 26000000000, "USD", "commercial_estimate", "external_estimate", "external_non_comparable_reference_not_atlas_estimate", False),
@@ -1457,10 +1479,36 @@ def validate_market_values(
                 "taxed_physical_volume_not_retail_market_value",
                 "excise_receipts_not_retail_market_value",
                 "official_reported_physical_volume_not_retail_market_value",
+                "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
                 "official_tax_amount_not_retail_market_value",
             }
             if item.get("marketValueBasis") not in allowed_basis or item.get("comparableMarketValue") or item.get("atlasEstimate"):
                 errors.append(f"{path}: taxed volume or excise must never be labelled retail market value")
+        if item.get("metric") in {
+            "vaping_device_excise_backsolved_units",
+            "vaping_component_sets_excise_backsolved_units",
+        }:
+            limitation = str(item.get("limitationEn", ""))
+            if (
+                item.get("countryIso2") != "PL"
+                or item.get("unit") != "unit"
+                or item.get("currency") is not None
+                or item.get("period") != "calendar_year"
+                or item.get("evidenceStatus") != "official_table_derived"
+                or item.get("finality") != "tax_receipts_divided_by_statutory_rate"
+                or item.get("marketValueBasis")
+                != "derived_taxed_units_not_sales_or_retail_market_value"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+                or "1 July 2025" not in limitation
+                or "second-half tax-base bridge" not in limitation
+                or "not full-year sell-through" not in limitation
+                or "retail market value" not in limitation
+            ):
+                errors.append(
+                    f"{path}: Poland back-solved units must remain a half-year "
+                    "tax-base bridge, not sales or retail market value"
+                )
         if item.get("metric") == "commercial_market_estimate":
             if (
                 item.get("evidenceStatus") != "commercial_estimate"
@@ -1594,8 +1642,22 @@ def validate_market_values(
         if isinstance(item, dict)
         and str(item.get("evidenceStatus", "")).startswith("official_")
     ]
-    if len(official_observations) != 70:
-        errors.append("market observations must contain exactly 70 official observations")
+    if len(official_observations) != 75:
+        errors.append("market observations must contain exactly 75 official observations")
+    structural_official = [
+        item
+        for item in official_observations
+        if item.get("marketValueBasis")
+        == "official_registration_structure_count_not_sales_or_market_value"
+    ]
+    market_measure_official = [
+        item for item in official_observations if item not in structural_official
+    ]
+    if len(structural_official) != 36 or len(market_measure_official) != 39:
+        errors.append(
+            "market observations must retain 39 official market measures plus "
+            "36 Sweden registration-structure observations"
+        )
     if {
         item.get("countryIso2")
         for item in official_observations
@@ -1724,10 +1786,21 @@ def validate_market_values(
         ),
         "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
         "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
+        "PL-2020-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
+        "PL-2021-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
+        "PL-2022-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
         "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
         "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("e_liquid_only", "PL-SEJM-I17526-O1"),
         "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("vaping_devices_only", "PL-SEJM-I17526-O1"),
         "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("vaping_component_sets_only", "PL-SEJM-I17526-O1"),
+        "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": (
+            "vaping_devices_only",
+            ["PL-SEJM-I17526-O1", "PL-MF-EXCISE-RATES-2025"],
+        ),
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": (
+            "vaping_component_sets_only",
+            ["PL-SEJM-I17526-O1", "PL-MF-EXCISE-RATES-2025"],
+        ),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
         "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
         "US-2015-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
@@ -2520,8 +2593,30 @@ def validate_third_donor_screen(
             for key in ("labelEn", "labelFi"):
                 if not isinstance(item.get(key), str) or not item[key].strip():
                     errors.append(f"{source_path}.{key} must be a non-empty string")
-    if official_source_count != 17:
-        errors.append("third-donor screen must retain exactly 17 reviewed official-source links")
+    if official_source_count != 20:
+        errors.append("third-donor screen must retain exactly 20 reviewed official-source links")
+    poland = next(
+        (
+            item
+            for item in countries
+            if isinstance(item, dict) and item.get("countryIso2") == "PL"
+        ),
+        {},
+    )
+    poland_source_urls = {
+        item.get("url")
+        for item in poland.get("officialSources", [])
+        if isinstance(item, dict)
+    }
+    if poland_source_urls != {
+        "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf",
+        "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+        "https://www.podatki.gov.pl/akcyza/stawki-podatkowe/",
+        "https://www.gov.pl/web/chemical/notification-of-electronic-cigarettes-and-refill-containers",
+    }:
+        errors.append(
+            "Poland third-donor route must retain its four reviewed official-source links"
+        )
 
     follow_up = source.get("followUpWave")
     if not isinstance(follow_up, dict):
@@ -2719,6 +2814,12 @@ def main() -> None:
         THIRD_DONOR_PUBLIC_PATH,
         THIRD_DONOR_SOURCE_SCHEMA_PATH,
         THIRD_DONOR_PUBLIC_SCHEMA_PATH,
+        GLOBAL_BASE_CONFIG_PATH,
+        GLOBAL_BASE_OBSERVATIONS_PATH,
+        GLOBAL_BASE_JSON_PATH,
+        GLOBAL_BASE_CSV_PATH,
+        GLOBAL_BASE_SOURCE_SCHEMA_PATH,
+        GLOBAL_BASE_PUBLIC_SCHEMA_PATH,
         PATENT_HISTORY_PATH,
         CHANGELOG_PATH,
         UPSTREAM_METADATA_PATH,
@@ -2824,6 +2925,25 @@ def main() -> None:
 
     errors.extend(validate_review_experience(ROOT))
     errors.extend(validate_fx_rates(ROOT))
+    try:
+        global_base_config = load_json(GLOBAL_BASE_CONFIG_PATH)
+        global_base_observations = load_json(GLOBAL_BASE_OBSERVATIONS_PATH)
+        global_base_schema = load_json(GLOBAL_BASE_SOURCE_SCHEMA_PATH)
+        global_base_layer = validate_global_base_files(
+            config_path=GLOBAL_BASE_CONFIG_PATH,
+            observations_path=GLOBAL_BASE_OBSERVATIONS_PATH,
+            fx_path=ROOT / "source" / "fx-rates.json",
+            json_path=GLOBAL_BASE_JSON_PATH,
+            csv_path=GLOBAL_BASE_CSV_PATH,
+            source_schema_path=GLOBAL_BASE_SOURCE_SCHEMA_PATH,
+            public_schema_path=GLOBAL_BASE_PUBLIC_SCHEMA_PATH,
+        )
+    except (FileNotFoundError, json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+        errors.append(f"Global base layer failed its fail-closed contract: {error}")
+        global_base_config = {}
+        global_base_observations = {}
+        global_base_schema = {}
+        global_base_layer = {}
 
     scan_public_text("atlas", atlas, errors)
     scan_public_text("curated", curated, errors)
@@ -2841,9 +2961,19 @@ def main() -> None:
     scan_public_text("data-request source", data_request_source, errors)
     scan_public_text("paid-data procurement source", paid_data_source, errors)
     scan_public_text("vendor-response source", vendor_response_source, errors)
+    scan_public_text("global-base config", global_base_config, errors)
+    scan_public_text("global-base observations", global_base_observations, errors)
+    scan_public_text("global-base public layer", global_base_layer, errors)
+    scan_public_text("global-base schema", global_base_schema, errors)
     for path in (ROOT / "README.md", ROOT / "CONTRIBUTING.md", ROOT / "source" / "SOURCE_PROVENANCE.md"):
         scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
-    for path in (COUNTRIES_CSV_PATH, EVIDENCE_CSV_PATH, MARKET_VALUES_CSV_PATH, PATENT_FAMILY_CSV_PATH):
+    for path in (
+        COUNTRIES_CSV_PATH,
+        EVIDENCE_CSV_PATH,
+        MARKET_VALUES_CSV_PATH,
+        PATENT_FAMILY_CSV_PATH,
+        GLOBAL_BASE_CSV_PATH,
+    ):
         scan_public_text(str(path.relative_to(ROOT)), path.read_text(encoding="utf-8"), errors)
     for path in sorted((ROOT / "site").rglob("*")):
         if not path.is_file():

@@ -321,6 +321,13 @@
       "retrievedAt": "2026-07-22"
     },
     {
+      "sourceId": "PL-MF-EXCISE-RATES-2025",
+      "publisher": "Ministry of Finance of the Republic of Poland",
+      "sourceKind": "official",
+      "pageUrl": "https://www.podatki.gov.pl/akcyza/stawki-podatkowe/",
+      "retrievedAt": "2026-07-27"
+    },
+    {
       "sourceId": "SE-GOV-BERAKNINGSKONVENTIONER-2026",
       "publisher": "Government Offices of Sweden",
       "sourceKind": "official",
@@ -1015,6 +1022,78 @@
       "limitationFi": "Viralliset koko vuoden nikotiinillisen sähkösavukenesteen valmisteverotulot. Nikotiinittoman nesteen koko vuoden arvo on salattu; verotulo ei ole myyntituloa eikä vähittäismarkkina-arvoa."
     },
     {
+      "observationId": "PL-2020-E-LIQUID-REPORTED-VOLUME-L",
+      "countryIso2": "PL",
+      "geography": "Poland",
+      "year": 2020,
+      "metric": "reported_e_liquid_volume",
+      "value": 1451529,
+      "unit": "litre",
+      "currency": null,
+      "period": "calendar_year",
+      "evidenceStatus": "official_observed",
+      "finality": "official_response",
+      "productScope": "e_liquid_only",
+      "marketValueBasis": "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "PL-SEJM-I07255-O1"
+      ],
+      "labelEn": "Officially reported e-liquid domestic-flow volume",
+      "labelFi": "Virallisesti ilmoitettu sähkösavukenesteen kotimainen virta",
+      "limitationEn": "The Ministry table combines domestic sales, intra-EU acquisitions and imports recorded in ZEFIR2/AIS. It is a physical e-liquid quantity, excludes device value and is not observed consumer-retail market value.",
+      "limitationFi": "Ministeriön taulukko yhdistää ZEFIR2/AIS-järjestelmiin kirjatut kotimaan myynnit, EU-sisäiset hankinnat ja tuonnin. Se on sähkösavukenesteen fyysinen määrä, ei sisällä laitearvoa eikä ole havaittu kuluttajavähittäismarkkina-arvo."
+    },
+    {
+      "observationId": "PL-2021-E-LIQUID-REPORTED-VOLUME-L",
+      "countryIso2": "PL",
+      "geography": "Poland",
+      "year": 2021,
+      "metric": "reported_e_liquid_volume",
+      "value": 277265,
+      "unit": "litre",
+      "currency": null,
+      "period": "calendar_year",
+      "evidenceStatus": "official_observed",
+      "finality": "official_response",
+      "productScope": "e_liquid_only",
+      "marketValueBasis": "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "PL-SEJM-I07255-O1"
+      ],
+      "labelEn": "Officially reported e-liquid domestic-flow volume",
+      "labelFi": "Virallisesti ilmoitettu sähkösavukenesteen kotimainen virta",
+      "limitationEn": "The Ministry table combines domestic sales, intra-EU acquisitions and imports recorded in ZEFIR2/AIS. It is a physical e-liquid quantity, excludes device value and is not observed consumer-retail market value.",
+      "limitationFi": "Ministeriön taulukko yhdistää ZEFIR2/AIS-järjestelmiin kirjatut kotimaan myynnit, EU-sisäiset hankinnat ja tuonnin. Se on sähkösavukenesteen fyysinen määrä, ei sisällä laitearvoa eikä ole havaittu kuluttajavähittäismarkkina-arvo."
+    },
+    {
+      "observationId": "PL-2022-E-LIQUID-REPORTED-VOLUME-L",
+      "countryIso2": "PL",
+      "geography": "Poland",
+      "year": 2022,
+      "metric": "reported_e_liquid_volume",
+      "value": 416088,
+      "unit": "litre",
+      "currency": null,
+      "period": "calendar_year",
+      "evidenceStatus": "official_observed",
+      "finality": "official_response",
+      "productScope": "e_liquid_only",
+      "marketValueBasis": "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "PL-SEJM-I07255-O1"
+      ],
+      "labelEn": "Officially reported e-liquid domestic-flow volume",
+      "labelFi": "Virallisesti ilmoitettu sähkösavukenesteen kotimainen virta",
+      "limitationEn": "The Ministry table combines domestic sales, intra-EU acquisitions and imports recorded in ZEFIR2/AIS. It is a physical e-liquid quantity, excludes device value and is not observed consumer-retail market value.",
+      "limitationFi": "Ministeriön taulukko yhdistää ZEFIR2/AIS-järjestelmiin kirjatut kotimaan myynnit, EU-sisäiset hankinnat ja tuonnin. Se on sähkösavukenesteen fyysinen määrä, ei sisällä laitearvoa eikä ole havaittu kuluttajavähittäismarkkina-arvo."
+    },
+    {
       "observationId": "PL-2023-E-LIQUID-REPORTED-VOLUME-L",
       "countryIso2": "PL",
       "geography": "Poland",
@@ -1027,16 +1106,16 @@
       "evidenceStatus": "official_observed",
       "finality": "official_response",
       "productScope": "e_liquid_only",
-      "marketValueBasis": "official_reported_physical_volume_not_retail_market_value",
+      "marketValueBasis": "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
       "comparableMarketValue": false,
       "atlasEstimate": false,
       "sourceIds": [
         "PL-SEJM-I07255-O1"
       ],
-      "labelEn": "Officially reported e-liquid volume",
-      "labelFi": "Virallisesti ilmoitettu sähkösavukenesteen määrä",
-      "limitationEn": "Volume reported in an official parliamentary response. It is a physical liquid quantity, excludes device value and is not observed retail market value.",
-      "limitationFi": "Virallisessa parlamenttivastauksessa ilmoitettu nestemäärä. Se on fyysinen määrä, ei sisällä laitteiden arvoa eikä ole havaittu vähittäismarkkina-arvo."
+      "labelEn": "Officially reported e-liquid domestic-flow volume",
+      "labelFi": "Virallisesti ilmoitettu sähkösavukenesteen kotimainen virta",
+      "limitationEn": "The Ministry table combines domestic sales, intra-EU acquisitions and imports recorded in ZEFIR2/AIS. It is a physical e-liquid quantity, excludes device value and is not observed consumer-retail market value.",
+      "limitationFi": "Ministeriön taulukko yhdistää ZEFIR2/AIS-järjestelmiin kirjatut kotimaan myynnit, EU-sisäiset hankinnat ja tuonnin. Se on sähkösavukenesteen fyysinen määrä, ei sisällä laitearvoa eikä ole havaittu kuluttajavähittäismarkkina-arvo."
     },
     {
       "observationId": "PL-2025-E-LIQUID-EXCISE-AMOUNT",
@@ -1109,6 +1188,56 @@
       "labelFi": "Virallisesti ilmoitettu sähkösavukkeiden osasarjojen valmisteveromäärä",
       "limitationEn": "Tax amount reported in an official parliamentary response. It is not component-set sales revenue or retail market value and must remain separate from e-liquid and device tax amounts.",
       "limitationFi": "Virallisessa parlamenttivastauksessa ilmoitettu veromäärä. Se ei ole osasarjojen myyntiä eikä vähittäismarkkina-arvoa, ja se pidetään erillään nesteiden ja laitteiden veromääristä."
+    },
+    {
+      "observationId": "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS",
+      "countryIso2": "PL",
+      "geography": "Poland",
+      "year": 2025,
+      "metric": "vaping_device_excise_backsolved_units",
+      "value": 4382500,
+      "unit": "unit",
+      "currency": null,
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "tax_receipts_divided_by_statutory_rate",
+      "productScope": "vaping_devices_only",
+      "marketValueBasis": "derived_taxed_units_not_sales_or_retail_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "PL-SEJM-I17526-O1",
+        "PL-MF-EXCISE-RATES-2025"
+      ],
+      "labelEn": "Vaping-device units implied by realised excise",
+      "labelFi": "Toteutuneesta valmisteverosta johdetut sähkösavukelaitteet",
+      "limitationEn": "PLN 175.3 million of 2025 realised device excise divided by the statutory PLN 40 per-device rate gives 4,382,500 implied taxed units. The device tax applied from 1 July 2025, so this is a second-half tax-base bridge, not full-year sell-through, sales revenue or retail market value; cash timing, refunds and stock movements are not reconciled.",
+      "limitationFi": "Vuoden 2025 toteutunut 175,3 miljoonan PLN:n laitevalmistevero jaettuna lakisääteisellä 40 PLN:n laiteverolla antaa 4 382 500 johdettua verollista yksikköä. Laitevero tuli sovellettavaksi 1.7.2025, joten kyse on loppuvuoden veropohjasillasta eikä koko vuoden kuluttajamyynnistä, myyntitulosta tai vähittäismarkkina-arvosta; maksujen ajoitusta, palautuksia ja varastoliikkeitä ei ole täsmäytetty."
+    },
+    {
+      "observationId": "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS",
+      "countryIso2": "PL",
+      "geography": "Poland",
+      "year": 2025,
+      "metric": "vaping_component_sets_excise_backsolved_units",
+      "value": 62500,
+      "unit": "unit",
+      "currency": null,
+      "period": "calendar_year",
+      "evidenceStatus": "official_table_derived",
+      "finality": "tax_receipts_divided_by_statutory_rate",
+      "productScope": "vaping_component_sets_only",
+      "marketValueBasis": "derived_taxed_units_not_sales_or_retail_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "PL-SEJM-I17526-O1",
+        "PL-MF-EXCISE-RATES-2025"
+      ],
+      "labelEn": "Vaping component-set units implied by realised excise",
+      "labelFi": "Toteutuneesta valmisteverosta johdetut sähkösavukkeiden osasarjat",
+      "limitationEn": "PLN 2.5 million of 2025 realised component-set excise divided by the statutory PLN 40 per-set rate gives 62,500 implied taxed sets. The tax applied from 1 July 2025, so this is a second-half tax-base bridge, not full-year sell-through, sales revenue or retail market value; cash timing, refunds and stock movements are not reconciled.",
+      "limitationFi": "Vuoden 2025 toteutunut 2,5 miljoonan PLN:n osasarjavalmistevero jaettuna lakisääteisellä 40 PLN:n sarjaverolla antaa 62 500 johdettua verollista sarjaa. Vero tuli sovellettavaksi 1.7.2025, joten kyse on loppuvuoden veropohjasillasta eikä koko vuoden kuluttajamyynnistä, myyntitulosta tai vähittäismarkkina-arvosta; maksujen ajoitusta, palautuksia ja varastoliikkeitä ei ole täsmäytetty."
     },
     {
       "observationId": "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L",

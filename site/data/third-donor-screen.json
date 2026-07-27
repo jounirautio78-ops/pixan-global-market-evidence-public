@@ -12,8 +12,8 @@
     "primaryProgrammeCountryIso2": "PL",
     "sourceOnlyLeadCountryIso2": "RU",
     "secondaryProgrammeCountryIso2": ["FI", "DK", "FR"],
-    "reasonEn": "Poland is the most practical third programme because its EU-CEG route already captures annual liquid volume, device count and sales method. Russia exposes the strongest new official value signal, but sanctions, illegal-market and reproducibility friction make it a source-only lead. Finland, Denmark and France form the secondary official-request wave.",
-    "reasonFi": "Puola on käytännöllisin kolmas ohjelma, koska sen EU-CEG-reitti sisältää jo vuotuisen nestemäärän, laitemäärän ja myyntitavan. Venäjä tarjoaa vahvimman uuden virallisen arvosignaalin, mutta pakote-, laiton markkina- ja toistettavuuskitka rajaavat sen vain lähdejohtolangaksi. Suomi, Tanska ja Ranska muodostavat toissijaisen viranomaispyyntöaallon."
+    "reasonEn": "Poland is the most practical third programme because official sources now expose a 2020–2023 e-liquid flow series, realised 2025 product-specific excise and a reproducible second-half device tax-base bridge, while the EU-CEG route can close definition and coverage gaps. Russia exposes the strongest new official value signal, but sanctions, illegal-market and reproducibility friction make it a source-only lead. Finland, Denmark and France form the secondary official-request wave.",
+    "reasonFi": "Puola on käytännöllisin kolmas ohjelma, koska viralliset lähteet julkaisevat nyt vuosien 2020–2023 nesteseriesin, toteutuneen vuoden 2025 tuotekohtaisen valmisteveron ja toistettavan loppuvuoden laiteveropohjasillan, ja EU-CEG-reitti voi sulkea määritelmä- ja peittopuutteita. Venäjä tarjoaa vahvimman uuden virallisen arvosignaalin, mutta pakote-, laiton markkina- ja toistettavuuskitka rajaavat sen vain lähdejohtolangaksi. Suomi, Tanska ja Ranska muodostavat toissijaisen viranomaispyyntöaallon."
   },
   "countries": [
     {
@@ -43,11 +43,29 @@
       "countryFi": "Puola",
       "programmeClass": "primary_programme",
       "donorStatus": "not_assessed",
-      "evidenceSignalEn": "The official EU-CEG route records year, liquid volume, device count and sales method.",
-      "evidenceSignalFi": "Virallinen EU-CEG-reitti kirjaa vuoden, nestemäärän, laitemäärän ja myyntitavan.",
-      "blockingGapsEn": ["Published national aggregate", "Consumer-retail value", "Coverage and missingness", "Independent reconciliation"],
-      "blockingGapsFi": ["Julkaistu valtakunnallinen kooste", "Kuluttajavähittäisarvo", "Peitto ja puuttuvuus", "Riippumaton täsmäytys"],
+      "evidenceSignalEn": "Official sources publish 2020–2023 national e-liquid flows and realised 2025 product-specific excise; PLN 40 unit rates reproduce a second-half device and component-set tax-base bridge.",
+      "evidenceSignalFi": "Viralliset lähteet julkaisevat vuosien 2020–2023 valtakunnalliset nestevirrat ja toteutuneen vuoden 2025 tuotekohtaisen valmisteveron; 40 PLN:n yksikköverot toistavat loppuvuoden laite- ja osasarjaveropohjasillan.",
+      "blockingGapsEn": ["Full-year devices and consumables on one boundary", "Consumer-retail value and tax basis", "Coverage and missingness", "Independent reconciliation"],
+      "blockingGapsFi": ["Koko vuoden laitteet ja kulutustarvikkeet samalla rajauksella", "Kuluttajavähittäisarvo ja veroperusta", "Peitto ja puuttuvuus", "Riippumaton täsmäytys"],
       "officialSources": [
+        {
+          "labelEn": "Polish Ministry of Finance response — 2020–2023 national flows",
+          "labelFi": "Puolan valtiovarainministeriön vastaus — vuosien 2020–2023 kansalliset virrat",
+          "url": "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf",
+          "verifiedOn": "2026-07-27"
+        },
+        {
+          "labelEn": "Polish Ministry of Finance response — realised 2025 excise",
+          "labelFi": "Puolan valtiovarainministeriön vastaus — toteutunut vuoden 2025 valmistevero",
+          "url": "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
+          "verifiedOn": "2026-07-27"
+        },
+        {
+          "labelEn": "Polish Ministry of Finance excise rates",
+          "labelFi": "Puolan valtiovarainministeriön valmisteverokannat",
+          "url": "https://www.podatki.gov.pl/akcyza/stawki-podatkowe/",
+          "verifiedOn": "2026-07-27"
+        },
         {
           "labelEn": "Polish Bureau for Chemical Substances notification guidance",
           "labelFi": "Puolan kemikaaliviraston ilmoitusohje",

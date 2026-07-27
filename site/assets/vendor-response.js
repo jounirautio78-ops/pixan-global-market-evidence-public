@@ -36,11 +36,26 @@
     "transactionUseRights",
     "totalCostTerms"
   ]);
-  const EXPECTED_RECEIVED_EVIDENCE = new Map([
-    ["ecig-global-market-database", new Set()],
-    ["euromonitor-passport-nicotine", new Set(["quote"])],
-    ["niq-rms-pilot", new Set()],
-    ["circana-us-tobacco-pilot", new Set()]
+  const EXPECTED_GATE_CODES = new Map([
+    ["G1", "sample"],
+    ["G2", "methodology"],
+    ["G3", "coverageMatrix"],
+    ["G4", "officialAnchorReconciliation"],
+    ["G5", "transactionUseRights"],
+    ["G6", "totalCostTerms"]
+  ]);
+  const VALID_GATE_STATUSES = new Set(["pass", "fail", "not_testable", "missing"]);
+  const EXPECTED_GATE_STATUSES = new Map([
+    ["ecig-global-market-database", ["missing", "missing", "missing", "missing", "missing", "missing"]],
+    ["euromonitor-passport-nicotine", ["not_testable", "fail", "fail", "not_testable", "fail", "fail"]],
+    ["niq-rms-pilot", ["missing", "missing", "missing", "missing", "missing", "missing"]],
+    ["circana-us-tobacco-pilot", ["missing", "missing", "missing", "missing", "missing", "missing"]]
+  ]);
+  const EXPECTED_QUOTE_RECEIVED = new Map([
+    ["ecig-global-market-database", false],
+    ["euromonitor-passport-nicotine", true],
+    ["niq-rms-pilot", false],
+    ["circana-us-tobacco-pilot", false]
   ]);
   const EXPECTED_GERMANY_ANCHORS = new Map([
     [2023, ["DE-2023-TAXED-LIQUID-VOLUME-L", 1241000, "final", "pass_test"]],
@@ -152,7 +167,8 @@
     if (!raw || raw.schemaVersion !== 2
       || raw.controlId !== "vendor-response-control-public"
       || raw.status !== "public_status_only_no_purchase_authorised"
-      || raw.version !== "2026.07.25-24"
+      || typeof raw.version !== "string"
+      || !/^2026\.\d{2}\.\d{2}-\d+$/.test(raw.version)
       || !validDate(raw.asOf)
       || raw.scoreScale?.minimum !== 0
       || raw.scoreScale?.maximum !== 5
@@ -182,10 +198,16 @@
       || raw.evidenceTypes.some((item) => !EXPECTED_EVIDENCE.has(item.key))) {
       throw new Error("invalid vendor evidence types");
     }
-    if (!Array.isArray(raw.mandatoryGates) || raw.mandatoryGates.length !== MANDATORY_EVIDENCE.size
+    if (!Array.isArray(raw.mandatoryGates) || raw.mandatoryGates.length !== EXPECTED_GATE_CODES.size
       || new Set(raw.mandatoryGates.map((gate) => gate.evidenceKey)).size !== MANDATORY_EVIDENCE.size
+      || new Set(raw.mandatoryGates.map((gate) => gate.gateCode)).size !== EXPECTED_GATE_CODES.size
       || raw.mandatoryGates.some((gate) =>
-        gate.id !== gate.evidenceKey || !MANDATORY_EVIDENCE.has(gate.evidenceKey))) {
+        gate.id !== gate.evidenceKey
+        || EXPECTED_GATE_CODES.get(gate.gateCode) !== gate.evidenceKey
+        || typeof gate.labelEn !== "string" || !gate.labelEn.trim()
+        || typeof gate.labelFi !== "string" || !gate.labelFi.trim()
+        || typeof gate.descriptionEn !== "string" || !gate.descriptionEn.trim()
+        || typeof gate.descriptionFi !== "string" || !gate.descriptionFi.trim())) {
       throw new Error("invalid mandatory evidence gates");
     }
     if (!Array.isArray(raw.vendors) || raw.vendors.length !== EXPECTED_STATES.size) {
@@ -194,23 +216,44 @@
     const vendorIds = new Set();
     for (const vendor of raw.vendors) {
       const expected = EXPECTED_STATES.get(vendor.vendorId);
-      const expectedReceived = EXPECTED_RECEIVED_EVIDENCE.get(vendor.vendorId);
+      const expectedGateStatuses = EXPECTED_GATE_STATUSES.get(vendor.vendorId);
+      const expectedQuoteReceived = EXPECTED_QUOTE_RECEIVED.get(vendor.vendorId);
+      const gateCodes = [...EXPECTED_GATE_CODES.keys()];
       if (!expected || vendorIds.has(vendor.vendorId)
         || vendor.requestState !== expected[0] || vendor.responseState !== expected[1]
         || typeof vendor.vendor !== "string" || !vendor.vendor.trim()
         || typeof vendor.product !== "string" || !vendor.product.trim()
+        || typeof vendor.publicStatusEn !== "string" || !vendor.publicStatusEn.trim()
+        || typeof vendor.publicStatusFi !== "string" || !vendor.publicStatusFi.trim()
+        || vendor.quoteReceived !== expectedQuoteReceived
+        || !objectKeysEqual(vendor.gateResults, new Set(gateCodes))
+        || !expectedGateStatuses
+        || gateCodes.some((gateCode, index) => {
+          const result = vendor.gateResults[gateCode];
+          return !result
+            || !VALID_GATE_STATUSES.has(result.status)
+            || result.status !== expectedGateStatuses[index]
+            || !Array.isArray(result.reasonCodes)
+            || result.reasonCodes.length === 0
+            || result.reasonCodes.some((reason) =>
+              typeof reason !== "string" || !/^[A-Z0-9_]+$/.test(reason));
+        })
         || !objectKeysEqual(vendor.receivedEvidence, EXPECTED_EVIDENCE)
-        || !expectedReceived
-        || [...EXPECTED_EVIDENCE].some((key) =>
-          vendor.receivedEvidence[key] !== expectedReceived.has(key))
-        || [...MANDATORY_EVIDENCE].some((key) => vendor.receivedEvidence[key] !== false)
+        || vendor.receivedEvidence.quote !== vendor.quoteReceived
+        || raw.mandatoryGates.some((gate) =>
+          vendor.receivedEvidence[gate.evidenceKey]
+            !== (vendor.gateResults[gate.gateCode].status === "pass"))
         || !objectKeysEqual(vendor.criterionScores, new Set(EXPECTED_CRITERIA.keys()))
         || Object.values(vendor.criterionScores).some((value) => value !== null)
         || vendor.scoringState !== "not_scored"
         || vendor.weightedScore !== null
         || vendor.purchaseAuthorised !== false
-        || vendor.evidenceReceivedCount !== expectedReceived.size
-        || vendor.mandatoryGatePassCount !== 0) {
+        || vendor.evidenceReceivedCount
+          !== Object.values(vendor.receivedEvidence).filter((value) => value === true).length
+        || vendor.evaluatedGateCount
+          !== gateCodes.filter((gateCode) => vendor.gateResults[gateCode].status !== "missing").length
+        || vendor.mandatoryGatePassCount
+          !== gateCodes.filter((gateCode) => vendor.gateResults[gateCode].status === "pass").length) {
         throw new Error("vendor record differs from the reviewed public state");
       }
       vendorIds.add(vendor.vendorId);
@@ -245,7 +288,7 @@
       ),
       "[data-vendor-response-boundary-copy]": l(
         "Osittainen työkirja osoittaa arviointikenttien olemassaolon, mutta se ei ole edustava näyte eikä mahdollista Saksan viranomaisankkuritestiä. Yleinen menetelmä ja kaksi suuntaa-antavaa vuosipakettitarjousta on saatu, mutta täsmällinen peitto, täydelliset kaupalliset ehdot ja kirjalliset transaktiokäyttöoikeudet puuttuvat. Julkisessa näkymässä ei näytetä täsmällisiä hintoja, lisensoituja arvoja tai toimittajaliitteitä. EI PISTEYTETTY; ostoa, tilausta, maksua, NDA:ta tai automaattista uusintaa ei ole valtuutettu.",
-        "The partial workbook proves that evaluation fields exist, but it is not a representative sample and cannot support the Germany official-anchor test. A generic method and two indicative annual package quotes were received, while exact coverage, complete commercial terms and written transaction-use rights remain missing. This public view discloses no exact prices, licensed values or vendor attachments. NOT SCORED; no purchase, subscription, fee, NDA or auto-renewal is authorised."
+        "The expanded sample and 78-market list materially improve the review, but current fields, the exact country-product-year-measure matrix, the official tax/stage/scope bridge, complete commercial terms and written transaction-use rights remain unresolved. This public view discloses no exact prices, licensed values or vendor attachments. All 6 gates are evaluated; 0 pass. NOT SCORED; no purchase, subscription, fee, NDA or auto-renewal is authorised."
       ),
       "[data-vendor-response-germany-kicker]": l(
         "Saksa · toimittajanäytteen kontrollimarkkina",
@@ -350,23 +393,72 @@
     summary.hidden = false;
   }
 
-  function renderEvidenceItem(item, received, mandatory) {
+  function gateStatusMeta(status) {
+    const states = {
+      pass: {
+        mark: "✓",
+        label: l("Läpäisty", "Pass")
+      },
+      fail: {
+        mark: "×",
+        label: l("Hylätty", "Fail")
+      },
+      not_testable: {
+        mark: "?",
+        label: l("Ei testattavissa", "Not testable")
+      },
+      missing: {
+        mark: "—",
+        label: l("Puuttuu", "Missing")
+      }
+    };
+    return states[status];
+  }
+
+  function renderGateResult(gate, result) {
+    const meta = gateStatusMeta(result.status);
     const element = node(
       "li",
-      `vendor-response-evidence-item ${received ? "is-received" : "is-missing"}`
+      `vendor-response-evidence-item vendor-response-gate-result is-gate-${result.status}`
     );
-    const mark = node("span", "vendor-response-evidence-mark", received ? "✓" : "—");
+    const mark = node("span", "vendor-response-evidence-mark", meta.mark);
     mark.setAttribute("aria-hidden", "true");
-    const label = node("span", "", isFi() ? item.labelFi : item.labelEn);
-    if (mandatory) {
-      label.append(node("small", "", l("pakollinen", "mandatory")));
-    }
-    const state = node(
-      "strong",
-      "",
-      received ? l("Vastaanotettu", "Received") : l("Puuttuu", "Missing")
+    const label = node(
+      "span",
+      "vendor-response-evidence-label",
+      isFi() ? gate.labelFi : gate.labelEn
     );
+    label.append(
+      node("small", "", `${gate.gateCode} · ${l("pakollinen", "mandatory")}`),
+      node("small", "vendor-response-gate-reasons", result.reasonCodes.join(" · "))
+    );
+    const state = node("strong", "", meta.label);
     element.append(mark, label, state);
+    return element;
+  }
+
+  function renderQuoteIndicator(vendor) {
+    const received = vendor.quoteReceived === true;
+    const element = node(
+      "div",
+      `vendor-response-quote ${received ? "is-received" : "is-missing"}`
+    );
+    const copy = node("div", "");
+    copy.append(
+      node("span", "", l("Kaupallinen syöte", "Commercial input")),
+      node("strong", "", received ? l("Tarjous vastaanotettu", "Quote received") : l("Tarjous puuttuu", "Quote missing"))
+    );
+    element.append(
+      copy,
+      node(
+        "small",
+        "",
+        l(
+          "Tarjous kirjataan erikseen eikä se läpäise mitään G1–G6-porttia.",
+          "A quote is tracked separately and does not pass any G1–G6 gate."
+        )
+      )
+    );
     return element;
   }
 
@@ -405,22 +497,27 @@
     );
     const progress = node("div", "vendor-response-progress");
     progress.append(
-      node("span", "", l("Evidenssi", "Evidence")),
-      node("strong", "", `${vendor.evidenceReceivedCount}/${control.evidenceTypes.length}`)
+      node("span", "", l("Pakolliset portit", "Mandatory gates")),
+      node(
+        "strong",
+        "",
+        `${vendor.mandatoryGatePassCount}/${control.mandatoryGates.length} ${l("läpäisty", "passed")}`
+      ),
+      node(
+        "small",
+        "",
+        `${vendor.evaluatedGateCount}/${control.mandatoryGates.length} ${l("arvioitu", "evaluated")}`
+      )
     );
     score.append(scoreCopy, progress);
 
-    const evidence = node("ul", "vendor-response-evidence");
-    for (const item of control.evidenceTypes) {
+    const evidence = node("ul", "vendor-response-evidence vendor-response-gate-results");
+    for (const gate of control.mandatoryGates) {
       evidence.append(
-        renderEvidenceItem(
-          item,
-          vendor.receivedEvidence[item.key],
-          MANDATORY_EVIDENCE.has(item.key)
-        )
+        renderGateResult(gate, vendor.gateResults[gate.gateCode])
       );
     }
-    card.append(header, narrative, score, evidence);
+    card.append(header, narrative, score, renderQuoteIndicator(vendor), evidence);
     return card;
   }
 
@@ -524,7 +621,7 @@
     gates.replaceChildren(...control.mandatoryGates.map((gate) => {
       const item = node("li", "vendor-response-gate");
       item.append(
-        node("span", "vendor-response-gate-mark", "GATE"),
+        node("span", "vendor-response-gate-mark", gate.gateCode),
         node("strong", "", isFi() ? gate.labelFi : gate.labelEn),
         node("p", "", isFi() ? gate.descriptionFi : gate.descriptionEn)
       );
@@ -548,8 +645,8 @@
     status.replaceChildren(
       node("span", "bank-package-status-dot", ""),
       node("span", "", l(
-        "4 toimittajaa seurannassa · 1 toimittajareitillä sisällöllisiä vastauksia · 0 pisteytettyä toimittajanäytettä · 0 ostovaltuutusta.",
-        "4 vendors tracked · 1 vendor route with substantive responses · 0 vendor samples scored · 0 purchase authorisations."
+        "4 toimittajaa seurannassa · Euromonitor 0/6 läpäistyä porttia · 0 pisteytettyä toimittajanäytettä · 0 ostovaltuutusta.",
+        "4 vendors tracked · Euromonitor 0/6 gates passed · 0 vendor samples scored · 0 purchase authorisations."
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

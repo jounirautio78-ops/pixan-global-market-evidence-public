@@ -131,6 +131,24 @@ class DataRequestBoundaryTests(unittest.TestCase):
         self.assertIn("ei vuosimyynnistä", self.program["independenceNoticeFi"])
         self.assertIn("luovuttajaevidenssistä", self.program["independenceNoticeFi"])
 
+    def test_france_response_is_a_partial_customs_trade_proxy_not_retail_sales(self) -> None:
+        france = next(
+            route for route in self.program["routes"] if route["countryIso2"] == "FR"
+        )
+        self.assertEqual(france["dispatch"], {
+            "state": "sent",
+            "sentOn": "2026-07-23",
+            "publicAuthorityReference": None,
+            "responseState": "official_customs_trade_proxy_received_scope_partial",
+        })
+        self.assertIn("supply-stage proxy", france["rationaleEn"])
+        self.assertIn("not retail market size", france["rationaleEn"])
+        self.assertIn(
+            "official annual partner-level customs trade extracts",
+            self.program["independenceNoticeEn"],
+        )
+        self.assertIn("not consumer-retail sales", self.program["independenceNoticeEn"])
+
     def test_rejects_top_level_sent_flag(self) -> None:
         self.assert_rejected(lambda item: item.__setitem__("sent", True))
 

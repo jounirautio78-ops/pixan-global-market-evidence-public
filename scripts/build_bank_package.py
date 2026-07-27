@@ -80,8 +80,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-27-first-donor-conversion-v26"
-RELEASE_VERSION = "2026.07.27-26"
+RELEASE_ID = "2026-07-27-global-base-poland-v27"
+RELEASE_VERSION = "2026.07.27-27"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -95,9 +95,9 @@ SWEDEN_STRUCTURE_METRICS = {
     "active_products_count": "ACTIVE-PRODUCTS",
     "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
 }
-EXPECTED_MARKET_OBSERVATIONS = 79
-EXPECTED_MARKET_SOURCES = 23
-EXPECTED_OFFICIAL_MARKET_MEASURES = 34
+EXPECTED_MARKET_OBSERVATIONS = 84
+EXPECTED_MARKET_SOURCES = 24
+EXPECTED_OFFICIAL_MARKET_MEASURES = 39
 EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
@@ -494,7 +494,7 @@ def build_context() -> dict[str, Any]:
         or release.get("version") != RELEASE_VERSION
         or as_of != "2026-07-27"
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v26 release")
+        raise ValueError("Public inputs are not locked to the reviewed v27 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
     for label, data in (("atlas", atlas), ("patent history", patent)):
@@ -573,7 +573,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or len(market_sources) != expected_market_counts[1]
     ):
         raise ValueError(
-            "Bank package v26 requires the reviewed market observation and source counts"
+            "Bank package v27 requires the reviewed market observation and source counts"
         )
     source_id_collisions = sorted(set(market_sources) & set(patent_sources))
     if source_id_collisions:
@@ -593,7 +593,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             )
     fhm_source = market_sources.get(FHM_SOURCE_ID)
     if fhm_source is None or fhm_source.get("pageUrl") != FHM_SOURCE_URL:
-        raise ValueError("Bank package v26 requires the reviewed public FHM reference")
+        raise ValueError("Bank package v27 requires the reviewed public FHM reference")
 
     def require_source_ids(item: dict[str, Any], source_map: dict[str, Any], label: str) -> None:
         source_ids = item.get("sourceIds")
@@ -848,7 +848,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or official_country_codes != ["CA", "DE", "FI", "NZ", "PL", "SE", "US"]
     ):
         raise ValueError(
-            "Bank package v26 requires 34 official market measures across seven reviewed countries"
+            f"Bank package v27 requires {EXPECTED_OFFICIAL_MARKET_MEASURES} official market measures across seven reviewed countries"
         )
     expected_structure_ids = {
         f"SE-{year}-FHM-{suffix}"
@@ -865,7 +865,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             and actual_structure_ids != expected_structure_ids
         )
     ):
-        raise ValueError("Bank package v26 requires the 36-record Swedish FHM structure series")
+        raise ValueError("Bank package v27 requires the 36-record Swedish FHM structure series")
     for item in sweden_structure_observations:
         value = item.get("value")
         snapshot = item.get("year") == 2026
@@ -1016,8 +1016,21 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
 
     fi_volume = market_observation("FI", "nicotine_e_liquid_taxed_volume")
     fi_excise = market_observation("FI", "nicotine_e_liquid_excise_receipts")
+    pl_volumes = market_observations("PL", "reported_e_liquid_volume")
     pl_volume = market_observation("PL", "reported_e_liquid_volume")
     pl_excise = market_observation("PL", "e_liquid_excise_amount")
+    pl_device_excise = market_observation_by_id(
+        "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT"
+    )
+    pl_component_excise = market_observation_by_id(
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT"
+    )
+    pl_device_units = market_observation_by_id(
+        "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS"
+    )
+    pl_component_units = market_observation_by_id(
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS"
+    )
     se_volume = market_observation("SE", "nicotine_e_liquid_taxed_volume")
     se_excise = market_observation("SE", "nicotine_e_liquid_excise_receipts")
     nz_retail_lower_bound = market_observation_by_id(
@@ -1206,6 +1219,77 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
             evidence_status="official_observed",
             finality=finality,
         )
+    expected_pl_volumes = {
+        2020: 1_451_529,
+        2021: 277_265,
+        2022: 416_088,
+        2023: 805_441,
+    }
+    if (
+        len(pl_volumes) != len(expected_pl_volumes)
+        or {
+            observation_year(item): int(item["value"])
+            for item in pl_volumes
+        }
+        != expected_pl_volumes
+    ):
+        raise ValueError("Poland 2020–2023 official e-liquid flow series differs")
+    for item, label, metric, value in (
+        (
+            pl_device_excise,
+            "Poland vaping-device excise amount",
+            "vaping_device_excise_amount",
+            175_300_000,
+        ),
+        (
+            pl_component_excise,
+            "Poland component-set excise amount",
+            "vaping_component_sets_excise_amount",
+            2_500_000,
+        ),
+    ):
+        require_observation(
+            item,
+            label,
+            country="PL",
+            geography="Poland",
+            metric=metric,
+            period="calendar_year",
+            unit="PLN",
+            currency="PLN",
+            evidence_status="official_observed",
+            finality="official_response",
+        )
+        if observation_year(item) != 2025 or float(item["value"]) != value:
+            raise ValueError(f"{label} differs from the reviewed official response")
+    for item, label, metric, value in (
+        (
+            pl_device_units,
+            "Poland implied taxed vaping-device units",
+            "vaping_device_excise_backsolved_units",
+            4_382_500,
+        ),
+        (
+            pl_component_units,
+            "Poland implied taxed component sets",
+            "vaping_component_sets_excise_backsolved_units",
+            62_500,
+        ),
+    ):
+        require_observation(
+            item,
+            label,
+            country="PL",
+            geography="Poland",
+            metric=metric,
+            period="calendar_year",
+            unit="unit",
+            currency=None,
+            evidence_status="official_table_derived",
+            finality="tax_receipts_divided_by_statutory_rate",
+        )
+        if observation_year(item) != 2025 or float(item["value"]) != value:
+            raise ValueError(f"{label} differs from the deterministic tax bridge")
 
     model_candidates = [
         item
@@ -1367,7 +1451,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
     if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
-        raise ValueError("Bank package v26 requires exactly five reviewed donor candidates")
+        raise ValueError("Bank package v27 requires exactly five reviewed donor candidates")
     candidate_ids = {
         "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL",
         "EU-2023-COMMISSION-BENCHMARK",
@@ -1376,7 +1460,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v26 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v27 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
             raise ValueError("Every v17 donor candidate must remain outside the accepted count")
@@ -1587,7 +1671,12 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "fi_volume_observation": fi_volume,
         "fi_excise_observation": fi_excise,
         "pl_volume_observation": pl_volume,
+        "pl_volume_observations": pl_volumes,
         "pl_excise_observation": pl_excise,
+        "pl_device_excise_observation": pl_device_excise,
+        "pl_component_excise_observation": pl_component_excise,
+        "pl_device_units_observation": pl_device_units,
+        "pl_component_units_observation": pl_component_units,
         "se_volume_observation": se_volume,
         "se_excise_observation": se_excise,
         "nz_retail_lower_bound": nz_retail_lower_bound,
@@ -1678,7 +1767,15 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
     fi_volume = facts["fi_volume_observation"]
     fi_excise = facts["fi_excise_observation"]
     pl_volume = facts["pl_volume_observation"]
+    pl_volumes = facts["pl_volume_observations"]
     pl_excise = facts["pl_excise_observation"]
+    pl_device_excise = facts["pl_device_excise_observation"]
+    pl_component_excise = facts["pl_component_excise_observation"]
+    pl_device_units = facts["pl_device_units_observation"]
+    pl_component_units = facts["pl_component_units_observation"]
+    pl_volume_by_year = {
+        observation_year(item): item for item in pl_volumes
+    }
     se_volume = facts["se_volume_observation"]
     se_excise = facts["se_excise_observation"]
     nz_retail_lower_bound = facts["nz_retail_lower_bound"]
@@ -1867,19 +1964,28 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Hanki CNIPA:n virallinen päätös ja sen perustelut.",
         ),
         row(
-            f"Julkinen atlas sisältää muuttumattoman {ctx['atlas']['summary']['countryCount']} maan tutkimusuniversumin.",
+            "Julkinen 195 maan avoin pohjakerros sisältää 578 havaittua World Bank "
+            "-lukua; se ei sisällä yhtään sähkötupakkavähittäismyyntihavaintoa.",
             "Markkinan rajaus",
-            f"countryCount = {ctx['atlas']['summary']['countryCount']}; universe = {ctx['atlas']['summary']['universe']}.",
-            "https://www.un.org/en/about-us/member-states ; https://www.un.org/en/about-us/non-member-states",
+            "Väestö ja 15–64-vuotiaiden väestö kattavat kumpikin 194/195 maata. "
+            "BKT asukasta kohti kattaa 190/195 maata, ja kaikille 190 havainnolle "
+            "on laskettu saman lähdevuoden EKP-kurssilla EUR-vasta-arvo. WHO- ja "
+            "UN Comtrade -reitit ovat 195/195 jonossa ja puuttuvina, eivät nollina.",
+            "site/data/global-base-layer.json ; site/data/global-base-layer.csv ; "
+            "https://datahelpdesk.worldbank.org/knowledgebase/articles/898581-api-basic-call-structures",
             as_of,
-            f"{un_member_count} YK:n jäsenvaltiota + Pyhä istuin + Palestiinan valtio.",
-            "Universumi on tutkimusrunko, ei todistettu markkinapeitto.",
+            "Kustakin World Bank -sarjasta valitaan uusin ei-tyhjä havainto vuosilta "
+            "2020–2024 ja alkuperäinen lähdevuosi säilytetään. USD/asukas jaetaan "
+            "vain saman lähdevuoden EKP-kurssilla.",
+            "Väestö, BKT, käyttäjäprevalenssi ja kauppavirrat ovat tausta- tai "
+            "proxymittareita, eivät sähkötupakkamyynnin arvoja.",
             "Vahvistettu",
-            "Ei puutetta universumin määrittelyssä; evidenssipeitto on erillinen asia.",
+            "Maakohtaiset vuosittaiset laite- ja e-nestemyyntiarvot, WHO-reitin "
+            "numeerinen poiminta ja UN Comtrade -luokituksen validointi puuttuvat.",
         ),
         row(
-            "Julkinen markkina-aineisto sisältää 79 havaintoa 23 lähteestä; "
-            f"70 virallista havaintoa jakautuvat {facts['official_observation_count']} "
+            "Julkinen markkina-aineisto sisältää 84 havaintoa 24 lähteestä; "
+            f"75 virallista havaintoa jakautuvat {facts['official_observation_count']} "
             f"markkinamittariin ja {facts['sweden_structure_count']} Ruotsin "
             "FHM-rekisterirakenteen lukuun.",
             "Markkinan koko",
@@ -1888,8 +1994,8 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "aktiivisia ja markkinoilta poistettuja tuotteita; ne eivät ole myyntiä tai markkina-arvoa.",
             "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
             as_of,
-            "79 = 43 aiempaa havaintoa + 36 FHM-rakennelukua; 70 virallista = "
-            "34 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään.",
+            "84 = 48 markkina- ja mallihavaintoa + 36 FHM-rakennelukua; 75 virallista = "
+            "39 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään.",
             "Vuosi 2026 on FHM-sarjassa tilannekuva, ei valmis vuosijakso. "
             "Virallinen julkaisu ei tee mittareista automaattisesti vertailukelpoisia.",
             "Vahvistettu",
@@ -2058,30 +2164,49 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "Tarvitaan vähittäismyynti- ja hintadata.",
         ),
         row(
-            "Puolassa raportoitu sähkötupakkanesteiden määrä oli "
-            f"{format_local_number(pl_volume['value'])} litraa "
-            f"vuonna {observation_year(pl_volume)}.",
+            "Puolan virallinen sähkötupakkanesteiden virta oli "
+            f"{format_local_number(pl_volume_by_year[2020]['value'])} litraa vuonna 2020, "
+            f"{format_local_number(pl_volume_by_year[2021]['value'])} litraa vuonna 2021, "
+            f"{format_local_number(pl_volume_by_year[2022]['value'])} litraa vuonna 2022 ja "
+            f"{format_local_number(pl_volume_by_year[2023]['value'])} litraa vuonna 2023.",
             "Markkinan koko",
-            pl_volume["limitationFi"],
-            sources(*pl_volume["sourceIds"]),
-            str(observation_year(pl_volume)),
-            "Parlamentaariseen vastaukseen raportoitu määrä.",
-            "Mittarin kattavuus on luettava alkuperäislähteen rajauksin.",
+            "Ministeriön parlamenttivastauksen taulukko yhdistää ZEFIR2/AIS-järjestelmiin "
+            "kirjatut kotimaan myynnit, EU-sisäiset hankinnat ja tuonnin. Sarja on "
+            "fyysinen e-nestevirta, ei kuluttajamyynti tai havaittu vähittäismarkkina-arvo.",
+            sources(*(source_id for item in pl_volumes for source_id in item["sourceIds"])),
+            "2020–2023",
+            "Neljän virallisen vuosihavainnon suora toisto; eri vuosia ei summata markkina-arvoksi.",
+            "Julkaistu taulukko ei erittele kotimaan myyntiä, EU-sisäisiä hankintoja ja "
+            "tuontia eikä sisällä laitteiden arvoa.",
             "Vahvistettu",
-            "Tarvitaan uudempi vuosisarja ja vähittäisarvo.",
+            "Tarvitaan kuluttajavähittäisarvo, kanavapeitto, veroperusta ja riippumaton täsmäytys.",
         ),
         row(
-            f"Puolan vuoden {observation_year(pl_excise)} ilmoitettu e-nestevalmisteveron määrä oli "
-            f"{format_local_number(pl_excise['value'] / 1_000_000, 1)} milj. "
-            f"{pl_excise['currency']}.",
+            "Puolan vuoden 2025 verosilta antaa 4 382 500 johdettua verollista "
+            "sähkötupakkalaitetta ja 62 500 johdettua verollista osasarjaa.",
             "Markkinan koko",
-            pl_excise["limitationFi"],
-            sources(*pl_excise["sourceIds"]),
-            str(observation_year(pl_excise)),
-            "Parlamentaariseen vastaukseen raportoitu veromäärä.",
-            "Veromäärä ei ole vähittäismyynti.",
+            f"Virallisessa vastauksessa ilmoitettiin vuoden 2025 toteutuneeksi veroksi "
+            f"{format_local_number(pl_excise['value'] / 1_000_000, 1)} milj. PLN e-nesteistä, "
+            f"{format_local_number(pl_device_excise['value'] / 1_000_000, 1)} milj. PLN "
+            f"laitteista ja {format_local_number(pl_component_excise['value'] / 1_000_000, 1)} "
+            "milj. PLN osasarjoista. Laitteiden ja osasarjojen vero oli 40 PLN yksiköltä "
+            "1.7.2025 alkaen.",
+            sources(
+                *pl_excise["sourceIds"],
+                *pl_device_units["sourceIds"],
+                *pl_component_units["sourceIds"],
+            ),
+            "2025",
+            f"{format_local_number(pl_device_excise['value'])} / 40 = "
+            f"{format_local_number(pl_device_units['value'])} laitetta; "
+            f"{format_local_number(pl_component_excise['value'])} / 40 = "
+            f"{format_local_number(pl_component_units['value'])} osasarjaa. "
+            "E-nesteen verosta ei tehdä yksikköjohdosta vuoden aikana muuttuneen verorakenteen vuoksi.",
+            "Johdetut yksiköt kuvaavat 1.7.2025 alkaneen veron veropohjasiltaa, eivät koko vuoden "
+            "kuluttajamyyntiä, myyntituloa tai vähittäismarkkina-arvoa.",
             "Vahvistettu",
-            "Tarvitaan toteuman lopullisuus ja veropohjan täsmäytys.",
+            "Maksujen ajoitus, palautukset, vienti, varastot, vähittäishinnat ja samaan vuoteen "
+            "täsmäytetty kuluttajamyynti puuttuvat.",
         ),
         row(
             "Ruotsin julkinen evidenssi yhdistää vuoden 2024 veroankkurin ja "
@@ -2098,7 +2223,7 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             sources(*se_volume["sourceIds"], FHM_SOURCE_ID),
             "2026-07-24",
             "36 = 9 vuotta (2018–2026) × 4 rekisterirakenteen mittaria. "
-            "Veroankkuri, 34 markkinamittaria ja 36 rakennelukua pidetään erillään.",
+            "Veroankkuri, 39 markkinamittaria ja 36 rakennelukua pidetään erillään.",
             "Rakenneluvuista ei päätellä myyntiarvoa, myyntimäärää tai markkinaosuutta. "
             "Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja "
             "vuosivirtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken "

@@ -83,9 +83,11 @@ const REVIEW_MATRIX_DIMENSIONS = {
   customs: ["tulli", "customs"]
 };
 const REVIEW_STRUCTURAL_RESPONSE_COUNTRIES = new Set(["SE"]);
+const REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES = new Set(["FR"]);
 
 let reviewData = null;
 let reviewMarketData = null;
+let reviewGlobalBaseData = null;
 let reviewDonorCockpit = null;
 let reviewCountryScenarios = null;
 let reviewFxData = null;
@@ -299,9 +301,15 @@ function reviewRequestSummary() {
       && responseRecorded(route)
       && REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2)
   ).length;
+  const tradeProxyResponses = routes.filter(
+    (route) => route.status === "sent"
+      && responseRecorded(route)
+      && REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES.has(route.countryIso2)
+  ).length;
   const processResponses = routes.filter((route) => {
     return responseRecorded(route)
-      && !REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2);
+      && !REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2)
+      && !REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES.has(route.countryIso2);
   }).length;
   const germanSupplements = (reviewRequestData?.supplementaryRequests || []).filter(
     (request) => request.countryIso2 === "DE"
@@ -315,6 +323,7 @@ function reviewRequestSummary() {
     germanSupplements,
     processResponses,
     officialStructuralResponses,
+    tradeProxyResponses,
     salesResponses: 0
   };
 }
@@ -353,6 +362,12 @@ function renderDecisionCockpit(data) {
         `Official annual numeric evidence across ${market.numericCountries.size} countries; official consumer-retail point-estimate routes: ${market.officialRetailCountries.size}; official retail lower-bound anchors: ${market.officialRetailLowerBoundCountries.size}.`
       )
       : reviewL("Markkina-arvon tukiaineisto ei ole saatavilla.", "The market-value supporting dataset is unavailable."),
+    reviewGlobalBaseData
+      ? reviewL(
+        `Avoin 195 maan pohja sisältää ${reviewGlobalBaseData.summary.observedCount} havaittua World Bank -tietuetta ja ${reviewGlobalBaseData.summary.gdpEurEquivalent.computedCount} saman lähdevuoden EUR-vasta-arvoa; vähittäismyyntiin kelpaavia havaintoja on nolla.`,
+        `The open 195-country base contains ${reviewGlobalBaseData.summary.observedCount} observed World Bank records and ${reviewGlobalBaseData.summary.gdpEurEquivalent.computedCount} same-source-year EUR equivalents; zero records are retail-sales eligible.`
+      )
+      : reviewL("Avoin 195 maan pohjakerros ei ole saatavilla.", "The open 195-country base layer is unavailable."),
     reviewPatentData
       ? reviewL(
         `${familyCount ?? "—"} patenttiperheriviä ja ${nationalRights} kansallisesti vahvistettua statustietuetta, erillään prosessi- ja arvoväitteistä.`,
@@ -361,8 +376,8 @@ function renderDecisionCockpit(data) {
       : reviewL("Patenttihistorian tukiaineisto ei ole saatavilla.", "The patent-history supporting dataset is unavailable."),
     reviewRequestData
       ? reviewL(
-        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.germanSupplements} täydentävä Saksan reitti, ${request.processResponses} vain prosessivastausta, ${request.officialStructuralResponses} virallinen rakennevastaus ja ${request.salesResponses} myyntidatavastausta.`,
-        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.germanSupplements} supplementary German route, ${request.processResponses} process-only responses, ${request.officialStructuralResponses} official structural response and ${request.salesResponses} sales-data responses.`
+        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.germanSupplements} täydentävä Saksan reitti, ${request.processResponses} vain prosessivastausta, ${request.officialStructuralResponses} virallinen rakennevastaus, ${request.tradeProxyResponses} tullikaupan proxyvastaus ja ${request.salesResponses} myyntidatavastausta.`,
+        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.germanSupplements} supplementary German route, ${request.processResponses} process-only responses, ${request.officialStructuralResponses} official structural response, ${request.tradeProxyResponses} customs-trade proxy response and ${request.salesResponses} sales-data responses.`
       )
       : reviewL("Viranomaisreittien tukiaineisto ei ole saatavilla.", "The authority-route supporting dataset is unavailable.")
   ];
@@ -423,7 +438,7 @@ function renderResearchOperationsOverview() {
   const metrics = [
     [reviewL("Lähetetty / luonnos", "Sent / draft"), `${request.sent} / ${request.drafts}`, reviewL("20 maan priorisoitu tutkimusjono", "Prioritised 20-country research queue")],
     [reviewL("Täydentävä Saksan reitti", "German supplementary route"), request.germanSupplements, reviewL("Ei lisää maata 12/8-laskureihin", "Adds no country to the 12/8 counts")],
-    [reviewL("Vain prosessi / rakenne / myynti", "Process-only / structural / sales"), `${request.processResponses} / ${request.officialStructuralResponses} / ${request.salesResponses}`, reviewL("Ruotsin rakennetieto ei ole myyntiä, arvoa tai volyymia", "Sweden structural evidence is not sales, value or volume")],
+    [reviewL("Prosessi / rakenne / tulliproxy / myynti", "Process / structural / customs proxy / sales"), `${request.processResponses} / ${request.officialStructuralResponses} / ${request.tradeProxyResponses} / ${request.salesResponses}`, reviewL("Ruotsin rakenne ja Ranskan tulliproxy eivät ole vähittäismarkkinan kokoa", "Sweden structure and the France customs proxy are not retail market size")],
     [reviewL("Ostovaltuudet", "Purchase authorisations"), 0, reviewL("Ei ostoa, tilausta tai automaattista ulkoista toimintoa", "No purchase, subscription or automatic external action")]
   ];
   host.replaceChildren(...metrics.map(([label, value, note]) => {
@@ -789,7 +804,7 @@ function renderReviewMetrics(data) {
   const officialRetailLowerBound = new Set(official.filter((item) => item.metric === "official_specialist_retail_sales_lower_bound").map((item) => item.countryIso2).filter(Boolean));
   const modelled = new Set((reviewMarketData?.models || []).map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
-    [reviewL("Tutkimusmaailma", "Research universe"), `${countries.length} / 195`, reviewL("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets")],
+    [reviewL("Avoin maapohja", "Open country base"), `${countries.length} / 195`, reviewGlobalBaseData ? reviewL(`${reviewGlobalBaseData.summary.observedCount} World Bank -havaintoa; ei sähkötupakkamyyntiä`, `${reviewGlobalBaseData.summary.observedCount} World Bank records; no vaping sales`) : reviewL("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets")],
     [reviewL("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), `${quantified.size} / 195`, reviewL("Raha-, vero- tai määräarvoja; mittarit pidetään erillään", "Monetary, tax or volume records; measures remain separate")],
     [reviewL("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), `${officialRetailLowerBound.size} / 195`, reviewL(`${officialRetail.size} virallinen kuluttajavähittäismyynnin piste-estimaatti seurataan erikseen; kumpikaan reitti ei ole hyväksytty donor`, `${officialRetail.size} official consumer-retail point estimate is tracked separately; neither route is an accepted donor`)],
     [reviewL("Atlaksen maamalli", "Atlas country model"), `${modelled.size} / 195`, reviewL("Saksan nesteskenaario; matala luottamus", "Germany liquid scenario; low confidence")]
@@ -2148,9 +2163,10 @@ async function initReview() {
     if (reviewData) renderReview(reviewData);
   });
   try {
-    const [atlasResult, marketResult, donorResult, thirdDonorResult, scenarioResult, fxResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
+    const [atlasResult, marketResult, globalBaseResult, donorResult, thirdDonorResult, scenarioResult, fxResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
       fetch("data/atlas.json", { cache: "no-store" }),
       fetch("data/market-values.json", { cache: "no-store" }),
+      fetch("data/global-base-layer.json", { cache: "no-store" }),
       fetch("data/donor-cockpit.json", { cache: "no-store" }),
       fetch("data/third-donor-screen.json", { cache: "no-store" }),
       fetch("data/country-scenarios.json", { cache: "no-store" }),
@@ -2174,6 +2190,34 @@ async function initReview() {
     } catch (error) {
       reviewMarketData = null;
       console.warn("Optional market-value dataset unavailable", error);
+    }
+
+    try {
+      if (globalBaseResult.status !== "fulfilled" || !globalBaseResult.value.ok) throw new Error(`HTTP ${globalBaseResult.status === "fulfilled" ? globalBaseResult.value.status : "network error"}`);
+      const globalBase = await globalBaseResult.value.json();
+      const routesValid = (globalBase.countries || []).every((country) => (
+        country.retailSalesEligible === false
+        && country.routes?.whoAdultCurrentEcigPrevalence?.value === null
+        && country.routes?.whoAdultCurrentEcigPrevalence?.acquisitionStatus === "queued"
+        && country.routes?.unComtradeVapingTrade?.value === null
+        && country.routes?.unComtradeVapingTrade?.acquisitionStatus === "queued"
+      ));
+      if (
+        globalBase.schemaVersion !== "1.0"
+        || globalBase.asOf !== "2026-07-27"
+        || !Array.isArray(globalBase.countries)
+        || globalBase.countries.length !== 195
+        || globalBase.summary?.observedCount !== 578
+        || globalBase.summary?.gdpEurEquivalent?.computedCount !== 190
+        || globalBase.globalRetailSales?.status !== "blocked"
+        || globalBase.globalRetailSales?.value !== null
+        || globalBase.globalRetailSales?.eligibleObservationCount !== 0
+        || !routesValid
+      ) throw new Error("schema or fail-closed boundary validation failed");
+      reviewGlobalBaseData = globalBase;
+    } catch (error) {
+      reviewGlobalBaseData = null;
+      console.warn("Optional global country-base dataset unavailable", error);
     }
 
     try {
