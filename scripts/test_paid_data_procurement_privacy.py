@@ -84,26 +84,50 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         )
         self.assertEqual(
             outreach["euromonitor-passport-nicotine"]["state"],
-            "germany_sample_and_quote_received_review_pending",
+            "expanded_schema_and_package_quotes_review_pending",
         )
         self.assertIn(
-            "partial numerical Germany sample",
+            "expanded numerical Germany sample",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "two indicative annual package quotes",
+            "three indicative annual package quotes",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "roughly 75 e-vapour markets",
+            "78-market e-vapour value-coverage list",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "exact country-product-year-measure matrix is missing",
+            "later eight-tab category-schema workbook",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "controlled lender, buyer, adviser and data-room use",
+            "lists 95 geographies",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "country-year value cells are blank",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "end-consumer sales including applicable product taxes and VAT",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "enterprise-AI processing where provider training is disabled",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "modelled Cyprus volume",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "lender/buyer NDA data-room rights",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertIn(
+            "proposed Special Condition",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertNotIn("pending and has not been sent", outreach["euromonitor-passport-nicotine"]["noteEn"])
@@ -113,12 +137,16 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         self.assertNotIn("consultant", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
         self.assertNotIn("CEO", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertIn(
-            "no score or purchase is authorised",
+            "0/6 passes",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "representative-sample, detailed-method, official-reconciliation, exact-coverage, complete-terms and written-transaction-rights gates remain open",
+            "NOT SCORED; no purchase, fee or commitment is authorised",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertNotRegex(
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+            r"(?:EUR|USD|GBP)\s*[0-9]",
         )
 
     def test_rejects_private_path_in_reviewer_note(self) -> None:

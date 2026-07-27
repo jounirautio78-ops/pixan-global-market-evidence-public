@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-25",
+  "asOf": "2026-07-27",
   "avoidAsPrimary": [
     {
       "examples": "Grand View Research, IMARC, Mordor Intelligence and similar",
@@ -94,13 +94,13 @@
     {
       "alternativeGroup": "global_master_choose_one",
       "category": "global_market_series",
-      "conditionsEn": "The received Germany sample proves field structure but is too sparse for the official 2023–2024 liquid-volume reconciliation. The methodology is generic, the exact e-vapour coverage matrix is missing and the default licence does not yet fit the intended onward-sharing, data-room, public or legal-use workflow. No licensed values are published.",
-      "conditionsFi": "Saatu Saksa-näyte osoittaa kenttärakenteen, mutta on liian suppea vuosien 2023–2024 viralliseen nestemäärätäsmäytykseen. Menetelmä on yleinen, täsmällinen sähkötupakan peittomatriisi puuttuu eikä vakiolisenssi vielä sovi aiottuun edelleenjakelu-, datahuone-, julkiseen tai oikeudelliseen käyttöön. Lisensoituja arvoja ei julkaista.",
-      "coverageEn": "The vendor states roughly 75 e-vapour markets and says the product includes annual value, volume, company/brand, channel, user and nicotine-strength series. The exact country-product-year-measure matrix is not supplied.",
-      "coverageFi": "Toimittaja ilmoittaa noin 75 sähkötupakkamarkkinaa ja kertoo tuotteen sisältävän vuosittaisia arvo-, volyymi-, yhtiö-/brändi-, kanava-, käyttäjä- ja nikotiinivahvuussarjoja. Täsmällistä maa–tuote–vuosi–mittari-matriisia ei ole toimitettu.",
+      "conditionsEn": "The expanded Germany sample permits a private 2023–2024 numerical liquid-volume comparison, but the later 95-geography schema workbook has blank country-year value cells. End-consumer tax basis, restricted enterprise-AI processing and modelled Cyprus volume were clarified; observed/reported/modelled record flags, the exact product bridge, NDA data-room rights, export and retention rights, taxes, fees and renewal terms remain open. No licensed values or private quote amounts are published.",
+      "conditionsFi": "Laajennettu Saksa-näyte mahdollistaa yksityisen vuosien 2023–2024 numeerisen nestemäärävertailun, mutta myöhemmän 95 maantieteen skeematyökirjan maa–vuosi-arvosolut ovat tyhjiä. Loppuasiakasmyynnin veroperusta, rajattu yritystason tekoälykäsittely ja mallinnettu Kyproksen volyymi täsmennettiin; havaittu/raportoitu/mallinnettu-tietuemerkinnät, täsmällinen tuotesilta, NDA-datahuoneoikeudet, vienti- ja säilytysoikeudet, verot, maksut ja uusimisehdot ovat avoinna. Lisensoituja arvoja tai yksityisiä tarjoushintoja ei julkaista.",
+      "coverageEn": "The received 78-market value-coverage list and three quotes describe 25-, 50- and 78-market options. A later category-schema workbook lists 95 geographies, but it is not a populated coverage matrix. Exact country-product-field-year availability and researched/modelled status remain unreconciled.",
+      "coverageFi": "Saatu 78 markkinan arvotietojen peittolista ja kolme tarjousta kuvaavat 25, 50 ja 78 markkinan vaihtoehtoja. Myöhempi kategoriaskeematyökirja luettelee 95 maantiedettä, mutta se ei ole täytetty peittomatriisi. Täsmällinen maa–tuote–kenttä–vuosi-saatavuus sekä tutkittu/mallinnettu-tila ovat edelleen täsmäyttämättä.",
       "currency": null,
-      "decisionEn": "Continue evaluation, but do not buy before a full 2022–2025 Germany sample, exact country-product matrix, category-specific method and written Pixan, lender, buyer, adviser, data-room and audit-archive rights are confirmed. Buy at most one global master unless non-overlap is demonstrated.",
-      "decisionFi": "Jatka arviointia, mutta älä osta ennen kuin täysi Saksan 2022–2025-näyte, täsmällinen maa–tuote-matriisi, kategoriakohtainen menetelmä sekä kirjalliset Pixan-, lainanantaja-, ostaja-, neuvonantaja-, datahuone- ja tarkastusarkisto-oikeudet on vahvistettu. Osta enintään yksi globaali pääaineisto, ellei päällekkäisyyden puuttumista osoiteta.",
+      "decisionEn": "Continue evaluation, but do not buy before a populated 2022–2025 Germany test, reconciled 78/95 country-product-field-year coverage, category-specific method and record-status flags, a legally approved Pixan/NDA data-room Special Condition, and complete all-in commercial terms are confirmed. Buy at most one global master unless non-overlap is demonstrated.",
+      "decisionFi": "Jatka arviointia, mutta älä osta ennen kuin täytetty Saksan 2022–2025-testi, täsmäytetty 78/95 maan maa–tuote–kenttä–vuosi-peitto, kategoriakohtainen menetelmä ja tietueiden tilamerkinnät, legal-tiimin hyväksymä Pixan-/NDA-datahuone-erityisehto sekä täydelliset kaikki kustannukset kattavat kaupalliset ehdot on vahvistettu. Osta enintään yksi globaali pääaineisto, ellei päällekkäisyyden puuttumista osoiteta.",
       "itemId": "euromonitor-passport-nicotine",
       "priceAmount": null,
       "priceDisplay": "Private indicative annual quotes received",
@@ -125,7 +125,7 @@
       ],
       "tier": "core_global_choose_one",
       "vendor": "Euromonitor International",
-      "verifiedOn": "2026-07-24",
+      "verifiedOn": "2026-07-27",
       "weightedScore": 3.8
     },
     {
@@ -450,17 +450,17 @@
   "outreach": [
     {
       "itemId": "ecig-global-market-database",
-      "noteEn": "A free review-sample and non-binding quote request was sent on 2026-07-23. No bounce, automated acknowledgement or response is recorded as of 2026-07-24. First follow-up is scheduled for 2026-07-28 if unanswered. No sample, quote, data, method, coverage, licence, price or commitment.",
-      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 24.7.2026 mennessä. Ensimmäinen seuranta on 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
+      "noteEn": "A free review-sample and non-binding quote request was sent on 2026-07-23. No bounce, automated acknowledgement or response is recorded as of 2026-07-27. First follow-up remains scheduled for 2026-07-28 if unanswered. No sample, quote, data, method, coverage, licence, price or commitment.",
+      "noteFi": "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 27.7.2026 mennessä. Ensimmäinen seuranta on edelleen 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
       "recordedOn": "2026-07-23",
       "state": "sent_followup_scheduled"
     },
     {
       "itemId": "euromonitor-passport-nicotine",
-      "noteEn": "A partial numerical Germany sample, generic methodology, blank corporate licence terms and two indicative annual package quotes were received on 2026-07-24. The sample proves relevant category, value/volume, company/brand and other evaluation fields exist, but it does not contain the current comparable annual Germany liquid totals required for the public 2023–2024 official-anchor test. The vendor states roughly 75 e-vapour markets; the exact country-product-year-measure matrix is missing. Default terms do not yet confirm Pixan onward sharing or controlled lender, buyer, adviser and data-room use and restrict public and legal uses. A quote is received, but no score or purchase is authorised; the representative-sample, detailed-method, official-reconciliation, exact-coverage, complete-terms and written-transaction-rights gates remain open.",
-      "noteFi": "Osittainen numeerinen Saksa-näyte, yleinen menetelmäkuvaus, tyhjä yrityslisenssisopimus ja kaksi suuntaa-antavaa vuosipakettitarjousta saatiin 24.7.2026. Näyte osoittaa olennaisten kategoria-, arvo-/volyymi-, yhtiö-/brändi- ja muiden arviointikenttien olemassaolon, mutta se ei sisällä julkisen vuosien 2023–2024 viranomaisankkuritestin edellyttämiä nykyisiä vertailukelpoisia Saksan vuotuisia nestemääriä. Toimittaja ilmoittaa noin 75 sähkötupakkamarkkinaa; täsmällinen maa–tuote–vuosi–mittari-matriisi puuttuu. Vakioehdot eivät vielä vahvista Pixanin edelleenjakelua tai hallittua lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat julkista ja oikeudellista käyttöä. Tarjous on saatu, mutta pistemäärää tai ostoa ei ole valtuutettu; edustavan näytteen, yksityiskohtaisen menetelmän, viranomaistäsmäytyksen, täsmällisen peiton, täydellisten ehtojen ja kirjallisten transaktio-oikeuksien portit ovat avoinna.",
-      "recordedOn": "2026-07-24",
-      "state": "germany_sample_and_quote_received_review_pending"
+      "noteEn": "An expanded numerical Germany sample, a 78-market e-vapour value-coverage list, generic methodology, standard licence terms, three indicative annual package quotes and a later eight-tab category-schema workbook were received by 2026-07-27. The earlier sample permits a private 2023–2024 numerical liquid-volume comparison. The later workbook lists 95 geographies and exposes the requested table structure, but its country-year value cells are blank; the 95-geography schema is not reconciled to the 78-country quote. The vendor clarified end-consumer sales including applicable product taxes and VAT, enterprise-AI processing where provider training is disabled, and availability of modelled Cyprus volume. Record-level observed/reported/modelled flags, the exact product-scope bridge, lender/buyer NDA data-room rights, and all-in tax, fee, retention and renewal terms remain unconfirmed. A populated Germany 2022–2025 test, country-field-year coverage reconciliation, proposed Special Condition and complete terms were requested on 2026-07-27. All six gates are evaluated, but 0/6 passes. NOT SCORED; no purchase, fee or commitment is authorised.",
+      "noteFi": "Laajennettu numeerinen Saksa-näyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, yleinen menetelmäkuvaus, vakiolisenssiehdot, kolme suuntaa-antavaa vuosipakettitarjousta ja myöhempi kahdeksan välilehden kategoriaskeematyökirja saatiin 27.7.2026 mennessä. Aiempi näyte mahdollistaa yksityisen vuosien 2023–2024 numeerisen nestemäärävertailun. Myöhempi työkirja luettelee 95 maantiedettä ja näyttää pyydetyn taulurakenteen, mutta sen maa–vuosi-arvosolut ovat tyhjiä; 95 maantieteen skeemaa ei ole täsmäytetty 78 maan tarjoukseen. Toimittaja täsmensi lukujen kuvaavan loppuasiakasmyyntiä sovellettavine tuoteveroineen ja ALV:ineen, salli yritystason tekoälykäsittelyn ilman palveluntarjoajan mallikoulutusta ja ilmoitti Kyprokselle olevan saatavissa mallinnettuja volyymeja. Tietuekohtaiset havaittu/raportoitu/mallinnettu-merkinnät, täsmällinen tuoterajaussilta, lainanantaja-/ostaja-NDA-datahuoneoikeudet sekä kaikki verot, maksut, säilytys- ja uusimisehdot kattavat ehdot ovat vahvistamatta. Täytetty Saksan 2022–2025-testi, maa–kenttä–vuosi-peiton täsmäytys, ehdotettu erityisehto ja täydelliset ehdot pyydettiin 27.7.2026. Kaikki kuusi porttia on arvioitu, mutta 0/6 läpäisee. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu.",
+      "recordedOn": "2026-07-27",
+      "state": "expanded_schema_and_package_quotes_review_pending"
     },
     {
       "itemId": "niq-rms-pilot",
@@ -543,7 +543,7 @@
       "id": "licence_block"
     }
   ],
-  "version": "2026.07.25-24",
+  "version": "2026.07.27-30",
   "weights": [
     {
       "id": "annualSalesFit",

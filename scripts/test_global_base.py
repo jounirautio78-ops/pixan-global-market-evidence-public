@@ -17,13 +17,20 @@ if str(SCRIPTS_DIR) not in sys.path:
 from build_global_base import (  # noqa: E402
     CONFIG_PATH,
     CSV_OUTPUT_PATH,
+    DONOR_COCKPIT_PATH,
     FX_PATH,
     JSON_OUTPUT_PATH,
+    METHOD_ROUTE_CONFIG_PATH,
     OBSERVATIONS_PATH,
+    OUTPUT_SCHEMA_VERSION,
     PUBLIC_SCHEMA_PATH,
     SOURCE_SCHEMA_PATH,
+    THIRD_DONOR_SCREEN_PATH,
+    TOP20_ROUTES_PATH,
+    build_layer,
     eur_equivalent,
     read_json,
+    validate_method_route_sources,
     validate_source_contract,
 )
 from refresh_global_base import latest_non_null_by_country  # noqa: E402
@@ -126,6 +133,128 @@ class EurConversionTests(unittest.TestCase):
         self.assertIsNone(result["rateId"])
 
 
+class MethodRouteControlTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.config = read_json(CONFIG_PATH)
+        cls.snapshot = read_json(OBSERVATIONS_PATH)
+        cls.fx = read_json(FX_PATH)
+        cls.method_routes = read_json(METHOD_ROUTE_CONFIG_PATH)
+        cls.top20 = read_json(TOP20_ROUTES_PATH)
+        cls.third_donor = read_json(THIRD_DONOR_SCREEN_PATH)
+        cls.donor_cockpit = read_json(DONOR_COCKPIT_PATH)
+
+    def build(self) -> dict:
+        return build_layer(
+            self.config,
+            self.snapshot,
+            self.fx,
+            self.method_routes,
+            self.top20,
+            self.third_donor,
+            self.donor_cockpit,
+        )
+
+    def test_exact_195_country_assignment_contract(self) -> None:
+        layer = self.build()
+        self.assertEqual(layer["schemaVersion"], OUTPUT_SCHEMA_VERSION)
+        self.assertEqual(
+            layer["methodRouteControl"]["summary"],
+            {
+                "countryCount": 195,
+                "reviewedMethodPlanCount": 23,
+                "reviewedSourceLeadCount": 5,
+                "regionalTpdPatternOnlyCount": 15,
+                "proxyOnlyUnscopedCount": 152,
+                "reviewedNationalRouteOrLeadCount": 28,
+                "nonDefaultRouteCount": 43,
+                "retailValueStatusCounts": {
+                    "officialPointEstimateQualityLimited": 1,
+                    "observedPartialChannelOnly": 1,
+                    "notComputed": 193,
+                },
+                "eligibleForGlobalRollupCount": 0,
+                "donorAcceptedCount": 0,
+            },
+        )
+
+    def test_all_country_routes_remain_fail_closed(self) -> None:
+        layer = self.build()
+        routes = {
+            country["iso2"]: country["methodRoute"]
+            for country in layer["countries"]
+        }
+        self.assertTrue(
+            all(route["eligibleForGlobalRollup"] is False for route in routes.values())
+        )
+        self.assertTrue(all(route["donorAccepted"] is False for route in routes.values()))
+        self.assertEqual(
+            routes["CA"]["retailValueStatus"],
+            "official_point_estimate_quality_limited",
+        )
+        self.assertEqual(
+            routes["NZ"]["retailValueStatus"],
+            "observed_partial_channel_only",
+        )
+        self.assertTrue(
+            all(
+                route["retailValueStatus"] == "not_computed"
+                for iso2, route in routes.items()
+                if iso2 not in {"CA", "NZ"}
+            )
+        )
+
+    def test_regional_tpd_pattern_is_not_a_national_value_claim(self) -> None:
+        layer = self.build()
+        cyprus = next(country for country in layer["countries"] if country["iso2"] == "CY")
+        route = cyprus["methodRoute"]
+        self.assertEqual(route["assignmentClass"], "regional_tpd_pattern_only")
+        self.assertEqual(
+            route["primaryMethodId"],
+            "eu_tpd_annual_reporting_pattern",
+        )
+        self.assertEqual(route["retailValueStatus"], "not_computed")
+        self.assertEqual(route["donorAssessmentState"], "not_assessed")
+
+    def test_rejects_method_that_claims_standalone_retail_value(self) -> None:
+        mutated = copy.deepcopy(self.method_routes)
+        mutated["methods"][0]["canEstablishRetailValueAlone"] = True
+        with self.assertRaisesRegex(ValueError, "must not establish retail value alone"):
+            validate_method_route_sources(
+                mutated,
+                self.top20,
+                self.third_donor,
+                self.donor_cockpit,
+            )
+
+    def test_rejects_assignment_membership_drift(self) -> None:
+        mutated = copy.deepcopy(self.method_routes)
+        mutated["reviewedSourceLeads"][-1] = "CA"
+        with self.assertRaisesRegex(ValueError, "source-lead country set differs"):
+            validate_method_route_sources(
+                mutated,
+                self.top20,
+                self.third_donor,
+                self.donor_cockpit,
+            )
+
+    def test_rejects_accepted_donor_claim(self) -> None:
+        mutated = copy.deepcopy(self.donor_cockpit)
+        candidate = next(
+            item
+            for item in mutated["candidates"]
+            if item.get("candidateType") == "country_year"
+        )
+        candidate["declaredDecision"] = "accepted"
+        with self.assertRaisesRegex(ValueError, "no donor country may be accepted"):
+            validate_method_route_sources(
+                self.method_routes,
+                self.top20,
+                self.third_donor,
+                mutated,
+            )
+
+
 class GeneratedArtifactTests(unittest.TestCase):
     def test_full_generated_artifact_validation(self) -> None:
         layer = validate_files(
@@ -138,6 +267,11 @@ class GeneratedArtifactTests(unittest.TestCase):
             public_schema_path=PUBLIC_SCHEMA_PATH,
         )
         self.assertEqual(len(layer["countries"]), 195)
+        self.assertEqual(layer["schemaVersion"], "1.1")
+        self.assertEqual(
+            layer["methodRouteControl"]["summary"]["reviewedMethodPlanCount"],
+            23,
+        )
         self.assertEqual(layer["globalRetailSales"]["status"], "blocked")
         self.assertIsNone(layer["globalRetailSales"]["value"])
 
@@ -156,6 +290,7 @@ class GeneratedArtifactTests(unittest.TestCase):
             "https://jounirautio78-ops.github.io/"
             "pixan-global-market-evidence-public/schemas/global-base-layer.schema.json",
         )
+        self.assertEqual(schema["properties"]["schemaVersion"]["const"], "1.1")
 
 
 if __name__ == "__main__":

@@ -111,6 +111,17 @@
       "Annual country device and e-liquid sales values, numeric WHO extraction and validation of the UN Comtrade classification remain missing."
     ],
     [
+      "The 195-country method control separates 23 reviewed country plans, 5 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes.",
+      "Market scope",
+      "Every country has a visible method class, next evidence action and provenance basis. Classification is not a sales observation: all 195 countries in the 195-country universe have eligibleForGlobalRollup=false and donorAccepted=false.",
+      "site/data/global-base-layer.json ; source/country-method-route-config.json ; source/COUNTRY_METHOD_ROUTE_MAP.md",
+      "2026-07-27",
+      "195 = 23 reviewed_method_plan + 5 reviewed_source_lead + 15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
+      "Across 195 countries, only 23 have a reviewed country-specific method plan. Five source leads and 15 regional TPD patterns do not establish a national sales series; 152 routes still require country-specific scoping.",
+      "Confirmed",
+      "No method class replaces annual device and e-liquid sales value, tax basis, channel coverage or D1–D10 acceptance."
+    ],
+    [
       "The public market dataset contains 84 observations from 24 sources; its 75 official observations split into 39 market measures and 36 Swedish FHM register-structure counts.",
       "Market size",
       "The market measures cover Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",

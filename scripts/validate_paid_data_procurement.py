@@ -64,18 +64,18 @@ PRICE_TYPES = {"public_list_price", "vendor_quote"}
 OUTREACH_KEYS = {"itemId", "state", "recordedOn", "noteEn", "noteFi"}
 EXPECTED_OUTREACH = {
     "ecig-global-market-database": "sent_followup_scheduled",
-    "euromonitor-passport-nicotine": "germany_sample_and_quote_received_review_pending",
+    "euromonitor-passport-nicotine": "expanded_schema_and_package_quotes_review_pending",
     "niq-rms-pilot": "blocked_not_submitted",
     "circana-us-tobacco-pilot": "submitted_confirmation_received",
 }
 EXPECTED_OUTREACH_NOTES = {
     "ecig-global-market-database": (
-        "A free review-sample and non-binding quote request was sent on 2026-07-23. No bounce, automated acknowledgement or response is recorded as of 2026-07-24. First follow-up is scheduled for 2026-07-28 if unanswered. No sample, quote, data, method, coverage, licence, price or commitment.",
-        "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 24.7.2026 mennessä. Ensimmäinen seuranta on 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
+        "A free review-sample and non-binding quote request was sent on 2026-07-23. No bounce, automated acknowledgement or response is recorded as of 2026-07-27. First follow-up remains scheduled for 2026-07-28 if unanswered. No sample, quote, data, method, coverage, licence, price or commitment.",
+        "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026. Palautusta, automaattikuittausta tai vastausta ei ole kirjattu 27.7.2026 mennessä. Ensimmäinen seuranta on edelleen 28.7.2026, jos vastausta ei kuulu. Ei näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa eikä sitoumusta.",
     ),
     "euromonitor-passport-nicotine": (
-        "A partial numerical Germany sample, generic methodology, blank corporate licence terms and two indicative annual package quotes were received on 2026-07-24. The sample proves relevant category, value/volume, company/brand and other evaluation fields exist, but it does not contain the current comparable annual Germany liquid totals required for the public 2023–2024 official-anchor test. The vendor states roughly 75 e-vapour markets; the exact country-product-year-measure matrix is missing. Default terms do not yet confirm Pixan onward sharing or controlled lender, buyer, adviser and data-room use and restrict public and legal uses. A quote is received, but no score or purchase is authorised; the representative-sample, detailed-method, official-reconciliation, exact-coverage, complete-terms and written-transaction-rights gates remain open.",
-        "Osittainen numeerinen Saksa-näyte, yleinen menetelmäkuvaus, tyhjä yrityslisenssisopimus ja kaksi suuntaa-antavaa vuosipakettitarjousta saatiin 24.7.2026. Näyte osoittaa olennaisten kategoria-, arvo-/volyymi-, yhtiö-/brändi- ja muiden arviointikenttien olemassaolon, mutta se ei sisällä julkisen vuosien 2023–2024 viranomaisankkuritestin edellyttämiä nykyisiä vertailukelpoisia Saksan vuotuisia nestemääriä. Toimittaja ilmoittaa noin 75 sähkötupakkamarkkinaa; täsmällinen maa–tuote–vuosi–mittari-matriisi puuttuu. Vakioehdot eivät vielä vahvista Pixanin edelleenjakelua tai hallittua lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat julkista ja oikeudellista käyttöä. Tarjous on saatu, mutta pistemäärää tai ostoa ei ole valtuutettu; edustavan näytteen, yksityiskohtaisen menetelmän, viranomaistäsmäytyksen, täsmällisen peiton, täydellisten ehtojen ja kirjallisten transaktio-oikeuksien portit ovat avoinna.",
+        "An expanded numerical Germany sample, a 78-market e-vapour value-coverage list, generic methodology, standard licence terms, three indicative annual package quotes and a later eight-tab category-schema workbook were received by 2026-07-27. The earlier sample permits a private 2023–2024 numerical liquid-volume comparison. The later workbook lists 95 geographies and exposes the requested table structure, but its country-year value cells are blank; the 95-geography schema is not reconciled to the 78-country quote. The vendor clarified end-consumer sales including applicable product taxes and VAT, enterprise-AI processing where provider training is disabled, and availability of modelled Cyprus volume. Record-level observed/reported/modelled flags, the exact product-scope bridge, lender/buyer NDA data-room rights, and all-in tax, fee, retention and renewal terms remain unconfirmed. A populated Germany 2022–2025 test, country-field-year coverage reconciliation, proposed Special Condition and complete terms were requested on 2026-07-27. All six gates are evaluated, but 0/6 passes. NOT SCORED; no purchase, fee or commitment is authorised.",
+        "Laajennettu numeerinen Saksa-näyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, yleinen menetelmäkuvaus, vakiolisenssiehdot, kolme suuntaa-antavaa vuosipakettitarjousta ja myöhempi kahdeksan välilehden kategoriaskeematyökirja saatiin 27.7.2026 mennessä. Aiempi näyte mahdollistaa yksityisen vuosien 2023–2024 numeerisen nestemäärävertailun. Myöhempi työkirja luettelee 95 maantiedettä ja näyttää pyydetyn taulurakenteen, mutta sen maa–vuosi-arvosolut ovat tyhjiä; 95 maantieteen skeemaa ei ole täsmäytetty 78 maan tarjoukseen. Toimittaja täsmensi lukujen kuvaavan loppuasiakasmyyntiä sovellettavine tuoteveroineen ja ALV:ineen, salli yritystason tekoälykäsittelyn ilman palveluntarjoajan mallikoulutusta ja ilmoitti Kyprokselle olevan saatavissa mallinnettuja volyymeja. Tietuekohtaiset havaittu/raportoitu/mallinnettu-merkinnät, täsmällinen tuoterajaussilta, lainanantaja-/ostaja-NDA-datahuoneoikeudet sekä kaikki verot, maksut, säilytys- ja uusimisehdot kattavat ehdot ovat vahvistamatta. Täytetty Saksan 2022–2025-testi, maa–kenttä–vuosi-peiton täsmäytys, ehdotettu erityisehto ja täydelliset ehdot pyydettiin 27.7.2026. Kaikki kuusi porttia on arvioitu, mutta 0/6 läpäisee. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu.",
     ),
     "niq-rms-pilot": (
         "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
@@ -110,7 +110,7 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-EXPECTED_XLSX_SHA256 = "dd38469704c476e3514b3370eab31d015f2cd4099375e69ca0b8ffe1e9ba60fa"
+EXPECTED_XLSX_SHA256 = "42e20970dd3b6135717ef4f83e5556510bb070ab0adc40414596783f413eb393"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
@@ -125,10 +125,10 @@ EXPECTED_RESPONSE_ROWS = (
         "euromonitor-passport-nicotine",
         "Euromonitor International",
         "Passport Nicotine / e-vapour country series",
-        "GERMANY SAMPLE + METHOD + TWO QUOTES RECEIVED · 0/6 GATES PASS · NOT SCORED\nFI: SAKSA-NÄYTE + MENETELMÄ + KAKSI TARJOUSTA SAATU · 0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
+        "EXPANDED SAMPLE + 78-MARKET LIST + 95-GEOGRAPHY SCHEMA + THREE QUOTES RECEIVED · 0/6 GATES PASS · NOT SCORED\nFI: LAAJENNETTU NÄYTE + 78 MARKKINAN LISTA + 95 MAANTIETEEN SKEEMA + KOLME TARJOUSTA SAATU · 0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
         None,
         "='Sources'!C9",
-        "Status only. A sparse Germany sample, generic methodology and two indicative quotes were received. The workbook does not satisfy the representative-sample gate; all six mandatory gates remain OPEN. No licensed values are published. NOT SCORED; no purchase, fee or commitment.",
+        "Status only. An expanded Germany sample, 78-market list, generic methodology, standard terms, three indicative quotes and a later blank-value 95-geography schema were received. All six mandatory gates remain OPEN. No licensed values or private quote amounts are published. NOT SCORED; no purchase, fee or commitment.",
     ),
     (
         "niq-rms-pilot",
@@ -217,7 +217,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         return
     if source.get("status") != "decision_support_only_no_purchase_authorised":
         errors.append("source must state that no purchase is authorised")
-    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.25-24":
+    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.27-30":
         errors.append("source date or version is invalid")
 
     weights = source.get("weights")
@@ -432,14 +432,14 @@ def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
     decision = workbook["Decision"]
     if decision["A3"].value != (
         "Independent decision support · No purchase authorised · "
-        "Version 2026.07.25-24 · Verified 2026-07-25"
+        "Version 2026.07.27-30 · Verified 2026-07-27"
     ):
         errors.append("paid-data XLSX decision release boundary differs")
     if not isinstance(decision["A10"].value, str) or not all(
         phrase in decision["A10"].value
         for phrase in (
-            "Do not buy Euromonitor before a full Germany sample",
-            "Älä osta Euromonitoria ennen kuin täysi Saksa-näyte",
+            "do not buy before a populated 2022–2025 Germany test",
+            "älä osta ennen kuin täytetty Saksan 2022–2025-testi",
             "Buy at most one global master",
         )
     ):

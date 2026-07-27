@@ -3,27 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V29 = Object.freeze({
-    id: "2026-07-27-visible-receipt-ledger-v29",
-    version: "2026.07.27-29",
-    publishedAt: "2026-07-27T17:14:44+03:00",
-    titleEn: "Visible vendor-evidence receipt ledger",
-    titleFi: "Näkyvä toimittajaevidenssin vastaanottorekisteri",
+  const UI_RELEASE_V30 = Object.freeze({
+    id: "2026-07-27-method-control-and-vendor-gates-v30",
+    version: "2026.07.27-30",
+    publishedAt: "2026-07-27T18:46:00+03:00",
+    titleEn: "195-country method control and current vendor gates",
+    titleFi: "195 maan menetelmäkontrolli ja ajantasaiset toimittajaportit",
     items: Object.freeze([
       Object.freeze({
-        category: "usability",
-        textEn: "Every vendor card now shows a visible seven-item material-receipt ledger. Received and missing material remain separate from the independent G1–G6 gate outcomes; receipt establishes neither completeness nor gate passage.",
-        textFi: "Jokainen toimittajakortti näyttää nyt näkyvän seitsemän kohdan aineiston vastaanottorekisterin. Vastaanotettu ja puuttuva aineisto pysyvät erillään riippumattomista G1–G6-porttituloksista; vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä."
-      }),
-      Object.freeze({
         category: "method",
-        textEn: "Euromonitor visibly records material received in six of seven document categories while remaining 0/6 gates passed, 6/6 evaluated, NOT SCORED and not authorised for purchase.",
-        textFi: "Euromonitorilla näkyy aineistoa vastaanotetuksi kuudessa seitsemästä asiakirjaluokasta, mutta tila pysyy 0/6 läpäistyä porttia, 6/6 arvioitua, EI PISTEYTETTY eikä ostoa ole valtuutettu."
+        textEn: "The 195-country method control now separates 23 reviewed country plans, 5 reviewed source leads, 15 regional EU TPD patterns and 152 country-unscoped proxy routes. It does not claim 195 bespoke or measured market routes.",
+        textFi: "195 maan menetelmäkontrolli erottaa nyt 23 tarkistettua maasuunnitelmaa, 5 tarkistettua lähdepolkua, 15 alueellista EU TPD -mallia ja 152 maakohtaisesti rajaamatonta proxy-reittiä. Se ei väitä 195 yksilöllistä tai mitattua markkinareittiä."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Both deck sizes and the two 53-row Evidence Registers were refreshed to v29. Evidence claims, calculations, market values, donor decisions and the null global total are unchanged.",
-        textFi: "Molemmat dekkikoot ja kaksi 53-rivistä Evidence Registeriä päivitettiin v29-versioon. Evidenssiväitteet, laskelmat, markkina-arvot, donor-päätökset ja null-tilassa oleva maailman kokonaisarvo eivät muuttuneet."
+        textEn: "Euromonitor's later 95-geography schema contains no populated country-year values and is not reconciled to the 78-country quote. All six gates are evaluated, none passes, and no purchase is authorised.",
+        textFi: "Euromonitorin myöhempi 95 maantieteen skeema ei sisällä täytettyjä maa–vuosi-arvoja eikä sitä ole täsmäytetty 78 maan tarjoukseen. Kaikki kuusi porttia on arvioitu, yksikään ei läpäise eikä ostoa ole valtuutettu."
+      }),
+      Object.freeze({
+        category: "diligence",
+        textEn: "Both deck sizes and the two 54-row Evidence Registers were refreshed to v30. Market observations and values are unchanged, the donor gate remains 0/3 and the global retail value remains null/not_computed.",
+        textFi: "Molemmat dekkikoot ja kaksi 54-rivistä Evidence Registeriä päivitettiin v30-versioon. Markkinahavainnot ja -arvot eivät muuttuneet, donor-portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
       })
     ])
   });
@@ -99,9 +99,13 @@
     ["195 maan demografinen ja taloudellinen pohjakerros", "195-country demographic and economic base layer"],
     ["Maailman vähittäismyynti pysyy estettynä.", "Global retail sales remain blocked."],
     ["Väestö, työikäinen väestö, BKT/asukas, käyttäjäprevalenssi ja tullivirta ovat tausta- tai proxymittareita. Niitä ei summata sähkötupakkamarkkinaksi.", "Population, working-age population, GDP per capita, user prevalence and trade flows are context or proxy measures. They are not summed into a vaping market."],
+    ["195 maan menetelmäkontrolli — ei 195 yksilöllistä tai määrällistettyä markkinareittiä.", "195-country method control—not 195 bespoke or quantified market routes."],
+    ["Jokainen maa saa näkyvän reittiluokan ja seuraavan evidenssitoimen. Tarkistetut maakohtaiset suunnitelmat, lähdejohtolangat, alueellinen TPD-malli ja vielä rajaamattomat maat pidetään erillään.", "Every country receives a visible route class and next evidence action. Reviewed country plans, source leads, the regional TPD pattern and still-unscoped countries remain separate."],
+    ["Tarkistetaan menetelmäkontrollia…", "Checking method control…"],
     ["World Bank -sarjoista valitaan uusin ei-tyhjä havainto vuosilta 2020–2024 ja todellinen lähdevuosi säilytetään. EUR-vasta-arvo lasketaan vain saman lähdevuoden EKP-kurssilla.", "For each World Bank series, the latest non-null observation from 2020–2024 is selected and the real source year is retained. A EUR equivalent is calculated only with the ECB rate for that same source year."],
     ["Lataa pohjakerros CSV", "Download base-layer CSV"],
     ["Lataa pohjakerros JSON", "Download base-layer JSON"],
+    ["Avaa menetelmäkontrolli", "Open method control"],
     ["195 maan pohja CSV", "195-country base CSV"],
     ["Maataulukon suodattimet", "Country table filters"],
     ["Hae maata", "Search countries"],
@@ -114,6 +118,12 @@
     ["B · virallinen proxy", "B · official proxy"],
     ["C · mallinnus", "C · model"],
     ["D · tutkimusjono", "D · research queue"],
+    ["Menetelmäreitin luokka", "Method-route class"],
+    ["Kaikki menetelmäreittien luokat", "All method-route classes"],
+    ["Tarkistettu maakohtainen suunnitelma", "Reviewed country method plan"],
+    ["Tarkistettu lähdejohtolanka", "Reviewed source lead"],
+    ["Alueellinen TPD-raportointimalli", "Regional TPD reporting pattern"],
+    ["Vain proxy / vielä rajaamatta", "Proxy only / not yet scoped"],
     ["Maa", "Country"],
     ["Paras näyttö", "Best evidence"],
     ["Peitto", "Coverage"],
@@ -710,7 +720,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V29;
+  window.PixanUiRelease = UI_RELEASE_V30;
 
   init();
 })();

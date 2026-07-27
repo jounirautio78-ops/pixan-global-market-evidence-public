@@ -914,6 +914,8 @@ def validate_review_structure(
         "market-donor-summary",
         "market-donor-candidates",
         "market-donor-status",
+        "method-route-summary",
+        "method-route-filter",
     }
     index_ids = set(re.findall(r"""\bid=["']([^"']+)["']""", index_html))
     missing_index_ids = required_index_ids - index_ids
@@ -939,10 +941,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-27-29") < 7:
-        errors.append("review.html asset cache-busters must all use the v29 release")
-    if index_html.count("2026-07-27-29") < 4:
-        errors.append("index.html asset cache-busters must all use the v29 release")
+    if review_html.count("2026-07-27-30") < 7:
+        errors.append("review.html asset cache-busters must all use the v30 release")
+    if index_html.count("2026-07-27-30") < 4:
+        errors.append("index.html asset cache-busters must all use the v30 release")
     if any(
         stale in review_html or stale in index_html
         for stale in (
@@ -955,9 +957,10 @@ def validate_review_structure(
             "2026-07-27-26",
             "2026-07-27-27",
             "2026-07-27-28",
+            "2026-07-27-29",
         )
     ):
-        errors.append("stale cache-busters remain in the v29 pages")
+        errors.append("stale cache-busters remain in the v30 pages")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -1023,15 +1026,15 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-27-visible-receipt-ledger-v29",
-            'version: "2026.07.27-29"',
-            'publishedAt: "2026-07-27T17:14:44+03:00"',
-            "visible seven-item material-receipt ledger",
-            "material received in six of seven document categories",
-            "Evidence Registers were refreshed to v29",
+            "2026-07-27-method-control-and-vendor-gates-v30",
+            'version: "2026.07.27-30"',
+            'publishedAt: "2026-07-27T18:46:00+03:00"',
+            "195-country method control",
+            "95-geography schema",
+            "54-row Evidence Registers",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v29 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v30 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1074,6 +1077,22 @@ def validate_review_structure(
             errors.append(
                 "Atlas open-country-base metric must fail closed when the global base is unavailable"
             )
+        for hook in (
+            "function renderMethodRouteSummary(",
+            "function methodRouteFor(",
+            "reviewed_method_plan",
+            "reviewed_source_lead",
+            "regional_tpd_pattern_only",
+            "proxy_only_unscoped",
+            "eligibleForGlobalRollup",
+            "donorAccepted",
+            "retailValueStatus",
+            "provenanceBasisIds",
+            '"nextAction"',
+            '"boundary"',
+        ):
+            if hook not in app_js:
+                errors.append(f"app.js lacks required v30 method-control hook {hook!r}")
     for hook in (
         "REVIEW_STRUCTURAL_RESPONSE_COUNTRIES",
         "REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES",
@@ -1132,7 +1151,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v29 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "Validated v30 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 24-source ledger and required UI hooks."
     )
