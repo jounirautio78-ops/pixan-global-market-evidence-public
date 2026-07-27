@@ -30,7 +30,7 @@ from build_data_request_program import (
 )
 
 
-EXPECTED_DATE = "2026-07-24"
+EXPECTED_DATE = "2026-07-27"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 EXPECTED_STATE_UNIVERSE_COUNT = 195
@@ -57,16 +57,21 @@ STRUCTURAL_RESPONSE_STATE_VALUES = {
 SALES_RESPONSE_STATE_VALUES = {
     "official_annual_sales_data_received",
 }
+TRADE_RESPONSE_STATE_VALUES = {
+    "official_customs_trade_proxy_received_scope_partial",
+}
 RESPONSE_STATE_VALUES = {
     "not_applicable",
     "not_publicly_recorded",
     *PROCESS_RESPONSE_STATE_VALUES,
     *STRUCTURAL_RESPONSE_STATE_VALUES,
     *SALES_RESPONSE_STATE_VALUES,
+    *TRADE_RESPONSE_STATE_VALUES,
 }
 EXPECTED_PROCESS_RESPONSE_COUNTRIES = {"DE", "FI", "DK"}
 EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES = {"SE"}
 EXPECTED_SALES_RESPONSE_COUNTRIES: set[str] = set()
+EXPECTED_TRADE_RESPONSE_COUNTRIES = {"FR"}
 EXPECTED_DISPATCH = {
     "DE": {
         "state": "sent",
@@ -120,7 +125,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
+        "responseState": "official_customs_trade_proxy_received_scope_partial",
     },
     "NL": {
         "state": "sent",
@@ -558,6 +563,7 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     process_response_countries: set[str] = set()
     structural_response_countries: set[str] = set()
     sales_response_countries: set[str] = set()
+    trade_response_countries: set[str] = set()
     for route in routes:
         iso = route.get("countryIso2", "?")
         label = f"route {iso}"
@@ -583,6 +589,12 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                     )
             if dispatch.get("responseState") in SALES_RESPONSE_STATE_VALUES:
                 sales_response_countries.add(iso)
+            if dispatch.get("responseState") in TRADE_RESPONSE_STATE_VALUES:
+                trade_response_countries.add(iso)
+                if dispatch.get("publicAuthorityReference") is not None:
+                    errors.append(
+                        f"{label}: trade-proxy response must not expose a correspondence reference"
+                    )
             if route.get("status") != dispatch.get("state"):
                 errors.append(f"{label}: route status and dispatch state must match")
             expected_dispatch = EXPECTED_DISPATCH.get(iso, {
@@ -698,6 +710,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         errors.append("structural-response country set must contain Sweden only")
     if sales_response_countries != EXPECTED_SALES_RESPONSE_COUNTRIES:
         errors.append("annual-sales-response country set must remain empty")
+    if trade_response_countries != EXPECTED_TRADE_RESPONSE_COUNTRIES:
+        errors.append("trade-proxy response country set must contain France only")
     private_metadata_paths = list(find_private_metadata_keys(program))
     if private_metadata_paths:
         errors.append("private correspondence metadata is forbidden: " + ", ".join(private_metadata_paths))
@@ -724,6 +738,9 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         "sold device units",
         "sold liquid volume",
         "donor evidence",
+        "official annual partner-level customs trade extracts",
+        "supply-stage trade proxy",
+        "not consumer-retail sales",
         "substantive data",
         "fee commitment",
     )):
@@ -738,6 +755,9 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         "myytyjen laitteiden kappalemäärästä",
         "myydystä nestemäärästä",
         "luovuttajaevidenssistä",
+        "viralliset vuosittaiset kumppanikohtaiset tullikaupan otteet",
+        "toimitusvaiheen kauppaproxystä",
+        "eikä kuluttajavähittäismyynnistä",
         "sisällöllisenä datana",
         "maksusitoumuksena",
     )):
@@ -788,6 +808,11 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
             if row["responseState"] in SALES_RESPONSE_STATE_VALUES
         } != EXPECTED_SALES_RESPONSE_COUNTRIES:
             errors.append("published CSV annual-sales-response country set must remain empty")
+        if {
+            row["countryIso2"] for row in rows
+            if row["responseState"] in TRADE_RESPONSE_STATE_VALUES
+        } != EXPECTED_TRADE_RESPONSE_COUNTRIES:
+            errors.append("published CSV trade-proxy response country set must contain France only")
         if any(
             row["publicAuthorityReference"]
             for row in rows
@@ -870,8 +895,9 @@ def main() -> int:
     print(
         "PASS: schema v3 with a 195-state six-layer evidence stack; 12 sent, 8 draft and "
         "3 privacy-safe process-response country routes; one official Sweden structural-data "
-        "response with sales unavailable; one sent non-counting German BVL supplementary "
-        "route; 0 annual-sales-data responses, operational ranking, official HTTPS URLs, "
+        "response with sales unavailable; one official France customs trade-proxy response "
+        "with product scope partial; one sent non-counting German BVL supplementary route; "
+        "0 annual-sales-data responses, operational ranking, official HTTPS URLs, "
         "requester caveats, and generated files verified."
     )
     return 0

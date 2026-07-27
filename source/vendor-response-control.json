@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "controlId": "vendor-response-control-public",
-  "asOf": "2026-07-25",
-  "version": "2026.07.25-24",
+  "asOf": "2026-07-27",
+  "version": "2026.07.27-27",
   "status": "public_status_only_no_purchase_authorised",
   "publicBoundaryEn": "This public control shows only privacy-safe request status, evidence completeness and the scoring method. It does not publish correspondence, personal data, vendor files, unlicensed data or confidential commercial terms.",
   "publicBoundaryFi": "Tämä julkinen valvontanäkymä näyttää vain tietoturvallisen pyyntötilan, evidenssin täydellisyyden ja pisteytysmenetelmän. Se ei julkaise kirjeenvaihtoa, henkilötietoja, toimittajatiedostoja, lisensoimatonta dataa tai luottamuksellisia kaupallisia ehtoja.",
@@ -20,8 +20,8 @@
     "scopeFi": "Virallinen verotettujen tupakankorvikkeiden nestetilavuus. Tämä fyysisen määrän ankkuri ei mittaa laitteita, verotonta tai laitonta myyntiä eikä koko vähittäismarkkina-arvoa.",
     "unit": "litre",
     "status": "not_testable",
-    "statusReasonEn": "A partial numerical Germany sample has been received, but it does not contain the current comparable annual Germany liquid totals required for the public 2023–2024 official-anchor test. Deviations cannot be calculated.",
-    "statusReasonFi": "Osittainen numeerinen Saksa-näyte on saatu, mutta se ei sisällä julkisen vuosien 2023–2024 viranomaisankkuritestin edellyttämiä nykyisiä vertailukelpoisia Saksan vuotuisia nestemääriä. Poikkeamia ei voida laskea.",
+    "statusReasonEn": "The expanded Germany sample permits a private numerical 2023–2024 liquid-volume comparison, but the vendor retail-volume stage, tax basis and product scope have not been bridged to the official taxed-volume series. A comparable official-anchor conclusion therefore remains not testable.",
+    "statusReasonFi": "Laajennettu Saksa-näyte mahdollistaa yksityisen numeerisen vuosien 2023–2024 nestemäärävertailun, mutta toimittajan vähittäismyyntivolyymin vaihetta, veroperustaa ja tuoterajausta ei ole sillattu viralliseen verotetun volyymin sarjaan. Vertailukelpoinen viranomaisankkuripäätelmä ei siksi ole vielä testattavissa.",
     "officialAnchors": [
       {
         "observationId": "DE-2023-TAXED-LIQUID-VOLUME-L",
@@ -188,51 +188,57 @@
   "mandatoryGates": [
     {
       "id": "sample",
+      "gateCode": "G1",
       "evidenceKey": "sample",
       "labelEn": "Review sample",
       "labelFi": "Tarkistusnäyte",
-      "descriptionEn": "A representative, reviewable data sample has been received.",
-      "descriptionFi": "Edustava ja tarkistettava datanäyte on vastaanotettu."
+      "descriptionEn": "Representative target-country rows contain current values, units, definitions and the requested annual measures.",
+      "descriptionFi": "Edustavat kohdemaan rivit sisältävät ajantasaiset arvot, yksiköt, määritelmät ja pyydetyt vuosimittarit."
     },
     {
       "id": "methodology",
+      "gateCode": "G2",
       "evidenceKey": "methodology",
       "labelEn": "Data dictionary and method",
       "labelFi": "Datamäärittely ja menetelmä",
-      "descriptionEn": "Definitions, collection, estimation and projection methods are documented.",
-      "descriptionFi": "Määritelmät sekä keruu-, arviointi- ja projisointimenetelmät on dokumentoitu."
+      "descriptionEn": "Country-specific definitions, collection, estimation, projection and revision methods and record-level observed, reported or modelled status are documented.",
+      "descriptionFi": "Maakohtaiset määritelmät, keruu-, arviointi-, ennuste- ja korjausmenetelmät sekä rivikohtainen havaittu, ilmoitettu tai mallinnettu tila on dokumentoitu."
     },
     {
       "id": "coverageMatrix",
+      "gateCode": "G3",
       "evidenceKey": "coverageMatrix",
       "labelEn": "Coverage matrix",
       "labelFi": "Peittomatriisi",
-      "descriptionEn": "Countries, years, products, channels and exclusions are explicit.",
-      "descriptionFi": "Maat, vuodet, tuotteet, kanavat ja poissulut on kuvattu selkeästi."
+      "descriptionEn": "Countries, years, products, metrics, channels and exclusions are explicit.",
+      "descriptionFi": "Maat, vuodet, tuotteet, mittarit, kanavat ja poissulut on kuvattu selkeästi."
     },
     {
       "id": "officialAnchorReconciliation",
+      "gateCode": "G4",
       "evidenceKey": "officialAnchorReconciliation",
       "labelEn": "Official-anchor reconciliation",
       "labelFi": "Täsmäytys viranomaisankkuriin",
-      "descriptionEn": "The sample can be reconciled to at least one suitable official series.",
-      "descriptionFi": "Näyte voidaan täsmäyttää vähintään yhteen sopivaan viralliseen sarjaan."
+      "descriptionEn": "The sample can be reconciled to a comparable official series with matching units, tax basis and transaction stage.",
+      "descriptionFi": "Näyte voidaan täsmäyttää vertailukelpoiseen viralliseen sarjaan samoilla yksiköillä, veroperustalla ja toimitusketjuvaiheella."
     },
     {
       "id": "transactionUseRights",
+      "gateCode": "G5",
       "evidenceKey": "transactionUseRights",
       "labelEn": "Transaction-use rights",
       "labelFi": "Transaktiokäyttöoikeudet",
-      "descriptionEn": "Written lender, buyer, adviser and controlled data-room rights are confirmed.",
-      "descriptionFi": "Kirjalliset lainanantaja-, ostaja-, neuvonantaja- ja hallitun datahuoneen oikeudet on vahvistettu."
+      "descriptionEn": "Written client-delivery, onward-sharing, lender, buyer, adviser and controlled data-room rights are confirmed.",
+      "descriptionFi": "Kirjalliset asiakastoimitus-, edelleenjako-, lainanantaja-, ostaja-, neuvonantaja- ja hallitun datahuoneen oikeudet on vahvistettu."
     },
     {
       "id": "totalCostTerms",
+      "gateCode": "G6",
       "evidenceKey": "totalCostTerms",
       "labelEn": "Total cost and renewal terms",
       "labelFi": "Kokonaiskustannus ja uusimisehdot",
-      "descriptionEn": "The full price, update scope, cancellation terms and auto-renewal position are explicit.",
-      "descriptionFi": "Koko hinta, päivityslaajuus, peruutusehdot ja automaattisen uusinnan tila ovat selkeät."
+      "descriptionEn": "All-in price, tax basis, users, exports, update scope, retention, cancellation and no-auto-renewal position are explicit.",
+      "descriptionFi": "Kokonaishinta, veroperusta, käyttäjät, viennit, päivityslaajuus, säilytys, peruutus ja ei-automaattisen uusinnan tila ovat selkeät."
     }
   ],
   "evidenceTypes": [
@@ -281,14 +287,44 @@
       "responseState": "pending_no_acknowledgement",
       "publicStatusEn": "Request sent 2026-07-23; no bounce, automated acknowledgement or response recorded; first follow-up due 2026-07-28 if still unanswered",
       "publicStatusFi": "Pyyntö lähetetty 23.7.2026; palautusta, automaattikuittausta tai vastausta ei ole kirjattu; ensimmäinen seuranta 28.7.2026, jos vastausta ei kuulu",
-      "receivedEvidence": {
-        "sample": false,
-        "methodology": false,
-        "coverageMatrix": false,
-        "quote": false,
-        "officialAnchorReconciliation": false,
-        "transactionUseRights": false,
-        "totalCostTerms": false
+      "quoteReceived": false,
+      "gateResults": {
+        "G1": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G2": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G3": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G4": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G5": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G6": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        }
       },
       "criterionScores": {
         "annualCountrySeriesFit": null,
@@ -309,16 +345,50 @@
       "product": "Passport Nicotine / e-vapour country series",
       "requestState": "request_sent",
       "responseState": "substantive_response_received",
-      "publicStatusEn": "A Germany workbook sample, generic methodology, blank licence terms and two indicative annual package quotes were received on 2026-07-24. The sample exposes category, value/volume, company/brand, channel, nicotine-strength and user fields, but is deliberately sparse and lacks comparable 2023–2024 Germany liquid totals. The vendor states roughly 75 e-vapour countries; the exact country-product matrix remains missing. Default terms do not yet confirm Pixan onward sharing or controlled lender, buyer, adviser and data-room use, and restrict public and legal use. A quote is recorded as received, but the sparse workbook does not pass the representative-sample gate; all six mandatory gates remain open. NOT SCORED; no purchase, fee or commitment is authorised.",
-      "publicStatusFi": "Saksan työkirjanäyte, yleinen menetelmäkuvaus, tyhjä lisenssisopimus ja kaksi suuntaa-antavaa vuosipakettitarjousta saatiin 24.7.2026. Näyte sisältää kategoria-, arvo-/volyymi-, yhtiö-/brändi-, kanava-, nikotiinivahvuus- ja käyttäjäkenttiä, mutta se on tarkoituksella suppea eikä sisällä vertailukelpoisia Saksan vuosien 2023–2024 nestemääriä. Toimittaja ilmoittaa noin 75 sähkötupakkamaata; täsmällinen maa–tuote-matriisi puuttuu. Vakioehdot eivät vielä vahvista Pixanin edelleenjakelua tai hallittua lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat julkista ja oikeudellista käyttöä. Tarjous on kirjattu saaduksi, mutta suppea työkirja ei läpäise edustavan näytteen porttia; kaikki kuusi pakollista porttia ovat avoinna. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu.",
-      "receivedEvidence": {
-        "sample": false,
-        "methodology": false,
-        "coverageMatrix": false,
-        "quote": true,
-        "officialAnchorReconciliation": false,
-        "transactionUseRights": false,
-        "totalCostTerms": false
+      "publicStatusEn": "An expanded Germany workbook sample, a 78-market e-vapour value-coverage list, generic methodology, blank licence terms and indicative annual package quotes were received by 2026-07-27. The sample exposes category, value/volume, company/brand, channel, nicotine-strength and user fields and permits a private 2023–2024 numerical liquid-volume comparison, but current market-size and forecast fields remain redacted and the retail-stage, tax-basis and product-scope bridge to the official taxed-volume series is missing. The country list has differing end years and is not a country-product-year-measure matrix. Default terms do not yet confirm the intended onward sharing, controlled lender, buyer, adviser and data-room use, and restrict public, legal and AI-assisted use. A written clarification and comparable 25-, 50- and 78-market package request was sent on 2026-07-27. All six gates are now evaluated, but none passes. NOT SCORED; no purchase, fee or commitment is authorised.",
+      "publicStatusFi": "Laajennettu Saksan työkirjanäyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, yleinen menetelmäkuvaus, tyhjä lisenssisopimus ja suuntaa-antavat vuosipakettitarjoukset saatiin 27.7.2026 mennessä. Näyte sisältää kategoria-, arvo-/volyymi-, yhtiö-/brändi-, kanava-, nikotiinivahvuus- ja käyttäjäkenttiä sekä mahdollistaa yksityisen numeerisen vuosien 2023–2024 nestemäärävertailun, mutta ajantasaiset markkinakoko- ja ennustekentät on peitetty eikä vähittäismyyntivaiheen, veroperustan ja tuoterajauksen siltaa viralliseen verotetun volyymin sarjaan ole toimitettu. Maalistan päättymisvuodet vaihtelevat, eikä se ole maa–tuote–vuosi–mittari-matriisi. Vakioehdot eivät vielä vahvista aiottua edelleenjakelua tai hallittua lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat julkista, oikeudellista ja tekoälyavusteista käyttöä. Kirjallinen täsmennys sekä vertailukelpoisten 25, 50 ja 78 markkinan pakettien tarjouspyyntö lähetettiin 27.7.2026. Kaikki kuusi porttia on nyt arvioitu, mutta yksikään ei läpäise. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu.",
+      "quoteReceived": true,
+      "gateResults": {
+        "G1": {
+          "status": "not_testable",
+          "reasonCodes": [
+            "SAMPLE_REQUIRED_YEARS_MISSING",
+            "SAMPLE_REQUIRED_METRICS_INCOMPLETE"
+          ]
+        },
+        "G2": {
+          "status": "fail",
+          "reasonCodes": [
+            "METHOD_COUNTRY_DETAIL_MISSING",
+            "METHOD_RECORD_STATUS_FLAGS_MISSING"
+          ]
+        },
+        "G3": {
+          "status": "fail",
+          "reasonCodes": [
+            "COVERAGE_MATRIX_CATEGORY_DETAIL_INCOMPLETE"
+          ]
+        },
+        "G4": {
+          "status": "not_testable",
+          "reasonCodes": [
+            "ANCHOR_SCOPE_STAGE_BRIDGE_MISSING"
+          ]
+        },
+        "G5": {
+          "status": "fail",
+          "reasonCodes": [
+            "RIGHTS_ONWARD_SHARING_UNCONFIRMED",
+            "RIGHTS_DATA_ROOM_UNCONFIRMED"
+          ]
+        },
+        "G6": {
+          "status": "fail",
+          "reasonCodes": [
+            "COMMERCIAL_SELECTED_SCOPE_PRICE_PENDING",
+            "COMMERCIAL_SPECIAL_USE_FEES_UNPRICED"
+          ]
+        }
       },
       "criterionScores": {
         "annualCountrySeriesFit": null,
@@ -341,14 +411,44 @@
       "responseState": "not_submitted",
       "publicStatusEn": "Not submitted; terms gate",
       "publicStatusFi": "Ei lähetetty; ehtoraja",
-      "receivedEvidence": {
-        "sample": false,
-        "methodology": false,
-        "coverageMatrix": false,
-        "quote": false,
-        "officialAnchorReconciliation": false,
-        "transactionUseRights": false,
-        "totalCostTerms": false
+      "quoteReceived": false,
+      "gateResults": {
+        "G1": {
+          "status": "missing",
+          "reasonCodes": [
+            "ROUTE_NOT_SUBMITTED"
+          ]
+        },
+        "G2": {
+          "status": "missing",
+          "reasonCodes": [
+            "ROUTE_NOT_SUBMITTED"
+          ]
+        },
+        "G3": {
+          "status": "missing",
+          "reasonCodes": [
+            "ROUTE_NOT_SUBMITTED"
+          ]
+        },
+        "G4": {
+          "status": "missing",
+          "reasonCodes": [
+            "ROUTE_NOT_SUBMITTED"
+          ]
+        },
+        "G5": {
+          "status": "missing",
+          "reasonCodes": [
+            "ROUTE_NOT_SUBMITTED"
+          ]
+        },
+        "G6": {
+          "status": "missing",
+          "reasonCodes": [
+            "ROUTE_NOT_SUBMITTED"
+          ]
+        }
       },
       "criterionScores": {
         "annualCountrySeriesFit": null,
@@ -371,14 +471,44 @@
       "responseState": "pending",
       "publicStatusEn": "Submission confirmed; response pending",
       "publicStatusFi": "Vastaanotto vahvistettu; vastaus odottaa",
-      "receivedEvidence": {
-        "sample": false,
-        "methodology": false,
-        "coverageMatrix": false,
-        "quote": false,
-        "officialAnchorReconciliation": false,
-        "transactionUseRights": false,
-        "totalCostTerms": false
+      "quoteReceived": false,
+      "gateResults": {
+        "G1": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G2": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G3": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G4": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G5": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        },
+        "G6": {
+          "status": "missing",
+          "reasonCodes": [
+            "EVIDENCE_NOT_RECEIVED"
+          ]
+        }
       },
       "criterionScores": {
         "annualCountrySeriesFit": null,

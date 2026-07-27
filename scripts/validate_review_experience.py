@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the v26 review surface and evidence baseline."""
+"""Fail-closed validation for the v27 review surface and evidence baseline."""
 
 from __future__ import annotations
 
@@ -27,6 +27,9 @@ EXPECTED_PROCESS_STATES = {
 EXPECTED_STRUCTURAL_STATES = {
     "SE": "official_structural_data_received_sales_not_available",
 }
+EXPECTED_TRADE_PROXY_STATES = {
+    "FR": "official_customs_trade_proxy_received_scope_partial",
+}
 EXPECTED_MARKET_SOURCE_IDS = {
     "CA-HC-VAPING-SALES-2024",
     "CA-STATCAN-RCS-2019-2022",
@@ -35,6 +38,7 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "FI-TAX-EXCISE-VVT-010-2025",
     "PL-SEJM-I07255-O1",
     "PL-SEJM-I17526-O1",
+    "PL-MF-EXCISE-RATES-2025",
     "SE-GOV-BERAKNINGSKONVENTIONER-2026",
     "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24",
     "NZ-MOH-ANNUAL-RETURNS-2022",
@@ -70,6 +74,152 @@ GERMANY_OUTPUTS = {
     "low": 667_920_000,
     "central": 1_199_220_000,
     "high": 1_654_620_000,
+}
+POLAND_RECONSTRUCTION = {
+    "PL-2020-E-LIQUID-REPORTED-VOLUME-L": (
+        "PL",
+        2020,
+        "reported_e_liquid_volume",
+        1_451_529,
+        "litre",
+        None,
+        "calendar_year",
+        "official_observed",
+        "official_response",
+        "e_liquid_only",
+        "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I07255-O1"],
+    ),
+    "PL-2021-E-LIQUID-REPORTED-VOLUME-L": (
+        "PL",
+        2021,
+        "reported_e_liquid_volume",
+        277_265,
+        "litre",
+        None,
+        "calendar_year",
+        "official_observed",
+        "official_response",
+        "e_liquid_only",
+        "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I07255-O1"],
+    ),
+    "PL-2022-E-LIQUID-REPORTED-VOLUME-L": (
+        "PL",
+        2022,
+        "reported_e_liquid_volume",
+        416_088,
+        "litre",
+        None,
+        "calendar_year",
+        "official_observed",
+        "official_response",
+        "e_liquid_only",
+        "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I07255-O1"],
+    ),
+    "PL-2023-E-LIQUID-REPORTED-VOLUME-L": (
+        "PL",
+        2023,
+        "reported_e_liquid_volume",
+        805_441,
+        "litre",
+        None,
+        "calendar_year",
+        "official_observed",
+        "official_response",
+        "e_liquid_only",
+        "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I07255-O1"],
+    ),
+    "PL-2025-E-LIQUID-EXCISE-AMOUNT": (
+        "PL",
+        2025,
+        "e_liquid_excise_amount",
+        993_100_000,
+        "PLN",
+        "PLN",
+        "calendar_year",
+        "official_observed",
+        "official_response",
+        "e_liquid_only",
+        "official_tax_amount_not_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I17526-O1"],
+    ),
+    "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": (
+        "PL",
+        2025,
+        "vaping_device_excise_amount",
+        175_300_000,
+        "PLN",
+        "PLN",
+        "calendar_year",
+        "official_observed",
+        "official_response",
+        "vaping_devices_only",
+        "official_tax_amount_not_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I17526-O1"],
+    ),
+    "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": (
+        "PL",
+        2025,
+        "vaping_component_sets_excise_amount",
+        2_500_000,
+        "PLN",
+        "PLN",
+        "calendar_year",
+        "official_observed",
+        "official_response",
+        "vaping_component_sets_only",
+        "official_tax_amount_not_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I17526-O1"],
+    ),
+    "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": (
+        "PL",
+        2025,
+        "vaping_device_excise_backsolved_units",
+        4_382_500,
+        "unit",
+        None,
+        "calendar_year",
+        "official_table_derived",
+        "tax_receipts_divided_by_statutory_rate",
+        "vaping_devices_only",
+        "derived_taxed_units_not_sales_or_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I17526-O1", "PL-MF-EXCISE-RATES-2025"],
+    ),
+    "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": (
+        "PL",
+        2025,
+        "vaping_component_sets_excise_backsolved_units",
+        62_500,
+        "unit",
+        None,
+        "calendar_year",
+        "official_table_derived",
+        "tax_receipts_divided_by_statutory_rate",
+        "vaping_component_sets_only",
+        "derived_taxed_units_not_sales_or_retail_market_value",
+        False,
+        False,
+        ["PL-SEJM-I17526-O1", "PL-MF-EXCISE-RATES-2025"],
+    ),
 }
 REQUIRED_REVIEW_IDS = {
     "decision-cockpit",
@@ -145,6 +295,7 @@ REQUIRED_I18N_EN = {
     "The 0/3 gate changes only when a candidate passes every criterion.",
     "3 process-only responses",
     "1 official structural response",
+    "1 customs-trade proxy response",
     "0 sales-data responses",
     "The Sweden response contains official registration-structure counts only.",
     "Third-country acquisition screen · not a donor assessment",
@@ -178,7 +329,7 @@ def parse_date(value: Any) -> date | None:
 def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-27":
-        errors.append("Third-donor screen must use the reviewed v26 schema and date")
+        errors.append("Third-donor screen must use the reviewed v27 schema and date")
     if screen.get("status") != "screening_only_not_donor_assessment":
         errors.append("Third-donor screen must remain screening-only")
     decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
@@ -257,10 +408,10 @@ def validate_review_data(
     if not isinstance(sources, list):
         errors.append("Freshness ledger requires a market-source array")
         sources = []
-    elif len(sources) != 23:
-        errors.append("Freshness ledger requires exactly 23 reviewed market sources for v26")
-    if not isinstance(observations, list) or len(observations) != 79:
-        errors.append("v26 market baseline must contain exactly 79 observations")
+    elif len(sources) != 24:
+        errors.append("Freshness ledger requires exactly 24 reviewed market sources for v27")
+    if not isinstance(observations, list) or len(observations) != 84:
+        errors.append("v27 market baseline must contain exactly 84 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -287,7 +438,7 @@ def validate_review_data(
             errors.append(f"{source_id}: retrievedAt cannot be later than market asOf")
     if source_ids != EXPECTED_MARKET_SOURCE_IDS:
         errors.append(
-            "v26 freshness ledger must retain the exact 23-source set; "
+            "v27 freshness ledger must retain the exact 24-source set; "
             f"missing={sorted(EXPECTED_MARKET_SOURCE_IDS - source_ids)}, "
             f"extra={sorted(source_ids - EXPECTED_MARKET_SOURCE_IDS)}"
         )
@@ -348,7 +499,7 @@ def validate_review_data(
         False,
         NZ_SOURCE_IDS,
     ):
-        errors.append("v26 New Zealand identified-vaping observation differs from its reviewed fact boundary")
+        errors.append("v27 New Zealand identified-vaping observation differs from its reviewed fact boundary")
     nz_limitation = str(nz_vaping.get("limitationEn", ""))
     for marker in (
         "189,402,451.96",
@@ -364,7 +515,46 @@ def validate_review_data(
         "no independent reconciliation",
     ):
         if marker not in nz_limitation:
-            errors.append(f"v26 New Zealand identified-vaping disclosure lacks {marker!r}")
+            errors.append(f"v27 New Zealand identified-vaping disclosure lacks {marker!r}")
+
+    for observation_id, expected in POLAND_RECONSTRUCTION.items():
+        item = observation_by_id.get(observation_id, {})
+        actual = (
+            item.get("countryIso2"),
+            item.get("year"),
+            item.get("metric"),
+            item.get("value"),
+            item.get("unit"),
+            item.get("currency"),
+            item.get("period"),
+            item.get("evidenceStatus"),
+            item.get("finality"),
+            item.get("productScope"),
+            item.get("marketValueBasis"),
+            item.get("comparableMarketValue"),
+            item.get("atlasEstimate"),
+            item.get("sourceIds"),
+        )
+        if actual != expected:
+            errors.append(
+                f"v27 Poland reconstruction observation {observation_id} "
+                "differs from its reviewed fact boundary"
+            )
+    for observation_id in (
+        "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS",
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS",
+    ):
+        limitation = str(observation_by_id.get(observation_id, {}).get("limitationEn", ""))
+        if (
+            "1 July 2025" not in limitation
+            or "second-half tax-base bridge" not in limitation
+            or "not full-year sell-through" not in limitation
+            or "retail market value" not in limitation
+        ):
+            errors.append(
+                f"v27 Poland tax-base bridge {observation_id} lacks its "
+                "half-year, sell-through and retail-value boundaries"
+            )
 
     official = [
         item for item in observations
@@ -377,14 +567,14 @@ def validate_review_data(
     ]
     market_measure_official = [item for item in official if item not in structural_official]
     if (
-        len(official) != 70
+        len(official) != 75
         or official_countries != EXPECTED_OFFICIAL_COUNTRIES
         or len(structural_official) != 36
         or {item.get("countryIso2") for item in structural_official} != {"SE"}
-        or len(market_measure_official) != 34
+        or len(market_measure_official) != 39
     ):
         errors.append(
-            "v26 must retain 34 official market-measure observations plus 36 Sweden "
+            "v27 must retain 39 official market-measure observations plus 36 Sweden "
             "registration-structure observations across the seven reviewed countries"
         )
     official_retail = [
@@ -400,7 +590,7 @@ def validate_review_data(
         or {item.get("countryIso2") for item in official_retail} != {"CA", "NZ"}
         or any(item.get("comparableMarketValue") is not False for item in official_retail)
     ):
-        errors.append("v26 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
+        errors.append("v27 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
 
     readiness = market.get("meta", {}).get("modelReadiness", {})
     declared_donors = readiness.get("comparableFullYearMarketValueDonors")
@@ -433,7 +623,7 @@ def validate_review_data(
         "DE-2025-LIQUID-RETAIL-MODEL",
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }:
-        errors.append("v26 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
+        errors.append("v27 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
     candidate_by_id = {
         item.get("candidateId"): item
         for item in candidates
@@ -450,7 +640,7 @@ def validate_review_data(
         or set(nz_candidate.get("openCriteria", [])) != {"D8", "D10"}
         or nz_candidate.get("sourceIds") != NZ_SOURCE_IDS
     ):
-        errors.append("v26 New Zealand donor candidate differs from the reviewed 7/10 closure decision")
+        errors.append("v27 New Zealand donor candidate differs from the reviewed 7/10 closure decision")
 
     germany_models = [item for item in models if item.get("modelId") == GERMANY_MODEL_ID]
     if len(germany_models) != 1:
@@ -497,7 +687,7 @@ def validate_review_data(
             else:
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
-            "latest_period": 11,
+            "latest_period": 12,
             "previous_full_year": 5,
             "historical_only": 7,
         }:
@@ -584,14 +774,29 @@ def validate_review_data(
         for country, state in recorded_responses.items()
         if country in EXPECTED_STRUCTURAL_STATES
     }
+    trade_proxy = {
+        country: state
+        for country, state in recorded_responses.items()
+        if country in EXPECTED_TRADE_PROXY_STATES
+    }
     if process != EXPECTED_PROCESS_STATES:
         errors.append(f"Process-only response baseline must remain DE, DK and FI: {process}")
     if structural != EXPECTED_STRUCTURAL_STATES:
         errors.append(f"Structural-data response baseline must remain Sweden only: {structural}")
-    if set(recorded_responses) != set(EXPECTED_PROCESS_STATES) | set(EXPECTED_STRUCTURAL_STATES):
+    if trade_proxy != EXPECTED_TRADE_PROXY_STATES:
+        errors.append(f"Trade-proxy response baseline must remain France only: {trade_proxy}")
+    if set(recorded_responses) != (
+        set(EXPECTED_PROCESS_STATES)
+        | set(EXPECTED_STRUCTURAL_STATES)
+        | set(EXPECTED_TRADE_PROXY_STATES)
+    ):
         errors.append(f"Unexpected authority response countries: {recorded_responses}")
     for route in routes:
-        if route.get("countryIso2") in set(EXPECTED_PROCESS_STATES) | set(EXPECTED_STRUCTURAL_STATES):
+        if route.get("countryIso2") in (
+            set(EXPECTED_PROCESS_STATES)
+            | set(EXPECTED_STRUCTURAL_STATES)
+            | set(EXPECTED_TRADE_PROXY_STATES)
+        ):
             if route.get("dispatch", {}).get("publicAuthorityReference") is not None:
                 errors.append(f"{route.get('countryIso2')}: authority response must not publish a private reference")
 
@@ -734,10 +939,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-27-26") < 7:
-        errors.append("review.html asset cache-busters must all use the v26 release")
-    if index_html.count("2026-07-27-26") < 4:
-        errors.append("index.html asset cache-busters must all use the v26 release")
+    if review_html.count("2026-07-27-27") < 7:
+        errors.append("review.html asset cache-busters must all use the v27 release")
+    if index_html.count("2026-07-27-27") < 4:
+        errors.append("index.html asset cache-busters must all use the v27 release")
     if any(
         stale in review_html or stale in index_html
         for stale in (
@@ -747,9 +952,10 @@ def validate_review_structure(
             "2026-07-24-23",
             "2026-07-25-24",
             "2026-07-26-25",
+            "2026-07-27-26",
         )
     ):
-        errors.append("stale cache-busters remain in the v26 pages")
+        errors.append("stale cache-busters remain in the v27 pages")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -788,7 +994,7 @@ def validate_review_structure(
         "enforcement_signal",
     ):
         if required_market_hook not in review_js:
-            errors.append(f"review.js lacks required v26 reconciliation hook {required_market_hook}")
+            errors.append(f"review.js lacks required v27 reconciliation hook {required_market_hook}")
 
     lowered_public = f"{review_html}\n{index_html}\n{review_js}".lower()
     for forbidden_claim in ("fresh today", "current worldwide patent", "official global retail value"):
@@ -806,15 +1012,15 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-27-first-donor-conversion-v26",
-            'version: "2026.07.27-26"',
-            'publishedAt: "2026-07-27T09:00:00+03:00"',
-            "Both candidates remain not accepted at 7/10",
-            "Poland as the practical primary programme",
-            "Three 28 July follow-ups are prepared but not sent",
+            "2026-07-27-global-base-poland-v27",
+            'version: "2026.07.27-27"',
+            'publishedAt: "2026-07-27T16:08:35+03:00"',
+            "578 observed World Bank records",
+            "4,382,500 devices and 62,500 component sets",
+            "Euromonitor remains 0/6 mandatory gates",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v26 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v27 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -829,12 +1035,15 @@ def validate_review_structure(
         )
         for hook in (
             "SWEDEN_STRUCTURAL_RESPONSE",
+            "TRADE_PROXY_RESPONSE_STATE",
             "function renderSwedenStructure(",
             "function responseCounts(",
             'includes("privacy-safe categorical process or evidence state")',
             'includes("tietosuojatun kategorisen prosessi- tai evidenssitilan")',
             "STRUCTURE ONLY · NOT SALES",
             "does not measure sales, market value, devices sold, e-liquid millilitres",
+            "Official annual customs-trade extract received",
+            "tradeProxy",
             "sales: 0",
             *required_rows,
         ):
@@ -847,7 +1056,9 @@ def validate_review_structure(
             errors.append("app.js does not expose the UI release to metadata and returning visitors")
     for hook in (
         "REVIEW_STRUCTURAL_RESPONSE_COUNTRIES",
+        "REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES",
         "officialStructuralResponses",
+        "tradeProxyResponses",
         "salesResponses: 0",
         "function reviewPublicReleases(",
         "window.PixanUiRelease",
@@ -901,9 +1112,9 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v26 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
-        "waterfall, New Zealand and Canada 7/10 closures, Poland third-donor programme, "
-        "deterministic 23-source ledger and required UI hooks."
+        "Validated v27 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
+        "deterministic 24-source ledger and required UI hooks."
     )
 
 

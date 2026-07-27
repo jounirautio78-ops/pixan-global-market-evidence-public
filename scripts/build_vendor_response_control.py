@@ -39,7 +39,20 @@ CSV_FIELDS = [
     "officialAnchorReconciliationReceived",
     "transactionUseRightsReceived",
     "totalCostTermsReceived",
+    "sampleGateStatus",
+    "sampleGateReasonCodes",
+    "methodologyGateStatus",
+    "methodologyGateReasonCodes",
+    "coverageMatrixGateStatus",
+    "coverageMatrixGateReasonCodes",
+    "officialAnchorReconciliationGateStatus",
+    "officialAnchorReconciliationGateReasonCodes",
+    "transactionUseRightsGateStatus",
+    "transactionUseRightsGateReasonCodes",
+    "totalCostTermsGateStatus",
+    "totalCostTermsGateReasonCodes",
     "evidenceReceivedCount",
+    "evaluatedGateCount",
     "mandatoryGatePassCount",
     "scoringState",
     "weightedScore",
@@ -53,13 +66,29 @@ def load_source() -> dict[str, Any]:
     return json.loads(SOURCE_PATH.read_text(encoding="utf-8"))
 
 
+def gate_results_by_evidence_key(
+    vendor: dict[str, Any],
+    mandatory_gates: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """Return the canonical G1-G6 results keyed by their public evidence key."""
+
+    results = vendor["gateResults"]
+    return {
+        gate["evidenceKey"]: results[gate["gateCode"]]
+        for gate in mandatory_gates
+    }
+
+
 def score_vendor(
     vendor: dict[str, Any],
     criteria: list[dict[str, Any]],
     mandatory_gates: list[dict[str, Any]],
 ) -> Decimal | None:
-    evidence = vendor["receivedEvidence"]
-    if not all(evidence[gate["evidenceKey"]] is True for gate in mandatory_gates):
+    results = vendor["gateResults"]
+    if not all(
+        results[gate["gateCode"]]["status"] == "pass"
+        for gate in mandatory_gates
+    ):
         return None
     scores = vendor["criterionScores"]
     if not all(
@@ -80,11 +109,26 @@ def score_vendor(
 def normalised(source: dict[str, Any]) -> dict[str, Any]:
     result = copy.deepcopy(source)
     for vendor in result["vendors"]:
-        evidence = vendor["receivedEvidence"]
+        gate_results = gate_results_by_evidence_key(vendor, result["mandatoryGates"])
+        # Compatibility booleans mean gate PASS, not merely that a document was
+        # received. The four-state gateResults object is the authoritative view.
+        evidence = {
+            evidence_key: gate_result["status"] == "pass"
+            for evidence_key, gate_result in gate_results.items()
+        }
+        evidence["quote"] = vendor["quoteReceived"]
+        vendor["receivedEvidence"] = evidence
         score = score_vendor(vendor, result["criteria"], result["mandatoryGates"])
-        vendor["evidenceReceivedCount"] = sum(value is True for value in evidence.values())
+        vendor["evidenceReceivedCount"] = sum(
+            value is True for value in evidence.values()
+        )
+        vendor["evaluatedGateCount"] = sum(
+            gate_result["status"] != "missing"
+            for gate_result in gate_results.values()
+        )
         vendor["mandatoryGatePassCount"] = sum(
-            evidence[gate["evidenceKey"]] is True for gate in result["mandatoryGates"]
+            gate_result["status"] == "pass"
+            for gate_result in gate_results.values()
         )
         vendor["weightedScore"] = None if score is None else float(score)
         vendor["scoringState"] = "not_scored" if score is None else "scored"
@@ -118,6 +162,14 @@ def render_csv(source: dict[str, Any]) -> bytes:
     writer.writeheader()
     for vendor in control["vendors"]:
         evidence = vendor["receivedEvidence"]
+        gates = gate_results_by_evidence_key(vendor, control["mandatoryGates"])
+
+        def gate_status(evidence_key: str) -> str:
+            return gates[evidence_key]["status"]
+
+        def gate_reasons(evidence_key: str) -> str:
+            return "|".join(gates[evidence_key]["reasonCodes"])
+
         writer.writerow(
             {
                 "vendorId": vendor["vendorId"],
@@ -138,7 +190,26 @@ def render_csv(source: dict[str, Any]) -> bytes:
                     evidence["transactionUseRights"]
                 ).lower(),
                 "totalCostTermsReceived": str(evidence["totalCostTerms"]).lower(),
+                "sampleGateStatus": gate_status("sample"),
+                "sampleGateReasonCodes": gate_reasons("sample"),
+                "methodologyGateStatus": gate_status("methodology"),
+                "methodologyGateReasonCodes": gate_reasons("methodology"),
+                "coverageMatrixGateStatus": gate_status("coverageMatrix"),
+                "coverageMatrixGateReasonCodes": gate_reasons("coverageMatrix"),
+                "officialAnchorReconciliationGateStatus": gate_status(
+                    "officialAnchorReconciliation"
+                ),
+                "officialAnchorReconciliationGateReasonCodes": gate_reasons(
+                    "officialAnchorReconciliation"
+                ),
+                "transactionUseRightsGateStatus": gate_status("transactionUseRights"),
+                "transactionUseRightsGateReasonCodes": gate_reasons(
+                    "transactionUseRights"
+                ),
+                "totalCostTermsGateStatus": gate_status("totalCostTerms"),
+                "totalCostTermsGateReasonCodes": gate_reasons("totalCostTerms"),
                 "evidenceReceivedCount": vendor["evidenceReceivedCount"],
+                "evaluatedGateCount": vendor["evaluatedGateCount"],
                 "mandatoryGatePassCount": vendor["mandatoryGatePassCount"],
                 "scoringState": vendor["scoringState"],
                 "weightedScore": (

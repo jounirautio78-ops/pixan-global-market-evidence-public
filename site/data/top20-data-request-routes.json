@@ -68,8 +68,8 @@
     "stateUniverseEn": "Reusable research architecture for the 193 UN members plus the Holy See and the State of Palestine. This is a sovereign-state universe, not a claim that 195 markets are already quantified.",
     "stateUniverseFi": "Uudelleenkäytettävä tutkimusrakenne 193 YK:n jäsenelle sekä Pyhälle istuimelle ja Palestiinan valtiolle. Tämä on suvereenien valtioiden universumi, ei väite siitä, että 195 markkinaa olisi jo kvantifioitu."
   },
-  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process or evidence state. Sweden supplied official aggregate registration-structure counts; this is substantive structural data, but not annual sales, market value, sold device units, sold liquid volume or donor evidence. The programme does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
-  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessi- tai evidenssitilan. Ruotsi toimitti viralliset aggregoidut rekisterirakenneluvut; kyse on sisällöllisestä rakennetiedosta, mutta ei vuosimyynnistä, markkina-arvosta, myytyjen laitteiden kappalemäärästä, myydystä nestemäärästä tai luovuttajaevidenssistä. Ohjelma ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
+  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process or evidence state. Sweden supplied official aggregate registration-structure counts; this is substantive structural data, but not annual sales, market value, sold device units, sold liquid volume or donor evidence. France supplied official annual partner-level customs trade extracts across a device-code nomenclature break; exact units and liquid, pod and cartridge mappings remain unresolved, so this is a supply-stage trade proxy, not consumer-retail sales, market value or donor evidence. The programme does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
+  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessi- tai evidenssitilan. Ruotsi toimitti viralliset aggregoidut rekisterirakenneluvut; kyse on sisällöllisestä rakennetiedosta, mutta ei vuosimyynnistä, markkina-arvosta, myytyjen laitteiden kappalemäärästä, myydystä nestemäärästä tai luovuttajaevidenssistä. Ranska toimitti viralliset vuosittaiset kumppanikohtaiset tullikaupan otteet laitekoodiston muutoksen yli; täsmälliset yksiköt sekä nesteiden, podien ja patruunoiden luokitukset ovat vielä ratkaisematta, joten kyse on toimitusvaiheen kauppaproxystä eikä kuluttajavähittäismyynnistä, markkina-arvosta tai luovuttajaevidenssistä. Ohjelma ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
   "programmeId": "pixan-independent-top20-official-data-request-programme-v3",
   "ranking": {
     "isMarketSizeRanking": false,
@@ -606,7 +606,7 @@
       "countryIso2": "FR",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "not_publicly_recorded",
+        "responseState": "official_customs_trade_proxy_received_scope_partial",
         "sentOn": "2026-07-23",
         "state": "sent"
       },
@@ -624,6 +624,12 @@
       },
       "officialSources": [
         {
+          "labelEn": "French Customs NC8 result for code 85434000",
+          "labelFi": "Ranskan tullin NC8-tulos koodille 85434000",
+          "url": "https://lekiosque.finances.gouv.fr/site_fr/NC8/Resultat_nc.asp?ot=1&lanc=85434000",
+          "verifiedOn": "2026-07-27"
+        },
+        {
           "labelEn": "ANSES vaping-products information",
           "labelFi": "ANSES:n höyrystystuotteiden tiedot",
           "url": "https://www.anses.fr/fr/content/produits-du-vapotage",
@@ -632,26 +638,30 @@
       ],
       "operationalRank": 9,
       "primaryAuthority": {
-        "nameEn": "French Agency for Food, Environmental and Occupational Health and Safety",
-        "nameFi": "Ranskan elintarvike-, ympäristö- ja työterveysvirasto"
+        "nameEn": "French Customs statistics service and ANSES",
+        "nameFi": "Ranskan tullin tilastopalvelu ja ANSES"
       },
       "priorityCode": "A9",
-      "rationaleEn": "A large EU market where the EU-CEG record structure contains annual sales fields, with ANSES documenting important completeness limitations.",
-      "rationaleFi": "Suuri EU-markkina, jossa EU-CEG-tietorakenne sisältää vuosimyyntikenttiä ja ANSES on dokumentoinut tärkeät kattavuusrajoitteet.",
+      "rationaleEn": "A large EU market. French Customs supplied annual partner-level value and quantity extracts for exact vaping-device codes across the 2018–2021 and 2022–2025 nomenclature break. The broader predecessor code, exact units and liquid, pod and cartridge classifications remain unresolved; a clarification request covering CN8/CN mappings, units, revisions and the appropriate seizure/destruction-data contact was sent on 27 July 2026. The extract is a supply-stage proxy, not retail market size.",
+      "rationaleFi": "Suuri EU-markkina. Ranskan tulli toimitti vuosittaiset kumppanikohtaiset arvo- ja määräotteet täsmällisille sähkötupakan laitekoodeille vuosien 2018–2021 ja 2022–2025 nimikemuutoksen yli. Laajempi edeltävä koodi, täsmälliset yksiköt sekä nesteiden, podien ja patruunoiden luokitukset ovat vielä ratkaisematta; NC8/CN-luokituksia, yksiköitä, revisioita sekä takavarikko- ja hävitysdatan oikeaa yhteyspistettä koskeva täsmennyspyyntö lähetettiin 27.7.2026. Ote on toimitusvaiheen proxy eikä vähittäismarkkinan koko.",
       "recordsRequestedEn": [
+        "Annual partner-level customs value and quantity for exact vaping-device codes and every nomenclature break",
+        "CN8 mappings for liquid-filled disposables, pods, cartridges, refill liquids and specific parts",
         "Aggregate annual EU-CEG-reported units or millilitres by product category and presentation",
         "Active and withdrawn products and numbers of reporting entities",
         "Missing, incomplete or late annual sales reports, suppressed cells and revisions"
       ],
       "recordsRequestedFi": [
+        "Vuosittainen kumppanikohtainen tulliarvo ja määrä täsmällisille sähkötupakan laitekoodeille sekä jokaiselle nimikemuutokselle",
+        "CN8-luokitukset nestettä sisältäville kertakäyttötuotteille, podeille, patruunoille, täyttönesteille ja erityisille osille",
         "Aggregoidut vuosittaiset EU-CEG-ilmoitetut kappaleet tai millilitrat tuoteryhmän ja esitysmuodon mukaan",
         "Aktiiviset ja peruutetut tuotteet sekä raportoivien toimijoiden määrä",
         "Puuttuvat, epätäydelliset tai myöhästyneet vuosimyyntiraportit, salatut solut ja revisiot"
       ],
       "requestChannel": {
-        "nameEn": "ANSES administrative-record access contact",
-        "nameFi": "ANSES:n hallinnollisten asiakirjojen tietopyyntöyhteys",
-        "url": "https://www.anses.fr/en/content/legal-information"
+        "nameEn": "French Customs foreign-trade statistics and ANSES administrative-record route",
+        "nameFi": "Ranskan tullin ulkomaankauppatilastot ja ANSES:n asiakirjapyyntöreitti",
+        "url": "https://lekiosque.finances.gouv.fr/"
       },
       "requesterEligibility": {
         "caveatEn": "Administrative documents can be requested regardless of nationality; French wording is recommended and an adverse or silent decision may be referred to CADA.",
@@ -1449,5 +1459,5 @@
       "status": "sent"
     }
   ],
-  "verificationDate": "2026-07-24"
+  "verificationDate": "2026-07-27"
 }

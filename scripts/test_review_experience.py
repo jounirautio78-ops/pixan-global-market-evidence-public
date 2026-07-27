@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v26 review-experience publication gates."""
+"""Mutation tests for the v27 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -138,7 +138,33 @@ class ReviewExperienceTests(unittest.TestCase):
         market["sources"][0]["sourceId"] = "REMOVED-REVIEWED-SOURCE"
         self.assert_data_rejected(
             market=market,
-            needle="exact 23-source set",
+            needle="exact 24-source set",
+        )
+
+    def test_rejects_changed_poland_tax_bridge_value(self) -> None:
+        market = copy.deepcopy(self.market)
+        observation = next(
+            item for item in market["observations"]
+            if item["observationId"]
+            == "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS"
+        )
+        observation["value"] += 1
+        self.assert_data_rejected(
+            market=market,
+            needle="Poland reconstruction observation",
+        )
+
+    def test_rejects_changed_poland_tax_bridge_sources(self) -> None:
+        market = copy.deepcopy(self.market)
+        observation = next(
+            item for item in market["observations"]
+            if item["observationId"]
+            == "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS"
+        )
+        observation["sourceIds"].pop()
+        self.assert_data_rejected(
+            market=market,
+            needle="Poland reconstruction observation",
         )
 
     def test_rejects_changed_nz_observation_sources(self) -> None:
@@ -292,7 +318,7 @@ class ReviewExperienceTests(unittest.TestCase):
             mutated,
             self.i18n_js,
         )
-        self.assertTrue(any("required v26 reconciliation hook" in error for error in errors), errors)
+        self.assertTrue(any("required v27 reconciliation hook" in error for error in errors), errors)
 
     def test_rejects_missing_nz_closure_pack_hook(self) -> None:
         mutated = self.review_js.replace(
@@ -306,7 +332,7 @@ class ReviewExperienceTests(unittest.TestCase):
             mutated,
             self.i18n_js,
         )
-        self.assertTrue(any("required v26 reconciliation hook" in error for error in errors), errors)
+        self.assertTrue(any("required v27 reconciliation hook" in error for error in errors), errors)
 
     def test_rejects_missing_nzd_2024_review_rate(self) -> None:
         fx = copy.deepcopy(self.fx)

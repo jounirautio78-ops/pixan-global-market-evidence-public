@@ -57,6 +57,7 @@
     }
   };
   const STRUCTURAL_RESPONSE_STATE = "official_structural_data_received_sales_not_available";
+  const TRADE_PROXY_RESPONSE_STATE = "official_customs_trade_proxy_received_scope_partial";
   const EXPECTED_DISPATCH = {
     DE: {
       state: "sent",
@@ -110,7 +111,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: TRADE_PROXY_RESPONSE_STATE
     },
     NL: {
       state: "sent",
@@ -407,6 +408,7 @@
     const sentCountries = new Set();
     const processResponseCountries = new Set();
     const structuralResponseCountries = new Set();
+    const tradeProxyResponseCountries = new Set();
     for (const route of raw.routes) {
       exactKeys(route, [
         "operationalRank", "priorityCode", "wave", "countryIso2", "countryEn", "countryFi",
@@ -441,6 +443,11 @@
         structuralResponseCountries.add(route.countryIso2);
         if (route.dispatch.publicAuthorityReference !== null) {
           throw new Error("structural response cannot expose a correspondence reference");
+        }
+      } else if (route.dispatch.responseState === TRADE_PROXY_RESPONSE_STATE) {
+        tradeProxyResponseCountries.add(route.countryIso2);
+        if (route.dispatch.publicAuthorityReference !== null) {
+          throw new Error("trade-proxy response cannot expose a correspondence reference");
         }
       }
       if (route.status === "sent") {
@@ -517,6 +524,9 @@
     if (structuralResponseCountries.size !== 1 || !structuralResponseCountries.has("SE")) {
       throw new Error("structural-data response set differs from the approved Sweden record");
     }
+    if (tradeProxyResponseCountries.size !== 1 || !tradeProxyResponseCountries.has("FR")) {
+      throw new Error("trade-proxy response set differs from the approved France record");
+    }
     return raw;
   }
 
@@ -539,6 +549,12 @@
         "Official registration-structure response received — no sales, value or volume data"
       );
     }
+    if (route.dispatch.responseState === TRADE_PROXY_RESPONSE_STATE) {
+      return l(
+        "Virallinen tullikaupan vuosiaineisto vastaanotettu — osittainen tuoterajaus; toimitusvaiheen proxy, ei vähittäismarkkinan koko",
+        "Official annual customs-trade extract received — product scope partial; supply-stage proxy, not retail market size"
+      );
+    }
     return processStatusText(route.dispatch.responseState);
   }
 
@@ -554,9 +570,15 @@
       (route) => Object.hasOwn(PROCESS_RESPONSE_LABELS, route.dispatch.responseState)
         && !structuralCountries.has(route.countryIso2)
     ).length;
+    const tradeProxy = routes.filter(
+      (route) => route.status === "sent"
+        && route.countryIso2 === "FR"
+        && route.dispatch.responseState === TRADE_PROXY_RESPONSE_STATE
+    ).length;
     return {
       processOnly,
       officialStructural: structuralCountries.size,
+      tradeProxy,
       sales: 0
     };
   }
@@ -930,12 +952,12 @@
     );
     root.querySelector("[data-request-program-boundary-mark]").textContent = l("TILA", "STATUS");
     root.querySelector("[data-request-program-boundary-summary]").textContent = l(
-      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.sales} myyntidatavastausta`,
-      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.sales} sales-data responses`
+      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta`,
+      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses`
     );
     root.querySelector("[data-request-program-boundary-copy]").textContent = l(
-      "Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Se ei ole myynti-, arvo- tai volyymievidenssiä, ja vuoden 2026 rivi on snapshot. Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
-      "The Sweden response contains official registration-structure counts only. It is not sales, value or volume evidence, and the 2026 row is a snapshot. The supplementary BVL request belongs to Germany and adds no country. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
+      "Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Ranskan vastaus sisältää vuosittaisen tullikaupan laiteproxy-aineiston, jonka yksiköt ja neste-/pod-luokitus odottavat vahvistusta; se ei ole vähittäismarkkinan koko. Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
+      "The Sweden response contains official registration-structure counts only. The France response contains an annual device-code customs-trade proxy whose units and liquid/pod mapping await confirmation; it is not retail market size. The supplementary BVL request belongs to Germany and adds no country. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
     );
     root.querySelector("[data-request-program-note]").textContent = l(
       "Kuusi evidenssikerrosta ovat vaihtoehtoisia ja toisiaan tarkistavia. Vero-, myynti-, tulli-, toimitus- ja takavarikkosarjoja ei saa laskea mekaanisesti yhteen; takavarikot eivät ole laillista myyntiä.",
@@ -966,8 +988,8 @@
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.sales} myyntidatavastausta · tarkistettu ${SWEDEN_STRUCTURAL_RESPONSE.verifiedOn}.`,
-        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.sales} sales-data responses · verified ${SWEDEN_STRUCTURAL_RESPONSE.verifiedOn}.`
+        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta · tarkistettu ${programme.verificationDate}.`,
+        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses · verified ${programme.verificationDate}.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

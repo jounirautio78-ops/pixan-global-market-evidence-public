@@ -160,6 +160,7 @@ const state = {
   evidenceLanes: null,
   donorCockpit: null,
   countryScenarios: null,
+  globalBase: null,
   fxData: null,
   patentData: null,
   changelog: null,
@@ -285,7 +286,7 @@ function renderMetrics() {
     .map((item) => item.countryIso2));
   const modelled = new Set(marketModels().map((item) => item.countryIso2).filter(Boolean));
   const metrics = [
-    { label: l("Tutkimusmaailma", "Research universe"), value: `${list.length} / 195`, note: l("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets") },
+    { label: l("Avoin maapohja", "Open country base"), value: `${list.length} / 195`, note: state.globalBase ? l(`${state.globalBase.summary.observedCount} World Bank -havaintoa; ei sähkötupakkamyyntiä`, `${state.globalBase.summary.observedCount} World Bank records; no vaping sales`) : l("Suvereenit valtiot indeksoitu; ei 195 mitattua markkinaa", "Sovereign states indexed; not 195 measured markets") },
     { label: l("Määrällisiä vuosihavaintoja", "Countries with annual numeric data"), value: `${quantified.size} / 195`, note: l("Tarkistettuja maakohtaisia raha-, vero- tai määräarvoja", "Reviewed country-level monetary, tax or volume records") },
     { label: l("Virallinen vähittäismyynnin alaraja-ankkuri", "Official retail lower-bound anchor"), value: `${officialRetailLowerBound.size} / 195`, note: l(`${officialRetail.size} virallinen kuluttajavähittäismyynnin piste-estimaatti seurataan erikseen; kumpikaan reitti ei ole hyväksytty donor`, `${officialRetail.size} official consumer-retail point estimate is tracked separately; neither route is an accepted donor`) },
     { label: l("Atlaksen maamalli", "Atlas country model"), value: `${modelled.size} / 195`, note: l("Saksan nesteskenaario; matala luottamus, ei laitteita", "Germany liquid scenario; low confidence, excludes devices") }
@@ -1938,6 +1939,98 @@ function renderChangesSinceVisit() {
   }
 }
 
+function globalBaseMeasureSummary(measureId) {
+  return (state.globalBase?.summary?.measures || []).find((item) => item.measureId === measureId) || null;
+}
+
+function globalBaseCountry(iso2) {
+  return (state.globalBase?.countries || []).find((item) => item.iso2 === iso2) || null;
+}
+
+function globalBaseCard(value, labelFi, labelEn, detailFi, detailEn, tone = "") {
+  const card = node("article", `global-base-card${tone ? ` global-base-card-${tone}` : ""}`);
+  card.append(
+    node("strong", "", value),
+    node("span", "", l(labelFi, labelEn)),
+    node("small", "", l(detailFi, detailEn))
+  );
+  return card;
+}
+
+function renderGlobalBase() {
+  const panel = byId("global-base-panel");
+  const host = byId("global-base-summary");
+  const status = byId("global-base-status");
+  if (!panel || !host || !status) return;
+  host.replaceChildren();
+  const data = state.globalBase;
+  if (!data) {
+    panel.dataset.state = "error";
+    panel.setAttribute("aria-busy", "false");
+    status.dataset.state = "error";
+    status.textContent = l("Ei saatavilla", "Unavailable");
+    host.append(node("p", "empty-state", l(
+      "Avoimen maapohjan tiedostoa ei voitu vahvistaa. Puuttuvia arvoja ei korvata nollilla.",
+      "The open country-base file could not be verified. Missing values are not replaced with zeroes."
+    )));
+    return;
+  }
+  const population = globalBaseMeasureSummary("population_total");
+  const workingAge = globalBaseMeasureSummary("population_ages_15_64");
+  const gdp = globalBaseMeasureSummary("gdp_per_capita_current_usd");
+  const who = globalBaseMeasureSummary("who_adult_current_ecig_prevalence");
+  const trade = globalBaseMeasureSummary("un_comtrade_vaping_trade");
+  host.append(
+    globalBaseCard(
+      `${data.countries.length} / 195`,
+      "maata yhtenäisessä rungossa",
+      "countries in one frame",
+      "UN193 + Pyhä istuin + Palestiina",
+      "UN193 + Holy See + State of Palestine"
+    ),
+    globalBaseCard(
+      `${population?.observedCount || 0} / 195`,
+      "väestöhavaintoa",
+      "population observations",
+      "uusin ei-tyhjä lähdevuosi säilytetty",
+      "latest non-null source year retained"
+    ),
+    globalBaseCard(
+      `${workingAge?.observedCount || 0} / 195`,
+      "15–64-vuotiaiden havaintoa",
+      "age 15–64 observations",
+      "taustasignaali, ei käyttäjämäärä",
+      "context signal, not a user count"
+    ),
+    globalBaseCard(
+      `${gdp?.observedCount || 0} / 195`,
+      "BKT/asukas-havaintoa",
+      "GDP-per-capita observations",
+      `${data.summary.gdpEurEquivalent.computedCount} saman vuoden EUR-vasta-arvoa`,
+      `${data.summary.gdpEurEquivalent.computedCount} same-year EUR equivalents`
+    ),
+    globalBaseCard(
+      "0",
+      "vähittäismyyntiin kelpaavaa havaintoa",
+      "retail-sales-eligible records",
+      `${who?.queuedCount || 0} WHO- ja ${trade?.queuedCount || 0} Comtrade-reittiä jonossa`,
+      `${who?.queuedCount || 0} WHO and ${trade?.queuedCount || 0} Comtrade routes queued`,
+      "blocked"
+    )
+  );
+  panel.dataset.state = "ready";
+  panel.setAttribute("aria-busy", "false");
+  status.dataset.state = "ready";
+  status.textContent = l(
+    `${data.summary.observedCount} havaittua · maailmanmyynti estetty`,
+    `${data.summary.observedCount} observed · global sales blocked`
+  );
+  byId("global-base-method").textContent = l(
+    "World Bank -sarjoista valitaan uusin ei-tyhjä havainto vuosilta 2020–2024 ja todellinen lähdevuosi säilytetään. BKT/asukas muunnetaan euroiksi vain saman lähdevuoden EKP-kurssilla. WHO- ja UN Comtrade -reitit ovat puuttuvia ja jonossa, eivät nollia.",
+    "For each World Bank series, the latest non-null observation from 2020–2024 is selected and its real source year is retained. GDP per capita is converted to euros only with the ECB rate for that same source year. WHO and UN Comtrade routes are missing and queued, not zero."
+  );
+}
+
 function populateRegions() {
   const select = byId("region-filter");
   const selected = state.region;
@@ -2051,6 +2144,84 @@ function openCountry(country) {
   }
   dimensionsSection.append(dimensions);
   body.append(dimensionsSection);
+
+  const base = globalBaseCountry(country.iso2);
+  const baseSection = node("section", "dialog-section global-base-country");
+  baseSection.append(node("h3", "", l("Avoimen pohjakerroksen taustaluvut", "Open-base context")));
+  if (base) {
+    const baseGrid = node("div", "global-base-country-grid");
+    const locale = isFi() ? "fi-FI" : "en-GB";
+    const measureRow = (labelFi, labelEn, measure, formatValue) => {
+      const item = node("article", "global-base-country-item");
+      item.append(node("span", "", l(labelFi, labelEn)));
+      if (measure?.dataStatus === "observed" && Number.isFinite(Number(measure.value))) {
+        item.append(
+          node("strong", "", formatValue(Number(measure.value))),
+          node("small", "", l(`Lähdevuosi ${measure.sourcePeriod}`, `Source year ${measure.sourcePeriod}`))
+        );
+      } else {
+        item.append(
+          node("strong", "", l("Puuttuu", "Missing")),
+          node("small", "", l("Ei korvata nollalla", "Not replaced with zero"))
+        );
+      }
+      return item;
+    };
+    const population = base.worldBank?.populationTotal;
+    const workingAge = base.worldBank?.populationAges15To64;
+    const gdp = base.worldBank?.gdpPerCapitaCurrentUsd;
+    baseGrid.append(
+      measureRow(
+        "Väestö",
+        "Population",
+        population,
+        (value) => new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(value)
+      ),
+      measureRow(
+        "15–64-vuotiaat",
+        "Population ages 15–64",
+        workingAge,
+        (value) => new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(value)
+      ),
+      measureRow(
+        "BKT / asukas",
+        "GDP per capita",
+        gdp,
+        (value) => {
+          const usd = new Intl.NumberFormat(locale, { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
+          const eur = gdp?.eurEquivalent?.status === "computed"
+            ? new Intl.NumberFormat(locale, { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(gdp.eurEquivalent.value)
+            : "EUR not_computed";
+          return `${usd} · ${eur}`;
+        }
+      )
+    );
+    for (const [labelFi, labelEn, route] of [
+      ["WHO:n käyttäjäprevalenssi", "WHO user prevalence", base.routes?.whoAdultCurrentEcigPrevalence],
+      ["UN Comtrade -kauppareitti", "UN Comtrade trade route", base.routes?.unComtradeVapingTrade]
+    ]) {
+      const item = node("article", "global-base-country-item global-base-country-route");
+      item.append(
+        node("span", "", l(labelFi, labelEn)),
+        node("strong", "", route?.acquisitionStatus === "queued" ? l("Jonossa", "Queued") : l("Puuttuu", "Missing")),
+        node("small", "", l("Arvo puuttuu — ei nolla eikä myynti", "Value missing—not zero and not sales"))
+      );
+      baseGrid.append(item);
+    }
+    baseSection.append(
+      baseGrid,
+      node("p", "global-base-country-boundary", l(
+        "Nämä luvut auttavat myöhempää mallinnusta ja priorisointia. Ne eivät ole tämän maan sähkötupakkamarkkinan arvo.",
+        "These records support later modelling and prioritisation. They are not this country's vaping-market value."
+      ))
+    );
+  } else {
+    baseSection.append(node("p", "", l(
+      "Maakohtaista pohjakerrosta ei voitu vahvistaa.",
+      "The country-base record could not be verified."
+    )));
+  }
+  body.append(baseSection);
 
   const missingSection = node("section", "dialog-section");
   const missing = isFi()
@@ -2613,6 +2784,7 @@ function renderLocalizedView() {
   renderMarket();
   renderChangesSinceVisit();
   populateRegions();
+  renderGlobalBase();
   renderCountries();
   renderEvidence();
   renderLegal();
@@ -2636,6 +2808,7 @@ async function loadData() {
   const [
     atlasResult,
     marketResult,
+    globalBaseResult,
     evidenceLanesResult,
     donorCockpitResult,
     countryScenariosResult,
@@ -2645,6 +2818,7 @@ async function loadData() {
   ] = await Promise.allSettled([
     fetch("data/atlas.json", { cache: "no-store" }),
     fetch("data/market-values.json", { cache: "no-store" }),
+    fetch("data/global-base-layer.json", { cache: "no-store" }),
     fetch("data/evidence-lanes.json", { cache: "no-store" }),
     fetch("data/donor-cockpit.json", { cache: "no-store" }),
     fetch("data/country-scenarios.json", { cache: "no-store" }),
@@ -2665,6 +2839,36 @@ async function loadData() {
   } catch (error) {
     state.marketData = null;
     console.warn("Optional market-value dataset unavailable", error);
+  }
+
+  try {
+    if (globalBaseResult.status !== "fulfilled" || !globalBaseResult.value.ok) throw new Error(`HTTP ${globalBaseResult.status === "fulfilled" ? globalBaseResult.value.status : "network error"}`);
+    const globalBase = await globalBaseResult.value.json();
+    const routesValid = (globalBase.countries || []).every((country) => (
+      country.retailSalesEligible === false
+      && country.routes?.whoAdultCurrentEcigPrevalence?.value === null
+      && country.routes?.whoAdultCurrentEcigPrevalence?.dataStatus === "missing"
+      && country.routes?.whoAdultCurrentEcigPrevalence?.acquisitionStatus === "queued"
+      && country.routes?.unComtradeVapingTrade?.value === null
+      && country.routes?.unComtradeVapingTrade?.dataStatus === "missing"
+      && country.routes?.unComtradeVapingTrade?.acquisitionStatus === "queued"
+    ));
+    if (
+      globalBase.schemaVersion !== "1.0"
+      || globalBase.asOf !== "2026-07-27"
+      || !Array.isArray(globalBase.countries)
+      || globalBase.countries.length !== 195
+      || globalBase.summary?.observedCount !== 578
+      || globalBase.summary?.gdpEurEquivalent?.computedCount !== 190
+      || globalBase.globalRetailSales?.status !== "blocked"
+      || globalBase.globalRetailSales?.value !== null
+      || globalBase.globalRetailSales?.eligibleObservationCount !== 0
+      || !routesValid
+    ) throw new Error("schema or fail-closed boundary validation failed");
+    state.globalBase = globalBase;
+  } catch (error) {
+    state.globalBase = null;
+    console.warn("Optional global country-base dataset unavailable", error);
   }
 
   try {

@@ -53,9 +53,38 @@ The reviewed table and field mapping are documented in `source/SWEDEN_FHM_REGIST
 
 These records are structural counts only. They are not annual sales, sold device units, sold liquid volume, market value, market share or donor evidence. They have no currency and are ineligible for both EUR conversion and the donor count.
 
+## Open official-data base layer
+
+`source/global-base-config.json` defines a reviewed five-measure snapshot for the 195-country `UN193+VA+PS` universe. `source/global-base-observations.json` contains 975 country-measure records and preserves the selected source year for every observed value.
+
+The active World Bank World Development Indicators routes produce 578 observed values: total population for 194 countries, population ages 15–64 for 194 countries and GDP per capita in current U.S. dollars for 190 countries. The remaining World Bank records are explicitly missing. The adult e-cigarette-prevalence route to the WHO Global Health Observatory and the vaping-related trade route to UN Comtrade are route-only in v27: all 390 country-route records are missing and queued, not reported as zero. Across all measures, 397 records are missing.
+
+Every base-layer record has `retailSalesEligible: false`. Population, working-age population and GDP are contextual signals, while eventual prevalence and trade values would be proxies. None is national annual consumer-retail vaping sales, none enters the donor count and none can be summed into a global market value. The retail-eligible observation count is zero and the global value is `null`.
+
+- World Bank data portal: <https://data.worldbank.org/>
+- World Bank API documentation: <https://datahelpdesk.worldbank.org/knowledgebase/articles/898581-api-basic-call-structures>
+- WHO Global Health Observatory: <https://www.who.int/data/gho>
+- UN Comtrade: <https://comtradeplus.un.org/>
+- Reviewed configuration: `source/global-base-config.json`
+- Reviewed observations: `source/global-base-observations.json`
+- Public schema: `source/schemas/global-base-layer.schema.json`
+
+## Poland official flow and excise bridge
+
+`source/market-observations.json` contains four official Polish e-liquid-volume observations for 2020–2023 from the Ministry of Finance response to parliamentary interpellation 7255. The reported ZEFIR2/AIS table covers domestic sales, intra-EU acquisitions and imports: 1,451,529 litres in 2020, 277,265 litres in 2021, 416,088 litres in 2022 and 805,441 litres in 2023.
+
+The Ministry response to interpellation 17526 provides realised 2025 excise receipts for e-liquid, vaping devices and component sets. The official PLN 40 per-device and PLN 40 per-set rates in force from 1 July 2025 support a deterministic bridge to 4,382,500 implied taxed devices and 62,500 implied taxed component sets. No e-liquid quantity is back-solved because the 2025 rate changed during the year and disposables acquired an additional charge.
+
+The litres are physical supply or release flows and the implied units are tax-base bridges. They are not full-year consumer sell-through or observed retail value, do not make Poland an accepted donor and do not change the 0/3 donor gate.
+
+- [Interpellation 7255 response — 2020–2023 national volumes](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf)
+- [Interpellation 17526 response — realised 2025 excise](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf)
+- [Polish Ministry of Finance — excise rates](https://www.podatki.gov.pl/akcyza/stawki-podatkowe/)
+- Reviewed method and limits: `source/POLAND_2020_2025_RECONSTRUCTION.md`
+
 ## ECB annual-average EUR equivalents
 
-`source/fx-rates.json` is a separate, public-only conversion layer sourced from the European Central Bank’s official `EXR` dataset. It contains 20 annual-average spot-reference observations for the exact CAD, NZD, PLN, SEK and USD currency-year pairs used by the current annual monetary records. Every rate links to a year-bounded ECB Data API CSV query and records the review date `2026-07-24`.
+`source/fx-rates.json` is a separate, public-only conversion layer sourced from the European Central Bank’s official `EXR` dataset. It contains 23 annual-average spot-reference observations for the exact CAD, NZD, PLN, SEK and USD currency-year pairs used by the current annual monetary records and the 2022–2024 World Bank GDP-per-capita base layer. Every rate links to a year-bounded ECB Data API CSV query and records the review date `2026-07-27`.
 
 The ECB series key format is `EXR.A.<currency>.EUR.SP00.A`, and the quote is foreign-currency units per euro. The reproducible calculation is therefore `EUR equivalent = original monetary amount / currency units per EUR`. The source amount and source currency remain primary. Full published API `OBS_VALUE` precision is retained for the calculation; rounding occurs only when the browser displays the secondary EUR equivalent.
 

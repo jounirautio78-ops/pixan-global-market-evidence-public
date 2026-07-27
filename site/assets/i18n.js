@@ -3,27 +3,27 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V26 = Object.freeze({
-    id: "2026-07-27-first-donor-conversion-v26",
-    version: "2026.07.27-26",
-    publishedAt: "2026-07-27T09:00:00+03:00",
-    titleEn: "First-donor conversion sprint",
-    titleFi: "Ensimmäisen donorin sulkemissprintti",
+  const UI_RELEASE_V27 = Object.freeze({
+    id: "2026-07-27-global-base-poland-v27",
+    version: "2026.07.27-27",
+    publishedAt: "2026-07-27T16:08:35+03:00",
+    titleEn: "195-country open base and Poland reconstruction",
+    titleFi: "195 maan avoin pohja ja Puolan rekonstruktio",
     items: Object.freeze([
       Object.freeze({
         category: "evidence",
-        textEn: "New official-source audits keep New Zealand D8/D10 and Canada D5/D7/D10 open. Both candidates remain not accepted at 7/10; the donor gate remains 0/3 and no global value is published.",
-        textFi: "Uudet virallisten lähteiden auditit pitävät Uuden-Seelannin D8/D10- ja Kanadan D5/D7/D10-ehdot avoimina. Molemmat ehdokkaat pysyvät tasolla 7/10 ilman hyväksyntää; donor-portti on edelleen 0/3 eikä maailmanarvoa julkaista."
+        textEn: "Published a fail-closed 195-country open base: 578 observed World Bank records, 190 same-source-year EUR GDP-per-capita equivalents and 195 queued WHO plus 195 queued UN Comtrade routes. None is vaping retail sales.",
+        textFi: "Julkaistiin fail-closed 195 maan avoin pohja: 578 havaittua World Bank -tietuetta, 190 saman lähdevuoden EUR-vasta-arvoa BKT/asukas-luvuille sekä 195 jonossa olevaa WHO- ja 195 UN Comtrade -reittiä. Mikään niistä ei ole sähkötupakkavähittäismyyntiä."
       }),
       Object.freeze({
         category: "method",
-        textEn: "A source-linked 15-country acquisition screen names Poland as the practical primary programme, Finland, Denmark and France as the secondary wave, and Russia only as a high-friction source lead. The screen assigns no donor scores.",
-        textFi: "Lähteistetty 15 maan hankintaseulonta nimeää Puolan käytännölliseksi ensisijaiseksi ohjelmaksi, Suomen, Tanskan ja Ranskan toissijaiseksi aalloksi sekä Venäjän vain korkean kitkan lähdejohtolangaksi. Seulonta ei anna donor-pisteitä."
+        textEn: "Poland now has an official 2020–2023 e-liquid flow series and a deterministic 2025 tax-base bridge for 4,382,500 devices and 62,500 component sets. These are not retail value and do not make Poland an accepted donor.",
+        textFi: "Puolalla on nyt virallinen vuosien 2020–2023 e-nestevirran sarja ja deterministinen vuoden 2025 veropohjasilta 4 382 500 laitteelle ja 62 500 osasarjalle. Ne eivät ole vähittäisarvo eivätkä tee Puolasta hyväksyttyä donoria."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Three 28 July follow-ups are prepared but not sent: ECigIntelligence, one combined Euromonitor EU/Germany request and Circana United States. NIQ remains excluded until the terms and permitted-use gate is reviewed.",
-        textFi: "Kolme 28.7. seurantaa on valmisteltu mutta ei lähetetty: ECigIntelligence, yksi yhdistetty Euromonitorin EU/Saksa-pyyntö ja Circana Yhdysvallat. NIQ pysyy ulkopuolella, kunnes ehdot ja sallittu käyttö on tarkistettu."
+        textEn: "Vendor sample control now distinguishes pass, fail, not testable and missing. Euromonitor remains 0/6 mandatory gates; receipt of a quote is separate and no purchase is authorised. The 28 July follow-up remains conditional on no new reply.",
+        textFi: "Toimittajanäytteen valvonta erottaa nyt läpäisyn, hylkäyksen, ei-testattavan ja puuttuvan. Euromonitor pysyy tasolla 0/6 pakollista porttia; tarjouksen saaminen on erillinen tieto eikä ostoa ole valtuutettu. Seuranta 28.7. tehdään vain, jos uutta vastausta ei ole."
       })
     ])
   });
@@ -93,6 +93,16 @@
     ["UN 193 + Pyhä istuin + Palestiina", "UN 193 + Holy See + State of Palestine"],
     ["195 maan markkina-atlas", "195-country market atlas"],
     ["Valitse valtio nähdäksesi nykyisen ankkurin, puutteet, lähteet ja seuraavan tutkimusreitin. Erikseen raportoituja markkina-alueita ja territorioita varten rakennetaan päällekkäisyyden estävä erillinen kerros.", "Select a sovereign state to inspect its current anchor, gaps, sources and next research route. Separately reported market geographies and territories will use a distinct overlap-controlled layer."],
+    ["Lataa 195 maan pohja CSV", "Download 195-country base CSV"],
+    ["Lataa 195 maan pohja JSON", "Download 195-country base JSON"],
+    ["Avoin vertailupohja · ei sähkötupakkamyyntiä", "Open comparison base · not vaping sales"],
+    ["195 maan demografinen ja taloudellinen pohjakerros", "195-country demographic and economic base layer"],
+    ["Maailman vähittäismyynti pysyy estettynä.", "Global retail sales remain blocked."],
+    ["Väestö, työikäinen väestö, BKT/asukas, käyttäjäprevalenssi ja tullivirta ovat tausta- tai proxymittareita. Niitä ei summata sähkötupakkamarkkinaksi.", "Population, working-age population, GDP per capita, user prevalence and trade flows are context or proxy measures. They are not summed into a vaping market."],
+    ["World Bank -sarjoista valitaan uusin ei-tyhjä havainto vuosilta 2020–2024 ja todellinen lähdevuosi säilytetään. EUR-vasta-arvo lasketaan vain saman lähdevuoden EKP-kurssilla.", "For each World Bank series, the latest non-null observation from 2020–2024 is selected and the real source year is retained. A EUR equivalent is calculated only with the ECB rate for that same source year."],
+    ["Lataa pohjakerros CSV", "Download base-layer CSV"],
+    ["Lataa pohjakerros JSON", "Download base-layer JSON"],
+    ["195 maan pohja CSV", "195-country base CSV"],
     ["Maataulukon suodattimet", "Country table filters"],
     ["Hae maata", "Search countries"],
     ["Hae maata tai ISO-koodia…", "Search country or ISO code…"],
@@ -472,7 +482,7 @@
     ["Tarkistetut viralliset reitit olemassa olevien aggregoitujen myynti-, valmistevero-, tulli- ja tuoteilmoitustietojen pyytämiseksi. Järjestys on operatiivinen — ei markkinakokoluokitus.", "Verified official routes for existing aggregate sales, excise, customs and product-notification records. The ranking is operational—not a market-size ranking."],
     ["Tietopyyntöjen tilarajaus", "Data-request status boundary"],
     ["TILA", "STATUS"],
-    ["12 lähetetty · 8 luonnosta · 1 täydentävä Saksan reitti · 3 vain prosessivastausta · 1 virallinen rakennevastaus · 0 myyntidatavastausta", "12 sent · 8 drafts · 1 supplementary German route · 3 process-only responses · 1 official structural response · 0 sales-data responses"],
+    ["12 lähetetty · 8 luonnosta · 1 täydentävä Saksan reitti · 3 vain prosessivastausta · 1 virallinen rakennevastaus · 1 tullikaupan proxyvastaus · 0 myyntidatavastausta", "12 sent · 8 drafts · 1 supplementary German route · 3 process-only responses · 1 official structural response · 1 customs-trade proxy response · 0 sales-data responses"],
     ["Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Se ei ole myynti-, arvo- tai volyymievidenssiä, ja vuoden 2026 rivi on snapshot. Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata. Maksua ei ole hyväksytty. Ladattavat mallit säilyvät LUONNOS — EI LÄHETETTY -tilassa.", "The Sweden response contains official registration-structure counts only. It is not sales, value or volume evidence, and the 2026 row is a snapshot. The supplementary BVL request belongs to Germany and adds no country. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."],
     ["Lataa reittitaulukko CSV", "Download route table CSV"],
     ["Lataa englanninkielinen pyyntömalli", "Download English request template"],
@@ -700,7 +710,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V26;
+  window.PixanUiRelease = UI_RELEASE_V27;
 
   init();
 })();

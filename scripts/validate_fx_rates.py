@@ -43,6 +43,9 @@ EXPECTED_RATES = {
     ("USD", 2019): Decimal("1.1194745098039"),
     ("USD", 2020): Decimal("1.1421961089494"),
     ("USD", 2021): Decimal("1.1827403100775"),
+    ("USD", 2022): Decimal("1.0530486381323"),
+    ("USD", 2023): Decimal("1.081268627451"),
+    ("USD", 2024): Decimal("1.08238046875"),
     ("USD", 2025): Decimal("1.1299831372549"),
 }
 
@@ -190,7 +193,7 @@ def validate_rate_document(
         return
     if (
         source.get("schemaVersion") != "1.0"
-        or source.get("asOf") != "2026-07-24"
+        or source.get("asOf") != "2026-07-27"
         or source.get("targetCurrency") != "EUR"
     ):
         errors.append("fx-rates.json identity, review date or target currency is invalid")
@@ -473,7 +476,7 @@ def main() -> None:
         print(f"FX validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated ECB EUR-equivalent layer: 20 official annual-average rates, "
+        "Validated ECB EUR-equivalent layer: 23 official annual-average rates, "
         "original currencies retained, compatible monetary totals converted, "
         "and physical volumes, unit prices and missing scenarios kept fail closed."
     )

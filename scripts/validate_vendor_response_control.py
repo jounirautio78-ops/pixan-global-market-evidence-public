@@ -65,7 +65,87 @@ EVIDENCE_KEYS = {
     "transactionUseRights",
     "totalCostTerms",
 }
-MANDATORY_GATE_KEYS = EVIDENCE_KEYS - {"quote"}
+MANDATORY_GATE_RULES = {
+    "G1": {
+        "evidenceKey": "sample",
+        "allowedReasons": {
+            "EVIDENCE_NOT_RECEIVED",
+            "ROUTE_NOT_SUBMITTED",
+            "SAMPLE_REQUIRED_YEARS_MISSING",
+            "SAMPLE_REQUIRED_METRICS_INCOMPLETE",
+        },
+    },
+    "G2": {
+        "evidenceKey": "methodology",
+        "allowedReasons": {
+            "EVIDENCE_NOT_RECEIVED",
+            "ROUTE_NOT_SUBMITTED",
+            "METHOD_COUNTRY_DETAIL_MISSING",
+            "METHOD_RECORD_STATUS_FLAGS_MISSING",
+        },
+    },
+    "G3": {
+        "evidenceKey": "coverageMatrix",
+        "allowedReasons": {
+            "EVIDENCE_NOT_RECEIVED",
+            "ROUTE_NOT_SUBMITTED",
+            "COVERAGE_MATRIX_NOT_RECEIVED",
+            "COVERAGE_MATRIX_CATEGORY_DETAIL_INCOMPLETE",
+        },
+    },
+    "G4": {
+        "evidenceKey": "officialAnchorReconciliation",
+        "allowedReasons": {
+            "EVIDENCE_NOT_RECEIVED",
+            "ROUTE_NOT_SUBMITTED",
+            "ANCHOR_COMPARABLE_SERIES_MISSING",
+            "ANCHOR_SCOPE_STAGE_BRIDGE_MISSING",
+        },
+    },
+    "G5": {
+        "evidenceKey": "transactionUseRights",
+        "allowedReasons": {
+            "EVIDENCE_NOT_RECEIVED",
+            "ROUTE_NOT_SUBMITTED",
+            "RIGHTS_ONWARD_SHARING_UNCONFIRMED",
+            "RIGHTS_DATA_ROOM_UNCONFIRMED",
+        },
+    },
+    "G6": {
+        "evidenceKey": "totalCostTerms",
+        "allowedReasons": {
+            "EVIDENCE_NOT_RECEIVED",
+            "ROUTE_NOT_SUBMITTED",
+            "COMMERCIAL_TOTAL_COST_INCOMPLETE",
+            "COMMERCIAL_EXPORT_AND_RETENTION_UNCONFIRMED",
+            "COMMERCIAL_SELECTED_SCOPE_PRICE_PENDING",
+            "COMMERCIAL_SPECIAL_USE_FEES_UNPRICED",
+        },
+    },
+}
+MANDATORY_GATE_IDS = set(MANDATORY_GATE_RULES)
+MANDATORY_GATE_KEYS = {
+    rule["evidenceKey"] for rule in MANDATORY_GATE_RULES.values()
+}
+GATE_STATUSES = {"pass", "fail", "not_testable", "missing"}
+REASON_CODE_STATUSES = {
+    "EVIDENCE_NOT_RECEIVED": {"missing"},
+    "ROUTE_NOT_SUBMITTED": {"missing"},
+    "SAMPLE_REQUIRED_YEARS_MISSING": {"not_testable"},
+    "SAMPLE_REQUIRED_METRICS_INCOMPLETE": {"not_testable"},
+    "METHOD_COUNTRY_DETAIL_MISSING": {"fail"},
+    "METHOD_RECORD_STATUS_FLAGS_MISSING": {"fail"},
+    "COVERAGE_MATRIX_NOT_RECEIVED": {"missing"},
+    "COVERAGE_MATRIX_CATEGORY_DETAIL_INCOMPLETE": {"fail"},
+    "ANCHOR_COMPARABLE_SERIES_MISSING": {"not_testable"},
+    "ANCHOR_SCOPE_STAGE_BRIDGE_MISSING": {"not_testable"},
+    "RIGHTS_ONWARD_SHARING_UNCONFIRMED": {"fail"},
+    "RIGHTS_DATA_ROOM_UNCONFIRMED": {"fail"},
+    "COMMERCIAL_TOTAL_COST_INCOMPLETE": {"fail"},
+    "COMMERCIAL_EXPORT_AND_RETENTION_UNCONFIRMED": {"fail"},
+    "COMMERCIAL_SELECTED_SCOPE_PRICE_PENDING": {"fail"},
+    "COMMERCIAL_SPECIAL_USE_FEES_UNPRICED": {"fail"},
+}
 GERMANY_BENCHMARK_KEYS = {
     "benchmarkId",
     "countryIso2",
@@ -127,6 +207,53 @@ GERMANY_REQUIRED_EVIDENCE_IDS = {
     "transactionUseRights",
     "commercialTerms",
 }
+
+
+def uniform_missing_gate_results(reason_code: str) -> dict[str, dict[str, Any]]:
+    return {
+        gate_id: {"status": "missing", "reasonCodes": [reason_code]}
+        for gate_id in MANDATORY_GATE_RULES
+    }
+
+
+EUROMONITOR_GATE_RESULTS = {
+    "G1": {
+        "status": "not_testable",
+        "reasonCodes": [
+            "SAMPLE_REQUIRED_YEARS_MISSING",
+            "SAMPLE_REQUIRED_METRICS_INCOMPLETE",
+        ],
+    },
+    "G2": {
+        "status": "fail",
+        "reasonCodes": [
+            "METHOD_COUNTRY_DETAIL_MISSING",
+            "METHOD_RECORD_STATUS_FLAGS_MISSING",
+        ],
+    },
+    "G3": {
+        "status": "fail",
+        "reasonCodes": ["COVERAGE_MATRIX_CATEGORY_DETAIL_INCOMPLETE"],
+    },
+    "G4": {
+        "status": "not_testable",
+        "reasonCodes": ["ANCHOR_SCOPE_STAGE_BRIDGE_MISSING"],
+    },
+    "G5": {
+        "status": "fail",
+        "reasonCodes": [
+            "RIGHTS_ONWARD_SHARING_UNCONFIRMED",
+            "RIGHTS_DATA_ROOM_UNCONFIRMED",
+        ],
+    },
+    "G6": {
+        "status": "fail",
+        "reasonCodes": [
+            "COMMERCIAL_SELECTED_SCOPE_PRICE_PENDING",
+            "COMMERCIAL_SPECIAL_USE_FEES_UNPRICED",
+        ],
+    },
+}
 EXPECTED_VENDORS = {
     "ecig-global-market-database": {
         "vendor": "ECigIntelligence",
@@ -141,6 +268,8 @@ EXPECTED_VENDORS = {
             "Pyyntö lähetetty 23.7.2026; palautusta, automaattikuittausta tai vastausta "
             "ei ole kirjattu; ensimmäinen seuranta 28.7.2026, jos vastausta ei kuulu"
         ),
+        "quoteReceived": False,
+        "gateResults": uniform_missing_gate_results("EVIDENCE_NOT_RECEIVED"),
     },
     "euromonitor-passport-nicotine": {
         "vendor": "Euromonitor International",
@@ -148,29 +277,36 @@ EXPECTED_VENDORS = {
         "requestState": "request_sent",
         "responseState": "substantive_response_received",
         "publicStatusEn": (
-            "A Germany workbook sample, generic methodology, blank licence terms and two "
-            "indicative annual package quotes were received on 2026-07-24. The sample exposes "
-            "category, value/volume, company/brand, channel, nicotine-strength and user fields, "
-            "but is deliberately sparse and lacks comparable 2023–2024 Germany liquid totals. "
-            "The vendor states roughly 75 e-vapour countries; the exact country-product matrix "
-            "remains missing. Default terms do not yet confirm Pixan onward sharing or controlled "
-            "lender, buyer, adviser and data-room use, and restrict public and legal use. "
-            "A quote is recorded as received, but the sparse workbook does not pass the "
-            "representative-sample gate; all six mandatory gates remain open. NOT SCORED; "
-            "no purchase, fee or commitment is authorised."
+            "An expanded Germany workbook sample, a 78-market e-vapour value-coverage list, "
+            "generic methodology, blank licence terms and indicative annual package quotes were "
+            "received by 2026-07-27. The sample exposes category, value/volume, company/brand, "
+            "channel, nicotine-strength and user fields and permits a private 2023–2024 numerical "
+            "liquid-volume comparison, but current market-size and forecast fields remain redacted "
+            "and the retail-stage, tax-basis and product-scope bridge to the official taxed-volume "
+            "series is missing. The country list has differing end years and is not a country-"
+            "product-year-measure matrix. Default terms do not yet confirm the intended onward "
+            "sharing, controlled lender, buyer, adviser and data-room use, and restrict public, "
+            "legal and AI-assisted use. A written clarification and comparable 25-, 50- and "
+            "78-market package request was sent on 2026-07-27. All six gates are now evaluated, "
+            "but none passes. NOT SCORED; no purchase, fee or commitment is authorised."
         ),
         "publicStatusFi": (
-            "Saksan työkirjanäyte, yleinen menetelmäkuvaus, tyhjä lisenssisopimus ja kaksi "
-            "suuntaa-antavaa vuosipakettitarjousta saatiin 24.7.2026. Näyte sisältää kategoria-, "
-            "arvo-/volyymi-, yhtiö-/brändi-, kanava-, nikotiinivahvuus- ja käyttäjäkenttiä, mutta "
-            "se on tarkoituksella suppea eikä sisällä vertailukelpoisia Saksan vuosien 2023–2024 "
-            "nestemääriä. Toimittaja ilmoittaa noin 75 sähkötupakkamaata; täsmällinen maa–tuote-"
-            "matriisi puuttuu. Vakioehdot eivät vielä vahvista Pixanin edelleenjakelua tai hallittua "
-            "lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat julkista ja "
-            "oikeudellista käyttöä. Tarjous on kirjattu saaduksi, mutta suppea työkirja ei läpäise "
-            "edustavan näytteen porttia; kaikki kuusi pakollista porttia ovat avoinna. EI PISTEYTETTY; "
-            "ostoa, maksua tai sitoumusta ei ole valtuutettu."
+            "Laajennettu Saksan työkirjanäyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, "
+            "yleinen menetelmäkuvaus, tyhjä lisenssisopimus ja suuntaa-antavat vuosipakettitarjoukset "
+            "saatiin 27.7.2026 mennessä. Näyte sisältää kategoria-, arvo-/volyymi-, yhtiö-/brändi-, "
+            "kanava-, nikotiinivahvuus- ja käyttäjäkenttiä sekä mahdollistaa yksityisen numeerisen "
+            "vuosien 2023–2024 nestemäärävertailun, mutta ajantasaiset markkinakoko- ja ennustekentät "
+            "on peitetty eikä vähittäismyyntivaiheen, veroperustan ja tuoterajauksen siltaa viralliseen "
+            "verotetun volyymin sarjaan ole toimitettu. Maalistan päättymisvuodet vaihtelevat, eikä se "
+            "ole maa–tuote–vuosi–mittari-matriisi. Vakioehdot eivät vielä vahvista aiottua edelleenjakelua "
+            "tai hallittua lainanantaja-, ostaja-, neuvonantaja- ja datahuonekäyttöä sekä rajoittavat "
+            "julkista, oikeudellista ja tekoälyavusteista käyttöä. Kirjallinen täsmennys sekä "
+            "vertailukelpoisten 25, 50 ja 78 markkinan pakettien tarjouspyyntö lähetettiin 27.7.2026. "
+            "Kaikki kuusi porttia on nyt arvioitu, mutta yksikään ei läpäise. EI PISTEYTETTY; ostoa, "
+            "maksua tai sitoumusta ei ole valtuutettu."
         ),
+        "quoteReceived": True,
+        "gateResults": EUROMONITOR_GATE_RESULTS,
     },
     "niq-rms-pilot": {
         "vendor": "NielsenIQ",
@@ -179,6 +315,8 @@ EXPECTED_VENDORS = {
         "responseState": "not_submitted",
         "publicStatusEn": "Not submitted; terms gate",
         "publicStatusFi": "Ei lähetetty; ehtoraja",
+        "quoteReceived": False,
+        "gateResults": uniform_missing_gate_results("ROUTE_NOT_SUBMITTED"),
     },
     "circana-us-tobacco-pilot": {
         "vendor": "Circana",
@@ -187,6 +325,8 @@ EXPECTED_VENDORS = {
         "responseState": "pending",
         "publicStatusEn": "Submission confirmed; response pending",
         "publicStatusFi": "Vastaanotto vahvistettu; vastaus odottaa",
+        "quoteReceived": False,
+        "gateResults": uniform_missing_gate_results("EVIDENCE_NOT_RECEIVED"),
     },
 }
 VENDOR_KEYS = {
@@ -197,14 +337,17 @@ VENDOR_KEYS = {
     "responseState",
     "publicStatusEn",
     "publicStatusFi",
-    "receivedEvidence",
+    "quoteReceived",
+    "gateResults",
     "criterionScores",
     "scoringState",
     "weightedScore",
     "purchaseAuthorised",
 }
 OUTPUT_VENDOR_KEYS = VENDOR_KEYS | {
+    "receivedEvidence",
     "evidenceReceivedCount",
+    "evaluatedGateCount",
     "mandatoryGatePassCount",
 }
 SUMMARY_KEYS = {
@@ -390,6 +533,50 @@ def validate_germany_benchmark(value: Any, errors: list[str]) -> None:
             errors.append("Germany required-evidence IDs differ")
 
 
+def validate_gate_results(
+    vendor_id: str,
+    value: Any,
+    errors: list[str],
+) -> None:
+    if not isinstance(value, dict) or set(value) != MANDATORY_GATE_IDS:
+        errors.append(f"{vendor_id}: G1-G6 gate-result set differs")
+        return
+    for gate_id, result in value.items():
+        if not isinstance(result, dict) or set(result) != {"status", "reasonCodes"}:
+            errors.append(f"{vendor_id}: {gate_id} gate-result schema differs")
+            continue
+        status = result.get("status")
+        reasons = result.get("reasonCodes")
+        if status not in GATE_STATUSES:
+            errors.append(f"{vendor_id}: {gate_id} has an invalid gate status")
+            continue
+        if not isinstance(reasons, list) or any(
+            not isinstance(reason, str) for reason in reasons
+        ):
+            errors.append(f"{vendor_id}: {gate_id} reason codes must be a string array")
+            continue
+        if len(reasons) != len(set(reasons)):
+            errors.append(f"{vendor_id}: {gate_id} reason codes must be unique")
+        if status == "pass":
+            if reasons:
+                errors.append(f"{vendor_id}: {gate_id} PASS cannot carry failure reasons")
+            continue
+        if not reasons:
+            errors.append(f"{vendor_id}: {gate_id} non-PASS status requires a reason code")
+            continue
+        allowed_reasons = MANDATORY_GATE_RULES[gate_id]["allowedReasons"]
+        for reason in reasons:
+            if reason not in allowed_reasons:
+                errors.append(
+                    f"{vendor_id}: {gate_id} has an unreviewed reason code {reason!r}"
+                )
+            if status not in REASON_CODE_STATUSES.get(reason, set()):
+                errors.append(
+                    f"{vendor_id}: {gate_id} reason {reason!r} is inconsistent "
+                    f"with status {status!r}"
+                )
+
+
 def validate_source(source: Any, errors: list[str]) -> None:
     if not isinstance(source, dict):
         errors.append("source must contain an object")
@@ -403,7 +590,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.25-24" or not valid_date(source.get("asOf")):
+    if source.get("version") != "2026.07.27-27" or source.get("asOf") != "2026-07-27":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
@@ -446,9 +633,11 @@ def validate_source(source: Any, errors: list[str]) -> None:
         gates = []
     gate_evidence_keys: set[str] = set()
     gate_ids: set[str] = set()
+    gate_codes: set[str] = set()
     for gate in gates:
         if not isinstance(gate, dict) or set(gate) != {
             "id",
+            "gateCode",
             "evidenceKey",
             "labelEn",
             "labelFi",
@@ -458,10 +647,20 @@ def validate_source(source: Any, errors: list[str]) -> None:
             errors.append("mandatory gate schema differs")
             continue
         gate_ids.add(gate["id"])
+        gate_codes.add(gate["gateCode"])
         gate_evidence_keys.add(gate["evidenceKey"])
-        if gate["id"] != gate["evidenceKey"]:
-            errors.append(f"mandatory gate ID and evidence key differ for {gate['id']!r}")
-    if gate_ids != MANDATORY_GATE_KEYS or gate_evidence_keys != MANDATORY_GATE_KEYS:
+        expected_rule = MANDATORY_GATE_RULES.get(gate["gateCode"])
+        if (
+            expected_rule is None
+            or gate["evidenceKey"] != expected_rule["evidenceKey"]
+            or gate["id"] != expected_rule["evidenceKey"]
+        ):
+            errors.append(f"mandatory gate mapping differs for {gate['gateCode']!r}")
+    if (
+        gate_ids != MANDATORY_GATE_KEYS
+        or gate_codes != MANDATORY_GATE_IDS
+        or gate_evidence_keys != MANDATORY_GATE_KEYS
+    ):
         errors.append("mandatory gate set differs")
 
     evidence_types = source.get("evidenceTypes")
@@ -499,18 +698,14 @@ def validate_source(source: Any, errors: list[str]) -> None:
             "responseState",
             "publicStatusEn",
             "publicStatusFi",
+            "quoteReceived",
         ):
             if vendor[field] != expected[field]:
                 errors.append(f"{vendor_id}: {field} differs from the reviewed public state")
-        evidence = vendor.get("receivedEvidence")
-        if not isinstance(evidence, dict) or set(evidence) != EVIDENCE_KEYS:
-            errors.append(f"{vendor_id}: evidence schema differs")
-        else:
-            expected_evidence = {key: False for key in EVIDENCE_KEYS}
-            if vendor_id == "euromonitor-passport-nicotine":
-                expected_evidence.update({"quote": True})
-            if evidence != expected_evidence:
-                errors.append(f"{vendor_id}: received evidence differs from the reviewed release")
+        gate_results = vendor.get("gateResults")
+        validate_gate_results(vendor_id, gate_results, errors)
+        if gate_results != expected["gateResults"]:
+            errors.append(f"{vendor_id}: gate results differ from the reviewed release")
         scores = vendor.get("criterionScores")
         if not isinstance(scores, dict) or set(scores) != set(CRITERION_WEIGHTS):
             errors.append(f"{vendor_id}: criterion score schema differs")
@@ -520,7 +715,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
             errors.append(f"{vendor_id}: missing response must remain NOT SCORED")
         if vendor.get("purchaseAuthorised") is not False:
             errors.append(f"{vendor_id}: purchase authorisation must remain false")
-        if isinstance(evidence, dict) and isinstance(scores, dict):
+        if isinstance(gate_results, dict) and isinstance(scores, dict):
             if score_vendor(vendor, criteria, gates) is not None:
                 errors.append(f"{vendor_id}: vendor cannot be scored before the mandatory gates pass")
     if seen != set(EXPECTED_VENDORS):
@@ -562,6 +757,40 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
         for vendor in output.get("vendors", []):
             if set(vendor) != OUTPUT_VENDOR_KEYS:
                 errors.append("public JSON vendor output schema differs")
+            vendor_id = str(vendor.get("vendorId", "unknown"))
+            gate_results = vendor.get("gateResults")
+            validate_gate_results(vendor_id, gate_results, errors)
+            if isinstance(gate_results, dict):
+                expected_pass_bools = {
+                    MANDATORY_GATE_RULES[gate_id]["evidenceKey"]: (
+                        gate_result.get("status") == "pass"
+                    )
+                    for gate_id, gate_result in gate_results.items()
+                    if gate_id in MANDATORY_GATE_RULES
+                    and isinstance(gate_result, dict)
+                }
+                expected_pass_bools["quote"] = vendor.get("quoteReceived") is True
+                if vendor.get("receivedEvidence") != expected_pass_bools:
+                    errors.append(
+                        f"{vendor_id}: compatibility evidence booleans must be "
+                        "derived from gate PASS states"
+                    )
+                evaluated_count = sum(
+                    isinstance(result, dict) and result.get("status") != "missing"
+                    for result in gate_results.values()
+                )
+                pass_count = sum(
+                    isinstance(result, dict) and result.get("status") == "pass"
+                    for result in gate_results.values()
+                )
+                if vendor.get("evaluatedGateCount") != evaluated_count:
+                    errors.append(f"{vendor_id}: evaluated gate count differs")
+                if vendor.get("mandatoryGatePassCount") != pass_count:
+                    errors.append(f"{vendor_id}: mandatory gate PASS count differs")
+                if vendor.get("evidenceReceivedCount") != sum(
+                    value is True for value in expected_pass_bools.values()
+                ):
+                    errors.append(f"{vendor_id}: evidence received count differs")
             if vendor.get("weightedScore") is not None:
                 errors.append("public JSON cannot expose a score before evidence is complete")
         scan_privacy("public vendor-response JSON", output, errors)
@@ -578,6 +807,16 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
                 errors.append("public CSV missing evidence must remain not_scored with a blank score")
             if row.get("purchaseAuthorised") != "false":
                 errors.append("public CSV purchaseAuthorised must remain false")
+            for field in (
+                "sampleGateStatus",
+                "methodologyGateStatus",
+                "coverageMatrixGateStatus",
+                "officialAnchorReconciliationGateStatus",
+                "transactionUseRightsGateStatus",
+                "totalCostTermsGateStatus",
+            ):
+                if row.get(field) not in GATE_STATUSES:
+                    errors.append(f"public CSV {field} differs")
         scan_privacy("public vendor-response CSV", text, errors)
 
 
