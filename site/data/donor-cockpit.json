@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1",
-  "asOf": "2026-07-26",
+  "asOf": "2026-07-27",
   "protocol": {
     "protocolVersion": "1.0",
     "acceptanceRuleEn": "A country-year enters the public donor count only when D1–D10 all pass with source-linked evidence. Failed, open or structurally invalid records remain outside the count.",
@@ -118,7 +118,7 @@
       "acquisitionRouteFi": "Uuden-Seelannin terveysministeriön peitto- ja GST-täsmennys, minkä jälkeen riippumaton vero-, tulli-, POS- tai suora viranomaistäsmäytys.",
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
-      "lastReviewedAt": "2026-07-26",
+      "lastReviewedAt": "2026-07-27",
       "sourceIds": [
         "NZ-MOH-ANNUAL-RETURNS-2024",
         "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
@@ -147,8 +147,8 @@
           "routeFi": "Pyydä ministeriöltä vahvistus siitä, onko AIS/AVP:n total net sales revenue GST:n sisältävä vai GST:n poissulkeva ja miten alennukset, hyvitykset ja palautukset käsitellään.",
           "evidenceTargetEn": "An explicit currency, GST and net-revenue treatment applicable to the published 2024 specialist-retailer fields.",
           "evidenceTargetFi": "Vuoden 2024 julkaistuihin erikoisvähittäiskaupan kenttiin soveltuva yksiselitteinen valuutta-, GST- ja nettomyyntikäsittely.",
-          "publicStatus": "queued",
-          "statusAsOf": "2026-07-26",
+          "publicStatus": "in_progress",
+          "statusAsOf": "2026-07-27",
           "nextFollowUpOn": "2026-08-07"
         },
         {
@@ -160,8 +160,8 @@
           "routeFi": "Täsmäytä puhdistettu vähittäiskaupan koonti riippumattomaan vero-, tuonti- tai käyttöoikeuksiltaan selvitettyyn retail-reittiin lisäämättä toimitusketjun portaita.",
           "evidenceTargetEn": "A signed or reproducible bridge that explains scope, timing, channel and tax differences.",
           "evidenceTargetFi": "Allekirjoitettu tai toistettava silta, joka selittää rajaus-, ajoitus-, kanava- ja veroerot.",
-          "publicStatus": "queued",
-          "statusAsOf": "2026-07-26",
+          "publicStatus": "in_progress",
+          "statusAsOf": "2026-07-27",
           "nextFollowUpOn": "2026-08-07"
         }
       ]
@@ -261,7 +261,7 @@
       "acquisitionRouteFi": "Statistics Canadan vahvistus kohdejoukosta ja tuoteryhmä–vuosi-laatumittareista, minkä jälkeen yksiselitteinen täsmäytys Health Canadan valmistaja- ja maahantuojatoimitussarjaan tai riippumattomaan POS-reittiin.",
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
-      "lastReviewedAt": "2026-07-25",
+      "lastReviewedAt": "2026-07-27",
       "sourceIds": ["CA-STATCAN-RCS-2023-2025", "CA-HC-VAPING-SALES-2024"],
       "closureActions": [
         {
@@ -274,7 +274,7 @@
           "evidenceTargetEn": "An officially resolved channel denominator and a bounded annual precision and imputation statement for NAPCS 5619122.",
           "evidenceTargetFi": "Viranomaisen ratkaisema kanavanimittäjä sekä rajattu vuositason tarkkuus- ja imputointikuvaus NAPCS 5619122 -tuoteryhmälle.",
           "publicStatus": "blocked_external",
-          "statusAsOf": "2026-07-25",
+          "statusAsOf": "2026-07-27",
           "nextFollowUpOn": "2026-08-07"
         },
         {
@@ -287,7 +287,7 @@
           "evidenceTargetEn": "A non-duplicative bridge for margin, inventory, returns, timing and product-scope effects.",
           "evidenceTargetFi": "Kaksoislaskennaton silta kate-, varasto-, palautus-, ajoitus- ja tuoterajausvaikutuksille.",
           "publicStatus": "blocked_external",
-          "statusAsOf": "2026-07-25",
+          "statusAsOf": "2026-07-27",
           "nextFollowUpOn": "2026-08-07"
         }
       ]

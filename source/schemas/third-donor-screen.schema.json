@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/third-donor-screen.schema.json",
+  "title": "Pixan public third-donor screening control",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "asOf",
+    "status",
+    "method",
+    "decision",
+    "countries",
+    "followUpWave",
+    "boundaryEn",
+    "boundaryFi"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "asOf": {"type": "string", "format": "date"},
+    "status": {"const": "screening_only_not_donor_assessment"},
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ruleEn", "ruleFi", "rankingBasisEn", "rankingBasisFi"],
+      "properties": {
+        "ruleEn": {"type": "string", "minLength": 1},
+        "ruleFi": {"type": "string", "minLength": 1},
+        "rankingBasisEn": {"type": "string", "minLength": 1},
+        "rankingBasisFi": {"type": "string", "minLength": 1}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primaryProgrammeCountryIso2",
+        "sourceOnlyLeadCountryIso2",
+        "secondaryProgrammeCountryIso2",
+        "reasonEn",
+        "reasonFi"
+      ],
+      "properties": {
+        "primaryProgrammeCountryIso2": {"const": "PL"},
+        "sourceOnlyLeadCountryIso2": {"const": "RU"},
+        "secondaryProgrammeCountryIso2": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "FI"},
+            {"const": "DK"},
+            {"const": "FR"}
+          ],
+          "items": false
+        },
+        "reasonEn": {"type": "string", "minLength": 1},
+        "reasonFi": {"type": "string", "minLength": 1}
+      }
+    },
+    "countries": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {"$ref": "#/$defs/country"}
+    },
+    "followUpWave": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dueOn", "draftState", "items", "excluded"],
+      "properties": {
+        "dueOn": {"const": "2026-07-28"},
+        "draftState": {"const": "prepared_not_sent"},
+        "items": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/followUp"}
+        },
+        "excluded": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/excludedFollowUp"}
+        }
+      }
+    },
+    "boundaryEn": {"type": "string", "minLength": 1},
+    "boundaryFi": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["labelEn", "labelFi", "url", "verifiedOn"],
+      "properties": {
+        "labelEn": {"type": "string", "minLength": 1},
+        "labelFi": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "verifiedOn": {"type": "string", "format": "date"}
+      }
+    },
+    "country": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "countryIso2",
+        "countryEn",
+        "countryFi",
+        "programmeClass",
+        "donorStatus",
+        "evidenceSignalEn",
+        "evidenceSignalFi",
+        "blockingGapsEn",
+        "blockingGapsFi",
+        "officialSources"
+      ],
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1, "maximum": 15},
+        "countryIso2": {"type": "string", "pattern": "^[A-Z]{2}$"},
+        "countryEn": {"type": "string", "minLength": 1},
+        "countryFi": {"type": "string", "minLength": 1},
+        "programmeClass": {
+          "enum": [
+            "primary_programme",
+            "source_only_high_friction",
+            "secondary_programme",
+            "monitor"
+          ]
+        },
+        "donorStatus": {"const": "not_assessed"},
+        "evidenceSignalEn": {"type": "string", "minLength": 1},
+        "evidenceSignalFi": {"type": "string", "minLength": 1},
+        "blockingGapsEn": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "blockingGapsFi": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "officialSources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source"}
+        }
+      }
+    },
+    "followUp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "itemId",
+        "vendor",
+        "route",
+        "threadStatus",
+        "objectiveEn",
+        "objectiveFi",
+        "draftFile"
+      ],
+      "properties": {
+        "itemId": {"type": "string", "minLength": 1},
+        "vendor": {"enum": ["ECigIntelligence", "Euromonitor", "Circana"]},
+        "route": {"enum": ["existing_thread", "original_submission_channel"]},
+        "threadStatus": {"enum": ["awaiting_response", "original_channel_not_publicly_confirmed"]},
+        "objectiveEn": {"type": "string", "minLength": 1},
+        "objectiveFi": {"type": "string", "minLength": 1},
+        "draftFile": {"const": "FOLLOW_UP_DRAFTS_2026-07-28.md"}
+      }
+    },
+    "excludedFollowUp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vendor", "reasonEn", "reasonFi"],
+      "properties": {
+        "vendor": {"const": "NIQ"},
+        "reasonEn": {"type": "string", "minLength": 1},
+        "reasonFi": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the v25 review surface and evidence baseline."""
+"""Fail-closed validation for the v26 review surface and evidence baseline."""
 
 from __future__ import annotations
 
@@ -81,6 +81,12 @@ REQUIRED_REVIEW_IDS = {
     "cockpit-gates-list",
     "research-operations-overview",
     "research-operations-metrics",
+    "third-donor-programme",
+    "third-donor-summary",
+    "third-donor-table-wrap",
+    "third-donor-country-list",
+    "third-donor-follow-ups",
+    "third-donor-status",
     "sweden-structure-card",
     "review-calculation-audit",
     "review-calculation-audit-status",
@@ -109,6 +115,8 @@ REQUIRED_REVIEW_FUNCTIONS = {
     "reviewFxDisclosureNode",
     "renderDecisionCockpit",
     "renderResearchOperationsOverview",
+    "renderThirdDonorScreen",
+    "renderThirdDonorScreenUnavailable",
     "renderReviewCalculationAudit",
     "renderReviewCalculationAuditUnavailable",
     "renderReviewSourceFreshness",
@@ -139,6 +147,10 @@ REQUIRED_I18N_EN = {
     "1 official structural response",
     "0 sales-data responses",
     "The Sweden response contains official registration-structure counts only.",
+    "Third-country acquisition screen · not a donor assessment",
+    "Where the next official-data programme should focus",
+    "Poland is the practical primary programme; Russia is a source-only, high-friction lead",
+    "Prepared drafts remain unsent until separately approved",
 }
 
 
@@ -161,6 +173,56 @@ def parse_date(value: Any) -> date | None:
         return date.fromisoformat(value)
     except ValueError:
         return None
+
+
+def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-27":
+        errors.append("Third-donor screen must use the reviewed v26 schema and date")
+    if screen.get("status") != "screening_only_not_donor_assessment":
+        errors.append("Third-donor screen must remain screening-only")
+    decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
+    if (
+        decision.get("primaryProgrammeCountryIso2") != "PL"
+        or decision.get("sourceOnlyLeadCountryIso2") != "RU"
+        or decision.get("secondaryProgrammeCountryIso2") != ["FI", "DK", "FR"]
+    ):
+        errors.append("Third-donor programme must remain PL primary, RU source-only and FI/DK/FR secondary")
+    countries = screen.get("countries") if isinstance(screen.get("countries"), list) else []
+    expected_iso2 = ["RU", "PL", "FI", "DK", "FR", "AE", "CN", "GB", "US", "NL", "IT", "ES", "SE", "PH", "SA"]
+    if [item.get("countryIso2") for item in countries if isinstance(item, dict)] != expected_iso2:
+        errors.append("Third-donor screen must retain the exact 15-country ranking")
+    expected_classes = {
+        "RU": "source_only_high_friction",
+        "PL": "primary_programme",
+        "FI": "secondary_programme",
+        "DK": "secondary_programme",
+        "FR": "secondary_programme",
+    }
+    for index, country in enumerate(countries):
+        if not isinstance(country, dict):
+            errors.append("Third-donor country records must be objects")
+            continue
+        iso2 = country.get("countryIso2")
+        if country.get("rank") != index + 1:
+            errors.append("Third-donor ranks must remain sequential")
+        if country.get("donorStatus") != "not_assessed":
+            errors.append("Third-donor countries must remain not assessed")
+        if country.get("programmeClass") != expected_classes.get(iso2, "monitor"):
+            errors.append("Third-donor programme classes differ from the reviewed decision")
+        sources = country.get("officialSources") if isinstance(country.get("officialSources"), list) else []
+        if not sources or any(not valid_https(source.get("url")) for source in sources if isinstance(source, dict)):
+            errors.append("Third-donor country routes require safe official HTTPS sources")
+    wave = screen.get("followUpWave") if isinstance(screen.get("followUpWave"), dict) else {}
+    if wave.get("dueOn") != "2026-07-28" or wave.get("draftState") != "prepared_not_sent":
+        errors.append("Third-donor follow-ups must remain prepared and not sent for 2026-07-28")
+    vendors = [item.get("vendor") for item in wave.get("items", []) if isinstance(item, dict)]
+    if vendors != ["ECigIntelligence", "Euromonitor", "Circana"]:
+        errors.append("Third-donor follow-up vendors differ from the reviewed wave")
+    excluded = wave.get("excluded") if isinstance(wave.get("excluded"), list) else []
+    if len(excluded) != 1 or excluded[0].get("vendor") != "NIQ":
+        errors.append("NIQ must remain outside the reviewed follow-up wave")
+    return errors
 
 
 def validate_review_data(
@@ -196,9 +258,9 @@ def validate_review_data(
         errors.append("Freshness ledger requires a market-source array")
         sources = []
     elif len(sources) != 23:
-        errors.append("Freshness ledger requires exactly 23 reviewed market sources for v25")
+        errors.append("Freshness ledger requires exactly 23 reviewed market sources for v26")
     if not isinstance(observations, list) or len(observations) != 79:
-        errors.append("v25 market baseline must contain exactly 79 observations")
+        errors.append("v26 market baseline must contain exactly 79 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -225,7 +287,7 @@ def validate_review_data(
             errors.append(f"{source_id}: retrievedAt cannot be later than market asOf")
     if source_ids != EXPECTED_MARKET_SOURCE_IDS:
         errors.append(
-            "v25 freshness ledger must retain the exact 23-source set; "
+            "v26 freshness ledger must retain the exact 23-source set; "
             f"missing={sorted(EXPECTED_MARKET_SOURCE_IDS - source_ids)}, "
             f"extra={sorted(source_ids - EXPECTED_MARKET_SOURCE_IDS)}"
         )
@@ -286,7 +348,7 @@ def validate_review_data(
         False,
         NZ_SOURCE_IDS,
     ):
-        errors.append("v25 New Zealand identified-vaping observation differs from its reviewed fact boundary")
+        errors.append("v26 New Zealand identified-vaping observation differs from its reviewed fact boundary")
     nz_limitation = str(nz_vaping.get("limitationEn", ""))
     for marker in (
         "189,402,451.96",
@@ -302,7 +364,7 @@ def validate_review_data(
         "no independent reconciliation",
     ):
         if marker not in nz_limitation:
-            errors.append(f"v25 New Zealand identified-vaping disclosure lacks {marker!r}")
+            errors.append(f"v26 New Zealand identified-vaping disclosure lacks {marker!r}")
 
     official = [
         item for item in observations
@@ -322,7 +384,7 @@ def validate_review_data(
         or len(market_measure_official) != 34
     ):
         errors.append(
-            "v25 must retain 34 official market-measure observations plus 36 Sweden "
+            "v26 must retain 34 official market-measure observations plus 36 Sweden "
             "registration-structure observations across the seven reviewed countries"
         )
     official_retail = [
@@ -338,7 +400,7 @@ def validate_review_data(
         or {item.get("countryIso2") for item in official_retail} != {"CA", "NZ"}
         or any(item.get("comparableMarketValue") is not False for item in official_retail)
     ):
-        errors.append("v25 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
+        errors.append("v26 must retain seven Canada retail estimates, one NZ lower bound and no accepted retail donor")
 
     readiness = market.get("meta", {}).get("modelReadiness", {})
     declared_donors = readiness.get("comparableFullYearMarketValueDonors")
@@ -371,7 +433,7 @@ def validate_review_data(
         "DE-2025-LIQUID-RETAIL-MODEL",
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }:
-        errors.append("v25 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
+        errors.append("v26 donor ledger must retain the reviewed NZ, EU, Canada, Germany and US candidates")
     candidate_by_id = {
         item.get("candidateId"): item
         for item in candidates
@@ -388,7 +450,7 @@ def validate_review_data(
         or set(nz_candidate.get("openCriteria", [])) != {"D8", "D10"}
         or nz_candidate.get("sourceIds") != NZ_SOURCE_IDS
     ):
-        errors.append("v25 New Zealand donor candidate differs from the reviewed 7/10 closure decision")
+        errors.append("v26 New Zealand donor candidate differs from the reviewed 7/10 closure decision")
 
     germany_models = [item for item in models if item.get("modelId") == GERMANY_MODEL_ID]
     if len(germany_models) != 1:
@@ -663,7 +725,7 @@ def validate_review_structure(
         if not re.search(rf"""data-review-view-link=["']{view}["']""", index_html):
             errors.append(f"index.html lacks the {view} workspace-view link")
 
-    for element_id in ("paid-data", "vendor-response-control", "request-program", "research-priority-matrix"):
+    for element_id in ("third-donor-programme", "paid-data", "vendor-response-control", "request-program", "research-priority-matrix"):
         tag = opening_tag_with_id(review_html, element_id)
         if not tag or not re.search(r"""data-review-surface=["']operations["']""", tag):
             errors.append(f"#{element_id} must be isolated on the operations surface")
@@ -672,10 +734,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-26-25") < 7:
-        errors.append("review.html asset cache-busters must all use the v25 release")
-    if index_html.count("2026-07-26-25") < 4:
-        errors.append("index.html asset cache-busters must all use the v25 release")
+    if review_html.count("2026-07-27-26") < 7:
+        errors.append("review.html asset cache-busters must all use the v26 release")
+    if index_html.count("2026-07-27-26") < 4:
+        errors.append("index.html asset cache-busters must all use the v26 release")
     if any(
         stale in review_html or stale in index_html
         for stale in (
@@ -684,9 +746,10 @@ def validate_review_structure(
             "2026-07-24-22",
             "2026-07-24-23",
             "2026-07-25-24",
+            "2026-07-26-25",
         )
     ):
-        errors.append("stale cache-busters remain in the v25 pages")
+        errors.append("stale cache-busters remain in the v26 pages")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -711,7 +774,12 @@ def validate_review_structure(
         "source/US_FTC_2015_2021_REPORTED_SALES.md",
         "source/EU_2023_E_CIGARETTE_BENCHMARK_RECONCILIATION.md",
         'fetch("data/country-scenarios.json"',
+        'fetch("data/third-donor-screen.json"',
         'fetch("data/fx-rates.json"',
+        "screening_only_not_donor_assessment",
+        "prepared_not_sent",
+        "function renderThirdDonorScreen(",
+        "function renderThirdDonorScreenUnavailable(",
         "function reviewScenarioRange(",
         "EUR = alkuperäinen rahamäärä ÷ ECB:n vuosikeskiarvo",
         "EUR = original monetary amount ÷ ECB annual average",
@@ -720,7 +788,7 @@ def validate_review_structure(
         "enforcement_signal",
     ):
         if required_market_hook not in review_js:
-            errors.append(f"review.js lacks required v25 reconciliation hook {required_market_hook}")
+            errors.append(f"review.js lacks required v26 reconciliation hook {required_market_hook}")
 
     lowered_public = f"{review_html}\n{index_html}\n{review_js}".lower()
     for forbidden_claim in ("fresh today", "current worldwide patent", "official global retail value"):
@@ -738,16 +806,15 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-26-new-zealand-donor-closure-v25",
-            'version: "2026.07.26-25"',
-            'publishedAt: "2026-07-26T11:19:19+03:00"',
-            "New Zealand now passes D3, D4 and D6 and reaches 7/10 criteria.",
-            "AIS and AVP provide all observed value.",
-            "donor gate remains 0/3",
-            "global total remains not_computed",
+            "2026-07-27-first-donor-conversion-v26",
+            'version: "2026.07.27-26"',
+            'publishedAt: "2026-07-27T09:00:00+03:00"',
+            "Both candidates remain not accepted at 7/10",
+            "Poland as the practical primary programme",
+            "Three 28 July follow-ups are prepared but not sent",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v25 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v26 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -805,6 +872,7 @@ def validate_all(root: Path = ROOT) -> list[str]:
     patent = load_json(root / "site" / "data" / "patent-history.json")
     requests = load_json(root / "site" / "data" / "top20-data-request-routes.json")
     fx = load_json(root / "site" / "data" / "fx-rates.json")
+    third_donor = load_json(root / "site" / "data" / "third-donor-screen.json")
     review_html = (root / "site" / "review.html").read_text(encoding="utf-8")
     index_html = (root / "site" / "index.html").read_text(encoding="utf-8")
     review_js = (root / "site" / "assets" / "review.js").read_text(encoding="utf-8")
@@ -813,6 +881,7 @@ def validate_all(root: Path = ROOT) -> list[str]:
     app_js = (root / "site" / "assets" / "app.js").read_text(encoding="utf-8")
     return [
         *validate_review_data(atlas, market, patent, requests, fx),
+        *validate_third_donor_screen(third_donor),
         *validate_review_structure(
             review_html,
             index_html,
@@ -832,8 +901,8 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v25 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
-        "waterfall, New Zealand 7/10 closure, Sweden structural-only response, "
+        "Validated v26 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "waterfall, New Zealand and Canada 7/10 closures, Poland third-donor programme, "
         "deterministic 23-source ledger and required UI hooks."
     )
 

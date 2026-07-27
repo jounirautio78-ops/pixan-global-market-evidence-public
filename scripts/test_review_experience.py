@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v25 review-experience publication gates."""
+"""Mutation tests for the v26 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from validate_review_experience import (
     load_json,
     validate_review_data,
     validate_review_structure,
+    validate_third_donor_screen,
 )
 
 
@@ -23,6 +24,7 @@ class ReviewExperienceTests(unittest.TestCase):
         cls.fx = load_json(DATA / "fx-rates.json")
         cls.patent = load_json(DATA / "patent-history.json")
         cls.requests = load_json(DATA / "top20-data-request-routes.json")
+        cls.third_donor = load_json(DATA / "third-donor-screen.json")
         cls.review_html = (SITE / "review.html").read_text(encoding="utf-8")
         cls.index_html = (SITE / "index.html").read_text(encoding="utf-8")
         cls.review_js = (SITE / "assets" / "review.js").read_text(encoding="utf-8")
@@ -54,6 +56,7 @@ class ReviewExperienceTests(unittest.TestCase):
             validate_review_data(self.atlas, self.market, self.patent, self.requests, self.fx),
             [],
         )
+        self.assertEqual(validate_third_donor_screen(self.third_donor), [])
         self.assertEqual(
             validate_review_structure(
                 self.review_html,
@@ -124,7 +127,7 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_future_retrieval_date(self) -> None:
         market = copy.deepcopy(self.market)
-        market["sources"][0]["retrievedAt"] = "2026-07-27"
+        market["sources"][0]["retrievedAt"] = "2026-07-28"
         self.assert_data_rejected(
             market=market,
             needle="retrievedAt cannot be later than market asOf",
@@ -222,6 +225,52 @@ class ReviewExperienceTests(unittest.TestCase):
         errors = validate_review_structure(self.review_html, mutated, self.review_js, self.i18n_js)
         self.assertTrue(any("required v18 donor hooks" in error for error in errors), errors)
 
+    def test_rejects_missing_third_donor_hook(self) -> None:
+        mutated = self.review_html.replace('id="third-donor-programme"', 'id="removed-third-donor-programme"', 1)
+        errors = validate_review_structure(
+            mutated,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+        )
+        self.assertTrue(any("required v18 hooks" in error for error in errors), errors)
+
+    def test_rejects_promoted_screened_country(self) -> None:
+        screen = copy.deepcopy(self.third_donor)
+        screen["countries"][0]["donorStatus"] = "accepted"
+        errors = validate_third_donor_screen(screen)
+        self.assertTrue(any("must remain not assessed" in error for error in errors), errors)
+
+    def test_rejects_changed_third_donor_decision(self) -> None:
+        screen = copy.deepcopy(self.third_donor)
+        screen["decision"]["primaryProgrammeCountryIso2"] = "RU"
+        errors = validate_third_donor_screen(screen)
+        self.assertTrue(any("PL primary" in error for error in errors), errors)
+
+    def test_rejects_sent_follow_up_state(self) -> None:
+        screen = copy.deepcopy(self.third_donor)
+        screen["followUpWave"]["draftState"] = "sent"
+        errors = validate_third_donor_screen(screen)
+        self.assertTrue(any("prepared and not sent" in error for error in errors), errors)
+
+    def test_rejects_missing_third_donor_fetch(self) -> None:
+        mutated = self.review_js.replace(
+            'fetch("data/third-donor-screen.json"',
+            'fetch("data/removed-third-donor-screen.json"',
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            mutated,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+        )
+        self.assertTrue(any("third-donor-screen.json" in error for error in errors), errors)
+
     def test_rejects_wall_clock_freshness(self) -> None:
         mutated = self.review_js.replace(
             "function renderReviewSourceFreshness(market, atlas) {",
@@ -243,7 +292,7 @@ class ReviewExperienceTests(unittest.TestCase):
             mutated,
             self.i18n_js,
         )
-        self.assertTrue(any("required v25 reconciliation hook" in error for error in errors), errors)
+        self.assertTrue(any("required v26 reconciliation hook" in error for error in errors), errors)
 
     def test_rejects_missing_nz_closure_pack_hook(self) -> None:
         mutated = self.review_js.replace(
@@ -257,7 +306,7 @@ class ReviewExperienceTests(unittest.TestCase):
             mutated,
             self.i18n_js,
         )
-        self.assertTrue(any("required v25 reconciliation hook" in error for error in errors), errors)
+        self.assertTrue(any("required v26 reconciliation hook" in error for error in errors), errors)
 
     def test_rejects_missing_nzd_2024_review_rate(self) -> None:
         fx = copy.deepcopy(self.fx)

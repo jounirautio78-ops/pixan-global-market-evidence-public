@@ -1,0 +1,51 @@
+# New Zealand 2024 — D8 and D10 official-source audit
+
+**Review date:** 2026-07-27
+**Candidate:** `NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL`
+**Decision:** D8 remains `open`; D10 remains `open` and `not_met`. The candidate remains `not_accepted` at 7/10.
+
+## Established facts
+
+- The reproducible specialist-retailer identified-vaping subtotal remains **NZD 274,180,410.21**.
+- The official annual-return form uses `Total sales` and `Total value of sales`.
+- The reviewed annual-return material does not define whether published AIS/AVP sales values include GST or how discounts, refunds, returns, credits and period-end adjustments are treated.
+- Official overseas-merchandise data use import-stage values rather than consumer-retail sell-through. Classification errors, low-value shipment exclusions and a mid-2024 tariff change further limit direct comparison.
+
+## D8 — currency and tax basis
+
+Currency and calendar year are clear. The following items are not established for the published specialist-retailer fields:
+
+- whether 15% GST is included or excluded;
+- whether discounts, refunds, returns, rebates or bad debts are netted;
+- when corrections are recognised; and
+- whether the value is invoiced, paid, gross or net sales.
+
+General Inland Revenue GST guidance cannot be treated as the Ministry of Health field definition. D8 can close only with the applicable 2024 return guide, data dictionary or written Ministry confirmation.
+
+## D10 — independent reconciliation
+
+Customs and Stats NZ data provide a possible future cross-check, but a defensible 2024 bridge still requires:
+
+- HS10 code mapping before and after the July 2024 tariff change;
+- imports, exports and re-exports;
+- domestic production and inventory changes;
+- low-value direct-to-consumer imports;
+- wholesale and retail margins;
+- GST treatment; and
+- the same vaping-only product and channel boundary as the AIS/AVP subtotal.
+
+No current official source supplies that complete bridge or directly validates the NZD 274.18 million subtotal. Internal de-duplication of notifier, specialist-retailer and retailer stages is necessary but is not an independent D10 route.
+
+## Official sources
+
+- [Ministry of Health — Annual returns 2024](https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024)
+- [Smokefree Environments and Regulated Products Regulations 2021 — 2024 version](https://www.legislation.govt.nz/regulation/public/2021/0204/34.0/096be8ed81ef10f5.pdf)
+- [Ministry of Health — 2025 annual-sales-return user guide](https://www.health.govt.nz/system/files/2025-11/notifiable-products-annual-sales-return-2025-user-guide.pdf)
+- [Inland Revenue — GST guide](https://www.ird.govt.nz/-/media/project/ir/home/documents/forms-and-guides/ir300---ir399/ir375/ir375-2023-november.pdf)
+- [Stats NZ — Overseas merchandise trade datasets](https://www.stats.govt.nz/large-datasets/csv-files-for-download/overseas-merchandise-trade-datasets/)
+- [Stats NZ — Overseas merchandise trade metadata](https://datainfoplus.stats.govt.nz/Item/nz.govt.stats/6ed114da-3571-40d4-a89f-932068a4c753/119)
+- [New Zealand Customs — vaping-product classification reminder](https://www.customs.govt.nz/about-us/news/important-notices-archive/important-notices-archive-2023/reminder-classification-of-vaping-devices-and-similar)
+- [New Zealand Customs — July 2024 tariff](https://www.customs.govt.nz/globalassets/documents/tariff-documents/wtd-2024/section-iv-july-2024.pdf)
+- [New Zealand Customs — vaping-products information report](https://www.customs.govt.nz/globalassets/documents/oia/oia-25-100-proactive-release.pdf)
+
+All sources were reviewed on 2026-07-27. This memo adds no market value, changes no donor criterion and contains no private correspondence.

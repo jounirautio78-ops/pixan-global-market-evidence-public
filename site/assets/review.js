@@ -92,6 +92,7 @@ let reviewFxData = null;
 let reviewPatentData = null;
 let reviewChangelog = null;
 let reviewRequestData = null;
+let reviewThirdDonorScreen = null;
 let reviewChangeView = null;
 
 const reviewById = (id) => document.getElementById(id);
@@ -1979,6 +1980,127 @@ function renderReviewMeta(data) {
   reviewById("review-source-commit").textContent = String(data.meta?.legacySourceCommit || "—").slice(0, 9);
 }
 
+function thirdDonorProgrammeLabel(value) {
+  const labels = {
+    primary_programme: ["Ensisijainen ohjelma", "Primary programme"],
+    source_only_high_friction: ["Vain lähde · korkea kitka", "Source only · high friction"],
+    secondary_programme: ["Toissijainen ohjelma", "Secondary programme"],
+    monitor: ["Seuranta", "Monitor"]
+  };
+  return labels[value] ? reviewL(...labels[value]) : String(value || "—").replaceAll("_", " ");
+}
+
+function renderThirdDonorScreenUnavailable(message) {
+  const root = reviewById("third-donor-programme");
+  const status = reviewById("third-donor-status");
+  const summary = reviewById("third-donor-summary");
+  const countryList = reviewById("third-donor-country-list");
+  const followUps = reviewById("third-donor-follow-ups");
+  if (!root || !status || !summary || !countryList || !followUps) return;
+  summary.replaceChildren();
+  countryList.replaceChildren();
+  followUps.replaceChildren();
+  reviewById("third-donor-table-wrap").hidden = true;
+  status.dataset.state = "error";
+  status.textContent = message;
+  root.setAttribute("aria-busy", "false");
+}
+
+function renderThirdDonorScreen(data = reviewThirdDonorScreen) {
+  const root = reviewById("third-donor-programme");
+  const status = reviewById("third-donor-status");
+  const summary = reviewById("third-donor-summary");
+  const countryList = reviewById("third-donor-country-list");
+  const followUps = reviewById("third-donor-follow-ups");
+  const tableWrap = reviewById("third-donor-table-wrap");
+  if (!root || !status || !summary || !countryList || !followUps || !tableWrap) return;
+  if (!data) {
+    renderThirdDonorScreenUnavailable(reviewL(
+      "Kolmannen maan seulontaa ei voitu vahvistaa.",
+      "The third-country acquisition screen could not be verified."
+    ));
+    return;
+  }
+
+  const countries = Array.isArray(data.countries) ? data.countries : [];
+  const decision = data.decision || {};
+  const wave = data.followUpWave || {};
+  const primary = countries.find((item) => item.countryIso2 === decision.primaryProgrammeCountryIso2);
+  const sourceOnly = countries.find((item) => item.countryIso2 === decision.sourceOnlyLeadCountryIso2);
+  const secondary = countries.filter((item) => (decision.secondaryProgrammeCountryIso2 || []).includes(item.countryIso2));
+  const summaryItems = [
+    [reviewL("Ensisijainen", "Primary"), primary ? (reviewIsFi() ? primary.countryFi : primary.countryEn) : "—", reviewL("Käytännöllisin virallinen hankintaohjelma", "Most practical official acquisition programme")],
+    [reviewL("Lähdejohtolanka", "Source lead"), sourceOnly ? (reviewIsFi() ? sourceOnly.countryFi : sourceOnly.countryEn) : "—", reviewL("Ei operatiivisesti ensisijainen", "Not operationally preferred")],
+    [reviewL("Toissijainen aalto", "Secondary wave"), secondary.map((item) => reviewIsFi() ? item.countryFi : item.countryEn).join(", "), reviewL("Kolme viranomaisreittiä", "Three official-request routes")],
+    [reviewL("Seurantalunnokset", "Follow-up drafts"), `${(wave.items || []).length}`, `${reviewFormatDate(wave.dueOn)} · ${reviewL("ei lähetetty", "not sent")}`]
+  ];
+  summary.replaceChildren(...summaryItems.map(([label, value, note]) => {
+    const item = reviewNode("div", "donor-summary-item");
+    item.append(reviewNode("span", "", label), reviewNode("strong", "", value), reviewNode("small", "", note));
+    return item;
+  }));
+
+  reviewById("third-donor-boundary").textContent = reviewIsFi() ? data.boundaryFi : data.boundaryEn;
+  countryList.replaceChildren(...countries.map((country) => {
+    const row = reviewNode("tr");
+    const identity = reviewNode("td");
+    identity.append(
+      reviewNode("strong", "", `${country.rank}. ${reviewIsFi() ? country.countryFi : country.countryEn}`),
+      reviewNode("small", "", `${country.countryIso2} · ${reviewL("ei D1–D10-arviota", "no D1–D10 assessment")}`)
+    );
+    const gaps = reviewIsFi() ? country.blockingGapsFi : country.blockingGapsEn;
+    const sourceLinks = reviewNode("div", "donor-source-links");
+    for (const source of country.officialSources || []) {
+      const url = reviewUrl(source.url);
+      if (!url) continue;
+      const link = reviewNode("a", "source-link", reviewIsFi() ? source.labelFi : source.labelEn);
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      sourceLinks.append(link);
+    }
+    identity.append(sourceLinks);
+    row.append(
+      identity,
+      reviewNode("td", "", thirdDonorProgrammeLabel(country.programmeClass)),
+      reviewNode("td", "", reviewIsFi() ? country.evidenceSignalFi : country.evidenceSignalEn),
+      reviewNode("td", "", (gaps || []).join(" · "))
+    );
+    return row;
+  }));
+  tableWrap.hidden = false;
+
+  followUps.replaceChildren(...(wave.items || []).map((item) => {
+    const card = reviewNode("article", "panel request-program-card");
+    const state = reviewNode("span", "donor-decision-chip", reviewL("LUONNOS · EI LÄHETETTY", "DRAFT · NOT SENT"));
+    state.dataset.decision = "not_accepted";
+    card.append(
+      state,
+      reviewNode("h4", "", item.vendor),
+      reviewNode("p", "", reviewIsFi() ? item.objectiveFi : item.objectiveEn),
+      reviewNode("small", "", `${reviewL("Reitti", "Route")}: ${item.route === "existing_thread" ? reviewL("alkuperäinen keskustelu", "original conversation") : reviewL("alkuperäinen lähetyskanava", "original submission channel")}`)
+    );
+    return card;
+  }));
+  const excluded = (wave.excluded || [])[0];
+  if (excluded) {
+    const card = reviewNode("article", "panel request-program-card");
+    card.append(
+      reviewNode("span", "donor-decision-chip", reviewL("EI TÄSSÄ AALLOSSA", "EXCLUDED FROM THIS WAVE")),
+      reviewNode("h4", "", excluded.vendor),
+      reviewNode("p", "", reviewIsFi() ? excluded.reasonFi : excluded.reasonEn)
+    );
+    followUps.append(card);
+  }
+
+  status.dataset.state = "ready";
+  status.textContent = reviewL(
+    `15 virallista hankintareittiä tarkistettu · 17 lähdelinkkiä · donor-portti ei muutu.`,
+    `15 official acquisition routes reviewed · 17 source links · no change to the donor gate.`
+  );
+  root.setAttribute("aria-busy", "false");
+}
+
 async function copyReviewLink() {
   const status = reviewById("copy-review-status");
   try {
@@ -2000,6 +2122,7 @@ function renderReview(data) {
   renderReviewBlockers(data);
   renderReviewTransactionPaths();
   renderReviewTop10Matrix();
+  renderThirdDonorScreen();
   if (reviewMarketData) {
     renderReviewMarket(reviewMarketData);
     renderReviewCalculationAudit(reviewMarketData);
@@ -2025,10 +2148,11 @@ async function initReview() {
     if (reviewData) renderReview(reviewData);
   });
   try {
-    const [atlasResult, marketResult, donorResult, scenarioResult, fxResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
+    const [atlasResult, marketResult, donorResult, thirdDonorResult, scenarioResult, fxResult, patentResult, changelogResult, requestResult] = await Promise.allSettled([
       fetch("data/atlas.json", { cache: "no-store" }),
       fetch("data/market-values.json", { cache: "no-store" }),
       fetch("data/donor-cockpit.json", { cache: "no-store" }),
+      fetch("data/third-donor-screen.json", { cache: "no-store" }),
       fetch("data/country-scenarios.json", { cache: "no-store" }),
       fetch("data/fx-rates.json", { cache: "no-store" }),
       fetch("data/patent-history.json", { cache: "no-store" }),
@@ -2060,6 +2184,28 @@ async function initReview() {
     } catch (error) {
       reviewDonorCockpit = null;
       console.warn("Optional donor-closure dataset unavailable", error);
+    }
+
+    try {
+      if (thirdDonorResult.status !== "fulfilled" || !thirdDonorResult.value.ok) throw new Error(`HTTP ${thirdDonorResult.status === "fulfilled" ? thirdDonorResult.value.status : "network error"}`);
+      const screen = await thirdDonorResult.value.json();
+      const countries = Array.isArray(screen.countries) ? screen.countries : [];
+      const vendors = (screen.followUpWave?.items || []).map((item) => item.vendor);
+      if (screen.schemaVersion !== "1.0"
+        || screen.status !== "screening_only_not_donor_assessment"
+        || screen.decision?.primaryProgrammeCountryIso2 !== "PL"
+        || screen.decision?.sourceOnlyLeadCountryIso2 !== "RU"
+        || JSON.stringify(screen.decision?.secondaryProgrammeCountryIso2) !== JSON.stringify(["FI", "DK", "FR"])
+        || countries.length !== 15
+        || countries.some((item, index) => item.rank !== index + 1 || item.donorStatus !== "not_assessed")
+        || screen.followUpWave?.draftState !== "prepared_not_sent"
+        || JSON.stringify(vendors) !== JSON.stringify(["ECigIntelligence", "Euromonitor", "Circana"])) {
+        throw new Error("schema validation failed");
+      }
+      reviewThirdDonorScreen = screen;
+    } catch (error) {
+      reviewThirdDonorScreen = null;
+      console.warn("Optional third-donor acquisition screen unavailable", error);
     }
 
     try {
