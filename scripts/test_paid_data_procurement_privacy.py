@@ -76,10 +76,10 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         }
         self.assertEqual(
             outreach["ecig-global-market-database"]["state"],
-            "sent_followup_scheduled",
+            "followup_sent_response_pending",
         )
         self.assertIn(
-            "2026-07-28",
+            "first follow-up on 2026-07-28",
             outreach["ecig-global-market-database"]["noteEn"],
         )
         self.assertEqual(
@@ -148,6 +148,22 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             outreach["euromonitor-passport-nicotine"]["noteEn"],
             r"(?:EUR|USD|GBP)\s*[0-9]",
         )
+        self.assertIn(
+            "no duplicate request was issued",
+            outreach["euromonitor-passport-nicotine"]["noteEn"],
+        )
+        self.assertEqual(
+            outreach["circana-us-tobacco-pilot"]["state"],
+            "followup_sent_sample_quote_pending",
+        )
+        self.assertIn(
+            "direct follow-up was sent on 2026-07-28",
+            outreach["circana-us-tobacco-pilot"]["noteEn"],
+        )
+        self.assertIn(
+            "sample and quote remain pending",
+            outreach["circana-us-tobacco-pilot"]["noteEn"],
+        )
 
     def test_rejects_private_path_in_reviewer_note(self) -> None:
         errors = self.validate_mutation("V14", "/Users/example/private/reply.eml")
@@ -186,6 +202,14 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
 
     def test_rejects_unsupported_public_boundary_note(self) -> None:
         errors = self.validate_mutation("X14", "Unsupported commercial claim")
+        self.assertTrue(any("boundary differs" in error for error in errors), errors)
+
+    def test_rejects_overstated_circana_state(self) -> None:
+        errors = self.validate_mutation("D17", "SAMPLE AND QUOTE RECEIVED")
+        self.assertTrue(any("public state" in error for error in errors), errors)
+
+    def test_rejects_unsupported_circana_boundary_note(self) -> None:
+        errors = self.validate_mutation("X17", "Commercial evidence received")
         self.assertTrue(any("boundary differs" in error for error in errors), errors)
 
     def test_relationship_text_uses_same_privacy_guard(self) -> None:

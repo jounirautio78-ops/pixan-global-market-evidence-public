@@ -1,7 +1,46 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-27",
+  "asOf": "2026-07-28",
   "releases": [
+    {
+      "id": "2026-07-28-daily-evidence-package-v32",
+      "version": "2026.07.28-32",
+      "publishedAt": "2026-07-28T08:40:00+03:00",
+      "titleEn": "Daily lender package, Italy fiscal boundary and request follow-ups",
+      "titleFi": "Päivittäinen rahoittajapaketti, Italian fiskaalinen rajaus ja pyyntöjen seuranta",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and Evidence Registers to one v32 daily snapshot. Each register now contains 60 bilingual-parity claims; the market dataset remains 84 observations from 24 sources, the donor gate remains 0/3 and global retail value remains null/not_computed.",
+          "textFi": "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja Evidence Registerit yhteen v32-päiväsnapshotiin. Kumpikin rekisteri sisältää nyt 60 kaksikielisesti täsmäytettyä väitettä; markkina-aineisto pysyy 84 havainnossa ja 24 lähteessä, donor-portti 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
+        },
+        {
+          "category": "method",
+          "textEn": "Added one auditable method row each for Austria, Belgium, Switzerland, Luxembourg and Norway. The method split remains 28 reviewed plans, 0 reviewed source leads, 15 regional TPD patterns and 152 country-unscoped proxy routes. These rows document acquisition and calculation routes, not measured retail sales.",
+          "textFi": "Lisättiin yksi tarkistettava menetelmärivi Itävallalle, Belgialle, Sveitsille, Luxemburgille ja Norjalle. Menetelmäjako pysyy 28 tarkistetussa suunnitelmassa, 0 tarkistetussa lähdepolussa, 15 alueellisessa TPD-mallissa ja 152 maakohtaisesti rajaamattomassa proxy-reitissä. Rivit kuvaavat hankinta- ja laskentareittejä, eivät mitattua vähittäismyyntiä."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Recorded Italy's official PLI consumption-tax receipts of EUR 55,910,871.89 for 2023 and EUR 84,309,841.41 for 2024. The authority did not supply the requested aggregate market series; the receipts and reported 50.79% change are fiscal evidence only and are not treated as retail value, volume, comparable market growth or donor evidence. Belgium's rounded nine-month indicator of approximately 83,333 litres remains subject to the same non-retail and partial-period boundary.",
+          "textFi": "Kirjattiin Italian viralliset PLI-tuotteiden kulutusverotuotot 55 910 871,89 EUR vuodelta 2023 ja 84 309 841,41 EUR vuodelta 2024. Viranomainen ei toimittanut pyydettyä aggregoitua markkinasarjaa; verotuotot ja ilmoitettu 50,79 prosentin muutos ovat vain fiskaalista evidenssiä eikä niitä käsitellä vähittäisarvona, volyymina, vertailukelpoisena markkinakasvuna tai donor-näyttönä. Belgian pyöristetty noin 83 333 litran yhdeksän kuukauden indikaattori säilyy samalla ei-retail- ja osavuosirajauksella."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Sent a supplementary Poland request for existing annual EU-CEG sales aggregates, including units, e-liquid millilitres, kit devices, refill containers, coverage and duplicate-control fields. The public record shows only the privacy-safe sent state; no reply or new Polish market value is implied.",
+          "textFi": "Lähetettiin Puolaan täydentävä pyyntö olemassa olevista EU-CEG-vuosimyyntikoosteista, mukaan lukien yksiköt, e-nesteen millilitrat, kit-laitteet, täyttösäiliöt, kattavuus ja duplikaattien hallinta. Julkisessa tietueessa näkyy vain tietosuojattu lähetystila; se ei tarkoita vastausta eikä uutta Puolan markkina-arvoa."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Sent evidence follow-ups to ECigIntelligence and Circana. The separate Euromonitor draft was superseded by the comprehensive request already sent on 2026-07-27, so no duplicate request was issued. Samples and quotes remain pending; no vendor is scored and no purchase, fee, subscription or commitment is authorised.",
+          "textFi": "Lähetettiin evidenssiseurannat ECigIntelligencelle ja Circanalle. Erillinen Euromonitor-luonnos korvautui jo 27.7.2026 lähetetyllä kattavalla pyynnöllä, joten päällekkäistä pyyntöä ei lähetetty. Näytteet ja tarjoukset odottavat; yhtäkään toimittajaa ei ole pisteytetty eikä ostoa, maksua, tilausta tai sitoumusta ole valtuutettu."
+        },
+        {
+          "category": "usability",
+          "textEn": "The downloadable package is generated at most once per Asia/Nicosia calendar day and exposes its own version, snapshot time, byte counts and SHA-256 hashes. The dashboard may still receive privacy-safe intraday status updates without rebuilding the six downloads.",
+          "textFi": "Ladattava paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä ja näyttää oman versionsa, tilanneajan, tavumäärät ja SHA-256-tiivisteet. Dashboard voi saada tietosuojattuja tilapäivityksiä päivän aikana ilman kuuden ladattavan tiedoston uudelleenmuodostusta."
+        }
+      ]
+    },
     {
       "id": "2026-07-27-five-country-method-sprint-v31",
       "version": "2026.07.27-31",

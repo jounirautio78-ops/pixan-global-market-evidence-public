@@ -39,8 +39,9 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-07-27-method-control-and-vendor-gates-v30"
-RELEASE_VERSION = "2026.07.27-30"
+RELEASE_ID = "2026-07-28-daily-evidence-package-v32"
+RELEASE_VERSION = "2026.07.28-32"
+RELEASE_DATE = "2026-07-28"
 PACKAGE_TIME_ZONE = "Asia/Nicosia"
 EXPECTED_PACKAGE_CADENCE = {
     "frequency": "once_daily",
@@ -163,6 +164,9 @@ EXPECTED_INPUTS = {
     "source/global-base-observations.json",
     "source/country-method-route-config.json",
     "source/COUNTRY_METHOD_ROUTE_MAP.md",
+    "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
+    "source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
+    "source/POLAND_EUCEG_ANNUAL_SALES_REQUEST_2026-07-28.md",
     "source/third-donor-screen.json",
     "source/vendor-response-control.json",
     "source/schemas/fx-rates.schema.json",
@@ -183,9 +187,6 @@ EXPECTED_INPUTS = {
     "source/FOLLOW_UP_DRAFTS_2026-07-28.md",
     "source/US_FTC_2015_2021_REPORTED_SALES.md",
     "source/SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md",
-}
-POST_V30_EXPECTED_INPUTS = {
-    "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
 }
 EXPECTED_ARTIFACTS = {
     "short-deck-fi": {
@@ -1401,10 +1402,10 @@ def validate_manifest(errors: list[str]) -> None:
     if (
         package_release.get("id") != RELEASE_ID
         or package_release.get("version") != RELEASE_VERSION
-        or manifest.get("asOf") != "2026-07-27"
+        or manifest.get("asOf") != RELEASE_DATE
     ):
         errors.append(
-            f"bank package must be locked to release {RELEASE_VERSION} as of 2026-07-27"
+            f"bank package must be locked to release {RELEASE_VERSION} as of {RELEASE_DATE}"
         )
     boundary = manifest.get("publicBoundary")
     if not isinstance(boundary, dict) or set(boundary) != {"en", "fi"}:
@@ -1468,11 +1469,7 @@ def validate_manifest(errors: list[str]) -> None:
     input_by_path = {
         item.get("path"): item for item in inputs if isinstance(item, dict) and set(item) == {"path", "sha256"}
     }
-    expected_input_paths = (
-        EXPECTED_INPUTS
-        if package_release.get("version") == "2026.07.27-30"
-        else EXPECTED_INPUTS | POST_V30_EXPECTED_INPUTS
-    )
+    expected_input_paths = EXPECTED_INPUTS
     if set(input_by_path) != expected_input_paths or len(input_by_path) != len(inputs):
         errors.append("manifest inputs must be the exact reviewed public-data allowlist")
     for relative, item in input_by_path.items():
@@ -1500,8 +1497,8 @@ def validate_manifest(errors: list[str]) -> None:
         "fi": read_register_csv(REGISTER_CSV_PATH, REGISTER_HEADERS, ALLOWED_STATUSES, errors),
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
-    if any(len(rows) != 54 for rows in csv_rows_by_language.values()):
-        errors.append("both v30 Evidence Registers must contain exactly 54 reviewed rows")
+    if any(len(rows) != 60 for rows in csv_rows_by_language.values()):
+        errors.append("both v32 Evidence Registers must contain exactly 60 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1527,10 +1524,21 @@ def validate_manifest(errors: list[str]) -> None:
             "578 havaittua World Bank",
             "194/195",
             "190/195",
-            "23 reviewed_method_plan",
-            "5 reviewed_source_lead",
+            "28 reviewed_method_plan",
+            "0 reviewed_source_lead",
             "15 regional_tpd_pattern_only",
             "152 proxy_only_unscoped",
+            "Itävallalla on tarkistettu",
+            "Belgian virallinen osavuosiveroluku",
+            "83 333 333 ml",
+            "83 333 litraa",
+            "9 kuukauden verovolyymi-indikaattorin",
+            "Sveitsillä on 2024-10-01",
+            "Luxemburgilla on 2024-10-01",
+            "Norjalla ei ole nykyistä Article 20(7)",
+            "55 910 871,89 EUR",
+            "84 309 841,41 EUR",
+            "kyse ei ole vähittäismarkkina-arvosta",
             "1 451 529 litraa vuonna 2020",
             "4 382 500",
             "62 500",
@@ -1562,10 +1570,21 @@ def validate_manifest(errors: list[str]) -> None:
             "578 observed World Bank",
             "194/195",
             "190/195",
-            "23 reviewed_method_plan",
-            "5 reviewed_source_lead",
+            "28 reviewed_method_plan",
+            "0 reviewed_source_lead",
             "15 regional_tpd_pattern_only",
             "152 proxy_only_unscoped",
+            "Austria has a reviewed method plan",
+            "Belgium’s official partial-period tax figure",
+            "83,333,333 ml",
+            "83,333 litres",
+            "9 month tax-volume indicator",
+            "Switzerland has a two-rate method route",
+            "Luxembourg has an excise and fiscal-mark method",
+            "Norway has no current Article 20(7)",
+            "EUR 55,910,871.89",
+            "EUR 84,309,841.41",
+            "this is not retail market value",
             "1,451,529 litres in 2020",
             "4,382,500",
             "62,500",
@@ -1578,7 +1597,7 @@ def validate_manifest(errors: list[str]) -> None:
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v27 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v32 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1638,50 +1657,44 @@ def validate_manifest(errors: list[str]) -> None:
             expected_boundary = "independent public evidence" if is_english else "julkinen riippumaton"
             if expected_boundary not in combined:
                 errors.append(f"{relative}: public-boundary disclosure is missing")
-            v27_deck_markers = (
+            v32_deck_markers = (
                 (
                     "274,180 milj. nzd",
-                    "2,763 mrd usd",
-                    "4,99 mrd eur",
                     "39 markkinamittaria",
                     "36 ruotsin fhm",
                     "578 wb-havaintoa",
-                    "4 382 500",
-                    "62 500",
-                    "euromonitor",
-                    "0/6",
+                    "28 / 0 / 15 / 152",
+                    "83 333 litraa",
+                    "84,31 milj. eur",
+                    "ei retail",
                     "ei myyntiä",
                     "0/3",
                     "7/10",
                     "d5",
                     "d8",
                     "d10",
-                    "puola",
                     "1,219160 mrd cad",
-                    "2026-07-27",
+                    RELEASE_DATE,
                     RELEASE_VERSION,
                 )
                 if not is_english
                 else (
                     "nzd 274.180m",
-                    "usd 2.763bn",
-                    "eur 4.99bn",
                     "39 market measures",
                     "36 swedish fhm register",
                     "578 wb records",
-                    "4,382,500",
-                    "62,500",
-                    "euromonitor",
-                    "0/6",
+                    "28 / 0 / 15 / 152",
+                    "83,333 litres",
+                    "eur 84.31m",
+                    "not retail",
                     "not sales",
                     "0/3",
                     "7/10",
                     "d5",
                     "d8",
                     "d10",
-                    "poland",
                     "cad 1.219160bn",
-                    "2026-07-27",
+                    RELEASE_DATE,
                     RELEASE_VERSION,
                 )
             )
@@ -1695,22 +1708,34 @@ def validate_manifest(errors: list[str]) -> None:
                 expected_eur_rows,
                 "en" if is_english else "fi",
             )
-            v27_deck_markers = (
-                *v27_deck_markers,
+            v32_deck_markers = (
+                *v32_deck_markers,
                 nz_observed_fx_marker,
-                ftc_fx_marker,
                 canada_retail_fx_marker,
                 canada_shipments_fx_marker,
             )
             if expected["slideCount"] == 30:
-                v27_deck_markers = (
-                    *v27_deck_markers,
+                v32_deck_markers = (
+                    *v32_deck_markers,
+                    "2,763 mrd usd" if not is_english else "usd 2.763bn",
+                    "4,99 mrd eur" if not is_english else "eur 4.99bn",
+                    "4 382 500" if not is_english else "4,382,500",
+                    "62 500" if not is_english else "62,500",
+                    "puola" if not is_english else "poland",
+                    "euromonitor",
+                    "0/6",
+                    ftc_fx_marker,
                     nz_model_fx_marker,
                     "nzd 533.7–731.2m" if is_english else "533,7–731,2 milj. nzd",
+                    (
+                        "päiväpaketti muodostetaan enintään kerran asia/nicosia-kalenteripäivässä"
+                        if not is_english
+                        else "the daily package is generated at most once per asia/nicosia calendar day"
+                    ),
                 )
-            for marker in v27_deck_markers:
+            for marker in v32_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v27 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v32 market marker is missing: {marker!r}")
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
             row_count = validate_workbook(

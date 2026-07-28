@@ -111,15 +111,81 @@
       "Annual country device and e-liquid sales values, numeric WHO extraction and validation of the UN Comtrade classification remain missing."
     ],
     [
-      "The 195-country method control separates 23 reviewed country plans, 5 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes.",
+      "The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes.",
       "Market scope",
       "Every country has a visible method class, next evidence action and provenance basis. Classification is not a sales observation: all 195 countries in the 195-country universe have eligibleForGlobalRollup=false and donorAccepted=false.",
-      "site/data/global-base-layer.json ; source/country-method-route-config.json ; source/COUNTRY_METHOD_ROUTE_MAP.md",
+      "site/data/global-base-layer.json ; source/country-method-route-config.json ; source/COUNTRY_METHOD_ROUTE_MAP.md ; source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
       "2026-07-27",
-      "195 = 23 reviewed_method_plan + 5 reviewed_source_lead + 15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
-      "Across 195 countries, only 23 have a reviewed country-specific method plan. Five source leads and 15 regional TPD patterns do not establish a national sales series; 152 routes still require country-specific scoping.",
+      "195 = 28 reviewed_method_plan + 0 reviewed_source_lead + 15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
+      "Across 195 countries, only 28 have a reviewed country-specific method plan. Five leads reviewed in this sprint were promoted only after their official holder, fields, formula and limitations were documented. Classification does not establish a national sales series; 152 routes still require country-specific scoping.",
       "Confirmed",
       "No method class replaces annual device and e-liquid sales value, tax basis, channel coverage or D1–D10 acceptance."
+    ],
+    [
+      "Austria has a reviewed method plan based on statutory annual sales reporting and e-liquid excise; no retail market value has been computed.",
+      "Market size / Austria",
+      "The official route requires annual prior-year volume reporting and confirms e-liquid excise starting on 2026-04-01 at EUR 200 per litre.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Austria)",
+      "2026-07-27",
+      "Taxed litres = e-liquid-specific net excise / applicable EUR 200 per litre for the period starting 2026-04-01.",
+      "Mixed-rate periods are separated; annual reporting and excise inversion are alternative reconciliation routes, not additive.",
+      "Confirmed",
+      "No national annual aggregate, price series, coverage evidence or retail reconciliation has been received; retailValueStatus is not_computed."
+    ],
+    [
+      "Belgium’s official partial-period tax figure yields only a rounded 9 month tax-volume indicator; it is not full-year sales or retail market value.",
+      "Market size / Belgium",
+      "The official approximate EUR 12,500,000 and EUR 0.15 per ml rate imply approximately 83,333,333 ml or 83,333 litres.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Belgium)",
+      "2026-07-27",
+      "EUR 12,500,000 / EUR 0.15 per ml = approximately 83,333,333 ml ≈ 83,333 litres.",
+      "The figure covers a 9 month period; stockpiling, cross-border purchases and collection timing may distort interpretation.",
+      "Supported",
+      "Net releases for consumption, the full year, consumer sell-through, price and channel coverage are unverified; the 9 month indicator is not accepted as a donor."
+    ],
+    [
+      "Switzerland has a two-rate method route that started on 2024-10-01; no retail market value has been computed.",
+      "Market size / Switzerland",
+      "The official route separates CHF 1.00 per ml for disposables and CHF 0.20 per ml for reusable nicotine products; the first period is 2024-10-01–2024-12-31.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Switzerland)",
+      "2026-07-27",
+      "Disposable taxed ml = category net tax / CHF 1.00; reusable-nicotine taxed ml = category net tax / CHF 0.20; litres = ml / 1,000.",
+      "The tax categories must be supplied separately and combined receipts have no unique volume solution.",
+      "Confirmed",
+      "Category-specific net tax or millilitres, adjustments, reusable nicotine-free liquids, prices and sell-through are missing; retailValueStatus is not_computed."
+    ],
+    [
+      "Luxembourg has an excise and fiscal-mark method starting on 2024-10-01; no retail market value has been computed.",
+      "Market size / Luxembourg",
+      "The official rate is EUR 0.12 per ml from 2024-10-01, and fiscal marks carry liquid volume and mandatory consumer price.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
+      "2026-07-27",
+      "Taxed litres = e-liquid-specific net excise / EUR 120 per litre; marked consumer-price value = sum(marked pack quantity × mandatory marked price).",
+      "The volume and fiscal-mark calculations are not additive; foreign B2B dispatches, destruction, refunds and corrections are separated.",
+      "Confirmed",
+      "The national aggregate, fiscal-mark quantity and price fields, sell-through and period finality are missing; retailValueStatus is not_computed."
+    ],
+    [
+      "Norway has no current Article 20(7) annual-sales route; the 2026 statutory NOK 5.38 per ml rate has no practical effect and does not establish market value.",
+      "Market size / Norway",
+      "Official guidance prohibits commercial import and sale of nicotine products and the new TPD route does not apply; SSB external-trade data are only a customs proxy.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Norway)",
+      "2026-07-27",
+      "Excise inversion is permitted only if category-specific net receipts with practical effect are supplied; the customs proxy does not become national consumer sell-through.",
+      "A prohibition, statutory tax rate or missing record does not establish the absence of a market.",
+      "Confirmed",
+      "Nicotine-free sell-through, millilitres, prices, domestic production, inventories, re-exports and illicit channels are missing; retailValueStatus is not_computed."
+    ],
+    [
+      "Italian ADM PLI consumption-tax receipts were EUR 55,910,871.89 in 2023 and EUR 84,309,841.41 in 2024; this is not retail market value.",
+      "Market size / Italy",
+      "Table III.9 of ADM’s Libro Blu 2024 reports a 50.79 percent tax-receipt change. In 2024 the tax scope expanded to aromas intended for PLI products and taxation changed, so the percentage is not interpreted as sales or volume growth.",
+      "https://www.adm.gov.it/portale/documents/20182/261920520/Libro+blu+2024+-+Relazione.pdf/e46989ce-b39f-a404-3b4b-2af3196cba43 ; source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
+      "2026-07-28",
+      "Direct table transcription: EUR 55,910,871.89 in 2023; EUR 84,309,841.41 in 2024; reported change 50.79 percent.",
+      "Tax receipts are a fiscal measure. They are not inverted into litres or retail value without separate rates, categories, adjustments and a like-for-like scope.",
+      "Confirmed",
+      "Nicotine and nicotine-free split, litres, devices, consumer prices, refunds, cash timing and a scope-comparable series are missing; Italy is not a donor."
     ],
     [
       "The public market dataset contains 84 observations from 24 sources; its 75 official observations split into 39 market measures and 36 Swedish FHM register-structure counts.",

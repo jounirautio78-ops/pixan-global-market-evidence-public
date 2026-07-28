@@ -251,10 +251,31 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_supplement_counted_as_another_country(self) -> None:
         requests = copy.deepcopy(self.requests)
-        requests["supplementaryRequests"][0]["countsTowardCountryQueue"] = True
+        requests["supplementaryRequests"][1]["countsTowardCountryQueue"] = True
         self.assert_data_rejected(
             requests=requests,
-            needle="non-counting German BVL supplement",
+            needle="exact non-counting German and Polish supplement contract",
+        )
+
+    def test_rejects_missing_polish_supplement(self) -> None:
+        requests = copy.deepcopy(self.requests)
+        requests["supplementaryRequests"] = [
+            item
+            for item in requests["supplementaryRequests"]
+            if item["countryIso2"] != "PL"
+        ]
+        self.assert_data_rejected(
+            requests=requests,
+            needle="two non-counting German and Polish supplements",
+        )
+
+    def test_rejects_false_italy_availability_response_state(self) -> None:
+        requests = copy.deepcopy(self.requests)
+        italy = next(item for item in requests["routes"] if item["countryIso2"] == "IT")
+        italy["dispatch"]["responseState"] = "not_publicly_recorded"
+        self.assert_data_rejected(
+            requests=requests,
+            needle="Availability-response baseline must remain Italy only",
         )
 
     def test_rejects_missing_cockpit_hook(self) -> None:
@@ -291,11 +312,17 @@ class ReviewExperienceTests(unittest.TestCase):
         errors = validate_third_donor_screen(screen)
         self.assertTrue(any("PL primary" in error for error in errors), errors)
 
-    def test_rejects_sent_follow_up_state(self) -> None:
+    def test_rejects_stale_prepared_follow_up_state(self) -> None:
         screen = copy.deepcopy(self.third_donor)
-        screen["followUpWave"]["draftState"] = "sent"
+        screen["followUpWave"]["draftState"] = "prepared_not_sent"
         errors = validate_third_donor_screen(screen)
-        self.assertTrue(any("prepared and not sent" in error for error in errors), errors)
+        self.assertTrue(any("completed or superseded" in error for error in errors), errors)
+
+    def test_rejects_false_follow_up_completion_state(self) -> None:
+        screen = copy.deepcopy(self.third_donor)
+        screen["followUpWave"]["items"][1]["threadStatus"] = "follow_up_sent"
+        errors = validate_third_donor_screen(screen)
+        self.assertTrue(any("completion states differ" in error for error in errors), errors)
 
     def test_rejects_missing_third_donor_fetch(self) -> None:
         mutated = self.review_js.replace(

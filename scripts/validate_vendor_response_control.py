@@ -285,12 +285,13 @@ EXPECTED_VENDORS = {
         "requestState": "request_sent",
         "responseState": "pending_no_acknowledgement",
         "publicStatusEn": (
-            "Request sent 2026-07-23; no bounce, automated acknowledgement or response "
-            "recorded; first follow-up due 2026-07-28 if still unanswered"
+            "Request sent 2026-07-23; first follow-up sent 2026-07-28. No response "
+            "or evidence is recorded. NOT SCORED; no purchase, fee or commitment is authorised."
         ),
         "publicStatusFi": (
-            "Pyyntö lähetetty 23.7.2026; palautusta, automaattikuittausta tai vastausta "
-            "ei ole kirjattu; ensimmäinen seuranta 28.7.2026, jos vastausta ei kuulu"
+            "Pyyntö lähetettiin 23.7.2026 ja ensimmäinen seuranta 28.7.2026. Vastausta "
+            "tai evidenssiä ei ole kirjattu. EI PISTEYTETTY; ostoa, maksua tai sitoumusta "
+            "ei ole valtuutettu."
         ),
         "quoteReceived": False,
         "receivedEvidence": EMPTY_RECEIPTS,
@@ -315,6 +316,8 @@ EXPECTED_VENDORS = {
             "buyer data-room rights and all-in tax, fee, retention and renewal terms remain "
             "unconfirmed. A populated Germany 2022–2025 test, field-year coverage reconciliation, "
             "proposed Special Condition and complete commercial terms were requested on 2026-07-27. "
+            "The 2026-07-28 follow-up draft was superseded by that comprehensive request, so no "
+            "duplicate request was issued; response remains pending. "
             "All six gates are evaluated, but none passes. NOT SCORED; no purchase, fee or commitment "
             "is authorised."
         ),
@@ -332,7 +335,9 @@ EXPECTED_VENDORS = {
             "havaittu/raportoitu/mallinnettu-merkinnät, täsmällinen tuoterajaussilta, lainanantaja-/"
             "ostaja-datahuoneoikeudet sekä kaikki verot, maksut, säilytys- ja uusimisehdot kattavat "
             "ehdot ovat vahvistamatta. Täytetty Saksan 2022–2025-testi, kenttä–vuosi-peiton täsmäytys, "
-            "ehdotettu erityisehto ja täydelliset kaupalliset ehdot pyydettiin 27.7.2026. Kaikki kuusi "
+            "ehdotettu erityisehto ja täydelliset kaupalliset ehdot pyydettiin 27.7.2026. Päivän "
+            "28.7.2026 seurantaluonnos korvautui tällä kattavalla pyynnöllä, joten päällekkäistä "
+            "pyyntöä ei lähetetty; vastaus odottaa. Kaikki kuusi "
             "porttia on arvioitu, mutta yksikään ei läpäise. EI PISTEYTETTY; ostoa, maksua tai "
             "sitoumusta ei ole valtuutettu."
         ),
@@ -356,8 +361,16 @@ EXPECTED_VENDORS = {
         "product": "US Tobacco POS pilot",
         "requestState": "submission_confirmed",
         "responseState": "pending",
-        "publicStatusEn": "Submission confirmed; response pending",
-        "publicStatusFi": "Vastaanotto vahvistettu; vastaus odottaa",
+        "publicStatusEn": (
+            "Initial submission and administrative clarification recorded; direct follow-up sent "
+            "2026-07-28. A substantive sample and quote remain pending. NOT SCORED; no purchase, "
+            "fee or commitment is authorised."
+        ),
+        "publicStatusFi": (
+            "Alkuperäinen lähetys ja hallinnollinen täsmennys on kirjattu; suora seuranta "
+            "lähetettiin 28.7.2026. Sisällöllinen näyte ja tarjous odottavat. EI PISTEYTETTY; "
+            "ostoa, maksua tai sitoumusta ei ole valtuutettu."
+        ),
         "quoteReceived": False,
         "receivedEvidence": EMPTY_RECEIPTS,
         "gateResults": uniform_missing_gate_results("EVIDENCE_NOT_RECEIVED"),
@@ -625,7 +638,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.27-30" or source.get("asOf") != "2026-07-27":
+    if source.get("version") != "2026.07.28-32" or source.get("asOf") != "2026-07-28":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,

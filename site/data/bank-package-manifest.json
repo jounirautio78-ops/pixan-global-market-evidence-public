@@ -2,11 +2,11 @@
   "schemaVersion": 2,
   "generatedFromPublicDataOnly": true,
   "release": {
-    "id": "2026-07-27-method-control-and-vendor-gates-v30",
-    "version": "2026.07.27-30",
-    "publishedAt": "2026-07-27T18:46:00+03:00"
+    "id": "2026-07-28-daily-evidence-package-v32",
+    "version": "2026.07.28-32",
+    "publishedAt": "2026-07-28T08:40:00+03:00"
   },
-  "asOf": "2026-07-27",
+  "asOf": "2026-07-28",
   "cadence": {
     "frequency": "once_daily",
     "timeZone": "Asia/Nicosia",
@@ -49,11 +49,11 @@
   "inputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "76b624a1fad89f457f31940be0ad55f9331939944186eef2447cb3e1444e432b"
+      "sha256": "2be68c82a05a3fe37aab8c3b2238a91e72ebdebeb0c9ea68d145beee9cb635b0"
     },
     {
       "path": "scripts/build_global_base.py",
-      "sha256": "ebc2d94106e40caaead548eaf9b6c64f452623af9999a7eff8d88ef2f6584a40"
+      "sha256": "391a8daafb980c3b377917039e52118a5c903b20041b45009f9d777846e5a0e9"
     },
     {
       "path": "scripts/refresh_global_base.py",
@@ -93,15 +93,15 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "9a0fc35b0f1ac4e5447f1205532c769ad920c71c34a2d4abb16d28c9aa471375"
+      "sha256": "b3eada9ddc804b88850f96b8fe0163e59593dbc0cb6afaf04415dbbb5ddbd1c9"
     },
     {
       "path": "site/data/global-base-layer.json",
-      "sha256": "c5ec1c3714fe79c1615cec788b89cd11ab968b0d7380cc0fa0f1b24deeabc50d"
+      "sha256": "a5ea8c0c44bdc133be1e6b88f05df6793a588b594786d0a52aa3cf12b6d412ef"
     },
     {
       "path": "site/data/global-base-layer.csv",
-      "sha256": "cf7a250ffd332c74e1cb84f82a135bd86c50eeb16675c7c0fef16088b6783dac"
+      "sha256": "44f1b16f3b9e458e93358f1234516d9d2c5a81165b0c105793f17cc951f837ee"
     },
     {
       "path": "site/data/market-values.json",
@@ -117,7 +117,7 @@
     },
     {
       "path": "site/data/third-donor-screen.json",
-      "sha256": "d6986822b0ea40122a5f860c540d30120e8c5018b187d17d5a963b9eefc1afce"
+      "sha256": "f69d319a4ada7ef325411e519397f80cac6626ebcb8e89e503991d56b59b549e"
     },
     {
       "path": "site/data/country-scenarios.json",
@@ -133,11 +133,11 @@
     },
     {
       "path": "site/data/vendor-response-control.json",
-      "sha256": "5e4e74c52dac2edce79643052785861c17217f9294ca5d3245e332fb59f50c4f"
+      "sha256": "668c349bb68d83acad6189fc15525e4d70373682e7d954774215c34513decf7d"
     },
     {
       "path": "site/data/vendor-response-control.csv",
-      "sha256": "8d25d4bf0668af90a8807f7c9b8b0b3af9b205a8b769b2bf56ae821706466a3f"
+      "sha256": "e64391af9f38bd5711ee624f417d4e69ed9b945018b8f01b574296c426a4c132"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
@@ -149,11 +149,11 @@
     },
     {
       "path": "site/schemas/third-donor-screen.schema.json",
-      "sha256": "74c7709da9af4bd4040ff82b290265468a676c163106d0ce4a98b10e301063d6"
+      "sha256": "f8ff35fcb9daec5cb5c94aeb302af3b22a9edd748397256f6e9f3a97f19587b4"
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "5b6c38e92b1c6de8da2db899960769c066dc872f7105e1b8498c83fa44f8f540"
+      "sha256": "ae6704e5aab331ddc775cb4d25da5961e4bf3f4137cb1f5d5ae101e41e2a33df"
     },
     {
       "path": "source/fx-rates.json",
@@ -169,19 +169,31 @@
     },
     {
       "path": "source/country-method-route-config.json",
-      "sha256": "1d5d29ff4c4449d910d61f8f116acc19b84a553700dabe61d5e0dfdf75a1ed59"
+      "sha256": "1afb6e8b78b66f48dbd0012a52dce3d894cf3e93c7d3f905341ff973642d1850"
     },
     {
       "path": "source/COUNTRY_METHOD_ROUTE_MAP.md",
-      "sha256": "09b6e502b887426644e06a1a73620f9f3af44010433561f75a0729611808a6e6"
+      "sha256": "cd8446bd45e780767ef6f9121077b739ad77c52f8875b265d16fdbf8155a48f1"
+    },
+    {
+      "path": "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
+      "sha256": "c32ea56cbe1e511a24113d435981fa60b03a89866d4922bd2b8b73e5e92623be"
+    },
+    {
+      "path": "source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
+      "sha256": "19824c744d39b23550141d4cf4a779d7ac1ed174410510e00e77760b3ea8038a"
+    },
+    {
+      "path": "source/POLAND_EUCEG_ANNUAL_SALES_REQUEST_2026-07-28.md",
+      "sha256": "4ac0e55f8fa90c7152eb7f755023097a94e5041e5ff81cd5c9892c7b88b23011"
     },
     {
       "path": "source/vendor-response-control.json",
-      "sha256": "e0d90a7760119e3f74503e7fb7723a086e3576cff17d447d3006640a2205573e"
+      "sha256": "225cda3f908fd5ae52816c8ca3e77e0b177e0f403b265b875e8ee9490775f30b"
     },
     {
       "path": "source/third-donor-screen.json",
-      "sha256": "d6986822b0ea40122a5f860c540d30120e8c5018b187d17d5a963b9eefc1afce"
+      "sha256": "f69d319a4ada7ef325411e519397f80cac6626ebcb8e89e503991d56b59b549e"
     },
     {
       "path": "source/schemas/fx-rates.schema.json",
@@ -193,7 +205,7 @@
     },
     {
       "path": "source/schemas/third-donor-screen.schema.json",
-      "sha256": "74c7709da9af4bd4040ff82b290265468a676c163106d0ce4a98b10e301063d6"
+      "sha256": "f8ff35fcb9daec5cb5c94aeb302af3b22a9edd748397256f6e9f3a97f19587b4"
     },
     {
       "path": "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
@@ -249,7 +261,7 @@
     },
     {
       "path": "source/FOLLOW_UP_DRAFTS_2026-07-28.md",
-      "sha256": "ac212a7f3dbfb4f1e7c9eb43edf413ffe73208064203e3df6ca4f5c688a73d55"
+      "sha256": "3f466839c773aa5751b51b313f3ba8bf78ab4034c647a3ec52fb16fcb2f72318"
     },
     {
       "path": "source/US_FTC_2015_2021_REPORTED_SALES.md",
@@ -261,7 +273,7 @@
     },
     {
       "path": "source/bank-package-en-lock.json",
-      "sha256": "a41c4b573110b7161518089cbf255b22ee6c1b7c0e9f6299d06f6542501f91e0"
+      "sha256": "0e5e265366529b712dd6c34c9d39c793204026931cc404c3058497e8661ca711"
     }
   ],
   "artifacts": [
@@ -273,8 +285,8 @@
       "titleEn": "Concise bank deck (English)",
       "fileName": "pixan-bank-deck-short-en.pptx",
       "path": "downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "1c57ee3855593a2e7c6be2100df013d71796dc53655cc9ef6c970b6cdb2ee9c1",
-      "bytes": 58495,
+      "sha256": "59e1271c065fa06a3320b1efdd0b9a20b8717a62b05cb4faac88951cf828726b",
+      "bytes": 60472,
       "slideCount": 6
     },
     {
@@ -285,8 +297,8 @@
       "titleEn": "Extended bank deck (English)",
       "fileName": "pixan-bank-deck-large-en.pptx",
       "path": "downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "3eb870497797fac039b637b63b0445dd32f4ea21f13a4f46a1ae0af3262a7999",
-      "bytes": 180718,
+      "sha256": "c8f2ba4cde2cbcb3b2e3c2984f004d4fa4f25ba2007722aca126ef5e913fb2ab",
+      "bytes": 190505,
       "slideCount": 30
     },
     {
@@ -297,9 +309,9 @@
       "titleEn": "Evidence Register (English)",
       "fileName": "pixan-bank-evidence-register-en.xlsx",
       "path": "downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "327cf20ca64d6d3a3763db142febdab6748222735136ccb1a9d6b09e3a96a51b",
-      "bytes": 38835,
-      "rowCount": 54
+      "sha256": "12085ca018eb7d50f15a1eb726e705ea8a2635947d27322f81bd715995ca4677",
+      "bytes": 40831,
+      "rowCount": 60
     },
     {
       "id": "short-deck-fi",
@@ -309,8 +321,8 @@
       "titleEn": "Concise bank deck (Finnish)",
       "fileName": "pixan-bank-deck-short-fi.pptx",
       "path": "downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "ddced7ea7d0af3522eaa8852d6bc752b772acbc62680e1c548744fb32d9832d2",
-      "bytes": 58837,
+      "sha256": "22975e68403f6d8fd7bd5304a50e38cd3ad6e8dccf2de4743971539bbc339a75",
+      "bytes": 60817,
       "slideCount": 6
     },
     {
@@ -321,8 +333,8 @@
       "titleEn": "Extended bank deck (Finnish)",
       "fileName": "pixan-bank-deck-large-fi.pptx",
       "path": "downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "64494950d06d180c96bb110660f50c28a06e1f39da1df2895d3022700249d73a",
-      "bytes": 182451,
+      "sha256": "803640a2d80684a99e92768b39388b363bf24442f689312b4f94b0f28a7fc2d4",
+      "bytes": 192177,
       "slideCount": 30
     },
     {
@@ -333,9 +345,9 @@
       "titleEn": "Evidence Register (Finnish)",
       "fileName": "pixan-bank-evidence-register-fi.xlsx",
       "path": "downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "523511c488c0ed0646ec2410294274d20b307ba321e4a80188adc17419191422",
-      "bytes": 40066,
-      "rowCount": 54
+      "sha256": "381569d4a003bdae7e5dad7ee39e7e3390671ea5ce2050dc26543ab330c0a77b",
+      "bytes": 42136,
+      "rowCount": 60
     }
   ]
 }

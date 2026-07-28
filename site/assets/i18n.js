@@ -3,27 +3,37 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V31 = Object.freeze({
-    id: "2026-07-27-five-country-method-sprint-v31",
-    version: "2026.07.27-31",
-    publishedAt: "2026-07-27T20:08:20+03:00",
-    titleEn: "Five-country official-data methods and daily lender-package cadence",
-    titleFi: "Viiden maan viranomaisdatamenetelmät ja pankkipaketin päivärytmi",
+  const UI_RELEASE_V32 = Object.freeze({
+    id: "2026-07-28-daily-evidence-package-v32",
+    version: "2026.07.28-32",
+    publishedAt: "2026-07-28T08:40:00+03:00",
+    titleEn: "Daily lender package, Italy fiscal boundary and request follow-ups",
+    titleFi: "Päivittäinen rahoittajapaketti, Italian fiskaalinen rajaus ja pyyntöjen seuranta",
     items: Object.freeze([
       Object.freeze({
+        category: "diligence",
+        textEn: "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and Evidence Registers to one v32 daily snapshot. Each register now contains 60 bilingual-parity claims; the donor gate remains 0/3 and global retail value remains null/not_computed.",
+        textFi: "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja Evidence Registerit yhteen v32-päiväsnapshotiin. Kumpikin rekisteri sisältää nyt 60 kaksikielisesti täsmäytettyä väitettä; donor-portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
+      }),
+      Object.freeze({
         category: "method",
-        textEn: "Austria, Belgium, Switzerland, Luxembourg and Norway now have reviewed country-specific official-data plans. The 195-country split is 28 reviewed plans, 0 reviewed source leads, 15 regional EU TPD patterns and 152 country-unscoped proxy routes.",
-        textFi: "Itävallalla, Belgialla, Sveitsillä, Luxemburgilla ja Norjalla on nyt tarkistetut maakohtaiset viranomaisdatasuunnitelmat. 195 maan jako on 28 tarkistettua suunnitelmaa, 0 tarkistettua lähdepolkua, 15 alueellista EU TPD -mallia ja 152 maakohtaisesti rajaamatonta proxy-reittiä."
+        textEn: "Added auditable method rows for Austria, Belgium, Switzerland, Luxembourg and Norway. The 195-country split remains 28 reviewed plans, 0 reviewed source leads, 15 regional TPD patterns and 152 country-unscoped proxy routes; the rows are methods, not measured sales.",
+        textFi: "Lisättiin tarkistettavat menetelmärivit Itävallalle, Belgialle, Sveitsille, Luxemburgille ja Norjalle. 195 maan jako pysyy 28 tarkistetussa suunnitelmassa, 0 tarkistetussa lähdepolussa, 15 alueellisessa TPD-mallissa ja 152 maakohtaisesti rajaamattomassa proxy-reitissä; rivit ovat menetelmiä, eivät mitattua myyntiä."
+      }),
+      Object.freeze({
+        category: "market_data",
+        textEn: "Italy's official PLI consumption-tax receipts are recorded at EUR 55,910,871.89 for 2023 and EUR 84,309,841.41 for 2024. They are fiscal evidence only, not retail value, volume, comparable market growth or donor evidence; Belgium's approximately 83,333-litre indicator remains partial-period and non-retail.",
+        textFi: "Italian viralliset PLI-tuotteiden kulutusverotuotot ovat 55 910 871,89 EUR vuodelta 2023 ja 84 309 841,41 EUR vuodelta 2024. Ne ovat vain fiskaalista evidenssiä, eivät vähittäisarvoa, volyymia, vertailukelpoista markkinakasvua tai donor-näyttöä; Belgian noin 83 333 litran indikaattori pysyy osavuotisena ja ei-retail-lukuna."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Aggregate public-data requests were sent to the five countries' official functions. Sent status is process evidence only; no response or new market value is implied.",
-        textFi: "Aggregoidun julkisen datan pyynnöt lähetettiin viiden maan virallisille funktioille. Lähetystila on vain prosessievidenssiä; se ei tarkoita vastausta eikä uutta markkina-arvoa."
+        textEn: "A supplementary Poland EU-CEG aggregate request and evidence follow-ups to ECigIntelligence and Circana were sent. The Euromonitor draft was superseded by the comprehensive 2026-07-27 request. Replies, samples and quotes remain pending; no purchase or commitment is authorised.",
+        textFi: "Puolaan lähetettiin täydentävä EU-CEG-koontipyyntö sekä ECigIntelligencelle ja Circanalle evidenssiseurannat. Euromonitor-luonnos korvautui kattavalla 27.7.2026 pyynnöllä. Vastaukset, näytteet ja tarjoukset odottavat; ostoa tai sitoumusta ei ole valtuutettu."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "Downloadable decks and Evidence Registers now follow a once-per-Asia/Nicosia-calendar-day build policy. The dashboard may update intraday while the daily package keeps its own visible version, build time and integrity hashes.",
-        textFi: "Ladattavat dekit ja Evidence Registerit muodostetaan nyt kerran Asia/Nicosia-kalenteripäivässä. Dashboard voi päivittyä päivän aikana, ja päiväpaketilla näkyvät oma versio, muodostusaika ja eheystiivisteet."
+        textEn: "The downloadable package is generated at most once per Asia/Nicosia calendar day and exposes its own version, build time and integrity hashes. The dashboard may update intraday without rebuilding the six downloads.",
+        textFi: "Ladattava paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä ja näyttää oman versionsa, tilanneajan sekä eheystiivisteet. Dashboard voi päivittyä päivän aikana ilman kuuden ladattavan tiedoston uudelleenmuodostusta."
       })
     ])
   });
@@ -459,7 +469,7 @@
     ["Julkinen pankki- ja due diligence -paketti", "Public bank and due-diligence package"],
     ["Lataa päivän tarkistettu aineistopaketti", "Download today's reviewed evidence package"],
     ["Dashboard voi päivittyä päivän aikana. Dekit ja Evidence Register muodostetaan enintään kerran vuorokaudessa (Asia/Nicosia), joten niiden julkaisuversio voi olla saman päivän dashboard-versiota aiempi.", "The dashboard may update during the day. The decks and Evidence Register are generated at most once per Asia/Nicosia calendar day, so their release may precede the dashboard's latest same-day release."],
-    ["Paketti muodostettu", "Package built"],
+    ["Paketin tilanneaika", "Package snapshot time"],
     ["Tiedostoja", "Files"],
     ["Julkisen pankkipaketin rajaus", "Public bank-package boundary"],
     ["Vain julkisesta aineistosta · riippumaton julkaisu", "Public data only · independent publication"],
@@ -721,7 +731,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V31;
+  window.PixanUiRelease = UI_RELEASE_V32;
 
   init();
 })();

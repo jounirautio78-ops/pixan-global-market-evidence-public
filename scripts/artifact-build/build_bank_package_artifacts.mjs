@@ -15,10 +15,11 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v30", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v30", "renders");
-const releaseVersion = "2026.07.27-30";
-const releaseId = "2026-07-27-method-control-and-vendor-gates-v30";
+const qaDir = path.join(repo, "tmp", "bank-v32", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v32", "renders");
+const releaseVersion = "2026.07.28-32";
+const releaseId = "2026-07-28-daily-evidence-package-v32";
+const releaseDate = "2026-07-28";
 const packageCadence = Object.freeze({
   frequency: "once_daily",
   timeZone: "Asia/Nicosia",
@@ -88,6 +89,13 @@ const DECK_SOURCE_URLS = [
   "https://www.customs.govt.nz/about-us/news/important-notices-archive/important-notices-archive-2023/reminder-classification-of-vaping-devices-and-similar",
   "https://www.ftc.gov/reports/e-cigarette-report-2021",
   fhmSourceUrl,
+  "https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10010907",
+  "https://www.health.belgium.be/en/organisation-policy/legislation-policy-documents/e-cigarette-notification-eu-ceg-belgian-guidelines",
+  "https://www.lachambre.be/doc/CCRI/html/56/ic041x.html",
+  "https://www.bazg.admin.ch/dam/en/sd-web/GljEzThGISer/Tobacco%20tax.pdf",
+  "https://douanes.public.lu/fr/support/faq/e-liquides.html",
+  "https://www.helsedirektoratet.no/veiledere/tobakksskadeloven/e-sigaretter",
+  "https://www.adm.gov.it/portale/documents/20182/261920520/Libro+blu+2024+-+Relazione.pdf/e46989ce-b39f-a404-3b4b-2af3196cba43",
   "https://www.wipo.int/en/web/ip-financing",
 ];
 
@@ -197,14 +205,14 @@ const deckUpdates = {
     short: {
       shapes: {
         "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
-        "sh/doj29oba": "Julkinen riippumaton evidenssikooste · 2026.07.27-30 · 2026-07-27 · Lähteet: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC",
+        "sh/doj29oba": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC; ADM`,
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
         "sh/ih8ju9sn": "195",
         "sh/kbm987y5": "578 WB-havaintoa · 39 markkinamittaria + 36 Ruotsin FHM-lukua",
         "sh/i94r6xgz": "274,180 milj. NZD",
         "sh/jadsz2xk": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
         "sh/v6tsv2xo": "Uusi-Seelanti läpäisee 7/10: D5 hylätty, D8 ja D10 avoinna. Ei hyväksytty; donor-portti 0/3.",
-        "sh/p0batw72": "Menetelmäkontrolli 23 / 5 / 15 / 152; ei myyntiä. Puola: verosilta 4 382 500 laitetta / 62 500 sarjaa. Kanada 1,219160 mrd CAD; Health Canada -toimitukset 1,160754 mrd CAD; FTC 2,763 mrd USD. Euromonitor 0/6; donor 0/3.",
+        "sh/p0batw72": "Menetelmäkontrolli 28 / 0 / 15 / 152; 5 uutta maasuunnitelmaa, ei myyntiä. Belgia ≈83 333 litraa (9 kk; ei retail); Italia 84,31 milj. EUR PLI-veroa (ei retail). Kanada retail 1,219160 mrd CAD ja toimitukset 1,160754 mrd CAD; FTC 2,763 mrd USD. Donor 0/3.",
       },
     },
     medium: {
@@ -215,7 +223,7 @@ const deckUpdates = {
         "sh/cf2tcr61": "Tekninen ero on patenttivaatimuksissa",
         "sh/dcbud0ra": "Asiakkuus vaatii kolmen ostajaryhmän validoinnin",
         "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
-        "sh/ml07i9sv": "Julkinen riippumaton evidenssikooste · 2026.07.27-30 · 2026-07-27 · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission`,
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
         "sh/pc76hkr2": "39 + 36",
         "sh/h4bupgn6": "39 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
@@ -236,17 +244,17 @@ const deckUpdates = {
         "sh/cf2tcr61": "Patentoitu ratkaisu ohjaa tehoa resistanssitiedolla",
         "sh/dcbud0ra": "IP-historian ydintapahtumat ovat jäljitettävissä",
         "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
-        "sh/0f2lgnmp": "195 maan avoin pohja: 578 WB-havaintoa; menetelmäkontrolli 23 / 5 / 15 / 152; ei myyntiä",
-        "sh/4felwzu5": "Julkinen riippumaton evidenssikooste · 2026.07.27-30 · 2026-07-27 · Lähteet: Market-values model; Method-route control; Readiness ja donorCandidates",
+        "sh/0f2lgnmp": "195 maan pohja: 578 WB-havaintoa; reitit 28 / 0 / 15 / 152; ei myyntiä",
+        "sh/4felwzu5": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: Market-values model; Method-route control; Readiness ja donorCandidates`,
         "sh/wbydknq1": "Kanada 2024: vahva piste-estimaatti, 7/10",
-        "sh/5grehs7i": "Julkinen riippumaton evidenssikooste · 2026.07.27-30 · 2026-07-27 · Lähteet: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: Statistics Canada; Health Canada 2024`,
         "sh/ehwvat8n": "1,219160 mrd CAD",
         "sh/c3e1gjyd": "retail · 822,58 milj. EUR",
         "sh/a1wze9g7": "1,160754 mrd CAD",
         "sh/b2507exs": "toimitukset · 783,18 milj. EUR",
         "sh/ls7idofu": "1 000 CAD",
         "sh/y5wjitgj": "kuukausi–kvartaali-ero",
-        "sh/z650byxo": "Retail ylittää toimitukset 58,406 milj. CAD (+5,03 %), mutta jäännös ei ole kate tai markkinahaarukka. D8 on suljettu virallisella veroperustalla.",
+        "sh/z650byxo": "Retail ylittää toimitukset 58,406 milj. CAD eli 5,03 %, mutta jäännös ei ole kate tai markkinahaarukka. D8 on suljettu virallisella veroperustalla.",
         "sh/hsvy50re": "Kanada läpäisee 7/10. D5: NAICS 459993/459999 -peitto. D7: tarkka vuositason virheraja puuttuu. D10: eri tapahtumatasojen silta on täsmäyttämättä.",
         "sh/9kby1g7m": "Saksan malli näyttää herkkyyden, ei myyntiä",
         "sh/mpgj6t8j": "Ei havaittua myyntiä. Laskelma käyttää vuoden 2025 alustavaa verotettua nestemäärää ja kolmea verkkokaupan vuoden 2026 hintaa. Rajattu tuotejakauma ja poikkeava ajankohta pitävät luottamustason matalana.",
@@ -254,16 +262,17 @@ const deckUpdates = {
         "sh/hsn2l4bu": "Maailmanestimaatti vaatii vähintään 3 donoria",
         "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
         "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
-        "sh/8jup8rad": "Ensimmäisen donorin sulkemissprintti ohjaa seuraavat 90 päivää",
+        "sh/8jup8rad": "Ensimmäisen donorin 90 päivän sulkemissprintti",
         "sh/5gbupcrm": "Uusi-Seelanti: ministeriön D5/D8-vahvistus ja riippumaton D10-silta. Kanada: StatCanin D5/D7-vahvistus.",
         "sh/t4butcri": "Puola: 2020–2023 virallinen e-nestevirta ja vuoden 2025 laite-/osasarjaverosilta; retail-arvo ja D1–D10-silta puuttuvat.",
-        "sh/98ruxsre": "Euromonitor 0/6: 95 maantieteen skeema saatiin ilman maa–vuosi-arvoja; oikeudet ja kaikki kustannukset ovat yhä auki.",
+        "sh/98ruxsre": "Viiden maan normalisointi: Belgia ≈83 333 litraa (9 kk; ei retail) ja Italia 84,31 milj. EUR PLI-veroa (ei retail). Menetelmät pidetään erossa myynnistä; Euromonitor 0/6.",
         "sh/218rq9kr": "Hyväksy donor vain, jos kaikki kymmenen ehtoa läpäisevät. Muuten 0/3 ja not_computed säilyvät.",
-        "sh/21gnuts7": "Julkinen riippumaton evidenssikooste · 2026.07.27-30 · 2026-07-27 · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
-        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  195 maan menetelmäkontrolli erottaa 23 tarkistettua suunnitelmaa, 5 lähdepolkua, 15 EU TPD -mallia ja 152 rajaamatonta proxy-reittiä; mikään ei avaa 0/3 donor-porttia.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
-        "sh/bq9orito": "39 markkinamittaria + 36 Ruotsin FHM-lukua; menetelmäkontrolli 23 / 5 / 15 / 152",
+        "sh/21gnuts7": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
+        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  195 maan menetelmäkontrolli erottaa 28 tarkistettua suunnitelmaa, 0 lähdepolkua, 15 EU TPD -mallia ja 152 rajaamatonta proxy-reittiä; mikään ei avaa 0/3 donor-porttia.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
+        "sh/bq9orito": "39 markkinamittaria ja 36 Ruotsin FHM-lukua; menetelmäkontrolli 28 / 0 / 15 / 152",
         "sh/6hw3y9sb": "Uusi-Seelanti 7/10: D5 hylätty, D8 ja D10 avoinna. Kaikki 5 ehdokasta ovat ulkona; donor-portti 0/3.",
         "sh/rip4retw": "•  Uuden-Seelannin tunnistettu AIS/AVP-summa 274,180 milj. NZD jakautuu kulutustarvikkeisiin 189 402 451,96, laitteisiin/hardwareen 84 709 409,85 ja sekajärjestelmiin 68 548,40 NZD.\n•  Viereiset 2 137 085,24 ja ratkaisemattomat 4 367 017,37 NZD rajataan pois. Maa läpäisee 7/10; D5 hylätään sekä D8 ja D10 ovat avoimia.\n•  Erillinen 533,7–731,2 milj. NZD RPS-herkkyys on tuettu malli, ei havaittu kansallinen arvo. Donor-portti pysyy 0/3:ssa.",
+        "sh/x8japo3e": "Päiväpaketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä; dashboard voi päivittyä päivän aikana.",
       },
       tables: {
         "tb/m983m983": [
@@ -283,19 +292,19 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": "Independent public evidence summary · 2026.07.27-30 · 2026-07-27 · Sources: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC",
+        "sh/doj29oba": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC; ADM`,
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
         "sh/ih8ju9sn": "195",
         "sh/kbm987y5": "578 WB records; 39 market measures + 36 Swedish FHM register counts; not sales",
         "sh/i94r6xgz": "NZD 274.180m",
         "sh/jadsz2xk": "New Zealand 2024: identified AIS/AVP subtotal",
         "sh/v6tsv2xo": "New Zealand passes 7/10: D5 failed; D8 and D10 open. Not accepted; the donor gate remains 0/3.",
-        "sh/p0batw72": "Method control 23 / 5 / 15 / 152; not sales. Poland: tax bridge 4,382,500 devices / 62,500 sets. Canada CAD 1.219160bn; Health Canada shipments CAD 1.160754bn; FTC USD 2.763bn. Euromonitor 0/6; donor 0/3.",
+        "sh/p0batw72": "Method control 28 / 0 / 15 / 152; 5 new country plans, not sales. Belgium ≈83,333 litres (9 months; not retail); Italy EUR 84.31m PLI tax (not retail). Canada retail CAD 1.219160bn and shipments CAD 1.160754bn; FTC USD 2.763bn. Donor 0/3.",
       },
     },
     medium: {
       shapes: {
-        "sh/ml07i9sv": "Independent public evidence summary · 2026.07.27-30 · 2026-07-27 · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission",
+        "sh/ml07i9sv": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission`,
         "sh/zi98nu94": "Market size remains a range — not a single value",
         "sh/pc76hkr2": "39 + 36",
         "sh/h4bupgn6": "39 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
@@ -311,28 +320,30 @@ const deckUpdates = {
     },
     large: {
       shapes: {
-        "sh/0f2lgnmp": "195-country open base: 578 WB records; method control 23 / 5 / 15 / 152; not sales",
-        "sh/4felwzu5": "Independent public evidence summary · 2026.07.27-30 · 2026-07-27 · Sources: Market-values model; Method-route control; Readiness and donorCandidates",
+        "sh/0f2lgnmp": "195-country open base: 578 WB records; method control 28 / 0 / 15 / 152; not sales",
+        "sh/4felwzu5": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: Market-values model; Method-route control; Readiness and donorCandidates`,
         "sh/wbydknq1": "Canada 2024: strong point estimate, 7/10",
-        "sh/5grehs7i": "Independent public evidence summary · 2026.07.27-30 · 2026-07-27 · Sources: Statistics Canada; Health Canada 2024",
+        "sh/5grehs7i": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: Statistics Canada; Health Canada 2024`,
         "sh/ehwvat8n": "CAD 1.219160bn",
         "sh/c3e1gjyd": "retail · EUR 822.58m",
         "sh/a1wze9g7": "CAD 1.160754bn",
         "sh/b2507exs": "shipments · EUR 783.18m",
         "sh/ls7idofu": "CAD 1,000",
         "sh/y5wjitgj": "monthly–quarterly gap",
-        "sh/z650byxo": "Retail is CAD 58.406m (+5.03%) above shipments. The residual is not margin or a market range; official tax evidence closes D8.",
+        "sh/z650byxo": "Retail is CAD 58.406m, or 5.03%, above shipments. The residual is not margin or a market range; official tax evidence closes D8.",
         "sh/hsvy50re": "Canada passes 7/10. D5: NAICS 459993/459999 coverage. D7: exact annual error boundary missing. D10: different transaction stages remain unreconciled.",
+        "sh/hk3ipcr6": "Manufacturer: licence, freedom to operate or settlement.\nTechnology provider: integrable function or legal position.\nFinancier or buyer: controllable, realisable cash flow and downside protection.",
         "sh/8jup8rad": "First-donor conversion sprint · next 90 days",
         "sh/5gbupcrm": "New Zealand: Ministry D5/D8 confirmation and an independent D10 bridge. Canada: Statistics Canada D5/D7 confirmation.",
         "sh/t4butcri": "Poland: official 2020–2023 e-liquid flow and a 2025 device/component tax bridge; retail value and a D1–D10 bridge remain missing.",
-        "sh/98ruxsre": "Euromonitor is 0/6: a 95-geography schema arrived without country-year values; rights and all-in costs remain open.",
+        "sh/98ruxsre": "Five-country normalisation: Belgium ≈83,333 litres (9 months; not retail) and Italy EUR 84.31m PLI tax (not retail). Methods stay separate from sales; Euromonitor 0/6.",
         "sh/218rq9kr": "Accept a donor only if all ten criteria pass. Otherwise retain 0/3 and not_computed.",
-        "sh/21gnuts7": "Independent public evidence summary · 2026.07.27-30 · 2026-07-27 · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC",
-        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The 195-country method control separates 23 reviewed plans, 5 source leads, 15 EU TPD patterns and 152 unscoped proxy routes; none unlocks the 0/3 donor gate.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
-        "sh/bq9orito": "39 market measures + 36 Swedish FHM register counts; method control 23 / 5 / 15 / 152",
+        "sh/21gnuts7": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
+        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The 195-country method control separates 28 reviewed plans, 0 source leads, 15 EU TPD patterns and 152 unscoped proxy routes; none unlocks the 0/3 donor gate.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
+        "sh/bq9orito": "39 market measures and 36 Swedish FHM register counts; method control 28 / 0 / 15 / 152",
         "sh/6hw3y9sb": "New Zealand is 7/10: D5 failed; D8 and D10 open. All 5 candidates remain outside; the donor gate is 0/3.",
         "sh/rip4retw": "•  New Zealand's identified AIS/AVP subtotal of NZD 274.180m comprises NZD 189,402,451.96 consumables, NZD 84,709,409.85 devices/hardware and NZD 68,548.40 mixed systems.\n•  NZD 2,137,085.24 adjacent and NZD 4,367,017.37 unresolved rows are excluded. New Zealand passes 7/10; D5 fails and D8/D10 remain open.\n•  The separate NZD 533.7–731.2m RPS sensitivity remains a supported model, not observed national value. The donor gate remains 0/3.",
+        "sh/x8japo3e": "The daily package is generated at most once per Asia/Nicosia calendar day; the dashboard may update intraday.",
       },
       tables: {
         "tb/m983m983": [
@@ -442,6 +453,145 @@ const registerAdditions = {
       "Only reviewed public aggregates and methods enter the public lane; licensed and private material do not enter the repository.",
       "Confirmed",
       "The global value remains uncomputed until at least three donors and both coverage gates are accepted.",
+    ],
+  ],
+};
+
+const v32MethodAndFiscalClaims = {
+  fi: [
+    [
+      "Itävallalla on tarkistettu vuosittaiseen lakisääteiseen myyntiraportointiin ja sähkönestevalmisteveroon perustuva menetelmäsuunnitelma; vähittäismarkkina-arvoa ei ole laskettu.",
+      "Markkinakoko / Itävalta",
+      "Virallinen reitti edellyttää edellisen vuoden vuosivolyymien raportointia ja vahvistaa sähkönestevalmisteveron alkavan 2026-04-01 tasolla EUR 200 litralta.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Austria)",
+      "2026-07-27",
+      "Verolliset litrat = sähkönestekohtainen nettovero / sovellettava EUR 200 litralta 2026-04-01 alkavalla jaksolla.",
+      "Sekajaksot erotellaan; vuosiraportointi ja veroinversio ovat vaihtoehtoisia sovitusreittejä, eivät yhteenlaskettavia.",
+      "Vahvistettu",
+      "Kansallista vuosikoostetta, hintasarjaa, kattavuutta ja vähittäismyynnin sovitusta ei ole saatu; retailValueStatus on not_computed.",
+    ],
+    [
+      "Belgian virallinen osavuosiveroluku tuottaa vain pyöristetyn 9 kuukauden verovolyymi-indikaattorin; se ei ole koko vuoden myynti eikä vähittäismarkkina-arvo.",
+      "Markkinakoko / Belgia",
+      "Virallinen arviolta EUR 12 500 000 ja verokanta EUR 0,15 per ml vastaavat arviolta 83 333 333 ml eli 83 333 litraa.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Belgium)",
+      "2026-07-27",
+      "EUR 12 500 000 / EUR 0,15 per ml = arviolta 83 333 333 ml ≈ 83 333 litraa.",
+      "Luku koskee 9 kuukauden jaksoa; varastointi, rajakauppa ja maksujen ajoitus voivat vääristää tulkintaa.",
+      "Tuettu",
+      "Nettoveronalaisia luovutuksia, koko vuotta, kuluttajamyyntiä, hintaa ja kanavakattavuutta ei ole vahvistettu; 9 kuukauden indikaattoria ei hyväksytä donoriksi.",
+    ],
+    [
+      "Sveitsillä on 2024-10-01 alkanut kahden verokannan menetelmäreitti; vähittäismarkkina-arvoa ei ole laskettu.",
+      "Markkinakoko / Sveitsi",
+      "Virallinen reitti erottaa kertakäyttötuotteiden CHF 1,00 per ml ja uudelleenkäytettävien nikotiinituotteiden CHF 0,20 per ml; ensimmäinen jakso on 2024-10-01–2024-12-31.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Switzerland)",
+      "2026-07-27",
+      "Kertakäyttötuotteiden verollinen ml = luokan nettovero / CHF 1,00; uudelleenkäytettävien nikotiinituotteiden verollinen ml = luokan nettovero / CHF 0,20; litrat = ml / 1 000.",
+      "Veroluokat on toimitettava erillään eikä yhdistetylle verolle ole yksikäsitteistä volyymiratkaisua.",
+      "Vahvistettu",
+      "Luokkakohtaiset nettoverot tai millilitrat, oikaisut, nikotiinittomat täyttönesteet, hinnat ja kuluttajamyynti puuttuvat; retailValueStatus on not_computed.",
+    ],
+    [
+      "Luxemburgilla on 2024-10-01 alkanut valmistevero- ja veromerkkimenetelmä; vähittäismarkkina-arvoa ei ole laskettu.",
+      "Markkinakoko / Luxemburg",
+      "Virallinen verokanta on EUR 0,12 per ml 2024-10-01 alkaen, ja veromerkit sisältävät nestetilavuuden sekä pakollisen kuluttajahinnan.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
+      "2026-07-27",
+      "Verolliset litrat = sähkönestekohtainen nettovero / EUR 120 litralta; merkitty kuluttajahintainen arvo = summa(merkitty pakkausmäärä × pakollinen merkitty hinta).",
+      "Volyymi- ja veromerkkilaskelmia ei lasketa yhteen; ulkomaan B2B-toimitukset, hävitykset, palautukset ja oikaisut erotellaan.",
+      "Vahvistettu",
+      "Kansallinen kooste, veromerkkien määrä- ja hintakentät, kuluttajamyynti ja kauden lopullisuus puuttuvat; retailValueStatus on not_computed.",
+    ],
+    [
+      "Norjalla ei ole nykyistä Article 20(7) -vuosimyyntireittiä; vuoden 2026 NOK 5,38 per ml oleva lakisääteinen verokanta ei ole käytännössä voimassa eikä osoita markkina-arvoa.",
+      "Markkinakoko / Norja",
+      "Virallinen ohje kieltää nikotiinituotteiden kaupallisen tuonnin ja myynnin, eikä uutta TPD-reittiä sovelleta; SSB:n ulkomaankauppatiedot ovat vain tulliproxy.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Norway)",
+      "2026-07-27",
+      "Veroinversio sallitaan vain, jos käytännössä voimassa olevat luokkakohtaiset nettotulot saadaan; tulliproxy ei muutu kansalliseksi kuluttajamyynniksi.",
+      "Kielto, lakisääteinen verokanta tai puuttuva tietue ei osoita markkinan puuttumista.",
+      "Vahvistettu",
+      "Nikotiinittomien tuotteiden kuluttajamyynti, millilitrat, hinnat, kotimainen tuotanto, varastot, jälleenvienti ja laittomat kanavat puuttuvat; retailValueStatus on not_computed.",
+    ],
+    [
+      "Italian ADM:n PLI-tuotteiden kulutusverotuotto oli 55 910 871,89 EUR vuonna 2023 ja 84 309 841,41 EUR vuonna 2024; kyse ei ole vähittäismarkkina-arvosta.",
+      "Markkinakoko / Italia",
+      "ADM:n Libro Blu 2024 -raportin taulukko III.9 näyttää 50,79 prosentin verotuottomuutoksen. Vuonna 2024 verotus laajeni myös PLI-tuotteisiin tarkoitettuihin aromeihin ja verotukseen kohdistui muutoksia, joten prosenttia ei tulkita myynti- tai volyymikasvuksi.",
+      "https://www.adm.gov.it/portale/documents/20182/261920520/Libro+blu+2024+-+Relazione.pdf/e46989ce-b39f-a404-3b4b-2af3196cba43 ; source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
+      "2026-07-28",
+      "Suora taulukkotoisto: 55 910 871,89 EUR vuonna 2023; 84 309 841,41 EUR vuonna 2024; ilmoitettu muutos 50,79 prosenttia.",
+      "Verotuotto on fiskaalinen mittari. Sitä ei käännetä litroiksi tai vähittäisarvoksi ilman erillisiä verokantoja, luokkia, oikaisuja ja samaa rajausta.",
+      "Vahvistettu",
+      "Nikotiini- ja nikotiiniton jako, litrat, laitteet, kuluttajahinta, palautukset, maksujen ajoitus ja rajaukseltaan vertailukelpoinen sarja puuttuvat; Italia ei ole donor.",
+    ],
+  ],
+  en: [
+    [
+      "Austria has a reviewed method plan based on statutory annual sales reporting and e-liquid excise; no retail market value has been computed.",
+      "Market size / Austria",
+      "The official route requires annual prior-year volume reporting and confirms e-liquid excise starting on 2026-04-01 at EUR 200 per litre.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Austria)",
+      "2026-07-27",
+      "Taxed litres = e-liquid-specific net excise / applicable EUR 200 per litre for the period starting 2026-04-01.",
+      "Mixed-rate periods are separated; annual reporting and excise inversion are alternative reconciliation routes, not additive.",
+      "Confirmed",
+      "No national annual aggregate, price series, coverage evidence or retail reconciliation has been received; retailValueStatus is not_computed.",
+    ],
+    [
+      "Belgium’s official partial-period tax figure yields only a rounded 9 month tax-volume indicator; it is not full-year sales or retail market value.",
+      "Market size / Belgium",
+      "The official approximate EUR 12,500,000 and EUR 0.15 per ml rate imply approximately 83,333,333 ml or 83,333 litres.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Belgium)",
+      "2026-07-27",
+      "EUR 12,500,000 / EUR 0.15 per ml = approximately 83,333,333 ml ≈ 83,333 litres.",
+      "The figure covers a 9 month period; stockpiling, cross-border purchases and collection timing may distort interpretation.",
+      "Supported",
+      "Net releases for consumption, the full year, consumer sell-through, price and channel coverage are unverified; the 9 month indicator is not accepted as a donor.",
+    ],
+    [
+      "Switzerland has a two-rate method route that started on 2024-10-01; no retail market value has been computed.",
+      "Market size / Switzerland",
+      "The official route separates CHF 1.00 per ml for disposables and CHF 0.20 per ml for reusable nicotine products; the first period is 2024-10-01–2024-12-31.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Switzerland)",
+      "2026-07-27",
+      "Disposable taxed ml = category net tax / CHF 1.00; reusable-nicotine taxed ml = category net tax / CHF 0.20; litres = ml / 1,000.",
+      "The tax categories must be supplied separately and combined receipts have no unique volume solution.",
+      "Confirmed",
+      "Category-specific net tax or millilitres, adjustments, reusable nicotine-free liquids, prices and sell-through are missing; retailValueStatus is not_computed.",
+    ],
+    [
+      "Luxembourg has an excise and fiscal-mark method starting on 2024-10-01; no retail market value has been computed.",
+      "Market size / Luxembourg",
+      "The official rate is EUR 0.12 per ml from 2024-10-01, and fiscal marks carry liquid volume and mandatory consumer price.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
+      "2026-07-27",
+      "Taxed litres = e-liquid-specific net excise / EUR 120 per litre; marked consumer-price value = sum(marked pack quantity × mandatory marked price).",
+      "The volume and fiscal-mark calculations are not additive; foreign B2B dispatches, destruction, refunds and corrections are separated.",
+      "Confirmed",
+      "The national aggregate, fiscal-mark quantity and price fields, sell-through and period finality are missing; retailValueStatus is not_computed.",
+    ],
+    [
+      "Norway has no current Article 20(7) annual-sales route; the 2026 statutory NOK 5.38 per ml rate has no practical effect and does not establish market value.",
+      "Market size / Norway",
+      "Official guidance prohibits commercial import and sale of nicotine products and the new TPD route does not apply; SSB external-trade data are only a customs proxy.",
+      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Norway)",
+      "2026-07-27",
+      "Excise inversion is permitted only if category-specific net receipts with practical effect are supplied; the customs proxy does not become national consumer sell-through.",
+      "A prohibition, statutory tax rate or missing record does not establish the absence of a market.",
+      "Confirmed",
+      "Nicotine-free sell-through, millilitres, prices, domestic production, inventories, re-exports and illicit channels are missing; retailValueStatus is not_computed.",
+    ],
+    [
+      "Italian ADM PLI consumption-tax receipts were EUR 55,910,871.89 in 2023 and EUR 84,309,841.41 in 2024; this is not retail market value.",
+      "Market size / Italy",
+      "Table III.9 of ADM’s Libro Blu 2024 reports a 50.79 percent tax-receipt change. In 2024 the tax scope expanded to aromas intended for PLI products and taxation changed, so the percentage is not interpreted as sales or volume growth.",
+      "https://www.adm.gov.it/portale/documents/20182/261920520/Libro+blu+2024+-+Relazione.pdf/e46989ce-b39f-a404-3b4b-2af3196cba43 ; source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
+      "2026-07-28",
+      "Direct table transcription: EUR 55,910,871.89 in 2023; EUR 84,309,841.41 in 2024; reported change 50.79 percent.",
+      "Tax receipts are a fiscal measure. They are not inverted into litres or retail value without separate rates, categories, adjustments and a like-for-like scope.",
+      "Confirmed",
+      "Nicotine and nicotine-free split, litres, devices, consumer prices, refunds, cash timing and a scope-comparable series are missing; Italy is not a donor.",
     ],
   ],
 };
@@ -609,7 +759,7 @@ function ensureSourceCoverage(sourceRows, registerRows, additionalUrls = []) {
       hostname,
       "register_reference",
     ];
-    output.push([sourceId, publisher, sourceClass, url, "2026-07-27"]);
+    output.push([sourceId, publisher, sourceClass, url, releaseDate]);
     existingUrls.add(url);
   }
   const unresolved = [...registerUrls].filter((url) => !existingUrls.has(url));
@@ -920,12 +1070,12 @@ function validateGlobalBase(globalBase) {
     || globalBase?.globalRetailSales?.value !== null
     || globalBase?.globalRetailSales?.eligibleObservationCount !== 0
     || globalBase?.methodRouteControl?.version !== releaseVersion
-    || globalBase?.methodRouteControl?.summary?.reviewedMethodPlanCount !== 23
-    || globalBase?.methodRouteControl?.summary?.reviewedSourceLeadCount !== 5
+    || globalBase?.methodRouteControl?.summary?.reviewedMethodPlanCount !== 28
+    || globalBase?.methodRouteControl?.summary?.reviewedSourceLeadCount !== 0
     || globalBase?.methodRouteControl?.summary?.regionalTpdPatternOnlyCount !== 15
     || globalBase?.methodRouteControl?.summary?.proxyOnlyUnscopedCount !== 152
   ) {
-    throw new Error("v30 global base differs from the reviewed fail-closed method-control snapshot");
+    throw new Error("v32 global base differs from the reviewed fail-closed method-control snapshot");
   }
   const measureSummary = new Map(
     (globalBase.summary.measures ?? []).map((item) => [item.measureId, item]),
@@ -965,7 +1115,7 @@ function validateGlobalBase(globalBase) {
       || country?.methodRoute?.eligibleForGlobalRollup !== false
       || country?.methodRoute?.donorAccepted !== false
     ) {
-      throw new Error(`v30 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
+      throw new Error(`v32 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
     }
   }
 }
@@ -984,7 +1134,7 @@ function validateVendorGateBoundary(vendorControl) {
   };
   if (
     vendorControl?.schemaVersion !== 2
-    || vendorControl?.asOf !== "2026-07-27"
+    || vendorControl?.asOf !== releaseDate
     || vendorControl?.version !== releaseVersion
     || vendorControl?.status !== "public_status_only_no_purchase_authorised"
     || !euromonitor
@@ -997,7 +1147,7 @@ function validateVendorGateBoundary(vendorControl) {
       ([gate, status]) => euromonitor?.gateResults?.[gate]?.status !== status,
     )
   ) {
-    throw new Error("v27 Euromonitor 0/6 vendor-gate boundary differs");
+    throw new Error("v32 Euromonitor 0/6 vendor-gate boundary differs");
   }
 }
 
@@ -1009,7 +1159,7 @@ function validateThirdDonorScreen(publicScreen, sourceScreen) {
   const wave = publicScreen?.followUpWave ?? {};
   if (
     publicScreen?.schemaVersion !== "1.0"
-    || publicScreen?.asOf !== "2026-07-27"
+    || publicScreen?.asOf !== releaseDate
     || publicScreen?.status !== "screening_only_not_donor_assessment"
     || publicScreen?.decision?.primaryProgrammeCountryIso2 !== "PL"
     || publicScreen?.decision?.sourceOnlyLeadCountryIso2 !== "RU"
@@ -1022,13 +1172,16 @@ function validateThirdDonorScreen(publicScreen, sourceScreen) {
       || item?.donorStatus !== "not_assessed"
     ))
     || wave?.dueOn !== "2026-07-28"
-    || wave?.draftState !== "prepared_not_sent"
+    || wave?.draftState !== "completed_or_superseded"
     || JSON.stringify((wave?.items ?? []).map((item) => item?.vendor)) !== JSON.stringify([
       "ECigIntelligence", "Euromonitor", "Circana",
     ])
+    || JSON.stringify((wave?.items ?? []).map((item) => item?.threadStatus)) !== JSON.stringify([
+      "follow_up_sent", "superseded_by_comprehensive_request_sent", "follow_up_sent",
+    ])
     || wave?.excluded?.[0]?.vendor !== "NIQ"
   ) {
-    throw new Error("Third-donor screen differs from the reviewed v27 acquisition decision");
+    throw new Error("Third-donor screen differs from the reviewed v32 acquisition decision");
   }
 }
 
@@ -1211,7 +1364,7 @@ function assertRegister(rows, headers, allowed) {
   if (headers.length !== 9 || rows.some((row) => row.length !== 9)) {
     throw new Error("Evidence Register must contain exactly nine columns");
   }
-  if (rows.length !== 54) throw new Error(`Evidence Register must contain 54 rows, got ${rows.length}`);
+  if (rows.length !== 60) throw new Error(`Evidence Register must contain 60 rows, got ${rows.length}`);
   const statuses = new Set(rows.map((row) => row[7]));
   if (statuses.size !== 4 || [...statuses].some((value) => !allowed.has(value))) {
     throw new Error("Evidence Register confidence classification mismatch");
@@ -1297,24 +1450,24 @@ function upgradeRegister(rows, language) {
 
   const methodControlRow = language === "fi"
     ? [
-      "195 maan menetelmäkontrolli erottaa 23 tarkistettua maasuunnitelmaa, 5 tarkistettua lähdepolkua, 15 alueellista EU TPD -raportointimallia ja 152 maakohtaisesti rajaamatonta proxy-reittiä.",
+      "195 maan menetelmäkontrolli erottaa 28 tarkistettua maasuunnitelmaa, 0 tarkistettua lähdepolkua, 15 alueellista EU TPD -raportointimallia ja 152 maakohtaisesti rajaamatonta proxy-reittiä.",
       "Markkinan rajaus",
       "Jokaisella maalla on näkyvä menetelmäluokka, seuraava evidenssitoimi ja lähdeperusta. Luokitus ei ole myyntihavainto: kaikilla 195 maalla eligibleForGlobalRollup=false ja donorAccepted=false.",
-      "site/data/global-base-layer.json ; source/country-method-route-config.json ; source/COUNTRY_METHOD_ROUTE_MAP.md",
+      "site/data/global-base-layer.json ; source/country-method-route-config.json ; source/COUNTRY_METHOD_ROUTE_MAP.md ; source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
       "2026-07-27",
-      "195 = 23 reviewed_method_plan + 5 reviewed_source_lead + 15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
-      "Vain 23 maalla on tarkistettu maakohtainen menetelmäsuunnitelma. Viisi lähdepolkua ja 15 alueellista TPD-mallia eivät osoita kansallista myyntisarjaa; 152 reittiä vaatii maakohtaisen rajauksen.",
+      "195 = 28 reviewed_method_plan + 0 reviewed_source_lead + 15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
+      "Vain 28 maalla on tarkistettu maakohtainen menetelmäsuunnitelma. Viisi tässä sprintissä tarkistettua lähdepolkua siirrettiin maasuunnitelmiksi vasta, kun virallinen haltija, kentät, kaava ja rajoitteet oli dokumentoitu. Luokitus ei osoita kansallista myyntisarjaa; 152 reittiä vaatii maakohtaisen rajauksen.",
       "Vahvistettu",
       "Yksikään menetelmäluokka ei korvaa vuosittaista laite- ja e-nestemyynnin arvoa, veroperustaa, kanavapeittoa tai D1–D10-hyväksyntää.",
     ]
     : [
-      "The 195-country method control separates 23 reviewed country plans, 5 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes.",
+      "The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes.",
       "Market scope",
       "Every country has a visible method class, next evidence action and provenance basis. Classification is not a sales observation: all 195 countries in the 195-country universe have eligibleForGlobalRollup=false and donorAccepted=false.",
-      "site/data/global-base-layer.json ; source/country-method-route-config.json ; source/COUNTRY_METHOD_ROUTE_MAP.md",
+      "site/data/global-base-layer.json ; source/country-method-route-config.json ; source/COUNTRY_METHOD_ROUTE_MAP.md ; source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
       "2026-07-27",
-      "195 = 23 reviewed_method_plan + 5 reviewed_source_lead + 15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
-      "Across 195 countries, only 23 have a reviewed country-specific method plan. Five source leads and 15 regional TPD patterns do not establish a national sales series; 152 routes still require country-specific scoping.",
+      "195 = 28 reviewed_method_plan + 0 reviewed_source_lead + 15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
+      "Across 195 countries, only 28 have a reviewed country-specific method plan. Five leads reviewed in this sprint were promoted only after their official holder, fields, formula and limitations were documented. Classification does not establish a national sales series; 152 routes still require country-specific scoping.",
       "Confirmed",
       "No method class replaces annual device and e-liquid sales value, tax basis, channel coverage or D1–D10 acceptance.",
     ];
@@ -1327,6 +1480,24 @@ function upgradeRegister(rows, language) {
     output.splice(globalBaseIndex + 1, 0, methodControlRow);
   } else {
     output[existingMethodControlIndex] = methodControlRow;
+  }
+  const actualMethodControlIndex = output.findIndex((row) => (
+    row[0].startsWith(language === "fi"
+      ? "195 maan menetelmäkontrolli erottaa"
+      : "The 195-country method control separates")
+  ));
+  const v32ClaimPrefix = language === "fi"
+    ? "Itävallalla on tarkistettu"
+    : "Austria has a reviewed";
+  const existingV32ClaimIndex = output.findIndex((row) => row[0].startsWith(v32ClaimPrefix));
+  if (existingV32ClaimIndex < 0) {
+    output.splice(actualMethodControlIndex + 1, 0, ...v32MethodAndFiscalClaims[language]);
+  } else {
+    output.splice(
+      existingV32ClaimIndex,
+      v32MethodAndFiscalClaims[language].length,
+      ...v32MethodAndFiscalClaims[language],
+    );
   }
 
   const polandFlowIndex = output.findIndex((row) => (
@@ -1623,7 +1794,7 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
     if (typeof record.text !== "string") continue;
     const reviewedText = record.text
       .replaceAll("2026.07.24-17", releaseVersion)
-      .replaceAll("2026-07-24", "2026-07-27");
+      .replaceAll("2026-07-24", releaseDate);
     if (reviewedText === record.text) continue;
     rewriteText(presentation.resolve(record.id), reviewedText);
   }
@@ -1729,7 +1900,6 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
         "sh/hsn2l4bu",
         "sh/rq50vmp8",
         "sh/7a18rydc",
-        "sh/8jup8rad",
         "sh/0b65obm9",
         "sh/wbih4b6d",
         "sh/bq9orito",
@@ -1939,7 +2109,7 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
   );
   summary.getRange("A5:B8").values = [
     [isFi ? "Versio" : "Version", releaseVersion],
-    [isFi ? "Päivitetty" : "Updated", "2026-07-27"],
+    [isFi ? "Päivitetty" : "Updated", releaseDate],
     [isFi ? "Rajaus" : "Scope", isFi
       ? "Julkinen ja riippumaton evidenssikooste; faktat, laskelmat, tulkinnat ja oletukset on erotettu."
       : "Public and independent evidence summary; facts, calculations, interpretations and assumptions are separated."],
@@ -2205,9 +2375,9 @@ async function writeReleaseLocks(artifacts) {
   if (
     release?.id !== releaseId
     || release?.version !== releaseVersion
-    || changelog.asOf !== "2026-07-27"
+    || changelog.asOf !== releaseDate
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v30 release");
+    throw new Error("The public changelog is not locked to the reviewed v32 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -2246,6 +2416,8 @@ async function writeReleaseLocks(artifacts) {
     "source/country-method-route-config.json",
     "source/COUNTRY_METHOD_ROUTE_MAP.md",
     "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
+    "source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
+    "source/POLAND_EUCEG_ANNUAL_SALES_REQUEST_2026-07-28.md",
     "source/vendor-response-control.json",
     "source/third-donor-screen.json",
     "source/schemas/fx-rates.schema.json",
@@ -2304,7 +2476,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 54-row bilingual registers and 84-observation, 24-source market dataset share one v30 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 23 reviewed country plans, 5 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. The open base retains 578 observed World Bank records and 190 same-source-year EUR GDP-per-capita equivalents; none is retail sales. Euromonitor's later 95-geography schema contains no populated country-year values and does not reconcile to the 78-country quote; all six mandatory gates remain evaluated but failed or not testable, NOT SCORED and not authorised for purchase. The donor gate remains 0/3 and the global estimate remains not_computed.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v32 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Five new country rows document methods, not measured sales. Belgium's rounded nine-month tax-volume indicator and Italy's exact PLI consumption-tax receipts are fiscal anchors, not retail value, full-year sales, volume growth or donor evidence. ECigIntelligence and Circana follow-ups were sent on 28 July; the Euromonitor draft was superseded by the comprehensive 27 July request. No vendor route is scored or authorised for purchase. The donor gate remains 0/3 and the global estimate remains not_computed.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,

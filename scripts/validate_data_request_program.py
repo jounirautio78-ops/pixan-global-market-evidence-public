@@ -30,7 +30,7 @@ from build_data_request_program import (
 )
 
 
-EXPECTED_DATE = "2026-07-27"
+EXPECTED_DATE = "2026-07-28"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 EXPECTED_STATE_UNIVERSE_COUNT = 195
@@ -50,6 +50,7 @@ PROCESS_RESPONSE_STATE_VALUES = {
     "registered_processing_notice_received",
     "automated_receipt_acknowledged",
     "automated_route_correction_received",
+    "official_aggregate_not_held_public_routes_identified",
 }
 STRUCTURAL_RESPONSE_STATE_VALUES = {
     "official_structural_data_received_sales_not_available",
@@ -68,7 +69,7 @@ RESPONSE_STATE_VALUES = {
     *SALES_RESPONSE_STATE_VALUES,
     *TRADE_RESPONSE_STATE_VALUES,
 }
-EXPECTED_PROCESS_RESPONSE_COUNTRIES = {"DE", "FI", "DK"}
+EXPECTED_PROCESS_RESPONSE_COUNTRIES = {"DE", "FI", "DK", "IT"}
 EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES = {"SE"}
 EXPECTED_SALES_RESPONSE_COUNTRIES: set[str] = set()
 EXPECTED_TRADE_RESPONSE_COUNTRIES = {"FR"}
@@ -119,7 +120,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
+        "responseState": "official_aggregate_not_held_public_routes_identified",
     },
     "FR": {
         "state": "sent",
@@ -146,15 +147,6 @@ EXPECTED_DISPATCH = {
         "responseState": "not_publicly_recorded",
     },
 }
-EXPECTED_SUPPLEMENTARY_DISPATCH = {
-    "DE-BVL-TABAKERZV25-ANNUAL-SALES": {
-        "countryIso2": "DE",
-        "state": "sent",
-        "sentOn": "2026-07-24",
-        "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
-    },
-}
 EXPECTED_BVL_CHANNEL_URL = "https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html"
 EXPECTED_BVL_GUIDANCE_URL = (
     "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/"
@@ -163,11 +155,57 @@ EXPECTED_BVL_GUIDANCE_URL = (
     "?thema=Mitteilungspflicht"
 )
 EXPECTED_TABAKERZV_25_URL = "https://www.gesetze-im-internet.de/tabakerzv/__25.html"
+EXPECTED_POLAND_CHANNEL_URL = "https://www.gov.pl/web/chemical/access-to-public-information"
+EXPECTED_POLAND_ANNUAL_REPORTING_URL = (
+    "https://www.gov.pl/web/chemical/"
+    "notification-of-electronic-cigarettes-and-refill-containers"
+)
+EXPECTED_POLAND_ANNUAL_REPORTING_PL_URL = (
+    "https://www.gov.pl/web/chemikalia/"
+    "przekazywanie-sprawozdan-rocznych-dotyczacych-papierosow-"
+    "elektronicznych-i-pojemnikow-zapasowych2"
+)
+EXPECTED_POLAND_MARKET_MONITORING_URL = (
+    "https://www.gov.pl/web/chemikalia/monitorowanie-rynku-e-papierosow"
+)
+EXPECTED_SUPPLEMENTARY_CONTRACTS = {
+    "DE-BVL-TABAKERZV25-ANNUAL-SALES": {
+        "countryIso2": "DE",
+        "state": "sent",
+        "sentOn": "2026-07-24",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+        "requestChannelUrl": EXPECTED_BVL_CHANNEL_URL,
+        "officialSourceUrls": {
+            EXPECTED_BVL_GUIDANCE_URL,
+            EXPECTED_TABAKERZV_25_URL,
+        },
+    },
+    "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES": {
+        "countryIso2": "PL",
+        "state": "sent",
+        "sentOn": "2026-07-28",
+        "publicAuthorityReference": None,
+        "responseState": "not_publicly_recorded",
+        "requestChannelUrl": EXPECTED_POLAND_CHANNEL_URL,
+        "officialSourceUrls": {
+            EXPECTED_POLAND_ANNUAL_REPORTING_URL,
+            EXPECTED_POLAND_ANNUAL_REPORTING_PL_URL,
+            EXPECTED_POLAND_MARKET_MONITORING_URL,
+        },
+    },
+}
 EXPECTED_SWEDEN_CONTEXT_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
     "tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/"
     "elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/"
 )
+EXPECTED_ITALY_SOURCE_URLS = {
+    "https://www.adm.gov.it/portale/-/libro-blu-organizzazione-statistiche-e-attivita-anno-2024",
+    "https://www.adm.gov.it/portale/-/portale-prodotti-liquidi-da-inalazione-pli-e-prodotti-accessori-dei-tabacchi-pat-1",
+    "https://www.adm.gov.it/portale/prodotti-succedanei-tabacco-liquidi-inalazione",
+    "https://www.adm.gov.it/portale/bollettino-statistico",
+}
 PRIVATE_METADATA_KEYS = {
     "acknowledgedon", "acknowledgementon", "acknowledgmenton", "bcc", "body", "cc",
     "conversationid", "correspondence", "deliveredon", "email", "emailaddress", "from",
@@ -426,7 +464,7 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     if not isinstance(supplementary_requests, list):
         errors.append("supplementaryRequests must be an array")
         return
-    if len(supplementary_requests) != len(EXPECTED_SUPPLEMENTARY_DISPATCH):
+    if len(supplementary_requests) != len(EXPECTED_SUPPLEMENTARY_CONTRACTS):
         errors.append("supplementary request set differs from the approved public record")
         return
     supplementary_ids: set[str] = set()
@@ -435,7 +473,7 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         label = f"supplementary request {request_id}"
         if not require_exact_keys(request, SUPPLEMENTARY_REQUEST_KEYS, label, errors):
             continue
-        expected = EXPECTED_SUPPLEMENTARY_DISPATCH.get(request_id)
+        expected = EXPECTED_SUPPLEMENTARY_CONTRACTS.get(request_id)
         if expected is None or request_id in supplementary_ids:
             errors.append(f"{label}: unapproved or duplicate supplementary request")
             continue
@@ -480,8 +518,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
             for nested_name in ("authority", "requestChannel", "legalBasis"):
                 for field, value in request[nested_name].items():
                     require_text(value, f"{label}.{nested_name}.{field}", errors)
-        if request.get("requestChannel", {}).get("url") != EXPECTED_BVL_CHANNEL_URL:
-            errors.append(f"{label}: BVL official contact route differs from the verified URL")
+        if request.get("requestChannel", {}).get("url") != expected["requestChannelUrl"]:
+            errors.append(f"{label}: official request channel differs from the verified contract")
         queue_en = str(request.get("queueBoundaryEn", "")).casefold()
         queue_fi = str(request.get("queueBoundaryFi", "")).casefold()
         if not all(term in queue_en for term in (
@@ -498,7 +536,6 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
             continue
         allowed_hosts = OFFICIAL_HOSTS.get(request.get("countryIso2"), set())
         urls = [request.get("requestChannel", {}).get("url")]
-        source_hosts: set[str] = set()
         for source in sources:
             if not require_exact_keys(source, SOURCE_KEYS, f"{label}.officialSources[]", errors):
                 continue
@@ -510,8 +547,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         source_urls = {
             source.get("url") for source in sources if isinstance(source, dict)
         }
-        if source_urls != {EXPECTED_BVL_GUIDANCE_URL, EXPECTED_TABAKERZV_25_URL}:
-            errors.append(f"{label}: BVL guidance or official section 25 source differs from the verified set")
+        if source_urls != expected["officialSourceUrls"]:
+            errors.append(f"{label}: official source set differs from the verified contract")
         for url in urls:
             if not isinstance(url, str):
                 errors.append(f"{label}: official URL must be a string")
@@ -522,12 +559,7 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 errors.append(f"{label}: URL must be a public HTTPS URL without credentials: {url}")
             elif not official_host(host, allowed_hosts):
                 errors.append(f"{label}: URL host is not on the country official-domain allowlist: {host}")
-            source_hosts.add(host)
-        if not any(official_host(host, {"bund.de"}) for host in source_hosts):
-            errors.append(f"{label}: BVL official source or channel is required")
-        if "www.gesetze-im-internet.de" not in source_hosts:
-            errors.append(f"{label}: official section 25 law source is required")
-    if supplementary_ids != set(EXPECTED_SUPPLEMENTARY_DISPATCH):
+    if supplementary_ids != set(EXPECTED_SUPPLEMENTARY_CONTRACTS):
         errors.append("supplementary request IDs differ from the approved public record")
 
     routes = program.get("routes")
@@ -686,6 +718,22 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
             source.get("url") for source in sources
         }:
             errors.append("route SE: official notified-product context source is required")
+        if iso == "IT":
+            italy_source_urls = {source.get("url") for source in sources}
+            if italy_source_urls != EXPECTED_ITALY_SOURCE_URLS:
+                errors.append("route IT: Libro Blu 2024 and PLI public-source set differs from the verified record")
+            italy_rationale = str(route.get("rationaleEn", "")).casefold()
+            if not all(term in italy_rationale for term in (
+                "requested aggregate was not held or produced",
+                "no requested volume, retail value or annual market data",
+                "eur 55,910,871.89",
+                "eur 84,309,841.41",
+                "+50.79%",
+                "tax revenue only",
+                "2024 fiscal scope and rates changed",
+                "not retail value, physical volume, market growth or donor evidence",
+            )):
+                errors.append("route IT: negative-response and tax-only boundary is incomplete")
 
         allowed_hosts = OFFICIAL_HOSTS.get(iso, set())
         seen_urls: set[str] = set()
@@ -705,7 +753,7 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     if sum(route.get("status") == "sent" for route in routes) != 12:
         errors.append("programme must contain exactly 12 sent routes and 8 drafts")
     if process_response_countries != EXPECTED_PROCESS_RESPONSE_COUNTRIES:
-        errors.append("process-response country set must match the approved three-country public record")
+        errors.append("process-response country set must match the approved four-country public record")
     if structural_response_countries != EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES:
         errors.append("structural-response country set must contain Sweden only")
     if sales_response_countries != EXPECTED_SALES_RESPONSE_COUNTRIES:
@@ -741,6 +789,10 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         "official annual partner-level customs trade extracts",
         "supply-stage trade proxy",
         "not consumer-retail sales",
+        "official negative response",
+        "requested aggregate was not held or produced",
+        "consumption-tax revenue only",
+        "not retail value, physical volume, market growth",
         "substantive data",
         "fee commitment",
     )):
@@ -758,6 +810,10 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         "viralliset vuosittaiset kumppanikohtaiset tullikaupan otteet",
         "toimitusvaiheen kauppaproxystä",
         "eikä kuluttajavähittäismyynnistä",
+        "virallisen kielteisen saatavuusvastauksen",
+        "pyydettyä aggregaattia ei ollut hallussa tai tuotettu",
+        "vain inhalaationesteiden kulutusverotuottoa",
+        "se ei ole vähittäisarvo, fyysinen volyymi, markkinakasvu",
         "sisällöllisenä datana",
         "maksusitoumuksena",
     )):
@@ -797,7 +853,7 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
             row["countryIso2"] for row in rows
             if row["responseState"] in PROCESS_RESPONSE_STATE_VALUES
         } != EXPECTED_PROCESS_RESPONSE_COUNTRIES:
-            errors.append("published CSV process-response country set differs from the approved three-country record")
+            errors.append("published CSV process-response country set differs from the approved four-country record")
         if {
             row["countryIso2"] for row in rows
             if row["responseState"] in STRUCTURAL_RESPONSE_STATE_VALUES
@@ -827,21 +883,21 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
             errors.append("published CSV must retain the 195-state research universe")
         if any(row["evidenceStackLayerCount"] != "6" for row in rows):
             errors.append("published CSV must retain the six-layer evidence stack")
-        germany_rows = [row for row in rows if row["countryIso2"] == "DE"]
-        if len(germany_rows) != 1 or (
-            germany_rows[0]["supplementaryRequestCount"] != "1"
-            or germany_rows[0]["supplementarySentRequestCount"] != "1"
-            or germany_rows[0]["supplementaryRequestIds"] != "DE-BVL-TABAKERZV25-ANNUAL-SALES"
-        ):
-            errors.append("published CSV must expose the one sent German BVL supplementary route")
-        if any(
-            row["supplementaryRequestCount"] != "0"
-            or row["supplementarySentRequestCount"] != "0"
-            or row["supplementaryRequestIds"]
-            for row in rows
-            if row["countryIso2"] != "DE"
-        ):
-            errors.append("published CSV must not add supplementary routes to other countries")
+        for row in rows:
+            expected_ids = [
+                request_id
+                for request_id, contract in EXPECTED_SUPPLEMENTARY_CONTRACTS.items()
+                if contract["countryIso2"] == row["countryIso2"]
+            ]
+            if (
+                row["supplementaryRequestCount"] != str(len(expected_ids))
+                or row["supplementarySentRequestCount"] != str(len(expected_ids))
+                or row["supplementaryRequestIds"] != " | ".join(expected_ids)
+            ):
+                errors.append(
+                    "published CSV supplementary-route summary differs from the approved "
+                    f"contract for {row['countryIso2']}"
+                )
         if any(
             re.sub(r"[^a-z]", "", header.casefold()) in PRIVATE_METADATA_KEYS
             for header in (rows[0] if rows else {})
@@ -894,9 +950,9 @@ def main() -> int:
 
     print(
         "PASS: schema v3 with a 195-state six-layer evidence stack; 12 sent, 8 draft and "
-        "3 privacy-safe process-response country routes; one official Sweden structural-data "
+        "4 privacy-safe process/negative-response country routes; one official Sweden structural-data "
         "response with sales unavailable; one official France customs trade-proxy response "
-        "with product scope partial; one sent non-counting German BVL supplementary route; "
+        "with product scope partial; two sent non-counting supplementary routes in Germany and Poland; "
         "0 annual-sales-data responses, operational ranking, official HTTPS URLs, "
         "requester caveats, and generated files verified."
     )

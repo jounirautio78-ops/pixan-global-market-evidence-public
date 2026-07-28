@@ -1,7 +1,7 @@
 # UN195 country method-control map
 
 **Reviewed:** 2026-07-27
-**Release:** `2026.07.27-31`
+**Release:** `2026.07.28-32`
 
 ## Purpose
 

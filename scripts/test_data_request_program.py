@@ -46,8 +46,12 @@ class DataRequestBoundaryTests(unittest.TestCase):
         self.assertIn("ei koskaan laillista myyntiä", stack["layers"][5]["outputFi"])
 
     def test_german_bvl_supplement_is_sent_without_changing_country_queue(self) -> None:
-        self.assertEqual(len(self.program["supplementaryRequests"]), 1)
-        supplement = self.program["supplementaryRequests"][0]
+        self.assertEqual(len(self.program["supplementaryRequests"]), 2)
+        supplement = next(
+            request
+            for request in self.program["supplementaryRequests"]
+            if request["requestId"] == "DE-BVL-TABAKERZV25-ANNUAL-SALES"
+        )
         self.assertEqual(supplement["requestId"], "DE-BVL-TABAKERZV25-ANNUAL-SALES")
         self.assertEqual(supplement["countryIso2"], "DE")
         self.assertIs(supplement["countsTowardCountryQueue"], False)
@@ -79,6 +83,38 @@ class DataRequestBoundaryTests(unittest.TestCase):
             8,
         )
 
+    def test_poland_euceg_supplement_is_sent_without_changing_country_queue(self) -> None:
+        supplement = next(
+            request
+            for request in self.program["supplementaryRequests"]
+            if request["requestId"] == "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES"
+        )
+        self.assertEqual(supplement["countryIso2"], "PL")
+        self.assertIs(supplement["countsTowardCountryQueue"], False)
+        self.assertEqual(supplement["dispatch"], {
+            "state": "sent",
+            "sentOn": "2026-07-28",
+            "publicAuthorityReference": None,
+            "responseState": "not_publicly_recorded",
+        })
+        self.assertEqual(
+            supplement["requestChannel"]["url"],
+            "https://www.gov.pl/web/chemical/access-to-public-information",
+        )
+        self.assertEqual(
+            {source["url"] for source in supplement["officialSources"]},
+            {
+                "https://www.gov.pl/web/chemical/"
+                "notification-of-electronic-cigarettes-and-refill-containers",
+                "https://www.gov.pl/web/chemikalia/"
+                "przekazywanie-sprawozdan-rocznych-dotyczacych-papierosow-"
+                "elektronicznych-i-pojemnikow-zapasowych2",
+                "https://www.gov.pl/web/chemikalia/monitorowanie-rynku-e-papierosow",
+            },
+        )
+        self.assertIn("adds no country", supplement["queueBoundaryEn"])
+        self.assertIn("does not replace", supplement["queueBoundaryEn"])
+
     def test_german_primary_customs_destatis_process_state_is_preserved(self) -> None:
         germany = next(
             route for route in self.program["routes"] if route["countryIso2"] == "DE"
@@ -97,6 +133,7 @@ class DataRequestBoundaryTests(unittest.TestCase):
             "DE": "registered_and_processing_confirmed",
             "FI": "registered_processing_notice_received",
             "DK": "automated_receipt_acknowledged",
+            "IT": "official_aggregate_not_held_public_routes_identified",
         }
         actual = {
             route["countryIso2"]: route["dispatch"]["responseState"]
@@ -111,6 +148,32 @@ class DataRequestBoundaryTests(unittest.TestCase):
         ))
         self.assertIn("substantive data", self.program["independenceNoticeEn"])
         self.assertIn("sisällöllisenä datana", self.program["independenceNoticeFi"])
+
+    def test_italy_response_is_negative_and_tax_anchor_is_not_market_data(self) -> None:
+        italy = next(
+            route for route in self.program["routes"] if route["countryIso2"] == "IT"
+        )
+        self.assertEqual(italy["dispatch"], {
+            "state": "sent",
+            "sentOn": "2026-07-23",
+            "publicAuthorityReference": None,
+            "responseState": "official_aggregate_not_held_public_routes_identified",
+        })
+        source_urls = {source["url"] for source in italy["officialSources"]}
+        self.assertEqual(source_urls, {
+            "https://www.adm.gov.it/portale/-/"
+            "libro-blu-organizzazione-statistiche-e-attivita-anno-2024",
+            "https://www.adm.gov.it/portale/-/"
+            "portale-prodotti-liquidi-da-inalazione-pli-e-prodotti-accessori-dei-tabacchi-pat-1",
+            "https://www.adm.gov.it/portale/prodotti-succedanei-tabacco-liquidi-inalazione",
+            "https://www.adm.gov.it/portale/bollettino-statistico",
+        })
+        self.assertIn("EUR 55,910,871.89", italy["rationaleEn"])
+        self.assertIn("EUR 84,309,841.41", italy["rationaleEn"])
+        self.assertIn("+50.79%", italy["rationaleEn"])
+        self.assertIn("tax revenue only", italy["rationaleEn"])
+        self.assertIn("not retail value, physical volume, market growth or donor evidence", italy["rationaleEn"])
+        self.assertIn("no requested volume, retail value or annual market data", italy["rationaleEn"])
 
     def test_sweden_response_is_structural_data_with_sales_unavailable(self) -> None:
         sweden = next(
@@ -194,7 +257,18 @@ class DataRequestBoundaryTests(unittest.TestCase):
             lambda item: item["supplementaryRequests"][0]["officialSources"].pop(0)
         )
 
-    def test_rejects_unapproved_second_supplement(self) -> None:
+    def test_rejects_changed_poland_supplement_channel(self) -> None:
+        def mutate(item) -> None:
+            supplement = next(
+                request
+                for request in item["supplementaryRequests"]
+                if request["requestId"] == "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES"
+            )
+            supplement["requestChannel"]["url"] = "https://www.gov.pl/web/finanse"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_unapproved_third_supplement(self) -> None:
         def mutate(item) -> None:
             extra = copy.deepcopy(item["supplementaryRequests"][0])
             extra["requestId"] = "CA-UNAPPROVED"
@@ -297,6 +371,16 @@ class DataRequestBoundaryTests(unittest.TestCase):
         def mutate(item) -> None:
             route = next(route for route in item["routes"] if route["countryIso2"] == "SE")
             route["dispatch"]["responseState"] = "official_annual_sales_data_received"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_italy_tax_revenue_relabelled_as_market_value(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "IT")
+            route["rationaleEn"] = route["rationaleEn"].replace(
+                "This is tax revenue only",
+                "This is retail market value",
+            )
 
         self.assert_rejected(mutate)
 
