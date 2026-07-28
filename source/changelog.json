@@ -3,6 +3,45 @@
   "asOf": "2026-07-28",
   "releases": [
     {
+      "id": "2026-07-28-independent-controls-dashboard-v34",
+      "version": "2026.07.28-34",
+      "publishedAt": "2026-07-28T13:30:00+03:00",
+      "titleEn": "Independent United States benchmark and open official-data extraction controls",
+      "titleFi": "Riippumaton Yhdysvaltain vertailu ja avoimen viranomaisdatan poimintakontrollit",
+      "items": [
+        {
+          "category": "method",
+          "textEn": "Added an independent United States sample-acceptance control with seven official sources and 19 stage-separated observations. FTC manufacturer-reported sales, a four-week CDC retail checkpoint, Wisconsin and North Carolina excise bases and the queued Census/USITC customs route are not mechanically added. United States retail value and global market value remain null, the donor increment remains zero and no purchase is authorised.",
+          "textFi": "Lisättiin riippumaton Yhdysvaltain näytteen hyväksyntäkontrolli, jossa on seitsemän virallista lähdettä ja 19 tapahtumavaiheittain erotettua havaintoa. FTC:n valmistajaraportoituja myyntejä, CDC:n neljän viikon vähittäispistettä, Wisconsinin ja North Carolinan valmisteveropohjia sekä jonossa olevaa Census/USITC-tullireittiä ei lasketa mekaanisesti yhteen. Yhdysvaltain vähittäisarvo ja maailmanmarkkina-arvo pysyvät null-tilassa, donor-lisäys nollassa eikä ostoa ole valtuutettu."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a credential-aware open official-data extraction wave for Spain, South Korea and Japan. Four tax or customs routes retain their exact transaction stages, access blockers, classifications and source periods; all three country retail values remain not_computed and every route remains ineligible for the global roll-up.",
+          "textFi": "Lisättiin käyttöoikeudet huomioiva avoimen viranomaisdatan poiminta-aalto Espanjalle, Etelä-Korealle ja Japanille. Neljä vero- tai tullireittiä säilyttävät täsmälliset tapahtumavaiheensa, käyttöesteensä, luokituksensa ja lähdejaksot; kaikkien kolmen maan vähittäisarvot pysyvät not_computed-tilassa eikä yksikään reitti kelpaa globaaliin koontiin."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Added a four-tier disclosure control for lenders, strategic buyers, litigation funders and advisers. The public, NDA, restricted clean-team/counsel and board/counsel tiers keep adverse and positive facts together, grant no confidential access and embed no restricted material.",
+          "textFi": "Lisättiin nelitasoinen aineistonluovutuskontrolli lainanantajille, strategisille ostajille, oikeudenkäyntirahoittajille ja neuvonantajille. Julkinen, NDA-, rajoitettu clean team / oikeudellinen neuvonantaja- ja hallitus / oikeudellinen neuvonantaja -tasot pitävät kielteiset ja myönteiset faktat yhdessä, eivät myönnä luottamuksellista pääsyä eivätkä sisällä rajoitettua aineistoa."
+        },
+        {
+          "category": "method",
+          "textEn": "Statistics Norway clarified that Q1 is generally net weight, Q2 is pieces for commodity 8543.4000, that code starts in 2022 and Q2 can be confidentiality-restricted. The response supplies no retail sales, market value or liquid litres; the remaining product-scope and historical-code questions stay open.",
+          "textFi": "Norjan tilastoviranomainen täsmensi Q1:n olevan yleensä nettopaino, Q2:n kappalemäärä nimikkeelle 8543.4000, nimikkeen alkavan vuodesta 2022 ja Q2:n voivan olla salassapidon rajoittama. Vastaus ei toimita vähittäismyyntiä, markkina-arvoa tai nestelitroja; jäljellä olevat tuoterajaus- ja historiakoodikysymykset pysyvät avoimina."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Euromonitor requested a call on 28 July and a 29 July call was confirmed. The requested written Germany test, coverage, rights and commercial evidence remains pending; all six gates remain non-passing, the vendor remains NOT SCORED and no purchase, fee or commitment is authorised.",
+          "textFi": "Euromonitor pyysi puhelua 28.7., ja puhelu vahvistettiin päivälle 29.7. Pyydetty kirjallinen Saksa-testi sekä peitto-, käyttöoikeus- ja kaupallinen näyttö odottavat edelleen; kaikki kuusi porttia pysyvät läpäisemättä, toimittaja pysyy EI PISTEYTETTY -tilassa eikä ostoa, maksua tai sitoumusta ole valtuutettu."
+        },
+        {
+          "category": "usability",
+          "textEn": "Published the v34 controls as a privacy-safe intraday dashboard update. The six downloadable lender-package files remain the reviewed v32 daily snapshot and were not rebuilt; the dashboard and downloads continue to display their own versions separately.",
+          "textFi": "Julkaistiin v34-kontrollit tietosuojattuna päivänsisäisenä dashboard-päivityksenä. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v32-päiväsnapshotina eikä niitä rakennettu uudelleen; dashboard ja lataukset näyttävät edelleen omat versionsa erikseen."
+        }
+      ]
+    },
+    {
       "id": "2026-07-28-circana-qualification-dashboard-v33",
       "version": "2026.07.28-33",
       "publishedAt": "2026-07-28T10:57:47+03:00",

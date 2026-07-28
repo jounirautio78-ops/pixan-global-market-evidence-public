@@ -85,6 +85,11 @@ from validate_global_base import (
     SOURCE_SCHEMA_PATH as GLOBAL_BASE_SOURCE_SCHEMA_PATH,
     validate_files as validate_global_base_files,
 )
+from validate_investor_disclosure_control import (
+    validate_control as validate_investor_disclosure_control,
+    validate_experience as validate_investor_disclosure_experience,
+    validate_files as validate_investor_disclosure_files,
+)
 
 
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
@@ -98,6 +103,30 @@ PATENT_FAMILY_CSV_PATH = OUTPUT_DIR / "patent-family.csv"
 CURATED_PATH = ROOT / "source" / "curated.json"
 UPSTREAM_SHA_PATH = ROOT / "source" / "marnet-upstream.sha256"
 PAID_DATA_SOURCE_PATH = ROOT / "source" / "paid-data-procurement.json"
+US_INDEPENDENT_SOURCE_PATH = (
+    ROOT / "source" / "US_INDEPENDENT_BENCHMARK_CONTROL_2026-07-28.json"
+)
+US_INDEPENDENT_PUBLIC_PATH = (
+    ROOT / "site" / "data" / "us-independent-benchmark-control.json"
+)
+US_INDEPENDENT_SOURCE_SCHEMA_PATH = (
+    ROOT / "source" / "schemas" / "us-independent-benchmark-sample.schema.json"
+)
+US_INDEPENDENT_PUBLIC_SCHEMA_PATH = (
+    ROOT / "site" / "schemas" / "us-independent-benchmark-sample.schema.json"
+)
+OPEN_EXTRACTION_SOURCE_PATH = (
+    ROOT / "source" / "open-official-extraction-wave-es-kr-jp.json"
+)
+OPEN_EXTRACTION_PUBLIC_PATH = (
+    ROOT / "site" / "data" / "open-official-extraction-wave-es-kr-jp.json"
+)
+OPEN_EXTRACTION_SOURCE_SCHEMA_PATH = (
+    ROOT / "source" / "schemas" / "open-official-extraction-wave.schema.json"
+)
+OPEN_EXTRACTION_PUBLIC_SCHEMA_PATH = (
+    ROOT / "site" / "schemas" / "open-official-extraction-wave.schema.json"
+)
 SWEDEN_FHM_MEMO_PATH = ROOT / "source" / "SWEDEN_FHM_REGISTRATION_STRUCTURE_2018_2026.md"
 NZ_2024_MANIFEST_PATH = ROOT / "source" / "NZ_2024_WORKBOOK_MANIFEST.json"
 NZ_2024_SCOPE_AUDIT_PATH = ROOT / "source" / "NZ_2024_PRODUCT_SCOPE_AUDIT.json"
@@ -198,6 +227,7 @@ SENSITIVE_QUERY_KEYS = {
 EXPECTED_SITE_FILES = {
     "site/index.html",
     "site/review.html",
+    "site/diligence.html",
     "site/assets/app.js",
     "site/assets/downloads.js",
     "site/assets/i18n.js",
@@ -205,6 +235,8 @@ EXPECTED_SITE_FILES = {
     "site/assets/request-program.js",
     "site/assets/review.js",
     "site/assets/vendor-response.js",
+    "site/assets/independent-controls.js",
+    "site/assets/diligence.js",
     "site/assets/styles.css",
     "site/assets/favicon.svg",
     "site/assets/og-pixan-global-market-evidence.png",
@@ -221,6 +253,9 @@ EXPECTED_SITE_FILES = {
     "site/data/paid-data-procurement.csv",
     "site/data/vendor-response-control.json",
     "site/data/vendor-response-control.csv",
+    "site/data/us-independent-benchmark-control.json",
+    "site/data/open-official-extraction-wave-es-kr-jp.json",
+    "site/data/investor-disclosure-control.json",
     "site/data/market-values.json",
     "site/data/market-values.csv",
     "site/data/evidence-lanes.json",
@@ -236,6 +271,9 @@ EXPECTED_SITE_FILES = {
     "site/schemas/country-scenarios.schema.json",
     "site/schemas/fx-rates.schema.json",
     "site/schemas/global-base-layer.schema.json",
+    "site/schemas/us-independent-benchmark-sample.schema.json",
+    "site/schemas/open-official-extraction-wave.schema.json",
+    "site/schemas/investor-disclosure-control.schema.json",
     "site/data/patent-history.json",
     "site/data/patent-family.csv",
     "site/downloads/pixan-bank-deck-short-fi.pptx",
@@ -469,6 +507,58 @@ def validate_repository_binary_allowlist(errors: list[str]) -> None:
             "repository binary allowlist is missing reviewed artifact(s): "
             + ", ".join(missing)
         )
+
+
+def validate_exact_json_copy(
+    source_path: Path,
+    public_path: Path,
+    label: str,
+    errors: list[str],
+) -> None:
+    """Require an exact, parseable source-to-site copy for a reviewed public control."""
+
+    try:
+        source_raw = source_path.read_bytes()
+        public_raw = public_path.read_bytes()
+        json.loads(source_raw)
+        json.loads(public_raw)
+    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as error:
+        errors.append(f"{label} cannot be read as reviewed JSON: {error}")
+        return
+    if source_raw != public_raw:
+        errors.append(f"{label} public copy differs byte-for-byte from its reviewed source")
+
+
+def validate_independent_control_public_references(errors: list[str]) -> None:
+    """Reject schema references that resolve outside the published Pages artifact."""
+
+    try:
+        us_control = json.loads(US_INDEPENDENT_SOURCE_PATH.read_text(encoding="utf-8"))
+        us_schema = json.loads(
+            US_INDEPENDENT_SOURCE_SCHEMA_PATH.read_text(encoding="utf-8")
+        )
+        extraction_schema = json.loads(
+            OPEN_EXTRACTION_SOURCE_SCHEMA_PATH.read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as error:
+        errors.append(f"independent-control public references cannot be read: {error}")
+        return
+
+    if (
+        us_control.get("sampleSchema")
+        != "schemas/us-independent-benchmark-sample.schema.json"
+    ):
+        errors.append(
+            "United States control sampleSchema must resolve under the published schemas/ path"
+        )
+    expected_base = (
+        "https://jounirautio78-ops.github.io/"
+        "pixan-global-market-evidence-public/schemas/"
+    )
+    if us_schema.get("$id") != expected_base + "us-independent-benchmark-sample.schema.json":
+        errors.append("United States sample schema $id must use its published Pages URL")
+    if extraction_schema.get("$id") != expected_base + "open-official-extraction-wave.schema.json":
+        errors.append("open-official extraction schema $id must use its published Pages URL")
 
 
 def validate_meta(atlas: dict[str, Any], curated: dict[str, Any], errors: list[str]) -> None:
@@ -2839,6 +2929,14 @@ def main() -> None:
         DATA_REQUEST_SOURCE_PATH,
         PAID_DATA_SOURCE_PATH,
         VENDOR_RESPONSE_SOURCE_PATH,
+        US_INDEPENDENT_SOURCE_PATH,
+        US_INDEPENDENT_PUBLIC_PATH,
+        US_INDEPENDENT_SOURCE_SCHEMA_PATH,
+        US_INDEPENDENT_PUBLIC_SCHEMA_PATH,
+        OPEN_EXTRACTION_SOURCE_PATH,
+        OPEN_EXTRACTION_PUBLIC_PATH,
+        OPEN_EXTRACTION_SOURCE_SCHEMA_PATH,
+        OPEN_EXTRACTION_PUBLIC_SCHEMA_PATH,
         DATA_REQUEST_TEMPLATE_EN,
         DATA_REQUEST_TEMPLATE_FI,
     ):
@@ -2848,6 +2946,35 @@ def main() -> None:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         raise SystemExit(1)
+
+    for source_path, public_path, label in (
+        (
+            US_INDEPENDENT_SOURCE_PATH,
+            US_INDEPENDENT_PUBLIC_PATH,
+            "United States independent benchmark control",
+        ),
+        (
+            US_INDEPENDENT_SOURCE_SCHEMA_PATH,
+            US_INDEPENDENT_PUBLIC_SCHEMA_PATH,
+            "United States independent benchmark schema",
+        ),
+        (
+            OPEN_EXTRACTION_SOURCE_PATH,
+            OPEN_EXTRACTION_PUBLIC_PATH,
+            "Spain-South Korea-Japan extraction control",
+        ),
+        (
+            OPEN_EXTRACTION_SOURCE_SCHEMA_PATH,
+            OPEN_EXTRACTION_PUBLIC_SCHEMA_PATH,
+            "Spain-South Korea-Japan extraction schema",
+        ),
+    ):
+        validate_exact_json_copy(source_path, public_path, label, errors)
+    validate_independent_control_public_references(errors)
+    investor_disclosure_control = validate_investor_disclosure_files(errors)
+    if investor_disclosure_control:
+        validate_investor_disclosure_control(investor_disclosure_control, errors)
+    validate_investor_disclosure_experience(errors)
 
     validate_social_preview(errors)
     atlas = load_json(ATLAS_PATH)

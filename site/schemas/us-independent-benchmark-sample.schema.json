@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/us-independent-benchmark-sample.schema.json",
+  "title": "Pixan United States independent benchmark sample row",
+  "description": "Privacy-safe row schema for evaluating official or rights-cleared United States vaping-market evidence. It does not authorise publication of licensed raw data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recordId",
+    "sourceId",
+    "sourceVersion",
+    "verifiedOn",
+    "geography",
+    "periodType",
+    "periodLabel",
+    "productSegment",
+    "channel",
+    "transactionStage",
+    "metric",
+    "value",
+    "unit",
+    "currency",
+    "taxBasis",
+    "recordStatus",
+    "coverageStatus",
+    "revisionStatus",
+    "sourceUrl",
+    "licenceClass",
+    "retailSalesEligible"
+  ],
+  "properties": {
+    "recordId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verifiedOn": {
+      "type": "string",
+      "format": "date"
+    },
+    "geography": {
+      "type": "string",
+      "enum": [
+        "US",
+        "US-WI",
+        "US-NC"
+      ]
+    },
+    "periodType": {
+      "type": "string",
+      "enum": [
+        "calendar_year",
+        "fiscal_year",
+        "four_week_period"
+      ]
+    },
+    "periodLabel": {
+      "type": "string",
+      "minLength": 1
+    },
+    "productSegment": {
+      "type": "string",
+      "enum": [
+        "cartridge_system",
+        "disposable",
+        "cartridge_system_plus_disposable",
+        "prefilled_cartridge_or_pod",
+        "bottled_e_liquid",
+        "refillable_hardware",
+        "taxable_vapor_substance",
+        "mixed_checkpoint_scope"
+      ]
+    },
+    "channel": {
+      "type": "string",
+      "enum": [
+        "manufacturer_direct_and_indirect",
+        "brick_and_mortar_scanner_partial",
+        "state_excise_tax_base",
+        "border_imports",
+        "unknown"
+      ]
+    },
+    "transactionStage": {
+      "type": "string",
+      "enum": [
+        "manufacturer_reported_sales",
+        "consumer_retail_scanner",
+        "state_excise_collection",
+        "state_excise_tax_base",
+        "border_imports"
+      ]
+    },
+    "metric": {
+      "type": "string",
+      "enum": [
+        "sales_value",
+        "reported_units",
+        "tax_receipts",
+        "taxable_volume",
+        "import_value",
+        "import_quantity"
+      ]
+    },
+    "value": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "USD",
+        "reported_unit",
+        "millilitre",
+        "source_unit_pending"
+      ]
+    },
+    "currency": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "USD",
+        null
+      ]
+    },
+    "taxBasis": {
+      "type": "string",
+      "enum": [
+        "not_stated",
+        "state_excise_receipt",
+        "state_excise_tax_base",
+        "customs_value_pending"
+      ]
+    },
+    "recordStatus": {
+      "type": "string",
+      "enum": [
+        "official_reported",
+        "official_table_derived",
+        "derived_from_official_receipt",
+        "vendor_observed",
+        "vendor_reported",
+        "vendor_modelled",
+        "queued_not_computed"
+      ]
+    },
+    "rowProvenance": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "observed",
+        "reported",
+        "modelled",
+        "derived",
+        "queued",
+        null
+      ]
+    },
+    "coverageStatus": {
+      "type": "string",
+      "enum": [
+        "leading_manufacturers_partial_market",
+        "partial_brick_and_mortar",
+        "single_state_tax_base",
+        "single_state_tax_receipt",
+        "not_retrieved"
+      ]
+    },
+    "revisionStatus": {
+      "type": "string",
+      "enum": [
+        "published",
+        "corrected_published",
+        "current_official_table",
+        "not_applicable"
+      ]
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "licenceClass": {
+      "type": "string",
+      "enum": [
+        "official_publication_link",
+        "official_headline_underlying_licensed_scanner",
+        "official_api_key_required"
+      ]
+    },
+    "retailSalesEligible": {
+      "const": false
+    },
+    "coveragePct": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "includedChannels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "excludedChannels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "projectionMethod": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "samplingErrorPct": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "components": {
+      "type": "object"
+    },
+    "derivation": {
+      "type": "object"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

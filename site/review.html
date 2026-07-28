@@ -18,13 +18,14 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Lender &amp; Buyer Review | Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-07-28-32">
-  <script defer src="assets/i18n.js?v=2026-07-28-32"></script>
-  <script defer src="assets/downloads.js?v=2026-07-28-32"></script>
-  <script defer src="assets/paid-data.js?v=2026-07-28-32"></script>
-  <script defer src="assets/vendor-response.js?v=2026-07-28-32"></script>
-  <script defer src="assets/request-program.js?v=2026-07-28-32"></script>
-  <script defer src="assets/review.js?v=2026-07-28-32"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-07-28-34">
+  <script defer src="assets/i18n.js?v=2026-07-28-34"></script>
+  <script defer src="assets/downloads.js?v=2026-07-28-34"></script>
+  <script defer src="assets/paid-data.js?v=2026-07-28-34"></script>
+  <script defer src="assets/vendor-response.js?v=2026-07-28-34"></script>
+  <script defer src="assets/request-program.js?v=2026-07-28-34"></script>
+  <script defer src="assets/independent-controls.js?v=2026-07-28-34"></script>
+  <script defer src="assets/review.js?v=2026-07-28-34"></script>
 </head>
 <body class="review-page" data-review-view="review">
   <a class="skip-link" href="#review-main">Skip to content</a>
@@ -53,6 +54,7 @@
       <a class="workspace-view-link" data-review-view-link="review" href="review.html?view=review" aria-current="page">5-minute Review</a>
       <a class="workspace-view-link" data-review-view-link="evidence" href="index.html">Evidence Center</a>
       <a class="workspace-view-link" data-review-view-link="operations" href="review.html?view=operations">Research Operations</a>
+      <a class="workspace-view-link" href="diligence.html">Diligence Access</a>
     </div>
   </nav>
 
@@ -67,6 +69,7 @@
             <a class="button button-primary" href="index.html#market">Open annual market-value evidence</a>
             <a class="button button-primary" href="index.html#countries">Open the 195-country atlas</a>
             <a class="button button-primary" href="#bankability">Open bankability gates</a>
+            <a class="button button-secondary" href="diligence.html">Open diligence access protocol</a>
             <a class="button button-secondary" href="data/countries.csv" download>Download country CSV</a>
             <a class="button button-secondary" href="data/global-base-layer.csv" download>Download 195-country base CSV</a>
             <a class="button button-secondary" href="data/evidence.csv" download>Download evidence CSV</a>
@@ -165,7 +168,7 @@
         <span class="bank-package-boundary-mark" aria-hidden="true">SCREEN ONLY</span>
         <div>
           <strong id="third-donor-boundary-title">Poland is the practical primary programme; Russia is a source-only, high-friction lead</strong>
-          <p id="third-donor-boundary">No screened country is an accepted donor. No follow-up in this wave has been sent and no purchase has been authorised.</p>
+          <p id="third-donor-boundary">No screened country is an accepted donor. The reviewed follow-up wave is completed or superseded; no purchase has been authorised.</p>
         </div>
       </aside>
       <div id="third-donor-summary" class="donor-ledger-summary" aria-live="polite"></div>
@@ -188,12 +191,68 @@
         <div class="donor-subheading">
           <div>
             <p class="kicker">Follow-up wave · 28 July 2026</p>
-            <h3>Prepared drafts remain unsent until separately approved</h3>
+            <h3>Reviewed follow-ups are completed or superseded</h3>
           </div>
         </div>
         <div id="third-donor-follow-ups" class="request-program-stack"></div>
       </div>
       <p id="third-donor-status" class="donor-ledger-status" role="status" aria-live="polite">Checking the third-country acquisition screen…</p>
+    </section>
+
+    <section class="shell review-section vendor-response-section no-print" data-us-benchmark-control data-review-surface="operations" aria-labelledby="us-benchmark-title" aria-busy="true" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-us-kicker>United States · independent control panel</p>
+          <h2 id="us-benchmark-title" data-us-title>Official anchors for testing a vendor sample</h2>
+        </div>
+        <p data-us-intro>Manufacturer sales, a four-week retail checkpoint, state tax bases and the customs route remain separate. The panel does not produce a United States market value.</p>
+      </div>
+      <aside class="bank-package-boundary vendor-response-boundary" aria-label="United States benchmark boundary">
+        <span class="bank-package-boundary-mark" aria-hidden="true">CONTROL</span>
+        <div>
+          <strong data-us-boundary-title>19 control observations · national retail value not computed</strong>
+          <p data-us-boundary-copy>No transaction stages are mechanically added. The United States remains outside the donor gate, no vendor sample is yet scorable and no purchase is authorised.</p>
+        </div>
+      </aside>
+      <div class="donor-ledger-summary" data-us-summary aria-live="polite"></div>
+      <div class="request-program-stack-grid" data-us-highlights></div>
+      <div class="section-heading vendor-response-method-heading" data-us-method>
+        <div>
+          <p class="eyebrow">Pre-registered acceptance test</p>
+          <h3>Six gates before a commercial sample can be scored</h3>
+        </div>
+        <p>The matched FTC subset, channel universe, method, rights and complete terms must all be testable. Passing these gates would not automatically accept the United States as a donor.</p>
+      </div>
+      <ol class="vendor-response-gates" data-us-gates></ol>
+      <div class="request-program-actions" data-us-actions hidden>
+        <a class="button button-secondary button-small" href="data/us-independent-benchmark-control.json" download>Download benchmark JSON</a>
+        <a class="button button-secondary button-small" href="schemas/us-independent-benchmark-sample.schema.json" download>Download sample schema</a>
+      </div>
+      <p class="bankability-matrix-status" data-us-status role="status" aria-live="polite">Checking the independent US benchmark…</p>
+    </section>
+
+    <section class="shell review-section request-program-section no-print" data-open-extraction-wave data-review-surface="operations" aria-labelledby="open-wave-title" aria-busy="true" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-wave-kicker>Open official-data extraction wave</p>
+          <h2 id="open-wave-title" data-wave-title>Spain, South Korea and Japan without waiting</h2>
+        </div>
+        <p data-wave-intro>The routes define exact sources, codes, fields, access blockers and transaction stages. Extraction does not turn customs or tax evidence into retail sales.</p>
+      </div>
+      <aside class="bank-package-boundary" aria-label="Open-data extraction boundary">
+        <span class="bank-package-boundary-mark" aria-hidden="true">ROUTE CONTROL</span>
+        <div>
+          <strong data-wave-boundary-title>3 countries · 4 routes · 0 computed retail values</strong>
+          <p data-wave-boundary-copy>Spain's first tax year is partial and lacks an epigraph split. Korea requires an API key and historical HSK10 codebooks. Japan's open customs extraction is ready, while nicotine and device boundaries remain separate.</p>
+        </div>
+      </aside>
+      <div class="donor-ledger-summary" data-wave-summary aria-live="polite"></div>
+      <div class="request-program-grid" data-wave-countries></div>
+      <div class="request-program-actions" data-wave-actions hidden>
+        <a class="button button-secondary button-small" href="data/open-official-extraction-wave-es-kr-jp.json" download>Download extraction control JSON</a>
+        <a class="button button-secondary button-small" href="schemas/open-official-extraction-wave.schema.json" download>Download route schema</a>
+      </div>
+      <p class="bankability-matrix-status" data-wave-status role="status" aria-live="polite">Checking the open-data extraction wave…</p>
     </section>
 
     <section class="metrics-band" data-review-surface="review" aria-label="Dataset summary">

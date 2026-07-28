@@ -1,0 +1,832 @@
+{
+  "$schema": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/investor-disclosure-control.schema.json",
+  "schemaVersion": "1.0",
+  "controlId": "pixan-investor-disclosure-control-2026-07-28",
+  "asOf": "2026-07-28",
+  "controlState": "fail_closed",
+  "languages": [
+    "en",
+    "fi"
+  ],
+  "publicBoundary": {
+    "statementEn": "Independent public evidence summary. It is not Pixan Oy's official position and is not an audit, valuation, legal opinion, investment recommendation or lending recommendation.",
+    "statementFi": "Riippumaton julkinen evidenssikooste. Se ei ole Pixan Oy:n virallinen kanta eikä tilintarkastus, arvonmääritys, oikeudellinen lausunto, sijoitussuositus tai lainasuositus.",
+    "defaultTier": "public",
+    "deeperAccessIsNotGrantedByThisControl": true,
+    "failClosedRuleEn": "If classification, provenance, licence, privilege, privacy, authority or recipient scope is missing or uncertain, do not disclose beyond the public tier.",
+    "failClosedRuleFi": "Jos luokitus, alkuperä, lisenssi, salassapitoetu, tietosuoja, toimivalta tai vastaanottajajoukko puuttuu tai on epävarma, aineistoa ei luovuteta julkista tasoa syvemmälle."
+  },
+  "audiences": [
+    {
+      "audienceId": "lender",
+      "titleEn": "Lender",
+      "titleFi": "Lainanantaja",
+      "legitimateUseEn": "Initial credit, collateral and diligence screening using current published evidence.",
+      "legitimateUseFi": "Luotto-, vakuus- ja due diligence -alkuarvio käyttäen ajantasaista julkaistua evidenssiä.",
+      "defaultTier": "public",
+      "potentialDeeperTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "constraintEn": "Access may expand only to information necessary for an identified credit decision after every applicable gate passes; this control grants no access.",
+      "constraintFi": "Pääsy voi laajentua vain yksilöityyn luottopäätökseen tarpeelliseen aineistoon kaikkien soveltuvien porttien läpäisyn jälkeen; tämä kontrolli ei myönnä pääsyä."
+    },
+    {
+      "audienceId": "strategic_buyer",
+      "titleEn": "Strategic buyer",
+      "titleFi": "Strateginen ostaja",
+      "legitimateUseEn": "Initial acquisition screening and structured confirmatory diligence.",
+      "legitimateUseFi": "Yritysoston alkuarvio ja jäsennelty vahvistava due diligence.",
+      "defaultTier": "public",
+      "potentialDeeperTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "constraintEn": "Competition-sensitive or dispute-sensitive information requires counsel-led clean-team controls and need-to-know access.",
+      "constraintFi": "Kilpailu- tai riita-arkaluonteinen aineisto edellyttää oikeudellisen neuvonantajan johtamaa clean team -kontrollia ja need-to-know-pääsyä."
+    },
+    {
+      "audienceId": "litigation_funder",
+      "titleEn": "Litigation funder",
+      "titleFi": "Oikeudenkäyntirahoittaja",
+      "legitimateUseEn": "Initial screening of the published patent, evidence and proceeding record before counsel-controlled diligence.",
+      "legitimateUseFi": "Julkaistun patentti-, evidenssi- ja menettelyaineiston alkuarvio ennen oikeudellisen neuvonantajan kontrolloimaa tarkastusta.",
+      "defaultTier": "public",
+      "potentialDeeperTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "constraintEn": "Privilege, work-product protection, litigation-control rights and permitted use must be decided by counsel before any deeper disclosure.",
+      "constraintFi": "Salassapitoetu, work product -suoja, oikeudenkäynnin määräysvalta ja sallittu käyttö on ratkaistava oikeudellisen neuvonantajan toimesta ennen syvempää luovutusta."
+    },
+    {
+      "audienceId": "adviser",
+      "titleEn": "Adviser",
+      "titleFi": "Neuvonantaja",
+      "legitimateUseEn": "Professional review within a documented mandate for a lender, buyer, funder or the rights holder.",
+      "legitimateUseFi": "Ammatillinen tarkastus dokumentoidun toimeksiannon rajoissa lainanantajalle, ostajalle, rahoittajalle tai oikeudenhaltijalle.",
+      "defaultTier": "public",
+      "potentialDeeperTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "constraintEn": "An adviser receives no broader rights than the appointing principal and must be named, bound and technically restricted.",
+      "constraintFi": "Neuvonantaja ei saa toimeksiantajaansa laajempia oikeuksia, ja hänen on oltava nimetty, sitoutettu ja teknisesti rajattu."
+    }
+  ],
+  "accessTiers": [
+    {
+      "tierId": "public",
+      "order": 1,
+      "titleEn": "Public",
+      "titleFi": "Julkinen",
+      "purposeEn": "Initial screening through the reviewed public site, downloadable lender package and source-linked structured data.",
+      "purposeFi": "Alkuarvio tarkistetun julkisen sivuston, ladattavan rahoittajapaketin ja lähteistetyn rakenteisen datan avulla.",
+      "permittedContentEn": "Only assets expressly mapped to the public tier below, with their published qualifications, dates, methods and uncertainty labels intact.",
+      "permittedContentFi": "Vain alla julkiselle tasolle nimenomaisesti kartoitetut aineistot julkaistuine rajauksineen, päivämäärineen, menetelmineen ja epävarmuusmerkintöineen.",
+      "excludedContentEn": "All prohibited-public categories and every item not expressly allowlisted.",
+      "excludedContentFi": "Kaikki julkisesti kielletyt aineistoluokat ja kaikki, mitä ei ole nimenomaisesti sallittu.",
+      "releaseRuleEn": "No access decision is required for the already published assets; republication must preserve context, attribution and limitations.",
+      "releaseRuleFi": "Jo julkaistuihin aineistoihin ei tarvita erillistä pääsypäätöstä; uudelleenjulkaisussa on säilytettävä asiayhteys, lähdeviittaus ja rajaukset.",
+      "sensitiveMaterialEmbeddedInThisControl": false
+    },
+    {
+      "tierId": "nda",
+      "order": 2,
+      "titleEn": "NDA diligence",
+      "titleFi": "NDA-tarkastus",
+      "purposeEn": "Counterparty-specific confirmatory diligence after identity, purpose, NDA, rights and disclosure scope are approved.",
+      "purposeFi": "Vastapuolikohtainen vahvistava tarkastus henkilöllisyyden, tarkoituksen, NDA:n, oikeuksien ja luovutusrajan hyväksymisen jälkeen.",
+      "permittedContentEn": "Only separately approved, source-traceable and rights-cleared diligence summaries necessary for the documented purpose.",
+      "permittedContentFi": "Vain erikseen hyväksytyt, lähteisiin jäljitettävät ja käyttöoikeuksiltaan selvitetyt tarkastustiivistelmät, jotka ovat dokumentoituun tarkoitukseen tarpeellisia.",
+      "excludedContentEn": "No privileged advice, unredacted personal data, unrestricted correspondence, negotiation parameters or vendor material without express onward-disclosure rights.",
+      "excludedContentFi": "Ei salassapitoedun alaista neuvontaa, peittämättömiä henkilötietoja, rajaamatonta kirjeenvaihtoa, neuvotteluparametreja tai toimittaja-aineistoa ilman nimenomaista edelleenluovutusoikeutta.",
+      "releaseRuleEn": "Every applicable hard gate must pass for the named recipients; access is time-limited, logged and revocable.",
+      "releaseRuleFi": "Jokaisen soveltuvan kovan portin on läpäistävä nimettyjen vastaanottajien osalta; pääsy on määräaikainen, lokitettu ja peruutettavissa.",
+      "sensitiveMaterialEmbeddedInThisControl": false
+    },
+    {
+      "tierId": "restricted_clean_team_counsel",
+      "order": 3,
+      "titleEn": "Restricted clean team / counsel",
+      "titleFi": "Rajoitettu clean team / oikeudellinen neuvonantaja",
+      "purposeEn": "Need-to-know review of separately stored competition-sensitive, dispute-sensitive or licence-restricted diligence under counsel control.",
+      "purposeFi": "Erikseen säilytetyn kilpailu-, riita- tai lisenssiarkaluonteisen tarkastusaineiston need-to-know-käsittely oikeudellisen neuvonantajan kontrollissa.",
+      "permittedContentEn": "Only counsel-approved extracts or summaries whose recipient, purpose, licence, privilege and competition-law conditions are documented.",
+      "permittedContentFi": "Vain oikeudellisen neuvonantajan hyväksymät otteet tai tiivistelmät, joiden vastaanottaja-, tarkoitus-, lisenssi-, salassapitoetu- ja kilpailuoikeusehdot on dokumentoitu.",
+      "excludedContentEn": "No uncontrolled export, copying, onward sharing or commingling with the public evidence repository.",
+      "excludedContentFi": "Ei hallitsematonta vientiä, kopiointia, edelleenjakamista tai yhdistämistä julkiseen evidenssirepositorioon.",
+      "releaseRuleEn": "Counsel must approve the clean-team perimeter, permitted fields, access period, logging, export controls and destruction or return plan.",
+      "releaseRuleFi": "Oikeudellisen neuvonantajan on hyväksyttävä clean team -raja, sallitut kentät, pääsyaika, lokitus, vientirajoitukset sekä hävitys- tai palautussuunnitelma.",
+      "sensitiveMaterialEmbeddedInThisControl": false
+    },
+    {
+      "tierId": "board_counsel",
+      "order": 4,
+      "titleEn": "Board + counsel",
+      "titleFi": "Hallitus + oikeudellinen neuvonantaja",
+      "purposeEn": "Governance decisions and final legal or transaction authority in a separately controlled environment.",
+      "purposeFi": "Hallinnolliset päätökset ja lopullinen oikeudellinen tai transaktiotoimivalta erikseen kontrolloidussa ympäristössä.",
+      "permittedContentEn": "Only material separately assembled for a documented board or counsel decision after all lower-tier controls and the final authority gate pass.",
+      "permittedContentFi": "Vain dokumentoitua hallituksen tai oikeudellisen neuvonantajan päätöstä varten erikseen koottu aineisto kaikkien alempien tasojen kontrollien ja lopullisen toimivaltaportin läpäisyn jälkeen.",
+      "excludedContentEn": "This control does not contain or link to board papers, legal advice, private transaction terms or other restricted source material.",
+      "excludedContentFi": "Tämä kontrolli ei sisällä eikä linkitä hallitusmateriaaleja, oikeudellista neuvontaa, yksityisiä transaktioehtoja tai muuta rajoitettua lähdeaineistoa.",
+      "releaseRuleEn": "Named board authority and counsel approval are both required; no implied authority, blanket folder access or automatic inheritance from another tier.",
+      "releaseRuleFi": "Sekä nimetyn hallintoelimen toimivalta että oikeudellisen neuvonantajan hyväksyntä vaaditaan; oletettua toimivaltaa, yleistä kansiopääsyä tai automaattista oikeuksien periytymistä toiselta tasolta ei ole.",
+      "sensitiveMaterialEmbeddedInThisControl": false
+    }
+  ],
+  "materialFactsThatMustNotBeHidden": [
+    {
+      "factId": "independent-not-official",
+      "titleEn": "Independent, non-official research",
+      "titleFi": "Riippumaton, epävirallinen tutkimus",
+      "statementEn": "The published evidence centre is independent research and does not represent Pixan Oy's official position.",
+      "statementFi": "Julkaistu evidenssikeskus on riippumatonta tutkimusta eikä edusta Pixan Oy:n virallista kantaa.",
+      "publicEvidencePaths": [
+        "site/data/bank-package-manifest.json",
+        "site/data/atlas.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "not-professional-opinion",
+      "titleEn": "No audit, valuation or recommendation",
+      "titleFi": "Ei tilintarkastusta, arvonmääritystä tai suositusta",
+      "statementEn": "The public package is not an audit, company or collateral valuation, legal opinion, investment recommendation or lending recommendation.",
+      "statementFi": "Julkinen paketti ei ole tilintarkastus, yritys- tai vakuusarvon määritys, oikeudellinen lausunto, sijoitussuositus tai lainasuositus.",
+      "publicEvidencePaths": [
+        "site/data/bank-package-manifest.json",
+        "site/data/atlas.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "global-total-not-computed",
+      "titleEn": "No published global retail total",
+      "titleFi": "Ei julkaistua maailman vähittäismyyntisummaa",
+      "statementEn": "As of 2026-07-28, the donor gate is 0/3 and the global vaping retail value remains null/not_computed.",
+      "statementFi": "Tilanteessa 28.7.2026 donor-portti on 0/3 ja sähkötupakkamarkkinan maailmanlaajuinen vähittäisarvo pysyy null/not_computed-tilassa.",
+      "publicEvidencePaths": [
+        "site/data/donor-cockpit.json",
+        "site/data/changelog.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "proxies-not-retail-sales",
+      "titleEn": "Transaction stages remain separate",
+      "titleFi": "Tapahtumavaiheet pidetään erillään",
+      "statementEn": "Tax, customs, shipment, registration, structural, modelled and proxy observations are not relabelled as observed consumer-retail sales.",
+      "statementFi": "Vero-, tulli-, toimitus-, rekisteri-, rakenne-, mallinnettuja ja proxy-havaintoja ei nimetä uudelleen havaituksi kuluttajavähittäismyynniksi.",
+      "publicEvidencePaths": [
+        "site/data/evidence-lanes.json",
+        "site/data/market-values.json",
+        "site/data/global-base-layer.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "missing-is-not-zero",
+      "titleEn": "Missing evidence is not zero",
+      "titleFi": "Puuttuva evidenssi ei ole nolla",
+      "statementEn": "Missing, queued, unverified or ineligible observations remain explicit and are not converted into zero values or accepted donors.",
+      "statementFi": "Puuttuvat, jonossa olevat, vahvistamattomat tai kelpaamattomat havainnot pidetään näkyvinä eikä niitä muuteta nolliksi tai hyväksytyiksi donoreiksi.",
+      "publicEvidencePaths": [
+        "site/data/global-base-layer.json",
+        "site/data/donor-cockpit.json",
+        "site/data/country-scenarios.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "patent-status-is-territorial",
+      "titleEn": "Patent status is territorial",
+      "titleFi": "Patentin tila on aluekohtainen",
+      "statementEn": "The EPO central record says the patent was maintained as amended, but national validation, renewal, operative claims, title and enforceability remain jurisdiction-specific checks; a family-record count is not a current-country count.",
+      "statementFi": "EPO:n keskitetyn rekisterin mukaan patentti pysytettiin muutettuna, mutta kansallinen validointi, vuosimaksut, sovellettavat vaatimukset, omistus ja täytäntöönpanokelpoisuus tarkistetaan valtioittain; patenttiperheen tietuemäärä ei ole nykyisten patenttimaiden määrä.",
+      "publicEvidencePaths": [
+        "site/data/patent-history.json",
+        "site/data/patent-family.csv"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "no-cross-border-litigation-extrapolation",
+      "titleEn": "No cross-border extrapolation",
+      "titleFi": "Ei valtioiden välistä automaattista yleistystä",
+      "statementEn": "A published decision or technical finding in one jurisdiction does not by itself establish validity, infringement, damages or enforceability in another jurisdiction.",
+      "statementFi": "Yhdessä valtiossa julkaistu ratkaisu tai tekninen havainto ei yksin osoita pätevyyttä, loukkausta, vahingonkorvausta tai täytäntöönpanokelpoisuutta toisessa valtiossa.",
+      "publicEvidencePaths": [
+        "site/data/patent-history.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "vendor-evidence-and-rights-open",
+      "titleEn": "Vendor evidence and rights gates remain open",
+      "titleFi": "Toimittajaevidenssin ja oikeuksien portit ovat avoinna",
+      "statementEn": "As of 2026-07-28, no tracked vendor is scored and no purchase is authorised; receipt of a document, quote or sample does not prove completeness, method quality or onward-disclosure rights.",
+      "statementFi": "Tilanteessa 28.7.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty eikä ostoa ole valtuutettu; asiakirjan, tarjouksen tai näytteen vastaanotto ei osoita täydellisyyttä, menetelmän laatua tai edelleenluovutusoikeuksia.",
+      "publicEvidencePaths": [
+        "site/data/vendor-response-control.json",
+        "site/data/changelog.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "dashboard-package-version-separation",
+      "titleEn": "Dashboard and downloads have separate versions",
+      "titleFi": "Dashboardilla ja latauksilla on eri versiot",
+      "statementEn": "The public dashboard is version 2026.07.28-34, while the six downloadable lender-package files remain the reviewed 2026.07.28-32 daily snapshot and are generated at most once per Asia/Nicosia calendar day.",
+      "statementFi": "Julkinen dashboard on versio 2026.07.28-34, kun taas kuusi ladattavaa rahoittajapaketin tiedostoa ovat tarkistettu 2026.07.28-32-päiväsnapshot ja ne muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä.",
+      "publicEvidencePaths": [
+        "site/data/changelog.json",
+        "site/data/bank-package-manifest.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
+      "factId": "adverse-and-corrective-evidence",
+      "titleEn": "Adverse, conflicting and corrective evidence",
+      "titleFi": "Haitallinen, ristiriitainen ja korjaava evidenssi",
+      "statementEn": "Material limitations, failed gates, lapses, challenges, unresolved proceedings, conflicting evidence and later corrections must be shown with the favourable evidence and not removed by tiering.",
+      "statementFi": "Olennaiset rajaukset, hylätyt portit, raukeamiset, riitautukset, ratkaisemattomat menettelyt, ristiriitainen evidenssi ja myöhemmät korjaukset on esitettävä myönteisen evidenssin rinnalla eikä niitä saa poistaa tasoluokituksella.",
+      "publicEvidencePaths": [
+        "site/data/changelog.json",
+        "site/data/patent-history.json",
+        "site/data/donor-cockpit.json",
+        "site/data/vendor-response-control.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    }
+  ],
+  "prohibitedPublicItems": [
+    {
+      "itemId": "named-potential-infringers",
+      "titleEn": "Named potential infringers or targets",
+      "titleFi": "Nimetyt mahdolliset loukkaajat tai kohteet",
+      "ruleEn": "Do not publish names, target lists, product-to-claim allegations or prioritisation that could identify an alleged infringer.",
+      "ruleFi": "Älä julkaise nimiä, kohdelistoja, tuote–vaatimus-väitteitä tai priorisointia, joka voisi tunnistaa väitetyn loukkaajan."
+    },
+    {
+      "itemId": "legal-strategy",
+      "titleEn": "Legal strategy and advice",
+      "titleFi": "Oikeudellinen strategia ja neuvonta",
+      "ruleEn": "Do not publish legal advice, claim charts, enforcement plans, forum choices, settlement strategy or counsel work product.",
+      "ruleFi": "Älä julkaise oikeudellista neuvontaa, claim chart -vertailuja, täytäntöönpanosuunnitelmia, foorumivalintoja, sovintostrategiaa tai oikeudellisen neuvonantajan work product -aineistoa."
+    },
+    {
+      "itemId": "negotiation-floors",
+      "titleEn": "Negotiation floors and private economics",
+      "titleFi": "Neuvottelujen alarajat ja yksityinen talous",
+      "ruleEn": "Do not publish reservation prices, minimum acceptable terms, licensing floors, bid ranges, target returns or private valuation parameters.",
+      "ruleFi": "Älä julkaise vähimmäishintoja, pienimpiä hyväksyttäviä ehtoja, lisensoinnin alarajoja, tarjoushaarukoita, tuottotavoitteita tai yksityisiä arvonmääritysparametreja."
+    },
+    {
+      "itemId": "personal-data",
+      "titleEn": "Personal data",
+      "titleFi": "Henkilötiedot",
+      "ruleEn": "Do not publish personal names unless already deliberately public and necessary, or any private contact details, signatures, identifiers, device data or recipient lists.",
+      "ruleFi": "Älä julkaise henkilönimiä, elleivät ne ole jo tarkoituksellisesti julkisia ja tarpeellisia, äläkä yksityisiä yhteystietoja, allekirjoituksia, tunnisteita, laitetietoja tai vastaanottajalistoja."
+    },
+    {
+      "itemId": "private-correspondence",
+      "titleEn": "Private correspondence",
+      "titleFi": "Yksityinen kirjeenvaihto",
+      "ruleEn": "Do not publish message bodies, attachments, drafts, headers, addresses, message identifiers or precise mailbox metadata; publish only reviewed, privacy-safe process status where necessary.",
+      "ruleFi": "Älä julkaise viestirunkoja, liitteitä, luonnoksia, otsaketietoja, osoitteita, viestitunnisteita tai tarkkaa postilaatikkometadataa; julkaise tarvittaessa vain tarkistettu tietosuojattu prosessitila."
+    },
+    {
+      "itemId": "licensed-raw-data",
+      "titleEn": "Licensed raw data and samples",
+      "titleFi": "Lisensoitu raakadata ja näytteet",
+      "ruleEn": "Do not publish vendor raw data, record-level samples, workbooks, extracts or derived tables unless written rights expressly permit that exact public use.",
+      "ruleFi": "Älä julkaise toimittajan raakadataa, tietuetason näytteitä, työkirjoja, otteita tai johdettuja taulukoita, elleivät kirjalliset oikeudet nimenomaisesti salli juuri kyseistä julkista käyttöä."
+    },
+    {
+      "itemId": "vendor-commercial-terms",
+      "titleEn": "Non-public vendor commercial terms",
+      "titleFi": "Ei-julkiset toimittajan kaupalliset ehdot",
+      "ruleEn": "Do not publish private quotes, pricing signals, negotiated terms, renewal terms, licence drafts or account-specific conditions.",
+      "ruleFi": "Älä julkaise yksityisiä tarjouksia, hintasignaaleja, neuvoteltuja ehtoja, uusimisehtoja, lisenssiluonnoksia tai tilikohtaisia ehtoja."
+    },
+    {
+      "itemId": "privileged-work-product",
+      "titleEn": "Privileged and work-product material",
+      "titleFi": "Salassapitoedun ja work product -suojan alainen aineisto",
+      "ruleEn": "Do not place privileged material, counsel communications or documents prepared for litigation in the public repository or this control.",
+      "ruleFi": "Älä sijoita salassapitoedun alaista aineistoa, oikeudellisen neuvonantajan viestintää tai oikeudenkäyntiä varten laadittuja asiakirjoja julkiseen repositorioon tai tähän kontrolliin."
+    },
+    {
+      "itemId": "private-corporate-records",
+      "titleEn": "Private corporate and transaction records",
+      "titleFi": "Yksityiset yhtiö- ja transaktioasiakirjat",
+      "ruleEn": "Do not publish non-public board papers, cap tables, ownership records, financing documents, customer records, contracts or transaction documents.",
+      "ruleFi": "Älä julkaise ei-julkisia hallitusmateriaaleja, osakeluetteloita, omistusasiakirjoja, rahoitusasiakirjoja, asiakastietoja, sopimuksia tai transaktioasiakirjoja."
+    },
+    {
+      "itemId": "non-public-validation-records",
+      "titleEn": "Non-public tests, pilots and customer evidence",
+      "titleFi": "Ei-julkiset testit, pilotit ja asiakasnäyttö",
+      "ruleEn": "Do not publish unverified or non-public test results, pilot records, customer claims or commercial evidence without authority, provenance and publication rights.",
+      "ruleFi": "Älä julkaise vahvistamattomia tai ei-julkisia testituloksia, pilottitietoja, asiakasväitteitä tai kaupallista näyttöä ilman toimivaltaa, alkuperätietoa ja julkaisuoikeuksia."
+    },
+    {
+      "itemId": "security-and-local-metadata",
+      "titleEn": "Security and local-system metadata",
+      "titleFi": "Turvallisuus- ja paikallisjärjestelmätiedot",
+      "ruleEn": "Do not publish credentials, access tokens, private data-room links, local filesystem paths, internal logs or security configuration.",
+      "ruleFi": "Älä julkaise tunnuksia, käyttöavaimia, yksityisiä datahuonelinkkejä, paikallisia tiedostopolkuja, sisäisiä lokeja tai turvallisuusasetuksia."
+    },
+    {
+      "itemId": "unsupported-claims",
+      "titleEn": "Unsupported claims or filled gaps",
+      "titleFi": "Tukemattomat väitteet tai täytetyt aukot",
+      "ruleEn": "Do not publish invented market values, customer facts, patent-country counts, damages, forecasts or other assertions that are not supported by the cited evidence.",
+      "ruleFi": "Älä julkaise keksittyjä markkina-arvoja, asiakastietoja, patenttimaiden määriä, vahinkoja, ennusteita tai muita väitteitä, joita viitattu evidenssi ei tue."
+    }
+  ],
+  "safeguards": [
+    {
+      "safeguardId": "vendor-licence",
+      "titleEn": "Vendor licence safeguard",
+      "titleFi": "Toimittajalisenssin suoja",
+      "controlsEn": [
+        "Receipt, a sample or payment does not create redistribution rights.",
+        "Before deeper access, obtain written rights for the named recipients, purpose, data-room use, derived outputs, adviser use, AI processing, export, retention and deletion.",
+        "If rights are silent, conflicting, expired or narrower than the intended use, deny access or use only an independently created public summary."
+      ],
+      "controlsFi": [
+        "Vastaanotto, näyte tai maksu ei luo edelleenjakamisoikeutta.",
+        "Ennen syvempää pääsyä hanki kirjalliset oikeudet nimetyille vastaanottajille, käyttötarkoitukselle, datahuonekäytölle, johdetuille tuotoksille, neuvonantajakäytölle, tekoälykäsittelylle, viennille, säilytykselle ja poistolle.",
+        "Jos oikeudet ovat hiljaiset, ristiriitaiset, vanhentuneet tai aiottua käyttöä suppeammat, pääsy evätään tai käytetään vain itsenäisesti laadittua julkista tiivistelmää."
+      ]
+    },
+    {
+      "safeguardId": "privilege-and-work-product",
+      "titleEn": "Privilege and work-product safeguard",
+      "titleFi": "Salassapitoedun ja work product -suojan kontrolli",
+      "controlsEn": [
+        "Counsel determines whether a document or analysis is privileged, work product or suitable for disclosure.",
+        "Keep public evidence, business analysis and legal advice in separate stores and indexes.",
+        "Do not waive protection by copying advice into decks, dashboards, release logs or mixed-access rooms."
+      ],
+      "controlsFi": [
+        "Oikeudellinen neuvonantaja ratkaisee, onko asiakirja tai analyysi salassapitoedun alainen, work product -suojattu tai luovutettavissa.",
+        "Pidä julkinen evidenssi, liiketoiminta-analyysi ja oikeudellinen neuvonta erillisissä säilytyspaikoissa ja indekseissä.",
+        "Älä luovu suojasta kopioimalla neuvontaa dekkeihin, dashboardeihin, luovutuslokeihin tai sekakäyttöisiin datahuoneisiin."
+      ]
+    },
+    {
+      "safeguardId": "privacy-and-correspondence",
+      "titleEn": "Privacy and correspondence safeguard",
+      "titleFi": "Tietosuoja- ja kirjeenvaihtokontrolli",
+      "controlsEn": [
+        "Minimise fields, redact personal data and disclose only the smallest necessary recipient set.",
+        "Public correspondence reporting is limited to reviewed process states, dates where necessary and non-identifying outcomes.",
+        "Private messages and attachments stay outside this public control and require separate authority and rights review."
+      ],
+      "controlsFi": [
+        "Minimoi kentät, peitä henkilötiedot ja rajaa luovutus pienimpään tarpeelliseen vastaanottajajoukkoon.",
+        "Kirjeenvaihdosta raportoidaan julkisesti vain tarkistetut prosessitilat, tarvittaessa päivämäärät ja tunnistamattomat lopputulokset.",
+        "Yksityiset viestit ja liitteet pysyvät tämän julkisen kontrollin ulkopuolella ja edellyttävät erillistä toimivalta- ja oikeustarkastusta."
+      ]
+    },
+    {
+      "safeguardId": "clean-team-and-competition",
+      "titleEn": "Clean-team and competition safeguard",
+      "titleFi": "Clean team- ja kilpailuoikeuskontrolli",
+      "controlsEn": [
+        "Counsel defines whether a clean team is required and excludes competitive decision-makers where necessary.",
+        "Use field-level allowlists, view-only access, export restrictions, named users and activity logs.",
+        "Aggregate or redact information whenever the decision can be supported without more granular disclosure."
+      ],
+      "controlsFi": [
+        "Oikeudellinen neuvonantaja määrittää clean team -tarpeen ja sulkee tarvittaessa kilpailulliset päätöksentekijät pois.",
+        "Käytä kenttäkohtaisia sallittujen tietojen listoja, vain katselu -pääsyä, vientirajoituksia, nimettyjä käyttäjiä ja käyttölokeja.",
+        "Aggregoi tai peitä tiedot aina, kun päätös voidaan tukea ilman tarkempaa luovutusta."
+      ]
+    },
+    {
+      "safeguardId": "evidence-integrity",
+      "titleEn": "Evidence integrity and version safeguard",
+      "titleFi": "Evidenssin eheys- ja versiokontrolli",
+      "controlsEn": [
+        "Disclose source, date, calculation method, assumptions, confidence and missing evidence with every material claim.",
+        "Use an immutable snapshot or manifest for each diligence release and record corrections without deleting the earlier state.",
+        "Do not mix dashboard intraday status with the separately versioned daily downloadable package."
+      ],
+      "controlsFi": [
+        "Esitä jokaisen olennaisen väitteen yhteydessä lähde, päivämäärä, laskentatapa, oletukset, luottamustaso ja puuttuva evidenssi.",
+        "Käytä jokaisessa tarkastusluovutuksessa muuttumatonta snapshotia tai manifestia ja kirjaa korjaukset poistamatta aiempaa tilaa.",
+        "Älä sekoita dashboardin päivänsisäistä tilaa erikseen versioituun päivittäiseen latauspakettiin."
+      ]
+    },
+    {
+      "safeguardId": "balanced-disclosure",
+      "titleEn": "Balanced material disclosure",
+      "titleFi": "Tasapuolinen olennainen tiedonanto",
+      "controlsEn": [
+        "Present favourable and adverse evidence together.",
+        "Do not use access classification to conceal a material limitation from a decision-maker who is otherwise entitled to the underlying claim.",
+        "If a material fact cannot lawfully be disclosed, do not present a misleading partial claim; pause or narrow the decision package."
+      ],
+      "controlsFi": [
+        "Esitä myönteinen ja haitallinen evidenssi yhdessä.",
+        "Älä käytä pääsyluokitusta olennaisen rajoituksen salaamiseen päätöksentekijältä, jolla muutoin on oikeus taustalla olevaan väitteeseen.",
+        "Jos olennaista seikkaa ei voida lainmukaisesti luovuttaa, älä esitä harhaanjohtavaa osaväitettä; keskeytä tai rajaa päätöspaketti."
+      ]
+    }
+  ],
+  "publicAssetMapping": [
+    {
+      "assetGroupId": "public-dashboard",
+      "titleEn": "Public evidence dashboard",
+      "titleFi": "Julkinen evidenssidashboard",
+      "tierId": "public",
+      "paths": [
+        "site/index.html"
+      ],
+      "versionOrAsOf": "2026.07.28-34",
+      "publicUseEn": "Initial lender, buyer, funder and adviser screening with bilingual navigation and visible limitations.",
+      "publicUseFi": "Lainanantajan, ostajan, rahoittajan ja neuvonantajan alkuarvio kaksikielisellä navigaatiolla ja näkyvillä rajauksilla.",
+      "limitationsEn": "Use the page's current version and source-linked qualifications; it is independent research, not Pixan's official position.",
+      "limitationsFi": "Käytä sivun nykyistä versiota ja lähteistettyjä rajauksia; kyse on riippumattomasta tutkimuksesta, ei Pixanin virallisesta kannasta."
+    },
+    {
+      "assetGroupId": "change-log",
+      "titleEn": "Public change log",
+      "titleFi": "Julkinen muutosloki",
+      "tierId": "public",
+      "paths": [
+        "site/data/changelog.json"
+      ],
+      "versionOrAsOf": "2026.07.28-34",
+      "publicUseEn": "Shows what changed, when it changed and whether the dashboard or daily package was affected.",
+      "publicUseFi": "Näyttää, mitä muuttui, milloin muutos tapahtui ja vaikuttiko se dashboardiin vai päiväpakettiin.",
+      "limitationsEn": "A change-log entry is a research status record, not independent proof of the underlying claim.",
+      "limitationsFi": "Muutoslokimerkintä on tutkimuksen tilatieto, ei taustalla olevan väitteen riippumaton todiste."
+    },
+    {
+      "assetGroupId": "daily-package-manifest",
+      "titleEn": "Daily lender-package manifest",
+      "titleFi": "Päivittäisen rahoittajapaketin manifesti",
+      "tierId": "public",
+      "paths": [
+        "site/data/bank-package-manifest.json"
+      ],
+      "versionOrAsOf": "2026.07.28-32",
+      "publicUseEn": "Verifies the six bilingual downloadable artifacts, build boundary, file sizes and SHA-256 hashes.",
+      "publicUseFi": "Varmistaa kuusi kaksikielistä ladattavaa aineistoa, muodostusrajan, tiedostokoot ja SHA-256-tiivisteet.",
+      "limitationsEn": "The daily package may be older than an intraday dashboard update and must be cited by its own version.",
+      "limitationsFi": "Päiväpaketti voi olla päivänsisäistä dashboard-päivitystä vanhempi, ja siihen on viitattava sen omalla versiolla."
+    },
+    {
+      "assetGroupId": "bilingual-decks",
+      "titleEn": "Bilingual concise and extended decks",
+      "titleFi": "Kaksikieliset suppeat ja laajat dekit",
+      "tierId": "public",
+      "paths": [
+        "site/downloads/pixan-bank-deck-short-en.pptx",
+        "site/downloads/pixan-bank-deck-short-fi.pptx",
+        "site/downloads/pixan-bank-deck-large-en.pptx",
+        "site/downloads/pixan-bank-deck-large-fi.pptx"
+      ],
+      "versionOrAsOf": "2026.07.28-32",
+      "publicUseEn": "Six-slide initial brief and 30-slide diligence presentation in English and Finnish.",
+      "publicUseFi": "Kuuden dian alkuinfo ja 30 dian tarkastusesitys englanniksi ja suomeksi.",
+      "limitationsEn": "Claims must be read with the same-version Evidence Register and public disclaimer.",
+      "limitationsFi": "Väitteet on luettava saman version Evidence Registerin ja julkisen vastuuvapauslausekkeen kanssa."
+    },
+    {
+      "assetGroupId": "bilingual-evidence-registers",
+      "titleEn": "Bilingual Evidence Registers",
+      "titleFi": "Kaksikieliset Evidence Registerit",
+      "tierId": "public",
+      "paths": [
+        "site/downloads/pixan-bank-evidence-register-en.xlsx",
+        "site/downloads/pixan-bank-evidence-register-fi.xlsx"
+      ],
+      "versionOrAsOf": "2026.07.28-32",
+      "publicUseEn": "Traceable claim-level source, calculation, assumption, confidence and gap review.",
+      "publicUseFi": "Jäljitettävä väitekohtainen lähde-, laskenta-, oletus-, luottamus- ja puuteanalyysi.",
+      "limitationsEn": "A registered claim may still be supported, assumed or missing; inclusion is not confirmation.",
+      "limitationsFi": "Rekisteröity väite voi silti olla tuettu, oletus tai puuttuva; mukanaolo ei tarkoita vahvistusta."
+    },
+    {
+      "assetGroupId": "structured-market-evidence",
+      "titleEn": "Structured public market and method evidence",
+      "titleFi": "Rakenteinen julkinen markkina- ja menetelmäevidenssi",
+      "tierId": "public",
+      "paths": [
+        "site/data/atlas.json",
+        "site/data/countries.csv",
+        "site/data/evidence.csv",
+        "site/data/market-values.json",
+        "site/data/market-values.csv",
+        "site/data/evidence-lanes.json",
+        "site/data/donor-cockpit.json",
+        "site/data/country-scenarios.json",
+        "site/data/global-base-layer.json",
+        "site/data/global-base-layer.csv",
+        "site/data/fx-rates.json",
+        "site/data/third-donor-screen.json"
+      ],
+      "versionOrAsOf": "as-of dates embedded in each asset",
+      "publicUseEn": "Reproducible review of observations, methods, donor gates, scenarios, base signals and EUR conversions.",
+      "publicUseFi": "Havaintojen, menetelmien, donor-porttien, skenaarioiden, pohjasignaalien ja euromuunnosten toistettava tarkastus.",
+      "limitationsEn": "Do not combine incompatible transaction stages or turn ineligible proxy records into a global retail total.",
+      "limitationsFi": "Älä yhdistä yhteensopimattomia tapahtumavaiheita tai muuta kelpaamattomia proxy-tietueita maailman vähittäismyyntisummaksi."
+    },
+    {
+      "assetGroupId": "public-patent-record",
+      "titleEn": "Public patent history and family record",
+      "titleFi": "Julkinen patenttihistoria ja patenttiperhetietue",
+      "tierId": "public",
+      "paths": [
+        "site/data/patent-history.json",
+        "site/data/patent-family.csv"
+      ],
+      "versionOrAsOf": "review dates embedded in the assets",
+      "publicUseEn": "Source-linked patent timeline, family publications, proceedings and stated diligence limitations.",
+      "publicUseFi": "Lähteistetty patenttiaikajana, perhejulkaisut, menettelyt ja ilmoitetut tarkastusrajaukset.",
+      "limitationsEn": "Not a legal opinion, claim construction, infringement finding or substitute for current national-register and counsel review.",
+      "limitationsFi": "Ei oikeudellinen lausunto, patenttivaatimusten tulkinta, loukkausratkaisu tai kansallisten rekisterien ja oikeudellisen neuvonantajan ajantasaisen tarkastuksen korvike."
+    },
+    {
+      "assetGroupId": "public-vendor-control",
+      "titleEn": "Public vendor-response control",
+      "titleFi": "Julkinen toimittajavastausten kontrolli",
+      "tierId": "public",
+      "paths": [
+        "site/data/vendor-response-control.json",
+        "site/data/vendor-response-control.csv"
+      ],
+      "versionOrAsOf": "2026-07-28",
+      "publicUseEn": "Privacy-safe status of evidence receipt, evaluation gates, scoring and purchase authorisation.",
+      "publicUseFi": "Tietosuojattu tila evidenssin vastaanotosta, arviointiporteista, pisteytyksestä ja ostovaltuutuksesta.",
+      "limitationsEn": "It excludes private correspondence, named contacts, private prices and licensed raw data; document receipt is not a gate pass.",
+      "limitationsFi": "Se ei sisällä yksityistä kirjeenvaihtoa, nimettyjä yhteyshenkilöitä, yksityisiä hintoja tai lisensoitua raakadataa; asiakirjan vastaanotto ei ole portin läpäisy."
+    },
+    {
+      "assetGroupId": "public-request-program",
+      "titleEn": "Public data-request routes and templates",
+      "titleFi": "Julkiset tietopyyntöreitit ja mallipohjat",
+      "tierId": "public",
+      "paths": [
+        "site/data/top20-data-request-routes.json",
+        "site/data/top20-data-request-routes.csv",
+        "site/downloads/data-request-template-en.txt",
+        "site/downloads/data-request-template-fi.txt"
+      ],
+      "versionOrAsOf": "status dates embedded in the assets",
+      "publicUseEn": "Shows privacy-safe country/function/status routing and reusable public-request language.",
+      "publicUseFi": "Näyttää tietosuojatut maa-, toiminto- ja tilareitit sekä uudelleenkäytettävän julkisen tietopyyntökielen.",
+      "limitationsEn": "A sent request is not a response, a supplied dataset or a market value.",
+      "limitationsFi": "Lähetetty pyyntö ei ole vastaus, toimitettu aineisto eikä markkina-arvo."
+    },
+    {
+      "assetGroupId": "paid-data-procurement-guide",
+      "titleEn": "Paid-data procurement guide",
+      "titleFi": "Maksullisen datan hankintaopas",
+      "tierId": "public",
+      "paths": [
+        "site/downloads/pixan-paid-data-procurement-fi-en.xlsx"
+      ],
+      "versionOrAsOf": "current published workbook",
+      "publicUseEn": "Bilingual comparison and diligence structure for possible paid-data procurement.",
+      "publicUseFi": "Kaksikielinen vertailu- ja tarkastusrakenne mahdolliselle maksullisen datan hankinnalle.",
+      "limitationsEn": "It is not a purchase authority, subscription, licence or confirmation that a vendor dataset may be shared.",
+      "limitationsFi": "Se ei ole ostovaltuutus, tilaus, lisenssi eikä vahvistus siitä, että toimittaja-aineistoa saa jakaa."
+    }
+  ],
+  "hardGates": [
+    {
+      "gateId": "counterparty-identity-authority",
+      "titleEn": "Counterparty identity and authority",
+      "titleFi": "Vastapuolen henkilöllisyys ja toimivalta",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Verify the legal entity, named recipients, professional roles, appointing principal and authority to receive the requested information.",
+      "requirementFi": "Vahvista oikeushenkilö, nimetyt vastaanottajat, ammatilliset roolit, toimeksiantaja ja toimivalta vastaanottaa pyydetty aineisto.",
+      "evidenceRequiredEn": "Documented identity, mandate and recipient list.",
+      "evidenceRequiredFi": "Dokumentoitu henkilöllisyys, toimeksianto ja vastaanottajalista.",
+      "failureActionEn": "Deny deeper access.",
+      "failureActionFi": "Epää syvempi pääsy."
+    },
+    {
+      "gateId": "lawful-purpose-and-scope",
+      "titleEn": "Lawful purpose and minimum scope",
+      "titleFi": "Lainmukainen tarkoitus ja vähimmäisraja",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Record the decision purpose, permitted use, necessary fields, jurisdictions and time period; reject speculative or unrestricted access.",
+      "requirementFi": "Kirjaa päätöstarkoitus, sallittu käyttö, tarpeelliset kentät, valtiot ja ajanjakso; hylkää spekulatiivinen tai rajoittamaton pääsy.",
+      "evidenceRequiredEn": "Approved scope note tied to an identified decision.",
+      "evidenceRequiredFi": "Hyväksytty rajausmuistio, joka liittyy yksilöityyn päätökseen.",
+      "failureActionEn": "Keep the recipient at the public tier.",
+      "failureActionFi": "Pidä vastaanottaja julkisella tasolla."
+    },
+    {
+      "gateId": "executed-confidentiality",
+      "titleEn": "Executed confidentiality terms",
+      "titleFi": "Voimassa olevat salassapitoehdot",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "An executed NDA or equivalent binding duty must cover purpose, onward sharing, advisers, compelled disclosure, security, return or deletion and survival.",
+      "requirementFi": "Allekirjoitetun NDA:n tai vastaavan sitovan velvoitteen on katettava tarkoitus, edelleenjako, neuvonantajat, pakollinen luovutus, turvallisuus, palautus tai poisto sekä voimassaolon jatkuminen.",
+      "evidenceRequiredEn": "Final executed terms and authorised signatories.",
+      "evidenceRequiredFi": "Lopulliset allekirjoitetut ehdot ja toimivaltaiset allekirjoittajat.",
+      "failureActionEn": "Deny deeper access; a draft NDA is insufficient.",
+      "failureActionFi": "Epää syvempi pääsy; NDA-luonnos ei riitä."
+    },
+    {
+      "gateId": "balanced-material-disclosure",
+      "titleEn": "Balanced material-fact disclosure",
+      "titleFi": "Tasapuolinen olennaisten seikkojen tiedonanto",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Confirm that every material limitation, adverse fact, failed gate, conflict and correction accompanies the related favourable claim.",
+      "requirementFi": "Vahvista, että jokainen olennainen rajaus, haitallinen seikka, hylätty portti, ristiriita ja korjaus esitetään siihen liittyvän myönteisen väitteen rinnalla.",
+      "evidenceRequiredEn": "Claim-to-evidence register or disclosure checklist signed off by the release owner.",
+      "evidenceRequiredFi": "Luovutuksesta vastaavan hyväksymä väite–evidenssirekisteri tai tiedonantotarkistuslista.",
+      "failureActionEn": "Pause the release; do not send a favourable-only subset.",
+      "failureActionFi": "Keskeytä luovutus; älä lähetä vain myönteistä osajoukkoa."
+    },
+    {
+      "gateId": "provenance-quality-freshness",
+      "titleEn": "Provenance, quality and freshness",
+      "titleFi": "Alkuperä, laatu ja ajantasaisuus",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Every material assertion must carry source, date, method, assumptions, confidence, gap status and the exact snapshot version.",
+      "requirementFi": "Jokaisella olennaisella väitteellä on oltava lähde, päivämäärä, menetelmä, oletukset, luottamustaso, puutetila ja täsmällinen snapshot-versio.",
+      "evidenceRequiredEn": "Reviewed manifest and Evidence Register with no unresolved source mismatch.",
+      "evidenceRequiredFi": "Tarkistettu manifesti ja Evidence Register ilman ratkaisemattomia lähderistiriitoja.",
+      "failureActionEn": "Remove the unsupported item or deny the release.",
+      "failureActionFi": "Poista tukematon aineisto tai epää luovutus."
+    },
+    {
+      "gateId": "vendor-rights",
+      "titleEn": "Vendor and third-party rights",
+      "titleFi": "Toimittaja- ja kolmannen osapuolen oikeudet",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Verify in writing that the intended recipients, purpose, extracts, derived outputs, data-room use, adviser use, AI processing, export, retention and deletion are permitted.",
+      "requirementFi": "Vahvista kirjallisesti, että aiotut vastaanottajat, tarkoitus, otteet, johdetut tuotokset, datahuonekäyttö, neuvonantajakäyttö, tekoälykäsittely, vienti, säilytys ja poisto ovat sallittuja.",
+      "evidenceRequiredEn": "Applicable licence and a field-level rights decision; a quote or sample is not sufficient.",
+      "evidenceRequiredFi": "Sovellettava lisenssi ja kenttäkohtainen oikeuspäätös; tarjous tai näyte ei riitä.",
+      "failureActionEn": "Exclude the vendor material and all non-permitted derivatives.",
+      "failureActionFi": "Sulje toimittaja-aineisto ja kaikki luvattomat johdannaiset pois."
+    },
+    {
+      "gateId": "privilege-work-product",
+      "titleEn": "Privilege and work-product review",
+      "titleFi": "Salassapitoedun ja work product -suojan tarkastus",
+      "requiredForTiers": [
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Counsel classifies every legal or dispute-related item and confirms whether disclosure is permitted without waiver.",
+      "requirementFi": "Oikeudellinen neuvonantaja luokittelee jokaisen oikeudellisen tai riitaan liittyvän aineiston ja vahvistaa, voidaanko se luovuttaa suojasta luopumatta.",
+      "evidenceRequiredEn": "Counsel sign-off and a separate privileged index that is not part of this public control.",
+      "evidenceRequiredFi": "Oikeudellisen neuvonantajan hyväksyntä ja erillinen salassapitoedun alaisen aineiston indeksi, joka ei kuulu tähän julkiseen kontrolliin.",
+      "failureActionEn": "Withhold the item and use only non-privileged public facts.",
+      "failureActionFi": "Pidätä aineisto ja käytä vain julkisia, salassapitoedun ulkopuolisia faktoja."
+    },
+    {
+      "gateId": "privacy-redaction",
+      "titleEn": "Privacy, confidentiality and redaction",
+      "titleFi": "Tietosuoja, luottamuksellisuus ja peittäminen",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Minimise and redact personal data, correspondence metadata, confidential third-party information and unnecessary identifiers.",
+      "requirementFi": "Minimoi ja peitä henkilötiedot, kirjeenvaihdon metadata, kolmansien osapuolten luottamukselliset tiedot ja tarpeettomat tunnisteet.",
+      "evidenceRequiredEn": "Completed privacy and redaction review against the final release files.",
+      "evidenceRequiredFi": "Valmiisiin luovutustiedostoihin kohdistettu loppuun suoritettu tietosuoja- ja peittämistarkastus.",
+      "failureActionEn": "Deny release until corrected and re-reviewed.",
+      "failureActionFi": "Epää luovutus, kunnes aineisto on korjattu ja tarkistettu uudelleen."
+    },
+    {
+      "gateId": "competition-clean-team",
+      "titleEn": "Competition-law and clean-team perimeter",
+      "titleFi": "Kilpailuoikeus- ja clean team -raja",
+      "requiredForTiers": [
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Counsel confirms whether a clean team is required, who is excluded, which fields may be shown and whether aggregation is sufficient.",
+      "requirementFi": "Oikeudellinen neuvonantaja vahvistaa clean team -tarpeen, poissuljettavat henkilöt, näytettävät kentät ja sen, riittääkö aggregointi.",
+      "evidenceRequiredEn": "Approved clean-team protocol or written not-applicable decision.",
+      "evidenceRequiredFi": "Hyväksytty clean team -protokolla tai kirjallinen päätös siitä, ettei kontrolli sovellu.",
+      "failureActionEn": "Do not disclose competition-sensitive information.",
+      "failureActionFi": "Älä luovuta kilpailuarkaluonteista tietoa."
+    },
+    {
+      "gateId": "technical-access-controls",
+      "titleEn": "Technical access controls",
+      "titleFi": "Tekniset pääsykontrollit",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Use named accounts, least privilege, expiry, view or export restrictions, logging, watermarking where appropriate and immediate revocation capability.",
+      "requirementFi": "Käytä nimettyjä tilejä, vähimpiä oikeuksia, voimassaolon päättymistä, katselu- tai vientirajoituksia, lokitusta, tarvittaessa vesileimaa ja välitöntä peruutusmahdollisuutta.",
+      "evidenceRequiredEn": "Access-control test and recipient-level permission record.",
+      "evidenceRequiredFi": "Pääsykontrollitesti ja vastaanottajakohtainen oikeustietue.",
+      "failureActionEn": "Do not upload or grant access.",
+      "failureActionFi": "Älä lataa aineistoa tai myönnä pääsyä."
+    },
+    {
+      "gateId": "release-authority",
+      "titleEn": "Release authority",
+      "titleFi": "Luovutustoimivalta",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "A named release owner approves the final file list, tier, recipients, purpose and expiry; board+counsel material additionally requires both board authority and counsel approval.",
+      "requirementFi": "Nimetty luovutuksesta vastaava hyväksyy lopullisen tiedostolistan, tason, vastaanottajat, tarkoituksen ja päättymisajan; hallitus + oikeudellinen neuvonantaja -aineisto edellyttää lisäksi sekä hallintoelimen toimivaltaa että oikeudellisen neuvonantajan hyväksyntää.",
+      "evidenceRequiredEn": "Dated release decision identifying files by version or hash.",
+      "evidenceRequiredFi": "Päivätty luovutuspäätös, joka yksilöi tiedostot versiolla tai tiivisteellä.",
+      "failureActionEn": "Deny release; silence or prior access is not approval.",
+      "failureActionFi": "Epää luovutus; hiljaisuus tai aiempi pääsy ei ole hyväksyntä."
+    },
+    {
+      "gateId": "release-log-expiry-destruction",
+      "titleEn": "Release log, expiry and return",
+      "titleFi": "Luovutusloki, päättyminen ja palautus",
+      "requiredForTiers": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ],
+      "requirementEn": "Log what was released, to whom, why, when, under which rights and until when; define revocation, return or verified deletion.",
+      "requirementFi": "Lokita mitä luovutettiin, kenelle, miksi, milloin, millä oikeuksilla ja mihin asti; määritä peruutus, palautus tai varmennettu poisto.",
+      "evidenceRequiredEn": "Complete release register and scheduled access review.",
+      "evidenceRequiredFi": "Täydellinen luovutusrekisteri ja ajoitettu pääsyoikeuden tarkastus.",
+      "failureActionEn": "Do not release or renew access.",
+      "failureActionFi": "Älä luovuta tai jatka pääsyä."
+    }
+  ],
+  "decisionRule": {
+    "defaultTier": "public",
+    "gateLogic": "all_applicable_gates_must_pass",
+    "noAutomaticPromotion": true,
+    "noPartialOverride": true,
+    "controlGrantsAccess": false,
+    "restrictedMaterialEmbeddedOrLinked": false,
+    "decisionEn": "A recipient remains at the public tier unless every gate required for the requested tier is evidenced as passed for that recipient, purpose, file set and time period. Missing, expired, conflicting or not-applicable-without-documentation evidence is a failure. Approve only the minimum tier and minimum fields necessary.",
+    "decisionFi": "Vastaanottaja pysyy julkisella tasolla, ellei jokaista pyydetyn tason porttia ole osoitettu läpäistyksi kyseisen vastaanottajan, tarkoituksen, tiedostojoukon ja ajanjakson osalta. Puuttuva, vanhentunut, ristiriitainen tai ilman dokumentointia ei-soveltuvaksi merkitty näyttö on hylkäys. Hyväksy vain pienin tarpeellinen taso ja pienin tarpeellinen kenttäjoukko.",
+    "revalidationTriggersEn": [
+      "Recipient, purpose, adviser, jurisdiction, field set or platform changes.",
+      "NDA, licence, mandate, privilege assessment or access period expires or changes.",
+      "A material correction, adverse fact, new proceeding or source conflict is identified.",
+      "Files are rebuilt, re-versioned or replaced."
+    ],
+    "revalidationTriggersFi": [
+      "Vastaanottaja, tarkoitus, neuvonantaja, valtio, kenttäjoukko tai alusta muuttuu.",
+      "NDA, lisenssi, toimeksianto, salassapitoetuarvio tai pääsyaika päättyy tai muuttuu.",
+      "Olennainen korjaus, haitallinen seikka, uusi menettely tai lähderistiriita havaitaan.",
+      "Tiedostot rakennetaan uudelleen, versioidaan uudelleen tai korvataan."
+    ]
+  }
+}

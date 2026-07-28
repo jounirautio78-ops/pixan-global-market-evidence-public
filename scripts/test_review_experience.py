@@ -31,6 +31,9 @@ class ReviewExperienceTests(unittest.TestCase):
         cls.i18n_js = (SITE / "assets" / "i18n.js").read_text(encoding="utf-8")
         cls.request_program_js = (SITE / "assets" / "request-program.js").read_text(encoding="utf-8")
         cls.app_js = (SITE / "assets" / "app.js").read_text(encoding="utf-8")
+        cls.independent_controls_js = (
+            SITE / "assets" / "independent-controls.js"
+        ).read_text(encoding="utf-8")
 
     def assert_data_rejected(
         self,
@@ -65,6 +68,7 @@ class ReviewExperienceTests(unittest.TestCase):
                 self.i18n_js,
                 self.request_program_js,
                 self.app_js,
+                self.independent_controls_js,
             ),
             [],
         )
@@ -299,6 +303,86 @@ class ReviewExperienceTests(unittest.TestCase):
             self.app_js,
         )
         self.assertTrue(any("required v18 hooks" in error for error in errors), errors)
+
+    def test_rejects_missing_independent_control_surface(self) -> None:
+        mutated = self.review_html.replace(
+            "data-us-benchmark-control",
+            "data-removed-us-benchmark-control",
+            1,
+        )
+        errors = validate_review_structure(
+            mutated,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(
+            any("data-us-benchmark-control" in error for error in errors),
+            errors,
+        )
+
+    def test_rejects_missing_independent_control_fetch(self) -> None:
+        mutated = self.independent_controls_js.replace(
+            'fetch("data/us-independent-benchmark-control.json"',
+            'fetch("data/removed-us-independent-benchmark-control.json"',
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            mutated,
+        )
+        self.assertTrue(
+            any("us-independent-benchmark-control.json" in error for error in errors),
+            errors,
+        )
+
+    def test_rejects_removed_us_null_market_boundary(self) -> None:
+        mutated = self.independent_controls_js.replace(
+            "raw.outputs?.unitedStatesRetailMarketValue !== null",
+            "raw.outputs?.unitedStatesRetailMarketValue === null",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            mutated,
+        )
+        self.assertTrue(
+            any("unitedStatesRetailMarketValue" in error for error in errors),
+            errors,
+        )
+
+    def test_rejects_removed_open_wave_rollup_boundary(self) -> None:
+        mutated = self.independent_controls_js.replace(
+            "route.globalRollupEligible !== false",
+            "route.globalRollupEligible === false",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            mutated,
+        )
+        self.assertTrue(
+            any("globalRollupEligible" in error for error in errors),
+            errors,
+        )
 
     def test_rejects_promoted_screened_country(self) -> None:
         screen = copy.deepcopy(self.third_donor)

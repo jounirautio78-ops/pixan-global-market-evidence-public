@@ -3,22 +3,42 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V33 = Object.freeze({
-    id: "2026-07-28-circana-qualification-dashboard-v33",
-    version: "2026.07.28-33",
-    publishedAt: "2026-07-28T10:57:47+03:00",
-    titleEn: "Circana qualification response and intraday dashboard status",
-    titleFi: "Circanan kartoitusvastaus ja dashboardin päivänsisäinen tila",
+  const UI_RELEASE_V34 = Object.freeze({
+    id: "2026-07-28-independent-controls-dashboard-v34",
+    version: "2026.07.28-34",
+    publishedAt: "2026-07-28T13:30:00+03:00",
+    titleEn: "Independent official-data controls and bilingual safety release",
+    titleFi: "Riippumattomien viranomaisdatakontrollien kaksikielinen turvajulkaisu",
     items: Object.freeze([
       Object.freeze({
         category: "diligence",
-        textEn: "Recorded a Circana commercial qualification response and the same-thread clarification sent on 2026-07-28. Retailer-level detail is not typically available, and only non-binding indicative cost guidance was supplied, not a project-specific quote. A populated sample, methodology, explicit channel coverage, a definitive scoped quote and written transaction-use rights remain pending. NOT SCORED; no purchase or commitment is authorised.",
-        textFi: "Kirjattiin Circanan kaupallinen kartoitusvastaus ja samaan viestiketjuun 28.7.2026 lähetetty täsmennys. Vähittäiskauppiastason tietoa ei yleensä ole saatavissa, ja toimitettu kustannusohjaus oli vain ei-sitova eikä projektikohtainen tarjous. Täytetty näyte, menetelmä, yksiselitteinen kanavapeitto, lopullinen rajattu tarjous ja kirjalliset transaktiokäyttöoikeudet odottavat. EI PISTEYTETTY; ostoa tai sitoumusta ei ole valtuutettu."
+        textEn: "Independent United States benchmark controls now preserve official manufacturer, partial-retail, state-tax and customs observations at their reported transaction stages. The six pre-registered sample gates remain not evaluated; no United States retail value, donor acceptance or purchase authorisation is created.",
+        textFi: "Riippumaton Yhdysvaltain vertailukontrolli säilyttää nyt viralliset valmistaja-, osittaisretail-, osavaltiovero- ja tullihavainnot niiden raportoiduissa tapahtumavaiheissa. Kuusi ennakkoon rekisteröityä näyteporttia ovat edelleen arvioimatta; Yhdysvaltain vähittäisarvoa, donor-hyväksyntää tai ostovaltuutusta ei synny."
+      }),
+      Object.freeze({
+        category: "diligence",
+        textEn: "Spain, South Korea and Japan now have explicit official-data route controls with source, access, product-scope and transaction-stage boundaries. Tax and customs routes remain ineligible for a retail or global roll-up.",
+        textFi: "Espanjalla, Etelä-Korealla ja Japanilla on nyt yksiselitteiset viranomaisdatan reittikontrollit lähde-, käyttö-, tuoterajaus- ja tapahtumavaihe-eroineen. Vero- ja tullireitit eivät kelpaa vähittäis- tai maailmanlaajuiseen koontiin."
+      }),
+      Object.freeze({
+        category: "diligence",
+        textEn: "Added a four-tier disclosure control for lenders, strategic buyers, litigation funders and advisers. The public, NDA, restricted clean-team/counsel and board/counsel tiers keep adverse and positive facts together, grant no confidential access and embed no restricted material.",
+        textFi: "Lisättiin nelitasoinen aineistonluovutuskontrolli lainanantajille, strategisille ostajille, oikeudenkäyntirahoittajille ja neuvonantajille. Julkinen, NDA-, rajoitettu clean team / oikeudellinen neuvonantaja- ja hallitus / oikeudellinen neuvonantaja -tasot pitävät kielteiset ja myönteiset faktat yhdessä, eivät myönnä luottamuksellista pääsyä eivätkä sisällä rajoitettua aineistoa."
+      }),
+      Object.freeze({
+        category: "method",
+        textEn: "Statistics Norway clarified that Q1 is generally net weight, Q2 is pieces for commodity 8543.4000, that code starts in 2022 and Q2 can be confidentiality-restricted. The response supplies no retail sales, market value or liquid litres; the remaining product-scope and historical-code questions stay open.",
+        textFi: "Norjan tilastoviranomainen täsmensi Q1:n olevan yleensä nettopaino, Q2:n kappalemäärä nimikkeelle 8543.4000, nimikkeen alkavan vuodesta 2022 ja Q2:n voivan olla salassapidon rajoittama. Vastaus ei toimita vähittäismyyntiä, markkina-arvoa tai nestelitroja; jäljellä olevat tuoterajaus- ja historiakoodikysymykset pysyvät avoimina."
+      }),
+      Object.freeze({
+        category: "diligence",
+        textEn: "Euromonitor requested a call on 28 July and a 29 July call was confirmed. The requested written Germany test, coverage, rights and commercial evidence remains pending; all six gates remain non-passing, the vendor remains NOT SCORED and no purchase, fee or commitment is authorised.",
+        textFi: "Euromonitor pyysi puhelua 28.7., ja puhelu vahvistettiin päivälle 29.7. Pyydetty kirjallinen Saksa-testi sekä peitto-, käyttöoikeus- ja kaupallinen näyttö odottavat edelleen; kaikki kuusi porttia pysyvät läpäisemättä, toimittaja pysyy EI PISTEYTETTY -tilassa eikä ostoa, maksua tai sitoumusta ole valtuutettu."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "Published this privacy-safe v33 dashboard status intraday. The six downloadable lender-package files remain the reviewed v32 daily snapshot and were not rebuilt; the dashboard and downloads display their own versions separately.",
-        textFi: "Julkaistiin tämä tietosuojattu v33-dashboardtila päivänsisäisenä päivityksenä. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v32-päiväsnapshotina eikä niitä rakennettu uudelleen; dashboard ja lataukset näyttävät omat versionsa erikseen."
+        textEn: "Published this privacy-safe v34 dashboard status intraday. The six downloadable lender-package files remain the reviewed v32 daily snapshot and were not rebuilt; the dashboard and downloads display their own versions separately.",
+        textFi: "Julkaistiin tämä tietosuojattu v34-dashboardtila päivänsisäisenä päivityksenä. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v32-päiväsnapshotina eikä niitä rakennettu uudelleen; dashboard ja lataukset näyttävät omat versionsa erikseen."
       })
     ])
   });
@@ -232,6 +252,7 @@
     ["Lataa maat CSV", "Download country CSV"],
     ["Lataa evidenssi CSV", "Download evidence CSV"],
     ["Avaa rahoituskelpoisuusportit", "Open bankability gates"],
+    ["Avaa due diligence -pääsyprotokolla", "Open diligence access protocol"],
     ["Tulosta / tallenna PDF", "Print / save as PDF"],
     ["Tärkeä rajaus", "Important disclosure"],
     ["Riippumattoman tutkimuksen raja", "Independent research boundary"],
@@ -530,6 +551,7 @@
     ["5 minuutin tarkistus", "5-minute Review"],
     ["Evidenssikeskus", "Evidence Center"],
     ["Tutkimusoperaatiot", "Research Operations"],
+    ["Due diligence -pääsy", "Diligence Access"],
     ["5 minuutin päätöstarkistus", "5-minute decision review"],
     ["Mitä tämä julkaisu tukee — ja mitä se ei tue", "What this release supports—and what it does not"],
     ["Tutkimusaineisto · ei arvonmääritys", "Research dataset · not a valuation"],
@@ -568,6 +590,7 @@
     ["VAIN SEULONTA", "SCREEN ONLY"],
     ["Puola on käytännöllinen ensisijainen ohjelma; Venäjä on vain korkean kitkan lähdejohtolanka", "Poland is the practical primary programme; Russia is a source-only, high-friction lead"],
     ["Yksikään seulottu maa ei ole hyväksytty donor. Tämän aallon seurantaviestejä ei ole lähetetty eikä ostoa ole hyväksytty.", "No screened country is an accepted donor. No follow-up in this wave has been sent and no purchase has been authorised."],
+    ["Yksikään seulottu maa ei ole hyväksytty donor. Tarkistettu seuranta-aalto on valmis tai korvattu uudemmalla; ostoa ei ole valtuutettu.", "No screened country is an accepted donor. The reviewed follow-up wave is completed or superseded; no purchase has been authorised."],
     ["Tarkistetut virallisen datan hankintareitit", "Reviewed official-data acquisition routes"],
     ["Sija / maa", "Rank / country"],
     ["Ohjelmaluokka", "Programme class"],
@@ -577,7 +600,31 @@
     ["Järjestys on hankintaprioriteetti, ei markkinakoko, patentin laajuus, pakoteneuvo tai donor-piste. Jokainen maa on arvioimatta D1–D10-protokollalla.", "Ranking is an acquisition priority, not market size, patent scope, sanctions advice or a donor score. Every country remains not assessed under D1–D10."],
     ["Seuranta-aalto · 28. heinäkuuta 2026", "Follow-up wave · 28 July 2026"],
     ["Valmistellut luonnokset pysyvät lähettämättä, kunnes lähetys hyväksytään erikseen", "Prepared drafts remain unsent until separately approved"],
+    ["Tarkistetut seurannat on tehty tai korvattu uudemmilla", "Reviewed follow-ups are completed or superseded"],
     ["Tarkistetaan kolmannen maan hankintaseulontaa…", "Checking the third-country acquisition screen…"],
+    ["Yhdysvallat · riippumaton kontrollipaneeli", "United States · independent control panel"],
+    ["Viranomaisankkurit toimittajanäytteen testaamiseen", "Official anchors for testing a vendor sample"],
+    ["Valmistajamyynti, neljän viikon vähittäispiste, osavaltioiden veropohjat ja tullireitti pysyvät erillisinä. Paneeli ei muodosta Yhdysvaltain markkina-arvoa.", "Manufacturer sales, a four-week retail checkpoint, state tax bases and the customs route remain separate. The panel does not produce a United States market value."],
+    ["Yhdysvaltain vertailukontrollin rajaus", "United States benchmark boundary"],
+    ["KONTROLLI", "CONTROL"],
+    ["19 kontrollihavaintoa · kansallista vähittäisarvoa ei laskettu", "19 control observations · national retail value not computed"],
+    ["Mitään tapahtumavaiheita ei lasketa mekaanisesti yhteen. Yhdysvallat pysyy donor-portin ulkopuolella, toimittajanäyte ei ole vielä pisteytettävissä eikä ostoa ole valtuutettu.", "No transaction stages are mechanically added. The United States remains outside the donor gate, no vendor sample is yet scorable and no purchase is authorised."],
+    ["Ennalta rekisteröity hyväksymistesti", "Pre-registered acceptance test"],
+    ["Kuusi porttia ennen kaupallisen näytteen pisteytystä", "Six gates before a commercial sample can be scored"],
+    ["Täsmäytetyn FTC-osajoukon, kanavamaailman, menetelmän, oikeuksien ja täydellisten ehtojen on kaikkien oltava testattavissa. Porttien läpäisy ei hyväksyisi Yhdysvaltoja automaattisesti donoriksi.", "The matched FTC subset, channel universe, method, rights and complete terms must all be testable. Passing these gates would not automatically accept the United States as a donor."],
+    ["Lataa vertailukontrollin JSON", "Download benchmark JSON"],
+    ["Lataa näyteskeema", "Download sample schema"],
+    ["Tarkistetaan riippumatonta Yhdysvaltain vertailukontrollia…", "Checking the independent US benchmark…"],
+    ["Avoimen viranomaisdatan poiminta-aalto", "Open official-data extraction wave"],
+    ["Espanja, Etelä-Korea ja Japani ilman odottamista", "Spain, South Korea and Japan without waiting"],
+    ["Reitit määrittävät tarkat lähteet, koodit, kentät, käyttöesteet ja tapahtumavaiheet. Poiminta ei muuta tullia tai veroa vähittäismyynniksi.", "The routes define exact sources, codes, fields, access blockers and transaction stages. Extraction does not turn customs or tax evidence into retail sales."],
+    ["Avoimen datapoiminnan rajaus", "Open-data extraction boundary"],
+    ["REITTIKONTROLLI", "ROUTE CONTROL"],
+    ["3 maata · 4 reittiä · 0 laskettua vähittäisarvoa", "3 countries · 4 routes · 0 computed retail values"],
+    ["Espanjan ensimmäinen verovuosi on osavuosi ja tuoteryhmäjako puuttuu. Korea tarvitsee API-avaimen ja historialliset HSK10-koodistot. Japanin avoin tullipoiminta on valmis, mutta nikotiini- ja laiterajat pidetään erillään.", "Spain's first tax year is partial and lacks an epigraph split. Korea requires an API key and historical HSK10 codebooks. Japan's open customs extraction is ready, while nicotine and device boundaries remain separate."],
+    ["Lataa poimintakontrollin JSON", "Download extraction control JSON"],
+    ["Lataa reittiskeema", "Download route schema"],
+    ["Tarkistetaan avoimen datan poiminta-aaltoa…", "Checking the open-data extraction wave…"],
     ["A–D-luokat ja peittoprosentit kuvaavat evidenssivalmiutta, eivät markkinakokoa tai markkinaosuutta. ”Ei vahvistettu” tarkoittaa puutetta tässä tarkistetussa julkisessa aineistossa — ei näyttöä siitä, ettei oikeutta tai markkinaa ole. Taulukkoa voi vierittää vaakasuunnassa pienillä näytöillä.", "A–D grades and coverage percentages describe evidence readiness, not market size or market share. “Not established” means missing from this reviewed public dataset—not proof that no right or market exists. The table scrolls horizontally on smaller screens."],
     ["Laskennan auditointiketju", "Calculation audit trail"],
     ["Havaitusta syötteestä raportoituun vaihteluväliin", "From observed input to reported range"],
@@ -716,7 +763,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V33;
+  window.PixanUiRelease = UI_RELEASE_V34;
 
   init();
 })();

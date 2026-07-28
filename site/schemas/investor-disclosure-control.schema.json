@@ -1,0 +1,552 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/investor-disclosure-control.schema.json",
+  "title": "Pixan public-safe investor disclosure control",
+  "description": "Bilingual, fail-closed access-tier and disclosure-gate model for lender, buyer, litigation-funder and adviser diligence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "controlId",
+    "asOf",
+    "controlState",
+    "languages",
+    "publicBoundary",
+    "audiences",
+    "accessTiers",
+    "materialFactsThatMustNotBeHidden",
+    "prohibitedPublicItems",
+    "safeguards",
+    "publicAssetMapping",
+    "hardGates",
+    "decisionRule"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/investor-disclosure-control.schema.json"
+    },
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "controlId": {
+      "const": "pixan-investor-disclosure-control-2026-07-28"
+    },
+    "asOf": {
+      "type": "string",
+      "pattern": "^2026-07-28$"
+    },
+    "controlState": {
+      "const": "fail_closed"
+    },
+    "languages": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "en"
+        },
+        {
+          "const": "fi"
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "publicBoundary": {
+      "$ref": "#/$defs/publicBoundary"
+    },
+    "audiences": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/audience"
+      }
+    },
+    "accessTiers": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/accessTier"
+      }
+    },
+    "materialFactsThatMustNotBeHidden": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "$ref": "#/$defs/materialFact"
+      }
+    },
+    "prohibitedPublicItems": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "$ref": "#/$defs/prohibitedPublicItem"
+      }
+    },
+    "safeguards": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "$ref": "#/$defs/safeguard"
+      }
+    },
+    "publicAssetMapping": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "$ref": "#/$defs/publicAsset"
+      }
+    },
+    "hardGates": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/hardGate"
+      }
+    },
+    "decisionRule": {
+      "$ref": "#/$defs/decisionRule"
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "tierId": {
+      "enum": [
+        "public",
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ]
+    },
+    "deeperTierId": {
+      "enum": [
+        "nda",
+        "restricted_clean_team_counsel",
+        "board_counsel"
+      ]
+    },
+    "audienceId": {
+      "enum": [
+        "lender",
+        "strategic_buyer",
+        "litigation_funder",
+        "adviser"
+      ]
+    },
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "deeperTierArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/deeperTierId"
+      }
+    },
+    "publicBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statementEn",
+        "statementFi",
+        "defaultTier",
+        "deeperAccessIsNotGrantedByThisControl",
+        "failClosedRuleEn",
+        "failClosedRuleFi"
+      ],
+      "properties": {
+        "statementEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "statementFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "defaultTier": {
+          "const": "public"
+        },
+        "deeperAccessIsNotGrantedByThisControl": {
+          "const": true
+        },
+        "failClosedRuleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "failClosedRuleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "audience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audienceId",
+        "titleEn",
+        "titleFi",
+        "legitimateUseEn",
+        "legitimateUseFi",
+        "defaultTier",
+        "potentialDeeperTiers",
+        "constraintEn",
+        "constraintFi"
+      ],
+      "properties": {
+        "audienceId": {
+          "$ref": "#/$defs/audienceId"
+        },
+        "titleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "titleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "legitimateUseEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "legitimateUseFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "defaultTier": {
+          "const": "public"
+        },
+        "potentialDeeperTiers": {
+          "$ref": "#/$defs/deeperTierArray"
+        },
+        "constraintEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "constraintFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "accessTier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tierId",
+        "order",
+        "titleEn",
+        "titleFi",
+        "purposeEn",
+        "purposeFi",
+        "permittedContentEn",
+        "permittedContentFi",
+        "excludedContentEn",
+        "excludedContentFi",
+        "releaseRuleEn",
+        "releaseRuleFi",
+        "sensitiveMaterialEmbeddedInThisControl"
+      ],
+      "properties": {
+        "tierId": {
+          "$ref": "#/$defs/tierId"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "titleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "titleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "purposeEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "purposeFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "permittedContentEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "permittedContentFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "excludedContentEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "excludedContentFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "releaseRuleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "releaseRuleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sensitiveMaterialEmbeddedInThisControl": {
+          "const": false
+        }
+      }
+    },
+    "materialFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factId",
+        "titleEn",
+        "titleFi",
+        "statementEn",
+        "statementFi",
+        "publicEvidencePaths",
+        "minimumDisclosureTier",
+        "mustNotBeOmitted"
+      ],
+      "properties": {
+        "factId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "titleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "titleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "statementEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "statementFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "publicEvidencePaths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^site/"
+          }
+        },
+        "minimumDisclosureTier": {
+          "const": "public"
+        },
+        "mustNotBeOmitted": {
+          "const": true
+        }
+      }
+    },
+    "prohibitedPublicItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "itemId",
+        "titleEn",
+        "titleFi",
+        "ruleEn",
+        "ruleFi"
+      ],
+      "properties": {
+        "itemId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "titleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "titleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "ruleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "ruleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "safeguard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "safeguardId",
+        "titleEn",
+        "titleFi",
+        "controlsEn",
+        "controlsFi"
+      ],
+      "properties": {
+        "safeguardId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "titleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "titleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "controlsEn": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "controlsFi": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        }
+      }
+    },
+    "publicAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assetGroupId",
+        "titleEn",
+        "titleFi",
+        "tierId",
+        "paths",
+        "versionOrAsOf",
+        "publicUseEn",
+        "publicUseFi",
+        "limitationsEn",
+        "limitationsFi"
+      ],
+      "properties": {
+        "assetGroupId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "titleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "titleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "tierId": {
+          "const": "public"
+        },
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^site/"
+          }
+        },
+        "versionOrAsOf": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "publicUseEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "publicUseFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "limitationsEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "limitationsFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "hardGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gateId",
+        "titleEn",
+        "titleFi",
+        "requiredForTiers",
+        "requirementEn",
+        "requirementFi",
+        "evidenceRequiredEn",
+        "evidenceRequiredFi",
+        "failureActionEn",
+        "failureActionFi"
+      ],
+      "properties": {
+        "gateId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "titleEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "titleFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "requiredForTiers": {
+          "$ref": "#/$defs/deeperTierArray"
+        },
+        "requirementEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "requirementFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "evidenceRequiredEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "evidenceRequiredFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "failureActionEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "failureActionFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "decisionRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "defaultTier",
+        "gateLogic",
+        "noAutomaticPromotion",
+        "noPartialOverride",
+        "controlGrantsAccess",
+        "restrictedMaterialEmbeddedOrLinked",
+        "decisionEn",
+        "decisionFi",
+        "revalidationTriggersEn",
+        "revalidationTriggersFi"
+      ],
+      "properties": {
+        "defaultTier": {
+          "const": "public"
+        },
+        "gateLogic": {
+          "const": "all_applicable_gates_must_pass"
+        },
+        "noAutomaticPromotion": {
+          "const": true
+        },
+        "noPartialOverride": {
+          "const": true
+        },
+        "controlGrantsAccess": {
+          "const": false
+        },
+        "restrictedMaterialEmbeddedOrLinked": {
+          "const": false
+        },
+        "decisionEn": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "decisionFi": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "revalidationTriggersEn": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "revalidationTriggersFi": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        }
+      }
+    }
+  }
+}

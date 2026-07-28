@@ -51,11 +51,18 @@ AI-assisted work is welcome when it identifies itself as such and retains the or
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_atlas.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/build_independent_controls.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_public.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_us_independent_benchmark.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_investor_disclosure_control.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_es_kr_jp_open_data.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_diligence_experience.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v scripts/test_market_estimation.py
 node --check site/assets/i18n.js
 node --check site/assets/app.js
 node --check site/assets/review.js
+node --check site/assets/independent-controls.js
+node --check site/assets/diligence.js
 git diff --check
 ```
 

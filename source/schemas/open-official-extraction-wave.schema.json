@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/open-official-extraction-wave.schema.json",
+  "title": "Pixan Spain-South Korea-Japan official extraction wave",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "waveId",
+    "asOf",
+    "status",
+    "purposeEn",
+    "purposeFi",
+    "targetPeriods",
+    "countryCount",
+    "countries",
+    "outputSchema",
+    "failClosedRules"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "waveId": {"const": "ES_KR_JP_OPEN_OFFICIAL_2026_07_28"},
+    "asOf": {"type": "string", "format": "date"},
+    "status": {"const": "route_control_not_market_size"},
+    "purposeEn": {"type": "string", "minLength": 1},
+    "purposeFi": {"type": "string", "minLength": 1},
+    "targetPeriods": {
+      "type": "array",
+      "prefixItems": [
+        {"const": 2022},
+        {"const": 2023},
+        {"const": 2024},
+        {"const": 2025}
+      ],
+      "items": false
+    },
+    "countryCount": {"const": 3},
+    "countries": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/country"}
+    },
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recordType",
+        "requiredFields",
+        "optionalFields",
+        "allowedDataStatus",
+        "allowedAccessStatus"
+      ],
+      "properties": {
+        "recordType": {"const": "official_route_observation"},
+        "requiredFields": {
+          "type": "array",
+          "minItems": 15,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "optionalFields": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "allowedDataStatus": {
+          "type": "array",
+          "contains": {"const": "blocked"}
+        },
+        "allowedAccessStatus": {
+          "type": "array",
+          "contains": {"const": "auth_required"}
+        }
+      }
+    },
+    "failClosedRules": {
+      "type": "array",
+      "minItems": 7,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "url", "verifiedOn"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "verifiedOn": {"type": "string", "format": "date"}
+      }
+    },
+    "route": {
+      "type": "object",
+      "required": [
+        "routeId",
+        "role",
+        "status",
+        "feeStatus",
+        "authority",
+        "sourceVersion",
+        "sources",
+        "access",
+        "query",
+        "classification",
+        "transactionStage",
+        "flow",
+        "outputMeasures",
+        "limitations",
+        "retailSalesEligible",
+        "globalRollupEligible"
+      ],
+      "properties": {
+        "routeId": {"type": "string", "pattern": "^(ES|KR|JP)_"},
+        "role": {"type": "string", "minLength": 1},
+        "status": {"enum": ["ready", "blocked", "auth_required", "fee_required"]},
+        "feeStatus": {"enum": ["free", "not_applicable", "fee_required"]},
+        "authority": {"type": "string", "minLength": 1},
+        "sourceVersion": {"type": "string", "minLength": 1},
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source"}
+        },
+        "access": {"type": "object"},
+        "query": {"type": "object"},
+        "classification": {"type": "object"},
+        "transactionStage": {"type": "string", "minLength": 1},
+        "flow": {"type": "string", "minLength": 1},
+        "outputMeasures": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "retailSalesEligible": {"const": false},
+        "globalRollupEligible": {"const": false}
+      }
+    },
+    "country": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "countryIso2",
+        "countryEn",
+        "countryFi",
+        "routeState",
+        "marketValueStatus",
+        "routes"
+      ],
+      "properties": {
+        "countryIso2": {"enum": ["ES", "KR", "JP"]},
+        "countryEn": {"type": "string", "minLength": 1},
+        "countryFi": {"type": "string", "minLength": 1},
+        "routeState": {"type": "string", "minLength": 1},
+        "marketValueStatus": {"const": "not_computed"},
+        "routes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/route"}
+        }
+      }
+    }
+  }
+}
