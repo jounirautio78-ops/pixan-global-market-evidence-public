@@ -27,8 +27,8 @@
       }),
       Object.freeze({
         category: "method",
-        textEn: "Statistics Norway clarified that Q1 is generally net weight, Q2 is pieces for commodity 8543.4000, that code starts in 2022 and Q2 can be confidentiality-restricted. The response supplies no retail sales, market value or liquid litres; the remaining product-scope and historical-code questions stay open.",
-        textFi: "Norjan tilastoviranomainen täsmensi Q1:n olevan yleensä nettopaino, Q2:n kappalemäärä nimikkeelle 8543.4000, nimikkeen alkavan vuodesta 2022 ja Q2:n voivan olla salassapidon rajoittama. Vastaus ei toimita vähittäismyyntiä, markkina-arvoa tai nestelitroja; jäljellä olevat tuoterajaus- ja historiakoodikysymykset pysyvät avoimina."
+        textEn: "Statistics Norway clarified that Q1 is generally net weight in kilograms, subject to commodity-specific exceptions; Q2 is pieces for commodity 8543.4000; that code starts in 2022; and Q2 can be confidentiality-restricted. The response supplies no retail sales, market value or liquid litres; the remaining product-scope and historical-code questions stay open.",
+        textFi: "Norjan tilastoviranomainen täsmensi Q1:n olevan yleensä nettopaino kilogrammoina nimikekohtaisin poikkeuksin, Q2:n olevan kappalemäärä nimikkeelle 8543.4000, nimikkeen alkavan vuodesta 2022 ja Q2:n voivan olla salassapidon rajoittama. Vastaus ei toimita vähittäismyyntiä, markkina-arvoa tai nestelitroja; jäljellä olevat tuoterajaus- ja historiakoodikysymykset pysyvät avoimina."
       }),
       Object.freeze({
         category: "diligence",
