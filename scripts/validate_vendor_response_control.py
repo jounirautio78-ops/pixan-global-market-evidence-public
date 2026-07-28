@@ -316,8 +316,8 @@ EXPECTED_VENDORS = {
             "buyer data-room rights and all-in tax, fee, retention and renewal terms remain "
             "unconfirmed. A populated Germany 2022–2025 test, field-year coverage reconciliation, "
             "proposed Special Condition and complete commercial terms were requested on 2026-07-27. "
-            "The 2026-07-28 follow-up draft was superseded by that comprehensive request, so no "
-            "duplicate request was issued; response remains pending. "
+            "The vendor requested a call on 2026-07-28 and a 2026-07-29 call was confirmed; "
+            "the requested written evidence remains pending. "
             "All six gates are evaluated, but none passes. NOT SCORED; no purchase, fee or commitment "
             "is authorised."
         ),
@@ -335,9 +335,9 @@ EXPECTED_VENDORS = {
             "havaittu/raportoitu/mallinnettu-merkinnät, täsmällinen tuoterajaussilta, lainanantaja-/"
             "ostaja-datahuoneoikeudet sekä kaikki verot, maksut, säilytys- ja uusimisehdot kattavat "
             "ehdot ovat vahvistamatta. Täytetty Saksan 2022–2025-testi, kenttä–vuosi-peiton täsmäytys, "
-            "ehdotettu erityisehto ja täydelliset kaupalliset ehdot pyydettiin 27.7.2026. Päivän "
-            "28.7.2026 seurantaluonnos korvautui tällä kattavalla pyynnöllä, joten päällekkäistä "
-            "pyyntöä ei lähetetty; vastaus odottaa. Kaikki kuusi "
+            "ehdotettu erityisehto ja täydelliset kaupalliset ehdot pyydettiin 27.7.2026. "
+            "Toimittaja pyysi puhelua 28.7.2026, ja puhelu vahvistettiin päivälle 29.7.2026; "
+            "pyydetty kirjallinen näyttö odottaa edelleen. Kaikki kuusi "
             "porttia on arvioitu, mutta yksikään ei läpäise. EI PISTEYTETTY; ostoa, maksua tai "
             "sitoumusta ei ole valtuutettu."
         ),

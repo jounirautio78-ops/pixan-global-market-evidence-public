@@ -16,9 +16,9 @@ except ModuleNotFoundError:
 
 
 LATEST_RELEASE = {
-    "id": "dashboard-v33",
-    "version": "2026.07.28-33",
-    "publishedAt": "2026-07-28T10:15:00+03:00",
+    "id": "2026-07-28-independent-controls-dashboard-v34",
+    "version": "2026.07.28-34",
+    "publishedAt": "2026-07-28T13:30:00+03:00",
 }
 PACKAGE_RELEASE = {
     "id": "package-v32",

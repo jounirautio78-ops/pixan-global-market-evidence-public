@@ -1,0 +1,325 @@
+{
+  "schemaVersion": "1.0",
+  "waveId": "ES_KR_JP_OPEN_OFFICIAL_2026_07_28",
+  "asOf": "2026-07-28",
+  "status": "route_control_not_market_size",
+  "purposeEn": "Credential-aware extraction control for official Spain, South Korea and Japan evidence. No route establishes annual consumer retail sales by itself.",
+  "purposeFi": "Käyttöoikeudet huomioiva poimintakontrolli Espanjan, Etelä-Korean ja Japanin viralliseen näyttöön. Mikään reitti ei yksin osoita vuosittaista kuluttajavähittäismyyntiä.",
+  "targetPeriods": [2022, 2023, 2024, 2025],
+  "countryCount": 3,
+  "countries": [
+    {
+      "countryIso2": "ES",
+      "countryEn": "Spain",
+      "countryFi": "Espanja",
+      "routeState": "ready_with_scope_blocker",
+      "marketValueStatus": "not_computed",
+      "routes": [
+        {
+          "routeId": "ES_AEAT_2025_MODEL573_AGGREGATE_RECEIPTS",
+          "role": "official_fiscal_observation",
+          "status": "ready",
+          "feeStatus": "free",
+          "authority": "Agencia Estatal de Administración Tributaria",
+          "sourceVersion": "AEAT_ANNUAL_REVENUE_REPORT_2025",
+          "sources": [
+            {
+              "title": "AEAT annual revenue report 2025",
+              "url": "https://sede.agenciatributaria.gob.es/Sede/estadisticas/recaudacion-tributaria/informe-anual/ejercicio-2025/1-ingresos-tributarios-2025/impuestos-devengados-ingresos-tributarios.html",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "AEAT Model 573 procedure",
+              "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI10.shtml",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "Order HAC/86/2025",
+              "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2025-1732",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "AEAT tax base and rates",
+              "url": "https://sede.agenciatributaria.gob.es/Sede/impuestos-especiales-medioambientales/impuestos-especiales-fabricacion/liquidos-cigarrillos-electronicos-otros-productos-tabaco/base-imponible-tipo-gravamen.html",
+              "verifiedOn": "2026-07-28"
+            }
+          ],
+          "access": {
+            "credentialRequired": false,
+            "publicAggregateAvailable": true,
+            "machineReadableFormat": "html",
+            "feeRequired": false
+          },
+          "query": {
+            "method": "GET",
+            "endpoint": "https://sede.agenciatributaria.gob.es/Sede/estadisticas/recaudacion-tributaria/informe-anual/ejercicio-2025/1-ingresos-tributarios-2025/impuestos-devengados-ingresos-tributarios.html",
+            "exactAnchor": "Impuesto sobre los Líquidos para Cigarrillos Electrónicos recaudó en su primer año 30 millones",
+            "sourceFields": ["report_year", "amount_million_eur"],
+            "transform": "amount_million_eur * 1000000"
+          },
+          "classification": {
+            "system": "AEAT_MODEL_573",
+            "version": "ORDER_HAC_86_2025",
+            "aggregateCode": "ALL_EPIGRAPHS",
+            "epigraphs": [
+              {"code": "1", "scope": "e_liquid_without_nicotine_or_at_most_15_mg_ml", "rate": 0.15, "rateUnit": "EUR_PER_ML"},
+              {"code": "2", "scope": "e_liquid_above_15_mg_ml", "rate": 0.20, "rateUnit": "EUR_PER_ML"},
+              {"code": "3", "scope": "nicotine_pouches", "rate": 0.10, "rateUnit": "EUR_PER_GRAM"},
+              {"code": "4", "scope": "other_nicotine_products", "rate": 0.10, "rateUnit": "EUR_PER_GRAM"}
+            ]
+          },
+          "transactionStage": "realised_excise_cash_receipts",
+          "flow": "tax_receipt",
+          "outputMeasures": ["realised_excise_receipts_eur"],
+          "coverage": {
+            "sourcePeriod": 2025,
+            "taxEffectiveFrom": "2025-04-01",
+            "prospectiveOnly": true,
+            "transitionalStockRulesPresent": true
+          },
+          "limitations": [
+            "The EUR 30 million is aggregate Model 573 tax cash receipts, not consumer retail sales.",
+            "The published aggregate does not split the four epigraphs, so it cannot be labelled e-liquid-only.",
+            "The first-year observation begins in April 2025 and includes transitional stock rules; it is not a full-year comparable.",
+            "Devices are outside this fiscal aggregate."
+          ],
+          "retailSalesEligible": false,
+          "globalRollupEligible": false
+        },
+        {
+          "routeId": "ES_AEAT_MODEL573_EPIGRAPH_QUANTITIES",
+          "role": "quantity_and_scope_closure",
+          "status": "blocked",
+          "feeStatus": "not_applicable",
+          "authority": "Agencia Estatal de Administración Tributaria",
+          "sourceVersion": "MODEL_573_MONTHLY_SELF_ASSESSMENT_2025",
+          "sources": [
+            {
+              "title": "AEAT Model 573 availability notice",
+              "url": "https://www3.agenciatributaria.gob.es/Sede/impuestos-especiales-medioambientales/novedades-impuestos-especiales-medioambientales/2025/abril/30/impuesto-sobre-liquidos-cigarrillos-electronicos-573.html",
+              "verifiedOn": "2026-07-28"
+            }
+          ],
+          "access": {
+            "credentialRequired": true,
+            "publicAggregateAvailable": false,
+            "machineReadableFormat": null,
+            "feeRequired": false
+          },
+          "query": {
+            "method": "taxpayer_filing_system",
+            "endpoint": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI10.shtml",
+            "exactFieldsNeeded": ["period", "epigraph", "taxable_ml_or_grams", "tax_due_eur"]
+          },
+          "classification": {
+            "system": "AEAT_MODEL_573",
+            "version": "ORDER_HAC_86_2025"
+          },
+          "transactionStage": "taxpayer_self_assessed_excise_base",
+          "flow": "tax_base",
+          "outputMeasures": [],
+          "blockers": ["No public national epigraph-level aggregate or quantity table was located."],
+          "limitations": ["Do not backsolve a product quantity from aggregate receipts while the epigraph mix is unknown."],
+          "retailSalesEligible": false,
+          "globalRollupEligible": false
+        }
+      ]
+    },
+    {
+      "countryIso2": "KR",
+      "countryEn": "South Korea",
+      "countryFi": "Etelä-Korea",
+      "routeState": "auth_and_historical_codebook_required",
+      "marketValueStatus": "not_computed",
+      "routes": [
+        {
+          "routeId": "KR_KCS_ITEMTRADE_HSK10",
+          "role": "official_customs_proxy",
+          "status": "auth_required",
+          "feeStatus": "free",
+          "authority": "Korea Customs Service",
+          "sourceVersion": "ITEMTRADE_API_1.0.0_MODIFIED_2026_05_22",
+          "sources": [
+            {
+              "title": "KCS item-level import and export performance OpenAPI",
+              "url": "https://www.data.go.kr/data/15101609/openapi.do",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "KCS HS code file 20260101",
+              "url": "https://www.data.go.kr/en/data/15049722/fileData.do",
+              "verifiedOn": "2026-07-28"
+            }
+          ],
+          "access": {
+            "credentialRequired": true,
+            "credentialType": "Public Data Portal serviceKey",
+            "developmentApproval": "automatic",
+            "publicAggregateAvailable": true,
+            "machineReadableFormat": "xml",
+            "feeRequired": false,
+            "developmentTrafficLimit": 10000
+          },
+          "query": {
+            "method": "GET",
+            "baseUrl": "https://apis.data.go.kr/1220000/Itemtrade",
+            "operationPath": "/getItemtradeList",
+            "operationId": "getItemtradeList",
+            "parameters": [
+              {"name": "serviceKey", "required": true, "type": "string"},
+              {"name": "strtYymm", "required": true, "type": "YYYYMM"},
+              {"name": "endYymm", "required": true, "type": "YYYYMM"},
+              {"name": "hsSgn", "required": false, "type": "HSK_2_4_6_OR_10_DIGITS"}
+            ],
+            "responseFields": ["year", "balPayments", "expDlr", "expWgt", "hsCode", "impDlr", "impWgt", "statKor"]
+          },
+          "classification": {
+            "system": "HSK10",
+            "version": "KCS_HS_CODE_20260101",
+            "historicalVersionState": "blocked_pending_year_specific_validation_for_2022_2025",
+            "codes": [
+              {"code": "2404121000", "label": "Solutions for electronic cigarettes", "bucket": "nicotine_e_liquid", "decision": "candidate_included_current_codebook"},
+              {"code": "2404129000", "label": "Other", "bucket": "other_nicotine_inhalation_products", "decision": "review_required"},
+              {"code": "2404191000", "label": "Containing tobacco substitutes", "bucket": "other_noncombustion_products", "decision": "review_required"},
+              {"code": "2404199010", "label": "Solutions for electronic cigarettes", "bucket": "other_e_cigarette_solution", "decision": "candidate_included_current_codebook"},
+              {"code": "2404199090", "label": "Other", "bucket": "other_noncombustion_products", "decision": "review_required"},
+              {"code": "8543401000", "label": "Containing products intended for inhalation without combustion of heading 24.04", "bucket": "device_with_heading_2404_product", "decision": "candidate_included_current_codebook"},
+              {"code": "8543409000", "label": "Other", "bucket": "other_e_cigarette_device", "decision": "candidate_included_current_codebook"},
+              {"code": "8543909000", "label": "Other parts", "bucket": "broad_parts", "decision": "excluded_until_scope_review"}
+            ]
+          },
+          "transactionStage": "customs_border_declaration",
+          "flow": "imports_cif_and_exports_fob",
+          "outputMeasures": ["customs_import_value_usd", "customs_export_value_usd", "customs_import_net_weight_kg", "customs_export_net_weight_kg"],
+          "blockers": [
+            "An API service key is required.",
+            "The open code file verifies 2026 only; exact historical HSK10 versions must be validated before 2022-2025 extraction."
+          ],
+          "limitations": [
+            "KCS values are border declarations: imports are CIF and exports are FOB.",
+            "Customs flows are not consumer retail sales and must not be netted into a retail market without domestic production, inventory and overlap controls.",
+            "Broad other and parts codes are not vaping-only."
+          ],
+          "retailSalesEligible": false,
+          "globalRollupEligible": false
+        }
+      ]
+    },
+    {
+      "countryIso2": "JP",
+      "countryEn": "Japan",
+      "countryFi": "Japani",
+      "routeState": "ready_customs_proxy_with_permission_separation",
+      "marketValueStatus": "not_computed",
+      "routes": [
+        {
+          "routeId": "JP_MOF_ESTAT_COMMODITY_BY_COUNTRY_IMPORT",
+          "role": "official_customs_proxy",
+          "status": "ready",
+          "feeStatus": "free",
+          "authority": "Ministry of Finance Japan and Japan Customs",
+          "sourceVersion": "ESTAT_2025_DEC_REVISED_UPDATED_2026_03_12",
+          "sources": [
+            {
+              "title": "Trade Statistics data download",
+              "url": "https://www.customs.go.jp/toukei/info/tsdl_e.htm",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "2025 Commodity by Country Import, Chapter 16-24, table 25-04",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040424871",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "2025 Commodity by Country Import, Chapter 84-85, table 25-16",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040424883",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "Trade Statistics code lists",
+              "url": "https://www.customs.go.jp/toukei/sankou/code/code_e.htm",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "Japan import statistical codes chapter 24, 2025-01-01",
+              "url": "https://www.customs.go.jp/english/tariff/2025_01_01/data/e_24.htm",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "Japan import statistical codes chapter 85, 2025-01-01",
+              "url": "https://www.customs.go.jp/english/tariff/2025_01_01/data/e_85.htm",
+              "verifiedOn": "2026-07-28"
+            },
+            {
+              "title": "MHLW pharmaceutical import procedure Q&A, Q63",
+              "url": "https://www.mhlw.go.jp/web/t_doc?dataId=00tc1462&dataType=1&pageNo=2",
+              "verifiedOn": "2026-07-28"
+            }
+          ],
+          "access": {
+            "credentialRequired": false,
+            "publicAggregateAvailable": true,
+            "machineReadableFormat": "csv",
+            "feeRequired": false
+          },
+          "query": {
+            "method": "download_csv_and_filter",
+            "dataset": "Trade Statistics / Commodity by Country / Import / 2025 Dec revised",
+            "tableNumbers": ["25-04", "25-16"],
+            "rowFilter": {"Exp or Imp": "2", "Year": "2025", "HS": ["240412000", "240419100", "240419200", "854340000"]},
+            "sourceFields": ["Exp or Imp", "Year", "HS", "Country", "Unit1", "Unit2", "Quantity1-Year", "Quantity2-Year", "Value-Year"],
+            "valueUnit": "JPY_THOUSAND",
+            "importValuation": "CIF"
+          },
+          "classification": {
+            "system": "JAPAN_IMPORT_STATISTICAL_CODE_9_DIGIT",
+            "version": "2025_01_01",
+            "codes": [
+              {"code": "240412000", "label": "Other, containing nicotine", "bucket": "regulated_nicotine_noncombustion_product", "decision": "separate_review_required", "permissionBoundary": "nicotine_containing"},
+              {"code": "240419100", "label": "Manufactured tobacco substitutes", "bucket": "broad_tobacco_substitutes", "decision": "excluded_until_scope_review", "permissionBoundary": "not_determined_by_customs_code"},
+              {"code": "240419200", "label": "Other", "bucket": "broad_other_noncombustion_product", "decision": "excluded_until_scope_review", "permissionBoundary": "not_determined_by_customs_code"},
+              {"code": "854340000", "label": "Electronic cigarettes and similar personal electric vaporising devices", "bucket": "e_cigarette_device", "decision": "included_as_device_customs_proxy", "permissionBoundary": "device"}
+            ]
+          },
+          "permissionBoundary": {
+            "authority": "Ministry of Health, Labour and Welfare",
+            "ruleVersion": "IMPORT_PROCEDURE_QA_Q63",
+            "nicotineCartridgesAndLiquids": "treated_as_pharmaceuticals",
+            "personalImportCustomsOnlyLimits": {"cartridges": 60, "liquidMl": 120},
+            "aboveLimit": "import_confirmation_required",
+            "businessImport": "marketing_approval_and_business_licence_evidence_required",
+            "separationRule": "Never combine nicotine-containing 240412000 with nicotine-free or legally unrestricted retail activity."
+          },
+          "transactionStage": "customs_import_declaration",
+          "flow": "imports_cif",
+          "outputMeasures": ["customs_import_value_jpy_thousand", "customs_import_quantity"],
+          "limitations": [
+            "The CSV records customs imports by 9-digit code and country of origin, not consumer retail sell-through.",
+            "Codes 240419100 and 240419200 are broader than vaping and remain excluded from any vaping roll-up.",
+            "Code 240412000 is a regulated nicotine-containing non-combustion category, not an e-liquid-only code.",
+            "The nicotine permission boundary is legal context, not a numerical market adjustment.",
+            "Exports, domestic production, inventory, illicit supply and retail mark-ups are not covered."
+          ],
+          "retailSalesEligible": false,
+          "globalRollupEligible": false
+        }
+      ]
+    }
+  ],
+  "outputSchema": {
+    "recordType": "official_route_observation",
+    "requiredFields": ["observationId", "countryIso2", "routeId", "sourcePeriod", "productBucket", "classificationSystem", "classificationVersion", "classificationCode", "transactionStage", "flow", "amount", "amountUnit", "dataStatus", "accessStatus", "sourceUrl", "retrievedAt", "retailSalesEligible", "globalRollupEligible", "limitations"],
+    "optionalFields": ["currency", "quantity1", "quantity1Unit", "quantity2", "quantity2Unit", "permissionBoundary"],
+    "allowedDataStatus": ["observed", "blocked", "auth_required", "not_extracted"],
+    "allowedAccessStatus": ["ready", "blocked", "auth_required", "fee_required"]
+  },
+  "failClosedRules": [
+    "Every emitted observation must retain its transaction stage and source-period label.",
+    "No customs value, tax receipt or tax base is consumer retail sales without an independently documented bridge.",
+    "No route or observation in this wave is eligible for the global retail roll-up.",
+    "Missing credentials, historical codebooks, source fields or scope splits produce a blocked or auth_required state, never zero.",
+    "Currencies remain in official source units; no EUR conversion is performed without a same-period cited FX rate.",
+    "Nicotine-containing Japan records remain separate from other products and are not interpreted as permitted domestic retail sales.",
+    "Candidate and review-required HS codes are never silently added together."
+  ]
+}

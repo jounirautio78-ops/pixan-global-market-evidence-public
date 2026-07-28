@@ -942,6 +942,7 @@ def validate_review_structure(
     i18n_js: str | None = None,
     request_program_js: str | None = None,
     app_js: str | None = None,
+    independent_controls_js: str | None = None,
 ) -> list[str]:
     errors: list[str] = []
     id_list = re.findall(r"""\bid=["']([^"']+)["']""", review_html)
@@ -982,33 +983,48 @@ def validate_review_structure(
         tag = opening_tag_with_id(review_html, element_id)
         if not tag or not re.search(r"""data-review-surface=["']operations["']""", tag):
             errors.append(f"#{element_id} must be isolated on the operations surface")
+    for control_hook in ("data-us-benchmark-control", "data-open-extraction-wave"):
+        tag_match = re.search(
+            rf"<section\b[^>]*\b{re.escape(control_hook)}\b[^>]*>",
+            review_html,
+            flags=re.IGNORECASE,
+        )
+        tag = tag_match.group(0) if tag_match else ""
+        if not tag or not re.search(r"""data-review-surface=["']operations["']""", tag):
+            errors.append(f"{control_hook} must be isolated on the operations surface")
     for element_id in ("decision-cockpit", "review-calculation-audit", "review-source-freshness", "bankability"):
         tag = opening_tag_with_id(review_html, element_id)
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-28-32") < 7:
-        errors.append("review.html asset cache-busters must all use the v32 release")
-    if index_html.count("2026-07-28-32") < 4:
-        errors.append("index.html asset cache-busters must all use the v32 release")
-    if any(
-        stale in review_html or stale in index_html
-        for stale in (
-            "2026-07-24-20",
-            "2026-07-24-21",
-            "2026-07-24-22",
-            "2026-07-24-23",
-            "2026-07-25-24",
-            "2026-07-26-25",
-            "2026-07-27-26",
-            "2026-07-27-27",
-            "2026-07-27-28",
-            "2026-07-27-29",
-            "2026-07-27-30",
-            "2026-07-27-31",
-        )
+    for page_name, page, expected_count in (
+        ("review.html", review_html, 8),
+        ("index.html", index_html, 4),
     ):
-        errors.append("stale cache-busters remain in the v32 pages")
+        cache_tokens = re.findall(
+            r"""(?:href|src)=["']assets/[^"']+\?v=([^"']+)["']""",
+            page,
+            flags=re.IGNORECASE,
+        )
+        if (
+            len(cache_tokens) != expected_count
+            or set(cache_tokens) != {"2026-07-28-34"}
+        ):
+            errors.append(
+                f"{page_name} must expose exactly {expected_count} v34 asset cache-busters"
+            )
+
+    for public_control_hook in (
+        'src="assets/independent-controls.js?v=2026-07-28-34"',
+        'href="data/us-independent-benchmark-control.json"',
+        'href="schemas/us-independent-benchmark-sample.schema.json"',
+        'href="data/open-official-extraction-wave-es-kr-jp.json"',
+        'href="schemas/open-official-extraction-wave.schema.json"',
+    ):
+        if public_control_hook not in review_html:
+            errors.append(
+                f"review.html lacks required v34 independent-control hook {public_control_hook!r}"
+            )
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -1079,15 +1095,16 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-28-circana-qualification-dashboard-v33",
-            'version: "2026.07.28-33"',
-            'publishedAt: "2026-07-28T10:57:47+03:00"',
-            "Circana qualification response",
+            "2026-07-28-independent-controls-dashboard-v34",
+            'version: "2026.07.28-34"',
+            'publishedAt: "2026-07-28T13:30:00+03:00"',
+            "Independent United States benchmark",
+            "Spain, South Korea and Japan",
             "six downloadable lender-package files remain the reviewed v32 daily snapshot",
             "dashboard and downloads display their own versions separately",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v33 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v34 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1146,6 +1163,35 @@ def validate_review_structure(
         ):
             if hook not in app_js:
                 errors.append(f"app.js lacks required v30 method-control hook {hook!r}")
+    if independent_controls_js is not None:
+        for hook in (
+            'fetch("data/us-independent-benchmark-control.json"',
+            'fetch("data/open-official-extraction-wave-es-kr-jp.json"',
+            'raw.controlId !== "US-INDEPENDENT-BENCHMARK-CONTROL-20260728"',
+            "raw.sources.length !== 7",
+            "raw.observations.length !== 19",
+            "raw.outputs?.unitedStatesRetailMarketValue !== null",
+            "raw.outputs?.globalMarketValue !== null",
+            "raw.outputs?.acceptedDonorIncrement !== 0",
+            "item.retailSalesEligible !== false",
+            'raw.waveId !== "ES_KR_JP_OPEN_OFFICIAL_2026_07_28"',
+            'raw.countries.map((item) => item.countryIso2).join(",") !== "ES,KR,JP"',
+            'country.marketValueStatus !== "not_computed"',
+            "route.retailSalesEligible !== false",
+            "route.globalRollupEligible !== false",
+            "function renderUs(",
+            "function renderWave(",
+            "function renderError(",
+        ):
+            if hook not in independent_controls_js:
+                errors.append(
+                    f"independent-controls.js lacks required fail-closed hook {hook!r}"
+                )
+        if independent_controls_js.count("route.globalRollupEligible !== false") < 2:
+            errors.append(
+                "independent-controls.js must enforce globalRollupEligible !== false "
+                "both per route and at the country boundary"
+            )
     for hook in (
         "REVIEW_STRUCTURAL_RESPONSE_COUNTRIES",
         "REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES",
@@ -1182,6 +1228,9 @@ def validate_all(root: Path = ROOT) -> list[str]:
     i18n_js = (root / "site" / "assets" / "i18n.js").read_text(encoding="utf-8")
     request_program_js = (root / "site" / "assets" / "request-program.js").read_text(encoding="utf-8")
     app_js = (root / "site" / "assets" / "app.js").read_text(encoding="utf-8")
+    independent_controls_js = (
+        root / "site" / "assets" / "independent-controls.js"
+    ).read_text(encoding="utf-8")
     return [
         *validate_review_data(atlas, market, patent, requests, fx),
         *validate_third_donor_screen(third_donor),
@@ -1192,6 +1241,7 @@ def validate_all(root: Path = ROOT) -> list[str]:
             i18n_js,
             request_program_js,
             app_js,
+            independent_controls_js,
         ),
     ]
 
@@ -1204,7 +1254,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v33 dashboard / v32 daily-package review experience: HOLD boundary, "
+        "Validated v34 dashboard / v32 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 24-source ledger and required UI hooks."

@@ -290,6 +290,21 @@ codes, the reviewed series starts in 2022. Code 85434000 has kilograms and a
 supplementary device count; codes 24041200 and 24041900 are kilograms and have
 broader scope than a verified e-liquid-only series.
 
+Statistics Norway supplied an official structural clarification on 2026-07-28:
+
+- `Q1` is generally net weight in kilograms, subject to commodity-specific
+  exceptions;
+- `Q2` is items/pieces for the reviewed `85434000` device route;
+- the `8543.4000` series starts in 2022 and historical code changes must be
+  traced through the official commodity-list concordance; and
+- supplementary quantity fields can be confidentiality-restricted.
+
+The response points to the official tariff, commodity-list and external-trade
+method pages. It does not provide domestic retail sales, e-liquid litres, a
+pre-2022 vaping-only concordance or a new market-value observation. The customs
+route therefore remains a border-stage proxy and `retailValueStatus` remains
+`not_computed`.
+
 Primary method: `regulated_supply_plus_enforcement`
 
 Secondary method: `customs_trade_proxy`
@@ -331,6 +346,10 @@ evidence.
 - [Norwegian Directorate of Health e-cigarette guidance](https://www.helsedirektoratet.no/veiledere/tobakksskadeloven/e-sigaretter)
 - [Norwegian Tax Administration tobacco and nicotine excise](https://www.skatteetaten.no/bedrift-og-organisasjon/avgifter/saravgifter/om/tobakk/)
 - [Statistics Norway external-trade table 08801](https://www.ssb.no/en/statbank1/table/08801/)
+- [Norwegian tariff 8543.4000 definition](https://tolltariffen.toll.no/tolltariff/headings/85.43/85.43.4000?language=en)
+- [Statistics Norway commodity list and historical changes](https://www.ssb.no/en/utenriksokonomi/utenrikshandel/artikler/statistisk-varefortegnelse-for-utenrikshandelen)
+- [Statistics Norway complete commodity-number import/export route](https://www.ssb.no/en/utenriksokonomi/utenrikshandel/artikler/import-og-eksport-alle-land-og-varenummer)
+- [Statistics Norway external-trade methodology](https://www.ssb.no/en/utenriksokonomi/utenrikshandel/statistikk/utenrikshandel-med-varer)
 - [Statistics Norway vaping-prevalence table 14451](https://www.ssb.no/en/statbank1/table/14451/)
 - [Norwegian Directorate of Health contact route](https://www.helsedirektoratet.no/om-oss/kontakt-oss)
 
@@ -345,7 +364,7 @@ account to the following official functions:
 | BE | FPS Public Health EU-CEG/Enottab | Annual product units, liquid volume, scope and reporting completeness | `sent` |
 | CH | FOCBS tobacco tax/statistics and FOPH Tabacinfo | Category tax base, trade fields and registry/sales availability | `sent` |
 | LU | Customs tobacco/excise and Ministry of Health | Released litres, excise/VAT, fiscal-mark value and EU-CEG aggregates | `sent` |
-| NO | Directorate of Health, Statistics Norway and Norwegian Customs | Lawful supply, trade-code fields, practical excise and separate enforcement data | `sent` |
+| NO | Directorate of Health, Statistics Norway and Norwegian Customs | Lawful supply, trade-code fields, practical excise and separate enforcement data | `official structural response received; no sales value` |
 
 Mailbox identifiers, correspondence bodies, personal metadata and non-public
 files are deliberately excluded from this public repository.
