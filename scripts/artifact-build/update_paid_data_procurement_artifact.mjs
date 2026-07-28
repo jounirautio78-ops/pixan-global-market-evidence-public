@@ -14,8 +14,8 @@ const workbookPath = path.join(
   "pixan-paid-data-procurement-fi-en.xlsx",
 );
 const sourcePath = path.join(repo, "source", "paid-data-procurement.json");
-const temporaryPath = `${workbookPath}.v30.tmp`;
-const qaDir = path.join(repo, "tmp", "paid-data-v30", "renders");
+const temporaryPath = `${workbookPath}.v32.tmp`;
+const qaDir = path.join(repo, "tmp", "paid-data-v32", "renders");
 const sheetNames = [
   "Decision",
   "Priorities",
@@ -29,14 +29,15 @@ const sheetNames = [
 
 const ecigState = [
   [
-    "REQUEST SENT · NO RESPONSE OR AUTO-ACK · FOLLOW-UP 2026-07-28\n"
-      + "FI: PYYNTÖ LÄHETETTY · EI VASTAUSTA TAI AUTOMAATTIKUITTAUSTA · SEURANTA 2026-07-28",
+    "REQUEST + FOLLOW-UP SENT · RESPONSE PENDING · NOT SCORED\n"
+      + "FI: PYYNTÖ + SEURANTA LÄHETETTY · VASTAUS ODOTTAA · EI PISTEYTETTY",
   ],
 ];
 const ecigBoundary = [
   [
-    "Status only. Request sent 2026-07-23; no bounce, automated acknowledgement, "
-      + "response content or unlicensed data. First follow-up due 2026-07-28 if unanswered.",
+    "Status only. Request sent 2026-07-23 and first follow-up sent 2026-07-28. "
+      + "No response, sample, quote, data, method, coverage, licence, price or commitment "
+      + "is recorded. NOT SCORED; no purchase is authorised.",
   ],
 ];
 const euromonitorState = [
@@ -56,13 +57,27 @@ const euromonitorBoundary = [
       + "published. NOT SCORED; no purchase, fee or commitment.",
   ],
 ];
+const circanaState = [
+  [
+    "FOLLOW-UP SENT 2026-07-28 · SAMPLE + QUOTE PENDING · NOT SCORED\n"
+      + "FI: SEURANTA LÄHETETTY 28.7.2026 · NÄYTE + TARJOUS ODOTTAVAT · EI PISTEYTETTY",
+  ],
+];
+const circanaBoundary = [
+  [
+    "Status only. A direct follow-up requested a United States retail sample, channel and "
+      + "method details, a non-binding minimum configuration and transaction-use rights. "
+      + "A substantive sample and quote remain pending. NOT SCORED; no purchase or other "
+      + "commitment is authorised.",
+  ],
+];
 
 const source = JSON.parse(await fs.readFile(sourcePath, "utf8"));
 if (
-  source?.version !== "2026.07.27-30"
+  source?.version !== "2026.07.28-32"
   || source?.status !== "decision_support_only_no_purchase_authorised"
 ) {
-  throw new Error("Canonical paid-data source is not the reviewed v30 no-purchase release");
+  throw new Error("Canonical paid-data source is not the reviewed v32 no-purchase release");
 }
 const euromonitorItem = source.items.find(
   (item) => item.itemId === "euromonitor-passport-nicotine",
@@ -83,7 +98,7 @@ const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(workbookPa
 const decision = workbook.worksheets.getItem("Decision");
 decision.getRange("A3").values = [[
   "Independent decision support · No purchase authorised · "
-    + "Version 2026.07.27-30 · Verified 2026-07-27",
+    + "Version 2026.07.28-32 · Verified 2026-07-28",
 ]];
 decision.getRange("A10").values = [[
   "1) Continue sample and transaction-rights evaluation with ECigIntelligence and Euromonitor "
@@ -121,6 +136,8 @@ scorecard.getRange("D14").values = ecigState;
 scorecard.getRange("X14").values = ecigBoundary;
 scorecard.getRange("D15").values = euromonitorState;
 scorecard.getRange("X15").values = euromonitorBoundary;
+scorecard.getRange("D17").values = circanaState;
+scorecard.getRange("X17").values = circanaBoundary;
 const priorities = workbook.worksheets.getItem("Priorities");
 priorities.getRange("F7").values = [[euromonitorItem.priceDisplay]];
 priorities.getRange("G7").values = [[euromonitorDecision]];
@@ -139,8 +156,10 @@ for (const sheetName of sheetNames) {
         || values[row][column] === "2026.07.24-22"
         || values[row][column] === "2026.07.25-24"
         || values[row][column] === "2026.07.27-29"
+        || values[row][column] === "2026.07.27-30"
+        || values[row][column] === "2026.07.27-31"
       ) {
-        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.27-30"]];
+        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.28-32"]];
       }
     }
   }
@@ -162,6 +181,8 @@ const reviewed = {
   ecigBoundary: reopenedScorecard.getRange("X14").values,
   euromonitorState: reopenedScorecard.getRange("D15").values,
   euromonitorBoundary: reopenedScorecard.getRange("X15").values,
+  circanaState: reopenedScorecard.getRange("D17").values,
+  circanaBoundary: reopenedScorecard.getRange("X17").values,
   ecigSourceFormula: reopenedScorecard.getRange("W14").formulas,
   euromonitorSourceFormula: reopenedScorecard.getRange("W15").formulas,
   gateFormulas: reopenedScorecard.getRange("R14:U15").formulas,
@@ -169,7 +190,7 @@ const reviewed = {
 if (
   reviewed.release[0][0] !== (
     "Independent decision support · No purchase authorised · "
-      + "Version 2026.07.27-30 · Verified 2026-07-27"
+      + "Version 2026.07.28-32 · Verified 2026-07-28"
   )
   || reviewed.recommendedPackagePrice[0][0] !== recommendedPackage.knownPrice
   || reviewed.recommendedPackageUnknowns[0][0] !== (
@@ -181,10 +202,12 @@ if (
   || JSON.stringify(reviewed.ecigBoundary) !== JSON.stringify(ecigBoundary)
   || JSON.stringify(reviewed.euromonitorState) !== JSON.stringify(euromonitorState)
   || JSON.stringify(reviewed.euromonitorBoundary) !== JSON.stringify(euromonitorBoundary)
+  || JSON.stringify(reviewed.circanaState) !== JSON.stringify(circanaState)
+  || JSON.stringify(reviewed.circanaBoundary) !== JSON.stringify(circanaBoundary)
   || reviewed.ecigSourceFormula[0][0] !== "='Sources'!C6"
   || reviewed.euromonitorSourceFormula[0][0] !== "='Sources'!C9"
 ) {
-  throw new Error("Reopened paid-data workbook differs from the reviewed v30 state");
+  throw new Error("Reopened paid-data workbook differs from the reviewed v32 state");
 }
 
 await fs.mkdir(qaDir, { recursive: true });
@@ -205,10 +228,10 @@ for (const sheetName of sheetNames) {
 await fs.rename(temporaryPath, workbookPath);
 await fs.rm(`${temporaryPath}.inspect.ndjson`, { force: true });
 await fs.writeFile(
-  path.join(repo, "tmp", "paid-data-v30", "artifact-build.json"),
+  path.join(repo, "tmp", "paid-data-v32", "artifact-build.json"),
   `${JSON.stringify(
     {
-      release: "2026.07.27-30",
+      release: "2026.07.28-32",
       workbook: "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
       renderedSheets: sheetNames,
       reviewed,
@@ -218,4 +241,4 @@ await fs.writeFile(
   )}\n`,
   "utf8",
 );
-console.log(`Updated and rendered paid-data workbook for 2026.07.27-30: ${workbookPath}`);
+console.log(`Updated and rendered paid-data workbook for 2026.07.28-32: ${workbookPath}`);

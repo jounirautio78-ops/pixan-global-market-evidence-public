@@ -5,10 +5,10 @@
   if (!root) return;
 
   const EXPECTED_OUTREACH = new Map([
-    ["ecig-global-market-database", "sent_followup_scheduled"],
-    ["euromonitor-passport-nicotine", "germany_sample_and_quote_received_review_pending"],
+    ["ecig-global-market-database", "followup_sent_response_pending"],
+    ["euromonitor-passport-nicotine", "expanded_schema_and_package_quotes_review_pending"],
     ["niq-rms-pilot", "blocked_not_submitted"],
-    ["circana-us-tobacco-pilot", "submitted_confirmation_received"]
+    ["circana-us-tobacco-pilot", "followup_sent_sample_quote_pending"]
   ]);
   let programme = null;
 
@@ -48,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.25-24"
+      || raw.version !== "2026.07.28-32"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -128,16 +128,19 @@
   function outreachLabel(state) {
     const labels = {
       sent: l("Pyyntö lähetetty", "Request sent"),
-      sent_followup_scheduled: l(
-        "Ei vastausta · seuranta 28.7.",
-        "No response · follow-up 28 Jul"
+      followup_sent_response_pending: l(
+        "Seuranta lähetetty · vastaus odottaa",
+        "Follow-up sent · response pending"
       ),
-      germany_sample_and_quote_received_review_pending: l(
-        "Osittainen Saksa-näyte + tarjous saatu · tarkistus kesken",
-        "Partial Germany sample + quote received · review pending"
+      expanded_schema_and_package_quotes_review_pending: l(
+        "Laajennettu näyte + tarjoukset saatu · lisänäyttö odottaa",
+        "Expanded sample + quotes received · further evidence pending"
       ),
       blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
-      submitted_confirmation_received: l("Vastaanotto vahvistettu", "Submission confirmed")
+      followup_sent_sample_quote_pending: l(
+        "Seuranta lähetetty · näyte ja tarjous odottavat",
+        "Follow-up sent · sample and quote pending"
+      )
     };
     return labels[state] || l("Ei aloitettu", "Not started");
   }
@@ -187,7 +190,7 @@
       );
       const price = node("td", "");
       const receivedIndicativeQuote = outreach?.state
-        === "germany_sample_and_quote_received_review_pending";
+        === "expanded_schema_and_package_quotes_review_pending";
       price.append(
         node("strong", "paid-data-price", item.priceDisplay),
         node("small", "", item.priceType === "vendor_quote"
@@ -229,7 +232,7 @@
     const publicPrices = programme.items.filter((item) => item.priceType === "public_list_price").length;
     const quotes = programme.items.length - publicPrices;
     const submitted = programme.outreach.filter((item) =>
-      ["sent", "sent_followup_scheduled", "germany_sample_and_quote_received_review_pending", "submitted_confirmation_received"]
+      ["sent", "followup_sent_response_pending", "expanded_schema_and_package_quotes_review_pending", "followup_sent_sample_quote_pending"]
         .includes(item.state)).length;
     const blocked = programme.outreach.filter((item) => item.state === "blocked_not_submitted").length;
     const status = root.querySelector("[data-paid-data-status]");

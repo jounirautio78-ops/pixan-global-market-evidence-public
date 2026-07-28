@@ -155,7 +155,7 @@ class VendorResponseControlTests(unittest.TestCase):
             errors,
         )
 
-    def test_ecig_unanswered_state_retains_follow_up_without_evidence(self) -> None:
+    def test_ecig_follow_up_sent_state_retains_pending_response_without_evidence(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
         vendor = next(
             item
@@ -163,7 +163,9 @@ class VendorResponseControlTests(unittest.TestCase):
             if item["vendorId"] == "ecig-global-market-database"
         )
         self.assertEqual(vendor["responseState"], "pending_no_acknowledgement")
-        self.assertIn("2026-07-28", vendor["publicStatusEn"])
+        self.assertIn("first follow-up sent 2026-07-28", vendor["publicStatusEn"])
+        self.assertIn("No response or evidence is recorded", vendor["publicStatusEn"])
+        self.assertIn("NOT SCORED", vendor["publicStatusEn"])
         self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
         self.assertTrue(
             all(
@@ -175,6 +177,21 @@ class VendorResponseControlTests(unittest.TestCase):
             )
         )
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
+        self.assertEqual(vendor["scoringState"], "not_scored")
+        self.assertIsNone(vendor["weightedScore"])
+        self.assertFalse(vendor["purchaseAuthorised"])
+
+    def test_circana_follow_up_does_not_overstate_substantive_response(self) -> None:
+        candidate = normalised(copy.deepcopy(self.source))
+        vendor = next(
+            item
+            for item in candidate["vendors"]
+            if item["vendorId"] == "circana-us-tobacco-pilot"
+        )
+        self.assertEqual(vendor["responseState"], "pending")
+        self.assertIn("direct follow-up sent 2026-07-28", vendor["publicStatusEn"])
+        self.assertIn("sample and quote remain pending", vendor["publicStatusEn"])
+        self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
         self.assertFalse(vendor["purchaseAuthorised"])

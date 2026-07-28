@@ -68,7 +68,7 @@
       "required": ["dueOn", "draftState", "items", "excluded"],
       "properties": {
         "dueOn": {"const": "2026-07-28"},
-        "draftState": {"const": "prepared_not_sent"},
+        "draftState": {"const": "completed_or_superseded"},
         "items": {
           "type": "array",
           "minItems": 3,
@@ -161,8 +161,13 @@
       "properties": {
         "itemId": {"type": "string", "minLength": 1},
         "vendor": {"enum": ["ECigIntelligence", "Euromonitor", "Circana"]},
-        "route": {"enum": ["existing_thread", "original_submission_channel"]},
-        "threadStatus": {"enum": ["awaiting_response", "original_channel_not_publicly_confirmed"]},
+        "route": {"enum": ["existing_thread", "direct_follow_up"]},
+        "threadStatus": {
+          "enum": [
+            "follow_up_sent",
+            "superseded_by_comprehensive_request_sent"
+          ]
+        },
         "objectiveEn": {"type": "string", "minLength": 1},
         "objectiveFi": {"type": "string", "minLength": 1},
         "draftFile": {"const": "FOLLOW_UP_DRAFTS_2026-07-28.md"}

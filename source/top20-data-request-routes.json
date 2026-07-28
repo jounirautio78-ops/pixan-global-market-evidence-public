@@ -1,10 +1,10 @@
 {
   "schemaVersion": 3,
   "programmeId": "pixan-independent-top20-official-data-request-programme-v3",
-  "verificationDate": "2026-07-27",
+  "verificationDate": "2026-07-28",
   "status": "partially_dispatched",
-  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process or evidence state. Sweden supplied official aggregate registration-structure counts; this is substantive structural data, but not annual sales, market value, sold device units, sold liquid volume or donor evidence. France supplied official annual partner-level customs trade extracts across a device-code nomenclature break; exact units and liquid, pod and cartridge mappings remain unresolved, so this is a supply-stage trade proxy, not consumer-retail sales, market value or donor evidence. The programme does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice or possible-fee notice as substantive data or a fee commitment.",
-  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessi- tai evidenssitilan. Ruotsi toimitti viralliset aggregoidut rekisterirakenneluvut; kyse on sisällöllisestä rakennetiedosta, mutta ei vuosimyynnistä, markkina-arvosta, myytyjen laitteiden kappalemäärästä, myydystä nestemäärästä tai luovuttajaevidenssistä. Ranska toimitti viralliset vuosittaiset kumppanikohtaiset tullikaupan otteet laitekoodiston muutoksen yli; täsmälliset yksiköt sekä nesteiden, podien ja patruunoiden luokitukset ovat vielä ratkaisematta, joten kyse on toimitusvaiheen kauppaproxystä eikä kuluttajavähittäismyynnistä, markkina-arvosta tai luovuttajaevidenssistä. Ohjelma ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana tai maksusitoumuksena.",
+  "independenceNoticeEn": "Independent evidence-research programme. It is not a Pixan Oy statement, mandate or representation. Public tracking records whether a country route was sent, its calendar date, any public authority reference and, where verified, a privacy-safe categorical process or evidence state. Sweden supplied official aggregate registration-structure counts; this is substantive structural data, but not annual sales, market value, sold device units, sold liquid volume or donor evidence. France supplied official annual partner-level customs trade extracts across a device-code nomenclature break; exact units and liquid, pod and cartridge mappings remain unresolved, so this is a supply-stage trade proxy, not consumer-retail sales, market value or donor evidence. Italy supplied an official negative response: the requested aggregate was not held or produced, and public ADM fiscal, statistical and registry routes were identified; no requested volume, retail value or annual market data were supplied. ADM Libro Blu 2024 table III.9 reports inhalation-liquid consumption-tax revenue only; it is not retail value, physical volume, market growth or donor evidence. The programme does not identify a sender or recipient, publish correspondence metadata, or treat an acknowledgement, diary entry, routing notice, route correction, delay notice, negative availability response or possible-fee notice as substantive data, market data or a fee commitment.",
+  "independenceNoticeFi": "Riippumaton evidenssitutkimusohjelma. Se ei ole Pixan Oy:n lausuma, toimeksianto tai edustus. Julkinen seuranta kertoo, onko maareitti lähetetty, kalenteripäivän, mahdollisen julkisen viranomaisviitteen ja varmennetuissa tapauksissa tietosuojatun kategorisen prosessi- tai evidenssitilan. Ruotsi toimitti viralliset aggregoidut rekisterirakenneluvut; kyse on sisällöllisestä rakennetiedosta, mutta ei vuosimyynnistä, markkina-arvosta, myytyjen laitteiden kappalemäärästä, myydystä nestemäärästä tai luovuttajaevidenssistä. Ranska toimitti viralliset vuosittaiset kumppanikohtaiset tullikaupan otteet laitekoodiston muutoksen yli; täsmälliset yksiköt sekä nesteiden, podien ja patruunoiden luokitukset ovat vielä ratkaisematta, joten kyse on toimitusvaiheen kauppaproxystä eikä kuluttajavähittäismyynnistä, markkina-arvosta tai luovuttajaevidenssistä. Italia toimitti virallisen kielteisen saatavuusvastauksen: pyydettyä aggregaattia ei ollut hallussa tai tuotettu, ja julkiset ADM:n vero-, tilasto- ja rekisterireitit yksilöitiin; pyydettyä volyymi-, vähittäisarvo- tai vuosittaista markkinadataa ei toimitettu. ADM:n Libro Blu 2024 -julkaisun taulukko III.9 kuvaa vain inhalaationesteiden kulutusverotuottoa; se ei ole vähittäisarvo, fyysinen volyymi, markkinakasvu tai luovuttajaevidenssi. Ohjelma ei yksilöi lähettäjää tai vastaanottajaa, julkaise kirjeenvaihdon metadataa eikä käsittele vastaanottokuittausta, diaarimerkintää, reititysilmoitusta, reittikorjausta, viiveilmoitusta, kielteistä saatavuusvastausta tai mahdollista maksua koskevaa ilmoitusta sisällöllisenä datana, markkinadatana tai maksusitoumuksena.",
   "ranking": {
     "type": "operational_evidence_acquisition_order",
     "isMarketSizeRanking": false,
@@ -167,6 +167,65 @@
           "labelFi": "BVL:n vuosiraportointi- ja EU-CEG-ohje",
           "url": "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html?thema=Mitteilungspflicht",
           "verifiedOn": "2026-07-24"
+        }
+      ]
+    },
+    {
+      "requestId": "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES",
+      "countryIso2": "PL",
+      "countsTowardCountryQueue": false,
+      "status": "sent",
+      "dispatch": {
+        "state": "sent",
+        "sentOn": "2026-07-28",
+        "publicAuthorityReference": null,
+        "responseState": "not_publicly_recorded"
+      },
+      "authority": {
+        "nameEn": "Bureau for Chemical Substances",
+        "nameFi": "Puolan kemikaalivirasto"
+      },
+      "purposeEn": "Request an existing machine-readable national aggregate of annual electronic-cigarette and refill-container sales reported through EU-CEG or the Bureau's annual-reporting route, with the reporting coverage and market-monitoring boundary needed for same-country reconciliation.",
+      "purposeFi": "Pyydä olemassa oleva koneluettava kansallinen aggregaatti EU-CEG:n tai viraston vuosiraportointireitin kautta ilmoitetuista sähkösavukkeiden ja täyttösäiliöiden vuosimyynneistä sekä saman maan täsmäytyksen edellyttämistä raportointikattavuuden ja markkinaseurannan rajauksista.",
+      "queueBoundaryEn": "Supplementary route within Poland. It adds no country, does not change the 12-sent/8-draft country queue, and does not replace the Ministry of Finance excise request or its recorded response state.",
+      "queueBoundaryFi": "Puolan sisäinen täydentävä reitti. Se ei lisää maata tai muuta 12 lähetetyn ja 8 luonnoksen maajonoa, ja se ei korvaa valtiovarainministeriön valmisteveropyyntöä tai sen kirjattua vastaustilaa.",
+      "recordsRequestedEn": [
+        "Annual aggregate sales quantities for 2018-2025 by product type and presentation, including sold product or kit units, device count, refill-container count and total e-liquid millilitres where held",
+        "National totals where product- or brand-level cells cannot be disclosed, plus reporting-entity, product and presentation coverage, missing or late reports, suppressed cells and revisions",
+        "Definitions and same-boundary metadata distinguishing retail and wholesale modes, reported sales, product notifications, market-monitoring studies and any modelled values"
+      ],
+      "recordsRequestedFi": [
+        "Vuosien 2018-2025 aggregoidut myyntimäärät tuotetyypin ja esitysmuodon mukaan sisältäen hallussa olevilta osin myydyt tuote- tai settikappaleet, laitteiden määrän, täyttösäiliöiden määrän ja e-nesteen kokonaismillilitrat",
+        "Kansalliset kokonaismäärät, jos tuote- tai bränditason soluja ei voida luovuttaa, sekä raportoija-, tuote- ja esitysmuotokattavuus, puuttuvat tai myöhästyneet ilmoitukset, salatut solut ja revisiot",
+        "Määritelmät ja saman rajauksen metatiedot, jotka erottavat vähittäis- ja tukkumyynnin, ilmoitetun myynnin, tuoteilmoitukset, markkinaseurantatutkimukset ja mahdolliset mallinnetut arvot"
+      ],
+      "requestChannel": {
+        "nameEn": "Bureau for Chemical Substances public-information route",
+        "nameFi": "Puolan kemikaaliviraston julkisen tiedon pyyntöreitti",
+        "url": "https://www.gov.pl/web/chemical/access-to-public-information"
+      },
+      "legalBasis": {
+        "nameEn": "Act of 6 September 2001 on Access to Public Information; aggregate-information request",
+        "nameFi": "Laki julkisen tiedon saatavuudesta 6.9.2001; aggregaattitietopyyntö"
+      },
+      "officialSources": [
+        {
+          "labelEn": "Bureau annual reporting and EU-CEG guidance",
+          "labelFi": "Viraston vuosiraportointi- ja EU-CEG-ohje",
+          "url": "https://www.gov.pl/web/chemical/notification-of-electronic-cigarettes-and-refill-containers",
+          "verifiedOn": "2026-07-28"
+        },
+        {
+          "labelEn": "Bureau annual electronic-cigarette and refill-container reporting page",
+          "labelFi": "Viraston sähkösavukkeiden ja täyttösäiliöiden vuosiraportointisivu",
+          "url": "https://www.gov.pl/web/chemikalia/przekazywanie-sprawozdan-rocznych-dotyczacych-papierosow-elektronicznych-i-pojemnikow-zapasowych2",
+          "verifiedOn": "2026-07-28"
+        },
+        {
+          "labelEn": "Bureau electronic-cigarette market-monitoring reports",
+          "labelFi": "Viraston sähkösavukemarkkinan seurantaraportit",
+          "url": "https://www.gov.pl/web/chemikalia/monitorowanie-rynku-e-papierosow",
+          "verifiedOn": "2026-07-28"
         }
       ]
     }
@@ -629,10 +688,10 @@
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": null,
-        "responseState": "not_publicly_recorded"
+        "responseState": "official_aggregate_not_held_public_routes_identified"
       },
-      "rationaleEn": "A significant EU market with a specific inhalation-liquid tax and official product lists supports direct volume and registry reconciliation.",
-      "rationaleFi": "Merkittävä EU-markkina, erillinen inhalaationesteen vero ja viralliset tuoteluettelot mahdollistavat suoran määrä- ja rekisteritäsmäytyksen.",
+      "rationaleEn": "A significant EU market with a specific inhalation-liquid tax and official product lists supports direct volume and registry reconciliation. ADM's official response states that the requested aggregate was not held or produced and identifies public fiscal, statistical and registry routes; it supplies no requested volume, retail value or annual market data. Libro Blu 2024 table III.9 reports inhalation-liquid consumption-tax revenue of EUR 55,910,871.89 in 2023 and EUR 84,309,841.41 in 2024 (+50.79%). This is tax revenue only; the 2024 fiscal scope and rates changed, so it is not retail value, physical volume, market growth or donor evidence.",
+      "rationaleFi": "Merkittävä EU-markkina, erillinen inhalaationesteen vero ja viralliset tuoteluettelot mahdollistavat suoran määrä- ja rekisteritäsmäytyksen. ADM:n virallinen vastaus kertoo, ettei pyydettyä aggregaattia ollut hallussa tai tuotettu, ja yksilöi julkiset vero-, tilasto- ja rekisterireitit; pyydettyä volyymi-, vähittäisarvo- tai vuosittaista markkinadataa ei toimitettu. Libro Blu 2024 -julkaisun taulukko III.9 raportoi inhalaationesteiden kulutusverotuotoksi 55 910 871,89 euroa vuonna 2023 ja 84 309 841,41 euroa vuonna 2024 (+50,79 %). Kyse on vain verotuotosta; vuoden 2024 verotuksen soveltamisala ja verokannat muuttuivat, joten luku ei ole vähittäisarvo, fyysinen volyymi, markkinakasvu tai luovuttajaevidenssi.",
       "primaryAuthority": {
         "nameEn": "Customs and Monopolies Agency",
         "nameFi": "Tulli- ja monopolivirasto"
@@ -669,10 +728,28 @@
       },
       "officialSources": [
         {
-          "labelEn": "ADM inhalation-product circulars and lists",
-          "labelFi": "ADM:n inhalaatiotuotteiden kiertokirjeet ja luettelot",
-          "url": "https://www.adm.gov.it/portale/circolari_tabacco_inalazione",
-          "verifiedOn": "2026-07-22"
+          "labelEn": "ADM Libro Blu 2024 publication page",
+          "labelFi": "ADM:n Libro Blu 2024 -julkaisusivu",
+          "url": "https://www.adm.gov.it/portale/-/libro-blu-organizzazione-statistiche-e-attivita-anno-2024",
+          "verifiedOn": "2026-07-28"
+        },
+        {
+          "labelEn": "ADM inhalation-liquid and tobacco-accessory product portal",
+          "labelFi": "ADM:n inhalaationesteiden ja tupakkatarvikkeiden tuoteportaali",
+          "url": "https://www.adm.gov.it/portale/-/portale-prodotti-liquidi-da-inalazione-pli-e-prodotti-accessori-dei-tabacchi-pat-1",
+          "verifiedOn": "2026-07-28"
+        },
+        {
+          "labelEn": "ADM inhalation-product public sources",
+          "labelFi": "ADM:n inhalaatiotuotteiden julkiset lähteet",
+          "url": "https://www.adm.gov.it/portale/prodotti-succedanei-tabacco-liquidi-inalazione",
+          "verifiedOn": "2026-07-28"
+        },
+        {
+          "labelEn": "ADM statistical bulletins",
+          "labelFi": "ADM:n tilastotiedotteet",
+          "url": "https://www.adm.gov.it/portale/bollettino-statistico",
+          "verifiedOn": "2026-07-28"
         }
       ]
     },

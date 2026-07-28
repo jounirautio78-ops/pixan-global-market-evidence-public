@@ -1,9 +1,11 @@
 # Vendor follow-up drafts — due 2026-07-28
 
-**Status:** `PREPARED — NOT SENT`
-**Routing rule:** use the original conversation or submission channel. No purchase, licence acceptance or vendor commitment is authorised by these drafts.
+**Status:** `COMPLETED OR SUPERSEDED`
+**Control note:** ECigIntelligence and Circana follow-ups were sent on 2026-07-28. The Euromonitor draft was superseded by the broader request already sent on 2026-07-27, so no duplicate was sent. The public text below is an operational draft record, not private correspondence. No purchase, licence acceptance or vendor commitment is authorised.
 
 ## ECigIntelligence — first follow-up
+
+**Operational status:** `SENT 2026-07-28 — RESPONSE PENDING`
 
 **Subject:** Follow-up: review sample and quote for global e-cigarette market data
 
@@ -27,6 +29,8 @@ Please also confirm the shortest and lowest-cost configuration that would still 
 Best regards,
 
 ## Euromonitor — combined EU and Germany follow-up
+
+**Operational status:** `SUPERSEDED — NOT SENT`; the comprehensive request sent on 2026-07-27 already covered the populated sample, coverage, rights and terms. Response pending.
 
 **Subject:** Follow-up: populated Germany sample, country matrix and e-vapour data terms
 
@@ -55,6 +59,8 @@ No purchase decision is requested or authorised by this message; the sample and 
 Best regards,
 
 ## Circana — United States retail follow-up
+
+**Operational status:** `SENT 2026-07-28 — SUBSTANTIVE SAMPLE AND QUOTE PENDING`
 
 **Subject:** Follow-up: United States e-cigarette retail sample and channel coverage
 

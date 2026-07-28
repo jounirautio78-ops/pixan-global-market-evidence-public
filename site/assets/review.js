@@ -84,6 +84,7 @@ const REVIEW_MATRIX_DIMENSIONS = {
 };
 const REVIEW_STRUCTURAL_RESPONSE_COUNTRIES = new Set(["SE"]);
 const REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES = new Set(["FR"]);
+const REVIEW_AVAILABILITY_RESPONSE_COUNTRIES = new Set(["IT"]);
 
 let reviewData = null;
 let reviewMarketData = null;
@@ -309,19 +310,25 @@ function reviewRequestSummary() {
   const processResponses = routes.filter((route) => {
     return responseRecorded(route)
       && !REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2)
-      && !REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES.has(route.countryIso2);
+      && !REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES.has(route.countryIso2)
+      && !REVIEW_AVAILABILITY_RESPONSE_COUNTRIES.has(route.countryIso2);
   }).length;
-  const germanSupplements = (reviewRequestData?.supplementaryRequests || []).filter(
-    (request) => request.countryIso2 === "DE"
-      && request.status === "sent"
+  const availabilityResponses = routes.filter(
+    (route) => route.status === "sent"
+      && responseRecorded(route)
+      && REVIEW_AVAILABILITY_RESPONSE_COUNTRIES.has(route.countryIso2)
+  ).length;
+  const supplements = (reviewRequestData?.supplementaryRequests || []).filter(
+    (request) => request.status === "sent"
       && request.countsTowardCountryQueue === false
   ).length;
   return {
     routes: routes.length,
     sent,
     drafts,
-    germanSupplements,
+    supplements,
     processResponses,
+    availabilityResponses,
     officialStructuralResponses,
     tradeProxyResponses,
     salesResponses: 0
@@ -376,8 +383,8 @@ function renderDecisionCockpit(data) {
       : reviewL("Patenttihistorian tukiaineisto ei ole saatavilla.", "The patent-history supporting dataset is unavailable."),
     reviewRequestData
       ? reviewL(
-        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.germanSupplements} täydentävä Saksan reitti, ${request.processResponses} vain prosessivastausta, ${request.officialStructuralResponses} virallinen rakennevastaus, ${request.tradeProxyResponses} tullikaupan proxyvastaus ja ${request.salesResponses} myyntidatavastausta.`,
-        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.germanSupplements} supplementary German route, ${request.processResponses} process-only responses, ${request.officialStructuralResponses} official structural response, ${request.tradeProxyResponses} customs-trade proxy response and ${request.salesResponses} sales-data responses.`
+        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.supplements} täydentävää reittiä Saksassa ja Puolassa, ${request.processResponses} vain prosessivastausta, ${request.availabilityResponses} virallinen saatavuusvastaus ilman markkinadataa, ${request.officialStructuralResponses} virallinen rakennevastaus, ${request.tradeProxyResponses} tullikaupan proxyvastaus ja ${request.salesResponses} myyntidatavastausta.`,
+        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.supplements} supplementary routes in Germany and Poland, ${request.processResponses} process-only responses, ${request.availabilityResponses} official availability response with no market data, ${request.officialStructuralResponses} official structural response, ${request.tradeProxyResponses} customs-trade proxy response and ${request.salesResponses} sales-data responses.`
       )
       : reviewL("Viranomaisreittien tukiaineisto ei ole saatavilla.", "The authority-route supporting dataset is unavailable.")
   ];
@@ -437,8 +444,8 @@ function renderResearchOperationsOverview() {
   const request = reviewRequestSummary();
   const metrics = [
     [reviewL("Lähetetty / luonnos", "Sent / draft"), `${request.sent} / ${request.drafts}`, reviewL("20 maan priorisoitu tutkimusjono", "Prioritised 20-country research queue")],
-    [reviewL("Täydentävä Saksan reitti", "German supplementary route"), request.germanSupplements, reviewL("Ei lisää maata 12/8-laskureihin", "Adds no country to the 12/8 counts")],
-    [reviewL("Prosessi / rakenne / tulliproxy / myynti", "Process / structural / customs proxy / sales"), `${request.processResponses} / ${request.officialStructuralResponses} / ${request.tradeProxyResponses} / ${request.salesResponses}`, reviewL("Ruotsin rakenne ja Ranskan tulliproxy eivät ole vähittäismarkkinan kokoa", "Sweden structure and the France customs proxy are not retail market size")],
+    [reviewL("Täydentävät reitit", "Supplementary routes"), request.supplements, reviewL("Saksa ja Puola; eivät lisää maita 12/8-laskureihin", "Germany and Poland; add no countries to the 12/8 counts")],
+    [reviewL("Prosessi / saatavuus / rakenne / tulliproxy / myynti", "Process / availability / structural / customs proxy / sales"), `${request.processResponses} / ${request.availabilityResponses} / ${request.officialStructuralResponses} / ${request.tradeProxyResponses} / ${request.salesResponses}`, reviewL("Italian saatavuusvastaus, Ruotsin rakenne ja Ranskan tulliproxy eivät ole vähittäismarkkinan kokoa", "The Italy availability response, Sweden structure and France customs proxy are not retail market size")],
     [reviewL("Ostovaltuudet", "Purchase authorisations"), 0, reviewL("Ei ostoa, tilausta tai automaattista ulkoista toimintoa", "No purchase, subscription or automatic external action")]
   ];
   host.replaceChildren(...metrics.map(([label, value, note]) => {
@@ -2043,11 +2050,21 @@ function renderThirdDonorScreen(data = reviewThirdDonorScreen) {
   const primary = countries.find((item) => item.countryIso2 === decision.primaryProgrammeCountryIso2);
   const sourceOnly = countries.find((item) => item.countryIso2 === decision.sourceOnlyLeadCountryIso2);
   const secondary = countries.filter((item) => (decision.secondaryProgrammeCountryIso2 || []).includes(item.countryIso2));
+  const followUpItems = wave.items || [];
+  const sentFollowUps = followUpItems.filter((item) => item.threadStatus === "follow_up_sent").length;
+  const supersededFollowUps = followUpItems.filter((item) => item.threadStatus === "superseded_by_comprehensive_request_sent").length;
   const summaryItems = [
     [reviewL("Ensisijainen", "Primary"), primary ? (reviewIsFi() ? primary.countryFi : primary.countryEn) : "—", reviewL("Käytännöllisin virallinen hankintaohjelma", "Most practical official acquisition programme")],
     [reviewL("Lähdejohtolanka", "Source lead"), sourceOnly ? (reviewIsFi() ? sourceOnly.countryFi : sourceOnly.countryEn) : "—", reviewL("Ei operatiivisesti ensisijainen", "Not operationally preferred")],
     [reviewL("Toissijainen aalto", "Secondary wave"), secondary.map((item) => reviewIsFi() ? item.countryFi : item.countryEn).join(", "), reviewL("Kolme viranomaisreittiä", "Three official-request routes")],
-    [reviewL("Seurantalunnokset", "Follow-up drafts"), `${(wave.items || []).length}`, `${reviewFormatDate(wave.dueOn)} · ${reviewL("ei lähetetty", "not sent")}`]
+    [
+      reviewL("Seurantatoimet", "Follow-up actions"),
+      `${followUpItems.length}`,
+      `${reviewFormatDate(wave.dueOn)} · ${reviewL(
+        `${sentFollowUps} lähetetty · ${supersededFollowUps} korvautunut`,
+        `${sentFollowUps} sent · ${supersededFollowUps} superseded`
+      )}`
+    ]
   ];
   summary.replaceChildren(...summaryItems.map(([label, value, note]) => {
     const item = reviewNode("div", "donor-summary-item");
@@ -2085,15 +2102,27 @@ function renderThirdDonorScreen(data = reviewThirdDonorScreen) {
   }));
   tableWrap.hidden = false;
 
-  followUps.replaceChildren(...(wave.items || []).map((item) => {
+  followUps.replaceChildren(...followUpItems.map((item) => {
     const card = reviewNode("article", "panel request-program-card");
-    const state = reviewNode("span", "donor-decision-chip", reviewL("LUONNOS · EI LÄHETETTY", "DRAFT · NOT SENT"));
+    const state = reviewNode(
+      "span",
+      "donor-decision-chip",
+      item.threadStatus === "follow_up_sent"
+        ? reviewL("SEURANTA LÄHETETTY · VASTAUS ODOTTAA", "FOLLOW-UP SENT · RESPONSE PENDING")
+        : reviewL(
+          "KORVAUTUNUT · KATTAVA PYYNTÖ JO LÄHETETTY",
+          "SUPERSEDED · COMPREHENSIVE REQUEST ALREADY SENT"
+        )
+    );
     state.dataset.decision = "not_accepted";
+    const routeLabel = item.route === "existing_thread"
+      ? reviewL("alkuperäinen keskustelu", "original conversation")
+      : reviewL("suora seuranta", "direct follow-up");
     card.append(
       state,
       reviewNode("h4", "", item.vendor),
       reviewNode("p", "", reviewIsFi() ? item.objectiveFi : item.objectiveEn),
-      reviewNode("small", "", `${reviewL("Reitti", "Route")}: ${item.route === "existing_thread" ? reviewL("alkuperäinen keskustelu", "original conversation") : reviewL("alkuperäinen lähetyskanava", "original submission channel")}`)
+      reviewNode("small", "", `${reviewL("Reitti", "Route")}: ${routeLabel}`)
     );
     return card;
   }));
@@ -2235,6 +2264,8 @@ async function initReview() {
       const screen = await thirdDonorResult.value.json();
       const countries = Array.isArray(screen.countries) ? screen.countries : [];
       const vendors = (screen.followUpWave?.items || []).map((item) => item.vendor);
+      const followUpStates = (screen.followUpWave?.items || []).map((item) => item.threadStatus);
+      const followUpRoutes = (screen.followUpWave?.items || []).map((item) => item.route);
       if (screen.schemaVersion !== "1.0"
         || screen.status !== "screening_only_not_donor_assessment"
         || screen.decision?.primaryProgrammeCountryIso2 !== "PL"
@@ -2242,8 +2273,10 @@ async function initReview() {
         || JSON.stringify(screen.decision?.secondaryProgrammeCountryIso2) !== JSON.stringify(["FI", "DK", "FR"])
         || countries.length !== 15
         || countries.some((item, index) => item.rank !== index + 1 || item.donorStatus !== "not_assessed")
-        || screen.followUpWave?.draftState !== "prepared_not_sent"
-        || JSON.stringify(vendors) !== JSON.stringify(["ECigIntelligence", "Euromonitor", "Circana"])) {
+        || screen.followUpWave?.draftState !== "completed_or_superseded"
+        || JSON.stringify(vendors) !== JSON.stringify(["ECigIntelligence", "Euromonitor", "Circana"])
+        || JSON.stringify(followUpStates) !== JSON.stringify(["follow_up_sent", "superseded_by_comprehensive_request_sent", "follow_up_sent"])
+        || JSON.stringify(followUpRoutes) !== JSON.stringify(["existing_thread", "existing_thread", "direct_follow_up"])) {
         throw new Error("schema validation failed");
       }
       reviewThirdDonorScreen = screen;
@@ -2312,7 +2345,10 @@ async function initReview() {
       const supplements = Array.isArray(requestData.supplementaryRequests)
         ? requestData.supplementaryRequests
         : [];
-      const bvlSupplement = supplements[0];
+      const supplementsById = new Map(supplements.map((item) => [item.requestId, item]));
+      const bvlSupplement = supplementsById.get("DE-BVL-TABAKERZV25-ANNUAL-SALES");
+      const polandSupplement = supplementsById.get("PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES");
+      const routeByCountry = new Map(routes.map((route) => [route.countryIso2, route]));
       if (requestData.schemaVersion !== 3
         || routes.length !== 20
         || uniqueCountries.size !== 20
@@ -2321,7 +2357,7 @@ async function initReview() {
         || evidenceLayers.length !== 6
         || evidenceLayers.some((layer, index) =>
           layer.order !== index + 1 || layer.layerId !== expectedLayerIds[index])
-        || supplements.length !== 1
+        || supplements.length !== 2
         || bvlSupplement?.requestId !== "DE-BVL-TABAKERZV25-ANNUAL-SALES"
         || bvlSupplement?.countryIso2 !== "DE"
         || bvlSupplement?.countsTowardCountryQueue !== false
@@ -2329,7 +2365,17 @@ async function initReview() {
         || bvlSupplement?.dispatch?.state !== "sent"
         || bvlSupplement?.dispatch?.sentOn !== "2026-07-24"
         || bvlSupplement?.dispatch?.publicAuthorityReference !== null
-        || bvlSupplement?.dispatch?.responseState !== "not_publicly_recorded") {
+        || bvlSupplement?.dispatch?.responseState !== "not_publicly_recorded"
+        || polandSupplement?.requestId !== "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES"
+        || polandSupplement?.countryIso2 !== "PL"
+        || polandSupplement?.countsTowardCountryQueue !== false
+        || polandSupplement?.status !== "sent"
+        || polandSupplement?.dispatch?.state !== "sent"
+        || polandSupplement?.dispatch?.sentOn !== "2026-07-28"
+        || polandSupplement?.dispatch?.publicAuthorityReference !== null
+        || polandSupplement?.dispatch?.responseState !== "not_publicly_recorded"
+        || routeByCountry.get("IT")?.dispatch?.responseState
+          !== "official_aggregate_not_held_public_routes_identified") {
         throw new Error("schema validation failed");
       }
       reviewRequestData = requestData;

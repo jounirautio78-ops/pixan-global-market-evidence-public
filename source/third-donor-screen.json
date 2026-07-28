@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "asOf": "2026-07-27",
+  "asOf": "2026-07-28",
   "status": "screening_only_not_donor_assessment",
   "method": {
     "ruleEn": "This screen ranks public official acquisition routes. It does not score D1-D10, accept a donor market or change the 0/3 gate.",
@@ -349,33 +349,33 @@
   ],
   "followUpWave": {
     "dueOn": "2026-07-28",
-    "draftState": "prepared_not_sent",
+    "draftState": "completed_or_superseded",
     "items": [
       {
         "itemId": "ECIG-FIRST-FOLLOW-UP-20260728",
         "vendor": "ECigIntelligence",
         "route": "existing_thread",
-        "threadStatus": "awaiting_response",
-        "objectiveEn": "Request a review sample, exact country-year-product-channel matrix, methodology, licence rights and total commercial terms.",
-        "objectiveFi": "Pyydä tarkistusnäyte, tarkka maa-vuosi-tuote-kanavamatriisi, menetelmä, käyttöoikeudet ja täydet kaupalliset ehdot.",
+        "threadStatus": "follow_up_sent",
+        "objectiveEn": "A review sample, exact country-year-product-channel matrix, methodology, licence rights and total commercial terms were requested in the follow-up sent 2026-07-28; response pending.",
+        "objectiveFi": "Tarkistusnäyte, tarkka maa-vuosi-tuote-kanavamatriisi, menetelmä, käyttöoikeudet ja täydet kaupalliset ehdot pyydettiin 28.7.2026 lähetetyssä seurannassa; vastaus odottaa.",
         "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
       },
       {
         "itemId": "EUROMONITOR-COMBINED-FOLLOW-UP-20260728",
         "vendor": "Euromonitor",
         "route": "existing_thread",
-        "threadStatus": "awaiting_response",
-        "objectiveEn": "Combine the EU-country and Germany full-year requests and require a populated 2022-2025 Germany sample reconciled to official liquid-volume anchors.",
-        "objectiveFi": "Yhdistä EU-maadata- ja Saksan täyden vuoden pyynnöt sekä vaadi täytetty Saksan 2022-2025-näyte, joka täsmäytetään virallisiin nestemääräankkureihin.",
+        "threadStatus": "superseded_by_comprehensive_request_sent",
+        "objectiveEn": "This draft was superseded by the comprehensive populated Germany sample, coverage, rights and terms request sent 2026-07-27; no duplicate request was issued and response remains pending.",
+        "objectiveFi": "Tämä luonnos korvautui 27.7.2026 lähetetyllä kattavalla Saksan täytetyn näytteen, peiton, oikeuksien ja ehtojen pyynnöllä; päällekkäistä pyyntöä ei lähetetty ja vastaus odottaa.",
         "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
       },
       {
         "itemId": "CIRCANA-US-FOLLOW-UP-20260728",
         "vendor": "Circana",
-        "route": "original_submission_channel",
-        "threadStatus": "original_channel_not_publicly_confirmed",
-        "objectiveEn": "Request a United States retail sample and explicit MULO, convenience, vape-shop, direct-to-consumer and online coverage.",
-        "objectiveFi": "Pyydä Yhdysvaltain vähittäismyyntinäyte sekä yksiselitteinen MULO-, convenience-, vapekauppa-, suora kuluttaja- ja verkkokanavapeitto.",
+        "route": "direct_follow_up",
+        "threadStatus": "follow_up_sent",
+        "objectiveEn": "A United States retail sample plus explicit MULO, convenience, vape-shop, direct-to-consumer and online coverage were requested in the direct follow-up sent 2026-07-28; substantive sample and quote pending.",
+        "objectiveFi": "Yhdysvaltain vähittäismyyntinäyte sekä yksiselitteinen MULO-, convenience-, vapekauppa-, suora kuluttaja- ja verkkokanavapeitto pyydettiin 28.7.2026 lähetetyssä suorassa seurannassa; sisällöllinen näyte ja tarjous odottavat.",
         "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
       }
     ],
@@ -387,6 +387,6 @@
       }
     ]
   },
-  "boundaryEn": "No screened country is an accepted donor. No follow-up in this wave has been sent, no purchase has been authorised and no private quote or correspondence is published.",
-  "boundaryFi": "Yksikään seulottu maa ei ole hyväksytty luovuttajamarkkina. Tämän aallon seurantaviestejä ei ole lähetetty, ostoa ei ole hyväksytty eikä yksityistä tarjousta tai kirjeenvaihtoa julkaista."
+  "boundaryEn": "No screened country is an accepted donor. ECigIntelligence and Circana follow-ups were sent on 2026-07-28; the Euromonitor draft was superseded by the comprehensive request sent on 2026-07-27. Responses remain pending, no purchase has been authorised and no private quote or correspondence is published.",
+  "boundaryFi": "Yksikään seulottu maa ei ole hyväksytty luovuttajamarkkina. ECigIntelligencen ja Circanan seurannat lähetettiin 28.7.2026; Euromonitor-luonnos korvautui 27.7.2026 lähetetyllä kattavalla pyynnöllä. Vastaukset odottavat, ostoa ei ole hyväksytty eikä yksityistä tarjousta tai kirjeenvaihtoa julkaista."
 }

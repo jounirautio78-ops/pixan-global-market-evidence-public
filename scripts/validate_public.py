@@ -2514,8 +2514,8 @@ def validate_third_donor_screen(
         errors.append("third-donor-screen.json must use the exact reviewed top-level schema")
     if source.get("schemaVersion") != "1.0":
         errors.append("third-donor screen schemaVersion must be 1.0")
-    if source.get("asOf") != "2026-07-27":
-        errors.append("third-donor screen must be reviewed as of 2026-07-27")
+    if source.get("asOf") != "2026-07-28":
+        errors.append("third-donor screen must be reviewed as of 2026-07-28")
     if source.get("status") != "screening_only_not_donor_assessment":
         errors.append("third-donor screen must remain screening-only")
 
@@ -2552,7 +2552,7 @@ def validate_third_donor_screen(
         "DK": "secondary_programme",
         "FR": "secondary_programme",
     }
-    as_of = date(2026, 7, 27)
+    as_of = date(2026, 7, 28)
     official_source_count = 0
     for index, country in enumerate(countries):
         path = f"third-donor countries[{index}]"
@@ -2624,8 +2624,8 @@ def validate_third_donor_screen(
         follow_up = {}
     if follow_up.get("dueOn") != "2026-07-28":
         errors.append("third-donor follow-up wave must remain due on 2026-07-28")
-    if follow_up.get("draftState") != "prepared_not_sent":
-        errors.append("third-donor follow-up wave must remain prepared and not sent")
+    if follow_up.get("draftState") != "completed_or_superseded":
+        errors.append("third-donor follow-up wave must remain completed or superseded")
     items = follow_up.get("items")
     if not isinstance(items, list):
         errors.append("third-donor follow-up items must be an array")
@@ -2636,6 +2636,18 @@ def validate_third_donor_screen(
         errors.append("third-donor follow-up vendors must remain ECigIntelligence, Euromonitor and Circana")
     if len(item_ids) != 3 or len(set(item_ids)) != 3 or any(not item_id for item_id in item_ids):
         errors.append("third-donor follow-up item IDs must be unique and complete")
+    if [item.get("threadStatus") for item in items if isinstance(item, dict)] != [
+        "follow_up_sent",
+        "superseded_by_comprehensive_request_sent",
+        "follow_up_sent",
+    ]:
+        errors.append("third-donor follow-up completion states differ from the reviewed wave")
+    if [item.get("route") for item in items if isinstance(item, dict)] != [
+        "existing_thread",
+        "existing_thread",
+        "direct_follow_up",
+    ]:
+        errors.append("third-donor follow-up routes differ from the reviewed wave")
     if any(item.get("draftFile") != "FOLLOW_UP_DRAFTS_2026-07-28.md" for item in items if isinstance(item, dict)):
         errors.append("third-donor follow-up items must point to the reviewed draft file")
     excluded = follow_up.get("excluded")
@@ -2663,7 +2675,7 @@ def validate_third_donor_screen(
         value = stack.pop()
         if isinstance(value, dict):
             if forbidden_keys & set(value):
-                errors.append("third-donor screen contains a donor-score, sent-state or purchase-authorisation field")
+                errors.append("third-donor screen contains a donor-score or purchase-authorisation field")
                 break
             stack.extend(value.values())
         elif isinstance(value, list):

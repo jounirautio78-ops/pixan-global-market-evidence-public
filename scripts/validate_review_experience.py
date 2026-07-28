@@ -24,6 +24,9 @@ EXPECTED_PROCESS_STATES = {
     "DK": "automated_receipt_acknowledged",
     "FI": "registered_processing_notice_received",
 }
+EXPECTED_AVAILABILITY_STATES = {
+    "IT": "official_aggregate_not_held_public_routes_identified",
+}
 EXPECTED_STRUCTURAL_STATES = {
     "SE": "official_structural_data_received_sales_not_available",
 }
@@ -328,8 +331,8 @@ def parse_date(value: Any) -> date | None:
 
 def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-27":
-        errors.append("Third-donor screen must use the reviewed v27 schema and date")
+    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-28":
+        errors.append("Third-donor screen must use the reviewed v32 date")
     if screen.get("status") != "screening_only_not_donor_assessment":
         errors.append("Third-donor screen must remain screening-only")
     decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
@@ -365,11 +368,24 @@ def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
         if not sources or any(not valid_https(source.get("url")) for source in sources if isinstance(source, dict)):
             errors.append("Third-donor country routes require safe official HTTPS sources")
     wave = screen.get("followUpWave") if isinstance(screen.get("followUpWave"), dict) else {}
-    if wave.get("dueOn") != "2026-07-28" or wave.get("draftState") != "prepared_not_sent":
-        errors.append("Third-donor follow-ups must remain prepared and not sent for 2026-07-28")
-    vendors = [item.get("vendor") for item in wave.get("items", []) if isinstance(item, dict)]
+    if wave.get("dueOn") != "2026-07-28" or wave.get("draftState") != "completed_or_superseded":
+        errors.append("Third-donor follow-ups must remain completed or superseded for 2026-07-28")
+    wave_items = [item for item in wave.get("items", []) if isinstance(item, dict)]
+    vendors = [item.get("vendor") for item in wave_items]
     if vendors != ["ECigIntelligence", "Euromonitor", "Circana"]:
         errors.append("Third-donor follow-up vendors differ from the reviewed wave")
+    if [item.get("threadStatus") for item in wave_items] != [
+        "follow_up_sent",
+        "superseded_by_comprehensive_request_sent",
+        "follow_up_sent",
+    ]:
+        errors.append("Third-donor follow-up completion states differ from the reviewed wave")
+    if [item.get("route") for item in wave_items] != [
+        "existing_thread",
+        "existing_thread",
+        "direct_follow_up",
+    ]:
+        errors.append("Third-donor follow-up routes differ from the reviewed wave")
     excluded = wave.get("excluded") if isinstance(wave.get("excluded"), list) else []
     if len(excluded) != 1 or excluded[0].get("vendor") != "NIQ":
         errors.append("NIQ must remain outside the reviewed follow-up wave")
@@ -734,21 +750,42 @@ def validate_review_data(
     ):
         errors.append("Research Operations requires the reviewed six-layer 195-state evidence stack")
     supplements = requests.get("supplementaryRequests")
-    if (
-        not isinstance(supplements, list)
-        or len(supplements) != 1
-        or supplements[0].get("requestId") != "DE-BVL-TABAKERZV25-ANNUAL-SALES"
-        or supplements[0].get("countryIso2") != "DE"
-        or supplements[0].get("countsTowardCountryQueue") is not False
-        or supplements[0].get("status") != "sent"
-        or supplements[0].get("dispatch") != {
-            "state": "sent",
+    expected_supplements = {
+        "DE-BVL-TABAKERZV25-ANNUAL-SALES": {
+            "countryIso2": "DE",
             "sentOn": "2026-07-24",
-            "publicAuthorityReference": None,
-            "responseState": "not_publicly_recorded",
-        }
-    ):
-        errors.append("Research Operations requires the non-counting German BVL supplement")
+        },
+        "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES": {
+            "countryIso2": "PL",
+            "sentOn": "2026-07-28",
+        },
+    }
+    supplement_items = supplements if isinstance(supplements, list) else []
+    supplement_by_id = {
+        item.get("requestId"): item
+        for item in supplement_items
+        if isinstance(item, dict)
+    }
+    if not isinstance(supplements, list) or set(supplement_by_id) != set(expected_supplements):
+        errors.append("Research Operations requires the two non-counting German and Polish supplements")
+    else:
+        for request_id, expected in expected_supplements.items():
+            supplement = supplement_by_id[request_id]
+            if (
+                supplement.get("countryIso2") != expected["countryIso2"]
+                or supplement.get("countsTowardCountryQueue") is not False
+                or supplement.get("status") != "sent"
+                or supplement.get("dispatch") != {
+                    "state": "sent",
+                    "sentOn": expected["sentOn"],
+                    "publicAuthorityReference": None,
+                    "responseState": "not_publicly_recorded",
+                }
+            ):
+                errors.append(
+                    "Research Operations requires the exact non-counting German and Polish "
+                    f"supplement contract for {request_id}"
+                )
 
     routes = requests.get("routes")
     if not isinstance(routes, list) or len(routes) != 20:
@@ -769,6 +806,11 @@ def validate_review_data(
         for country, state in recorded_responses.items()
         if country in EXPECTED_PROCESS_STATES
     }
+    availability = {
+        country: state
+        for country, state in recorded_responses.items()
+        if country in EXPECTED_AVAILABILITY_STATES
+    }
     structural = {
         country: state
         for country, state in recorded_responses.items()
@@ -781,12 +823,15 @@ def validate_review_data(
     }
     if process != EXPECTED_PROCESS_STATES:
         errors.append(f"Process-only response baseline must remain DE, DK and FI: {process}")
+    if availability != EXPECTED_AVAILABILITY_STATES:
+        errors.append(f"Availability-response baseline must remain Italy only: {availability}")
     if structural != EXPECTED_STRUCTURAL_STATES:
         errors.append(f"Structural-data response baseline must remain Sweden only: {structural}")
     if trade_proxy != EXPECTED_TRADE_PROXY_STATES:
         errors.append(f"Trade-proxy response baseline must remain France only: {trade_proxy}")
     if set(recorded_responses) != (
         set(EXPECTED_PROCESS_STATES)
+        | set(EXPECTED_AVAILABILITY_STATES)
         | set(EXPECTED_STRUCTURAL_STATES)
         | set(EXPECTED_TRADE_PROXY_STATES)
     ):
@@ -794,6 +839,7 @@ def validate_review_data(
     for route in routes:
         if route.get("countryIso2") in (
             set(EXPECTED_PROCESS_STATES)
+            | set(EXPECTED_AVAILABILITY_STATES)
             | set(EXPECTED_STRUCTURAL_STATES)
             | set(EXPECTED_TRADE_PROXY_STATES)
         ):
@@ -941,10 +987,10 @@ def validate_review_structure(
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
 
-    if review_html.count("2026-07-27-31") < 7:
-        errors.append("review.html asset cache-busters must all use the v31 release")
-    if index_html.count("2026-07-27-31") < 4:
-        errors.append("index.html asset cache-busters must all use the v31 release")
+    if review_html.count("2026-07-28-32") < 7:
+        errors.append("review.html asset cache-busters must all use the v32 release")
+    if index_html.count("2026-07-28-32") < 4:
+        errors.append("index.html asset cache-busters must all use the v32 release")
     if any(
         stale in review_html or stale in index_html
         for stale in (
@@ -959,9 +1005,10 @@ def validate_review_structure(
             "2026-07-27-28",
             "2026-07-27-29",
             "2026-07-27-30",
+            "2026-07-27-31",
         )
     ):
-        errors.append("stale cache-busters remain in the v31 pages")
+        errors.append("stale cache-busters remain in the v32 pages")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -998,7 +1045,7 @@ def validate_review_structure(
         'fetch("data/third-donor-screen.json"',
         'fetch("data/fx-rates.json"',
         "screening_only_not_donor_assessment",
-        "prepared_not_sent",
+        "completed_or_superseded",
         "function renderThirdDonorScreen(",
         "function renderThirdDonorScreenUnavailable(",
         "function reviewScenarioRange(",
@@ -1006,6 +1053,9 @@ def validate_review_structure(
         "EUR = original monetary amount ÷ ECB annual average",
         "requestData.schemaVersion !== 3",
         "DE-BVL-TABAKERZV25-ANNUAL-SALES",
+        "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES",
+        "official_aggregate_not_held_public_routes_identified",
+        "availabilityResponses",
         "enforcement_signal",
     ):
         if required_market_hook not in review_js:
@@ -1027,15 +1077,15 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-27-five-country-method-sprint-v31",
-            'version: "2026.07.27-31"',
-            'publishedAt: "2026-07-27T20:08:20+03:00"',
-            "Five-country official-data methods",
-            "once-per-Asia/Nicosia-calendar-day",
+            "2026-07-28-daily-evidence-package-v32",
+            'version: "2026.07.28-32"',
+            'publishedAt: "2026-07-28T08:40:00+03:00"',
+            "Daily lender package",
+            "at most once per Asia/Nicosia calendar day",
             "28 reviewed plans",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v31 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v32 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1152,7 +1202,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v31 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
+        "Validated v32 review experience: HOLD boundary, 0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 24-source ledger and required UI hooks."
     )

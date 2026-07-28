@@ -54,6 +54,10 @@
     automated_receipt_acknowledged: {
       en: "Automated receipt acknowledgement — process only; no data received",
       fi: "Automaattinen vastaanottokuittaus — vain prosessitieto; ei dataa"
+    },
+    official_aggregate_not_held_public_routes_identified: {
+      en: "Official response: requested aggregate not held; public ADM sources identified — no market data received",
+      fi: "Virallinen vastaus: pyydettyä aggregaattia ei ole hallussa; julkiset ADM-lähteet tunnistettu — ei markkinadataa"
     }
   };
   const STRUCTURAL_RESPONSE_STATE = "official_structural_data_received_sales_not_available";
@@ -105,7 +109,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: "official_aggregate_not_held_public_routes_identified"
     },
     FR: {
       state: "sent",
@@ -140,18 +144,39 @@
     "price_channel_bridge",
     "enforcement_signal"
   ];
-  const EXPECTED_BVL_CHANNEL_URL = "https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html";
-  const EXPECTED_BVL_GUIDANCE_URL = "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html?thema=Mitteilungspflicht";
-  const EXPECTED_TABAKERZV_25_URL = "https://www.gesetze-im-internet.de/tabakerzv/__25.html";
-  const EXPECTED_SUPPLEMENTARY_DISPATCH = {
+  const EXPECTED_SUPPLEMENTARY_CONTRACTS = {
     "DE-BVL-TABAKERZV25-ANNUAL-SALES": {
       countryIso2: "DE",
       state: "sent",
       sentOn: "2026-07-24",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: "not_publicly_recorded",
+      requestChannelUrl: "https://www.bvl.bund.de/DE/Service/07_Kontakt/einleitung.html",
+      officialSourceUrls: [
+        "https://www.bvl.bund.de/DE/Arbeitsbereiche/03_Verbraucherprodukte/03_AntragstellerUnternehmen/04_Tabakerzeugnisse_E-Zigaretten/01_Mitteilungspflicht/bgs_tabakerzeugnisse_mitteilungspflicht_node.html?thema=Mitteilungspflicht",
+        "https://www.gesetze-im-internet.de/tabakerzv/__25.html"
+      ]
+    },
+    "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES": {
+      countryIso2: "PL",
+      state: "sent",
+      sentOn: "2026-07-28",
+      publicAuthorityReference: null,
+      responseState: "not_publicly_recorded",
+      requestChannelUrl: "https://www.gov.pl/web/chemical/access-to-public-information",
+      officialSourceUrls: [
+        "https://www.gov.pl/web/chemical/notification-of-electronic-cigarettes-and-refill-containers",
+        "https://www.gov.pl/web/chemikalia/przekazywanie-sprawozdan-rocznych-dotyczacych-papierosow-elektronicznych-i-pojemnikow-zapasowych2",
+        "https://www.gov.pl/web/chemikalia/monitorowanie-rynku-e-papierosow"
+      ]
     }
   };
+  const EXPECTED_ITALY_SOURCE_URLS = new Set([
+    "https://www.adm.gov.it/portale/-/libro-blu-organizzazione-statistiche-e-attivita-anno-2024",
+    "https://www.adm.gov.it/portale/-/portale-prodotti-liquidi-da-inalazione-pli-e-prodotti-accessori-dei-tabacchi-pat-1",
+    "https://www.adm.gov.it/portale/prodotti-succedanei-tabacco-liquidi-inalazione",
+    "https://www.adm.gov.it/portale/bollettino-statistico"
+  ]);
   const SWEDEN_STRUCTURAL_RESPONSE = Object.freeze({
     countryIso2: "SE",
     verifiedOn: "2026-07-24",
@@ -324,7 +349,7 @@
     }
 
     if (!Array.isArray(raw.supplementaryRequests)
-      || raw.supplementaryRequests.length !== Object.keys(EXPECTED_SUPPLEMENTARY_DISPATCH).length) {
+      || raw.supplementaryRequests.length !== Object.keys(EXPECTED_SUPPLEMENTARY_CONTRACTS).length) {
       throw new Error("supplementary request set differs from the approved public record");
     }
     const supplementaryIds = new Set();
@@ -335,7 +360,7 @@
         "recordsRequestedEn", "recordsRequestedFi", "requestChannel", "legalBasis",
         "officialSources"
       ], "supplementary request");
-      const expected = EXPECTED_SUPPLEMENTARY_DISPATCH[request.requestId];
+      const expected = EXPECTED_SUPPLEMENTARY_CONTRACTS[request.requestId];
       if (!expected || supplementaryIds.has(request.requestId)
         || request.countryIso2 !== expected.countryIso2
         || request.countsTowardCountryQueue !== false
@@ -375,10 +400,9 @@
         || !Array.isArray(request.officialSources) || request.officialSources.length < 2) {
         throw new Error("supplementary request lacks official source routes");
       }
-      if (request.requestChannel.url !== EXPECTED_BVL_CHANNEL_URL) {
-        throw new Error("BVL contact route differs from the verified source");
+      if (request.requestChannel.url !== expected.requestChannelUrl) {
+        throw new Error("supplementary request channel differs from the verified contract");
       }
-      const sourceHosts = new Set([new URL(request.requestChannel.url).hostname.toLowerCase()]);
       const sourceUrls = new Set();
       for (const source of request.officialSources) {
         exactKeys(source, ["labelEn", "labelFi", "url", "verifiedOn"], "supplementary official source");
@@ -388,15 +412,11 @@
           || !validOfficialHttps(source.url, allowedHosts)) {
           throw new Error("invalid supplementary official source");
         }
-        sourceHosts.add(new URL(source.url).hostname.toLowerCase());
         sourceUrls.add(source.url);
       }
-      if (![...sourceHosts].some((host) => host === "bvl.bund.de" || host.endsWith(".bvl.bund.de"))
-        || !sourceHosts.has("www.gesetze-im-internet.de")
-        || sourceUrls.size !== 2
-        || !sourceUrls.has(EXPECTED_BVL_GUIDANCE_URL)
-        || !sourceUrls.has(EXPECTED_TABAKERZV_25_URL)) {
-        throw new Error("BVL and section 25 official sources are required");
+      if (sourceUrls.size !== expected.officialSourceUrls.length
+        || expected.officialSourceUrls.some((url) => !sourceUrls.has(url))) {
+        throw new Error("supplementary official source set differs from the verified contract");
       }
     }
     if (!Array.isArray(raw.routes) || raw.routes.length !== 20) {
@@ -509,6 +529,24 @@
           throw new Error("official source verification date is invalid or after programme verification");
         }
       }
+      if (route.countryIso2 === "IT") {
+        const sourceUrls = new Set(route.officialSources.map((source) => source.url));
+        const rationale = route.rationaleEn.toLowerCase();
+        if (sourceUrls.size !== EXPECTED_ITALY_SOURCE_URLS.size
+          || [...EXPECTED_ITALY_SOURCE_URLS].some((url) => !sourceUrls.has(url))
+          || ![
+            "requested aggregate was not held or produced",
+            "no requested volume, retail value or annual market data",
+            "eur 55,910,871.89",
+            "eur 84,309,841.41",
+            "+50.79%",
+            "tax revenue only",
+            "2024 fiscal scope and rates changed",
+            "not retail value, physical volume, market growth or donor evidence"
+          ].every((term) => rationale.includes(term))) {
+          throw new Error("Italy negative-response and tax-only boundary differs from the verified record");
+        }
+      }
     }
     if (countries.size !== Object.keys(OFFICIAL_HOSTS).length
       || Object.keys(OFFICIAL_HOSTS).some((iso) => !countries.has(iso))) {
@@ -517,9 +555,9 @@
     if (sentCountries.size !== 12 || Object.keys(EXPECTED_DISPATCH).some((iso) => !sentCountries.has(iso))) {
       throw new Error("sent country set differs from the approved 12-country public record");
     }
-    if (processResponseCountries.size !== 3
-      || !["DE", "FI", "DK"].every((iso) => processResponseCountries.has(iso))) {
-      throw new Error("process-only response set differs from the approved three-country record");
+    if (processResponseCountries.size !== 4
+      || !["DE", "FI", "DK", "IT"].every((iso) => processResponseCountries.has(iso))) {
+      throw new Error("process/negative response set differs from the approved four-country record");
     }
     if (structuralResponseCountries.size !== 1 || !structuralResponseCountries.has("SE")) {
       throw new Error("structural-data response set differs from the approved Sweden record");
@@ -801,7 +839,7 @@
     panel.append(records);
 
     const sources = element("details", "request-program-sources");
-    sources.append(element("summary", "", l("Viralliset BVL- ja lakilähteet", "Official BVL and law sources")));
+    sources.append(element("summary", "", l("Viralliset viranomais- ja lakilähteet", "Official authority and legal sources")));
     const sourceLinks = element("div", "request-program-source-links");
     for (const source of request.officialSources) {
       const sourceLink = element("a", "", isFi() ? source.labelFi : source.labelEn);
@@ -821,7 +859,7 @@
     const channel = element(
       "a",
       "button button-secondary button-small request-program-link",
-      l("Avaa BVL:n virallinen kanava", "Open BVL official channel")
+      l("Avaa virallinen kanava", "Open official channel")
     );
     channel.href = request.requestChannel.url;
     channel.target = "_blank";
@@ -952,12 +990,12 @@
     );
     root.querySelector("[data-request-program-boundary-mark]").textContent = l("TILA", "STATUS");
     root.querySelector("[data-request-program-boundary-summary]").textContent = l(
-      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta`,
-      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses`
+      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävää viranomaisreittiä · ${responses.processOnly} prosessi-/kielteistä saatavuusvastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta`,
+      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary authority routes · ${responses.processOnly} process/negative-availability responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses`
     );
     root.querySelector("[data-request-program-boundary-copy]").textContent = l(
-      "Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Ranskan vastaus sisältää vuosittaisen tullikaupan laiteproxy-aineiston, jonka yksiköt ja neste-/pod-luokitus odottavat vahvistusta; se ei ole vähittäismarkkinan koko. Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
-      "The Sweden response contains official registration-structure counts only. The France response contains an annual device-code customs-trade proxy whose units and liquid/pod mapping await confirmation; it is not retail market size. The supplementary BVL request belongs to Germany and adds no country. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
+      "Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Ranskan vastaus sisältää vuosittaisen tullikaupan laiteproxy-aineiston, jonka yksiköt ja neste-/pod-luokitus odottavat vahvistusta; se ei ole vähittäismarkkinan koko. Italian virallisen vastauksen mukaan pyydettyä aggregaattia ei ollut hallussa tai tuotettu; Libro Blu -verotuotto ei ole vähittäisarvo, volyymi tai markkinakasvu. Saksan ja Puolan täydentävät pyynnöt kuuluvat jo laskettuihin maihin eivätkä lisää maita. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
+      "The Sweden response contains official registration-structure counts only. The France response contains an annual device-code customs-trade proxy whose units and liquid/pod mapping await confirmation; it is not retail market size. Italy's official response says the requested aggregate was not held or produced; Libro Blu tax revenue is not retail value, volume or market growth. The German and Polish supplementary requests belong to countries already counted and add no countries. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
     );
     root.querySelector("[data-request-program-note]").textContent = l(
       "Kuusi evidenssikerrosta ovat vaihtoehtoisia ja toisiaan tarkistavia. Vero-, myynti-, tulli-, toimitus- ja takavarikkosarjoja ei saa laskea mekaanisesti yhteen; takavarikot eivät ole laillista myyntiä.",
@@ -988,8 +1026,8 @@
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävä Saksan reitti · ${responses.processOnly} vain prosessivastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta · tarkistettu ${programme.verificationDate}.`,
-        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary German route · ${responses.processOnly} process-only responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses · verified ${programme.verificationDate}.`
+        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävää viranomaisreittiä · ${responses.processOnly} prosessi-/kielteistä saatavuusvastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta · tarkistettu ${programme.verificationDate}.`,
+        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary authority routes · ${responses.processOnly} process/negative-availability responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses · verified ${programme.verificationDate}.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");
