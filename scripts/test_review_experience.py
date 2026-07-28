@@ -324,6 +324,12 @@ class ReviewExperienceTests(unittest.TestCase):
         errors = validate_third_donor_screen(screen)
         self.assertTrue(any("completion states differ" in error for error in errors), errors)
 
+    def test_rejects_stale_circana_follow_up_state(self) -> None:
+        screen = copy.deepcopy(self.third_donor)
+        screen["followUpWave"]["items"][2]["threadStatus"] = "follow_up_sent"
+        errors = validate_third_donor_screen(screen)
+        self.assertTrue(any("completion states differ" in error for error in errors), errors)
+
     def test_rejects_missing_third_donor_fetch(self) -> None:
         mutated = self.review_js.replace(
             'fetch("data/third-donor-screen.json"',

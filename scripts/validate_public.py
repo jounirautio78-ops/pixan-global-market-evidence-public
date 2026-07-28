@@ -2639,7 +2639,7 @@ def validate_third_donor_screen(
     if [item.get("threadStatus") for item in items if isinstance(item, dict)] != [
         "follow_up_sent",
         "superseded_by_comprehensive_request_sent",
-        "follow_up_sent",
+        "qualification_response_received_clarification_sent",
     ]:
         errors.append("third-donor follow-up completion states differ from the reviewed wave")
     if [item.get("route") for item in items if isinstance(item, dict)] != [

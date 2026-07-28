@@ -3,6 +3,25 @@
   "asOf": "2026-07-28",
   "releases": [
     {
+      "id": "2026-07-28-circana-qualification-dashboard-v33",
+      "version": "2026.07.28-33",
+      "publishedAt": "2026-07-28T10:57:47+03:00",
+      "titleEn": "Circana qualification response and intraday dashboard status",
+      "titleFi": "Circanan kartoitusvastaus ja dashboardin päivänsisäinen tila",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Recorded a Circana commercial qualification response and the same-thread clarification sent on 2026-07-28. The vendor stated that retailer-level detail is not typically available and supplied only non-binding indicative cost guidance, not a project-specific quote. A populated real-data sample, data dictionary and methodology, explicit channel coverage, a definitive scoped quote and written transaction-use rights remain pending. NOT SCORED; no activation, invoice, subscription, purchase, fee or commitment is authorised.",
+          "textFi": "Kirjattiin Circanan kaupallinen kartoitusvastaus ja samaan viestiketjuun 28.7.2026 lähetetty täsmennys. Toimittajan mukaan vähittäiskauppiastason tietoa ei yleensä ole saatavissa, ja se antoi vain ei-sitovaa suuntaa-antavaa kustannusohjausta, ei projektikohtaista tarjousta. Täytetty tosidatanäyte, datasanasto ja menetelmä, yksiselitteinen kanavapeitto, lopullinen rajattu tarjous sekä kirjalliset transaktiokäyttöoikeudet odottavat. EI PISTEYTETTY; aktivointia, laskua, tilausta, ostoa, maksua tai sitoumusta ei ole valtuutettu."
+        },
+        {
+          "category": "usability",
+          "textEn": "Published this privacy-safe v33 dashboard status intraday. The six downloadable lender-package files remain the reviewed v32 daily snapshot and were not rebuilt; the dashboard and downloads display their own versions separately.",
+          "textFi": "Julkaistiin tämä tietosuojattu v33-dashboardtila päivänsisäisenä päivityksenä. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v32-päiväsnapshotina eikä niitä rakennettu uudelleen; dashboard ja lataukset näyttävät omat versionsa erikseen."
+        }
+      ]
+    },
+    {
       "id": "2026-07-28-daily-evidence-package-v32",
       "version": "2026.07.28-32",
       "publishedAt": "2026-07-28T08:40:00+03:00",

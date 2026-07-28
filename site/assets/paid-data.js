@@ -8,7 +8,7 @@
     ["ecig-global-market-database", "followup_sent_response_pending"],
     ["euromonitor-passport-nicotine", "expanded_schema_and_package_quotes_review_pending"],
     ["niq-rms-pilot", "blocked_not_submitted"],
-    ["circana-us-tobacco-pilot", "followup_sent_sample_quote_pending"]
+    ["circana-us-tobacco-pilot", "administrative_qualification_received"]
   ]);
   let programme = null;
 
@@ -48,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.28-32"
+      || raw.version !== "2026.07.28-33"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -137,9 +137,9 @@
         "Expanded sample + quotes received · further evidence pending"
       ),
       blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
-      followup_sent_sample_quote_pending: l(
-        "Seuranta lähetetty · näyte ja tarjous odottavat",
-        "Follow-up sent · sample and quote pending"
+      administrative_qualification_received: l(
+        "Kvalifiointivastaus saatu · näyttö ja tarjous odottavat",
+        "Qualification response received · evidence and quote pending"
       )
     };
     return labels[state] || l("Ei aloitettu", "Not started");
@@ -232,7 +232,7 @@
     const publicPrices = programme.items.filter((item) => item.priceType === "public_list_price").length;
     const quotes = programme.items.length - publicPrices;
     const submitted = programme.outreach.filter((item) =>
-      ["sent", "followup_sent_response_pending", "expanded_schema_and_package_quotes_review_pending", "followup_sent_sample_quote_pending"]
+      ["sent", "followup_sent_response_pending", "expanded_schema_and_package_quotes_review_pending", "administrative_qualification_received"]
         .includes(item.state)).length;
     const blocked = programme.outreach.filter((item) => item.state === "blocked_not_submitted").length;
     const status = root.querySelector("[data-paid-data-status]");

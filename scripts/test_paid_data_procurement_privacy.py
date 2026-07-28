@@ -15,11 +15,15 @@ from openpyxl import load_workbook
 
 from public_privacy_guard import private_identifier_fingerprint
 from validate_paid_data_procurement import (
+    CURRENT_DASHBOARD_VERSION,
     OUTPUT_XLSX,
+    EXPECTED_XLSX_SHA256,
     read_json,
     scan_public_workbook_text,
     SOURCE_PATH,
     validate_workbook,
+    WORKBOOK_SNAPSHOT_AS_OF,
+    WORKBOOK_SNAPSHOT_VERSION,
 )
 
 
@@ -154,16 +158,45 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         )
         self.assertEqual(
             outreach["circana-us-tobacco-pilot"]["state"],
-            "followup_sent_sample_quote_pending",
+            "administrative_qualification_received",
         )
         self.assertIn(
-            "direct follow-up was sent on 2026-07-28",
+            "commercial qualification response was received",
+            outreach["circana-us-tobacco-pilot"]["noteEn"].lower(),
+        )
+        self.assertIn(
+            "same-thread clarification was sent on 2026-07-28",
             outreach["circana-us-tobacco-pilot"]["noteEn"],
         )
         self.assertIn(
-            "sample and quote remain pending",
+            "Sample data, methodology and a non-binding quote remain pending",
             outreach["circana-us-tobacco-pilot"]["noteEn"],
         )
+        self.assertIn(
+            "NOT SCORED; no purchase, fee or commitment is authorised",
+            outreach["circana-us-tobacco-pilot"]["noteEn"],
+        )
+        self.assertNotRegex(
+            outreach["circana-us-tobacco-pilot"]["noteEn"],
+            r"(?:EUR|USD|GBP)\s*[0-9]",
+        )
+
+    def test_intraday_dashboard_retains_reviewed_daily_workbook_snapshot(self) -> None:
+        self.assertEqual(self.source["version"], CURRENT_DASHBOARD_VERSION)
+        self.assertEqual(self.source["asOf"], WORKBOOK_SNAPSHOT_AS_OF)
+        self.assertNotEqual(CURRENT_DASHBOARD_VERSION, WORKBOOK_SNAPSHOT_VERSION)
+        self.assertEqual(
+            hashlib.sha256(OUTPUT_XLSX.read_bytes()).hexdigest(),
+            EXPECTED_XLSX_SHA256,
+        )
+        workbook = load_workbook(OUTPUT_XLSX, read_only=True, data_only=False)
+        try:
+            release_boundary = workbook["Decision"]["A3"].value
+        finally:
+            workbook.close()
+        self.assertIn(f"Version {WORKBOOK_SNAPSHOT_VERSION}", release_boundary)
+        self.assertIn(f"Verified {WORKBOOK_SNAPSHOT_AS_OF}", release_boundary)
+        self.assertNotIn(f"Version {CURRENT_DASHBOARD_VERSION}", release_boundary)
 
     def test_rejects_private_path_in_reviewer_note(self) -> None:
         errors = self.validate_mutation("V14", "/Users/example/private/reply.eml")

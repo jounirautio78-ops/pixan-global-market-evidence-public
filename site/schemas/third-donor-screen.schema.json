@@ -165,7 +165,8 @@
         "threadStatus": {
           "enum": [
             "follow_up_sent",
-            "superseded_by_comprehensive_request_sent"
+            "superseded_by_comprehensive_request_sent",
+            "qualification_response_received_clarification_sent"
           ]
         },
         "objectiveEn": {"type": "string", "minLength": 1},
