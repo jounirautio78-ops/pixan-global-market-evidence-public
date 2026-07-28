@@ -8,7 +8,7 @@
     ["ecig-global-market-database", ["request_sent", "pending_no_acknowledgement"]],
     ["euromonitor-passport-nicotine", ["request_sent", "substantive_response_received"]],
     ["niq-rms-pilot", ["not_submitted_terms_gate", "not_submitted"]],
-    ["circana-us-tobacco-pilot", ["submission_confirmed", "pending"]]
+    ["circana-us-tobacco-pilot", ["submission_confirmed", "commercial_qualification_response_received"]]
   ]);
   const EXPECTED_CRITERIA = new Map([
     ["annualCountrySeriesFit", 0.20],
@@ -595,6 +595,8 @@
     name.append(node("h3", "", vendor.vendor), node("p", "", vendor.product));
     const statusLabel = vendor.vendorId === "euromonitor-passport-nicotine"
       ? l("OSITTAINEN NÄYTE · TARJOUS SAATU", "PARTIAL SAMPLE · QUOTE RECEIVED")
+      : vendor.responseState === "commercial_qualification_response_received"
+        ? l("KAUPALLINEN RAJAUS · NÄYTE + TARJOUS ODOTTAVAT", "COMMERCIAL QUALIFICATION · SAMPLE + QUOTE PENDING")
       : vendor.responseState === "substantive_response_received"
         ? l("VASTAUKSIA · NÄYTE PUUTTUU", "RESPONSES · SAMPLE PENDING")
       : vendor.requestState === "not_submitted_terms_gate"

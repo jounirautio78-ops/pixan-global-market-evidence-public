@@ -2053,6 +2053,9 @@ function renderThirdDonorScreen(data = reviewThirdDonorScreen) {
   const followUpItems = wave.items || [];
   const sentFollowUps = followUpItems.filter((item) => item.threadStatus === "follow_up_sent").length;
   const supersededFollowUps = followUpItems.filter((item) => item.threadStatus === "superseded_by_comprehensive_request_sent").length;
+  const qualificationResponses = followUpItems.filter(
+    (item) => item.threadStatus === "qualification_response_received_clarification_sent"
+  ).length;
   const summaryItems = [
     [reviewL("Ensisijainen", "Primary"), primary ? (reviewIsFi() ? primary.countryFi : primary.countryEn) : "—", reviewL("Käytännöllisin virallinen hankintaohjelma", "Most practical official acquisition programme")],
     [reviewL("Lähdejohtolanka", "Source lead"), sourceOnly ? (reviewIsFi() ? sourceOnly.countryFi : sourceOnly.countryEn) : "—", reviewL("Ei operatiivisesti ensisijainen", "Not operationally preferred")],
@@ -2061,8 +2064,8 @@ function renderThirdDonorScreen(data = reviewThirdDonorScreen) {
       reviewL("Seurantatoimet", "Follow-up actions"),
       `${followUpItems.length}`,
       `${reviewFormatDate(wave.dueOn)} · ${reviewL(
-        `${sentFollowUps} lähetetty · ${supersededFollowUps} korvautunut`,
-        `${sentFollowUps} sent · ${supersededFollowUps} superseded`
+        `${sentFollowUps} lähetetty · ${supersededFollowUps} korvautunut · ${qualificationResponses} kelpoisuusvastaus`,
+        `${sentFollowUps} sent · ${supersededFollowUps} superseded · ${qualificationResponses} qualification response`
       )}`
     ]
   ];
@@ -2109,6 +2112,11 @@ function renderThirdDonorScreen(data = reviewThirdDonorScreen) {
       "donor-decision-chip",
       item.threadStatus === "follow_up_sent"
         ? reviewL("SEURANTA LÄHETETTY · VASTAUS ODOTTAA", "FOLLOW-UP SENT · RESPONSE PENDING")
+        : item.threadStatus === "qualification_response_received_clarification_sent"
+          ? reviewL(
+            "KAUPALLINEN KELPOISUUSVASTAUS SAATU · NÄYTE JA TARJOUS ODOTTAVAT",
+            "COMMERCIAL QUALIFICATION RESPONSE RECEIVED · SAMPLE AND QUOTE PENDING"
+          )
         : reviewL(
           "KORVAUTUNUT · KATTAVA PYYNTÖ JO LÄHETETTY",
           "SUPERSEDED · COMPREHENSIVE REQUEST ALREADY SENT"
@@ -2275,7 +2283,7 @@ async function initReview() {
         || countries.some((item, index) => item.rank !== index + 1 || item.donorStatus !== "not_assessed")
         || screen.followUpWave?.draftState !== "completed_or_superseded"
         || JSON.stringify(vendors) !== JSON.stringify(["ECigIntelligence", "Euromonitor", "Circana"])
-        || JSON.stringify(followUpStates) !== JSON.stringify(["follow_up_sent", "superseded_by_comprehensive_request_sent", "follow_up_sent"])
+        || JSON.stringify(followUpStates) !== JSON.stringify(["follow_up_sent", "superseded_by_comprehensive_request_sent", "qualification_response_received_clarification_sent"])
         || JSON.stringify(followUpRoutes) !== JSON.stringify(["existing_thread", "existing_thread", "direct_follow_up"])) {
         throw new Error("schema validation failed");
       }

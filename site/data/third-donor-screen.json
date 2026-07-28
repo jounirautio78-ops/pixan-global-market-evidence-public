@@ -373,9 +373,9 @@
         "itemId": "CIRCANA-US-FOLLOW-UP-20260728",
         "vendor": "Circana",
         "route": "direct_follow_up",
-        "threadStatus": "follow_up_sent",
-        "objectiveEn": "A United States retail sample plus explicit MULO, convenience, vape-shop, direct-to-consumer and online coverage were requested in the direct follow-up sent 2026-07-28; substantive sample and quote pending.",
-        "objectiveFi": "Yhdysvaltain vähittäismyyntinäyte sekä yksiselitteinen MULO-, convenience-, vapekauppa-, suora kuluttaja- ja verkkokanavapeitto pyydettiin 28.7.2026 lähetetyssä suorassa seurannassa; sisällöllinen näyte ja tarjous odottavat.",
+        "threadStatus": "qualification_response_received_clarification_sent",
+        "objectiveEn": "A commercial qualification response was received and a same-thread clarification was sent on 2026-07-28. A limited United States retail sample, channel and methodology details, and a non-binding project-specific quote remain pending.",
+        "objectiveFi": "Kaupallinen kelpoisuusvastaus saatiin ja samaan viestiketjuun lähetettiin täsmennys 28.7.2026. Rajattu Yhdysvaltain vähittäismyyntinäyte, kanava- ja menetelmätiedot sekä ei-sitova projektikohtainen tarjous odottavat edelleen.",
         "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
       }
     ],
@@ -387,6 +387,6 @@
       }
     ]
   },
-  "boundaryEn": "No screened country is an accepted donor. ECigIntelligence and Circana follow-ups were sent on 2026-07-28; the Euromonitor draft was superseded by the comprehensive request sent on 2026-07-27. Responses remain pending, no purchase has been authorised and no private quote or correspondence is published.",
-  "boundaryFi": "Yksikään seulottu maa ei ole hyväksytty luovuttajamarkkina. ECigIntelligencen ja Circanan seurannat lähetettiin 28.7.2026; Euromonitor-luonnos korvautui 27.7.2026 lähetetyllä kattavalla pyynnöllä. Vastaukset odottavat, ostoa ei ole hyväksytty eikä yksityistä tarjousta tai kirjeenvaihtoa julkaista."
+  "boundaryEn": "No screened country is an accepted donor. ECigIntelligence and Euromonitor responses remain pending. Circana provided a commercial qualification response, but the United States retail sample, channel and methodology details and non-binding project-specific quote remain pending. No donor is accepted, no purchase is authorised and no private correspondence is published.",
+  "boundaryFi": "Yksikään seulottu maa ei ole hyväksytty luovuttajamarkkina. ECigIntelligencen ja Euromonitorin vastaukset odottavat edelleen. Circana toimitti kaupallisen kelpoisuusvastauksen, mutta Yhdysvaltain vähittäismyyntinäyte, kanava- ja menetelmätiedot sekä ei-sitova projektikohtainen tarjous odottavat. Yhtäkään donoria ei ole hyväksytty, ostoa ei ole valtuutettu eikä yksityistä kirjeenvaihtoa julkaista."
 }

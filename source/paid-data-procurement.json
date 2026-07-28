@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "programmeId": "pixan-independent-paid-data-procurement-v1",
   "asOf": "2026-07-28",
-  "version": "2026.07.28-32",
+  "version": "2026.07.28-33",
   "status": "decision_support_only_no_purchase_authorised",
   "publicBoundaryEn": "Independent procurement analysis. No purchase, subscription, commitment, vendor endorsement or Pixan Oy approval is stated or authorised.",
   "publicBoundaryFi": "Riippumaton hankinta-analyysi. Mitään ostoa, tilausta, sitoumusta, toimittajasuositusta tai Pixan Oy:n hyväksyntää ei väitetä eikä ole valtuutettu.",
@@ -34,10 +34,10 @@
     },
     {
       "itemId": "circana-us-tobacco-pilot",
-      "state": "followup_sent_sample_quote_pending",
+      "state": "administrative_qualification_received",
       "recordedOn": "2026-07-28",
-      "noteEn": "The initial submission and an administrative clarification are recorded. A direct follow-up was sent on 2026-07-28 requesting a United States retail sample, channel and method details, a non-binding minimum configuration and transaction-use rights. A substantive sample and quote remain pending. NOT SCORED; no purchase or other commitment is authorised.",
-      "noteFi": "Alkuperäinen lähetys ja hallinnollinen täsmennys on kirjattu. Suora seuranta lähetettiin 28.7.2026, ja siinä pyydettiin Yhdysvaltain vähittäismyyntinäyte, kanava- ja menetelmätiedot, ei-sitova vähimmäiskokoonpano sekä transaktiokäyttöoikeudet. Sisällöllinen näyte ja tarjous odottavat. EI PISTEYTETTY; ostoa tai muuta sitoumusta ei ole valtuutettu."
+      "noteEn": "A commercial qualification response was received and a same-thread clarification was sent on 2026-07-28. Sample data, methodology and a non-binding quote remain pending. NOT SCORED; no purchase, fee or commitment is authorised.",
+      "noteFi": "Kaupallinen kvalifiointivastaus saatiin ja samaan viestiketjuun lähetettiin täsmennys 28.7.2026. Näyteaineisto, menetelmä ja ei-sitova tarjous ovat edelleen saamatta. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu."
     }
   ],
   "weights": [

@@ -181,20 +181,41 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertIsNone(vendor["weightedScore"])
         self.assertFalse(vendor["purchaseAuthorised"])
 
-    def test_circana_follow_up_does_not_overstate_substantive_response(self) -> None:
+    def test_circana_commercial_qualification_response_remains_unscored(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
         vendor = next(
             item
             for item in candidate["vendors"]
             if item["vendorId"] == "circana-us-tobacco-pilot"
         )
-        self.assertEqual(vendor["responseState"], "pending")
-        self.assertIn("direct follow-up sent 2026-07-28", vendor["publicStatusEn"])
-        self.assertIn("sample and quote remain pending", vendor["publicStatusEn"])
+        self.assertEqual(
+            vendor["responseState"],
+            "commercial_qualification_response_received",
+        )
+        self.assertIn(
+            "commercial qualification response was received",
+            vendor["publicStatusEn"],
+        )
+        self.assertIn("retailer-level detail is not typically available", vendor["publicStatusEn"])
+        self.assertIn("non-binding indicative cost guidance", vendor["publicStatusEn"])
+        self.assertIn("not a project-specific quote", vendor["publicStatusEn"])
+        self.assertIn("populated real-data sample", vendor["publicStatusEn"])
+        self.assertIn("written transaction-use rights remain pending", vendor["publicStatusEn"])
         self.assertTrue(all(value is False for value in vendor["receivedEvidence"].values()))
+        self.assertFalse(vendor["quoteReceived"])
+        self.assertTrue(
+            all(
+                result == {
+                    "status": "missing",
+                    "reasonCodes": ["EVIDENCE_NOT_RECEIVED"],
+                }
+                for result in vendor["gateResults"].values()
+            )
+        )
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
         self.assertFalse(vendor["purchaseAuthorised"])
+        self.assertEqual(candidate["summary"]["substantiveResponses"], 1)
 
     def test_missing_mandatory_evidence_is_not_scored(self) -> None:
         candidate = copy.deepcopy(self.source)

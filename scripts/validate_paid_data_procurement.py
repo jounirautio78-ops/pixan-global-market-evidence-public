@@ -66,7 +66,7 @@ EXPECTED_OUTREACH = {
     "ecig-global-market-database": "followup_sent_response_pending",
     "euromonitor-passport-nicotine": "expanded_schema_and_package_quotes_review_pending",
     "niq-rms-pilot": "blocked_not_submitted",
-    "circana-us-tobacco-pilot": "followup_sent_sample_quote_pending",
+    "circana-us-tobacco-pilot": "administrative_qualification_received",
 }
 EXPECTED_OUTREACH_NOTES = {
     "ecig-global-market-database": (
@@ -82,8 +82,8 @@ EXPECTED_OUTREACH_NOTES = {
         "Ei lähetetty: käytettävissä oleva lomake edellyttää käyttöehtojen hyväksymistä. Ehtoja ei hyväksytty.",
     ),
     "circana-us-tobacco-pilot": (
-        "The initial submission and an administrative clarification are recorded. A direct follow-up was sent on 2026-07-28 requesting a United States retail sample, channel and method details, a non-binding minimum configuration and transaction-use rights. A substantive sample and quote remain pending. NOT SCORED; no purchase or other commitment is authorised.",
-        "Alkuperäinen lähetys ja hallinnollinen täsmennys on kirjattu. Suora seuranta lähetettiin 28.7.2026, ja siinä pyydettiin Yhdysvaltain vähittäismyyntinäyte, kanava- ja menetelmätiedot, ei-sitova vähimmäiskokoonpano sekä transaktiokäyttöoikeudet. Sisällöllinen näyte ja tarjous odottavat. EI PISTEYTETTY; ostoa tai muuta sitoumusta ei ole valtuutettu.",
+        "A commercial qualification response was received and a same-thread clarification was sent on 2026-07-28. Sample data, methodology and a non-binding quote remain pending. NOT SCORED; no purchase, fee or commitment is authorised.",
+        "Kaupallinen kvalifiointivastaus saatiin ja samaan viestiketjuun lähetettiin täsmennys 28.7.2026. Näyteaineisto, menetelmä ja ei-sitova tarjous ovat edelleen saamatta. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu.",
     ),
 }
 FORBIDDEN_PUBLIC_TEXT = (
@@ -110,6 +110,9 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
+CURRENT_DASHBOARD_VERSION = "2026.07.28-33"
+WORKBOOK_SNAPSHOT_VERSION = "2026.07.28-32"
+WORKBOOK_SNAPSHOT_AS_OF = "2026-07-28"
 EXPECTED_XLSX_SHA256 = "9cf894578bc605fdb359562c1dfb75733c183d533bf6a3b5a59353cb5b09feae"
 EXPECTED_RESPONSE_ROWS = (
     (
@@ -217,8 +220,10 @@ def validate_source(source: Any, errors: list[str]) -> None:
         return
     if source.get("status") != "decision_support_only_no_purchase_authorised":
         errors.append("source must state that no purchase is authorised")
-    if not valid_iso_date(source.get("asOf")) or source.get("version") != "2026.07.28-32":
+    if not valid_iso_date(source.get("asOf")) or source.get("version") != CURRENT_DASHBOARD_VERSION:
         errors.append("source date or version is invalid")
+    if source.get("asOf") != WORKBOOK_SNAPSHOT_AS_OF:
+        errors.append("dashboard and retained workbook must remain within one daily snapshot date")
 
     weights = source.get("weights")
     if not isinstance(weights, list) or len(weights) != 6:
@@ -349,6 +354,10 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
 
 
 def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
+    if source.get("version") != CURRENT_DASHBOARD_VERSION:
+        errors.append("paid-data dashboard release differs from the reviewed intraday release")
+    if source.get("asOf") != WORKBOOK_SNAPSHOT_AS_OF:
+        errors.append("retained paid-data workbook is outside the current daily snapshot boundary")
     if not OUTPUT_XLSX.is_file():
         errors.append("reviewed public paid-data XLSX is missing")
         return
@@ -432,7 +441,7 @@ def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
     decision = workbook["Decision"]
     if decision["A3"].value != (
         "Independent decision support · No purchase authorised · "
-        "Version 2026.07.28-32 · Verified 2026-07-28"
+        f"Version {WORKBOOK_SNAPSHOT_VERSION} · Verified {WORKBOOK_SNAPSHOT_AS_OF}"
     ):
         errors.append("paid-data XLSX decision release boundary differs")
     if not isinstance(decision["A10"].value, str) or not all(
@@ -646,7 +655,8 @@ def main() -> int:
         return 1
     print(
         "PASS: 11-item paid-data shortlist, transparent scores, 3 package options, "
-        "go/stop gates, JSON/CSV/XLSX parity and no-purchase boundary verified."
+        "go/stop gates, v33 JSON/CSV parity, retained v32 daily XLSX snapshot "
+        "and no-purchase boundary verified."
     )
     return 0
 

@@ -1,7 +1,7 @@
 # Vendor follow-up drafts — due 2026-07-28
 
 **Status:** `COMPLETED OR SUPERSEDED`
-**Control note:** ECigIntelligence and Circana follow-ups were sent on 2026-07-28. The Euromonitor draft was superseded by the broader request already sent on 2026-07-27, so no duplicate was sent. The public text below is an operational draft record, not private correspondence. No purchase, licence acceptance or vendor commitment is authorised.
+**Control note:** ECigIntelligence's response remains pending. The Euromonitor draft was superseded by the broader request already sent on 2026-07-27, so no duplicate was sent. Circana returned a commercial qualification response and received a same-thread clarification on 2026-07-28; a populated sample, methodology, channel coverage, project-specific quote and written use rights remain pending. The public text below is an operational draft record, not private correspondence. No purchase, licence acceptance or vendor commitment is authorised.
 
 ## ECigIntelligence — first follow-up
 
@@ -60,7 +60,9 @@ Best regards,
 
 ## Circana — United States retail follow-up
 
-**Operational status:** `SENT 2026-07-28 — SUBSTANTIVE SAMPLE AND QUOTE PENDING`
+**Operational status:** `QUALIFICATION RESPONSE RECEIVED — CLARIFICATION SENT 2026-07-28 — SAMPLE + PROJECT-SPECIFIC QUOTE PENDING`
+
+The response supplied commercial qualification information only. It did not provide a populated market-data sample, methodology package, project-specific quote or written transaction-use rights. The route remains NOT SCORED and no activation, invoice, subscription, purchase, fee or commitment is authorised.
 
 **Subject:** Follow-up: United States e-cigarette retail sample and channel coverage
 

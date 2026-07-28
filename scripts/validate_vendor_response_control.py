@@ -360,16 +360,24 @@ EXPECTED_VENDORS = {
         "vendor": "Circana",
         "product": "US Tobacco POS pilot",
         "requestState": "submission_confirmed",
-        "responseState": "pending",
+        "responseState": "commercial_qualification_response_received",
         "publicStatusEn": (
-            "Initial submission and administrative clarification recorded; direct follow-up sent "
-            "2026-07-28. A substantive sample and quote remain pending. NOT SCORED; no purchase, "
-            "fee or commitment is authorised."
+            "A commercial qualification response was received on 2026-07-27, and a same-thread "
+            "clarification was sent on 2026-07-28. The vendor stated that retailer-level detail is "
+            "not typically available and provided only non-binding indicative cost guidance, not a project-"
+            "specific quote. A populated real-data sample, data dictionary and methodology, "
+            "explicit channel coverage, a definitive lowest-cost scoped quote and written "
+            "transaction-use rights remain pending. NOT SCORED; no activation, invoice, "
+            "subscription, purchase, fee or commitment is authorised."
         ),
         "publicStatusFi": (
-            "Alkuperäinen lähetys ja hallinnollinen täsmennys on kirjattu; suora seuranta "
-            "lähetettiin 28.7.2026. Sisällöllinen näyte ja tarjous odottavat. EI PISTEYTETTY; "
-            "ostoa, maksua tai sitoumusta ei ole valtuutettu."
+            "Kaupallista rajausta koskeva vastaus saatiin 27.7.2026, ja samaan ketjuun lähetettiin "
+            "täsmennys 28.7.2026. Toimittaja ilmoitti, ettei jälleenmyyjäkohtaista tietoa "
+            "tyypillisesti ole saatavilla, ja antoi vain sitomattoman suuntaa-antavan kustannusohjeen, ei "
+            "projektikohtaista tarjousta. Täytetty reaalidatanäyte, tietosanasto ja "
+            "menetelmäkuvaus, nimenomainen kanavapeitto, lopullinen halvimman rajatun vaihtoehdon "
+            "tarjous ja kirjalliset transaktiokäyttöoikeudet odottavat. EI PISTEYTETTY; "
+            "aktivointia, laskua, tilausta, ostoa, maksua tai sitoumusta ei ole valtuutettu."
         ),
         "quoteReceived": False,
         "receivedEvidence": EMPTY_RECEIPTS,
@@ -638,7 +646,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.28-32" or source.get("asOf") != "2026-07-28":
+    if source.get("version") != "2026.07.28-33" or source.get("asOf") != "2026-07-28":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
