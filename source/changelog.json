@@ -1,7 +1,41 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-28",
+  "asOf": "2026-07-29",
   "releases": [
+    {
+      "id": "2026-07-29-mail-and-daily-package-v35",
+      "version": "2026.07.29-35",
+      "publishedAt": "2026-07-29T17:55:00+03:00",
+      "titleEn": "Official-request replies and conditional vendor extract",
+      "titleFi": "Viranomaispyyntöjen vastaukset ja ehdollinen toimittajaote",
+      "items": [
+        {
+          "category": "diligence",
+          "textEn": "Germany requested a narrower clarification separating definitions and metadata from control, seizure and destruction records. The clarification and fee-consent deadline is 2026-08-11. Processing may be chargeable, but no fee has been accepted, no access is promised and no data has been received.",
+          "textFi": "Saksa pyysi rajaamaan täsmennyksen siten, että määritelmät ja metadata erotetaan valvonta-, takavarikko- ja hävitystiedoista. Täsmennyksen ja maksusuostumuksen määräpäivä on 11.8.2026. Käsittely voi olla maksullista, mutta maksua ei ole hyväksytty, tietojen saantia ei ole luvattu eikä dataa ole saatu."
+        },
+        {
+          "category": "market_data",
+          "textEn": "France clarified the 2404 nicotine/non-nicotine product boundary, the possible 8543 device/parts boundary and border-value and net-mass units; the extract remains a supply-stage customs proxy. Denmark stated that it does not hold the requested sales value, volume or unit counts and identified a retailer register. Luxembourg stated that the requested release volumes, excise revenue and category statistics are unavailable and identified a registered retail-price list. The Denmark and Luxembourg routes supply structure or price references, not market size.",
+          "textFi": "Ranska täsmensi nimikkeen 2404 nikotiini-/nikotiinittoman tuoterajan, mahdollisen 8543-laite-/osarajan sekä raja-arvon ja nettopainon yksiköt; ote pysyy toimitusvaiheen tulliproxyna. Tanska ilmoitti, ettei sillä ole pyydettyä myyntiarvoa, volyymia tai kappalemääriä, ja tunnisti vähittäismyyjärekisterin. Luxemburg ilmoitti, ettei pyydettyjä luovutusmääriä, valmisteverotuottoa tai kategoriatilastoja ole saatavilla, ja tunnisti rekisteröityjen vähittäishintojen listan. Tanskan ja Luxemburgin reitit tuottavat rakenne- tai hintareferenssejä, eivät markkinakokoa."
+        },
+        {
+          "category": "diligence",
+          "textEn": "The Euromonitor call was completed on 2026-07-29 and a limited Germany extract was offered under a conditional paid arrangement. The extract has not been accepted or activated; no order, invoice, fee, subscription or commitment is authorised. Product scope, retail-versus-tax reconciliation, current Germany coverage, rights and all-in terms remain open; all six gates remain non-passing and the vendor remains NOT SCORED.",
+          "textFi": "Euromonitor-puhelu pidettiin 29.7.2026 ja rajattu Saksa-ote tarjottiin ehdollisella maksullisella järjestelyllä. Otetta ei ole hyväksytty tai aktivoitu; tilausta, laskua, maksua tai sitoumusta ei ole valtuutettu. Tuoterajaus, vähittäis- ja verovaiheen täsmäytys, ajantasainen Saksa-peitto, oikeudet ja kaikki kustannukset kattavat ehdot ovat avoinna; kaikki kuusi porttia pysyvät läpäisemättä ja toimittaja EI PISTEYTETTY -tilassa."
+        },
+        {
+          "category": "usability",
+          "textEn": "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and Evidence Registers as the single 2026-07-29 daily package. The six downloads and dashboard now share version 2026.07.29-35, while the once-daily Asia/Nicosia generation rule remains explicit.",
+          "textFi": "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja Evidence Registerit päivän 29.7.2026 ainoaksi päiväpaketiksi. Kuusi latausta ja dashboard jakavat nyt version 2026.07.29-35, ja kerran päivässä Asia/Nicosia-aikavyöhykkeellä tapahtuva muodostus pysyy näkyvänä sääntönä."
+        },
+        {
+          "category": "method",
+          "textEn": "No new annual country sales series was accepted. The request queue remains 12 sent and 8 draft country routes plus two non-counting supplementary routes; the combined process/negative-availability count is four, official sales-data responses remain zero, the donor gate remains 0/3 and global retail value remains null/not_computed.",
+          "textFi": "Yhtään uutta vuosittaista maamyyntisarjaa ei hyväksytty. Pyyntöjono pysyy 12 lähetetyssä ja 8 luonnosmaareitissä sekä kahdessa laskureihin vaikuttamattomassa täydentävässä reitissä; yhdistetty prosessi-/kielteisten saatavuusvastausten määrä on neljä, virallisia myyntidatavastauksia on edelleen nolla, donor-portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
+        }
+      ]
+    },
     {
       "id": "2026-07-28-independent-controls-dashboard-v34",
       "version": "2026.07.28-34",

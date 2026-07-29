@@ -3,42 +3,32 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V34 = Object.freeze({
-    id: "2026-07-28-independent-controls-dashboard-v34",
-    version: "2026.07.28-34",
-    publishedAt: "2026-07-28T13:30:00+03:00",
-    titleEn: "Independent official-data controls and bilingual safety release",
-    titleFi: "Riippumattomien viranomaisdatakontrollien kaksikielinen turvajulkaisu",
+  const UI_RELEASE_V35 = Object.freeze({
+    id: "2026-07-29-mail-and-daily-package-v35",
+    version: "2026.07.29-35",
+    publishedAt: "2026-07-29T17:55:00+03:00",
+    titleEn: "Official-request replies and conditional vendor extract",
+    titleFi: "Viranomaispyyntöjen vastaukset ja ehdollinen toimittajaote",
     items: Object.freeze([
       Object.freeze({
         category: "diligence",
-        textEn: "Independent United States benchmark controls now preserve official manufacturer, partial-retail, state-tax and customs observations at their reported transaction stages. The six pre-registered sample gates remain not evaluated; no United States retail value, donor acceptance or purchase authorisation is created.",
-        textFi: "Riippumaton Yhdysvaltain vertailukontrolli säilyttää nyt viralliset valmistaja-, osittaisretail-, osavaltiovero- ja tullihavainnot niiden raportoiduissa tapahtumavaiheissa. Kuusi ennakkoon rekisteröityä näyteporttia ovat edelleen arvioimatta; Yhdysvaltain vähittäisarvoa, donor-hyväksyntää tai ostovaltuutusta ei synny."
+        textEn: "Germany requested a narrower clarification by 2026-08-11 and warned that processing may be chargeable. No fee has been accepted, no access is promised and no data has been received.",
+        textFi: "Saksa pyysi rajattua täsmennystä 11.8.2026 mennessä ja ilmoitti käsittelyn voivan olla maksullista. Maksua ei ole hyväksytty, tietojen saantia ei ole luvattu eikä dataa ole saatu."
+      }),
+      Object.freeze({
+        category: "market_data",
+        textEn: "Germany, France, Denmark and Luxembourg produced new official-request status or method evidence. France remains a customs proxy; Denmark and Luxembourg supplied negative-availability responses and public register or price routes, not market size.",
+        textFi: "Saksasta, Ranskasta, Tanskasta ja Luxemburgista saatiin uutta viranomaispyynnön tila- tai menetelmänäyttöä. Ranska pysyy tulliproxyna; Tanska ja Luxemburg toimittivat kielteiset saatavuusvastaukset sekä julkiset rekisteri- tai hintareitit, eivät markkinakokoa."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Spain, South Korea and Japan now have explicit official-data route controls with source, access, product-scope and transaction-stage boundaries. Tax and customs routes remain ineligible for a retail or global roll-up.",
-        textFi: "Espanjalla, Etelä-Korealla ja Japanilla on nyt yksiselitteiset viranomaisdatan reittikontrollit lähde-, käyttö-, tuoterajaus- ja tapahtumavaihe-eroineen. Vero- ja tullireitit eivät kelpaa vähittäis- tai maailmanlaajuiseen koontiin."
-      }),
-      Object.freeze({
-        category: "diligence",
-        textEn: "Added a four-tier disclosure control for lenders, strategic buyers, litigation funders and advisers. The public, NDA, restricted clean-team/counsel and board/counsel tiers keep adverse and positive facts together, grant no confidential access and embed no restricted material.",
-        textFi: "Lisättiin nelitasoinen aineistonluovutuskontrolli lainanantajille, strategisille ostajille, oikeudenkäyntirahoittajille ja neuvonantajille. Julkinen, NDA-, rajoitettu clean team / oikeudellinen neuvonantaja- ja hallitus / oikeudellinen neuvonantaja -tasot pitävät kielteiset ja myönteiset faktat yhdessä, eivät myönnä luottamuksellista pääsyä eivätkä sisällä rajoitettua aineistoa."
-      }),
-      Object.freeze({
-        category: "method",
-        textEn: "Statistics Norway clarified that Q1 is generally net weight in kilograms, subject to commodity-specific exceptions; Q2 is pieces for commodity 8543.4000; that code starts in 2022; and Q2 can be confidentiality-restricted. The response supplies no retail sales, market value or liquid litres; the remaining product-scope and historical-code questions stay open.",
-        textFi: "Norjan tilastoviranomainen täsmensi Q1:n olevan yleensä nettopaino kilogrammoina nimikekohtaisin poikkeuksin, Q2:n olevan kappalemäärä nimikkeelle 8543.4000, nimikkeen alkavan vuodesta 2022 ja Q2:n voivan olla salassapidon rajoittama. Vastaus ei toimita vähittäismyyntiä, markkina-arvoa tai nestelitroja; jäljellä olevat tuoterajaus- ja historiakoodikysymykset pysyvät avoimina."
-      }),
-      Object.freeze({
-        category: "diligence",
-        textEn: "Euromonitor requested a call on 28 July and a 29 July call was confirmed. The requested written Germany test, coverage, rights and commercial evidence remains pending; all six gates remain non-passing, the vendor remains NOT SCORED and no purchase, fee or commitment is authorised.",
-        textFi: "Euromonitor pyysi puhelua 28.7., ja puhelu vahvistettiin päivälle 29.7. Pyydetty kirjallinen Saksa-testi sekä peitto-, käyttöoikeus- ja kaupallinen näyttö odottavat edelleen; kaikki kuusi porttia pysyvät läpäisemättä, toimittaja pysyy EI PISTEYTETTY -tilassa eikä ostoa, maksua tai sitoumusta ole valtuutettu."
+        textEn: "The Euromonitor call was completed and a conditional paid Germany extract was offered. It has not been accepted or activated; 0/6 gates pass, the vendor remains NOT SCORED and no order, invoice, fee, subscription or commitment is authorised.",
+        textFi: "Euromonitor-puhelu pidettiin ja ehdollinen maksullinen Saksa-ote tarjottiin. Sitä ei ole hyväksytty tai aktivoitu; 0/6 porttia läpäisee, toimittaja pysyy EI PISTEYTETTY -tilassa eikä tilausta, laskua, maksua tai sitoumusta ole valtuutettu."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "Published this privacy-safe v34 dashboard status intraday. The six downloadable lender-package files remain the reviewed v32 daily snapshot and were not rebuilt; the dashboard and downloads display their own versions separately.",
-        textFi: "Julkaistiin tämä tietosuojattu v34-dashboardtila päivänsisäisenä päivityksenä. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v32-päiväsnapshotina eikä niitä rakennettu uudelleen; dashboard ja lataukset näyttävät omat versionsa erikseen."
+        textEn: "The six downloadable lender-package files are the reviewed v35 daily snapshot. The dashboard and downloads share the v35 daily release; the package is generated at most once per Asia/Nicosia calendar day.",
+        textFi: "Kuusi ladattavaa rahoittajapaketin tiedostoa ovat tarkistettu v35-päiväsnapshot. Dashboard ja lataukset jakavat v35-päiväjulkaisun; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä."
       })
     ])
   });
@@ -763,7 +753,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V34;
+  window.PixanUiRelease = UI_RELEASE_V35;
 
   init();
 })();

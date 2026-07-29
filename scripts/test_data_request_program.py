@@ -125,14 +125,14 @@ class DataRequestBoundaryTests(unittest.TestCase):
             "state": "sent",
             "sentOn": "2026-07-23",
             "publicAuthorityReference": None,
-            "responseState": "registered_and_processing_confirmed",
+            "responseState": "registered_processing_notice_received",
         })
 
     def test_exact_process_response_states_are_public_and_non_substantive(self) -> None:
         expected = {
-            "DE": "registered_and_processing_confirmed",
+            "DE": "registered_processing_notice_received",
             "FI": "registered_processing_notice_received",
-            "DK": "automated_receipt_acknowledged",
+            "DK": "official_sales_data_not_held_retailer_registry_identified",
             "IT": "official_aggregate_not_held_public_routes_identified",
         }
         actual = {
@@ -204,7 +204,7 @@ class DataRequestBoundaryTests(unittest.TestCase):
             "publicAuthorityReference": None,
             "responseState": "official_customs_trade_proxy_received_scope_partial",
         })
-        self.assertIn("supply-stage proxy", france["rationaleEn"])
+        self.assertIn("supply-stage customs proxy", france["rationaleEn"])
         self.assertIn("not retail market size", france["rationaleEn"])
         self.assertIn(
             "official annual partner-level customs trade extracts",

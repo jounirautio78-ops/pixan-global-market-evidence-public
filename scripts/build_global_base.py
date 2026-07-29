@@ -535,7 +535,8 @@ def validate_method_route_sources(
     for iso2, item in country_request_map.items():
         if (
             item.get("status") != "sent"
-            or item.get("sentOn") != route_config.get("asOf")
+            or not isinstance(item.get("sentOn"), str)
+            or item["sentOn"] > route_config.get("asOf", "")
             or item.get("programme") != "five_country_method_sprint"
             or not isinstance(item.get("publicNoteEn"), str)
             or not item["publicNoteEn"]

@@ -174,7 +174,7 @@ def validate_control(control: dict, errors: list[str]) -> None:
     require(set(control) == EXPECTED_TOP_LEVEL_KEYS, "control top-level keys mismatch", errors)
     require(control.get("schemaVersion") == "1.0", "schemaVersion must be 1.0", errors)
     require(control.get("controlId") == "pixan-investor-disclosure-control-2026-07-28", "controlId mismatch", errors)
-    require(control.get("asOf") == "2026-07-28", "control asOf mismatch", errors)
+    require(control.get("asOf") == "2026-07-29", "control asOf mismatch", errors)
     require(bool(ISO_DATE_RE.fullmatch(str(control.get("asOf", "")))), "control asOf must be ISO date", errors)
     require(control.get("controlState") == "fail_closed", "control must fail closed", errors)
     require(control.get("languages") == ["en", "fi"], "language order must be en, fi", errors)

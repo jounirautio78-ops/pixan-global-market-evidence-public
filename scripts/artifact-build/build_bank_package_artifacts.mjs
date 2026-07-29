@@ -15,11 +15,11 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v32", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v32", "renders");
-const releaseVersion = "2026.07.28-32";
-const releaseId = "2026-07-28-daily-evidence-package-v32";
-const releaseDate = "2026-07-28";
+const qaDir = path.join(repo, "tmp", "bank-v35", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v35", "renders");
+const releaseVersion = "2026.07.29-35";
+const releaseId = "2026-07-29-mail-and-daily-package-v35";
+const releaseDate = "2026-07-29";
 const packageCadence = Object.freeze({
   frequency: "once_daily",
   timeZone: "Asia/Nicosia",
@@ -94,7 +94,10 @@ const DECK_SOURCE_URLS = [
   "https://www.lachambre.be/doc/CCRI/html/56/ic041x.html",
   "https://www.bazg.admin.ch/dam/en/sd-web/GljEzThGISer/Tobacco%20tax.pdf",
   "https://douanes.public.lu/fr/support/faq/e-liquides.html",
+  "https://douanes.public.lu/dam-assets/fr/accises/signes-fiscaux/2024/s48/bareme-e-liquide-s48.pdf",
   "https://www.helsedirektoratet.no/veiledere/tobakksskadeloven/e-sigaretter",
+  "https://lekiosque.finances.gouv.fr/site_fr/NC8/Resultat_nc.asp?ot=1&lanc=85434000",
+  "https://www.sik.dk/registre",
   "https://www.adm.gov.it/portale/documents/20182/261920520/Libro+blu+2024+-+Relazione.pdf/e46989ce-b39f-a404-3b4b-2af3196cba43",
   "https://www.wipo.int/en/web/ip-financing",
 ];
@@ -211,7 +214,7 @@ const deckUpdates = {
         "sh/kbm987y5": "578 WB-havaintoa · 39 markkinamittaria + 36 Ruotsin FHM-lukua",
         "sh/i94r6xgz": "274,180 milj. NZD",
         "sh/jadsz2xk": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
-        "sh/v6tsv2xo": "Uusi-Seelanti läpäisee 7/10: D5 hylätty, D8 ja D10 avoinna. Ei hyväksytty; donor-portti 0/3.",
+        "sh/v6tsv2xo": "Uusi-Seelanti 7/10: D5 hylätty, D8/D10 avoinna; donor 0/3. Viranomaisdelta 29.7.: Saksa pyysi rajauksen; mahdollisen maksun määräpäivä on 2026-08-11, eikä maksua ole hyväksytty. Ranska antoi tulliluokitus-, raja-arvo- ja kg-metadataa; reitti on vain tulliproxy. Tanska/Luxemburg: ei myyntidataa. Euromonitorin ehdollinen maksullinen Saksa-ote ei ole hyväksytty eikä aktivoitu; 0/6, EI PISTEYTETTY.",
         "sh/p0batw72": "Menetelmäkontrolli 28 / 0 / 15 / 152; 5 uutta maasuunnitelmaa, ei myyntiä. Belgia ≈83 333 litraa (9 kk; ei retail); Italia 84,31 milj. EUR PLI-veroa (ei retail). Kanada retail 1,219160 mrd CAD ja toimitukset 1,160754 mrd CAD; FTC 2,763 mrd USD. Donor 0/3.",
       },
     },
@@ -265,7 +268,7 @@ const deckUpdates = {
         "sh/8jup8rad": "Ensimmäisen donorin 90 päivän sulkemissprintti",
         "sh/5gbupcrm": "Uusi-Seelanti: ministeriön D5/D8-vahvistus ja riippumaton D10-silta. Kanada: StatCanin D5/D7-vahvistus.",
         "sh/t4butcri": "Puola: 2020–2023 virallinen e-nestevirta ja vuoden 2025 laite-/osasarjaverosilta; retail-arvo ja D1–D10-silta puuttuvat.",
-        "sh/98ruxsre": "Viiden maan normalisointi: Belgia ≈83 333 litraa (9 kk; ei retail) ja Italia 84,31 milj. EUR PLI-veroa (ei retail). Menetelmät pidetään erossa myynnistä; Euromonitor 0/6.",
+        "sh/98ruxsre": "Viranomaisdelta 29.7.: Saksa pyysi rajauksen; mahdollisen maksun määräpäivä on 2026-08-11, eikä maksua ole hyväksytty. Ranskan täsmennys kattaa vain tulliluokituksen, raja-arvon ja kg-metadatan; reitti pysyy tulliproxyna. Tanska ja Luxemburg vahvistivat, ettei pyydettyä myyntidataa ole saatavilla; Luxemburgin hintalista on vain hintareferenssi. Euromonitor tarjosi ehdollisen maksullisen Saksa-otteen, jota ei ole hyväksytty eikä aktivoitu; 0/6, EI PISTEYTETTY. Belgia ≈83 333 litraa (9 kk) ja Italia 84,31 milj. EUR PLI-veroa ovat ei retail -ankkureita.",
         "sh/218rq9kr": "Hyväksy donor vain, jos kaikki kymmenen ehtoa läpäisevät. Muuten 0/3 ja not_computed säilyvät.",
         "sh/21gnuts7": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
         "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  195 maan menetelmäkontrolli erottaa 28 tarkistettua suunnitelmaa, 0 lähdepolkua, 15 EU TPD -mallia ja 152 rajaamatonta proxy-reittiä; mikään ei avaa 0/3 donor-porttia.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
@@ -298,7 +301,7 @@ const deckUpdates = {
         "sh/kbm987y5": "578 WB records; 39 market measures + 36 Swedish FHM register counts; not sales",
         "sh/i94r6xgz": "NZD 274.180m",
         "sh/jadsz2xk": "New Zealand 2024: identified AIS/AVP subtotal",
-        "sh/v6tsv2xo": "New Zealand passes 7/10: D5 failed; D8 and D10 open. Not accepted; the donor gate remains 0/3.",
+        "sh/v6tsv2xo": "New Zealand is 7/10: D5 failed, D8/D10 open; donor gate 0/3. Official-response delta on 29 July: Germany requested clarification; the possible-fee deadline is 2026-08-11 and no fee has been accepted. France supplied customs classification, border-value and kg metadata only; the route remains a customs proxy. Denmark/Luxembourg: no sales data. Euromonitor's conditional paid Germany extract is not accepted or activated; 0/6, NOT SCORED.",
         "sh/p0batw72": "Method control 28 / 0 / 15 / 152; 5 new country plans, not sales. Belgium ≈83,333 litres (9 months; not retail); Italy EUR 84.31m PLI tax (not retail). Canada retail CAD 1.219160bn and shipments CAD 1.160754bn; FTC USD 2.763bn. Donor 0/3.",
       },
     },
@@ -336,7 +339,7 @@ const deckUpdates = {
         "sh/8jup8rad": "First-donor conversion sprint · next 90 days",
         "sh/5gbupcrm": "New Zealand: Ministry D5/D8 confirmation and an independent D10 bridge. Canada: Statistics Canada D5/D7 confirmation.",
         "sh/t4butcri": "Poland: official 2020–2023 e-liquid flow and a 2025 device/component tax bridge; retail value and a D1–D10 bridge remain missing.",
-        "sh/98ruxsre": "Five-country normalisation: Belgium ≈83,333 litres (9 months; not retail) and Italy EUR 84.31m PLI tax (not retail). Methods stay separate from sales; Euromonitor 0/6.",
+        "sh/98ruxsre": "Official-response delta on 29 July: Germany requested clarification; the possible-fee deadline is 2026-08-11 and no fee has been accepted. France added customs classification, border-value and kg metadata only; the route remains a customs proxy. Denmark and Luxembourg confirmed that the requested sales data are unavailable; Luxembourg's price list is only a price reference. Euromonitor offered a conditional paid Germany extract that is not accepted or activated; 0/6, NOT SCORED. Belgium ≈83,333 litres (9 months) and Italy EUR 84.31m PLI tax remain not-retail anchors.",
         "sh/218rq9kr": "Accept a donor only if all ten criteria pass. Otherwise retain 0/3 and not_computed.",
         "sh/21gnuts7": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
         "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The 195-country method control separates 28 reviewed plans, 0 source leads, 15 EU TPD patterns and 152 unscoped proxy routes; none unlocks the 0/3 donor gate.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
@@ -457,7 +460,7 @@ const registerAdditions = {
   ],
 };
 
-const v32MethodAndFiscalClaims = {
+const releaseMethodAndFiscalClaims = {
   fi: [
     [
       "Itävallalla on tarkistettu vuosittaiseen lakisääteiseen myyntiraportointiin ja sähkönestevalmisteveroon perustuva menetelmäsuunnitelma; vähittäismarkkina-arvoa ei ole laskettu.",
@@ -493,15 +496,15 @@ const v32MethodAndFiscalClaims = {
       "Luokkakohtaiset nettoverot tai millilitrat, oikaisut, nikotiinittomat täyttönesteet, hinnat ja kuluttajamyynti puuttuvat; retailValueStatus on not_computed.",
     ],
     [
-      "Luxemburgilla on 2024-10-01 alkanut valmistevero- ja veromerkkimenetelmä; vähittäismarkkina-arvoa ei ole laskettu.",
+      "Luxemburgilla on 2024-10-01 alkanut valmistevero- ja veromerkkimenetelmä, mutta virallinen vastaus vahvistaa, ettei pyydettyjä kulutukseen luovutettuja määriä, verotuottoa tai kategoriatilastoja ole saatavilla; vähittäismarkkina-arvoa ei ole laskettu.",
       "Markkinakoko / Luxemburg",
-      "Virallinen verokanta on EUR 0,12 per ml 2024-10-01 alkaen, ja veromerkit sisältävät nestetilavuuden sekä pakollisen kuluttajahinnan.",
-      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
-      "2026-07-27",
-      "Verolliset litrat = sähkönestekohtainen nettovero / EUR 120 litralta; merkitty kuluttajahintainen arvo = summa(merkitty pakkausmäärä × pakollinen merkitty hinta).",
-      "Volyymi- ja veromerkkilaskelmia ei lasketa yhteen; ulkomaan B2B-toimitukset, hävitykset, palautukset ja oikaisut erotellaan.",
+      "Viranomainen ei toimittanut volyymi- tai verotuottosarjaa eikä erottele pyydettyjä tuotekategorioita. Se osoitti virallisen rekisteröityjen vähittäishintojen listan, joka on vain hinta- ja veromerkkireferenssi.",
+      "https://douanes.public.lu/dam-assets/fr/accises/signes-fiscaux/2024/s48/bareme-e-liquide-s48.pdf ; source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
+      "2026-07-29",
+      "Ei laskentaa: hintalistaa ei kerrota vahvistamattomalla pakkausmäärällä eikä verokantaa käännetä volyymiksi ilman nettoverotuottoa.",
+      "Puuttuvaa viranomaiskoostetta ei käsitellä nollana. Hintalista ei osoita myyntiä, volyymia, kulutukseen luovutusta tai kuluttajakysyntää.",
       "Vahvistettu",
-      "Kansallinen kooste, veromerkkien määrä- ja hintakentät, kuluttajamyynti ja kauden lopullisuus puuttuvat; retailValueStatus on not_computed.",
+      "Vuosittaiset veronalaiset millilitrat, verotuotto, veromerkkien pakkausmäärät, laitemäärät, sell-through ja kauden lopullisuus puuttuvat; retailValueStatus on not_computed.",
     ],
     [
       "Norjalla ei ole nykyistä Article 20(7) -vuosimyyntireittiä; vuoden 2026 NOK 5,38 per ml oleva lakisääteinen verokanta ei ole käytännössä voimassa eikä osoita markkina-arvoa.",
@@ -561,15 +564,15 @@ const v32MethodAndFiscalClaims = {
       "Category-specific net tax or millilitres, adjustments, reusable nicotine-free liquids, prices and sell-through are missing; retailValueStatus is not_computed.",
     ],
     [
-      "Luxembourg has an excise and fiscal-mark method starting on 2024-10-01; no retail market value has been computed.",
+      "Luxembourg has an excise and fiscal-mark method starting on 2024-10-01, but the official response confirms that the requested consumption-release volumes, excise revenue and category statistics are unavailable; no retail market value has been computed.",
       "Market size / Luxembourg",
-      "The official rate is EUR 0.12 per ml from 2024-10-01, and fiscal marks carry liquid volume and mandatory consumer price.",
-      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
-      "2026-07-27",
-      "Taxed litres = e-liquid-specific net excise / EUR 120 per litre; marked consumer-price value = sum(marked pack quantity × mandatory marked price).",
-      "The volume and fiscal-mark calculations are not additive; foreign B2B dispatches, destruction, refunds and corrections are separated.",
+      "The authority supplied no volume or excise-revenue series and does not distinguish the requested product categories. It identified the official registered retail-price list, which is only a price and fiscal-mark reference.",
+      "https://douanes.public.lu/dam-assets/fr/accises/signes-fiscaux/2024/s48/bareme-e-liquide-s48.pdf ; source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
+      "2026-07-29",
+      "No calculation: the price list is not multiplied by unverified pack counts, and the tax rate is not inverted without net excise receipts.",
+      "A missing authority aggregate is not treated as zero. The price list does not establish sales, volume, release for consumption or consumer demand.",
       "Confirmed",
-      "The national aggregate, fiscal-mark quantity and price fields, sell-through and period finality are missing; retailValueStatus is not_computed.",
+      "Annual taxable millilitres, excise revenue, fiscal-mark pack counts, device units, sell-through and period finality are missing; retailValueStatus is not_computed.",
     ],
     [
       "Norway has no current Article 20(7) annual-sales route; the 2026 statutory NOK 5.38 per ml rate has no practical effect and does not establish market value.",
@@ -1075,7 +1078,7 @@ function validateGlobalBase(globalBase) {
     || globalBase?.methodRouteControl?.summary?.regionalTpdPatternOnlyCount !== 15
     || globalBase?.methodRouteControl?.summary?.proxyOnlyUnscopedCount !== 152
   ) {
-    throw new Error("v32 global base differs from the reviewed fail-closed method-control snapshot");
+    throw new Error("v35 global base differs from the reviewed fail-closed method-control snapshot");
   }
   const measureSummary = new Map(
     (globalBase.summary.measures ?? []).map((item) => [item.measureId, item]),
@@ -1115,7 +1118,7 @@ function validateGlobalBase(globalBase) {
       || country?.methodRoute?.eligibleForGlobalRollup !== false
       || country?.methodRoute?.donorAccepted !== false
     ) {
-      throw new Error(`v32 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
+      throw new Error(`v35 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
     }
   }
 }
@@ -1143,11 +1146,47 @@ function validateVendorGateBoundary(vendorControl) {
     || euromonitor.evaluatedGateCount !== 6
     || euromonitor.scoringState !== "not_scored"
     || euromonitor.purchaseAuthorised !== false
+    || !euromonitor.publicStatusEn?.includes("conditional paid arrangement")
+    || !euromonitor.publicStatusEn?.includes(
+      "No extract, order, invoice, fee, subscription or commitment is authorised or accepted.",
+    )
+    || !euromonitor.publicStatusEn?.includes("NOT SCORED")
+    || !euromonitor.publicStatusFi?.includes("ehdollisella maksullisella järjestelyllä")
+    || !euromonitor.publicStatusFi?.includes(
+      "Otetta, tilausta, laskua, maksua tai sitoumusta ei ole valtuutettu tai hyväksytty.",
+    )
+    || !euromonitor.publicStatusFi?.includes("EI PISTEYTETTY")
     || Object.entries(expected).some(
       ([gate, status]) => euromonitor?.gateResults?.[gate]?.status !== status,
     )
   ) {
-    throw new Error("v32 Euromonitor 0/6 vendor-gate boundary differs");
+    throw new Error("v35 Euromonitor conditional-offer and 0/6 vendor-gate boundary differs");
+  }
+}
+
+function validateOfficialRequestBoundary(requestProgram) {
+  const routes = new Map(
+    (requestProgram?.routes ?? []).map((route) => [route.countryIso2, route]),
+  );
+  const germany = routes.get("DE");
+  const france = routes.get("FR");
+  const denmark = routes.get("DK");
+  if (
+    requestProgram?.schemaVersion !== 3
+    || requestProgram?.verificationDate !== releaseDate
+    || germany?.dispatch?.responseState !== "registered_processing_notice_received"
+    || !germany?.rationaleEn?.includes("2026-08-11")
+    || !germany?.rationaleEn?.includes("No fee has been accepted")
+    || france?.dispatch?.responseState !== "official_customs_trade_proxy_received_scope_partial"
+    || !france?.rationaleEn?.includes("French border")
+    || !france?.rationaleEn?.includes("net mass is kilograms")
+    || !france?.rationaleEn?.includes("customs proxy")
+    || denmark?.dispatch?.responseState
+      !== "official_sales_data_not_held_retailer_registry_identified"
+    || !denmark?.rationaleEn?.includes("neither collects nor receives industry sales figures")
+    || !denmark?.rationaleEn?.includes("not sales data or market size")
+  ) {
+    throw new Error("v35 Germany, France and Denmark official-response boundary differs");
   }
 }
 
@@ -1177,11 +1216,13 @@ function validateThirdDonorScreen(publicScreen, sourceScreen) {
       "ECigIntelligence", "Euromonitor", "Circana",
     ])
     || JSON.stringify((wave?.items ?? []).map((item) => item?.threadStatus)) !== JSON.stringify([
-      "follow_up_sent", "superseded_by_comprehensive_request_sent", "follow_up_sent",
+      "follow_up_sent",
+      "superseded_by_comprehensive_request_sent",
+      "qualification_response_received_clarification_sent",
     ])
     || wave?.excluded?.[0]?.vendor !== "NIQ"
   ) {
-    throw new Error("Third-donor screen differs from the reviewed v32 acquisition decision");
+    throw new Error("Third-donor screen differs from the reviewed v35 acquisition decision");
   }
 }
 
@@ -1486,17 +1527,19 @@ function upgradeRegister(rows, language) {
       ? "195 maan menetelmäkontrolli erottaa"
       : "The 195-country method control separates")
   ));
-  const v32ClaimPrefix = language === "fi"
+  const releaseClaimPrefix = language === "fi"
     ? "Itävallalla on tarkistettu"
     : "Austria has a reviewed";
-  const existingV32ClaimIndex = output.findIndex((row) => row[0].startsWith(v32ClaimPrefix));
-  if (existingV32ClaimIndex < 0) {
-    output.splice(actualMethodControlIndex + 1, 0, ...v32MethodAndFiscalClaims[language]);
+  const existingReleaseClaimIndex = output.findIndex(
+    (row) => row[0].startsWith(releaseClaimPrefix),
+  );
+  if (existingReleaseClaimIndex < 0) {
+    output.splice(actualMethodControlIndex + 1, 0, ...releaseMethodAndFiscalClaims[language]);
   } else {
     output.splice(
-      existingV32ClaimIndex,
-      v32MethodAndFiscalClaims[language].length,
-      ...v32MethodAndFiscalClaims[language],
+      existingReleaseClaimIndex,
+      releaseMethodAndFiscalClaims[language].length,
+      ...releaseMethodAndFiscalClaims[language],
     );
   }
 
@@ -1927,9 +1970,17 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
   }
   if (deckName === "short") {
     presentation.resolve("sh/p0batw72").text.fontSize = 18;
+    const officialDelta = presentation.resolve("sh/v6tsv2xo");
+    officialDelta.text.fontSize = 14;
+    officialDelta.text.autoFit = "shrinkText";
     const marketScopeSubtitle = presentation.resolve("sh/kbm987y5");
     marketScopeSubtitle.text.fontSize = language === "fi" ? 16 : 17;
     marketScopeSubtitle.text.autoFit = "shrinkText";
+  }
+  if (deckName === "large") {
+    const officialDelta = presentation.resolve("sh/98ruxsre");
+    officialDelta.text.fontSize = 14;
+    officialDelta.text.autoFit = "shrinkText";
   }
   if (language === "fi" && deckName === "large") {
     presentation.resolve("sh/mpgj6t8j").text.fontSize = 18;
@@ -2377,7 +2428,7 @@ async function writeReleaseLocks(artifacts) {
     || release?.version !== releaseVersion
     || changelog.asOf !== releaseDate
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v32 release");
+    throw new Error("The public changelog is not locked to the reviewed v35 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -2418,6 +2469,7 @@ async function writeReleaseLocks(artifacts) {
     "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
     "source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
     "source/POLAND_EUCEG_ANNUAL_SALES_REQUEST_2026-07-28.md",
+    "source/top20-data-request-routes.json",
     "source/vendor-response-control.json",
     "source/third-donor-screen.json",
     "source/schemas/fx-rates.schema.json",
@@ -2476,7 +2528,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v32 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Five new country rows document methods, not measured sales. Belgium's rounded nine-month tax-volume indicator and Italy's exact PLI consumption-tax receipts are fiscal anchors, not retail value, full-year sales, volume growth or donor evidence. ECigIntelligence and Circana follow-ups were sent on 28 July; the Euromonitor draft was superseded by the comprehensive 27 July request. No vendor route is scored or authorised for purchase. The donor gate remains 0/3 and the global estimate remains not_computed.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v35 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Germany requested a narrower clarification and set 2026-08-11 as the clarification and possible-fee-consent deadline; no fee was accepted and no data was received. France supplied customs classification, border-value and net-mass metadata only, so the route remains a customs proxy. Denmark and Luxembourg confirmed negative availability for the requested sales data; Luxembourg's official retail-price list is a price reference only. Euromonitor offered a conditional paid Germany extract, but no extract, fee, order or commitment was accepted or activated; all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,
@@ -2531,6 +2583,9 @@ async function main() {
   const scenarios = JSON.parse(await fs.readFile(path.join(dataDir, "country-scenarios.json"), "utf8"));
   const globalBase = JSON.parse(await fs.readFile(path.join(dataDir, "global-base-layer.json"), "utf8"));
   const vendorControl = JSON.parse(await fs.readFile(path.join(dataDir, "vendor-response-control.json"), "utf8"));
+  const requestProgram = JSON.parse(
+    await fs.readFile(path.join(sourceDir, "top20-data-request-routes.json"), "utf8"),
+  );
   const publicFx = JSON.parse(await fs.readFile(path.join(dataDir, "fx-rates.json"), "utf8"));
   const sourceFx = JSON.parse(await fs.readFile(path.join(sourceDir, "fx-rates.json"), "utf8"));
   const publicThirdDonorScreen = JSON.parse(await fs.readFile(path.join(dataDir, "third-donor-screen.json"), "utf8"));
@@ -2538,6 +2593,7 @@ async function main() {
   validateV27MarketEvidence(market);
   validateGlobalBase(globalBase);
   validateVendorGateBoundary(vendorControl);
+  validateOfficialRequestBoundary(requestProgram);
   validateReviewedFx(publicFx, sourceFx);
   validateThirdDonorScreen(publicThirdDonorScreen, sourceThirdDonorScreen);
   const publicFxSchemaPath = path.join(repo, "site", "schemas", "fx-rates.schema.json");

@@ -84,7 +84,7 @@ const REVIEW_MATRIX_DIMENSIONS = {
 };
 const REVIEW_STRUCTURAL_RESPONSE_COUNTRIES = new Set(["SE"]);
 const REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES = new Set(["FR"]);
-const REVIEW_AVAILABILITY_RESPONSE_COUNTRIES = new Set(["IT"]);
+const REVIEW_AVAILABILITY_RESPONSE_COUNTRIES = new Set(["DK", "IT"]);
 
 let reviewData = null;
 let reviewMarketData = null;

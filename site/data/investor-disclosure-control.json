@@ -2,7 +2,7 @@
   "$schema": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/investor-disclosure-control.schema.json",
   "schemaVersion": "1.0",
   "controlId": "pixan-investor-disclosure-control-2026-07-28",
-  "asOf": "2026-07-28",
+  "asOf": "2026-07-29",
   "controlState": "fail_closed",
   "languages": [
     "en",
@@ -171,8 +171,8 @@
       "factId": "global-total-not-computed",
       "titleEn": "No published global retail total",
       "titleFi": "Ei julkaistua maailman vähittäismyyntisummaa",
-      "statementEn": "As of 2026-07-28, the donor gate is 0/3 and the global vaping retail value remains null/not_computed.",
-      "statementFi": "Tilanteessa 28.7.2026 donor-portti on 0/3 ja sähkötupakkamarkkinan maailmanlaajuinen vähittäisarvo pysyy null/not_computed-tilassa.",
+      "statementEn": "As of 2026-07-29, the donor gate is 0/3 and the global vaping retail value remains null/not_computed.",
+      "statementFi": "Tilanteessa 29.7.2026 donor-portti on 0/3 ja sähkötupakkamarkkinan maailmanlaajuinen vähittäisarvo pysyy null/not_computed-tilassa.",
       "publicEvidencePaths": [
         "site/data/donor-cockpit.json",
         "site/data/changelog.json"
@@ -237,8 +237,8 @@
       "factId": "vendor-evidence-and-rights-open",
       "titleEn": "Vendor evidence and rights gates remain open",
       "titleFi": "Toimittajaevidenssin ja oikeuksien portit ovat avoinna",
-      "statementEn": "As of 2026-07-28, no tracked vendor is scored and no purchase is authorised; receipt of a document, quote or sample does not prove completeness, method quality or onward-disclosure rights.",
-      "statementFi": "Tilanteessa 28.7.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty eikä ostoa ole valtuutettu; asiakirjan, tarjouksen tai näytteen vastaanotto ei osoita täydellisyyttä, menetelmän laatua tai edelleenluovutusoikeuksia.",
+      "statementEn": "As of 2026-07-29, no tracked vendor is scored and no purchase is authorised; receipt of a document, quote or sample does not prove completeness, method quality or onward-disclosure rights.",
+      "statementFi": "Tilanteessa 29.7.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty eikä ostoa ole valtuutettu; asiakirjan, tarjouksen tai näytteen vastaanotto ei osoita täydellisyyttä, menetelmän laatua tai edelleenluovutusoikeuksia.",
       "publicEvidencePaths": [
         "site/data/vendor-response-control.json",
         "site/data/changelog.json"
@@ -248,10 +248,10 @@
     },
     {
       "factId": "dashboard-package-version-separation",
-      "titleEn": "Dashboard and downloads have separate versions",
-      "titleFi": "Dashboardilla ja latauksilla on eri versiot",
-      "statementEn": "The public dashboard is version 2026.07.28-34, while the six downloadable lender-package files remain the reviewed 2026.07.28-32 daily snapshot and are generated at most once per Asia/Nicosia calendar day.",
-      "statementFi": "Julkinen dashboard on versio 2026.07.28-34, kun taas kuusi ladattavaa rahoittajapaketin tiedostoa ovat tarkistettu 2026.07.28-32-päiväsnapshot ja ne muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä.",
+      "titleEn": "Dashboard and downloads are independently versioned",
+      "titleFi": "Dashboard ja lataukset versioidaan erikseen",
+      "statementEn": "The public dashboard and the six downloadable lender-package files share the reviewed 2026.07.29-35 daily release; the downloadable package is generated at most once per Asia/Nicosia calendar day and each surface retains its own visible version.",
+      "statementFi": "Julkinen dashboard ja kuusi ladattavaa rahoittajapaketin tiedostoa jakavat tarkistetun 2026.07.29-35-päiväjulkaisun; ladattava paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä ja kumpikin pinta säilyttää oman näkyvän versionsa.",
       "publicEvidencePaths": [
         "site/data/changelog.json",
         "site/data/bank-package-manifest.json"
@@ -462,7 +462,7 @@
       "paths": [
         "site/index.html"
       ],
-      "versionOrAsOf": "2026.07.28-34",
+      "versionOrAsOf": "2026.07.29-35",
       "publicUseEn": "Initial lender, buyer, funder and adviser screening with bilingual navigation and visible limitations.",
       "publicUseFi": "Lainanantajan, ostajan, rahoittajan ja neuvonantajan alkuarvio kaksikielisellä navigaatiolla ja näkyvillä rajauksilla.",
       "limitationsEn": "Use the page's current version and source-linked qualifications; it is independent research, not Pixan's official position.",
@@ -476,7 +476,7 @@
       "paths": [
         "site/data/changelog.json"
       ],
-      "versionOrAsOf": "2026.07.28-34",
+      "versionOrAsOf": "2026.07.29-35",
       "publicUseEn": "Shows what changed, when it changed and whether the dashboard or daily package was affected.",
       "publicUseFi": "Näyttää, mitä muuttui, milloin muutos tapahtui ja vaikuttiko se dashboardiin vai päiväpakettiin.",
       "limitationsEn": "A change-log entry is a research status record, not independent proof of the underlying claim.",
@@ -490,11 +490,11 @@
       "paths": [
         "site/data/bank-package-manifest.json"
       ],
-      "versionOrAsOf": "2026.07.28-32",
+      "versionOrAsOf": "2026.07.29-35",
       "publicUseEn": "Verifies the six bilingual downloadable artifacts, build boundary, file sizes and SHA-256 hashes.",
       "publicUseFi": "Varmistaa kuusi kaksikielistä ladattavaa aineistoa, muodostusrajan, tiedostokoot ja SHA-256-tiivisteet.",
-      "limitationsEn": "The daily package may be older than an intraday dashboard update and must be cited by its own version.",
-      "limitationsFi": "Päiväpaketti voi olla päivänsisäistä dashboard-päivitystä vanhempi, ja siihen on viitattava sen omalla versiolla."
+      "limitationsEn": "The v35 daily package is aligned with the v35 dashboard release; a later intraday dashboard update would not silently rebuild the package and each must still be cited by its own version.",
+      "limitationsFi": "v35-päiväpaketti on samalla tasolla v35-dashboard-julkaisun kanssa; mahdollinen myöhempi päivänsisäinen dashboard-päivitys ei rakenna pakettia huomaamatta uudelleen, ja kumpaankin on edelleen viitattava sen omalla versiolla."
     },
     {
       "assetGroupId": "bilingual-decks",
@@ -507,7 +507,7 @@
         "site/downloads/pixan-bank-deck-large-en.pptx",
         "site/downloads/pixan-bank-deck-large-fi.pptx"
       ],
-      "versionOrAsOf": "2026.07.28-32",
+      "versionOrAsOf": "2026.07.29-35",
       "publicUseEn": "Six-slide initial brief and 30-slide diligence presentation in English and Finnish.",
       "publicUseFi": "Kuuden dian alkuinfo ja 30 dian tarkastusesitys englanniksi ja suomeksi.",
       "limitationsEn": "Claims must be read with the same-version Evidence Register and public disclaimer.",
@@ -522,7 +522,7 @@
         "site/downloads/pixan-bank-evidence-register-en.xlsx",
         "site/downloads/pixan-bank-evidence-register-fi.xlsx"
       ],
-      "versionOrAsOf": "2026.07.28-32",
+      "versionOrAsOf": "2026.07.29-35",
       "publicUseEn": "Traceable claim-level source, calculation, assumption, confidence and gap review.",
       "publicUseFi": "Jäljitettävä väitekohtainen lähde-, laskenta-, oletus-, luottamus- ja puuteanalyysi.",
       "limitationsEn": "A registered claim may still be supported, assumed or missing; inclusion is not confirmation.",
@@ -577,7 +577,7 @@
         "site/data/vendor-response-control.json",
         "site/data/vendor-response-control.csv"
       ],
-      "versionOrAsOf": "2026-07-28",
+      "versionOrAsOf": "2026-07-29",
       "publicUseEn": "Privacy-safe status of evidence receipt, evaluation gates, scoring and purchase authorisation.",
       "publicUseFi": "Tietosuojattu tila evidenssin vastaanotosta, arviointiporteista, pisteytyksestä ja ostovaltuutuksesta.",
       "limitationsEn": "It excludes private correspondence, named contacts, private prices and licensed raw data; document receipt is not a gate pass.",

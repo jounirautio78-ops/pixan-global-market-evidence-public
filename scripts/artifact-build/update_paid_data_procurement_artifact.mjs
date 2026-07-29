@@ -14,8 +14,8 @@ const workbookPath = path.join(
   "pixan-paid-data-procurement-fi-en.xlsx",
 );
 const sourcePath = path.join(repo, "source", "paid-data-procurement.json");
-const temporaryPath = `${workbookPath}.v32.tmp`;
-const qaDir = path.join(repo, "tmp", "paid-data-v32", "renders");
+const temporaryPath = `${workbookPath}.v35.tmp`;
+const qaDir = path.join(repo, "tmp", "paid-data-v35", "renders");
 const sheetNames = [
   "Decision",
   "Priorities",
@@ -42,19 +42,18 @@ const ecigBoundary = [
 ];
 const euromonitorState = [
   [
-    "EXPANDED SAMPLE + 78-MARKET LIST + 95-GEOGRAPHY SCHEMA + THREE QUOTES RECEIVED · "
+    "CALL COMPLETED + CONDITIONAL PAID GERMANY EXTRACT OFFERED · NOT ACCEPTED · "
       + "0/6 GATES PASS · NOT SCORED\n"
-      + "FI: LAAJENNETTU NÄYTE + 78 MARKKINAN LISTA + 95 MAANTIETEEN SKEEMA + "
-      + "KOLME TARJOUSTA SAATU · "
+      + "FI: PUHELU PIDETTY + EHDOLLINEN MAKSULLINEN SAKSA-OTE TARJOTTU · EI HYVÄKSYTTY · "
       + "0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
   ],
 ];
 const euromonitorBoundary = [
   [
-    "Status only. An expanded Germany sample, 78-market list, generic methodology, standard terms, "
-      + "three indicative quotes and a later blank-value 95-geography schema were received. "
-      + "All six mandatory gates remain OPEN. No licensed values or private quote amounts are "
-      + "published. NOT SCORED; no purchase, fee or commitment.",
+    "Status only. A conditional paid Germany extract was offered after the 2026-07-29 call. "
+      + "It has not been accepted or activated; no order, invoice, fee, subscription or commitment "
+      + "is authorised. Product scope, transaction-stage reconciliation, current Germany coverage, "
+      + "rights and all-in terms remain open. NOT SCORED; 0/6 gates pass.",
   ],
 ];
 const circanaState = [
@@ -74,10 +73,10 @@ const circanaBoundary = [
 
 const source = JSON.parse(await fs.readFile(sourcePath, "utf8"));
 if (
-  source?.version !== "2026.07.28-32"
+  source?.version !== "2026.07.29-35"
   || source?.status !== "decision_support_only_no_purchase_authorised"
 ) {
-  throw new Error("Canonical paid-data source is not the reviewed v32 no-purchase release");
+  throw new Error("Canonical paid-data source is not the reviewed v35 no-purchase release");
 }
 const euromonitorItem = source.items.find(
   (item) => item.itemId === "euromonitor-passport-nicotine",
@@ -98,18 +97,20 @@ const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(workbookPa
 const decision = workbook.worksheets.getItem("Decision");
 decision.getRange("A3").values = [[
   "Independent decision support · No purchase authorised · "
-    + "Version 2026.07.28-32 · Verified 2026-07-28",
+    + "Version 2026.07.29-35 · Verified 2026-07-29",
 ]];
 decision.getRange("A10").values = [[
   "1) Continue sample and transaction-rights evaluation with ECigIntelligence and Euromonitor "
-    + "in parallel. 2) Buy at most one global master; do not buy before a populated 2022–2025 "
+    + "in parallel. 2) Do not activate the conditional Germany extract or buy before explicit "
+    + "purchase authority, a populated current 2022–2025 "
     + "Germany test, reconciled 78/95 country-product-field-year coverage, record-level status "
     + "flags, a legally approved NDA data-room Special Condition and complete all-in commercial "
     + "terms pass review. 3) Consider a tightly scoped NIQ/Circana POS pilot only as a later "
     + "validation layer for selected countries.\n\n"
     + "FI: 1) Jatka ECigIntelligencen ja Euromonitorin näyte- ja transaktio-oikeuksien arviointia "
-    + "rinnakkain. 2) Osta enintään yksi globaali pääaineisto; älä osta ennen kuin täytetty "
-    + "Saksan 2022–2025-testi, täsmäytetty 78/95 maan maa–tuote–kenttä–vuosi-peitto, "
+    + "rinnakkain. 2) Älä aktivoi ehdollista Saksa-otetta tai osta ennen nimenomaista "
+    + "ostovaltuutusta, täytettyä ajantasaista Saksan 2022–2025-testiä, täsmäytettyä "
+    + "78/95 maan maa–tuote–kenttä–vuosi-peittoa, "
     + "tietuetason tilamerkinnät, legal-tiimin hyväksymä NDA-datahuone-erityisehto ja täydelliset "
     + "kaikki kustannukset kattavat kaupalliset ehdot läpäisevät tarkistuksen. 3) Harkitse rajattua "
     + "NIQ/Circana-POS-pilottia vasta myöhempänä varmennuskerroksena valituille maille.",
@@ -158,8 +159,11 @@ for (const sheetName of sheetNames) {
         || values[row][column] === "2026.07.27-29"
         || values[row][column] === "2026.07.27-30"
         || values[row][column] === "2026.07.27-31"
+        || values[row][column] === "2026.07.28-32"
+        || values[row][column] === "2026.07.28-33"
+        || values[row][column] === "2026.07.28-34"
       ) {
-        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.28-32"]];
+        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.29-35"]];
       }
     }
   }
@@ -190,7 +194,7 @@ const reviewed = {
 if (
   reviewed.release[0][0] !== (
     "Independent decision support · No purchase authorised · "
-      + "Version 2026.07.28-32 · Verified 2026-07-28"
+      + "Version 2026.07.29-35 · Verified 2026-07-29"
   )
   || reviewed.recommendedPackagePrice[0][0] !== recommendedPackage.knownPrice
   || reviewed.recommendedPackageUnknowns[0][0] !== (
@@ -207,7 +211,7 @@ if (
   || reviewed.ecigSourceFormula[0][0] !== "='Sources'!C6"
   || reviewed.euromonitorSourceFormula[0][0] !== "='Sources'!C9"
 ) {
-  throw new Error("Reopened paid-data workbook differs from the reviewed v32 state");
+  throw new Error("Reopened paid-data workbook differs from the reviewed v35 state");
 }
 
 await fs.mkdir(qaDir, { recursive: true });
@@ -228,10 +232,10 @@ for (const sheetName of sheetNames) {
 await fs.rename(temporaryPath, workbookPath);
 await fs.rm(`${temporaryPath}.inspect.ndjson`, { force: true });
 await fs.writeFile(
-  path.join(repo, "tmp", "paid-data-v32", "artifact-build.json"),
+  path.join(repo, "tmp", "paid-data-v35", "artifact-build.json"),
   `${JSON.stringify(
     {
-      release: "2026.07.28-32",
+      release: "2026.07.29-35",
       workbook: "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
       renderedSheets: sheetNames,
       reviewed,
@@ -241,4 +245,4 @@ await fs.writeFile(
   )}\n`,
   "utf8",
 );
-console.log(`Updated and rendered paid-data workbook for 2026.07.28-32: ${workbookPath}`);
+console.log(`Updated and rendered paid-data workbook for 2026.07.29-35: ${workbookPath}`);

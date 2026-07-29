@@ -20,11 +20,11 @@ DATA = SITE / "data"
 
 EXPECTED_OFFICIAL_COUNTRIES = {"CA", "DE", "FI", "NZ", "PL", "SE", "US"}
 EXPECTED_PROCESS_STATES = {
-    "DE": "registered_and_processing_confirmed",
-    "DK": "automated_receipt_acknowledged",
+    "DE": "registered_processing_notice_received",
     "FI": "registered_processing_notice_received",
 }
 EXPECTED_AVAILABILITY_STATES = {
+    "DK": "official_sales_data_not_held_retailer_registry_identified",
     "IT": "official_aggregate_not_held_public_routes_identified",
 }
 EXPECTED_STRUCTURAL_STATES = {
@@ -331,8 +331,8 @@ def parse_date(value: Any) -> date | None:
 
 def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-28":
-        errors.append("Third-donor screen must use the reviewed v32 date")
+    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-29":
+        errors.append("Third-donor screen must use the reviewed v35 date")
     if screen.get("status") != "screening_only_not_donor_assessment":
         errors.append("Third-donor screen must remain screening-only")
     decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
@@ -822,9 +822,9 @@ def validate_review_data(
         if country in EXPECTED_TRADE_PROXY_STATES
     }
     if process != EXPECTED_PROCESS_STATES:
-        errors.append(f"Process-only response baseline must remain DE, DK and FI: {process}")
+        errors.append(f"Process-only response baseline must remain DE and FI: {process}")
     if availability != EXPECTED_AVAILABILITY_STATES:
-        errors.append(f"Availability-response baseline must remain Italy only: {availability}")
+        errors.append(f"Availability-response baseline must remain Denmark and Italy: {availability}")
     if structural != EXPECTED_STRUCTURAL_STATES:
         errors.append(f"Structural-data response baseline must remain Sweden only: {structural}")
     if trade_proxy != EXPECTED_TRADE_PROXY_STATES:
@@ -1008,14 +1008,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-07-28-34"}
+            or set(cache_tokens) != {"2026-07-29-35"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v34 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v35 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-07-28-34"',
+        'src="assets/independent-controls.js?v=2026-07-29-35"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1023,7 +1023,7 @@ def validate_review_structure(
     ):
         if public_control_hook not in review_html:
             errors.append(
-                f"review.html lacks required v34 independent-control hook {public_control_hook!r}"
+                f"review.html lacks required v35 independent-control hook {public_control_hook!r}"
             )
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
@@ -1095,16 +1095,16 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-28-independent-controls-dashboard-v34",
-            'version: "2026.07.28-34"',
-            'publishedAt: "2026-07-28T13:30:00+03:00"',
-            "Independent United States benchmark",
-            "Spain, South Korea and Japan",
-            "six downloadable lender-package files remain the reviewed v32 daily snapshot",
-            "dashboard and downloads display their own versions separately",
+            "2026-07-29-mail-and-daily-package-v35",
+            'version: "2026.07.29-35"',
+            'publishedAt: "2026-07-29T17:55:00+03:00"',
+            "Official-request replies and conditional vendor extract",
+            "Germany, France, Denmark and Luxembourg",
+            "six downloadable lender-package files are the reviewed v35 daily snapshot",
+            "dashboard and downloads share the v35 daily release",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v34 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v35 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1254,7 +1254,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v34 dashboard / v32 daily-package review experience: HOLD boundary, "
+        "Validated v35 dashboard / v35 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 24-source ledger and required UI hooks."

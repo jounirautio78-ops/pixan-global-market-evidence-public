@@ -84,7 +84,7 @@
       "countryIso2": "DE",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "registered_and_processing_confirmed",
+        "responseState": "registered_processing_notice_received",
         "sentOn": "2026-07-23",
         "state": "sent"
       },
@@ -114,8 +114,8 @@
         "nameFi": "Saksan tulli ja liittovaltion tilastovirasto"
       },
       "priorityCode": "A1",
-      "rationaleEn": "Existing official taxed-volume evidence and direct strategic relevance from the German patent proceedings make this the first reconciliation pilot.",
-      "rationaleFi": "Olemassa oleva virallinen verotettu määrä ja Saksan patenttiprosessin suora strateginen merkitys tekevät tästä ensimmäisen täsmäytyspilotin.",
+      "rationaleEn": "Existing official taxed-volume evidence and direct strategic relevance from the German patent proceedings make this the first reconciliation pilot. The competent German authority has requested a narrower clarification that separates definitions and data-dictionary metadata from control, seizure and destruction records. It warned that processing may be chargeable and set 2026-08-11 as the clarification and fee-consent deadline. No fee has been accepted, no access has been promised and no data has been received.",
+      "rationaleFi": "Olemassa oleva virallinen verotettu määrä ja Saksan patenttiprosessin suora strateginen merkitys tekevät tästä ensimmäisen täsmäytyspilotin. Toimivaltainen Saksan viranomainen pyysi rajaamaan täsmennyksen siten, että määritelmät ja tietosanaston metadata erotetaan valvonta-, takavarikko- ja hävitystiedoista. Se ilmoitti käsittelyn voivan olla maksullista ja asetti täsmennyksen sekä maksusuostumuksen määräpäiväksi 11.8.2026. Maksua ei ole hyväksytty, tietojen saantia ei ole luvattu eikä dataa ole saatu.",
       "recordsRequestedEn": [
         "Monthly and annual taxed litres of substitutes for tobacco products, excise revenue, refunds, exports and reporting-entity counts",
         "Imports and exports of devices and liquids by national tariff code, value, quantity and unit",
@@ -660,8 +660,8 @@
         "nameFi": "Ranskan tullin tilastopalvelu ja ANSES"
       },
       "priorityCode": "A9",
-      "rationaleEn": "A large EU market. French Customs supplied annual partner-level value and quantity extracts for exact vaping-device codes across the 2018–2021 and 2022–2025 nomenclature break. The broader predecessor code, exact units and liquid, pod and cartridge classifications remain unresolved; a clarification request covering CN8/CN mappings, units, revisions and the appropriate seizure/destruction-data contact was sent on 27 July 2026. The extract is a supply-stage proxy, not retail market size.",
-      "rationaleFi": "Suuri EU-markkina. Ranskan tulli toimitti vuosittaiset kumppanikohtaiset arvo- ja määräotteet täsmällisille sähkötupakan laitekoodeille vuosien 2018–2021 ja 2022–2025 nimikemuutoksen yli. Laajempi edeltävä koodi, täsmälliset yksiköt sekä nesteiden, podien ja patruunoiden luokitukset ovat vielä ratkaisematta; NC8/CN-luokituksia, yksiköitä, revisioita sekä takavarikko- ja hävitysdatan oikeaa yhteyspistettä koskeva täsmennyspyyntö lähetettiin 27.7.2026. Ote on toimitusvaiheen proxy eikä vähittäismarkkinan koko.",
+      "rationaleEn": "A large EU market. French Customs supplied annual partner-level value and quantity extracts for exact vaping-device codes across the 2018–2021 and 2022–2025 nomenclature break, then clarified the current classification boundary. Disposable e-cigarettes with liquid, prefilled pods or cartridges and refill liquids fall under heading 2404: 2404 12 with nicotine and 2404 19 without nicotine. Incomplete devices with the essential character of an e-cigarette may fall under 8543 40 and qualifying parts under 8543 90. French trade value is measured in euros at the French border, net mass is kilograms and the supplied NC8 extraction had no supplementary unit. The remaining enforcement contact is unresolved. The extract is a supply-stage customs proxy, not retail market size.",
+      "rationaleFi": "Suuri EU-markkina. Ranskan tulli toimitti vuosittaiset kumppanikohtaiset arvo- ja määräotteet täsmällisille sähkötupakan laitekoodeille vuosien 2018–2021 ja 2022–2025 nimikemuutoksen yli ja täsmensi myöhemmin nykyisen luokittelurajan. Nestettä sisältävät kertakäyttöiset sähkösavukkeet, esitäytetyt podit tai patruunat ja täyttönesteet kuuluvat nimikkeeseen 2404: nikotiinilliset 2404 12:een ja nikotiinittomat 2404 19:ään. Keskeneräiset laitteet, joilla on sähkösavukkeen olennainen luonne, voivat kuulua nimikkeeseen 8543 40 ja soveltuvat osat nimikkeeseen 8543 90. Ranskan kauppa-arvo mitataan euroina Ranskan rajalla, nettopaino kilogrammoina eikä toimitetussa NC8-poiminnassa ollut lisäpaljousyksikköä. Valvontatietojen oikea yhteyspiste on edelleen ratkaisematta. Ote on toimitusvaiheen tulliproxy eikä vähittäismarkkinan koko.",
       "recordsRequestedEn": [
         "Annual partner-level customs value and quantity for exact vaping-device codes and every nomenclature break",
         "CN8 mappings for liquid-filled disposables, pods, cartridges, refill liquids and specific parts",
@@ -887,7 +887,7 @@
       "countryIso2": "DK",
       "dispatch": {
         "publicAuthorityReference": null,
-        "responseState": "automated_receipt_acknowledged",
+        "responseState": "official_sales_data_not_held_retailer_registry_identified",
         "sentOn": "2026-07-23",
         "state": "sent"
       },
@@ -910,6 +910,12 @@
           "labelFi": "EU-CEG-vuosimyyntiraportoinnin vaatimus",
           "url": "https://www.sik.dk/en/node/936",
           "verifiedOn": "2026-07-22"
+        },
+        {
+          "labelEn": "Danish official product, retailer and distance-sales registers",
+          "labelFi": "Tanskan viralliset tuote-, vähittäismyyjä- ja etämyyntirekisterit",
+          "url": "https://www.sik.dk/registre",
+          "verifiedOn": "2026-07-29"
         }
       ],
       "operationalRank": 13,
@@ -918,8 +924,8 @@
         "nameFi": "Tanskan yritysvirasto ja turvallisuusteknologiavirasto"
       },
       "priorityCode": "B1",
-      "rationaleEn": "A Pixan-family Danish publication, mandatory annual EU-CEG sales reporting and downloadable official registries support a strong second-batch route.",
-      "rationaleFi": "Pixan-perheen Tanskan julkaisu, pakollinen EU-CEG-vuosimyyntiraportointi ja ladattavat viranomaisrekisterit tukevat vahvaa toista aaltoa.",
+      "rationaleEn": "A Pixan-family Danish publication, mandatory annual EU-CEG sales reporting and downloadable official registries supported the request route. The Danish authority states that it neither collects nor receives industry sales figures and cannot retrieve Danish sales volume, value or unit counts. It also does not distinguish nicotine from nicotine-free products or reusable from disposable products in the requested category statistics. The official retailer register remains a useful structure and coverage route, but it is not sales data or market size.",
+      "rationaleFi": "Pixan-perheen Tanskan julkaisu, pakollinen EU-CEG-vuosimyyntiraportointi ja ladattavat viranomaisrekisterit tukivat pyyntöreittiä. Tanskan viranomainen ilmoittaa, ettei se kerää eikä vastaanota toimialan myyntilukuja eikä voi toimittaa Tanskan myyntivolyymeja, myyntiarvoja tai kappalemääriä. Se ei myöskään erottele pyydetyissä kategoriatilastoissa nikotiinillisia ja nikotiinittomia tai uudelleenkäytettäviä ja kertakäyttöisiä tuotteita. Virallinen vähittäismyyjärekisteri säilyy hyödyllisenä rakenne- ja kattavuusreittinä, mutta se ei ole myyntidataa eikä markkinakoko.",
       "recordsRequestedEn": [
         "Aggregate annual EU-CEG sales by product category in units and millilitres",
         "Reporting-product and entity counts, late or missing reports, suppressed cells and revisions",
@@ -1536,5 +1542,5 @@
       "status": "sent"
     }
   ],
-  "verificationDate": "2026-07-28"
+  "verificationDate": "2026-07-29"
 }

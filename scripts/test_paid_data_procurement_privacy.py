@@ -95,7 +95,7 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "three indicative annual package quotes",
+            "indicative annual package quotes",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
@@ -115,15 +115,15 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "end-consumer sales including applicable product taxes and VAT",
+            "2026-07-29 call was completed",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "enterprise-AI processing where provider training is disabled",
+            "conditional paid arrangement",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "modelled Cyprus volume",
+            "No extract, order, invoice, fee, subscription or commitment is authorised or accepted",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
@@ -131,7 +131,7 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "proposed Special Condition",
+            "complete all-in terms remain open",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertNotIn("pending and has not been sent", outreach["euromonitor-passport-nicotine"]["noteEn"])
@@ -144,18 +144,12 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             "0/6 passes",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
-        self.assertIn(
-            "NOT SCORED; no purchase, fee or commitment is authorised",
-            outreach["euromonitor-passport-nicotine"]["noteEn"],
-        )
+        self.assertTrue(outreach["euromonitor-passport-nicotine"]["noteEn"].endswith("NOT SCORED."))
         self.assertNotRegex(
             outreach["euromonitor-passport-nicotine"]["noteEn"],
             r"(?:EUR|USD|GBP)\s*[0-9]",
         )
-        self.assertIn(
-            "no duplicate request was issued",
-            outreach["euromonitor-passport-nicotine"]["noteEn"],
-        )
+        self.assertIn("remains non-testable", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertEqual(
             outreach["circana-us-tobacco-pilot"]["state"],
             "administrative_qualification_received",
@@ -181,10 +175,10 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             r"(?:EUR|USD|GBP)\s*[0-9]",
         )
 
-    def test_intraday_dashboard_retains_reviewed_daily_workbook_snapshot(self) -> None:
+    def test_dashboard_and_reviewed_daily_workbook_share_v35_snapshot(self) -> None:
         self.assertEqual(self.source["version"], CURRENT_DASHBOARD_VERSION)
         self.assertEqual(self.source["asOf"], WORKBOOK_SNAPSHOT_AS_OF)
-        self.assertNotEqual(CURRENT_DASHBOARD_VERSION, WORKBOOK_SNAPSHOT_VERSION)
+        self.assertEqual(CURRENT_DASHBOARD_VERSION, WORKBOOK_SNAPSHOT_VERSION)
         self.assertEqual(
             hashlib.sha256(OUTPUT_XLSX.read_bytes()).hexdigest(),
             EXPECTED_XLSX_SHA256,
@@ -196,7 +190,7 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             workbook.close()
         self.assertIn(f"Version {WORKBOOK_SNAPSHOT_VERSION}", release_boundary)
         self.assertIn(f"Verified {WORKBOOK_SNAPSHOT_AS_OF}", release_boundary)
-        self.assertNotIn(f"Version {CURRENT_DASHBOARD_VERSION}", release_boundary)
+        self.assertIn(f"Version {CURRENT_DASHBOARD_VERSION}", release_boundary)
 
     def test_rejects_private_path_in_reviewer_note(self) -> None:
         errors = self.validate_mutation("V14", "/Users/example/private/reply.eml")

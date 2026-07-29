@@ -219,6 +219,23 @@ volume or an official unit field.
 
 ## Luxembourg
 
+### Official response update — 2026-07-29
+
+Luxembourg Customs stated that volumes released for consumption and related
+excise revenue are not publicly available and were not supplied. The authority
+does not distinguish nicotine from nicotine-free products or reusable from
+disposable products in the requested category statistics and stated that it
+holds no such category statistics.
+
+The response identified the official registered retail-price list:
+
+- [Luxembourg registered e-liquid retail-price list](https://douanes.public.lu/dam-assets/fr/accises/signes-fiscaux/2024/s48/bareme-e-liquide-s48.pdf)
+
+This is a useful price reference and fiscal-mark catalogue. It is not a sales
+volume, market value or consumer sell-through series. The Luxembourg retail
+value therefore remains `not_computed`, and the route remains ineligible for
+the global roll-up and donor acceptance.
+
 ### Verified official route
 
 Luxembourg applies excise and source VAT to nicotine and nicotine-free

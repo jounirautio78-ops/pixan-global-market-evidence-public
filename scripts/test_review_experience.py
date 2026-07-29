@@ -279,7 +279,7 @@ class ReviewExperienceTests(unittest.TestCase):
         italy["dispatch"]["responseState"] = "not_publicly_recorded"
         self.assert_data_rejected(
             requests=requests,
-            needle="Availability-response baseline must remain Italy only",
+            needle="Availability-response baseline must remain Denmark and Italy",
         )
 
     def test_rejects_missing_cockpit_hook(self) -> None:

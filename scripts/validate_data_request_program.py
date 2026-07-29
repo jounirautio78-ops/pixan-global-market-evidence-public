@@ -30,7 +30,7 @@ from build_data_request_program import (
 )
 
 
-EXPECTED_DATE = "2026-07-28"
+EXPECTED_DATE = "2026-07-29"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 EXPECTED_STATE_UNIVERSE_COUNT = 195
@@ -51,6 +51,7 @@ PROCESS_RESPONSE_STATE_VALUES = {
     "automated_receipt_acknowledged",
     "automated_route_correction_received",
     "official_aggregate_not_held_public_routes_identified",
+    "official_sales_data_not_held_retailer_registry_identified",
 }
 STRUCTURAL_RESPONSE_STATE_VALUES = {
     "official_structural_data_received_sales_not_available",
@@ -78,7 +79,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "registered_and_processing_confirmed",
+        "responseState": "registered_processing_notice_received",
     },
     "CA": {
         "state": "sent",
@@ -138,7 +139,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "automated_receipt_acknowledged",
+        "responseState": "official_sales_data_not_held_retailer_registry_identified",
     },
     "AU": {
         "state": "sent",

@@ -1,19 +1,19 @@
 {
   "schemaVersion": 2,
   "release": {
-    "id": "2026-07-28-daily-evidence-package-v32",
-    "version": "2026.07.28-32",
-    "publishedAt": "2026-07-28T08:40:00+03:00"
+    "id": "2026-07-29-mail-and-daily-package-v35",
+    "version": "2026.07.29-35",
+    "publishedAt": "2026-07-29T17:55:00+03:00"
   },
-  "asOf": "2026-07-28",
+  "asOf": "2026-07-29",
   "reviewedInputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "2be68c82a05a3fe37aab8c3b2238a91e72ebdebeb0c9ea68d145beee9cb635b0"
+      "sha256": "71cb5fcf2216be734d9d0b6d1878e0125995ad3de17a7a53912e62e2762e395d"
     },
     {
       "path": "scripts/build_global_base.py",
-      "sha256": "391a8daafb980c3b377917039e52118a5c903b20041b45009f9d777846e5a0e9"
+      "sha256": "375c5cfae94d5f4d274aacc13294309852928033ea5f4a4544b72e18758607c5"
     },
     {
       "path": "scripts/refresh_global_base.py",
@@ -53,11 +53,11 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "b3eada9ddc804b88850f96b8fe0163e59593dbc0cb6afaf04415dbbb5ddbd1c9"
+      "sha256": "07c756840441e90506026f935d2198b184b011446b666850fb7785b68acf3156"
     },
     {
       "path": "site/data/global-base-layer.json",
-      "sha256": "a5ea8c0c44bdc133be1e6b88f05df6793a588b594786d0a52aa3cf12b6d412ef"
+      "sha256": "80c7ea91496aaac07404acee5e74341ae049f13005225179b48f039661ead6a7"
     },
     {
       "path": "site/data/global-base-layer.csv",
@@ -77,7 +77,7 @@
     },
     {
       "path": "site/data/third-donor-screen.json",
-      "sha256": "f69d319a4ada7ef325411e519397f80cac6626ebcb8e89e503991d56b59b549e"
+      "sha256": "ea79d440ed939207ac04b3760d627d624b814be89805e790879bdd57138f14a9"
     },
     {
       "path": "site/data/country-scenarios.json",
@@ -93,11 +93,11 @@
     },
     {
       "path": "site/data/vendor-response-control.json",
-      "sha256": "668c349bb68d83acad6189fc15525e4d70373682e7d954774215c34513decf7d"
+      "sha256": "ae827ef50fa2aac43e2caffe01a9c305d71464f409af7a090db264e5360f8961"
     },
     {
       "path": "site/data/vendor-response-control.csv",
-      "sha256": "e64391af9f38bd5711ee624f417d4e69ed9b945018b8f01b574296c426a4c132"
+      "sha256": "5b011b7d914cd226d6cb78b05feee4c8e2aca7bbc6b4513b7c23e030a19e91ef"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
@@ -109,11 +109,11 @@
     },
     {
       "path": "site/schemas/third-donor-screen.schema.json",
-      "sha256": "f8ff35fcb9daec5cb5c94aeb302af3b22a9edd748397256f6e9f3a97f19587b4"
+      "sha256": "f87400465191a64439333c583ab7ac82e9c69124434a4c63bbd49de91c1c7daa"
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "ae6704e5aab331ddc775cb4d25da5961e4bf3f4137cb1f5d5ae101e41e2a33df"
+      "sha256": "c06674406261f7c8867124a250e082dc1c75cdf9fbda83edaf8c81db8dfce9a6"
     },
     {
       "path": "source/fx-rates.json",
@@ -129,7 +129,7 @@
     },
     {
       "path": "source/country-method-route-config.json",
-      "sha256": "1afb6e8b78b66f48dbd0012a52dce3d894cf3e93c7d3f905341ff973642d1850"
+      "sha256": "87ee67d3147bd43af10b4001343eb59d5d7fef7e17309c083f1254920e2a3089"
     },
     {
       "path": "source/COUNTRY_METHOD_ROUTE_MAP.md",
@@ -137,7 +137,7 @@
     },
     {
       "path": "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
-      "sha256": "c32ea56cbe1e511a24113d435981fa60b03a89866d4922bd2b8b73e5e92623be"
+      "sha256": "6fbd287b914133f9957e89b82de8bdbd539358271960fad4dd8118eebaab32d9"
     },
     {
       "path": "source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
@@ -148,12 +148,16 @@
       "sha256": "4ac0e55f8fa90c7152eb7f755023097a94e5041e5ff81cd5c9892c7b88b23011"
     },
     {
+      "path": "source/top20-data-request-routes.json",
+      "sha256": "46728207ebabfdb4187aebc3d086591ec38a2bb6ab341b2381ced9b0bc8db6aa"
+    },
+    {
       "path": "source/vendor-response-control.json",
-      "sha256": "225cda3f908fd5ae52816c8ca3e77e0b177e0f403b265b875e8ee9490775f30b"
+      "sha256": "71c5fdfe045099297d89f568f3431cd5c24354b37a8709f3d01c30742a2f05b0"
     },
     {
       "path": "source/third-donor-screen.json",
-      "sha256": "f69d319a4ada7ef325411e519397f80cac6626ebcb8e89e503991d56b59b549e"
+      "sha256": "ea79d440ed939207ac04b3760d627d624b814be89805e790879bdd57138f14a9"
     },
     {
       "path": "source/schemas/fx-rates.schema.json",
@@ -165,7 +169,7 @@
     },
     {
       "path": "source/schemas/third-donor-screen.schema.json",
-      "sha256": "f8ff35fcb9daec5cb5c94aeb302af3b22a9edd748397256f6e9f3a97f19587b4"
+      "sha256": "f87400465191a64439333c583ab7ac82e9c69124434a4c63bbd49de91c1c7daa"
     },
     {
       "path": "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
@@ -221,7 +225,7 @@
     },
     {
       "path": "source/FOLLOW_UP_DRAFTS_2026-07-28.md",
-      "sha256": "3f466839c773aa5751b51b313f3ba8bf78ab4034c647a3ec52fb16fcb2f72318"
+      "sha256": "43d92480886eead29d32a3f97a1847ab96168734ebdfc6bcdcaca0520697a9e2"
     },
     {
       "path": "source/US_FTC_2015_2021_REPORTED_SALES.md",
@@ -238,8 +242,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "59e1271c065fa06a3320b1efdd0b9a20b8717a62b05cb4faac88951cf828726b",
-      "bytes": 60472,
+      "sha256": "1a145d7589cc7e8470962e50d0ecdbbe8d3b1bbdfe6987d878279baee448dd74",
+      "bytes": 61347,
       "slideCount": 6
     },
     {
@@ -247,8 +251,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "c8f2ba4cde2cbcb3b2e3c2984f004d4fa4f25ba2007722aca126ef5e913fb2ab",
-      "bytes": 190505,
+      "sha256": "73a8491a4e987ced2d06bd740e73dc81b44b7b907a1fd491ea8617d88cd4c332",
+      "bytes": 194010,
       "slideCount": 30
     },
     {
@@ -256,8 +260,8 @@
       "kind": "xlsx",
       "language": "en",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "12085ca018eb7d50f15a1eb726e705ea8a2635947d27322f81bd715995ca4677",
-      "bytes": 40831,
+      "sha256": "f7dd39187a8a39a837919803dbdb274b57588cdc095dda2c858a25d3414f415c",
+      "bytes": 41065,
       "rowCount": 60
     },
     {
@@ -265,8 +269,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "22975e68403f6d8fd7bd5304a50e38cd3ad6e8dccf2de4743971539bbc339a75",
-      "bytes": 60817,
+      "sha256": "ebab6f9f2deabb250df618ae7735f694667a8a7e866e15f2389607800ec01fd5",
+      "bytes": 61652,
       "slideCount": 6
     },
     {
@@ -274,8 +278,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "803640a2d80684a99e92768b39388b363bf24442f689312b4f94b0f28a7fc2d4",
-      "bytes": 192177,
+      "sha256": "6bc6da89b64e6d6a4004877265e9125041de156c20487aad2b8340aca5dedfe7",
+      "bytes": 195679,
       "slideCount": 30
     },
     {
@@ -283,8 +287,8 @@
       "kind": "xlsx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "381569d4a003bdae7e5dad7ee39e7e3390671ea5ce2050dc26543ab330c0a77b",
-      "bytes": 42136,
+      "sha256": "66c9b144ebd106f09154906c7ad03cb30a6883fb959d92f7b43efad6b74e3579",
+      "bytes": 42414,
       "rowCount": 60
     }
   ],
@@ -319,7 +323,7 @@
         "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
       }
     ],
-    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v32 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Five new country rows document methods, not measured sales. Belgium's rounded nine-month tax-volume indicator and Italy's exact PLI consumption-tax receipts are fiscal anchors, not retail value, full-year sales, volume growth or donor evidence. ECigIntelligence and Circana follow-ups were sent on 28 July; the Euromonitor draft was superseded by the comprehensive 27 July request. No vendor route is scored or authorised for purchase. The donor gate remains 0/3 and the global estimate remains not_computed.",
+    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v35 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Germany requested a narrower clarification and set 2026-08-11 as the clarification and possible-fee-consent deadline; no fee was accepted and no data was received. France supplied customs classification, border-value and net-mass metadata only, so the route remains a customs proxy. Denmark and Luxembourg confirmed negative availability for the requested sales data; Luxembourg's official retail-price list is a price reference only. Euromonitor offered a conditional paid Germany extract, but no extract, fee, order or commitment was accepted or activated; all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
     "qualityAssurance": {
       "exactRegisterRowsAfterReopen": true,
       "summaryFormulasAfterReopen": true,

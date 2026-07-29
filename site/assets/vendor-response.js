@@ -326,8 +326,8 @@
         "This view separates outreach status from received evidence and scoring so a missing response never looks like a poor result."
       ),
       "[data-vendor-response-boundary-title]": l(
-        "Osittainen Saksa-näyte ja suuntaa-antavat tarjoukset saatu · 0/6 pakollista porttia läpäisty",
-        "Partial Germany sample and indicative quotes received · 0/6 mandatory gates passed"
+        "Ehdollinen maksullinen Saksa-ote tarjottu · ei hyväksytty · 0/6 pakollista porttia läpäisty",
+        "Conditional paid Germany extract offered · not accepted · 0/6 mandatory gates passed"
       ),
       "[data-vendor-response-boundary-copy]": l(
         "Osittainen työkirja osoittaa arviointikenttien olemassaolon, mutta se ei ole edustava näyte eikä mahdollista Saksan viranomaisankkuritestiä. Yleinen menetelmä ja kaksi suuntaa-antavaa vuosipakettitarjousta on saatu, mutta täsmällinen peitto, täydelliset kaupalliset ehdot ja kirjalliset transaktiokäyttöoikeudet puuttuvat. Julkisessa näkymässä ei näytetä täsmällisiä hintoja, lisensoituja arvoja tai toimittajaliitteitä. EI PISTEYTETTY; ostoa, tilausta, maksua, NDA:ta tai automaattista uusintaa ei ole valtuutettu.",
@@ -412,8 +412,8 @@
         control.summary.substantiveResponses,
         "toimittajareittiä, joilla sisällöllisiä vastauksia",
         "vendor routes with substantive responses",
-        "osittainen näyte + tarjous saatu · 0/6 porttia läpäisty",
-        "partial sample + quote received · 0/6 gates passed",
+        "ehdollinen maksullinen Saksa-ote tarjottu · ei hyväksytty · 0/6 porttia läpäisty",
+        "conditional paid Germany extract offered · not accepted · 0/6 gates passed",
         "pending"
       ),
       summaryCard(
