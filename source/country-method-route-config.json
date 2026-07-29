@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "asOf": "2026-07-27",
-  "version": "2026.07.28-32",
+  "asOf": "2026-07-29",
+  "version": "2026.07.29-35",
   "status": "research_route_map_not_market_values",
   "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",
   "boundaryFi": "Kartta osoittaa läpinäkyvän evidenssin hankinta- ja laskentareitin jokaiselle UN195-valtiolle. Se ei väitä, että 195 vähittäismarkkinaa olisi mitattu. Reitti, pyyntö, proxy, malli tai osittaisen kanavan havainto ei ole vähittäismarkkina-arvo, ellei taustalla oleva evidenssi osoita tätä erikseen.",
@@ -60,8 +60,8 @@
       "status": "sent",
       "sentOn": "2026-07-27",
       "programme": "five_country_method_sprint",
-      "publicNoteEn": "Aggregate excise, fiscal-mark and EU-CEG requests sent to official functions.",
-      "publicNoteFi": "Aggregoidut valmistevero-, veromerkki- ja EU-CEG-pyynnöt lähetetty viranomaisfunktioille."
+      "publicNoteEn": "Official response: consumption-release volumes and excise revenue are not publicly available, the authority holds no requested category statistics, and it identified an official registered retail-price list. The price list is a price reference only, not volume, sales value or market size.",
+      "publicNoteFi": "Virallinen vastaus: kulutukseen luovutettuja määriä ja valmisteverotuottoa ei ole julkisesti saatavilla, viranomaisella ei ole pyydettyjä kategoriatilastoja ja se tunnisti virallisen rekisteröityjen vähittäishintojen listan. Hintalista on vain hintareferenssi, ei volyymi, myyntiarvo tai markkinakoko."
     },
     {
       "countryIso2": "NO",

@@ -58,6 +58,10 @@
     official_aggregate_not_held_public_routes_identified: {
       en: "Official response: requested aggregate not held; public ADM sources identified — no market data received",
       fi: "Virallinen vastaus: pyydettyä aggregaattia ei ole hallussa; julkiset ADM-lähteet tunnistettu — ei markkinadataa"
+    },
+    official_sales_data_not_held_retailer_registry_identified: {
+      en: "Official response: sales value, volume and unit counts not held; retailer register identified — no market data received",
+      fi: "Virallinen vastaus: myyntiarvoa, volyymia tai kappalemääriä ei ole hallussa; vähittäismyyjärekisteri tunnistettu — ei markkinadataa"
     }
   };
   const STRUCTURAL_RESPONSE_STATE = "official_structural_data_received_sales_not_available";
@@ -67,7 +71,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "registered_and_processing_confirmed"
+      responseState: "registered_processing_notice_received"
     },
     CA: {
       state: "sent",
@@ -127,7 +131,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "automated_receipt_acknowledged"
+      responseState: "official_sales_data_not_held_retailer_registry_identified"
     },
     AU: {
       state: "sent",
@@ -995,7 +999,7 @@
     );
     root.querySelector("[data-request-program-boundary-copy]").textContent = l(
       "Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Ranskan vastaus sisältää vuosittaisen tullikaupan laiteproxy-aineiston, jonka yksiköt ja neste-/pod-luokitus odottavat vahvistusta; se ei ole vähittäismarkkinan koko. Italian virallisen vastauksen mukaan pyydettyä aggregaattia ei ollut hallussa tai tuotettu; Libro Blu -verotuotto ei ole vähittäisarvo, volyymi tai markkinakasvu. Saksan ja Puolan täydentävät pyynnöt kuuluvat jo laskettuihin maihin eivätkä lisää maita. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
-      "The Sweden response contains official registration-structure counts only. The France response contains an annual device-code customs-trade proxy whose units and liquid/pod mapping await confirmation; it is not retail market size. Italy's official response says the requested aggregate was not held or produced; Libro Blu tax revenue is not retail value, volume or market growth. The German and Polish supplementary requests belong to countries already counted and add no countries. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."
+      "The Sweden response contains official registration-structure counts only. France supplied classification and unit metadata for an annual customs-trade proxy; it remains a border-stage measure, not retail market size. Italy and Denmark supplied official negative-availability responses; Denmark identified a retailer register, not sales data. Germany requested clarification by 2026-08-11 and warned of a possible fee; no fee has been accepted and no data access is promised. The German and Polish supplementary requests belong to countries already counted and add no countries. Downloadable templates remain DRAFT — NOT SENT."
     );
     root.querySelector("[data-request-program-note]").textContent = l(
       "Kuusi evidenssikerrosta ovat vaihtoehtoisia ja toisiaan tarkistavia. Vero-, myynti-, tulli-, toimitus- ja takavarikkosarjoja ei saa laskea mekaanisesti yhteen; takavarikot eivät ole laillista myyntiä.",

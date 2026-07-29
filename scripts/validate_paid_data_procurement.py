@@ -74,8 +74,8 @@ EXPECTED_OUTREACH_NOTES = {
         "Maksuton tarkistusnäyte ja ei-sitova tarjous pyydettiin 23.7.2026, ja ensimmäinen seuranta lähetettiin 28.7.2026. Vastausta, näytettä, tarjousta, dataa, menetelmää, kattavuutta, lisenssiä, hintaa tai sitoumusta ei ole kirjattu. EI PISTEYTETTY; ostoa ei ole valtuutettu.",
     ),
     "euromonitor-passport-nicotine": (
-        "An expanded numerical Germany sample, a 78-market e-vapour value-coverage list, generic methodology, standard licence terms, three indicative annual package quotes and a later eight-tab category-schema workbook were received by 2026-07-27. The earlier sample permits a private 2023–2024 numerical liquid-volume comparison. The later workbook lists 95 geographies and exposes the requested table structure, but its country-year value cells are blank; the 95-geography schema is not reconciled to the 78-country quote. The vendor clarified end-consumer sales including applicable product taxes and VAT, enterprise-AI processing where provider training is disabled, and availability of modelled Cyprus volume. Record-level observed/reported/modelled flags, the exact product-scope bridge, lender/buyer NDA data-room rights, and all-in tax, fee, retention and renewal terms remain unconfirmed. A populated Germany 2022–2025 test, country-field-year coverage reconciliation, proposed Special Condition and complete terms were requested on 2026-07-27. The 2026-07-28 follow-up draft was superseded by that comprehensive request, so no duplicate request was issued. The vendor then requested a call on 2026-07-28 and a 2026-07-29 call was confirmed; the requested written Germany, coverage, rights and commercial evidence remains pending. All six gates are evaluated, but 0/6 passes. NOT SCORED; no purchase, fee or commitment is authorised.",
-        "Laajennettu numeerinen Saksa-näyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, yleinen menetelmäkuvaus, vakiolisenssiehdot, kolme suuntaa-antavaa vuosipakettitarjousta ja myöhempi kahdeksan välilehden kategoriaskeematyökirja saatiin 27.7.2026 mennessä. Aiempi näyte mahdollistaa yksityisen vuosien 2023–2024 numeerisen nestemäärävertailun. Myöhempi työkirja luettelee 95 maantiedettä ja näyttää pyydetyn taulurakenteen, mutta sen maa–vuosi-arvosolut ovat tyhjiä; 95 maantieteen skeemaa ei ole täsmäytetty 78 maan tarjoukseen. Toimittaja täsmensi lukujen kuvaavan loppuasiakasmyyntiä sovellettavine tuoteveroineen ja ALV:ineen, salli yritystason tekoälykäsittelyn ilman palveluntarjoajan mallikoulutusta ja ilmoitti Kyprokselle olevan saatavissa mallinnettuja volyymeja. Tietuekohtaiset havaittu/raportoitu/mallinnettu-merkinnät, täsmällinen tuoterajaussilta, lainanantaja-/ostaja-NDA-datahuoneoikeudet sekä kaikki verot, maksut, säilytys- ja uusimisehdot kattavat ehdot ovat vahvistamatta. Täytetty Saksan 2022–2025-testi, maa–kenttä–vuosi-peiton täsmäytys, ehdotettu erityisehto ja täydelliset ehdot pyydettiin 27.7.2026. Päivän 28.7.2026 seurantalonnos korvautui tällä kattavalla pyynnöllä, joten päällekkäistä pyyntöä ei lähetetty. Toimittaja pyysi tämän jälkeen puhelua 28.7.2026, ja puhelu vahvistettiin päivälle 29.7.2026; pyydetty kirjallinen Saksa-, peitto-, käyttöoikeus- ja kaupallinen näyttö odottaa edelleen. Kaikki kuusi porttia on arvioitu, mutta 0/6 läpäisee. EI PISTEYTETTY; ostoa, maksua tai sitoumusta ei ole valtuutettu.",
+        "An expanded numerical Germany sample, a 78-market e-vapour value-coverage list, generic methodology, standard licence terms, indicative annual package quotes and a later eight-tab category-schema workbook were received by 2026-07-27. A 2026-07-29 call was completed. The vendor then offered a limited Germany extract under a conditional paid arrangement: the extract fee would be waived only if a wider country package were purchased within the stated window; otherwise the extract could be invoiced. No extract, order, invoice, fee, subscription or commitment is authorised or accepted. The private 2023–2024 Germany comparison remains non-testable because the product scope, retail-versus-tax stage and record-status bridge is unresolved. The later workbook lists 95 geographies but its country-year value cells are blank, and the 95-geography structure remains unreconciled to the 78-country quote. A populated current Germany 2022–2025 test, exact country-product-field-year coverage, lender/buyer NDA data-room rights and complete all-in terms remain open. All six gates are evaluated, but 0/6 passes. NOT SCORED.",
+        "Laajennettu numeerinen Saksa-näyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, yleinen menetelmäkuvaus, vakiolisenssiehdot, suuntaa-antavat vuosipakettitarjoukset ja myöhempi kahdeksan välilehden kategoriaskeematyökirja saatiin 27.7.2026 mennessä. Puhelu pidettiin 29.7.2026. Toimittaja tarjosi sen jälkeen rajattua Saksa-otetta ehdollisella maksullisella järjestelyllä: otteen maksu poistuisi vain, jos laajempi maapaketti ostettaisiin ilmoitetun määräajan kuluessa; muutoin ote voitaisiin laskuttaa. Otetta, tilausta, laskua, maksua tai sitoumusta ei ole valtuutettu tai hyväksytty. Yksityinen vuosien 2023–2024 Saksa-vertailu ei ole vielä testattavissa, koska tuoterajaus, vähittäis- ja verovaiheen ero sekä tietueiden tilasilta ovat ratkaisematta. Myöhempi työkirja luettelee 95 maantiedettä, mutta sen maa–vuosi-arvosolut ovat tyhjiä eikä 95 maantieteen rakennetta ole täsmäytetty 78 maan tarjoukseen. Täytetty ajantasainen Saksan 2022–2025-testi, täsmällinen maa–tuote–kenttä–vuosi-peitto, lainanantaja-/ostaja-NDA-datahuoneoikeudet ja täydelliset kaikki kustannukset kattavat ehdot ovat avoinna. Kaikki kuusi porttia on arvioitu, mutta 0/6 läpäisee. EI PISTEYTETTY.",
     ),
     "niq-rms-pilot": (
         "Not submitted: the available form requires acceptance of Terms of Use. No terms were accepted.",
@@ -110,10 +110,10 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-CURRENT_DASHBOARD_VERSION = "2026.07.28-33"
-WORKBOOK_SNAPSHOT_VERSION = "2026.07.28-32"
-WORKBOOK_SNAPSHOT_AS_OF = "2026-07-28"
-EXPECTED_XLSX_SHA256 = "9cf894578bc605fdb359562c1dfb75733c183d533bf6a3b5a59353cb5b09feae"
+CURRENT_DASHBOARD_VERSION = "2026.07.29-35"
+WORKBOOK_SNAPSHOT_VERSION = "2026.07.29-35"
+WORKBOOK_SNAPSHOT_AS_OF = "2026-07-29"
+EXPECTED_XLSX_SHA256 = "d7acbce62b0d682bc53793e716282930da3b32ae25b42d74856e4bdc2debf898"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
@@ -128,10 +128,10 @@ EXPECTED_RESPONSE_ROWS = (
         "euromonitor-passport-nicotine",
         "Euromonitor International",
         "Passport Nicotine / e-vapour country series",
-        "EXPANDED SAMPLE + 78-MARKET LIST + 95-GEOGRAPHY SCHEMA + THREE QUOTES RECEIVED · 0/6 GATES PASS · NOT SCORED\nFI: LAAJENNETTU NÄYTE + 78 MARKKINAN LISTA + 95 MAANTIETEEN SKEEMA + KOLME TARJOUSTA SAATU · 0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
+        "CALL COMPLETED + CONDITIONAL PAID GERMANY EXTRACT OFFERED · NOT ACCEPTED · 0/6 GATES PASS · NOT SCORED\nFI: PUHELU PIDETTY + EHDOLLINEN MAKSULLINEN SAKSA-OTE TARJOTTU · EI HYVÄKSYTTY · 0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
         None,
         "='Sources'!C9",
-        "Status only. An expanded Germany sample, 78-market list, generic methodology, standard terms, three indicative quotes and a later blank-value 95-geography schema were received. All six mandatory gates remain OPEN. No licensed values or private quote amounts are published. NOT SCORED; no purchase, fee or commitment.",
+        "Status only. A conditional paid Germany extract was offered after the 2026-07-29 call. It has not been accepted or activated; no order, invoice, fee, subscription or commitment is authorised. Product scope, transaction-stage reconciliation, current Germany coverage, rights and all-in terms remain open. NOT SCORED; 0/6 gates pass.",
     ),
     (
         "niq-rms-pilot",
@@ -447,9 +447,9 @@ def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
     if not isinstance(decision["A10"].value, str) or not all(
         phrase in decision["A10"].value
         for phrase in (
-            "do not buy before a populated 2022–2025 Germany test",
-            "älä osta ennen kuin täytetty Saksan 2022–2025-testi",
-            "Buy at most one global master",
+            "Do not activate the conditional Germany extract or buy before explicit purchase authority",
+            "Älä aktivoi ehdollista Saksa-otetta tai osta ennen nimenomaista ostovaltuutusta",
+            "complete all-in commercial terms",
         )
     ):
         errors.append("paid-data XLSX recommended decision differs")
@@ -655,7 +655,7 @@ def main() -> int:
         return 1
     print(
         "PASS: 11-item paid-data shortlist, transparent scores, 3 package options, "
-        "go/stop gates, v33 JSON/CSV parity, retained v32 daily XLSX snapshot "
+        "go/stop gates, v35 JSON/CSV parity, reviewed v35 daily XLSX snapshot "
         "and no-purchase boundary verified."
     )
     return 0

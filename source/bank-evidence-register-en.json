@@ -155,15 +155,15 @@
       "Category-specific net tax or millilitres, adjustments, reusable nicotine-free liquids, prices and sell-through are missing; retailValueStatus is not_computed."
     ],
     [
-      "Luxembourg has an excise and fiscal-mark method starting on 2024-10-01; no retail market value has been computed.",
+      "Luxembourg has an excise and fiscal-mark method starting on 2024-10-01, but the official response confirms that the requested consumption-release volumes, excise revenue and category statistics are unavailable; no retail market value has been computed.",
       "Market size / Luxembourg",
-      "The official rate is EUR 0.12 per ml from 2024-10-01, and fiscal marks carry liquid volume and mandatory consumer price.",
-      "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
-      "2026-07-27",
-      "Taxed litres = e-liquid-specific net excise / EUR 120 per litre; marked consumer-price value = sum(marked pack quantity × mandatory marked price).",
-      "The volume and fiscal-mark calculations are not additive; foreign B2B dispatches, destruction, refunds and corrections are separated.",
+      "The authority supplied no volume or excise-revenue series and does not distinguish the requested product categories. It identified the official registered retail-price list, which is only a price and fiscal-mark reference.",
+      "https://douanes.public.lu/dam-assets/fr/accises/signes-fiscaux/2024/s48/bareme-e-liquide-s48.pdf ; source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md (Luxembourg)",
+      "2026-07-29",
+      "No calculation: the price list is not multiplied by unverified pack counts, and the tax rate is not inverted without net excise receipts.",
+      "A missing authority aggregate is not treated as zero. The price list does not establish sales, volume, release for consumption or consumer demand.",
       "Confirmed",
-      "The national aggregate, fiscal-mark quantity and price fields, sell-through and period finality are missing; retailValueStatus is not_computed."
+      "Annual taxable millilitres, excise revenue, fiscal-mark pack counts, device units, sell-through and period finality are missing; retailValueStatus is not_computed."
     ],
     [
       "Norway has no current Article 20(7) annual-sales route; the 2026 statutory NOK 5.38 per ml rate has no practical effect and does not establish market value.",

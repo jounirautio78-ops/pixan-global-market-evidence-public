@@ -312,14 +312,17 @@ EXPECTED_VENDORS = {
             "and the 95-geography structure is not reconciled to the 78-country quote. The vendor "
             "clarified end-consumer sales including applied product taxes/VAT, enterprise-AI use "
             "where provider training is disabled and availability of modelled Cyprus volume. "
-            "Record-level observed/reported/modelled flags, the exact product-scope bridge, lender/"
-            "buyer data-room rights and all-in tax, fee, retention and renewal terms remain "
-            "unconfirmed. A populated Germany 2022–2025 test, field-year coverage reconciliation, "
-            "proposed Special Condition and complete commercial terms were requested on 2026-07-27. "
-            "The vendor requested a call on 2026-07-28 and a 2026-07-29 call was confirmed; "
-            "the requested written evidence remains pending. "
-            "All six gates are evaluated, but none passes. NOT SCORED; no purchase, fee or commitment "
-            "is authorised."
+            "Record-level observed/reported/modelled flags, the exact product-scope bridge, "
+            "lender/buyer data-room rights and all-in tax, fee, retention and renewal terms remain "
+            "unconfirmed. A populated Germany 2022–2025 test, field-year coverage reconciliation "
+            "and proposed Special Condition remain open. A 2026-07-29 call was completed. The vendor "
+            "then offered a limited Germany extract under a conditional "
+            "paid arrangement: the extract fee would be waived only if a wider country package were "
+            "purchased within the stated window; otherwise the extract could be invoiced. No extract, "
+            "order, invoice, fee, subscription or commitment is authorised or accepted. The private "
+            "Germany comparison remains non-testable because the product scope, retail-versus-tax "
+            "stage and record-status bridge is unresolved. All six gates are evaluated, but none "
+            "passes. NOT SCORED."
         ),
         "publicStatusFi": (
             "Laajennettu numeerinen Saksa-näyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, "
@@ -334,12 +337,15 @@ EXPECTED_VENDORS = {
             "ja ilmoitti Kyprokselle olevan saatavissa mallinnettuja volyymeja. Tietuekohtaiset "
             "havaittu/raportoitu/mallinnettu-merkinnät, täsmällinen tuoterajaussilta, lainanantaja-/"
             "ostaja-datahuoneoikeudet sekä kaikki verot, maksut, säilytys- ja uusimisehdot kattavat "
-            "ehdot ovat vahvistamatta. Täytetty Saksan 2022–2025-testi, kenttä–vuosi-peiton täsmäytys, "
-            "ehdotettu erityisehto ja täydelliset kaupalliset ehdot pyydettiin 27.7.2026. "
-            "Toimittaja pyysi puhelua 28.7.2026, ja puhelu vahvistettiin päivälle 29.7.2026; "
-            "pyydetty kirjallinen näyttö odottaa edelleen. Kaikki kuusi "
-            "porttia on arvioitu, mutta yksikään ei läpäise. EI PISTEYTETTY; ostoa, maksua tai "
-            "sitoumusta ei ole valtuutettu."
+            "ehdot ovat vahvistamatta. Täytetty Saksan 2022–2025-testi, kenttä–vuosi-peiton täsmäytys "
+            "ja ehdotettu erityisehto ovat avoinna. Puhelu pidettiin 29.7.2026. Toimittaja tarjosi "
+            "sen jälkeen rajattua Saksa-otetta "
+            "ehdollisella maksullisella järjestelyllä: otteen maksu poistuisi vain, jos laajempi "
+            "maapaketti ostettaisiin ilmoitetun määräajan kuluessa; muutoin ote voitaisiin laskuttaa. "
+            "Otetta, tilausta, laskua, maksua tai sitoumusta ei ole valtuutettu tai hyväksytty. "
+            "Yksityinen Saksa-vertailu ei ole vielä testattavissa, koska tuoterajaus, vähittäis- ja "
+            "verovaiheen ero sekä tietueiden tilasilta ovat ratkaisematta. Kaikki kuusi porttia on "
+            "arvioitu, mutta yksikään ei läpäise. EI PISTEYTETTY."
         ),
         "quoteReceived": True,
         "receivedEvidence": EUROMONITOR_RECEIPTS,
@@ -646,7 +652,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.28-33" or source.get("asOf") != "2026-07-28":
+    if source.get("version") != "2026.07.29-35" or source.get("asOf") != "2026-07-29":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,

@@ -76,6 +76,7 @@ NUMBER_WORDS = {
     "ten": "10",
     "nolla": "0",
     "nollaa": "0",
+    "nollana": "0",
     "nollasta": "0",
     "yhden": "1",
     "yksi": "1",
@@ -133,7 +134,10 @@ UNIT_PATTERNS = {
         r"(?:\blitra\w*\b|\blitres?\b|\bmilj\.\s*l\b|(?:^|_)litres?(?:_|$))",
         re.IGNORECASE,
     ),
-    "millilitre": re.compile(r"(?:\bmillilitres?\b|\bml\b|_ml\b)", re.IGNORECASE),
+    "millilitre": re.compile(
+        r"(?:\bmillilitr\w*\b|\bmillilitres?\b|\bml\b|_ml\b)",
+        re.IGNORECASE,
+    ),
 }
 MAGNITUDE_PATTERNS = {
     Decimal("1000000"): re.compile(r"(?:\bmilj\.?\b|\bmillion\b)", re.IGNORECASE),

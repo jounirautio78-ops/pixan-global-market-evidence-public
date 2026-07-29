@@ -48,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.28-33"
+      || raw.version !== "2026.07.29-35"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -133,8 +133,8 @@
         "Follow-up sent · response pending"
       ),
       expanded_schema_and_package_quotes_review_pending: l(
-        "Laajennettu näyte + tarjoukset saatu · lisänäyttö odottaa",
-        "Expanded sample + quotes received · further evidence pending"
+        "Ehdollinen maksullinen Saksa-ote tarjottu · ei hyväksytty · lisänäyttö odottaa",
+        "Conditional paid Germany extract offered · not accepted · further evidence pending"
       ),
       blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
       administrative_qualification_received: l(

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "asOf": "2026-07-28",
+  "asOf": "2026-07-29",
   "status": "screening_only_not_donor_assessment",
   "method": {
     "ruleEn": "This screen ranks public official acquisition routes. It does not score D1-D10, accept a donor market or change the 0/3 gate.",
@@ -365,8 +365,8 @@
         "vendor": "Euromonitor",
         "route": "existing_thread",
         "threadStatus": "superseded_by_comprehensive_request_sent",
-        "objectiveEn": "This draft was superseded by the comprehensive populated Germany sample, coverage, rights and terms request sent 2026-07-27; no duplicate request was issued and response remains pending.",
-        "objectiveFi": "Tämä luonnos korvautui 27.7.2026 lähetetyllä kattavalla Saksan täytetyn näytteen, peiton, oikeuksien ja ehtojen pyynnöllä; päällekkäistä pyyntöä ei lähetetty ja vastaus odottaa.",
+        "objectiveEn": "This draft was superseded by the comprehensive Germany sample, coverage, rights and terms request sent 2026-07-27. A 2026-07-29 call was completed and a conditional paid Germany extract was offered. It has not been accepted or activated; the route remains NOT SCORED and no purchase, fee or commitment is authorised.",
+        "objectiveFi": "Tämä luonnos korvautui 27.7.2026 lähetetyllä kattavalla Saksan näyte-, peitto-, oikeus- ja ehtopyynnöllä. Puhelu pidettiin 29.7.2026 ja ehdollinen maksullinen Saksa-ote tarjottiin. Sitä ei ole hyväksytty tai aktivoitu; reitti pysyy EI PISTEYTETTY -tilassa eikä ostoa, maksua tai sitoumusta ole valtuutettu.",
         "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
       },
       {

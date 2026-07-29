@@ -1,7 +1,7 @@
 # Vendor follow-up drafts — due 2026-07-28
 
 **Status:** `COMPLETED OR SUPERSEDED`
-**Control note:** ECigIntelligence's response remains pending. The Euromonitor draft was superseded by the broader request already sent on 2026-07-27, so no duplicate was sent. Circana returned a commercial qualification response and received a same-thread clarification on 2026-07-28; a populated sample, methodology, channel coverage, project-specific quote and written use rights remain pending. The public text below is an operational draft record, not private correspondence. No purchase, licence acceptance or vendor commitment is authorised.
+**Control note:** ECigIntelligence's response remains pending. The Euromonitor draft was superseded by the broader request already sent on 2026-07-27, so no duplicate was sent. A 2026-07-29 Euromonitor call was completed and a conditional paid Germany extract was offered; it has not been accepted or activated, and no order, invoice, fee, subscription or commitment is authorised. Circana returned a commercial qualification response and received a same-thread clarification on 2026-07-28; a populated sample, methodology, channel coverage, project-specific quote and written use rights remain pending. The public text below is an operational draft record, not private correspondence. No purchase, licence acceptance or vendor commitment is authorised.
 
 ## ECigIntelligence — first follow-up
 
@@ -30,7 +30,7 @@ Best regards,
 
 ## Euromonitor — combined EU and Germany follow-up
 
-**Operational status:** `SUPERSEDED — NOT SENT`; the comprehensive request sent on 2026-07-27 already covered the populated sample, coverage, rights and terms. Response pending.
+**Operational status:** `SUPERSEDED — NOT SENT`; the comprehensive request sent on 2026-07-27 already covered the populated sample, coverage, rights and terms. A 2026-07-29 call was completed and a conditional paid Germany extract was offered. The extract has not been accepted or activated; the route remains `NOT SCORED`.
 
 **Subject:** Follow-up: populated Germany sample, country matrix and e-vapour data terms
 

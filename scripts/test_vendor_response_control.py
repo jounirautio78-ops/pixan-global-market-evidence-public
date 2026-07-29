@@ -217,6 +217,24 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertFalse(vendor["purchaseAuthorised"])
         self.assertEqual(candidate["summary"]["substantiveResponses"], 1)
 
+    def test_euromonitor_conditional_extract_offer_remains_unaccepted_and_unscored(self) -> None:
+        candidate = normalised(copy.deepcopy(self.source))
+        vendor = next(
+            item
+            for item in candidate["vendors"]
+            if item["vendorId"] == "euromonitor-passport-nicotine"
+        )
+        self.assertIn("2026-07-29 call was completed", vendor["publicStatusEn"])
+        self.assertIn("conditional paid arrangement", vendor["publicStatusEn"])
+        self.assertIn(
+            "No extract, order, invoice, fee, subscription or commitment is authorised or accepted",
+            vendor["publicStatusEn"],
+        )
+        self.assertIn("remains non-testable", vendor["publicStatusEn"])
+        self.assertEqual(vendor["mandatoryGatePassCount"], 0)
+        self.assertEqual(vendor["scoringState"], "not_scored")
+        self.assertFalse(vendor["purchaseAuthorised"])
+
     def test_missing_mandatory_evidence_is_not_scored(self) -> None:
         candidate = copy.deepcopy(self.source)
         vendor = candidate["vendors"][0]
