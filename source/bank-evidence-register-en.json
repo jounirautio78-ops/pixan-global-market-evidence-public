@@ -301,10 +301,10 @@
       "Canada's official 2024 consumer-retail point estimate is CAD 1,219,160,000, or EUR 822,583,715.21; the donor test passes 7/10 criteria.",
       "Market size",
       "The four-quarter sum is CAD 1,219,160,000; the same-survey sum of 12 months is CAD 1,219,161,000. Health Canada's 2024 manufacturer/importer net shipment value is CAD 1,160,753,796.78.",
-      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
-      "2026-07-27",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
+      "2026-07-29",
       "Monthly − quarterly = CAD 1,000 (0.000082%). Retail − shipments = CAD 58,406,203.22; retail / shipments − 1 = 5.031748%. ECB 2024: 1,219,160,000 / 1.482110546875 = EUR 822,583,715.21.",
-      "D8 passes: CAD and exclusion of GST/HST, provincial sales taxes and excise are source-linked. The monthly route is same-survey QA, not D10; retail and shipments do not form a market range.",
+      "D8 passes: CAD, exclusion of GST/HST/PST/QST and inclusion of additional duties embedded in retail prices are confirmed for table 20-10-0071-01. The exact duty components and monthly and legacy-table tax bases remain under clarification. The monthly route is same-survey QA, not D10; retail and shipments do not form a market range.",
       "Supported",
       "D5 NAICS 459993/459999 coverage, D7 annual error boundary and D10 retail-to-shipment reconciliation remain open; Canada is not an accepted donor."
     ],

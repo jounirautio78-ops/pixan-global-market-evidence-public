@@ -39,9 +39,9 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-07-29-mail-and-daily-package-v35"
-RELEASE_VERSION = "2026.07.29-35"
-RELEASE_DATE = "2026-07-29"
+RELEASE_ID = "2026-07-30-canada-tax-basis-daily-package-v36"
+RELEASE_VERSION = "2026.07.30-36"
+RELEASE_DATE = "2026-07-30"
 PACKAGE_TIME_ZONE = "Asia/Nicosia"
 EXPECTED_PACKAGE_CADENCE = {
     "frequency": "once_daily",
@@ -181,6 +181,7 @@ EXPECTED_INPUTS = {
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/NZ_2024_WORKBOOK_MANIFEST.json",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+    "source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md",
     "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
     "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/THIRD_DONOR_SCREEN_2026-07-27.md",
@@ -1499,7 +1500,7 @@ def validate_manifest(errors: list[str]) -> None:
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 60 for rows in csv_rows_by_language.values()):
-        errors.append("both v35 Evidence Registers must contain exactly 60 reviewed rows")
+        errors.append("both v36 Evidence Registers must contain exactly 60 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1602,7 +1603,7 @@ def validate_manifest(errors: list[str]) -> None:
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v35 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v36 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1675,19 +1676,13 @@ def validate_manifest(errors: list[str]) -> None:
                     "ei myyntiä",
                     "0/3",
                     "7/10",
-                    "d5",
-                    "d8",
-                    "d10",
+                    "d5/d7/d10",
                     "1,219160 mrd cad",
-                    "2026-08-11",
-                    "maksua ole hyväksytty",
-                    "raja-arvo",
+                    "maksutta saatavi",
+                    "maksullinen",
                     "tulliproxy",
-                    "tanska",
-                    "luxemburg",
-                    "myyntidata",
-                    "saksa-ot",
-                    "ei ole hyväksytty eikä aktivoitu",
+                    "euromonitor pysyy pausella",
+                    "0/6",
                     "ei pisteytetty",
                     RELEASE_DATE,
                     RELEASE_VERSION,
@@ -1705,19 +1700,13 @@ def validate_manifest(errors: list[str]) -> None:
                     "not sales",
                     "0/3",
                     "7/10",
-                    "d5",
-                    "d8",
-                    "d10",
+                    "d5/d7/d10",
                     "cad 1.219160bn",
-                    "2026-08-11",
-                    "no fee has been accepted",
-                    "border-value",
+                    "available without charge",
+                    "paid",
                     "customs proxy",
-                    "denmark",
-                    "luxembourg",
-                    "sales data",
-                    "conditional paid germany extract",
-                    "not accepted or activated",
+                    "euromonitor remains paused",
+                    "0/6",
                     "not scored",
                     RELEASE_DATE,
                     RELEASE_VERSION,
@@ -1760,7 +1749,47 @@ def validate_manifest(errors: list[str]) -> None:
                 )
             for marker in release_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v35 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v36 market marker is missing: {marker!r}")
+            if expected["slideCount"] == 6:
+                short_only_markers = (
+                    (
+                        "gst/hst/pst/qst",
+                        "lisäverot",
+                        "ostoa tai maksua ole valtuutettu",
+                    )
+                    if not is_english
+                    else (
+                        "gst/hst/pst/qst",
+                        "additional duties",
+                        "no purchase or fee is authorised",
+                    )
+                )
+                for marker in short_only_markers:
+                    if marker not in combined:
+                        errors.append(
+                            f"{relative}: v36 concise-deck marker is missing: {marker!r}"
+                        )
+            if expected["slideCount"] == 30:
+                large_only_markers = (
+                    (
+                        "d8 on suljettu virallisella veroperustalla",
+                        "tanskasta",
+                        "luxemburg",
+                        "myyntidataa",
+                    )
+                    if not is_english
+                    else (
+                        "official tax evidence closes d8",
+                        "denmark",
+                        "luxembourg",
+                        "sales data",
+                    )
+                )
+                for marker in large_only_markers:
+                    if marker not in combined:
+                        errors.append(
+                            f"{relative}: v36 extended-deck marker is missing: {marker!r}"
+                        )
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
             row_count = validate_workbook(

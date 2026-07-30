@@ -26,7 +26,7 @@ def main() -> int:
         if 'href="diligence.html"' not in content:
             errors.append(f"{path.name}: missing diligence access link")
     for token in (
-        "2026-07-29-35",
+        "2026-07-30-36",
         'data-copy-en="Show every material fact—without giving away protected strategy."',
         'data-copy-fi="Näytä jokainen olennainen fakta — luovuttamatta suojattua strategiaa."',
         'href="data/investor-disclosure-control.json"',
@@ -37,8 +37,8 @@ def main() -> int:
             errors.append(f"diligence.html: missing {token}")
     for token in (
         '["Due diligence -pääsy", "Diligence Access"]',
-        'const UI_RELEASE_V35',
-        'window.PixanUiRelease = UI_RELEASE_V35',
+        'const UI_RELEASE_V36',
+        'window.PixanUiRelease = UI_RELEASE_V36',
     ):
         if token not in i18n:
             errors.append(f"i18n.js: missing {token}")

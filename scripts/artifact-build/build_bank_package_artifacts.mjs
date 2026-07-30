@@ -15,11 +15,11 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v35", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v35", "renders");
-const releaseVersion = "2026.07.29-35";
-const releaseId = "2026-07-29-mail-and-daily-package-v35";
-const releaseDate = "2026-07-29";
+const qaDir = path.join(repo, "tmp", "bank-v36", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v36", "renders");
+const releaseVersion = "2026.07.30-36";
+const releaseId = "2026-07-30-canada-tax-basis-daily-package-v36";
+const releaseDate = "2026-07-30";
 const packageCadence = Object.freeze({
   frequency: "once_daily",
   timeZone: "Asia/Nicosia",
@@ -214,7 +214,7 @@ const deckUpdates = {
         "sh/kbm987y5": "578 WB-havaintoa · 39 markkinamittaria + 36 Ruotsin FHM-lukua",
         "sh/i94r6xgz": "274,180 milj. NZD",
         "sh/jadsz2xk": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
-        "sh/v6tsv2xo": "Uusi-Seelanti 7/10: D5 hylätty, D8/D10 avoinna; donor 0/3. Viranomaisdelta 29.7.: Saksa pyysi rajauksen; mahdollisen maksun määräpäivä on 2026-08-11, eikä maksua ole hyväksytty. Ranska antoi tulliluokitus-, raja-arvo- ja kg-metadataa; reitti on vain tulliproxy. Tanska/Luxemburg: ei myyntidataa. Euromonitorin ehdollinen maksullinen Saksa-ote ei ole hyväksytty eikä aktivoitu; 0/6, EI PISTEYTETTY.",
+        "sh/v6tsv2xo": "Kanada 7/10: virallinen täsmennys sulkee GST/HST/PST/QST-verot pois, sisältää hintaan upotetut lisäverot eikä muuta lukuja; D5/D7/D10 ovat avoimia. Saksan rajatussa vastauksessa pyydettiin käsittelemään vain maksutta saatavia aineistoja; maksullinen työ estettiin ilman erillistä lupaa. Ranska on vain tulliproxy. Euromonitor pysyy pausella; 0/6, EI PISTEYTETTY eikä ostoa tai maksua ole valtuutettu.",
         "sh/p0batw72": "Menetelmäkontrolli 28 / 0 / 15 / 152; 5 uutta maasuunnitelmaa, ei myyntiä. Belgia ≈83 333 litraa (9 kk; ei retail); Italia 84,31 milj. EUR PLI-veroa (ei retail). Kanada retail 1,219160 mrd CAD ja toimitukset 1,160754 mrd CAD; FTC 2,763 mrd USD. Donor 0/3.",
       },
     },
@@ -268,7 +268,7 @@ const deckUpdates = {
         "sh/8jup8rad": "Ensimmäisen donorin 90 päivän sulkemissprintti",
         "sh/5gbupcrm": "Uusi-Seelanti: ministeriön D5/D8-vahvistus ja riippumaton D10-silta. Kanada: StatCanin D5/D7-vahvistus.",
         "sh/t4butcri": "Puola: 2020–2023 virallinen e-nestevirta ja vuoden 2025 laite-/osasarjaverosilta; retail-arvo ja D1–D10-silta puuttuvat.",
-        "sh/98ruxsre": "Viranomaisdelta 29.7.: Saksa pyysi rajauksen; mahdollisen maksun määräpäivä on 2026-08-11, eikä maksua ole hyväksytty. Ranskan täsmennys kattaa vain tulliluokituksen, raja-arvon ja kg-metadatan; reitti pysyy tulliproxyna. Tanska ja Luxemburg vahvistivat, ettei pyydettyä myyntidataa ole saatavilla; Luxemburgin hintalista on vain hintareferenssi. Euromonitor tarjosi ehdollisen maksullisen Saksa-otteen, jota ei ole hyväksytty eikä aktivoitu; 0/6, EI PISTEYTETTY. Belgia ≈83 333 litraa (9 kk) ja Italia 84,31 milj. EUR PLI-veroa ovat ei retail -ankkureita.",
+        "sh/98ruxsre": "Viranomaisdelta 30.7.: Kanadan taulukkokohtainen täsmennys oikaisee veroperustan mutta ei lukuja; D5/D7/D10 ovat avoimia. Saksan rajatussa vastauksessa pyydettiin käsittelemään vain olemassa olevia maksutta saatavia aggregaatteja ja standardiotteita; maksullinen käsittely estettiin ilman erillistä kirjallista lupaa. Ranska pysyy tulliproxyna; Tanskasta ja Luxemburgista ei saatu myyntidataa. Euromonitor pysyy pausella; 0/6, EI PISTEYTETTY. Belgia ≈83 333 litraa (9 kk) ja Italia 84,31 milj. EUR PLI-veroa ovat ei retail -ankkureita.",
         "sh/218rq9kr": "Hyväksy donor vain, jos kaikki kymmenen ehtoa läpäisevät. Muuten 0/3 ja not_computed säilyvät.",
         "sh/21gnuts7": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
         "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  195 maan menetelmäkontrolli erottaa 28 tarkistettua suunnitelmaa, 0 lähdepolkua, 15 EU TPD -mallia ja 152 rajaamatonta proxy-reittiä; mikään ei avaa 0/3 donor-porttia.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
@@ -301,7 +301,7 @@ const deckUpdates = {
         "sh/kbm987y5": "578 WB records; 39 market measures + 36 Swedish FHM register counts; not sales",
         "sh/i94r6xgz": "NZD 274.180m",
         "sh/jadsz2xk": "New Zealand 2024: identified AIS/AVP subtotal",
-        "sh/v6tsv2xo": "New Zealand is 7/10: D5 failed, D8/D10 open; donor gate 0/3. Official-response delta on 29 July: Germany requested clarification; the possible-fee deadline is 2026-08-11 and no fee has been accepted. France supplied customs classification, border-value and kg metadata only; the route remains a customs proxy. Denmark/Luxembourg: no sales data. Euromonitor's conditional paid Germany extract is not accepted or activated; 0/6, NOT SCORED.",
+        "sh/v6tsv2xo": "Canada is 7/10: an official clarification excludes GST/HST/PST/QST, includes embedded additional duties and changes no values; D5/D7/D10 remain open. Germany's narrowed reply asks the authority to handle only material available without charge; paid work is withheld absent separate approval. France remains a customs proxy. Euromonitor remains paused; 0/6, NOT SCORED and no purchase or fee is authorised.",
         "sh/p0batw72": "Method control 28 / 0 / 15 / 152; 5 new country plans, not sales. Belgium ≈83,333 litres (9 months; not retail); Italy EUR 84.31m PLI tax (not retail). Canada retail CAD 1.219160bn and shipments CAD 1.160754bn; FTC USD 2.763bn. Donor 0/3.",
       },
     },
@@ -339,7 +339,7 @@ const deckUpdates = {
         "sh/8jup8rad": "First-donor conversion sprint · next 90 days",
         "sh/5gbupcrm": "New Zealand: Ministry D5/D8 confirmation and an independent D10 bridge. Canada: Statistics Canada D5/D7 confirmation.",
         "sh/t4butcri": "Poland: official 2020–2023 e-liquid flow and a 2025 device/component tax bridge; retail value and a D1–D10 bridge remain missing.",
-        "sh/98ruxsre": "Official-response delta on 29 July: Germany requested clarification; the possible-fee deadline is 2026-08-11 and no fee has been accepted. France added customs classification, border-value and kg metadata only; the route remains a customs proxy. Denmark and Luxembourg confirmed that the requested sales data are unavailable; Luxembourg's price list is only a price reference. Euromonitor offered a conditional paid Germany extract that is not accepted or activated; 0/6, NOT SCORED. Belgium ≈83,333 litres (9 months) and Italy EUR 84.31m PLI tax remain not-retail anchors.",
+        "sh/98ruxsre": "Official-response delta on 30 July: Canada's table-specific clarification corrects the tax basis but changes no values; D5/D7/D10 remain open. Germany's narrowed reply asks the authority to handle only existing aggregates and standard extracts available without charge; paid processing is withheld absent separate written approval. France remains a customs proxy; Denmark and Luxembourg supplied no sales data. Euromonitor remains paused; 0/6, NOT SCORED. Belgium ≈83,333 litres (9 months) and Italy EUR 84.31m PLI tax remain not-retail anchors.",
         "sh/218rq9kr": "Accept a donor only if all ten criteria pass. Otherwise retain 0/3 and not_computed.",
         "sh/21gnuts7": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
         "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The 195-country method control separates 28 reviewed plans, 0 source leads, 15 EU TPD patterns and 152 unscoped proxy routes; none unlocks the 0/3 donor gate.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
@@ -1078,7 +1078,7 @@ function validateGlobalBase(globalBase) {
     || globalBase?.methodRouteControl?.summary?.regionalTpdPatternOnlyCount !== 15
     || globalBase?.methodRouteControl?.summary?.proxyOnlyUnscopedCount !== 152
   ) {
-    throw new Error("v35 global base differs from the reviewed fail-closed method-control snapshot");
+    throw new Error("v36 global base differs from the reviewed fail-closed method-control snapshot");
   }
   const measureSummary = new Map(
     (globalBase.summary.measures ?? []).map((item) => [item.measureId, item]),
@@ -1118,7 +1118,7 @@ function validateGlobalBase(globalBase) {
       || country?.methodRoute?.eligibleForGlobalRollup !== false
       || country?.methodRoute?.donorAccepted !== false
     ) {
-      throw new Error(`v35 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
+      throw new Error(`v36 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
     }
   }
 }
@@ -1160,7 +1160,7 @@ function validateVendorGateBoundary(vendorControl) {
       ([gate, status]) => euromonitor?.gateResults?.[gate]?.status !== status,
     )
   ) {
-    throw new Error("v35 Euromonitor conditional-offer and 0/6 vendor-gate boundary differs");
+    throw new Error("v36 Euromonitor pause and 0/6 vendor-gate boundary differs");
   }
 }
 
@@ -1169,14 +1169,24 @@ function validateOfficialRequestBoundary(requestProgram) {
     (requestProgram?.routes ?? []).map((route) => [route.countryIso2, route]),
   );
   const germany = routes.get("DE");
+  const canada = routes.get("CA");
   const france = routes.get("FR");
   const denmark = routes.get("DK");
   if (
     requestProgram?.schemaVersion !== 3
     || requestProgram?.verificationDate !== releaseDate
     || germany?.dispatch?.responseState !== "registered_processing_notice_received"
+    || !germany?.rationaleEn?.includes("A narrowed reply was sent on 2026-07-30")
     || !germany?.rationaleEn?.includes("2026-08-11")
+    || !germany?.rationaleEn?.includes("without charge")
+    || !germany?.rationaleEn?.includes("Paid processing was expressly withheld")
     || !germany?.rationaleEn?.includes("No fee has been accepted")
+    || canada?.dispatch?.responseState
+      !== "official_method_clarification_received_no_new_sales_data"
+    || !canada?.rationaleEn?.includes("values exclude GST/HST/PST/QST")
+    || !canada?.rationaleEn?.includes("include additional duties embedded in retail prices")
+    || !canada?.rationaleEn?.includes("It supplies no new market value")
+    || !canada?.rationaleEn?.includes("D10 independent retail-to-shipment reconciliation also remains open")
     || france?.dispatch?.responseState !== "official_customs_trade_proxy_received_scope_partial"
     || !france?.rationaleEn?.includes("French border")
     || !france?.rationaleEn?.includes("net mass is kilograms")
@@ -1186,7 +1196,7 @@ function validateOfficialRequestBoundary(requestProgram) {
     || !denmark?.rationaleEn?.includes("neither collects nor receives industry sales figures")
     || !denmark?.rationaleEn?.includes("not sales data or market size")
   ) {
-    throw new Error("v35 Germany, France and Denmark official-response boundary differs");
+    throw new Error("v36 Germany, Canada, France and Denmark official-response boundary differs");
   }
 }
 
@@ -1222,7 +1232,7 @@ function validateThirdDonorScreen(publicScreen, sourceScreen) {
     ])
     || wave?.excluded?.[0]?.vendor !== "NIQ"
   ) {
-    throw new Error("Third-donor screen differs from the reviewed v35 acquisition decision");
+    throw new Error("Third-donor screen differs from the reviewed v36 acquisition decision");
   }
 }
 
@@ -1718,10 +1728,10 @@ function upgradeRegister(rows, language) {
       "Kanadan virallinen vuoden 2024 kuluttajavähittäismyynnin piste-estimaatti on 1 219 160 000 CAD eli 822 583 715,21 EUR; donor-testi läpäisee 7/10 ehtoa.",
       "Markkinakoko",
       "Neljän kvartaalin summa on 1 219 160 000 CAD; 12 kuukauden samaan kyselyyn perustuva summa on 1 219 161 000 CAD. Health Canadan vuoden 2024 valmistaja-/maahantuojatoimitusten nettoarvo on 1 160 753 796,78 CAD.",
-      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
-      "2026-07-27",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
+      "2026-07-29",
       "Kuukausi − kvartaali = 1 000 CAD (0,000082 %). Retail − toimitukset = 58 406 203,22 CAD; retail / toimitukset − 1 = 5,031748 %. ECB 2024: 1 219 160 000 / 1,482110546875 = 822 583 715,21 EUR.",
-      "D8 läpäisee: CAD sekä GST/HST-, provinssi- ja valmisteverojen poissulku on lähteistetty. Kuukausireitti on saman kyselyn QA, ei D10; retail- ja toimitusreitit eivät muodosta markkinahaarukkaa.",
+      "D8 läpäisee: taulukolle 20-10-0071-01 on vahvistettu CAD, GST/HST/PST/QST-verojen poissulku sekä vähittäishintaan sisältyvien lisäverojen mukanaolo. Täsmälliset lisäverokomponentit sekä kuukausi- ja legacy-taulukoiden veroperusta odottavat täsmennystä. Kuukausireitti on saman kyselyn QA, ei D10; retail- ja toimitusreitit eivät muodosta markkinahaarukkaa.",
       "Tuettu",
       "D5:n NAICS 459993/459999 -peitto, D7:n vuositason virheraja ja D10:n retail–toimitus-silta ovat avoimia; Kanada ei ole hyväksytty donor.",
     ]
@@ -1729,10 +1739,10 @@ function upgradeRegister(rows, language) {
       "Canada's official 2024 consumer-retail point estimate is CAD 1,219,160,000, or EUR 822,583,715.21; the donor test passes 7/10 criteria.",
       "Market size",
       "The four-quarter sum is CAD 1,219,160,000; the same-survey sum of 12 months is CAD 1,219,161,000. Health Canada's 2024 manufacturer/importer net shipment value is CAD 1,160,753,796.78.",
-      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
-      "2026-07-27",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
+      "2026-07-29",
       "Monthly − quarterly = CAD 1,000 (0.000082%). Retail − shipments = CAD 58,406,203.22; retail / shipments − 1 = 5.031748%. ECB 2024: 1,219,160,000 / 1.482110546875 = EUR 822,583,715.21.",
-      "D8 passes: CAD and exclusion of GST/HST, provincial sales taxes and excise are source-linked. The monthly route is same-survey QA, not D10; retail and shipments do not form a market range.",
+      "D8 passes: CAD, exclusion of GST/HST/PST/QST and inclusion of additional duties embedded in retail prices are confirmed for table 20-10-0071-01. The exact duty components and monthly and legacy-table tax bases remain under clarification. The monthly route is same-survey QA, not D10; retail and shipments do not form a market range.",
       "Supported",
       "D5 NAICS 459993/459999 coverage, D7 annual error boundary and D10 retail-to-shipment reconciliation remain open; Canada is not an accepted donor.",
     ];
@@ -2428,7 +2438,7 @@ async function writeReleaseLocks(artifacts) {
     || release?.version !== releaseVersion
     || changelog.asOf !== releaseDate
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v35 release");
+    throw new Error("The public changelog is not locked to the reviewed v36 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -2484,6 +2494,7 @@ async function writeReleaseLocks(artifacts) {
     "source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md",
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
+    "source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md",
     "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
     "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/THIRD_DONOR_SCREEN_2026-07-27.md",
@@ -2528,7 +2539,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v35 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Germany requested a narrower clarification and set 2026-08-11 as the clarification and possible-fee-consent deadline; no fee was accepted and no data was received. France supplied customs classification, border-value and net-mass metadata only, so the route remains a customs proxy. Denmark and Luxembourg confirmed negative availability for the requested sales data; Luxembourg's official retail-price list is a price reference only. Euromonitor offered a conditional paid Germany extract, but no extract, fee, order or commitment was accepted or activated; all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v36 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Statistics Canada clarified that quarterly table 20-10-0071-01 excludes GST/HST/PST/QST, includes additional duties embedded in retail prices and is annualised by summing four quarters; Canada remains not accepted at 7/10 with D5, D7 and D10 open. Germany's narrowed reply asked the authority to handle only existing aggregates and standard extracts available without charge; paid processing was withheld, no fee was accepted and no data was received. France remains a customs proxy, and Denmark and Luxembourg remain negative-availability or price-reference routes. Euromonitor remains paused; no extract, fee, order, licence or commitment was accepted or activated, all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,

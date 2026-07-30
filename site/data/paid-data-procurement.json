@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-29",
+  "asOf": "2026-07-30",
   "avoidAsPrimary": [
     {
       "examples": "Grand View Research, IMARC, Mordor Intelligence and similar",
@@ -543,7 +543,7 @@
       "id": "licence_block"
     }
   ],
-  "version": "2026.07.29-35",
+  "version": "2026.07.30-36",
   "weights": [
     {
       "id": "annualSalesFit",

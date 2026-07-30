@@ -1,6 +1,6 @@
 # Canada 2024 donor-closure pack
 
-Reviewed: 2026-07-25
+Reviewed: 2026-07-30
 
 ## Executive conclusion
 
@@ -15,11 +15,15 @@ NAPCS 5619122:
 
 The point estimate is useful as a national official retail anchor. It is not an
 accepted donor market. Three criteria remain open: D5 national channel
-coverage, D7 method and missingness and D10 independent reconciliation. The
-official RCS-to-MRTS source chain closes D8: the figures are in CAD and exclude
-GST/HST, provincial sales taxes and excise. Canada therefore remains
-`not_accepted` at **7/10 passed**, and the public global-estimate gate remains
-**0/3**.
+coverage, D7 method and missingness and D10 independent reconciliation.
+The public table identifies the values as current CAD. Statistics Canada
+directly clarified on 2026-07-29 that table `20-10-0071-01` excludes
+GST/HST/PST/QST, includes additional duties embedded in retail prices and is
+intended to be annualised by summing its four quarters. This supersedes the
+earlier inference that the current table excluded excise. D8 therefore remains
+closed on an explicit table-specific basis, although the precise vaping-duty
+components remain under clarification. Canada remains `not_accepted` at
+**7/10 passed**, and the public global-estimate gate remains **0/3**.
 
 The Health Canada 2024 manufacturer/importer shipment value is a separate,
 non-additive official route:
@@ -30,10 +34,12 @@ non-additive official route:
 - retail / shipments: **1.0503174776**, or **+5.0317478%**;
 - residual / retail: **4.7906922%**.
 
-The residual is not labelled a retail margin. It may contain inventory, timing,
-returns, product-scope, reporting-coverage, tax-basis and measurement
-differences. The two routes are not summed and are not presented as a
-low-to-high market range.
+The residual is not labelled a retail margin. The RCS retail figure includes
+additional duties embedded in retail prices, while the Health Canada shipment
+measure excludes taxes and duties. The residual may also contain inventory,
+timing, returns, product-scope, reporting-coverage and measurement differences.
+These stage and tax-basis effects are not quantified. The two routes are not
+summed and are not presented as a low-to-high market range.
 
 ## D1-D10 decision
 
@@ -46,7 +52,7 @@ low-to-high market range.
 | D5 National channel coverage | Open | NAICS 2022 classifies Internet, direct and mail-order retail by goods sold, and the retail questionnaire covers in-store, e-commerce, catalogue/mail/telephone and other methods. However, the current RCS method page states a target-population range ending at 459993, while Statistics Canada's NAICS definition assigns electronic-cigarette and vapour-liquid specialty retailing to 459999. The public table reports a broader `[459]` aggregate, so this may be a documentation defect, but the apparent gap is not quantified or officially resolved. |
 | D6 No supply-stage double counting | Passed | The RCS retail observation stands alone. Health Canada shipments are retained only as a separate cross-check and are never added to retail. |
 | D7 Method and missingness documented | Open | Statistics Canada documents sampling, weighting, imputation, calibration, revisions and quality-indicator construction. All 12 months and all four quarters in 2024 carry `E`. The public sources do not disclose an exact commodity-year CV, imputation rate, standard error or cross-period covariance, so the annual error boundary cannot be bounded. |
-| D8 Currency and tax basis | Passed | Currency is CAD. The RCS questionnaire excludes GST, HST, PST and QST. RCS is the commodity breakdown of MRTS, obtains each record's edited/imputed total from MRTS and is benchmarked to MRTS; Statistics Canada's official concepts note says MRTS sales exclude all taxes on products and services, including excise. |
+| D8 Currency and tax basis | Passed | Currency is CAD. Statistics Canada confirmed in writing on 2026-07-29 that table 20-10-0071-01 excludes GST, HST, PST and QST, includes additional duties embedded in retail prices and is intended to be annualised by summing four quarters. The exact federal, additional and provincial vaping-duty components remain under clarification, but the table-specific treatment is explicit. |
 | D9 Public reproducibility | Passed | The quarterly and monthly vectors, source ZIPs, formulas, status flags and file hashes are public and reproducible without licensed or company-identifiable records. |
 | D10 Independent reconciliation | Open | Health Canada provides an independent supply-stage route, but the CAD 58,406,203.22 residual is not decomposed. The monthly RCS route is a same-survey QA check, not independent evidence. |
 
@@ -165,9 +171,10 @@ Do not claim:
    imputation rate, standard error and any method for aggregating period
    variances or covariance.
 3. **D10 — independent bridge:** a source-linked reconciliation of retail and
-   shipment stages covering inventory, timing, returns, product scope, tax,
-   reporting coverage and any retailer value added, or an independent
-   rights-cleared POS route covering the same national product-year boundary.
+   shipment stages covering inventory, timing, returns, product scope, the
+   now-confirmed retail-versus-shipment tax-basis difference, reporting
+   coverage and any retailer value added, or an independent rights-cleared POS
+   route covering the same national product-year boundary.
 
 ## Canonical official sources and integrity controls
 
@@ -185,6 +192,8 @@ Do not claim:
   `7751fb46dc1bc77de6e5579f8f4e2456dbf1f8860dbf9275a089d5609fce6be3`
 - RCS methodology:
   https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&Id=1544050
+- Privacy-safe record of the 2026-07-29 table-specific clarification:
+  [`CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md`](CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md)
 - NAICS 2022 retail definition and vaping-specialist classification:
   https://www23.statcan.gc.ca/imdb/p3VD.pl?CLV=4&CPV=45999&CST=27012022&CVD=1370274&D=1&Function=getVD&MLV=5&TVD=1369825&wbdisable=true
 - Statistics Canada 2025 tax-treatment discussion:

@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
   "release": {
-    "id": "2026-07-29-mail-and-daily-package-v35",
-    "version": "2026.07.29-35",
-    "publishedAt": "2026-07-29T17:55:00+03:00"
+    "id": "2026-07-30-canada-tax-basis-daily-package-v36",
+    "version": "2026.07.30-36",
+    "publishedAt": "2026-07-30T12:49:00+03:00"
   },
-  "asOf": "2026-07-29",
+  "asOf": "2026-07-30",
   "reviewedInputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "71cb5fcf2216be734d9d0b6d1878e0125995ad3de17a7a53912e62e2762e395d"
+      "sha256": "c13504cb360ad2827b573b8f9693ef855707a13188910d0ada222bcd675714a2"
     },
     {
       "path": "scripts/build_global_base.py",
@@ -53,11 +53,11 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "07c756840441e90506026f935d2198b184b011446b666850fb7785b68acf3156"
+      "sha256": "73f5c2d94fcd878907a832c7ab1605ad63d79888884bfcca9eb6be531a02ef50"
     },
     {
       "path": "site/data/global-base-layer.json",
-      "sha256": "80c7ea91496aaac07404acee5e74341ae049f13005225179b48f039661ead6a7"
+      "sha256": "1daa874a50a5baa6fe435150260d8d4cecfd5d6d4ed066e137dda12259fbe403"
     },
     {
       "path": "site/data/global-base-layer.csv",
@@ -65,7 +65,7 @@
     },
     {
       "path": "site/data/market-values.json",
-      "sha256": "4948eee1cc9dd3b1bf264a7bf1d27a6fab9a95a9d4c2157eefa69236d2d5d00e"
+      "sha256": "a4fc9f6ac4ee147e173739844973ade6c608a628910b74e788c95188f57df2f9"
     },
     {
       "path": "site/data/patent-history.json",
@@ -73,11 +73,11 @@
     },
     {
       "path": "site/data/donor-cockpit.json",
-      "sha256": "1c6604e4f2d79f5197f4ab4482d5e343542e0323b1a9d7a44e9c472d88945f80"
+      "sha256": "7184983fafff6fcb4267ec89118865bb2238fac548000646df5fb3810693cc4f"
     },
     {
       "path": "site/data/third-donor-screen.json",
-      "sha256": "ea79d440ed939207ac04b3760d627d624b814be89805e790879bdd57138f14a9"
+      "sha256": "b21535a9ec0eed1e590730a7426ae76a6fb7f1387a5034187cc4f0032f52c3ea"
     },
     {
       "path": "site/data/country-scenarios.json",
@@ -93,11 +93,11 @@
     },
     {
       "path": "site/data/vendor-response-control.json",
-      "sha256": "ae827ef50fa2aac43e2caffe01a9c305d71464f409af7a090db264e5360f8961"
+      "sha256": "3d639b99c94315a6975192be4db2e4e43c9dff0465693b8ec5e6a6a2e60e7b40"
     },
     {
       "path": "site/data/vendor-response-control.csv",
-      "sha256": "5b011b7d914cd226d6cb78b05feee4c8e2aca7bbc6b4513b7c23e030a19e91ef"
+      "sha256": "bcbfbc6830195a54fd8c167d9abcbc2244c798b1f441f6a43a0ac1e278ab9f0c"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
@@ -113,7 +113,7 @@
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "c06674406261f7c8867124a250e082dc1c75cdf9fbda83edaf8c81db8dfce9a6"
+      "sha256": "43905c9a3e488628c00d14f7a6c187fbee56d09869e17478a936ba645a8e75ee"
     },
     {
       "path": "source/fx-rates.json",
@@ -129,7 +129,7 @@
     },
     {
       "path": "source/country-method-route-config.json",
-      "sha256": "87ee67d3147bd43af10b4001343eb59d5d7fef7e17309c083f1254920e2a3089"
+      "sha256": "19f24a0c0653e6d1b67ee364580d9ac97b76512032dedec60fd38ba352f11243"
     },
     {
       "path": "source/COUNTRY_METHOD_ROUTE_MAP.md",
@@ -149,15 +149,15 @@
     },
     {
       "path": "source/top20-data-request-routes.json",
-      "sha256": "46728207ebabfdb4187aebc3d086591ec38a2bb6ab341b2381ced9b0bc8db6aa"
+      "sha256": "6cb26a7ea9d9ef1c6ddf440a42ca1950ed602e7bd91131d49ad331dea274411d"
     },
     {
       "path": "source/vendor-response-control.json",
-      "sha256": "71c5fdfe045099297d89f568f3431cd5c24354b37a8709f3d01c30742a2f05b0"
+      "sha256": "1588f5f66a33466d4ebd5b8641ea4bf90c03b9c75dce995a2fd631ee3091321b"
     },
     {
       "path": "source/third-donor-screen.json",
-      "sha256": "ea79d440ed939207ac04b3760d627d624b814be89805e790879bdd57138f14a9"
+      "sha256": "b21535a9ec0eed1e590730a7426ae76a6fb7f1387a5034187cc4f0032f52c3ea"
     },
     {
       "path": "source/schemas/fx-rates.schema.json",
@@ -205,11 +205,15 @@
     },
     {
       "path": "source/CANADA_RCS_2019_2025_RETAIL_SALES.md",
-      "sha256": "120b142633900db722b362c5a51a3d80790879a1b94a987914902f9aad426b85"
+      "sha256": "bb73bb51e11f4ddf0e592ab112433c8c3efbc140eccf610cd9bc6a993e267473"
+    },
+    {
+      "path": "source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md",
+      "sha256": "f9b0afe0c81a119812c71498af338c6a9ae84c80aa9c830a210213b8b38787fb"
     },
     {
       "path": "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
-      "sha256": "b76df06c492279b4f7356e8479a3fa8201a259eeadd13f1ebaeaf2f2eca62ba0"
+      "sha256": "ddd9f328196963c666dfa47df75ef6521cf86f8c11f52ab40cb16e18f58dfbe2"
     },
     {
       "path": "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
@@ -242,8 +246,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "1a145d7589cc7e8470962e50d0ecdbbe8d3b1bbdfe6987d878279baee448dd74",
-      "bytes": 61347,
+      "sha256": "749dc34ef7ec6db627553ed85008cd7f93d67deca312bf4700eefcaca6ea18f8",
+      "bytes": 61341,
       "slideCount": 6
     },
     {
@@ -251,8 +255,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "73a8491a4e987ced2d06bd740e73dc81b44b7b907a1fd491ea8617d88cd4c332",
-      "bytes": 194010,
+      "sha256": "a796023a05c09bb65b30453ed9761dd0b18ec18b7f8343854b0cdf38f8fbfbc0",
+      "bytes": 194004,
       "slideCount": 30
     },
     {
@@ -260,8 +264,8 @@
       "kind": "xlsx",
       "language": "en",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "f7dd39187a8a39a837919803dbdb274b57588cdc095dda2c858a25d3414f415c",
-      "bytes": 41065,
+      "sha256": "cbb2f3f29b448148f0ac765f44b6baf9de63aedce6ae15cf6bfb722adb5e839a",
+      "bytes": 41177,
       "rowCount": 60
     },
     {
@@ -269,8 +273,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "ebab6f9f2deabb250df618ae7735f694667a8a7e866e15f2389607800ec01fd5",
-      "bytes": 61652,
+      "sha256": "fb1201317522cc9c574c950553b897fb320f26fa90062140d27f6c811e274520",
+      "bytes": 61688,
       "slideCount": 6
     },
     {
@@ -278,8 +282,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "6bc6da89b64e6d6a4004877265e9125041de156c20487aad2b8340aca5dedfe7",
-      "bytes": 195679,
+      "sha256": "4dc82d15351180ecf6f9036f7b7c2141a7658d5b2a0760c9d980835520412c57",
+      "bytes": 195708,
       "slideCount": 30
     },
     {
@@ -287,8 +291,8 @@
       "kind": "xlsx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "66c9b144ebd106f09154906c7ad03cb30a6883fb959d92f7b43efad6b74e3579",
-      "bytes": 42414,
+      "sha256": "c39fdf40f47e129e8965e0e6e9aa5cca314c04f417d857a922ddd23a0142c595",
+      "bytes": 42522,
       "rowCount": 60
     }
   ],
@@ -323,7 +327,7 @@
         "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
       }
     ],
-    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v35 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Germany requested a narrower clarification and set 2026-08-11 as the clarification and possible-fee-consent deadline; no fee was accepted and no data was received. France supplied customs classification, border-value and net-mass metadata only, so the route remains a customs proxy. Denmark and Luxembourg confirmed negative availability for the requested sales data; Luxembourg's official retail-price list is a price reference only. Euromonitor offered a conditional paid Germany extract, but no extract, fee, order or commitment was accepted or activated; all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
+    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v36 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Statistics Canada clarified that quarterly table 20-10-0071-01 excludes GST/HST/PST/QST, includes additional duties embedded in retail prices and is annualised by summing four quarters; Canada remains not accepted at 7/10 with D5, D7 and D10 open. Germany's narrowed reply asked the authority to handle only existing aggregates and standard extracts available without charge; paid processing was withheld, no fee was accepted and no data was received. France remains a customs proxy, and Denmark and Luxembourg remain negative-availability or price-reference routes. Euromonitor remains paused; no extract, fee, order, licence or commitment was accepted or activated, all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
     "qualityAssurance": {
       "exactRegisterRowsAfterReopen": true,
       "summaryFormulasAfterReopen": true,

@@ -175,7 +175,7 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             r"(?:EUR|USD|GBP)\s*[0-9]",
         )
 
-    def test_dashboard_and_reviewed_daily_workbook_share_v35_snapshot(self) -> None:
+    def test_dashboard_and_reviewed_daily_workbook_share_v36_snapshot(self) -> None:
         self.assertEqual(self.source["version"], CURRENT_DASHBOARD_VERSION)
         self.assertEqual(self.source["asOf"], WORKBOOK_SNAPSHOT_AS_OF)
         self.assertEqual(CURRENT_DASHBOARD_VERSION, WORKBOOK_SNAPSHOT_VERSION)

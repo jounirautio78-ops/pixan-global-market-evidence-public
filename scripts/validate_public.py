@@ -1684,28 +1684,39 @@ def validate_market_values(
             limitation = str(item.get("limitationEn", ""))
             if (
                 "current CAD" not in limitation
-                or "excludes GST, HST, PST, QST and excise" not in limitation
                 or "not an accepted donor" not in limitation
             ):
                 errors.append(
                     f"{path}: Statistics Canada RCS annual series must retain "
-                    "its currency, tax and donor boundaries"
+                    "its currency and donor boundaries"
+                )
+            if "excludes GST, HST, PST, QST and excise" in limitation:
+                errors.append(
+                    f"{path}: Statistics Canada RCS annual series retains the "
+                    "superseded blanket excise-exclusion claim"
                 )
             if item.get("year") in {2019, 2020, 2021, 2022} and (
-                "NAICS 45411" not in limitation or "pure-play Internet retailers" not in limitation
+                "NAICS 45411" not in limitation
+                or "pure-play Internet retailers" not in limitation
+                or "exclusion of GST, HST, PST and QST" not in limitation
+                or "predecessor table's additional-duty treatment remains unconfirmed"
+                not in limitation
             ):
                 errors.append(
                     f"{path}: pre-2023 Statistics Canada RCS values must retain "
-                    "the pure-play Internet channel gap"
+                    "the pure-play Internet channel gap and unconfirmed legacy-duty basis"
                 )
             if item.get("year") in {2023, 2024, 2025} and (
                 "classified by goods sold" not in limitation
                 or "459993" not in limitation
                 or "459999" not in limitation
+                or "excludes GST, HST, PST and QST" not in limitation
+                or "includes additional duties embedded in retail prices" not in limitation
+                or "annualised by summing four quarters" not in limitation
             ):
                 errors.append(
                     f"{path}: post-2022 Statistics Canada RCS values must retain "
-                    "the method-of-sale evidence and NAICS coverage conflict"
+                    "the method-of-sale, NAICS and corrected table-specific tax boundary"
                 )
             if item.get("year") in {2024, 2025} and (
                 "All four quarters carry status E" not in limitation
@@ -2604,8 +2615,8 @@ def validate_third_donor_screen(
         errors.append("third-donor-screen.json must use the exact reviewed top-level schema")
     if source.get("schemaVersion") != "1.0":
         errors.append("third-donor screen schemaVersion must be 1.0")
-    if source.get("asOf") != "2026-07-29":
-        errors.append("third-donor screen must be reviewed as of 2026-07-29")
+    if source.get("asOf") != "2026-07-30":
+        errors.append("third-donor screen must be reviewed as of 2026-07-30")
     if source.get("status") != "screening_only_not_donor_assessment":
         errors.append("third-donor screen must remain screening-only")
 

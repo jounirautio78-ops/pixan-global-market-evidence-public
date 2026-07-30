@@ -30,6 +30,9 @@ EXPECTED_AVAILABILITY_STATES = {
 EXPECTED_STRUCTURAL_STATES = {
     "SE": "official_structural_data_received_sales_not_available",
 }
+EXPECTED_METHOD_STATES = {
+    "CA": "official_method_clarification_received_no_new_sales_data",
+}
 EXPECTED_TRADE_PROXY_STATES = {
     "FR": "official_customs_trade_proxy_received_scope_partial",
 }
@@ -296,7 +299,8 @@ REQUIRED_I18N_EN = {
     "No automatic publication, spending or external action",
     "Donor-market acceptance gate",
     "The 0/3 gate changes only when a candidate passes every criterion.",
-    "3 process-only responses",
+    "2 process-only responses",
+    "1 official method clarification",
     "1 official structural response",
     "1 customs-trade proxy response",
     "0 sales-data responses",
@@ -331,8 +335,8 @@ def parse_date(value: Any) -> date | None:
 
 def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-29":
-        errors.append("Third-donor screen must use the reviewed v35 date")
+    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-30":
+        errors.append("Third-donor screen must use the reviewed v36 date")
     if screen.get("status") != "screening_only_not_donor_assessment":
         errors.append("Third-donor screen must remain screening-only")
     decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
@@ -816,6 +820,11 @@ def validate_review_data(
         for country, state in recorded_responses.items()
         if country in EXPECTED_STRUCTURAL_STATES
     }
+    method = {
+        country: state
+        for country, state in recorded_responses.items()
+        if country in EXPECTED_METHOD_STATES
+    }
     trade_proxy = {
         country: state
         for country, state in recorded_responses.items()
@@ -827,11 +836,14 @@ def validate_review_data(
         errors.append(f"Availability-response baseline must remain Denmark and Italy: {availability}")
     if structural != EXPECTED_STRUCTURAL_STATES:
         errors.append(f"Structural-data response baseline must remain Sweden only: {structural}")
+    if method != EXPECTED_METHOD_STATES:
+        errors.append(f"Method-response baseline must remain Canada only: {method}")
     if trade_proxy != EXPECTED_TRADE_PROXY_STATES:
         errors.append(f"Trade-proxy response baseline must remain France only: {trade_proxy}")
     if set(recorded_responses) != (
         set(EXPECTED_PROCESS_STATES)
         | set(EXPECTED_AVAILABILITY_STATES)
+        | set(EXPECTED_METHOD_STATES)
         | set(EXPECTED_STRUCTURAL_STATES)
         | set(EXPECTED_TRADE_PROXY_STATES)
     ):
@@ -840,6 +852,7 @@ def validate_review_data(
         if route.get("countryIso2") in (
             set(EXPECTED_PROCESS_STATES)
             | set(EXPECTED_AVAILABILITY_STATES)
+            | set(EXPECTED_METHOD_STATES)
             | set(EXPECTED_STRUCTURAL_STATES)
             | set(EXPECTED_TRADE_PROXY_STATES)
         ):
@@ -1008,14 +1021,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-07-29-35"}
+            or set(cache_tokens) != {"2026-07-30-36"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v35 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v36 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-07-29-35"',
+        'src="assets/independent-controls.js?v=2026-07-30-36"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1023,7 +1036,7 @@ def validate_review_structure(
     ):
         if public_control_hook not in review_html:
             errors.append(
-                f"review.html lacks required v35 independent-control hook {public_control_hook!r}"
+                f"review.html lacks required v36 independent-control hook {public_control_hook!r}"
             )
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
@@ -1073,7 +1086,9 @@ def validate_review_structure(
         "DE-BVL-TABAKERZV25-ANNUAL-SALES",
         "PL-BUREAU-CHEMICALS-EUCEG-ANNUAL-SALES",
         "official_aggregate_not_held_public_routes_identified",
+        "official_method_clarification_received_no_new_sales_data",
         "availabilityResponses",
+        "officialMethodResponses",
         "enforcement_signal",
     ):
         if required_market_hook not in review_js:
@@ -1095,16 +1110,16 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-29-mail-and-daily-package-v35",
-            'version: "2026.07.29-35"',
-            'publishedAt: "2026-07-29T17:55:00+03:00"',
-            "Official-request replies and conditional vendor extract",
-            "Germany, France, Denmark and Luxembourg",
-            "six downloadable lender-package files are the reviewed v35 daily snapshot",
-            "dashboard and downloads share the v35 daily release",
+            "2026-07-30-canada-tax-basis-daily-package-v36",
+            'version: "2026.07.30-36"',
+            'publishedAt: "2026-07-30T12:49:00+03:00"',
+            "Canada tax-basis correction and daily evidence package",
+            "Canada, Germany and the daily package",
+            "six downloadable lender-package files are the reviewed v36 daily snapshot",
+            "dashboard and downloads share the v36 daily release",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v35 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v36 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1119,6 +1134,7 @@ def validate_review_structure(
         )
         for hook in (
             "SWEDEN_STRUCTURAL_RESPONSE",
+            "METHOD_RESPONSE_STATE",
             "TRADE_PROXY_RESPONSE_STATE",
             "function renderSwedenStructure(",
             "function responseCounts(",
@@ -1128,6 +1144,7 @@ def validate_review_structure(
             "does not measure sales, market value, devices sold, e-liquid millilitres",
             "Official annual customs-trade extract received",
             "tradeProxy",
+            "officialMethod",
             "sales: 0",
             *required_rows,
         ):
@@ -1194,7 +1211,9 @@ def validate_review_structure(
             )
     for hook in (
         "REVIEW_STRUCTURAL_RESPONSE_COUNTRIES",
+        "REVIEW_METHOD_RESPONSE_COUNTRIES",
         "REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES",
+        "officialMethodResponses",
         "officialStructuralResponses",
         "tradeProxyResponses",
         "salesResponses: 0",
@@ -1254,7 +1273,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v35 dashboard / v35 daily-package review experience: HOLD boundary, "
+        "Validated v36 dashboard / v36 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 24-source ledger and required UI hooks."
