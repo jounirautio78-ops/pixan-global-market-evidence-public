@@ -83,6 +83,8 @@ const REVIEW_MATRIX_DIMENSIONS = {
   customs: ["tulli", "customs"]
 };
 const REVIEW_STRUCTURAL_RESPONSE_COUNTRIES = new Set(["SE"]);
+const REVIEW_METHOD_RESPONSE_STATE = "official_method_clarification_received_no_new_sales_data";
+const REVIEW_METHOD_RESPONSE_COUNTRIES = new Set(["CA"]);
 const REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES = new Set(["FR"]);
 const REVIEW_AVAILABILITY_RESPONSE_COUNTRIES = new Set(["DK", "IT"]);
 
@@ -302,6 +304,12 @@ function reviewRequestSummary() {
       && responseRecorded(route)
       && REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2)
   ).length;
+  const officialMethodResponses = routes.filter(
+    (route) => route.status === "sent"
+      && responseRecorded(route)
+      && route.dispatch?.responseState === REVIEW_METHOD_RESPONSE_STATE
+      && REVIEW_METHOD_RESPONSE_COUNTRIES.has(route.countryIso2)
+  ).length;
   const tradeProxyResponses = routes.filter(
     (route) => route.status === "sent"
       && responseRecorded(route)
@@ -310,6 +318,7 @@ function reviewRequestSummary() {
   const processResponses = routes.filter((route) => {
     return responseRecorded(route)
       && !REVIEW_STRUCTURAL_RESPONSE_COUNTRIES.has(route.countryIso2)
+      && !REVIEW_METHOD_RESPONSE_COUNTRIES.has(route.countryIso2)
       && !REVIEW_TRADE_PROXY_RESPONSE_COUNTRIES.has(route.countryIso2)
       && !REVIEW_AVAILABILITY_RESPONSE_COUNTRIES.has(route.countryIso2);
   }).length;
@@ -329,6 +338,7 @@ function reviewRequestSummary() {
     supplements,
     processResponses,
     availabilityResponses,
+    officialMethodResponses,
     officialStructuralResponses,
     tradeProxyResponses,
     salesResponses: 0
@@ -383,8 +393,8 @@ function renderDecisionCockpit(data) {
       : reviewL("Patenttihistorian tukiaineisto ei ole saatavilla.", "The patent-history supporting dataset is unavailable."),
     reviewRequestData
       ? reviewL(
-        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.supplements} täydentävää reittiä Saksassa ja Puolassa, ${request.processResponses} vain prosessivastausta, ${request.availabilityResponses} virallinen saatavuusvastaus ilman markkinadataa, ${request.officialStructuralResponses} virallinen rakennevastaus, ${request.tradeProxyResponses} tullikaupan proxyvastaus ja ${request.salesResponses} myyntidatavastausta.`,
-        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.supplements} supplementary routes in Germany and Poland, ${request.processResponses} process-only responses, ${request.availabilityResponses} official availability response with no market data, ${request.officialStructuralResponses} official structural response, ${request.tradeProxyResponses} customs-trade proxy response and ${request.salesResponses} sales-data responses.`
+        `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.supplements} täydentävää reittiä Saksassa ja Puolassa, ${request.processResponses} vain prosessivastausta, ${request.availabilityResponses} virallista saatavuusvastausta ilman markkinadataa, ${request.officialMethodResponses} virallinen menetelmätäsmennys ilman uutta myyntiarvoa, ${request.officialStructuralResponses} virallinen rakennevastaus, ${request.tradeProxyResponses} tullikaupan proxyvastaus ja ${request.salesResponses} myyntidatavastausta.`,
+        `${request.routes} authority routes: ${request.sent} sent, ${request.drafts} drafts, ${request.supplements} supplementary routes in Germany and Poland, ${request.processResponses} process-only responses, ${request.availabilityResponses} official availability responses with no market data, ${request.officialMethodResponses} official method clarification with no new sales value, ${request.officialStructuralResponses} official structural response, ${request.tradeProxyResponses} customs-trade proxy response and ${request.salesResponses} sales-data responses.`
       )
       : reviewL("Viranomaisreittien tukiaineisto ei ole saatavilla.", "The authority-route supporting dataset is unavailable.")
   ];
@@ -445,7 +455,7 @@ function renderResearchOperationsOverview() {
   const metrics = [
     [reviewL("Lähetetty / luonnos", "Sent / draft"), `${request.sent} / ${request.drafts}`, reviewL("20 maan priorisoitu tutkimusjono", "Prioritised 20-country research queue")],
     [reviewL("Täydentävät reitit", "Supplementary routes"), request.supplements, reviewL("Saksa ja Puola; eivät lisää maita 12/8-laskureihin", "Germany and Poland; add no countries to the 12/8 counts")],
-    [reviewL("Prosessi / saatavuus / rakenne / tulliproxy / myynti", "Process / availability / structural / customs proxy / sales"), `${request.processResponses} / ${request.availabilityResponses} / ${request.officialStructuralResponses} / ${request.tradeProxyResponses} / ${request.salesResponses}`, reviewL("Italian saatavuusvastaus, Ruotsin rakenne ja Ranskan tulliproxy eivät ole vähittäismarkkinan kokoa", "The Italy availability response, Sweden structure and France customs proxy are not retail market size")],
+    [reviewL("Prosessi / saatavuus / menetelmä / rakenne / tulliproxy / myynti", "Process / availability / method / structural / customs proxy / sales"), `${request.processResponses} / ${request.availabilityResponses} / ${request.officialMethodResponses} / ${request.officialStructuralResponses} / ${request.tradeProxyResponses} / ${request.salesResponses}`, reviewL("Kanadan menetelmäoikaisu, saatavuusvastaukset, Ruotsin rakenne ja Ranskan tulliproxy eivät ole uusi vähittäismarkkinan koko", "The Canada method correction, availability responses, Sweden structure and France customs proxy are not a new retail-market total")],
     [reviewL("Ostovaltuudet", "Purchase authorisations"), 0, reviewL("Ei ostoa, tilausta tai automaattista ulkoista toimintoa", "No purchase, subscription or automatic external action")]
   ];
   host.replaceChildren(...metrics.map(([label, value, note]) => {

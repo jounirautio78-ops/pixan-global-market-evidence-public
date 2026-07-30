@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1",
-  "asOf": "2026-07-27",
+  "asOf": "2026-07-30",
   "protocol": {
     "protocolVersion": "1.0",
     "acceptanceRuleEn": "A country-year enters the public donor count only when D1–D10 all pass with source-linked evidence. Failed, open or structurally invalid records remain outside the count.",
@@ -261,7 +261,7 @@
       "acquisitionRouteFi": "Statistics Canadan vahvistus kohdejoukosta ja tuoteryhmä–vuosi-laatumittareista, minkä jälkeen yksiselitteinen täsmäytys Health Canadan valmistaja- ja maahantuojatoimitussarjaan tai riippumattomaan POS-reittiin.",
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
-      "lastReviewedAt": "2026-07-27",
+      "lastReviewedAt": "2026-07-30",
       "sourceIds": ["CA-STATCAN-RCS-2023-2025", "CA-HC-VAPING-SALES-2024"],
       "closureActions": [
         {
@@ -273,22 +273,22 @@
           "routeFi": "Hanki Statistics Canadan vahvistus siitä, sisältyvätkö NAICS 459999 -vape-erikoisliikkeet julkaistusta 459993-kohdejoukon päätepisteestä huolimatta, sekä täsmällinen vuoden 2024 tuoteryhmä–vuosi-CV, imputointiaste ja vuositason virhemenetelmä.",
           "evidenceTargetEn": "An officially resolved channel denominator and a bounded annual precision and imputation statement for NAPCS 5619122.",
           "evidenceTargetFi": "Viranomaisen ratkaisema kanavanimittäjä sekä rajattu vuositason tarkkuus- ja imputointikuvaus NAPCS 5619122 -tuoteryhmälle.",
-          "publicStatus": "blocked_external",
-          "statusAsOf": "2026-07-27",
-          "nextFollowUpOn": "2026-08-07"
+          "publicStatus": "awaiting_response",
+          "statusAsOf": "2026-07-30",
+          "nextFollowUpOn": "2026-08-13"
         },
         {
           "actionId": "CA-RETAIL-SHIPMENT-BRIDGE-20260724",
           "criterionIds": ["D10"],
           "ownerRole": "independent_validator",
           "routeType": "independent_reconciliation",
-          "routeEn": "Explain the CAD 58,406,203.22 residual between the CAD 1.219160 billion RCS retail estimate and CAD 1.16075379678 billion Health Canada net shipment value.",
-          "routeFi": "Selitä 58 406 203,22 CAD:n jäännös RCS:n 1,219160 miljardin CAD:n vähittäismyyntiestimaatin ja Health Canadan 1,16075379678 miljardin CAD:n nettotoimitusarvon välillä.",
-          "evidenceTargetEn": "A non-duplicative bridge for margin, inventory, returns, timing and product-scope effects.",
-          "evidenceTargetFi": "Kaksoislaskennaton silta kate-, varasto-, palautus-, ajoitus- ja tuoterajausvaikutuksille.",
+          "routeEn": "Explain the CAD 58,406,203.22 residual between the CAD 1.219160 billion RCS retail estimate and CAD 1.16075379678 billion Health Canada net shipment value without treating it as margin: the retail value includes embedded additional duties while the shipment value excludes taxes and duties.",
+          "routeFi": "Selitä 58 406 203,22 CAD:n jäännös RCS:n 1,219160 miljardin CAD:n vähittäismyyntiestimaatin ja Health Canadan 1,16075379678 miljardin CAD:n nettotoimitusarvon välillä käsittelemättä sitä katteena: vähittäisarvo sisältää hintaan upotetut lisäverot, kun taas toimitusarvo rajaa verot pois.",
+          "evidenceTargetEn": "A non-duplicative bridge for tax basis, margin, inventory, returns, timing and product-scope effects.",
+          "evidenceTargetFi": "Kaksoislaskennaton silta veroperusta-, kate-, varasto-, palautus-, ajoitus- ja tuoterajausvaikutuksille.",
           "publicStatus": "blocked_external",
-          "statusAsOf": "2026-07-27",
-          "nextFollowUpOn": "2026-08-07"
+          "statusAsOf": "2026-07-30",
+          "nextFollowUpOn": "2026-08-13"
         }
       ]
     },

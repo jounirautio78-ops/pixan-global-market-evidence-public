@@ -1,6 +1,6 @@
 # Canada: Statistics Canada RCS retail-sales series, 2019–2025
 
-Reviewed: 2026-07-24
+Reviewed: 2026-07-30
 
 ## Result and use boundary
 
@@ -132,12 +132,21 @@ quantified in the table.
 ## Tax boundary
 
 The questionnaire explicitly instructs respondents to exclude GST, HST, PST
-and QST from total and commodity retail sales. RCS is the commodity breakdown
-of the Monthly Retail Trade Survey (MRTS), obtains each edited or imputed record
-total from MRTS and is benchmarked to MRTS. Statistics Canada's official April
-2025 concepts note states that MRTS sales exclude all taxes on products and
-services, including excise. The RCS series is therefore treated as current CAD
-excluding the named sales taxes and excise. No tax adjustment is made.
+and QST from total and commodity retail sales.
+
+For 2023–2025 table `20-10-0071-01`, Statistics Canada confirmed in writing on
+2026-07-29 that the values exclude GST, HST, PST and QST, include additional
+duties embedded in retail prices and are intended to be annualised by summing
+the four quarters. This direct table-specific clarification supersedes the
+project's earlier inference that the current table excluded excise. The exact
+federal, additional and provincial vaping-duty components remain under
+clarification.
+
+The clarification did not expressly cover monthly table `20-10-0080-01` or
+inactive legacy quarterly table `20-10-0016-01`. For the 2019–2022 legacy
+series, the questionnaire and RCS-to-MRTS source chain support current CAD and
+the exclusion of GST/HST/PST/QST, but the predecessor table's additional-duty
+treatment remains unconfirmed. No tax adjustment is made to either series.
 
 ## Classification and comparability boundary
 
@@ -176,9 +185,12 @@ quarterly headline:
 - the apparent RCS target-population endpoint at NAICS 459993 conflicts with
   the official NAICS placement of electronic-cigarette and vapour-liquid
   specialty retailers in 459999;
-- the RCS-to-MRTS source chain establishes a CAD basis excluding GST/HST,
-  provincial sales taxes and excise, while a bounded annual error interval
-  remains unavailable.
+- The public table identifies the 2023–2025 quarterly values as current CAD.
+  Statistics Canada's 2026-07-29 table-specific clarification separately
+  establishes that the values exclude GST/HST/PST/QST, include additional
+  duties embedded in retail prices and may be summed across four quarters.
+  The monthly and predecessor-table duty bases and a bounded annual error
+  interval remain unavailable.
 
 Canada therefore remains `not_accepted` at 7/10 passed criteria. D5, D7 and D10
 remain open. The full formulas, product decomposition, EUR conversion,

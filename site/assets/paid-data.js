@@ -48,7 +48,7 @@
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
       || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.29-35"
+      || raw.version !== "2026.07.30-36"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }

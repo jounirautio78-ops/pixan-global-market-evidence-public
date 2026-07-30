@@ -3,32 +3,32 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V35 = Object.freeze({
-    id: "2026-07-29-mail-and-daily-package-v35",
-    version: "2026.07.29-35",
-    publishedAt: "2026-07-29T17:55:00+03:00",
-    titleEn: "Official-request replies and conditional vendor extract",
-    titleFi: "Viranomaispyyntöjen vastaukset ja ehdollinen toimittajaote",
+  const UI_RELEASE_V36 = Object.freeze({
+    id: "2026-07-30-canada-tax-basis-daily-package-v36",
+    version: "2026.07.30-36",
+    publishedAt: "2026-07-30T12:49:00+03:00",
+    titleEn: "Canada tax-basis correction and daily evidence package",
+    titleFi: "Kanadan veroperustan oikaisu ja päivittäinen evidenssipaketti",
     items: Object.freeze([
       Object.freeze({
-        category: "diligence",
-        textEn: "Germany requested a narrower clarification by 2026-08-11 and warned that processing may be chargeable. No fee has been accepted, no access is promised and no data has been received.",
-        textFi: "Saksa pyysi rajattua täsmennystä 11.8.2026 mennessä ja ilmoitti käsittelyn voivan olla maksullista. Maksua ei ole hyväksytty, tietojen saantia ei ole luvattu eikä dataa ole saatu."
-      }),
-      Object.freeze({
         category: "market_data",
-        textEn: "Germany, France, Denmark and Luxembourg produced new official-request status or method evidence. France remains a customs proxy; Denmark and Luxembourg supplied negative-availability responses and public register or price routes, not market size.",
-        textFi: "Saksasta, Ranskasta, Tanskasta ja Luxemburgista saatiin uutta viranomaispyynnön tila- tai menetelmänäyttöä. Ranska pysyy tulliproxyna; Tanska ja Luxemburg toimittivat kielteiset saatavuusvastaukset sekä julkiset rekisteri- tai hintareitit, eivät markkinakokoa."
+        textEn: "Statistics Canada directly clarified the current quarterly table: GST/HST/PST/QST are excluded, embedded additional duties are included and four quarters form the annual value. The figures and Canada 7/10 decision are unchanged.",
+        textFi: "Statistics Canada täsmensi suoraan nykyisen kvartaalitaulukon: GST/HST/PST/QST rajataan pois, vähittäishintaan sisältyvät lisäverot ovat mukana ja neljä kvartaalia muodostavat vuosiarvon. Luvut ja Kanadan 7/10-päätös eivät muutu."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "The Euromonitor call was completed and a conditional paid Germany extract was offered. It has not been accepted or activated; 0/6 gates pass, the vendor remains NOT SCORED and no order, invoice, fee, subscription or commitment is authorised.",
-        textFi: "Euromonitor-puhelu pidettiin ja ehdollinen maksullinen Saksa-ote tarjottiin. Sitä ei ole hyväksytty tai aktivoitu; 0/6 porttia läpäisee, toimittaja pysyy EI PISTEYTETTY -tilassa eikä tilausta, laskua, maksua tai sitoumusta ole valtuutettu."
+        textEn: "Canada, Germany and the daily package were updated: a no-charge Canada follow-up seeks the remaining tax, NAICS and quality fields, while Germany's narrowed reply asks the authority to limit handling to material available without charge. No paid work or fee was accepted.",
+        textFi: "Kanada, Saksa ja päiväpaketti päivitettiin: Kanadan maksuton jatkotäsmennys hakee jäljellä olevat vero-, NAICS- ja laatukentät, ja Saksan vastauksessa pyydettiin rajaamaan käsittely maksutta saatavaan aineistoon. Maksullista työtä tai maksua ei hyväksytty."
+      }),
+      Object.freeze({
+        category: "diligence",
+        textEn: "Euromonitor remains paused. The conditional Germany extract is not accepted or activated; 0/6 gates pass, the vendor remains NOT SCORED and no order, invoice, fee, subscription, licence or commitment is authorised.",
+        textFi: "Euromonitor pysyy pausella. Ehdollista Saksa-otetta ei ole hyväksytty tai aktivoitu; 0/6 porttia läpäisee, toimittaja pysyy EI PISTEYTETTY -tilassa eikä tilausta, laskua, maksua, lisenssiä tai sitoumusta ole valtuutettu."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "The six downloadable lender-package files are the reviewed v35 daily snapshot. The dashboard and downloads share the v35 daily release; the package is generated at most once per Asia/Nicosia calendar day.",
-        textFi: "Kuusi ladattavaa rahoittajapaketin tiedostoa ovat tarkistettu v35-päiväsnapshot. Dashboard ja lataukset jakavat v35-päiväjulkaisun; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä."
+        textEn: "The six downloadable lender-package files are the reviewed v36 daily snapshot. The dashboard and downloads share the v36 daily release; the package is generated at most once per Asia/Nicosia calendar day.",
+        textFi: "Kuusi ladattavaa rahoittajapaketin tiedostoa ovat tarkistettu v36-päiväsnapshot. Dashboard ja lataukset jakavat v36-päiväjulkaisun; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä."
       })
     ])
   });
@@ -499,8 +499,8 @@
     ["Tarkistetut viralliset reitit olemassa olevien aggregoitujen myynti-, valmistevero-, tulli- ja tuoteilmoitustietojen pyytämiseksi. Järjestys on operatiivinen — ei markkinakokoluokitus.", "Verified official routes for existing aggregate sales, excise, customs and product-notification records. The ranking is operational—not a market-size ranking."],
     ["Tietopyyntöjen tilarajaus", "Data-request status boundary"],
     ["TILA", "STATUS"],
-    ["12 lähetetty · 8 luonnosta · 1 täydentävä Saksan reitti · 3 vain prosessivastausta · 1 virallinen rakennevastaus · 1 tullikaupan proxyvastaus · 0 myyntidatavastausta", "12 sent · 8 drafts · 1 supplementary German route · 3 process-only responses · 1 official structural response · 1 customs-trade proxy response · 0 sales-data responses"],
-    ["Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Se ei ole myynti-, arvo- tai volyymievidenssiä, ja vuoden 2026 rivi on snapshot. Täydentävä BVL-pyyntö kuuluu Saksaan eikä lisää maata. Maksua ei ole hyväksytty. Ladattavat mallit säilyvät LUONNOS — EI LÄHETETTY -tilassa.", "The Sweden response contains official registration-structure counts only. It is not sales, value or volume evidence, and the 2026 row is a snapshot. The supplementary BVL request belongs to Germany and adds no country. No fee has been accepted. Downloadable templates remain DRAFT — NOT SENT."],
+    ["12 lähetetty · 8 luonnosta · 2 täydentävää reittiä · 2 vain prosessivastausta · 2 kielteistä saatavuusvastausta · 1 virallinen menetelmätäsmennys · 1 virallinen rakennevastaus · 1 tullikaupan proxyvastaus · 0 myyntidatavastausta", "12 sent · 8 drafts · 2 supplementary routes · 2 process-only responses · 2 negative-availability responses · 1 official method clarification · 1 official structural response · 1 customs-trade proxy response · 0 sales-data responses"],
+    ["Kanada toimitti taulukkokohtaisen menetelmätäsmennyksen, joka oikaisee veroperustan mutta ei lisää myyntiarvoa. Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Ranska pysyy rajavaiheen tulliproxyna. Tanska ja Italia toimittivat kielteiset saatavuusvastaukset, eivät myyntidataa. Saksan rajatussa vastauksessa pyydettiin rajaamaan käsittely maksutta saataviin olemassa oleviin aineistoihin; maksua ei ole hyväksytty. Saksan ja Puolan täydentävät reitit eivät lisää maita. Ladattavat mallit säilyvät LUONNOS — EI LÄHETETTY -tilassa.", "Canada supplied a table-specific method clarification that corrects the tax basis but adds no sales value. The Sweden response contains official registration-structure counts only. France remains a border-stage customs proxy. Denmark and Italy supplied negative-availability responses, not sales data. Germany's narrowed reply asks the authority to limit handling to existing material available without charge; no fee has been accepted. The German and Polish supplementary routes add no countries. Downloadable templates remain DRAFT — NOT SENT."],
     ["Lataa reittitaulukko CSV", "Download route table CSV"],
     ["Lataa englanninkielinen pyyntömalli", "Download English request template"],
     ["Lataa suomenkielinen pyyntömalli", "Download Finnish request template"],
@@ -753,7 +753,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V35;
+  window.PixanUiRelease = UI_RELEASE_V36;
 
   init();
 })();

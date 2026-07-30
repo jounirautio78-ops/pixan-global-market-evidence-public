@@ -1,7 +1,41 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-29",
+  "asOf": "2026-07-30",
   "releases": [
+    {
+      "id": "2026-07-30-canada-tax-basis-daily-package-v36",
+      "version": "2026.07.30-36",
+      "publishedAt": "2026-07-30T12:49:00+03:00",
+      "titleEn": "Canada tax-basis correction and daily evidence package",
+      "titleFi": "Kanadan veroperustan oikaisu ja päivittäinen evidenssipaketti",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Corrected the tax basis of Statistics Canada quarterly table 20-10-0071-01 from an inferred blanket excise exclusion to the authority's direct table-specific clarification: GST/HST/PST/QST are excluded, additional duties embedded in retail prices are included and four quarters form the intended annual value. The figures, EUR conversion and D8 pass are unchanged. Canada remains NOT ACCEPTED at 7/10; D5, D7 and D10 remain open.",
+          "textFi": "Oikaistiin Statistics Canadan kvartaalitaulukon 20-10-0071-01 veroperusta päätellystä kaikkien valmisteverojen poissulusta viranomaisen suoraan taulukkokohtaiseen täsmennykseen: GST/HST/PST/QST rajataan pois, vähittäishintaan sisältyvät lisäverot ovat mukana ja neljä kvartaalia muodostavat tarkoitetun vuosiarvon. Luvut, EUR-muunnos ja D8:n läpäisy eivät muutu. Kanada pysyy tilassa EI HYVÄKSYTTY tuloksella 7/10; D5, D7 ja D10 ovat avoimia."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Sent a no-charge Statistics Canada follow-up on 2026-07-30 seeking the exact vaping-duty components, monthly and legacy-table tax bases, NAICS 459993/459999 coverage and annual precision and imputation metrics. No custom tabulation, paid work or new estimate was requested.",
+          "textFi": "Lähetettiin Statistics Canadalle 30.7.2026 maksuton jatkotäsmennys täsmällisistä vaping-lisäverokomponenteista, kuukausi- ja legacy-taulukoiden veroperustasta, NAICS 459993/459999 -peitosta sekä vuositason tarkkuus- ja imputointimittareista. Räätälöityä taulukointia, maksullista työtä tai uutta arviota ei pyydetty."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Sent the narrowed German Customs reply before the 2026-08-11 deadline. The request now covers only existing aggregates, standard extracts, definitions and a separately bounded enforcement section where these can be handled without charge. Paid processing is expressly withheld unless separately approved in writing; no fee, purchase or commitment is accepted.",
+          "textFi": "Lähetettiin rajattu vastaus Saksan tullille ennen 11.8.2026 määräpäivää. Pyyntö koskee nyt vain olemassa olevia aggregaatteja, standardiotteita, määritelmiä ja erikseen rajattua valvontaosiota siltä osin kuin ne voidaan käsitellä maksutta. Maksullinen käsittely on nimenomaisesti estetty ilman erillistä kirjallista hyväksyntää; maksua, ostoa tai sitoumusta ei ole hyväksytty."
+        },
+        {
+          "category": "usability",
+          "textEn": "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and Evidence Registers as the single 2026-07-30 daily package. The six downloads and dashboard share version 2026.07.30-36, and the package remains generated at most once per Asia/Nicosia calendar day.",
+          "textFi": "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja Evidence Registerit päivän 30.7.2026 ainoaksi päiväpaketiksi. Kuusi latausta ja dashboard jakavat version 2026.07.30-36, ja paketti muodostetaan edelleen enintään kerran Asia/Nicosia-kalenteripäivässä."
+        },
+        {
+          "category": "method",
+          "textEn": "No market observation, annual country total or donor decision changed. The market dataset remains 84 observations from 24 sources, the donor gate remains 0/3 and global retail value remains null/not_computed. Euromonitor remains paused with 0/6 gates passed, NOT SCORED and no purchase, fee, order, licence or commitment authorised.",
+          "textFi": "Yksikään markkinahavainto, vuotuinen maasumma tai donor-päätös ei muuttunut. Markkina-aineisto pysyy 84 havainnossa ja 24 lähteessä, donor-portti 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa. Euromonitor pysyy pausella: 0/6 porttia läpäisty, EI PISTEYTETTY eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        }
+      ]
+    },
     {
       "id": "2026-07-29-mail-and-daily-package-v35",
       "version": "2026.07.29-35",
@@ -335,8 +369,8 @@
         },
         {
           "category": "method",
-          "textEn": "The RCS-to-MRTS source chain now closes currency and tax criterion D8: the figures are in CAD and exclude GST/HST, provincial sales taxes and excise. Canada passes 7/10 criteria but remains NOT ACCEPTED. D5 is open because the published target-population endpoint 459993 conflicts with the official NAICS placement of vape specialists in 459999; D7 is open because an exact annual CV, imputation rate and bounded error interval are unavailable; D10 is open because the independent Health Canada bridge is not reconciled.",
-          "textFi": "RCS–MRTS-lähdeketju sulkee nyt valuutta- ja veroperustaa koskevan D8-ehdon: luvut ovat CAD-määräisiä ja rajaavat GST/HST:n, provinssien myyntiverot ja valmisteverot pois. Kanada läpäisee 7/10 ehtoa mutta pysyy tilassa EI HYVÄKSYTTY. D5 on avoin, koska julkaistu kohdejoukon päätepiste 459993 on ristiriidassa vape-erikoisliikkeiden virallisen NAICS 459999 -luokan kanssa; D7 on avoin, koska täsmällistä vuosi-CV:tä, imputointiastetta ja rajattua virheväliä ei ole saatavilla; D10 on avoin, koska riippumatonta Health Canada -siltaa ei ole täsmäytetty."
+          "textEn": "At this release, the RCS-to-MRTS source chain was interpreted as closing D8 with a CAD basis excluding GST/HST, provincial sales taxes and excise. The blanket excise-exclusion element was superseded on 2026-07-30 by Statistics Canada's direct table-specific clarification that embedded additional duties are included; D8 still passes. Canada passes 7/10 criteria but remains NOT ACCEPTED. D5, D7 and D10 remain open.",
+          "textFi": "Tässä julkaisussa RCS–MRTS-lähdeketjun tulkittiin sulkevan D8-ehdon CAD-perustalla, joka rajaa GST/HST:n, provinssien myyntiverot ja valmisteverot pois. Kaikkien valmisteverojen poissulku korvattiin 30.7.2026 Statistics Canadan suoralla taulukkokohtaisella täsmennyksellä, jonka mukaan vähittäishintaan sisältyvät lisäverot ovat mukana; D8 läpäisee edelleen. Kanada läpäisee 7/10 ehtoa mutta pysyy tilassa EI HYVÄKSYTTY. D5, D7 ja D10 ovat avoimia."
         },
         {
           "category": "diligence",

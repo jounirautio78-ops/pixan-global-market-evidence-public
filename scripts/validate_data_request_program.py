@@ -30,7 +30,7 @@ from build_data_request_program import (
 )
 
 
-EXPECTED_DATE = "2026-07-29"
+EXPECTED_DATE = "2026-07-30"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 EXPECTED_STATE_UNIVERSE_COUNT = 195
@@ -56,6 +56,9 @@ PROCESS_RESPONSE_STATE_VALUES = {
 STRUCTURAL_RESPONSE_STATE_VALUES = {
     "official_structural_data_received_sales_not_available",
 }
+METHOD_RESPONSE_STATE_VALUES = {
+    "official_method_clarification_received_no_new_sales_data",
+}
 SALES_RESPONSE_STATE_VALUES = {
     "official_annual_sales_data_received",
 }
@@ -67,11 +70,13 @@ RESPONSE_STATE_VALUES = {
     "not_publicly_recorded",
     *PROCESS_RESPONSE_STATE_VALUES,
     *STRUCTURAL_RESPONSE_STATE_VALUES,
+    *METHOD_RESPONSE_STATE_VALUES,
     *SALES_RESPONSE_STATE_VALUES,
     *TRADE_RESPONSE_STATE_VALUES,
 }
 EXPECTED_PROCESS_RESPONSE_COUNTRIES = {"DE", "FI", "DK", "IT"}
 EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES = {"SE"}
+EXPECTED_METHOD_RESPONSE_COUNTRIES = {"CA"}
 EXPECTED_SALES_RESPONSE_COUNTRIES: set[str] = set()
 EXPECTED_TRADE_RESPONSE_COUNTRIES = {"FR"}
 EXPECTED_DISPATCH = {
@@ -85,7 +90,7 @@ EXPECTED_DISPATCH = {
         "state": "sent",
         "sentOn": "2026-07-23",
         "publicAuthorityReference": None,
-        "responseState": "not_publicly_recorded",
+        "responseState": "official_method_clarification_received_no_new_sales_data",
     },
     "US": {
         "state": "sent",
@@ -595,6 +600,7 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     sent_countries: set[str] = set()
     process_response_countries: set[str] = set()
     structural_response_countries: set[str] = set()
+    method_response_countries: set[str] = set()
     sales_response_countries: set[str] = set()
     trade_response_countries: set[str] = set()
     for route in routes:
@@ -619,6 +625,12 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
                 if dispatch.get("publicAuthorityReference") is not None:
                     errors.append(
                         f"{label}: structural response must not expose a correspondence reference"
+                    )
+            if dispatch.get("responseState") in METHOD_RESPONSE_STATE_VALUES:
+                method_response_countries.add(iso)
+                if dispatch.get("publicAuthorityReference") is not None:
+                    errors.append(
+                        f"{label}: method response must not expose a correspondence reference"
                     )
             if dispatch.get("responseState") in SALES_RESPONSE_STATE_VALUES:
                 sales_response_countries.add(iso)
@@ -719,6 +731,19 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
             source.get("url") for source in sources
         }:
             errors.append("route SE: official notified-product context source is required")
+        if iso == "CA":
+            canada_rationale = str(route.get("rationaleEn", "")).casefold()
+            if not all(term in canada_rationale for term in (
+                "values exclude gst/hst/pst/qst",
+                "include additional duties embedded in retail prices",
+                "supplies no new market value",
+                "no-charge follow-up sent on 2026-07-30",
+                "d10 independent retail-to-shipment reconciliation also remains open",
+            )):
+                errors.append(
+                    "route CA: method clarification, no-new-value and open-gate "
+                    "boundaries are incomplete"
+                )
         if iso == "IT":
             italy_source_urls = {source.get("url") for source in sources}
             if italy_source_urls != EXPECTED_ITALY_SOURCE_URLS:
@@ -757,6 +782,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         errors.append("process-response country set must match the approved four-country public record")
     if structural_response_countries != EXPECTED_STRUCTURAL_RESPONSE_COUNTRIES:
         errors.append("structural-response country set must contain Sweden only")
+    if method_response_countries != EXPECTED_METHOD_RESPONSE_COUNTRIES:
+        errors.append("method-response country set must contain Canada only")
     if sales_response_countries != EXPECTED_SALES_RESPONSE_COUNTRIES:
         errors.append("annual-sales-response country set must remain empty")
     if trade_response_countries != EXPECTED_TRADE_RESPONSE_COUNTRIES:
@@ -782,6 +809,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
     notice_fi = str(program.get("independenceNoticeFi", "")).casefold()
     if not all(term in notice_en for term in (
         "privacy-safe categorical process or evidence state",
+        "table-specific official method clarification",
+        "supplies no new sales value or donor evidence",
         "official aggregate registration-structure counts",
         "not annual sales",
         "sold device units",
@@ -803,6 +832,8 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
         )
     if not all(term in notice_fi for term in (
         "tietosuojatun kategorisen prosessi- tai evidenssitilan",
+        "taulukkokohtaisen virallisen menetelmätäsmennyksen",
+        "ei toimita uutta myyntiarvoa tai luovuttajaevidenssiä",
         "viralliset aggregoidut rekisterirakenneluvut",
         "ei vuosimyynnistä",
         "myytyjen laitteiden kappalemäärästä",
@@ -862,6 +893,11 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
             errors.append("published CSV structural-response country set must contain Sweden only")
         if {
             row["countryIso2"] for row in rows
+            if row["responseState"] in METHOD_RESPONSE_STATE_VALUES
+        } != EXPECTED_METHOD_RESPONSE_COUNTRIES:
+            errors.append("published CSV method-response country set must contain Canada only")
+        if {
+            row["countryIso2"] for row in rows
             if row["responseState"] in SALES_RESPONSE_STATE_VALUES
         } != EXPECTED_SALES_RESPONSE_COUNTRIES:
             errors.append("published CSV annual-sales-response country set must remain empty")
@@ -874,7 +910,9 @@ def validate_outputs(program: dict[str, Any], errors: list[str]) -> None:
             row["publicAuthorityReference"]
             for row in rows
             if row["responseState"] in (
-                PROCESS_RESPONSE_STATE_VALUES | STRUCTURAL_RESPONSE_STATE_VALUES
+                PROCESS_RESPONSE_STATE_VALUES
+                | STRUCTURAL_RESPONSE_STATE_VALUES
+                | METHOD_RESPONSE_STATE_VALUES
             )
         ):
             errors.append("published CSV exposes a response correspondence reference")
@@ -952,7 +990,8 @@ def main() -> int:
     print(
         "PASS: schema v3 with a 195-state six-layer evidence stack; 12 sent, 8 draft and "
         "4 privacy-safe process/negative-response country routes; one official Sweden structural-data "
-        "response with sales unavailable; one official France customs trade-proxy response "
+        "response with sales unavailable; one official Canada method clarification with no new sales "
+        "value; one official France customs trade-proxy response "
         "with product scope partial; two sent non-counting supplementary routes in Germany and Poland; "
         "0 annual-sales-data responses, operational ranking, official HTTPS URLs, "
         "requester caveats, and generated files verified."

@@ -65,6 +65,7 @@
     }
   };
   const STRUCTURAL_RESPONSE_STATE = "official_structural_data_received_sales_not_available";
+  const METHOD_RESPONSE_STATE = "official_method_clarification_received_no_new_sales_data";
   const TRADE_PROXY_RESPONSE_STATE = "official_customs_trade_proxy_received_scope_partial";
   const EXPECTED_DISPATCH = {
     DE: {
@@ -77,7 +78,7 @@
       state: "sent",
       sentOn: "2026-07-23",
       publicAuthorityReference: null,
-      responseState: "not_publicly_recorded"
+      responseState: METHOD_RESPONSE_STATE
     },
     US: {
       state: "sent",
@@ -432,6 +433,7 @@
     const sentCountries = new Set();
     const processResponseCountries = new Set();
     const structuralResponseCountries = new Set();
+    const methodResponseCountries = new Set();
     const tradeProxyResponseCountries = new Set();
     for (const route of raw.routes) {
       exactKeys(route, [
@@ -467,6 +469,11 @@
         structuralResponseCountries.add(route.countryIso2);
         if (route.dispatch.publicAuthorityReference !== null) {
           throw new Error("structural response cannot expose a correspondence reference");
+        }
+      } else if (route.dispatch.responseState === METHOD_RESPONSE_STATE) {
+        methodResponseCountries.add(route.countryIso2);
+        if (route.dispatch.publicAuthorityReference !== null) {
+          throw new Error("method response cannot expose a correspondence reference");
         }
       } else if (route.dispatch.responseState === TRADE_PROXY_RESPONSE_STATE) {
         tradeProxyResponseCountries.add(route.countryIso2);
@@ -566,6 +573,9 @@
     if (structuralResponseCountries.size !== 1 || !structuralResponseCountries.has("SE")) {
       throw new Error("structural-data response set differs from the approved Sweden record");
     }
+    if (methodResponseCountries.size !== 1 || !methodResponseCountries.has("CA")) {
+      throw new Error("method-response set differs from the approved Canada record");
+    }
     if (tradeProxyResponseCountries.size !== 1 || !tradeProxyResponseCountries.has("FR")) {
       throw new Error("trade-proxy response set differs from the approved France record");
     }
@@ -585,6 +595,12 @@
   }
 
   function routeResponseStatusText(route) {
+    if (route.dispatch.responseState === METHOD_RESPONSE_STATE) {
+      return l(
+        "Virallinen menetelmätäsmennys vastaanotettu — veroperusta oikaistu; ei uutta myyntiarvoa",
+        "Official method clarification received — tax basis corrected; no new sales value"
+      );
+    }
     if (route.dispatch.responseState === STRUCTURAL_RESPONSE_STATE) {
       return l(
         "Virallinen rekisterirakennevastaus vastaanotettu — ei myynti-, arvo- tai volyymidataa",
@@ -617,8 +633,14 @@
         && route.countryIso2 === "FR"
         && route.dispatch.responseState === TRADE_PROXY_RESPONSE_STATE
     ).length;
+    const officialMethod = routes.filter(
+      (route) => route.status === "sent"
+        && route.countryIso2 === "CA"
+        && route.dispatch.responseState === METHOD_RESPONSE_STATE
+    ).length;
     return {
       processOnly,
+      officialMethod,
       officialStructural: structuralCountries.size,
       tradeProxy,
       sales: 0
@@ -994,12 +1016,12 @@
     );
     root.querySelector("[data-request-program-boundary-mark]").textContent = l("TILA", "STATUS");
     root.querySelector("[data-request-program-boundary-summary]").textContent = l(
-      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävää viranomaisreittiä · ${responses.processOnly} prosessi-/kielteistä saatavuusvastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta`,
-      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary authority routes · ${responses.processOnly} process/negative-availability responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses`
+      `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävää viranomaisreittiä · ${responses.processOnly} prosessi-/kielteistä saatavuusvastausta · ${responses.officialMethod} virallinen menetelmätäsmennys · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta`,
+      `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary authority routes · ${responses.processOnly} process/negative-availability responses · ${responses.officialMethod} official method clarification · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses`
     );
     root.querySelector("[data-request-program-boundary-copy]").textContent = l(
-      "Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Ranskan vastaus sisältää vuosittaisen tullikaupan laiteproxy-aineiston, jonka yksiköt ja neste-/pod-luokitus odottavat vahvistusta; se ei ole vähittäismarkkinan koko. Italian virallisen vastauksen mukaan pyydettyä aggregaattia ei ollut hallussa tai tuotettu; Libro Blu -verotuotto ei ole vähittäisarvo, volyymi tai markkinakasvu. Saksan ja Puolan täydentävät pyynnöt kuuluvat jo laskettuihin maihin eivätkä lisää maita. Maksua ei ole hyväksytty. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
-      "The Sweden response contains official registration-structure counts only. France supplied classification and unit metadata for an annual customs-trade proxy; it remains a border-stage measure, not retail market size. Italy and Denmark supplied official negative-availability responses; Denmark identified a retailer register, not sales data. Germany requested clarification by 2026-08-11 and warned of a possible fee; no fee has been accepted and no data access is promised. The German and Polish supplementary requests belong to countries already counted and add no countries. Downloadable templates remain DRAFT — NOT SENT."
+      "Kanada toimitti taulukkokohtaisen menetelmätäsmennyksen, joka oikaisee veroperustan mutta ei lisää myyntiarvoa. Ruotsin vastaus sisältää vain virallisia rekisterirakenteen lukumääriä. Ranskan vastaus sisältää vuosittaisen tullikaupan laiteproxy-aineiston, jonka yksiköt ja neste-/pod-luokitus odottavat vahvistusta; se ei ole vähittäismarkkinan koko. Italian ja Tanskan vastaukset ovat kielteisiä saatavuusvastauksia, eivät myyntidataa. Saksan maksuttomaksi rajattu vastaus lähetettiin ennen 11.8.2026 määräpäivää; maksua ei ole hyväksytty eikä dataan pääsyä ole luvattu. Saksan ja Puolan täydentävät pyynnöt kuuluvat jo laskettuihin maihin eivätkä lisää maita. Ladattavat mallipohjat säilyvät LUONNOS — EI LÄHETETTY -tilassa.",
+      "Canada supplied a table-specific method clarification that corrects the tax basis but adds no sales value. The Sweden response contains official registration-structure counts only. France supplied classification and unit metadata for an annual customs-trade proxy; it remains a border-stage measure, not retail market size. Italy and Denmark supplied official negative-availability responses; Denmark identified a retailer register, not sales data. Germany's narrowed reply asks the authority to limit handling to existing material available without charge; no fee has been accepted and no data access is promised. The German and Polish supplementary requests belong to countries already counted and add no countries. Downloadable templates remain DRAFT — NOT SENT."
     );
     root.querySelector("[data-request-program-note]").textContent = l(
       "Kuusi evidenssikerrosta ovat vaihtoehtoisia ja toisiaan tarkistavia. Vero-, myynti-, tulli-, toimitus- ja takavarikkosarjoja ei saa laskea mekaanisesti yhteen; takavarikot eivät ole laillista myyntiä.",
@@ -1030,8 +1052,8 @@
     status.replaceChildren(
       element("span", "bank-package-status-dot", ""),
       element("span", "", l(
-        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävää viranomaisreittiä · ${responses.processOnly} prosessi-/kielteistä saatavuusvastausta · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta · tarkistettu ${programme.verificationDate}.`,
-        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary authority routes · ${responses.processOnly} process/negative-availability responses · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses · verified ${programme.verificationDate}.`
+        `${sentCount} maareittiä lähetetty · ${draftCount} maaluonnosta · ${supplementarySentCount} täydentävää viranomaisreittiä · ${responses.processOnly} prosessi-/kielteistä saatavuusvastausta · ${responses.officialMethod} virallinen menetelmätäsmennys · ${responses.officialStructural} virallinen rakennevastaus · ${responses.tradeProxy} tullikaupan proxyvastaus · ${responses.sales} myyntidatavastausta · tarkistettu ${programme.verificationDate}.`,
+        `${sentCount} country routes sent · ${draftCount} country drafts · ${supplementarySentCount} supplementary authority routes · ${responses.processOnly} process/negative-availability responses · ${responses.officialMethod} official method clarification · ${responses.officialStructural} official structural response · ${responses.tradeProxy} customs-trade proxy response · ${responses.sales} sales-data responses · verified ${programme.verificationDate}.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

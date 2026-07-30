@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "asOf": "2026-07-29",
+  "asOf": "2026-07-30",
   "status": "screening_only_not_donor_assessment",
   "method": {
     "ruleEn": "This screen ranks public official acquisition routes. It does not score D1-D10, accept a donor market or change the 0/3 gate.",

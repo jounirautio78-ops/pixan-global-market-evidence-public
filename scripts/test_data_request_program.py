@@ -149,6 +149,29 @@ class DataRequestBoundaryTests(unittest.TestCase):
         self.assertIn("substantive data", self.program["independenceNoticeEn"])
         self.assertIn("sisällöllisenä datana", self.program["independenceNoticeFi"])
 
+    def test_canada_method_clarification_corrects_tax_basis_without_new_sales_value(self) -> None:
+        canada = next(
+            route for route in self.program["routes"] if route["countryIso2"] == "CA"
+        )
+        self.assertEqual(canada["dispatch"], {
+            "state": "sent",
+            "sentOn": "2026-07-23",
+            "publicAuthorityReference": None,
+            "responseState": "official_method_clarification_received_no_new_sales_data",
+        })
+        self.assertIn("values exclude GST/HST/PST/QST", canada["rationaleEn"])
+        self.assertIn("include additional duties embedded in retail prices", canada["rationaleEn"])
+        self.assertIn("supplies no new market value", canada["rationaleEn"])
+        self.assertIn("no-charge follow-up sent on 2026-07-30", canada["rationaleEn"])
+        self.assertIn(
+            "table-specific official method clarification",
+            self.program["independenceNoticeEn"],
+        )
+        self.assertIn(
+            "supplies no new sales value or donor evidence",
+            self.program["independenceNoticeEn"],
+        )
+
     def test_italy_response_is_negative_and_tax_anchor_is_not_market_data(self) -> None:
         italy = next(
             route for route in self.program["routes"] if route["countryIso2"] == "IT"
@@ -364,6 +387,20 @@ class DataRequestBoundaryTests(unittest.TestCase):
         def mutate(item) -> None:
             route = next(route for route in item["routes"] if route["countryIso2"] == "SE")
             route["dispatch"]["publicAuthorityReference"] = "DIARY 67890"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_method_response_reference_even_if_format_looks_public(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "CA")
+            route["dispatch"]["publicAuthorityReference"] = "CASE 1215058"
+
+        self.assert_rejected(mutate)
+
+    def test_rejects_canada_method_response_relabelled_as_sales_data(self) -> None:
+        def mutate(item) -> None:
+            route = next(route for route in item["routes"] if route["countryIso2"] == "CA")
+            route["dispatch"]["responseState"] = "official_annual_sales_data_received"
 
         self.assert_rejected(mutate)
 
