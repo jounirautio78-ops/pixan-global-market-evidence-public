@@ -3,6 +3,30 @@
   "asOf": "2026-07-31",
   "releases": [
     {
+      "id": "2026-07-31-switzerland-route-price-rights-v38",
+      "version": "2026.07.31-38",
+      "publishedAt": "2026-07-31T12:51:53+03:00",
+      "titleEn": "Switzerland official route, price anchor and reuse-rights gate",
+      "titleFi": "Sveitsin viranomaisreitti, hinta-ankkuri ja käyttöoikeusportti",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added the Swiss Federal Council's CHF 4.43/ml average-price reference for nicotine refill liquids and disposable contents as one published price input. It is not a complete annual market average, taxed volume, annual sales value or retail-market figure and is not multiplied into a market total.",
+          "textFi": "Lisättiin Sveitsin liittoneuvoston 4,43 CHF/ml -keskihintareferenssi nikotiinia sisältäville täyttönesteille ja kertakäyttötuotteiden sisällöille yhtenä julkaistuna hintasyötteenä. Se ei ole koko vuoden markkinakeskiarvo, verotettu määrä, vuotuinen myyntiarvo tai vähittäismarkkinaluku eikä sitä kerrota markkinasummaksi."
+        },
+        {
+          "category": "method",
+          "textEn": "FOCBS identified SwissImpex, Tares and the current statistical control keys but did not supply the requested annual taxed millilitres, category excise or nationwide retail sales. Switzerland now uses customs_trade_proxy as its primary research route. Public TN8 records omit the control key and remain border-stage evidence; derived trade totals are withheld because terms_by_ask requires prior permission for commercial use.",
+          "textFi": "FOCBS tunnisti SwissImpexin, Taresin ja nykyiset tilastoavaimet mutta ei toimittanut pyydettyjä vuotuisia verotettuja millilitroja, kategoriakohtaista valmisteveroa tai valtakunnallista vähittäismyyntiä. Sveitsin ensisijainen tutkimusreitti on nyt customs_trade_proxy. Julkisista TN8-tietueista puuttuu tilastoavain ja ne pysyvät rajavaiheen evidenssinä; johdetut kauppasummat pidetään pois julkisesta käytöstä, koska terms_by_ask edellyttää kaupalliseen käyttöön ennakkolupaa."
+        },
+        {
+          "category": "usability",
+          "textEn": "Published dashboard v38 with 85 observations from 25 sources. The 75 official observations still split into 39 market measures and 36 Swedish registration-structure records; Switzerland adds only a non-market-value price input. The six downloadable lender-package files remain the reviewed v37 daily snapshot and were not rebuilt. The donor gate remains 0/3, global retail value remains null/not_computed and Euromonitor remains paused with no purchase, fee, order, licence or commitment authorised.",
+          "textFi": "Julkaistiin dashboard v38, jossa on 85 havaintoa 25 lähteestä. 75 virallista havaintoa jakautuvat edelleen 39 markkinamittariin ja 36 Ruotsin rekisterirakennetietueeseen; Sveitsi lisää vain muun kuin markkina-arvon hintasyötteen. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v37-päiväsnapshotina eikä niitä rakennettu uudelleen. Donor-portti pysyy 0/3:ssa, maailman vähittäisarvo null/not_computed-tilassa ja Euromonitor pausella ilman valtuutettua ostoa, maksua, tilausta, lisenssiä tai sitoumusta."
+        }
+      ]
+    },
+    {
       "id": "2026-07-31-canada-scope-quality-nz-poland-v37",
       "version": "2026.07.31-37",
       "publishedAt": "2026-07-31T11:11:21+03:00",

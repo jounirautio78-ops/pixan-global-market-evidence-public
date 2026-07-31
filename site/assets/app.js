@@ -748,6 +748,10 @@ function formatMarketValue(value, currency, unit, compact = true) {
   const number = Number(value);
   if (!Number.isFinite(number)) return "—";
   const locale = isFi() ? "fi-FI" : "en-GB";
+  if (unit === "EUR_per_ml" || unit === "CHF_per_ml") {
+    const code = unit.startsWith("CHF") ? "CHF" : "EUR";
+    return `${new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number)} ${code}/ml`;
+  }
   if (currency) {
     return new Intl.NumberFormat(locale, {
       style: "currency",
@@ -763,7 +767,6 @@ function formatMarketValue(value, currency, unit, compact = true) {
   if (unit === "unit") {
     return `${new Intl.NumberFormat(locale, { notation: compact ? "compact" : "standard", maximumFractionDigits: 2 }).format(number)} ${l("kpl", "units")}`;
   }
-  if (unit === "EUR_per_ml") return `${new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number)} EUR/ml`;
   return `${new Intl.NumberFormat(locale, { notation: compact ? "compact" : "standard", maximumFractionDigits: 3 }).format(number)}${unit ? ` ${unit}` : ""}`;
 }
 
@@ -2439,6 +2442,34 @@ function openCountry(country) {
     )));
   }
   body.append(methodSection);
+
+  const priceAnchors = marketObservations()
+    .filter((record) => record.countryIso2 === country.iso2 && record.metric === "retail_price_input")
+    .sort((a, b) => Number(b.year) - Number(a.year) || Number(a.value) - Number(b.value));
+  if (priceAnchors.length) {
+    const anchorSection = node("section", "dialog-section global-base-country");
+    anchorSection.append(node("h3", "", l("Hinta- ja proxy-ankkurit", "Price and proxy anchors")));
+    const anchorGrid = node("div", "global-base-country-grid");
+    for (const record of priceAnchors) {
+      const item = node("article", "global-base-country-item");
+      item.append(
+        node("span", "", isFi() ? record.labelFi : record.labelEn),
+        node("strong", "", `${formatMarketValue(record.value, record.currency, record.unit, false)} · ${record.year}`),
+        node("small", "", isFi() ? record.limitationFi : record.limitationEn)
+      );
+      const sourceLink = marketSourceLink(record, l("Avaa hintalähde ↗", "Open price source ↗"));
+      if (sourceLink) item.append(sourceLink);
+      anchorGrid.append(item);
+    }
+    anchorSection.append(
+      anchorGrid,
+      node("p", "global-base-country-boundary", l(
+        "Hintasyöte tai proxy ei ole vuotuinen markkina-arvo eikä kelpaa maailman vähittäissummaan ilman erillistä määrä-, peitto-, vero- ja kanavasiltaa.",
+        "A price input or proxy is not an annual market value and is ineligible for the global retail roll-up without separate volume, coverage, tax and channel bridges."
+      ))
+    );
+    body.append(anchorSection);
+  }
 
   const base = globalBaseCountry(country.iso2);
   const baseSection = node("section", "dialog-section global-base-country");

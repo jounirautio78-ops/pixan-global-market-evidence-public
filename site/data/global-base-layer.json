@@ -129,7 +129,7 @@
     }
   },
   "methodRouteControl": {
-    "version": "2026.07.31-37",
+    "version": "2026.07.31-38",
     "asOf": "2026-07-31",
     "status": "research_route_map_not_market_values",
     "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",
@@ -21470,17 +21470,17 @@
       "methodRoute": {
         "assignmentClass": "reviewed_method_plan",
         "reviewLevel": "country_method_reviewed",
-        "primaryMethodId": "excise_to_volume_reconstruction",
+        "primaryMethodId": "customs_trade_proxy",
         "secondaryMethodIds": [
-          "customs_trade_proxy",
+          "excise_to_volume_reconstruction",
           "product_registry_plus_sales_request"
         ],
-        "primaryMethodLabelEn": "Excise-to-volume reconstruction",
-        "primaryMethodLabelFi": "Valmisteverosta määräksi takaisinlaskenta",
-        "transactionStage": "tax_release",
-        "nextActionId": "reconstruct_tax_base_then_retail_bridge",
-        "nextActionEn": "Reconstruct the taxed base, then add price, tax, stock, export and channel bridges",
-        "nextActionFi": "Laske veropohja takaisin ja lisää hinta-, vero-, varasto-, vienti- ja kanavasillat",
+        "primaryMethodLabelEn": "Customs trade proxy",
+        "primaryMethodLabelFi": "Tullikaupan proxy",
+        "transactionStage": "border_trade",
+        "nextActionId": "classify_customs_scope_then_domestic_bridge",
+        "nextActionEn": "Validate customs product codes, then build the domestic sell-through bridge",
+        "nextActionFi": "Vahvista tullin tuotekoodit ja rakenna kotimaisen kuluttajamyynnin silta",
         "provenanceBasisIds": [
           "UN195",
           "OPEN_BASE",
@@ -21492,8 +21492,8 @@
         "donorAccepted": false,
         "requestState": "sent",
         "lastReviewedOn": "2026-07-31",
-        "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
-        "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
+        "boundaryEn": "FOCBS identified a reproducible tariff route and current product keys, but public TN8 records omit the statistical control key and remain border-stage evidence. Derived trade totals are withheld pending commercial-use permission. CHF 4.43/ml is a price anchor only; Swiss retail value remains not_computed.",
+        "boundaryFi": "FOCBS tunnisti toistettavan tariffireitin ja nykyiset tuoteavaimet, mutta julkisista TN8-tietueista puuttuu tilastoavain ja ne pysyvät rajavaiheen evidenssinä. Johdetut kauppasummat pidetään pois julkisesta käytöstä kaupallisen käyttöluvan varmistamiseen asti. 4,43 CHF/ml on vain hinta-ankkuri; Sveitsin vähittäisarvo pysyy not_computed-tilassa."
       },
       "retailSalesEligible": false
     },

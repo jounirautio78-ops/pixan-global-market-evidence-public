@@ -1265,8 +1265,8 @@ def validate_market_values(
     if not isinstance(source_rows, list) or not source_rows:
         errors.append("market-observations.json sources must be a non-empty array")
         source_rows = []
-    if len(source_rows) != 24:
-        errors.append("market-observations.json must contain exactly 24 reviewed market sources")
+    if len(source_rows) != 25:
+        errors.append("market-observations.json must contain exactly 25 reviewed market sources")
     expected_source_urls = {
         "CA-HC-VAPING-SALES-2024": (
             "official",
@@ -1383,6 +1383,11 @@ def validate_market_values(
             "https://www.intaste.de/tobacco-vanilla-nikotinsalz-revoltage-liquid",
             None,
         ),
+        "CH-FEDERAL-COUNCIL-TOBACCO-MARKET-REPORT-2025": (
+            "official",
+            "https://cms.news.admin.ch/fileservice/sdweb-docs-prod-nsbcch-files/files/2025/12/19/0b6e6f46-9c83-4a23-85a9-eb891a093fe8.pdf",
+            "https://cms.news.admin.ch/fileservice/sdweb-docs-prod-nsbcch-files/files/2025/12/19/0b6e6f46-9c83-4a23-85a9-eb891a093fe8.pdf",
+        ),
         "US-FTC-E-CIGARETTE-REPORT-2021": (
             "official",
             "https://www.ftc.gov/reports/e-cigarette-report-2021",
@@ -1436,8 +1441,8 @@ def validate_market_values(
     if not isinstance(observations, list) or not observations:
         errors.append("market-observations.json observations must be a non-empty array")
         observations = []
-    if len(observations) != 84:
-        errors.append("market-observations.json must contain exactly 84 reviewed observations")
+    if len(observations) != 85:
+        errors.append("market-observations.json must contain exactly 85 reviewed observations")
     observations_by_id: dict[str, dict[str, Any]] = {}
     expected_observations = {
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
@@ -1481,6 +1486,7 @@ def validate_market_values(
         "DE-2026-RETAIL-PRICE-LOW-EUR-PER-ML": ("DE", 2026, "retail_price_input", 0.44, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
         "DE-2026-RETAIL-PRICE-BASE-EUR-PER-ML": ("DE", 2026, "retail_price_input", 0.79, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
         "DE-2026-RETAIL-PRICE-HIGH-EUR-PER-ML": ("DE", 2026, "retail_price_input", 1.09, "EUR_per_ml", "published_price_input", "current_listing", "single_retail_listing_input_not_market_value", False),
+        "CH-2025-OFFICIAL-AVERAGE-PRICE-CHF-PER-ML": ("CH", 2025, "retail_price_input", 4.43, "CHF_per_ml", "published_price_input", "official_report_average_price", "official_average_price_anchor_not_market_value", False),
         "US-2015-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2015, "ftc_reported_cartridge_and_disposable_sales", 304170046, "USD", "official_table_derived", "sum_of_official_product_categories", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
         "US-2016-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2016, "ftc_reported_cartridge_and_disposable_sales", 485707484, "USD", "official_table_derived", "sum_of_official_product_categories", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
         "US-2017-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2017, "ftc_reported_cartridge_and_disposable_sales", 779836399, "USD", "official_table_derived", "sum_of_official_product_categories", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
@@ -1636,8 +1642,15 @@ def validate_market_values(
                 != "external_study_benchmark_published_by_official_institution_not_donor"
             ):
                 errors.append(f"{path}: institutional secondary values must remain supported, non-observed benchmarks")
-        if item.get("metric") == "retail_price_input" and item.get("evidenceStatus") != "published_price_input":
-            errors.append(f"{path}: a retail listing must remain a price input, not observed market value")
+        if item.get("metric") == "retail_price_input" and (
+            item.get("evidenceStatus") != "published_price_input"
+            or item.get("comparableMarketValue")
+            or item.get("atlasEstimate")
+        ):
+            errors.append(
+                f"{path}: a published price record must remain an input, "
+                "not observed or modelled market value"
+            )
         if item.get("metric") == "ftc_reported_cartridge_and_disposable_sales":
             if (
                 item.get("evidenceStatus") != "official_table_derived"
@@ -1908,6 +1921,10 @@ def validate_market_values(
         ),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
         "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
+        "CH-2025-OFFICIAL-AVERAGE-PRICE-CHF-PER-ML": (
+            "nicotine_refill_liquids_and_disposable_e_cigarette_contents",
+            "CH-FEDERAL-COUNCIL-TOBACCO-MARKET-REPORT-2025",
+        ),
         "US-2015-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
         "US-2016-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
         "US-2017-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),

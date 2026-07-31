@@ -60,8 +60,10 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "INTASTE-GERMANFLAVOURS-2026",
     "INTASTE-SAMURAI-2026",
     "INTASTE-REVOLTAGE-2026",
+    "CH-FEDERAL-COUNCIL-TOBACCO-MARKET-REPORT-2025",
     "US-FTC-E-CIGARETTE-REPORT-2021",
 }
+SWISS_PRICE_ID = "CH-2025-OFFICIAL-AVERAGE-PRICE-CHF-PER-ML"
 NZ_VAPING_OBSERVATION_ID = "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM"
 NZ_DONOR_CANDIDATE_ID = "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL"
 NZ_SOURCE_IDS = [
@@ -428,10 +430,10 @@ def validate_review_data(
     if not isinstance(sources, list):
         errors.append("Freshness ledger requires a market-source array")
         sources = []
-    elif len(sources) != 24:
-        errors.append("Freshness ledger requires exactly 24 reviewed market sources for v27")
-    if not isinstance(observations, list) or len(observations) != 84:
-        errors.append("v27 market baseline must contain exactly 84 observations")
+    elif len(sources) != 25:
+        errors.append("Freshness ledger requires exactly 25 reviewed market sources")
+    if not isinstance(observations, list) or len(observations) != 85:
+        errors.append("Current market baseline must contain exactly 85 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -458,7 +460,7 @@ def validate_review_data(
             errors.append(f"{source_id}: retrievedAt cannot be later than market asOf")
     if source_ids != EXPECTED_MARKET_SOURCE_IDS:
         errors.append(
-            "v27 freshness ledger must retain the exact 24-source set; "
+            "Current freshness ledger must retain the exact 25-source set; "
             f"missing={sorted(EXPECTED_MARKET_SOURCE_IDS - source_ids)}, "
             f"extra={sorted(source_ids - EXPECTED_MARKET_SOURCE_IDS)}"
         )
@@ -485,6 +487,51 @@ def validate_review_data(
     unused_sources = source_ids - years_by_source.keys()
     if unused_sources:
         errors.append(f"Every freshness-ledger source must support a dated observation; unused={sorted(unused_sources)}")
+
+    swiss_price = observation_by_id.get(SWISS_PRICE_ID, {})
+    swiss_price_fact = (
+        swiss_price.get("countryIso2"),
+        swiss_price.get("year"),
+        swiss_price.get("metric"),
+        swiss_price.get("value"),
+        swiss_price.get("unit"),
+        swiss_price.get("currency"),
+        swiss_price.get("period"),
+        swiss_price.get("evidenceStatus"),
+        swiss_price.get("finality"),
+        swiss_price.get("productScope"),
+        swiss_price.get("marketValueBasis"),
+        swiss_price.get("comparableMarketValue"),
+        swiss_price.get("atlasEstimate"),
+        swiss_price.get("sourceIds"),
+    )
+    if swiss_price_fact != (
+        "CH",
+        2025,
+        "retail_price_input",
+        4.43,
+        "CHF_per_ml",
+        "CHF",
+        "official_report_price_snapshot",
+        "published_price_input",
+        "official_report_average_price",
+        "nicotine_refill_liquids_and_disposable_e_cigarette_contents",
+        "official_average_price_anchor_not_market_value",
+        False,
+        False,
+        ["CH-FEDERAL-COUNCIL-TOBACCO-MARKET-REPORT-2025"],
+    ):
+        errors.append("Swiss official price anchor differs from its non-market-value boundary")
+    swiss_limitation = str(swiss_price.get("limitationEn", ""))
+    for marker in (
+        "not a complete calendar-year market average",
+        "taxed volume",
+        "annual sales value",
+        "nationwide retail-market figure",
+        "cannot be multiplied into a market total",
+    ):
+        if marker not in swiss_limitation:
+            errors.append(f"Swiss official price anchor lacks {marker!r}")
 
     nz_vaping = observation_by_id.get(NZ_VAPING_OBSERVATION_ID, {})
     nz_vaping_fact = (
@@ -707,7 +754,7 @@ def validate_review_data(
             else:
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
-            "latest_period": 12,
+            "latest_period": 13,
             "previous_full_year": 5,
             "historical_only": 7,
         }:
@@ -1021,14 +1068,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-07-31-37"}
+            or set(cache_tokens) != {"2026-07-31-38"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v37 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v38 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-07-31-37"',
+        'src="assets/independent-controls.js?v=2026-07-31-38"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1110,13 +1157,14 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-31-canada-scope-quality-nz-poland-v37",
-            'version: "2026.07.31-37"',
-            'publishedAt: "2026-07-31T11:11:21+03:00"',
-            "Canada closure result, New Zealand controls and Poland scope correction",
-            "Canada, New Zealand and Poland",
-            "six downloadable lender-package files are the reviewed v37 daily snapshot",
-            "dashboard and downloads share the v37 daily release",
+            "2026-07-31-switzerland-route-price-rights-v38",
+            'version: "2026.07.31-38"',
+            'publishedAt: "2026-07-31T12:51:53+03:00"',
+            "Switzerland official route, price anchor and reuse-rights gate",
+            "CHF 4.43/ml",
+            "derived trade totals are withheld pending commercial-use permission",
+            "dashboard is v38",
+            "lender-package files remain the reviewed v37 daily snapshot",
         ):
             if release_hook not in i18n_js:
                 errors.append(f"i18n.js lacks required v37 UI release hook {release_hook!r}")
@@ -1177,9 +1225,12 @@ def validate_review_structure(
             "provenanceBasisIds",
             '"nextAction"',
             '"boundary"',
+            "CHF_per_ml",
+            "Price and proxy anchors",
+            'record.metric === "retail_price_input"',
         ):
             if hook not in app_js:
-                errors.append(f"app.js lacks required v30 method-control hook {hook!r}")
+                errors.append(f"app.js lacks required method/price-control hook {hook!r}")
     if independent_controls_js is not None:
         for hook in (
             'fetch("data/us-independent-benchmark-control.json"',
@@ -1273,10 +1324,10 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v37 dashboard / v37 daily-package review experience: HOLD boundary, "
+        "Validated v38 dashboard / v37 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
-        "deterministic 24-source ledger and required UI hooks."
+        "deterministic 25-source ledger and required UI hooks."
     )
 
 

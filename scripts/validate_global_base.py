@@ -289,12 +289,21 @@ def validate_layer_details(
             route_control["primaryMethodId"]
         ]
         next_action = route_controls["actionMap"][route_control["nextActionId"]]
+        country_plan = route_controls["countryPlanMap"].get(country["iso2"], {})
+        expected_boundary_en = country_plan.get(
+            "boundaryEn",
+            primary_method["boundaryEn"],
+        )
+        expected_boundary_fi = country_plan.get(
+            "boundaryFi",
+            primary_method["boundaryFi"],
+        )
         require(
             route_control["primaryMethodLabelEn"] == primary_method["labelEn"]
             and route_control["primaryMethodLabelFi"] == primary_method["labelFi"]
             and route_control["transactionStage"] == primary_method["transactionStage"]
-            and route_control["boundaryEn"] == primary_method["boundaryEn"]
-            and route_control["boundaryFi"] == primary_method["boundaryFi"],
+            and route_control["boundaryEn"] == expected_boundary_en
+            and route_control["boundaryFi"] == expected_boundary_fi,
             f"{country['iso2']} primary-method metadata differs",
         )
         require(
@@ -395,6 +404,16 @@ def validate_layer_details(
             if iso2 not in {"CA", "NZ"}
         ),
         "retail-value status boundary differs for CA, NZ or the other 193 countries",
+    )
+    require(
+        by_iso["CH"]["primaryMethodId"] == "customs_trade_proxy"
+        and by_iso["CH"]["transactionStage"] == "border_trade"
+        and by_iso["CH"]["retailValueStatus"] == "not_computed"
+        and by_iso["CH"]["eligibleForGlobalRollup"] is False
+        and by_iso["CH"]["donorAccepted"] is False
+        and "commercial-use permission" in by_iso["CH"]["boundaryEn"]
+        and "CHF 4.43/ml" in by_iso["CH"]["boundaryEn"],
+        "Switzerland must remain a rights-gated customs-stage route with a price anchor, not retail value",
     )
 
     require(

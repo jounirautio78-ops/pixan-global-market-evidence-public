@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "asOf": "2026-07-31",
-  "version": "2026.07.31-37",
+  "version": "2026.07.31-38",
   "status": "research_route_map_not_market_values",
   "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",
   "boundaryFi": "Kartta osoittaa läpinäkyvän evidenssin hankinta- ja laskentareitin jokaiselle UN195-valtiolle. Se ei väitä, että 195 vähittäismarkkinaa olisi mitattu. Reitti, pyyntö, proxy, malli tai osittaisen kanavan havainto ei ole vähittäismarkkina-arvo, ellei taustalla oleva evidenssi osoita tätä erikseen.",
@@ -52,8 +52,8 @@
       "status": "sent",
       "sentOn": "2026-07-27",
       "programme": "five_country_method_sprint",
-      "publicNoteEn": "Aggregate excise, trade and product-notification requests sent to official functions.",
-      "publicNoteFi": "Aggregoidut valmistevero-, kauppa- ja tuoteilmoituspyynnöt lähetetty viranomaisfunktioille."
+      "publicNoteEn": "Official response received: the requested annual taxed volumes, category excise and retail sales were not supplied. SwissImpex, Tares, current tariff keys and an official CHF 4.43/ml price anchor were identified. Customs values remain border-stage signals, and derived trade totals are withheld pending commercial-use permission.",
+      "publicNoteFi": "Virallinen vastaus saatu: pyydettyjä vuotuisia verotettuja määriä, kategoriakohtaista valmisteveroa tai vähittäismyyntiä ei toimitettu. SwissImpex, Tares, nykyiset tariffiavaimet ja virallinen 4,43 CHF/ml -hinta-ankkuri tunnistettiin. Tulliarvot pysyvät rajavaiheen signaaleina, ja johdetut kauppasummat pidetään pois julkisesta käytöstä kaupallisen käyttöluvan varmistamiseen asti."
     },
     {
       "countryIso2": "LU",
@@ -376,7 +376,14 @@
     {"countryIso2": "SA", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": [], "retailValueStatus": "not_computed"},
     {"countryIso2": "AT", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["excise_to_volume_reconstruction", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
     {"countryIso2": "BE", "primaryMethodId": "statutory_annual_sales_reporting", "secondaryMethodIds": ["excise_to_volume_reconstruction", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
-    {"countryIso2": "CH", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["customs_trade_proxy", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
+    {
+      "countryIso2": "CH",
+      "primaryMethodId": "customs_trade_proxy",
+      "secondaryMethodIds": ["excise_to_volume_reconstruction", "product_registry_plus_sales_request"],
+      "retailValueStatus": "not_computed",
+      "boundaryEn": "FOCBS identified a reproducible tariff route and current product keys, but public TN8 records omit the statistical control key and remain border-stage evidence. Derived trade totals are withheld pending commercial-use permission. CHF 4.43/ml is a price anchor only; Swiss retail value remains not_computed.",
+      "boundaryFi": "FOCBS tunnisti toistettavan tariffireitin ja nykyiset tuoteavaimet, mutta julkisista TN8-tietueista puuttuu tilastoavain ja ne pysyvät rajavaiheen evidenssinä. Johdetut kauppasummat pidetään pois julkisesta käytöstä kaupallisen käyttöluvan varmistamiseen asti. 4,43 CHF/ml on vain hinta-ankkuri; Sveitsin vähittäisarvo pysyy not_computed-tilassa."
+    },
     {"countryIso2": "LU", "primaryMethodId": "excise_to_volume_reconstruction", "secondaryMethodIds": ["statutory_annual_sales_reporting", "product_registry_plus_sales_request"], "retailValueStatus": "not_computed"},
     {"countryIso2": "NO", "primaryMethodId": "regulated_supply_plus_enforcement", "secondaryMethodIds": ["customs_trade_proxy"], "retailValueStatus": "not_computed"}
   ]
