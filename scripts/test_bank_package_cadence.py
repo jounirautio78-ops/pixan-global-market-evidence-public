@@ -43,9 +43,9 @@ INTERMEDIATE_SAME_DAY_RELEASE = {
     "publishedAt": "2026-07-31T12:51:53+03:00",
 }
 LATER_SAME_DAY_RELEASE = {
-    "id": "2026-07-31-four-country-donor-closure-v39",
-    "version": "2026.07.31-39",
-    "publishedAt": "2026-07-31T14:48:53+03:00",
+    "id": "2026-07-31-comparator-controls-v40",
+    "version": "2026.07.31-40",
+    "publishedAt": "2026-07-31T16:32:30+03:00",
 }
 
 

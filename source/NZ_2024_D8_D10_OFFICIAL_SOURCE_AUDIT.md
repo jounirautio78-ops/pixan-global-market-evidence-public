@@ -15,6 +15,12 @@
   NZD 6,488,209 total-export FOB. Expanded and deliberately broad maximum
   scopes rise to NZD 242,974,278 and NZD 296,270,346 of import CIF,
   respectively. These are customs-stage controls, not retail estimates.
+- Stats NZ's detailed Household Economic Survey provides an independent
+  national household-expenditure control for the year ended June 2023: NZD
+  186,980,000 for e-cigarettes and refills, split into NZD 22,488,000 of
+  devices and NZD 164,492,000 of refills. The total has a 22.4% relative
+  sampling error and the device component 79.1%; the period and method do not
+  match the 2024 annual-return candidate.
 
 ## D8 — currency and tax basis
 
@@ -41,6 +47,11 @@ Customs and Stats NZ data provide a possible future cross-check, but a defensibl
 
 No current official source supplies that complete bridge or directly validates the NZD 274.18 million subtotal. Internal de-duplication of notifier, specialist-retailer and retailer stages is necessary but is not an independent D10 route.
 
+The HES record is an independent route, but not a same-period reconciliation.
+Its year-ended-June survey estimate cannot be subtracted from, added to or
+divided into the calendar-2024 specialist-retailer subtotal. It therefore
+strengthens plausibility review without changing D10 from `open`.
+
 The exact source hashes, HS10 filters, formulas, follow-up questions and
 acceptance tests are recorded in
 [`NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md`](NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md).
@@ -53,6 +64,7 @@ acceptance tests are recorded in
 - [Inland Revenue — GST guide](https://www.ird.govt.nz/-/media/project/ir/home/documents/forms-and-guides/ir300---ir399/ir375/ir375-2023-november.pdf)
 - [Stats NZ — Overseas merchandise trade datasets](https://www.stats.govt.nz/large-datasets/csv-files-for-download/overseas-merchandise-trade-datasets/)
 - [Stats NZ — Overseas merchandise trade metadata](https://datainfoplus.stats.govt.nz/Item/nz.govt.stats/6ed114da-3571-40d4-a89f-932068a4c753/119)
+- [Stats NZ — Household expenditure statistics, year ended June 2023](https://www.stats.govt.nz/information-releases/household-expenditure-statistics-year-ended-june-2023/)
 - [New Zealand Customs — vaping-product classification reminder](https://www.customs.govt.nz/about-us/news/important-notices-archive/important-notices-archive-2023/reminder-classification-of-vaping-devices-and-similar)
 - [New Zealand Customs — July 2024 tariff](https://www.customs.govt.nz/globalassets/documents/tariff-documents/wtd-2024/section-iv-july-2024.pdf)
 - [New Zealand Customs — vaping-products information report](https://www.customs.govt.nz/globalassets/documents/oia/oia-25-100-proactive-release.pdf)

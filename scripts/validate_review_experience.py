@@ -38,6 +38,7 @@ EXPECTED_TRADE_PROXY_STATES = {
 }
 EXPECTED_MARKET_SOURCE_IDS = {
     "CA-HC-VAPING-SALES-2024",
+    "CA-HC-TVPA-REVIEW-2022",
     "CA-STATCAN-RCS-2019-2022",
     "CA-STATCAN-RCS-2023-2025",
     "CA-STATCAN-CTNS-2022-PUMF",
@@ -49,6 +50,9 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "DE-DESTATIS-WZ4726-TURNOVER-2022",
     "DE-DESTATIS-WZ4726-TURNOVER-2023",
     "DE-DESTATIS-WZ4726-TURNOVER-2024",
+    "DE-EUROSTAT-PRODCOM-COMEXT-20595980-2024",
+    "DE-EUROSTAT-PRODCOM-COMEXT-27901152-2024",
+    "DE-USTG-SECTION-12-VAT",
     "FI-TAX-EXCISE-VVT-010-2025",
     "PL-SEJM-I07255-O1",
     "PL-SEJM-I17526-O1",
@@ -58,6 +62,8 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "PL-SEJM-I02408-O1",
     "PL-SEJM-I18182-O1",
     "PL-UOKIK-DKK-211-2015",
+    "PL-SEJM-I41718-O1",
+    "PL-CMR-DISPOSABLES-2023",
     "SE-GOV-BERAKNINGSKONVENTIONER-2026",
     "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24",
     "NZ-MOH-ANNUAL-RETURNS-2022",
@@ -67,6 +73,7 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
     "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
     "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
+    "NZ-STATSNZ-HES-DETAILED-2019-2023",
     "EU-EC-SWD-2025-560",
     "EU-EC-SWD-2026-111",
     "IMARC-GLOBAL-2025",
@@ -90,6 +97,7 @@ NZ_CANDIDATE_SOURCE_IDS = [
     *NZ_OBSERVATION_SOURCE_IDS,
     "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
     "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
+    "NZ-STATSNZ-HES-DETAILED-2019-2023",
 ]
 GERMANY_MODEL_ID = "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE"
 GERMANY_VOLUME_ID = "DE-2025-TAXED-LIQUID-VOLUME-L"
@@ -450,10 +458,10 @@ def validate_review_data(
     if not isinstance(sources, list):
         errors.append("Freshness ledger requires a market-source array")
         sources = []
-    elif len(sources) != 40:
-        errors.append("Freshness ledger requires exactly 40 reviewed market sources")
-    if not isinstance(observations, list) or len(observations) != 112:
-        errors.append("Current market baseline must contain exactly 112 observations")
+    elif len(sources) != 47:
+        errors.append("Freshness ledger requires exactly 47 reviewed market sources")
+    if not isinstance(observations, list) or len(observations) != 156:
+        errors.append("Current market baseline must contain exactly 156 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -480,7 +488,7 @@ def validate_review_data(
             errors.append(f"{source_id}: retrievedAt cannot be later than market asOf")
     if source_ids != EXPECTED_MARKET_SOURCE_IDS:
         errors.append(
-            "Current freshness ledger must retain the exact 40-source set; "
+            "Current freshness ledger must retain the exact 47-source set; "
             f"missing={sorted(EXPECTED_MARKET_SOURCE_IDS - source_ids)}, "
             f"extra={sorted(source_ids - EXPECTED_MARKET_SOURCE_IDS)}"
         )
@@ -666,14 +674,14 @@ def validate_review_data(
     ]
     market_measure_official = [item for item in official if item not in structural_official]
     if (
-        len(official) != 94
+        len(official) != 134
         or official_countries != EXPECTED_OFFICIAL_COUNTRIES
         or len(structural_official) != 36
         or {item.get("countryIso2") for item in structural_official} != {"SE"}
-        or len(market_measure_official) != 58
+        or len(market_measure_official) != 98
     ):
         errors.append(
-            "v39 must retain 58 official market-measure observations plus 36 Sweden "
+            "v40 must retain 98 official market-measure observations plus 36 Sweden "
             "registration-structure observations across the seven reviewed countries"
         )
     official_retail = [
@@ -787,8 +795,8 @@ def validate_review_data(
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
             "latest_period": 14,
-            "previous_full_year": 8,
-            "historical_only": 18,
+            "previous_full_year": 11,
+            "historical_only": 22,
         }:
             errors.append(f"Unexpected deterministic freshness buckets: {freshness_counts}")
 
@@ -1100,14 +1108,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-07-31-39"}
+            or set(cache_tokens) != {"2026-07-31-40"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v39 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v40 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-07-31-39"',
+        'src="assets/independent-controls.js?v=2026-07-31-40"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1189,17 +1197,16 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-31-four-country-donor-closure-v39",
-            'version: "2026.07.31-39"',
-            'publishedAt: "2026-07-31T14:48:53+03:00"',
-            "Four-country donor-closure evidence sprint",
-            "public PUMF and bootstrap ID sets differ",
-            "112 observations from 40 sources",
-            "dashboard is v39",
+            "2026-07-31-comparator-controls-v40",
+            'version: "2026.07.31-40"',
+            'publishedAt: "2026-07-31T16:32:30+03:00"',
+            "Four-country comparator controls and annual series",
+            "156 observations from 47 sources",
+            "dashboard is v40",
             "lender-package files remain the reviewed v37 daily snapshot",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v39 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v40 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1356,10 +1363,10 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v39 dashboard / v37 daily-package review experience: HOLD boundary, "
+        "Validated v40 dashboard / v37 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
-        "deterministic 40-source ledger and required UI hooks."
+        "deterministic 47-source ledger and required UI hooks."
     )
 
 

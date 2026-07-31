@@ -46,6 +46,24 @@ programme now pivots to an independent rights-cleared POS or retailer-coverage
 route with its own national denominator, method, missingness, tax basis and
 same-boundary reconciliation.
 
+Health Canada's first TVPA legislative review adds a historical 2021
+institutional benchmark: CAD 2.04 billion for the Canadian vaping market, CAD
+631 million for gas and convenience stores and approximately CAD 436 million
+online. The report attributes the figures to a 2022 custom Euromonitor study.
+The public report does not provide the underlying workbook or full method.
+
+The 2021 Statistics Canada RCS observation is CAD 992.732 million, or 48.66%
+of the Health Canada-published benchmark. The CAD 1.047268 billion difference
+is strong evidence that the two public boundaries are not interchangeable and
+that omitted channels may be material. It is not a valid 2024 uplift and cannot
+be allocated solely to specialist retail, tax, online sales or methodology.
+D5 remains failed and D10 remains open.
+
+The public 2023 Survey of Household Spending microdata was also inspected.
+Its released hierarchy combines tobacco products, smokers' supplies and
+cannabis and does not expose vaping expenditure separately, so it cannot close
+the vaping-specific value gap.
+
 ## Official sources
 
 - [Statistics Canada — Retail Commodity Survey](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=2008)
@@ -55,6 +73,8 @@ same-boundary reconciliation.
 - [Statistics Canada — annual retail trade table 20-10-0084-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008401)
 - [Statistics Canada — RCS data accuracy](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvDocument&InstaId=1586471&Item_Id=1586472&a=1&ai=38)
 - [Health Canada — vaping-product sales](https://health-infobase.canada.ca/substance-use/vaping/sales/)
+- [Health Canada — first TVPA legislative review](https://www.canada.ca/en/health-canada/programs/consultation-legislative-review-tobacco-vaping-products-act/final-report.html)
+- [Statistics Canada — 2023 Survey of Household Spending public-use files](https://www150.statcan.gc.ca/n1/pub/62m0004x/2017001/SHS_EDM_2023.zip)
 - [Vaping Products Reporting Regulations](https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-123/FullText.html)
 - [Statistics Canada — annual retail trade table 20-10-0083-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008301)
 

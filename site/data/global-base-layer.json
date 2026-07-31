@@ -129,7 +129,7 @@
     }
   },
   "methodRouteControl": {
-    "version": "2026.07.31-39",
+    "version": "2026.07.31-40",
     "asOf": "2026-07-31",
     "status": "research_route_map_not_market_values",
     "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",

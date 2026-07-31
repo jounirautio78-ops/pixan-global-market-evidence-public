@@ -63,10 +63,10 @@ SWEDEN_STRUCTURE_METRICS = {
     "active_products_count": "ACTIVE-PRODUCTS",
     "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
 }
-EXPECTED_MARKET_OBSERVATIONS = 112
-EXPECTED_MARKET_SOURCES = 40
-EXPECTED_OFFICIAL_OBSERVATIONS = 94
-EXPECTED_OFFICIAL_MARKET_MEASURES = 58
+EXPECTED_MARKET_OBSERVATIONS = 156
+EXPECTED_MARKET_SOURCES = 47
+EXPECTED_OFFICIAL_OBSERVATIONS = 134
+EXPECTED_OFFICIAL_MARKET_MEASURES = 98
 EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
@@ -457,11 +457,11 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     sources = market.get("sources")
     if not isinstance(observations, list) or len(observations) != EXPECTED_MARKET_OBSERVATIONS:
         errors.append(
-            f"v27 bank package requires exactly {EXPECTED_MARKET_OBSERVATIONS} market observations"
+            f"current bank-package input requires exactly {EXPECTED_MARKET_OBSERVATIONS} market observations"
         )
         return
     if not isinstance(sources, list) or len(sources) != EXPECTED_MARKET_SOURCES:
-        errors.append(f"v27 bank package requires exactly {EXPECTED_MARKET_SOURCES} market sources")
+        errors.append(f"current bank-package input requires exactly {EXPECTED_MARKET_SOURCES} market sources")
         sources = [] if not isinstance(sources, list) else sources
     source_by_id = {
         item.get("sourceId"): item
@@ -508,7 +508,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     ]
     if len(official) != EXPECTED_OFFICIAL_OBSERVATIONS:
         errors.append(
-            f"v27 bank package requires exactly {EXPECTED_OFFICIAL_OBSERVATIONS} official observations"
+            f"current bank-package input requires exactly {EXPECTED_OFFICIAL_OBSERVATIONS} official observations"
         )
     if (
         len(official_market_measures) != EXPECTED_OFFICIAL_MARKET_MEASURES
@@ -517,7 +517,7 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         }
     ):
         errors.append(
-            f"v27 bank package requires {EXPECTED_OFFICIAL_MARKET_MEASURES} official market measures across seven reviewed countries"
+            f"current bank-package input requires {EXPECTED_OFFICIAL_MARKET_MEASURES} official market measures across seven reviewed countries"
         )
 
     expected_structure_ids = {

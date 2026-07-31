@@ -25,7 +25,9 @@ This closes the product-scope evidence work for D3 and D4 and strengthens the
 supply-stage control for D6. New Zealand now passes **7/10** criteria. It is
 still `not_accepted`: D5 fails because national general-retail coverage is
 absent, while D8 and D10 remain open because the GST basis is unstated and
-there is no independent reconciliation. The global-estimate gate therefore
+there is no same-period, same-boundary independent reconciliation. Stats NZ's
+2019 and 2023 HES estimates are retained as independent historical controls,
+not as a validation of the 2024 subtotal. The global-estimate gate therefore
 remains **0/3**.
 
 The separate NZD 533,662,383.68 / 641,811,687.89 / 731,175,792.50 RPS retail
@@ -54,7 +56,7 @@ it has not been sent.
 | D7 Method and missingness documented | Passed | The public page's quality warning, file manifest and hashes, parser, row counts, unresolved scope, repeated-row sensitivity and return-class totals are all disclosed. |
 | D8 Currency and tax basis | Open | Currency is NZD, but neither the official page nor the reviewed annual-return guide defines whether `total net sales revenue` includes or excludes GST. No 15% adjustment is made. |
 | D9 Public reproducibility | Passed | The 29 source URLs and hashes, deterministic parser and privacy-safe aggregate output are public. A reviewer with the official downloads can reproduce the result without receiving a private or licensed dataset. |
-| D10 Independent reconciliation | Open | The calculation matches the Ministry's at-least NZD 280 million mixed-product headline, but that is the same source chain. No independent tax, customs, POS or direct Ministry validation reconciles the vaping-only subtotal. |
+| D10 Independent reconciliation | Open | The calculation matches the Ministry's at-least NZD 280 million mixed-product headline, but that is the same source chain. The national 2019/2023 HES survey is independent but does not match the 2024 period, channel, method or tax boundary. No independent tax, customs, POS or direct Ministry validation reconciles the vaping-only subtotal on the same boundary. |
 
 ## Reproduced product-scope calculation
 
