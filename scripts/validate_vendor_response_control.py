@@ -652,7 +652,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.30-36" or source.get("asOf") != "2026-07-30":
+    if source.get("version") != "2026.07.31-37" or source.get("asOf") != "2026-07-31":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,

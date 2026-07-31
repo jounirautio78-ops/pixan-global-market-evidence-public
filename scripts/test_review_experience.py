@@ -147,7 +147,7 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_future_retrieval_date(self) -> None:
         market = copy.deepcopy(self.market)
-        market["sources"][0]["retrievedAt"] = "2026-07-31"
+        market["sources"][0]["retrievedAt"] = "2026-08-01"
         self.assert_data_rejected(
             market=market,
             needle="retrievedAt cannot be later than market asOf",

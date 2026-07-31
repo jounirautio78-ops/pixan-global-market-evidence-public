@@ -73,13 +73,23 @@ Every base-layer record has `retailSalesEligible: false`. Population, working-ag
 
 `source/market-observations.json` contains four official Polish e-liquid-volume observations for 2020–2023 from the Ministry of Finance response to parliamentary interpellation 7255. The reported ZEFIR2/AIS table covers domestic sales, intra-EU acquisitions and imports: 1,451,529 litres in 2020, 277,265 litres in 2021, 416,088 litres in 2022 and 805,441 litres in 2023.
 
-The Ministry response to interpellation 17526 provides realised 2025 excise receipts for e-liquid, vaping devices and component sets. The official PLN 40 per-device and PLN 40 per-set rates in force from 1 July 2025 support a deterministic bridge to 4,382,500 implied taxed devices and 62,500 implied taxed component sets. No e-liquid quantity is back-solved because the 2025 rate changed during the year and disposables acquired an additional charge.
+The Ministry response to interpellation 17526 provides realised 2025 excise
+receipts for e-liquid, the broad statutory vaporisation-device group and its
+component sets. The official PLN 40 per-device and PLN 40 per-set rates in
+force from 1 July 2025 support a deterministic bridge to 4,382,500 implied
+taxed broad-group devices and 62,500 implied taxed component sets. The group
+includes refillable e-cigarettes, heated-tobacco heaters and multifunction
+devices, so neither count is e-cigarette-only. No e-liquid quantity is
+back-solved because the 2025 rate changed during the year and disposables
+acquired an additional charge.
 
 The litres are physical supply or release flows and the implied units are tax-base bridges. They are not full-year consumer sell-through or observed retail value, do not make Poland an accepted donor and do not change the 0/3 donor gate.
 
 - [Interpellation 7255 response — 2020–2023 national volumes](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf)
 - [Interpellation 17526 response — realised 2025 excise](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf)
 - [Polish Ministry of Finance — excise rates](https://www.podatki.gov.pl/akcyza/stawki-podatkowe/)
+- [Polish Ministry of Finance — broad device-group definition](https://www.podatki.gov.pl/akcyza/komunikaty-w-zakresie-podatku-akcyzowego)
+- [AKC-4/R declaration and device-type field](https://api.sejm.gov.pl/eli/acts/DU/2025/698/text.pdf)
 - Reviewed method and limits: `source/POLAND_2020_2025_RECONSTRUCTION.md`
 
 ## ECB annual-average EUR equivalents

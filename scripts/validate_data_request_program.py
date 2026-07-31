@@ -30,7 +30,7 @@ from build_data_request_program import (
 )
 
 
-EXPECTED_DATE = "2026-07-30"
+EXPECTED_DATE = "2026-07-31"
 EXPECTED_PROGRAMME_STATUS = "partially_dispatched"
 EXPECTED_RANKING_TYPE = "operational_evidence_acquisition_order"
 EXPECTED_STATE_UNIVERSE_COUNT = 195
@@ -736,9 +736,9 @@ def validate_program(program: dict[str, Any], errors: list[str]) -> None:
             if not all(term in canada_rationale for term in (
                 "values exclude gst/hst/pst/qst",
                 "include additional duties embedded in retail prices",
-                "supplies no new market value",
-                "no-charge follow-up sent on 2026-07-30",
-                "d10 independent retail-to-shipment reconciliation also remains open",
+                "no new market value was supplied",
+                "d5 and d7 are therefore failed",
+                "d10 remains open",
             )):
                 errors.append(
                     "route CA: method clarification, no-new-value and open-gate "

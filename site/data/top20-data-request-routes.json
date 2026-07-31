@@ -188,8 +188,8 @@
         "nameFi": "Health Canada"
       },
       "priorityCode": "A2",
-      "rationaleEn": "Health Canada's official shipment series and Statistics Canada's Retail Commodity Survey create a direct shipment-to-retail comparison. A table-specific official clarification received on 2026-07-29 confirms that quarterly RCS values exclude GST/HST/PST/QST, include additional duties embedded in retail prices and may be summed across four quarters, keeping D8 passed. It supplies no new market value. A no-charge follow-up sent on 2026-07-30 seeks the exact duty components, monthly and legacy-table tax bases, the NAICS 459993/459999 coverage conflict and exact annual quality bounds; D10 independent retail-to-shipment reconciliation also remains open.",
-      "rationaleFi": "Health Canadan virallinen toimitussarja ja Statistics Canadan Retail Commodity Survey muodostavat suoran toimitus–vähittäismyynti-vertailun. 29.7.2026 saatu taulukkokohtainen virallinen täsmennys vahvistaa kvartaalitietojen rajaavan GST/HST/PST/QST-verot pois, sisältävän vähittäishintaan sisältyvät lisäverot ja muodostavan vuosiarvon neljästä kvartaalista, joten D8 läpäisee edelleen. Uutta markkina-arvoa ei toimitettu. Maksuton jatkotäsmennys lähetettiin 30.7.2026 täsmällisistä lisäverokomponenteista, kuukausi- ja legacy-taulukoiden veroperustasta, NAICS 459993/459999 -peittoristiriidasta ja vuositason laaturajoista; myös D10:n riippumaton retail–toimitus-täsmäytys on avoin.",
+      "rationaleEn": "Health Canada's official shipment series and Statistics Canada's Retail Commodity Survey create a direct shipment-to-retail comparison. Official clarifications received on 2026-07-29 and 2026-07-30 confirm that the reviewed quarterly, monthly and archived RCS values exclude GST/HST/PST/QST and include additional duties embedded in retail prices, which can include federal, additional and provincial vaping duties. The target population is NAICS 441100–459993, so official NAICS 459999 vape-specialist examples are outside the range; exact product-class CV, imputation, standard-error and annual-covariance information is unavailable. D5 and D7 are therefore failed, D8 remains passed and D10 remains open. No new market value was supplied and no further Statistics Canada follow-up is scheduled.",
+      "rationaleFi": "Health Canadan virallinen toimitussarja ja Statistics Canadan Retail Commodity Survey muodostavat suoran toimitus–vähittäismyynti-vertailun. 29.7. ja 30.7.2026 saadut viralliset täsmennykset vahvistavat tarkistettujen kvartaali-, kuukausi- ja arkisto-RCS-arvojen rajaavan GST/HST/PST/QST-verot pois ja sisältävän hintaan upotetut lisäverot, joihin voivat kuulua liittovaltion, lisä- ja provinssien vaping-verot. Kohdejoukko on NAICS 441100–459993, joten viralliset NAICS 459999 -vape-erikoiskaupan esimerkit jäävät ulkopuolelle; täsmällisiä tuoteryhmätason CV-, imputointi-, keskivirhe- tai vuositason kovarianssitietoja ei ole saatavilla. D5 ja D7 ovat siksi hylättyjä, D8 läpäisee ja D10 on avoin. Uutta markkina-arvoa ei toimitettu eikä uutta Statistics Canada -seurantaa ole aikataulutettu.",
       "recordsRequestedEn": [
         "Machine-readable semi-annual manufacturer/importer shipment records by province, category, units, liquid volume and reported value",
         "Reporting coverage, suppressed cells, revisions and audit or quality-control metadata",
@@ -1542,5 +1542,5 @@
       "status": "sent"
     }
   ],
-  "verificationDate": "2026-07-30"
+  "verificationDate": "2026-07-31"
 }

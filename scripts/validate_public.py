@@ -1469,10 +1469,10 @@ def validate_market_values(
         "PL-2022-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2022, "reported_e_liquid_volume", 416088, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
         "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2023, "reported_e_liquid_volume", 805441, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
         "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("PL", 2025, "e_liquid_excise_amount", 993100000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
-        "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("PL", 2025, "vaping_device_excise_amount", 175300000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
-        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("PL", 2025, "vaping_component_sets_excise_amount", 2500000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
-        "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaping_device_excise_backsolved_units", 4382500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
-        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaping_component_sets_excise_backsolved_units", 62500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
+        "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("PL", 2025, "vaporisation_device_broad_group_excise_amount", 175300000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("PL", 2025, "vaporisation_device_component_sets_broad_group_excise_amount", 2500000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
+        "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaporisation_device_broad_group_excise_backsolved_units", 4382500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaporisation_device_component_sets_broad_group_excise_backsolved_units", 62500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("SE", 2024, "nicotine_e_liquid_taxed_volume", 26000, "litre", "official_observed", "official_rounded", "taxed_physical_volume_not_retail_market_value", False),
         "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("SE", 2024, "nicotine_e_liquid_excise_receipts", 80000000, "SEK", "official_observed", "official_rounded", "excise_receipts_not_retail_market_value", False),
         "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE": (None, 2025, "commercial_market_estimate", 26000000000, "USD", "commercial_estimate", "external_estimate", "external_non_comparable_reference_not_atlas_estimate", False),
@@ -1562,8 +1562,8 @@ def validate_market_values(
             "nicotine_e_liquid_excise_receipts",
             "reported_e_liquid_volume",
             "e_liquid_excise_amount",
-            "vaping_device_excise_amount",
-            "vaping_component_sets_excise_amount",
+            "vaporisation_device_broad_group_excise_amount",
+            "vaporisation_device_component_sets_broad_group_excise_amount",
         }:
             allowed_basis = {
                 "taxed_physical_volume_not_retail_market_value",
@@ -1575,8 +1575,8 @@ def validate_market_values(
             if item.get("marketValueBasis") not in allowed_basis or item.get("comparableMarketValue") or item.get("atlasEstimate"):
                 errors.append(f"{path}: taxed volume or excise must never be labelled retail market value")
         if item.get("metric") in {
-            "vaping_device_excise_backsolved_units",
-            "vaping_component_sets_excise_backsolved_units",
+            "vaporisation_device_broad_group_excise_backsolved_units",
+            "vaporisation_device_component_sets_broad_group_excise_backsolved_units",
         }:
             limitation = str(item.get("limitationEn", ""))
             if (
@@ -1698,33 +1698,37 @@ def validate_market_values(
             if item.get("year") in {2019, 2020, 2021, 2022} and (
                 "NAICS 45411" not in limitation
                 or "pure-play Internet retailers" not in limitation
-                or "exclusion of GST, HST, PST and QST" not in limitation
-                or "predecessor table's additional-duty treatment remains unconfirmed"
-                not in limitation
+                or "GST, HST, PST and QST are excluded" not in limitation
+                or "additional duties embedded in retail prices are included" not in limitation
             ):
                 errors.append(
                     f"{path}: pre-2023 Statistics Canada RCS values must retain "
-                    "the pure-play Internet channel gap and unconfirmed legacy-duty basis"
+                    "the pure-play Internet channel gap and confirmed archived-table tax basis"
                 )
-            if item.get("year") in {2023, 2024, 2025} and (
+            if item.get("year") == 2023 and (
                 "classified by goods sold" not in limitation
                 or "459993" not in limitation
                 or "459999" not in limitation
                 or "excludes GST, HST, PST and QST" not in limitation
                 or "includes additional duties embedded in retail prices" not in limitation
-                or "annualised by summing four quarters" not in limitation
             ):
                 errors.append(
-                    f"{path}: post-2022 Statistics Canada RCS values must retain "
+                    f"{path}: 2023 Statistics Canada RCS value must retain "
                     "the method-of-sale, NAICS and corrected table-specific tax boundary"
                 )
             if item.get("year") in {2024, 2025} and (
                 "All four quarters carry status E" not in limitation
                 or "coefficient of variation greater than 25%" not in limitation
+                or "exact product-class CV, imputation, standard-error and annual-covariance information is unavailable"
+                not in limitation
+                or "459993" not in limitation
+                or "459999" not in limitation
+                or "exclude GST, HST, PST and QST" not in limitation
+                or "include embedded additional duties" not in limitation
             ):
                 errors.append(
                     f"{path}: 2024 and 2025 Statistics Canada RCS values must "
-                    "retain the all-E quality warning"
+                    "retain the all-E, unavailable-quality, scope and tax boundaries"
                 )
         if observation_id == "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE":
             limitation = str(item.get("limitationEn", ""))
@@ -1892,14 +1896,14 @@ def validate_market_values(
         "PL-2022-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
         "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
         "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("e_liquid_only", "PL-SEJM-I17526-O1"),
-        "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("vaping_devices_only", "PL-SEJM-I17526-O1"),
-        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("vaping_component_sets_only", "PL-SEJM-I17526-O1"),
+        "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("broad_vaporisation_devices_including_refillable_e_cigarettes_heaters_and_multifunction_devices", "PL-SEJM-I17526-O1"),
+        "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("component_sets_for_broad_vaporisation_device_group", "PL-SEJM-I17526-O1"),
         "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": (
-            "vaping_devices_only",
+            "broad_vaporisation_devices_including_refillable_e_cigarettes_heaters_and_multifunction_devices",
             ["PL-SEJM-I17526-O1", "PL-MF-EXCISE-RATES-2025"],
         ),
         "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": (
-            "vaping_component_sets_only",
+            "component_sets_for_broad_vaporisation_device_group",
             ["PL-SEJM-I17526-O1", "PL-MF-EXCISE-RATES-2025"],
         ),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
@@ -2134,8 +2138,8 @@ def validate_market_values(
         "CA-2024-STATCAN-RCS-RETAIL-SALES": (
             "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
             {"D1", "D2", "D3", "D4", "D6", "D8", "D9"},
-            set(),
-            {"D5", "D7", "D10"},
+            {"D5", "D7"},
+            {"D10"},
         ),
         "DE-2025-LIQUID-RETAIL-MODEL": (
             "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE",
@@ -2615,8 +2619,8 @@ def validate_third_donor_screen(
         errors.append("third-donor-screen.json must use the exact reviewed top-level schema")
     if source.get("schemaVersion") != "1.0":
         errors.append("third-donor screen schemaVersion must be 1.0")
-    if source.get("asOf") != "2026-07-30":
-        errors.append("third-donor screen must be reviewed as of 2026-07-30")
+    if source.get("asOf") != "2026-07-31":
+        errors.append("third-donor screen must be reviewed as of 2026-07-31")
     if source.get("status") != "screening_only_not_donor_assessment":
         errors.append("third-donor screen must remain screening-only")
 

@@ -149,7 +149,7 @@ class DataRequestBoundaryTests(unittest.TestCase):
         self.assertIn("substantive data", self.program["independenceNoticeEn"])
         self.assertIn("sisällöllisenä datana", self.program["independenceNoticeFi"])
 
-    def test_canada_method_clarification_corrects_tax_basis_without_new_sales_value(self) -> None:
+    def test_canada_method_clarification_closes_scope_and_quality_without_new_sales_value(self) -> None:
         canada = next(
             route for route in self.program["routes"] if route["countryIso2"] == "CA"
         )
@@ -161,8 +161,10 @@ class DataRequestBoundaryTests(unittest.TestCase):
         })
         self.assertIn("values exclude GST/HST/PST/QST", canada["rationaleEn"])
         self.assertIn("include additional duties embedded in retail prices", canada["rationaleEn"])
-        self.assertIn("supplies no new market value", canada["rationaleEn"])
-        self.assertIn("no-charge follow-up sent on 2026-07-30", canada["rationaleEn"])
+        self.assertIn("No new market value was supplied", canada["rationaleEn"])
+        self.assertIn("D5 and D7 are therefore failed", canada["rationaleEn"])
+        self.assertIn("D10 remains open", canada["rationaleEn"])
+        self.assertIn("no further Statistics Canada follow-up is scheduled", canada["rationaleEn"])
         self.assertIn(
             "table-specific official method clarification",
             self.program["independenceNoticeEn"],

@@ -1,8 +1,8 @@
 # Canada 2024 — D5, D7 and D10 official-source audit
 
-**Review date:** 2026-07-27
+**Review date:** 2026-07-31
 **Candidate:** `CA-2024-STATCAN-RCS-5619122`
-**Decision:** D5, D7 and D10 remain `open`. The candidate remains `not_accepted` at 7/10.
+**Decision:** D5 and D7 are `failed`; D10 remains `open`. The candidate remains `not_accepted` at 7/10.
 
 ## Established facts
 
@@ -15,19 +15,36 @@
 
 The current Retail Commodity Survey states that it uses the same target population as the Monthly Retail Trade Survey. Current official documentation links the survey universe to NAICS 44–45, while official NAICS 459999 examples include electronic-cigarette and vaping-products retail. Internet, direct and mail-order sellers are classified by the merchandise sold.
 
-However, the RCS narrative still contains a conflicting upper endpoint of 459993, and the public annual retail table does not publish a vaping-specific channel split. D5 therefore cannot close until Statistics Canada confirms the endpoint or the material omitted vaping channels are quantified.
+Statistics Canada confirmed that the RCS target population covers NAICS
+`441100` through `459993`. Official NAICS examples place electronic-cigarette
+and vapour-liquid specialist retailing in `459999`, outside that range. The
+specialist-channel gap is therefore confirmed and unquantified. D5 is failed.
 
 ## D7 — method and missingness
 
 The RCS publishes its method and A–F quality flags, but not the exact coefficient of variation, standard error, imputation rate, response rate or annual covariance needed for commodity 5619122. All four 2024 quarterly values carry quality flag E.
 
-Published quarterly coefficients of variation for the broader 56191 class cannot be transferred to the narrower 5619122 commodity. D7 remains open until a commodity-level error measure or bounded official interval is available.
+Published quarterly coefficients of variation for the broader 56191 class
+cannot be transferred to the narrower 5619122 commodity. Statistics Canada
+confirmed that the Retail Commodity Program has no exact product-class CV,
+imputation rate, standard error or annual covariance information beyond what
+is published. Because all 12 months and all four quarters remain quality `E`
+and the product-class annual error boundary is unavailable, D7 is failed.
 
 ## D10 — independent reconciliation
 
 The Health Canada shipment series is an independent official route, but it measures manufacturer/importer net shipments to wholesalers and retailers. The RCS measures consumer-retail sales. The public evidence does not decompose the residual into destination coverage, reporters and non-filers, resubmissions, inventory, margins, returns, taxes and product-scope differences.
 
-Public excise and annual-retail routes are too broad or use different periods and accounting bases. Applying broad published industry margins would be an unsupported category transfer and would overshoot the RCS point estimate. D10 can close only with a same-boundary official bridge or an independent same-period point-of-sale total.
+Public excise and annual-retail routes are too broad or use different periods
+and accounting bases. Applying broad published industry margins would be an
+unsupported category transfer and would overshoot the RCS point estimate. D10
+can close only with a same-boundary official bridge or an independent
+same-period point-of-sale total.
+
+No further Statistics Canada follow-up is scheduled for D5 or D7. The Canada
+programme now pivots to an independent rights-cleared POS or retailer-coverage
+route with its own national denominator, method, missingness, tax basis and
+same-boundary reconciliation.
 
 ## Official sources
 
@@ -41,4 +58,6 @@ Public excise and annual-retail routes are too broad or use different periods an
 - [Vaping Products Reporting Regulations](https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-123/FullText.html)
 - [Statistics Canada — annual retail trade table 20-10-0083-01](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008301)
 
-All sources were reviewed on 2026-07-27. This memo adds no market value, changes no donor criterion and contains no private correspondence.
+The privacy-safe official result is recorded in
+[`CANADA_RCS_SCOPE_QUALITY_CLARIFICATION_2026-07-30.md`](CANADA_RCS_SCOPE_QUALITY_CLARIFICATION_2026-07-30.md).
+No private correspondence is published.

@@ -1,6 +1,6 @@
 # New Zealand 2024 — D8 and D10 official-source audit
 
-**Review date:** 2026-07-27
+**Review date:** 2026-07-31
 **Candidate:** `NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL`
 **Decision:** D8 remains `open`; D10 remains `open` and `not_met`. The candidate remains `not_accepted` at 7/10.
 
@@ -10,6 +10,11 @@
 - The official annual-return form uses `Total sales` and `Total value of sales`.
 - The reviewed annual-return material does not define whether published AIS/AVP sales values include GST or how discounts, refunds, returns, credits and period-end adjustments are treated.
 - Official overseas-merchandise data use import-stage values rather than consumer-retail sell-through. Classification errors, low-value shipment exclusions and a mid-2024 tariff change further limit direct comparison.
+- Stats NZ's final 2024 HS10 files reproduce a three-scope customs sensitivity.
+  The core scope is NZD 190,066,068 VFD / NZD 203,770,974 CIF of imports and
+  NZD 6,488,209 total-export FOB. Expanded and deliberately broad maximum
+  scopes rise to NZD 242,974,278 and NZD 296,270,346 of import CIF,
+  respectively. These are customs-stage controls, not retail estimates.
 
 ## D8 — currency and tax basis
 
@@ -36,6 +41,10 @@ Customs and Stats NZ data provide a possible future cross-check, but a defensibl
 
 No current official source supplies that complete bridge or directly validates the NZD 274.18 million subtotal. Internal de-duplication of notifier, specialist-retailer and retailer stages is necessary but is not an independent D10 route.
 
+The exact source hashes, HS10 filters, formulas, follow-up questions and
+acceptance tests are recorded in
+[`NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md`](NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md).
+
 ## Official sources
 
 - [Ministry of Health — Annual returns 2024](https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024)
@@ -48,4 +57,5 @@ No current official source supplies that complete bridge or directly validates t
 - [New Zealand Customs — July 2024 tariff](https://www.customs.govt.nz/globalassets/documents/tariff-documents/wtd-2024/section-iv-july-2024.pdf)
 - [New Zealand Customs — vaping-products information report](https://www.customs.govt.nz/globalassets/documents/oia/oia-25-100-proactive-release.pdf)
 
-All sources were reviewed on 2026-07-27. This memo adds no market value, changes no donor criterion and contains no private correspondence.
+All sources were reviewed on 2026-07-31. This memo adds no accepted market
+value, changes no donor criterion and contains no private correspondence.

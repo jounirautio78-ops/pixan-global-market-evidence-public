@@ -1,6 +1,6 @@
 # New Zealand 2024 donor-closure pack
 
-Reviewed: 2026-07-26
+Reviewed: 2026-07-31
 
 ## Executive conclusion
 
@@ -31,6 +31,15 @@ remains **0/3**.
 The separate NZD 533,662,383.68 / 641,811,687.89 / 731,175,792.50 RPS retail
 sensitivity remains a model. It is not an observed national market value and
 does not replace the identified-vaping specialist-retail subtotal.
+
+The Ministry's 2024 policy brief and current 2025 guide confirm a structural
+D5 limit: RPS general retailers report product types and quantities but no
+observed retail sales-value field. Stats NZ's final 2024 HS10 files now provide
+a reproducible customs-stage sensitivity, but classification, valuation-stage
+and retail-bridge gaps keep D10 open. The exact 7 August follow-up pack is
+published in
+[`NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md`](NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md);
+it has not been sent.
 
 ## D1-D10 decision
 

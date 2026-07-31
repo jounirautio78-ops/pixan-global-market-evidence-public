@@ -3,22 +3,22 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V36 = Object.freeze({
-    id: "2026-07-30-canada-tax-basis-daily-package-v36",
-    version: "2026.07.30-36",
-    publishedAt: "2026-07-30T12:49:00+03:00",
-    titleEn: "Canada tax-basis correction and daily evidence package",
-    titleFi: "Kanadan veroperustan oikaisu ja päivittäinen evidenssipaketti",
+  const UI_RELEASE_V37 = Object.freeze({
+    id: "2026-07-31-canada-scope-quality-nz-poland-v37",
+    version: "2026.07.31-37",
+    publishedAt: "2026-07-31T11:11:21+03:00",
+    titleEn: "Canada closure result, New Zealand controls and Poland scope correction",
+    titleFi: "Kanadan sulkutulos, Uuden-Seelannin kontrollit ja Puolan rajausoikaisu",
     items: Object.freeze([
       Object.freeze({
         category: "market_data",
-        textEn: "Statistics Canada directly clarified the current quarterly table: GST/HST/PST/QST are excluded, embedded additional duties are included and four quarters form the annual value. The figures and Canada 7/10 decision are unchanged.",
-        textFi: "Statistics Canada täsmensi suoraan nykyisen kvartaalitaulukon: GST/HST/PST/QST rajataan pois, vähittäishintaan sisältyvät lisäverot ovat mukana ja neljä kvartaalia muodostavat vuosiarvon. Luvut ja Kanadan 7/10-päätös eivät muutu."
+        textEn: "Statistics Canada closed the follow-up without changing the point estimate: the tax basis applies to quarterly, monthly and archived tables, NAICS 459999 specialist retail is outside the target range and exact product-class quality fields are unavailable. Canada remains 7/10 with D5/D7 failed and D10 open.",
+        textFi: "Statistics Canada sulki jatkotäsmennyksen muuttamatta piste-estimaattia: veroperusta koskee kvartaalisia, kuukausittaisia ja arkistoituja taulukoita, NAICS 459999 -erikoiskauppa jää kohdejoukon ulkopuolelle eikä täsmällisiä tuoteluokan laatukenttiä ole saatavilla. Kanada pysyy tuloksessa 7/10: D5/D7 hylätty ja D10 avoin."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Canada, Germany and the daily package were updated: a no-charge Canada follow-up seeks the remaining tax, NAICS and quality fields, while Germany's narrowed reply asks the authority to limit handling to material available without charge. No paid work or fee was accepted.",
-        textFi: "Kanada, Saksa ja päiväpaketti päivitettiin: Kanadan maksuton jatkotäsmennys hakee jäljellä olevat vero-, NAICS- ja laatukentät, ja Saksan vastauksessa pyydettiin rajaamaan käsittely maksutta saatavaan aineistoon. Maksullista työtä tai maksua ei hyväksytty."
+        textEn: "Canada, New Zealand and Poland were updated: an independent Canada route map was added, New Zealand's customs control and 7 August pack were prepared but not sent, and Poland's device-tax bridge was corrected to a broad group with no donor score.",
+        textFi: "Kanada, Uusi-Seelanti ja Puola päivitettiin: lisättiin Kanadan riippumaton reittikartta, valmisteltiin mutta ei lähetetty Uuden-Seelannin tullikontrollia ja 7.8. pakettia sekä oikaistiin Puolan laiteverosilta laajaksi ryhmäksi ilman donor-pisteytystä."
       }),
       Object.freeze({
         category: "diligence",
@@ -27,8 +27,8 @@
       }),
       Object.freeze({
         category: "usability",
-        textEn: "The six downloadable lender-package files are the reviewed v36 daily snapshot. The dashboard and downloads share the v36 daily release; the package is generated at most once per Asia/Nicosia calendar day.",
-        textFi: "Kuusi ladattavaa rahoittajapaketin tiedostoa ovat tarkistettu v36-päiväsnapshot. Dashboard ja lataukset jakavat v36-päiväjulkaisun; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä."
+        textEn: "The six downloadable lender-package files are the reviewed v37 daily snapshot. The dashboard and downloads share the v37 daily release; the package is generated at most once per Asia/Nicosia calendar day.",
+        textFi: "Kuusi ladattavaa rahoittajapaketin tiedostoa ovat tarkistettu v37-päiväsnapshot. Dashboard ja lataukset jakavat v37-päiväjulkaisun; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä."
       })
     ])
   });
@@ -753,7 +753,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V36;
+  window.PixanUiRelease = UI_RELEASE_V37;
 
   init();
 })();

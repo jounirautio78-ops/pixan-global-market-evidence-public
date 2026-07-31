@@ -1,6 +1,6 @@
 # Canada 2024 donor-closure pack
 
-Reviewed: 2026-07-30
+Reviewed: 2026-07-31
 
 ## Executive conclusion
 
@@ -14,15 +14,17 @@ NAPCS 5619122:
   the quarterly annual sum.
 
 The point estimate is useful as a national official retail anchor. It is not an
-accepted donor market. Three criteria remain open: D5 national channel
-coverage, D7 method and missingness and D10 independent reconciliation.
+accepted donor market. D5 national channel coverage and D7 method and
+missingness now fail; D10 independent reconciliation remains open.
 The public table identifies the values as current CAD. Statistics Canada
 directly clarified on 2026-07-29 that table `20-10-0071-01` excludes
 GST/HST/PST/QST, includes additional duties embedded in retail prices and is
 intended to be annualised by summing its four quarters. This supersedes the
-earlier inference that the current table excluded excise. D8 therefore remains
-closed on an explicit table-specific basis, although the precise vaping-duty
-components remain under clarification. Canada remains `not_accepted` at
+earlier inference that the current table excluded excise. A further written
+clarification on 2026-07-30 confirms that the possible embedded components
+include federal, additional and provincial vaping duties and that the same
+basis applies to the reviewed monthly and archived vectors. D8 therefore
+remains closed on an explicit multi-table basis. Canada remains `not_accepted` at
 **7/10 passed**, and the public global-estimate gate remains **0/3**.
 
 The Health Canada 2024 manufacturer/importer shipment value is a separate,
@@ -49,10 +51,10 @@ summed and are not presented as a low-to-high market range.
 | D2 Consumer retail transaction | Passed | RCS measures sales of commodities by retailers; the reporting period is when the commodities were sold in retail stores. |
 | D3 Devices and consumables | Passed | NAPCS 5619122 includes electronic cigarettes, e-liquid refills, vaporizers and other e-liquid delivery systems. |
 | D4 Adjacent products controlled | Passed | NAPCS 5619122 is separate from tobacco products and accessories other than e-cigarettes. No heated-tobacco or broad tobacco aggregate is added. |
-| D5 National channel coverage | Open | NAICS 2022 classifies Internet, direct and mail-order retail by goods sold, and the retail questionnaire covers in-store, e-commerce, catalogue/mail/telephone and other methods. However, the current RCS method page states a target-population range ending at 459993, while Statistics Canada's NAICS definition assigns electronic-cigarette and vapour-liquid specialty retailing to 459999. The public table reports a broader `[459]` aggregate, so this may be a documentation defect, but the apparent gap is not quantified or officially resolved. |
+| D5 National channel coverage | Failed | Statistics Canada confirmed that the RCS target population covers NAICS 441100–459993. Official NAICS examples place electronic-cigarette and vapour-liquid specialist retailing in 459999, outside the target range. The specialist-channel gap is confirmed and unquantified. |
 | D6 No supply-stage double counting | Passed | The RCS retail observation stands alone. Health Canada shipments are retained only as a separate cross-check and are never added to retail. |
-| D7 Method and missingness documented | Open | Statistics Canada documents sampling, weighting, imputation, calibration, revisions and quality-indicator construction. All 12 months and all four quarters in 2024 carry `E`. The public sources do not disclose an exact commodity-year CV, imputation rate, standard error or cross-period covariance, so the annual error boundary cannot be bounded. |
-| D8 Currency and tax basis | Passed | Currency is CAD. Statistics Canada confirmed in writing on 2026-07-29 that table 20-10-0071-01 excludes GST, HST, PST and QST, includes additional duties embedded in retail prices and is intended to be annualised by summing four quarters. The exact federal, additional and provincial vaping-duty components remain under clarification, but the table-specific treatment is explicit. |
+| D7 Method and missingness documented | Failed | Statistics Canada documents sampling, weighting, imputation, calibration, revisions and quality-indicator construction. All 12 months and all four quarters in 2024 carry `E`. The Retail Commodity Program confirmed that no exact product-class CV, imputation rate, standard error or annual covariance information exists beyond what is published, so the annual error boundary cannot be bounded. |
+| D8 Currency and tax basis | Passed | Currency is CAD. Statistics Canada confirmed that the reviewed quarterly, monthly and archived vectors exclude GST, HST, PST and QST and include additional duties embedded in retail prices. Those duties can include the federal vaping duty, the additional vaping duty and provincial vaping duties. Four quarters form the intended annual value. |
 | D9 Public reproducibility | Passed | The quarterly and monthly vectors, source ZIPs, formulas, status flags and file hashes are public and reproducible without licensed or company-identifiable records. |
 | D10 Independent reconciliation | Open | Health Canada provides an independent supply-stage route, but the CAD 58,406,203.22 residual is not decomposed. The monthly RCS route is a same-survey QA check, not independent evidence. |
 
@@ -157,20 +159,17 @@ Do not claim:
 - that EUR 783.18-822.58 million is a market uncertainty range;
 - that CAD 58.41 million is retailer margin;
 - that the shipment mix is a retail device/liquid split;
-- that D5, D7 or D10 has passed;
+- that D5 or D7 is merely unresolved, or that D10 has passed;
 - that Canada supports a public global market total.
 
 ## Exact evidence needed to close the remaining gates
 
-1. **D5 — channel coverage:** Statistics Canada confirmation whether the RCS
-   target-population upper bound `459993` is an error, whether NAICS `459999`
-   is included in the 2024 `[44-45]` and `[459]` estimates, and the
-   vaping-specific coverage represented by take-none strata or other excluded
-   units.
-2. **D7 — uncertainty:** the exact 2024 NAPCS 5619122 monthly or annual CV,
-   imputation rate, standard error and any method for aggregating period
-   variances or covariance.
-3. **D10 — independent bridge:** a source-linked reconciliation of retail and
+1. **D5/D7 — replacement independent route:** a rights-cleared national POS or
+   retailer series with the specialist and general-retail channel denominator,
+   method, missingness, revisions, precision and tax basis documented. This
+   may validate a separate Canada candidate; it cannot create unavailable RCS
+   product-class precision.
+2. **D10 — independent bridge:** a source-linked reconciliation of retail and
    shipment stages covering inventory, timing, returns, product scope, the
    now-confirmed retail-versus-shipment tax-basis difference, reporting
    coverage and any retailer value added, or an independent rights-cleared POS
@@ -194,6 +193,8 @@ Do not claim:
   https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&Id=1544050
 - Privacy-safe record of the 2026-07-29 table-specific clarification:
   [`CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md`](CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md)
+- Privacy-safe record of the 2026-07-30 scope and quality clarification:
+  [`CANADA_RCS_SCOPE_QUALITY_CLARIFICATION_2026-07-30.md`](CANADA_RCS_SCOPE_QUALITY_CLARIFICATION_2026-07-30.md)
 - NAICS 2022 retail definition and vaping-specialist classification:
   https://www23.statcan.gc.ca/imdb/p3VD.pl?CLV=4&CPV=45999&CST=27012022&CVD=1370274&D=1&Function=getVD&MLV=5&TVD=1369825&wbdisable=true
 - Statistics Canada 2025 tax-treatment discussion:

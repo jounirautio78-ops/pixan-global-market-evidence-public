@@ -14,8 +14,8 @@ const workbookPath = path.join(
   "pixan-paid-data-procurement-fi-en.xlsx",
 );
 const sourcePath = path.join(repo, "source", "paid-data-procurement.json");
-const temporaryPath = `${workbookPath}.v36.tmp`;
-const qaDir = path.join(repo, "tmp", "paid-data-v36", "renders");
+const temporaryPath = `${workbookPath}.v37.tmp`;
+const qaDir = path.join(repo, "tmp", "paid-data-v37", "renders");
 const sheetNames = [
   "Decision",
   "Priorities",
@@ -73,10 +73,10 @@ const circanaBoundary = [
 
 const source = JSON.parse(await fs.readFile(sourcePath, "utf8"));
 if (
-  source?.version !== "2026.07.30-36"
+  source?.version !== "2026.07.31-37"
   || source?.status !== "decision_support_only_no_purchase_authorised"
 ) {
-  throw new Error("Canonical paid-data source is not the reviewed v36 no-purchase release");
+  throw new Error("Canonical paid-data source is not the reviewed v37 no-purchase release");
 }
 const euromonitorItem = source.items.find(
   (item) => item.itemId === "euromonitor-passport-nicotine",
@@ -97,7 +97,7 @@ const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(workbookPa
 const decision = workbook.worksheets.getItem("Decision");
 decision.getRange("A3").values = [[
   "Independent decision support · No purchase authorised · "
-    + "Version 2026.07.30-36 · Verified 2026-07-30",
+    + "Version 2026.07.31-37 · Verified 2026-07-31",
 ]];
 decision.getRange("A10").values = [[
   "1) Continue sample and transaction-rights evaluation with ECigIntelligence and Euromonitor "
@@ -163,8 +163,9 @@ for (const sheetName of sheetNames) {
         || values[row][column] === "2026.07.28-33"
         || values[row][column] === "2026.07.28-34"
         || values[row][column] === "2026.07.29-35"
+        || values[row][column] === "2026.07.30-36"
       ) {
-        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.30-36"]];
+        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.31-37"]];
       }
     }
   }
@@ -195,7 +196,7 @@ const reviewed = {
 if (
   reviewed.release[0][0] !== (
     "Independent decision support · No purchase authorised · "
-      + "Version 2026.07.30-36 · Verified 2026-07-30"
+      + "Version 2026.07.31-37 · Verified 2026-07-31"
   )
   || reviewed.recommendedPackagePrice[0][0] !== recommendedPackage.knownPrice
   || reviewed.recommendedPackageUnknowns[0][0] !== (
@@ -212,7 +213,7 @@ if (
   || reviewed.ecigSourceFormula[0][0] !== "='Sources'!C6"
   || reviewed.euromonitorSourceFormula[0][0] !== "='Sources'!C9"
 ) {
-  throw new Error("Reopened paid-data workbook differs from the reviewed v36 state");
+  throw new Error("Reopened paid-data workbook differs from the reviewed v37 state");
 }
 
 await fs.mkdir(qaDir, { recursive: true });
@@ -233,10 +234,10 @@ for (const sheetName of sheetNames) {
 await fs.rename(temporaryPath, workbookPath);
 await fs.rm(`${temporaryPath}.inspect.ndjson`, { force: true });
 await fs.writeFile(
-  path.join(repo, "tmp", "paid-data-v36", "artifact-build.json"),
+  path.join(repo, "tmp", "paid-data-v37", "artifact-build.json"),
   `${JSON.stringify(
     {
-      release: "2026.07.30-36",
+      release: "2026.07.31-37",
       workbook: "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
       renderedSheets: sheetNames,
       reviewed,
@@ -246,4 +247,4 @@ await fs.writeFile(
   )}\n`,
   "utf8",
 );
-console.log(`Updated and rendered paid-data workbook for 2026.07.30-36: ${workbookPath}`);
+console.log(`Updated and rendered paid-data workbook for 2026.07.31-37: ${workbookPath}`);

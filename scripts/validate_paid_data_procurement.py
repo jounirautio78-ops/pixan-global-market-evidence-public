@@ -110,10 +110,10 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-CURRENT_DASHBOARD_VERSION = "2026.07.30-36"
-WORKBOOK_SNAPSHOT_VERSION = "2026.07.30-36"
-WORKBOOK_SNAPSHOT_AS_OF = "2026-07-30"
-EXPECTED_XLSX_SHA256 = "ab26012cc02a016a14ed15c9ebc5f1e29a38a5c26c048011519821a6aed6ec1a"
+CURRENT_DASHBOARD_VERSION = "2026.07.31-37"
+WORKBOOK_SNAPSHOT_VERSION = "2026.07.31-37"
+WORKBOOK_SNAPSHOT_AS_OF = "2026-07-31"
+EXPECTED_XLSX_SHA256 = "5b243335fb8ed64e7af5bcc935d2d7072af7ca55de682adf513aade7c0f7c6c9"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
@@ -655,7 +655,7 @@ def main() -> int:
         return 1
     print(
         "PASS: 11-item paid-data shortlist, transparent scores, 3 package options, "
-        "go/stop gates, v36 JSON/CSV parity, reviewed v36 daily XLSX snapshot "
+        "go/stop gates, v37 JSON/CSV parity, reviewed v37 daily XLSX snapshot "
         "and no-purchase boundary verified."
     )
     return 0
