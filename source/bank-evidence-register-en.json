@@ -235,10 +235,10 @@
       "New Zealand's 2024 AIS/AVP specialist-retailer identified-vaping subtotal is NZD 274,180,410.21; the donor test passes 7/10 criteria, but New Zealand is not an accepted donor.",
       "Market size",
       "Consumables are NZD 189,402,451.96, devices/hardware NZD 84,709,409.85 and mixed systems NZD 68,548.40. Adjacent notifiable products of NZD 2,137,085.24 and unresolved product types of NZD 4,367,017.37 are separately quantified and excluded. All observed value comes from AIS/AVP workbooks; no Notifier or RPS value is added.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return ; https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf ; source/NZ_2024_DONOR_CLOSURE_PACK.md ; source/NZ_2024_D8_D10_OFFICIAL_SOURCE_AUDIT.md ; source/NZ_2024_WORKBOOK_MANIFEST.json ; source/NZ_2024_PRODUCT_SCOPE_AUDIT.json ; scripts/analyze_nz_2024_returns.py",
-      "2026-07-27",
+      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return ; https://www.health.govt.nz/system/files/2025-11/notifiable-products-annual-sales-return-2025-user-guide.pdf ; source/NZ_2024_DONOR_CLOSURE_PACK.md ; source/NZ_2024_D8_D10_OFFICIAL_SOURCE_AUDIT.md ; source/NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md ; source/NZ_2024_WORKBOOK_MANIFEST.json ; source/NZ_2024_PRODUCT_SCOPE_AUDIT.json ; scripts/analyze_nz_2024_returns.py",
+      "2026-07-31",
       "NZD 189,402,451.96 + 84,709,409.85 + 68,548.40 = NZD 274,180,410.21. Adjacent and unresolved classes are applied before the vaping subtotal and excluded. URLs, byte sizes and SHA-256 hashes for all 29 files are validated before aggregation.",
-      "The deterministic scope rules are public. Observed general-retail value is absent, the GST basis is unknown, exact-row-deduplication sensitivity is not a corrected estimate and no independent reconciliation has passed.",
+      "The deterministic scope rules are public. RPS collects product types and quantities but no observed retail value. The GST basis is unknown. Stats NZ's final 2024 HS10 control is a customs-stage sensitivity, not independent retail reconciliation.",
       "Supported",
       "D5 fails for missing national channel coverage; D8 GST basis and D10 independent reconciliation remain open. The donor gate remains 0/3."
     ],
@@ -301,12 +301,12 @@
       "Canada's official 2024 consumer-retail point estimate is CAD 1,219,160,000, or EUR 822,583,715.21; the donor test passes 7/10 criteria.",
       "Market size",
       "The four-quarter sum is CAD 1,219,160,000; the same-survey sum of 12 months is CAD 1,219,161,000. Health Canada's 2024 manufacturer/importer net shipment value is CAD 1,160,753,796.78.",
-      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
-      "2026-07-29",
+      "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101 ; https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010008001 ; https://health-infobase.canada.ca/substance-use/vaping/sales/ ; source/CANADA_2024_DONOR_CLOSURE_PACK.md ; source/CANADA_RCS_TAX_BASIS_CLARIFICATION_2026-07-29.md ; source/CANADA_RCS_SCOPE_QUALITY_CLARIFICATION_2026-07-30.md ; source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
+      "2026-07-31",
       "Monthly − quarterly = CAD 1,000 (0.000082%). Retail − shipments = CAD 58,406,203.22; retail / shipments − 1 = 5.031748%. ECB 2024: 1,219,160,000 / 1.482110546875 = EUR 822,583,715.21.",
-      "D8 passes: CAD, exclusion of GST/HST/PST/QST and inclusion of additional duties embedded in retail prices are confirmed for table 20-10-0071-01. The exact duty components and monthly and legacy-table tax bases remain under clarification. The monthly route is same-survey QA, not D10; retail and shipments do not form a market range.",
+      "D8 passes: CAD, exclusion of GST/HST/PST/QST and inclusion of embedded additional duties are confirmed for the reviewed quarterly, monthly and archived tables. Additional duties can include federal, additional and provincial vaping duties. The monthly route is same-survey QA, not D10.",
       "Supported",
-      "D5 NAICS 459993/459999 coverage, D7 annual error boundary and D10 retail-to-shipment reconciliation remain open; Canada is not an accepted donor."
+      "D5 failed because NAICS 459999 specialist retail is outside the confirmed 441100–459993 target range. D7 failed because exact product-class quality and annual-uncertainty information is unavailable. D10 remains open; Canada is not an accepted donor."
     ],
     [
       "Health Canada's four 2024 categories sum to CAD 1,160,753,796.78 of net shipment value, 118,901,910 units and 1,251,843 litres.",
@@ -375,15 +375,15 @@
       "Consumer retail value, channel coverage, tax basis and independent reconciliation are required."
     ],
     [
-      "Poland's 2025 tax bridge yields 4,382,500 derived taxable e-cigarette devices and 62,500 derived taxable component sets.",
+      "Poland's 2025 tax bridge yields 4,382,500 derived taxable broad vaporisation-device-group units and 62,500 derived taxable component sets; neither is e-cigarette-specific.",
       "Market size",
-      "The official parliamentary response reports PLN 993.1 million for e-liquids, PLN 175.3 million for devices and PLN 2.5 million for component sets. The device and component-set duty was PLN 40 per unit from 1 July 2025.",
-      "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf ; https://www.podatki.gov.pl/akcyza/stawki-podatkowe/",
-      "2025",
-      "PLN 175,300,000 / 40 = 4,382,500 taxable devices; PLN 2,500,000 / 40 = 62,500 taxable component sets.",
-      "The derived tax base covers only devices and component sets taxed from 1 July 2025. It does not establish consumer prices, retail sales, untaxed quantities or stock transitions.",
-      "Supported",
-      "The monthly duty profile, finality, retail prices, channel coverage and independent reconciliation are required."
+      "The official response reports PLN 993.1 million for e-liquids, PLN 175.3 million for the broad device group and PLN 2.5 million for component sets. The statutory group includes refillable e-cigarettes, heated-tobacco heaters and multifunction devices. Duty was PLN 40 per unit from 1 July 2025.",
+      "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf ; https://www.podatki.gov.pl/akcyza/stawki-podatkowe/ ; https://www.podatki.gov.pl/akcyza/komunikaty-w-zakresie-podatku-akcyzowego ; https://api.sejm.gov.pl/eli/acts/DU/2025/698/text.pdf ; source/POLAND_D1_D10_PREASSESSMENT_2026-07-31.md",
+      "2026-07-31",
+      "PLN 175,300,000 / 40 = 4,382,500 taxable broad-group units; PLN 2,500,000 / 40 = 62,500 taxable component sets.",
+      "The derived tax base covers only devices and component sets taxed from 1 July 2025. AKC-4/R requires device-type detail, but the current public aggregate does not publish it. The values do not establish consumer prices, retail sales or an e-cigarette-only count.",
+      "Confirmed",
+      "The AKC-4/R e-cigarette/heater/multifunction split, monthly duty profile, retail prices, channel coverage and independent reconciliation are required. Poland receives no donor score without a country-year retail value."
     ],
     [
       "Sweden's public evidence combines a 2024 tax anchor with 36 official FHM register-structure counts for 2018–2026; the register counts are not sales or market value.",

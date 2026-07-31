@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-30",
+  "asOf": "2026-07-31",
   "controlId": "vendor-response-control-public",
   "criteria": [
     {
@@ -578,5 +578,5 @@
       "weightedScore": null
     }
   ],
-  "version": "2026.07.30-36"
+  "version": "2026.07.31-37"
 }

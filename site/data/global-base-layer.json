@@ -129,8 +129,8 @@
     }
   },
   "methodRouteControl": {
-    "version": "2026.07.30-36",
-    "asOf": "2026-07-30",
+    "version": "2026.07.31-37",
+    "asOf": "2026-07-31",
     "status": "research_route_map_not_market_values",
     "boundaryEn": "This map assigns a transparent evidence-acquisition and calculation route to every UN195 sovereign state. It does not claim that 195 retail markets have been measured. A route, request, proxy, model or partial-channel observation is never a retail market value unless the underlying evidence separately establishes that boundary.",
     "boundaryFi": "Kartta osoittaa läpinäkyvän evidenssin hankinta- ja laskentareitin jokaiselle UN195-valtiolle. Se ei väitä, että 195 vähittäismarkkinaa olisi mitattu. Reitti, pyyntö, proxy, malli tai osittaisen kanavan havainto ei ole vähittäismarkkina-arvo, ellei taustalla oleva evidenssi osoita tätä erikseen.",
@@ -541,7 +541,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -658,7 +658,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -775,7 +775,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -892,7 +892,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1009,7 +1009,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1126,7 +1126,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1243,7 +1243,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1360,7 +1360,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1477,7 +1477,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1594,7 +1594,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1711,7 +1711,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1828,7 +1828,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -1945,7 +1945,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2062,7 +2062,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2179,7 +2179,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2296,7 +2296,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2413,7 +2413,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2530,7 +2530,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2647,7 +2647,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2764,7 +2764,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2881,7 +2881,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -2998,7 +2998,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3115,7 +3115,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3232,7 +3232,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3349,7 +3349,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3466,7 +3466,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3583,7 +3583,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3700,7 +3700,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3817,7 +3817,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -3934,7 +3934,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4051,7 +4051,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4168,7 +4168,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4285,7 +4285,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4402,7 +4402,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4519,7 +4519,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4636,7 +4636,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4753,7 +4753,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4870,7 +4870,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -4987,7 +4987,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5104,7 +5104,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5221,7 +5221,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5338,7 +5338,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5455,7 +5455,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5572,7 +5572,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5689,7 +5689,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5806,7 +5806,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -5923,7 +5923,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6040,7 +6040,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6157,7 +6157,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6274,7 +6274,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6391,7 +6391,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6508,7 +6508,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6625,7 +6625,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6742,7 +6742,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6859,7 +6859,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -6976,7 +6976,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -7093,7 +7093,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -7210,7 +7210,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -7327,7 +7327,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -7444,7 +7444,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -7564,7 +7564,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "In a prohibited or predominantly illicit market, seizures and trade records are enforcement signals, not lawful domestic sales or consumer-retail value.",
         "boundaryFi": "Kielletyllä tai pääosin laittomalla markkinalla takavarikot ja kauppatiedot ovat valvontasignaaleja, eivät laillista kotimaan myyntiä tai kuluttajavähittäisarvoa."
       },
@@ -7686,7 +7686,7 @@
         "donorAssessmentState": "assessed_not_accepted",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Can establish a retail point estimate only when product scope, national channel coverage, tax basis, method and uncertainty are documented and an independent reconciliation is available.",
         "boundaryFi": "Voi osoittaa vähittäiskaupan piste-estimaatin vain, kun tuoterajaus, valtakunnallinen kanavapeitto, veroperusta, menetelmä ja epävarmuus on dokumentoitu ja riippumaton täsmäytys on saatavilla."
       },
@@ -7803,7 +7803,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -7920,7 +7920,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8037,7 +8037,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8154,7 +8154,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8271,7 +8271,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8388,7 +8388,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8505,7 +8505,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8622,7 +8622,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8739,7 +8739,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8856,7 +8856,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -8973,7 +8973,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9090,7 +9090,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9207,7 +9207,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9324,7 +9324,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9441,7 +9441,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9558,7 +9558,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9675,7 +9675,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9792,7 +9792,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -9909,7 +9909,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10026,7 +10026,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10143,7 +10143,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10260,7 +10260,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10377,7 +10377,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10494,7 +10494,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10616,7 +10616,7 @@
         "donorAssessmentState": "assessed_not_accepted",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Manufacturer-reported sales or shipments remain a supply-stage measure. A rights-cleared same-period POS total is required for a consumer-retail bridge.",
         "boundaryFi": "Valmistajien raportoitu myynti tai toimitukset pysyvät toimitusvaiheen mittarina. Kuluttajavähittäissilta vaatii käyttöoikeuksiltaan selvitetyn saman ajanjakson POS-kokonaisarvon."
       },
@@ -10733,7 +10733,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10850,7 +10850,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -10967,7 +10967,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11084,7 +11084,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11201,7 +11201,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11318,7 +11318,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11435,7 +11435,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11552,7 +11552,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11669,7 +11669,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11786,7 +11786,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -11905,7 +11905,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Production, transactions, inventories and exports can support a supply bridge but do not establish domestic consumer retail without sell-through and channel evidence.",
         "boundaryFi": "Tuotanto, liiketoimet, varastot ja vienti voivat tukea toimitussiltaa, mutta eivät osoita kotimaan kuluttajavähittäismyyntiä ilman sell-through- ja kanavanäyttöä."
       },
@@ -12023,7 +12023,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -12140,7 +12140,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -12257,7 +12257,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -12377,7 +12377,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -12494,7 +12494,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -12611,7 +12611,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -12728,7 +12728,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -12846,7 +12846,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Imports and exports measure border-stage trade, not domestic retail sell-through. Domestic production, inventories, re-exports, duties, margins, product-code scope and illicit flows remain separate.",
         "boundaryFi": "Tuonti ja vienti mittaavat rajavaiheen kauppaa, eivät kotimaan vähittäismyyntiä. Kotimainen tuotanto, varastot, jälleenvienti, verot, katteet, tuotekoodirajaus ja laittomat virrat pysyvät erillään."
       },
@@ -12963,7 +12963,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -13080,7 +13080,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -13197,7 +13197,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -13315,7 +13315,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Imports and exports measure border-stage trade, not domestic retail sell-through. Domestic production, inventories, re-exports, duties, margins, product-code scope and illicit flows remain separate.",
         "boundaryFi": "Tuonti ja vienti mittaavat rajavaiheen kauppaa, eivät kotimaan vähittäismyyntiä. Kotimainen tuotanto, varastot, jälleenvienti, verot, katteet, tuotekoodirajaus ja laittomat virrat pysyvät erillään."
       },
@@ -13432,7 +13432,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -13549,7 +13549,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -13666,7 +13666,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -13783,7 +13783,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -13900,7 +13900,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14017,7 +14017,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14134,7 +14134,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14251,7 +14251,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14368,7 +14368,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14485,7 +14485,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14602,7 +14602,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14719,7 +14719,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -14840,7 +14840,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -14957,7 +14957,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -15075,7 +15075,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -15192,7 +15192,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -15309,7 +15309,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -15426,7 +15426,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -15543,7 +15543,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -15660,7 +15660,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -15777,7 +15777,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -15894,7 +15894,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -16011,7 +16011,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -16129,7 +16129,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "A tax base linked to a designated retail price can support a retail-equivalent reconstruction only after public category totals, physical units and an observed sell-through check are available.",
         "boundaryFi": "Määrättyyn vähittäishintaan sidottu veropohja voi tukea vähittäismyyntivastaavuutta vasta, kun julkiset kategoriasummat, fyysiset määrät ja havaittu sell-through-tarkistus ovat saatavilla."
       },
@@ -16246,7 +16246,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -16363,7 +16363,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -16480,7 +16480,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -16597,7 +16597,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -16714,7 +16714,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -16837,7 +16837,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
         "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
@@ -16954,7 +16954,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -17077,7 +17077,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
         "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
@@ -17194,7 +17194,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -17312,7 +17312,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -17430,7 +17430,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -17548,7 +17548,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -17671,7 +17671,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
         "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
@@ -17789,7 +17789,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -17912,7 +17912,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Physical volumes can be reconciled across official systems, but a consumer-retail value still requires same-year prices, channel weights, tax treatment and an independent retail check.",
         "boundaryFi": "Fyysiset määrät voidaan täsmäyttää virallisissa järjestelmissä, mutta kuluttajavähittäisarvo vaatii lisäksi saman vuoden hinnat, kanavapainot, verokäsittelyn ja riippumattoman vähittäistarkistuksen."
       },
@@ -18035,7 +18035,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
         "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
@@ -18158,7 +18158,7 @@
         "donorAssessmentState": "assessed_not_accepted",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Physical volumes can be reconciled across official systems, but a consumer-retail value still requires same-year prices, channel weights, tax treatment and an independent retail check.",
         "boundaryFi": "Fyysiset määrät voidaan täsmäyttää virallisissa järjestelmissä, mutta kuluttajavähittäisarvo vaatii lisäksi saman vuoden hinnat, kanavapainot, verokäsittelyn ja riippumattoman vähittäistarkistuksen."
       },
@@ -18276,7 +18276,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -18393,7 +18393,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -18511,7 +18511,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -18628,7 +18628,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -18746,7 +18746,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -18869,7 +18869,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -18987,7 +18987,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -19104,7 +19104,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -19222,7 +19222,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -19345,7 +19345,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -19463,7 +19463,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -19580,7 +19580,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -19697,7 +19697,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -19814,7 +19814,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -19937,7 +19937,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Product and operator counts support scope and reporting-population checks but do not establish units sold or retail value.",
         "boundaryFi": "Tuote- ja toimijamäärät tukevat rajauksen ja raportoijajoukon tarkistusta, mutta eivät osoita myytyjä määriä tai vähittäisarvoa."
       },
@@ -20054,7 +20054,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -20174,7 +20174,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Lawful supply, notifications and enforcement must remain separate. Seizures and surrenders are not lawful sales and cannot be added to market value.",
         "boundaryFi": "Laillinen tarjonta, ilmoitukset ja valvonta pidetään erillään. Takavarikot ja luovutukset eivät ole laillista myyntiä eikä niitä saa lisätä markkina-arvoon."
       },
@@ -20298,7 +20298,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -20416,7 +20416,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -20534,7 +20534,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -20655,7 +20655,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Marked retail withdrawals can be a strong official signal, but legal-market scope, device coverage, access, sanctions, reproducibility and independent reconciliation must pass.",
         "boundaryFi": "Merkityt vähittäisluovutukset voivat olla vahva virallinen signaali, mutta laillisen markkinan rajauksen, laitepeiton, saatavuuden, pakotteiden, toistettavuuden ja riippumattoman täsmäytyksen on läpäistävä."
       },
@@ -20772,7 +20772,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -20889,7 +20889,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -21007,7 +21007,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -21125,7 +21125,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The directive creates a reporting pattern, not a public national dataset. The competent authority, implemented fields, access, reporting population, product scope and annual aggregates must be verified country by country.",
         "boundaryFi": "Direktiivi luo raportointimallin, ei julkista kansallista aineistoa. Toimivaltainen viranomainen, toteutetut kentät, saatavuus, raportoijajoukko, tuoterajaus ja vuosiaggregaatit on vahvistettava maittain."
       },
@@ -21247,7 +21247,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "draft_not_sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -21370,7 +21370,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
         "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
@@ -21491,7 +21491,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Excise divided by the applicable unit rate can reproduce a taxed base. It is not consumer sell-through or retail value without refunds, exports, stocks, price, VAT and channel bridges.",
         "boundaryFi": "Valmistevero jaettuna sovellettavalla yksikköverolla voi toistaa veropohjan. Se ei ole kuluttajamyyntiä tai vähittäisarvoa ilman palautus-, vienti-, varasto-, hinta-, ALV- ja kanavasiltoja."
       },
@@ -21608,7 +21608,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -21729,7 +21729,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Reported units or millilitres are not retail value until reporting coverage, supply-chain stage, prices, tax and channels are documented.",
         "boundaryFi": "Raportoidut kappaleet tai millilitrat eivät ole vähittäisarvo ennen kuin raportointipeitto, toimitusketjun vaihe, hinnat, verot ja kanavat on dokumentoitu."
       },
@@ -21847,7 +21847,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "sent",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Lawful supply, notifications and enforcement must remain separate. Seizures and surrenders are not lawful sales and cannot be added to market value.",
         "boundaryFi": "Laillinen tarjonta, ilmoitukset ja valvonta pidetään erillään. Takavarikot ja luovutukset eivät ole laillista myyntiä eikä niitä saa lisätä markkina-arvoon."
       },
@@ -21964,7 +21964,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -22081,7 +22081,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -22198,7 +22198,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -22315,7 +22315,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -22432,7 +22432,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -22552,7 +22552,7 @@
         "donorAssessmentState": "assessed_not_accepted",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "Observed specialist-retailer value remains a partial-channel lower-bound signal until general retail, tax basis, reporting coverage and independent reconciliation are closed.",
         "boundaryFi": "Havaittu erikoisvähittäiskaupan arvo pysyy osittaisen kanavan alarajasignaalina, kunnes yleisvähittäiskauppa, veroperusta, raportointipeitto ja riippumaton täsmäytys on ratkaistu."
       },
@@ -22669,7 +22669,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -22786,7 +22786,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -22903,7 +22903,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -23020,7 +23020,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -23137,7 +23137,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -23254,7 +23254,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },
@@ -23371,7 +23371,7 @@
         "donorAssessmentState": "not_assessed",
         "donorAccepted": false,
         "requestState": "not_in_top20_program",
-        "lastReviewedOn": "2026-07-30",
+        "lastReviewedOn": "2026-07-31",
         "boundaryEn": "The country is present in the open UN195 base, but no reviewed vaping-specific official calculation route has yet been assigned.",
         "boundaryFi": "Maa sisältyy avoimeen UN195-pohjaan, mutta sille ei ole vielä osoitettu tarkistettua sähkötupakkakohtaista virallista laskentareittiä."
       },

@@ -1,7 +1,41 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-30",
+  "asOf": "2026-07-31",
   "releases": [
+    {
+      "id": "2026-07-31-canada-scope-quality-nz-poland-v37",
+      "version": "2026.07.31-37",
+      "publishedAt": "2026-07-31T11:11:21+03:00",
+      "titleEn": "Canada closure result, New Zealand controls and Poland scope correction",
+      "titleFi": "Kanadan sulkutulos, Uuden-Seelannin kontrollit ja Puolan rajausoikaisu",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Closed the no-charge Statistics Canada follow-up without changing the CAD 1,219,160,000 / EUR 822,583,715.21 point estimate. The authority confirmed that the same tax basis applies to the monthly and archived tables, identified the target population as NAICS 441100–459993 and stated that exact product-class quality fields are unavailable. Canada remains NOT ACCEPTED at 7/10: D5 and D7 fail, D8 passes and D10 remains open. No further Statistics Canada follow-up is scheduled.",
+          "textFi": "Suljettiin Statistics Canadan maksuton jatkotäsmennys muuttamatta 1 219 160 000 CAD / 822 583 715,21 EUR piste-estimaattia. Viranomainen vahvisti saman veroperustan koskevan kuukausi- ja arkistotaulukoita, määritti kohdejoukoksi NAICS 441100–459993 ja ilmoitti, ettei täsmällisiä tuoteluokan laatukenttiä ole saatavilla. Kanada pysyy tilassa EI HYVÄKSYTTY tuloksella 7/10: D5 ja D7 hylätään, D8 läpäisee ja D10 pysyy avoinna. Statistics Canadalle ei ole suunniteltu uutta jatkokyselyä."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Added an independent Canada route map. The already processed 106-page Health Canada ATI package, provincial vapour-tax bases, the statutory VPRR duty field, customs controls and channel evidence are ranked as next routes. None currently closes D5, D7 or D10 nationally; no request, purchase, fee or message was made.",
+          "textFi": "Lisättiin Kanadan riippumaton reittikartta. Seuraaviksi reiteiksi asetettiin järjestykseen Health Canadan jo käsitelty 106-sivuinen ATI-aineisto, provinssien höyrytuoteveropohjat, lakisääteinen VPRR-verokenttä, tullikontrollit ja kanavanäyttö. Mikään niistä ei vielä sulje D5-, D7- tai D10-kriteeriä kansallisesti; pyyntöä, ostoa, maksua tai viestiä ei tehty."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Prepared, but did not send, the New Zealand 7 August follow-up pack. Reproducible Stats NZ 2024 controls produce core CIF NZD 203.771m, expanded CIF NZD 242.974m and maximum CIF NZD 296.270m, but customs values remain border-stage controls rather than retail sales. New Zealand stays NOT ACCEPTED at 7/10 with D5 failed and D8/D10 open.",
+          "textFi": "Valmisteltiin, mutta ei lähetetty, Uuden-Seelannin 7. elokuuta käytettävä jatkopaketti. Toistettavat Stats NZ:n vuoden 2024 kontrollit tuottavat 203,771 milj. NZD:n ydin-CIF:n, 242,974 milj. NZD:n laajennetun CIF:n ja 296,270 milj. NZD:n enimmäis-CIF:n, mutta tulliarvot pysyvät rajavaiheen kontrolleina eivätkä vähittäismyyntinä. Uusi-Seelanti pysyy tilassa EI HYVÄKSYTTY tuloksella 7/10: D5 hylätään ja D8/D10 ovat avoinna."
+        },
+        {
+          "category": "market_data",
+          "textEn": "Corrected Poland's 2025 device-tax bridge: 4,382,500 implied taxed devices and 62,500 component sets cover a broad statutory group including refillable e-cigarettes, heated-tobacco heaters and multifunction devices, not e-cigarettes alone. Poland has no identified country-year retail value and therefore receives no donor score or cockpit candidate; its formal preassessment passes D9, fails D2/D4 and leaves seven criteria open.",
+          "textFi": "Oikaistiin Puolan vuoden 2025 laiteverosilta: 4 382 500 laskennallista verotettua laitetta ja 62 500 osasarjaa koskevat laajaa lakisääteistä ryhmää, johon kuuluvat täytettävät sähkötupakat, kuumennettavan tupakan lämmittimet ja monitoimilaitteet, eivät yksin sähkötupakat. Puolalla ei ole tunnistettua maa-vuosi-vähittäisarvoa, joten sille ei anneta donor-pisteytystä tai cockpit-ehdokkuutta; muodollinen ennakkoarvio läpäisee D9:n, hylkää D2/D4:n ja jättää seitsemän kriteeriä avoimeksi."
+        },
+        {
+          "category": "usability",
+          "textEn": "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and two Evidence Registers as the single 2026-07-31 daily package. The six downloads and dashboard share version 2026.07.31-37 and the package remains generated at most once per Asia/Nicosia calendar day. The dataset remains 84 observations from 24 sources, the donor gate remains 0/3 and global retail value remains null/not_computed. Euromonitor remains paused with no extract, purchase, fee, order, licence or commitment authorised.",
+          "textFi": "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja kaksi Evidence Registeriä päivän 31.7.2026 ainoaksi päiväpaketiksi. Kuusi latausta ja dashboard jakavat version 2026.07.31-37, ja paketti muodostetaan edelleen enintään kerran Asia/Nicosia-kalenteripäivässä. Aineisto pysyy 84 havainnossa ja 24 lähteessä, donor-portti 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa. Euromonitor pysyy pausella eikä otetta, ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        }
+      ]
+    },
     {
       "id": "2026-07-30-canada-tax-basis-daily-package-v36",
       "version": "2026.07.30-36",

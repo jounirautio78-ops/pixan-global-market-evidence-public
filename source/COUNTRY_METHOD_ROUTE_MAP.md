@@ -134,11 +134,13 @@ and, only when the missing inputs exist:
 
 `retail-equivalent value = disjoint taxed units or millilitres × same-year, tax-consistent, channel-weighted retail price`
 
-The existing 2025 back-solutions reproduce 4,382,500 taxed device units and
-62,500 taxed component-set units for the period covered by the PLN 40 unit
-rate. They are not a full-year device market, consumer sell-through or retail
-value. No price is inserted and no Polish retail-equivalent value is computed
-in this release.
+The existing 2025 back-solutions reproduce 4,382,500 taxed units in the broad
+statutory vaporisation-device group and 62,500 taxed component sets for the
+period covered by the PLN 40 unit rate. The device group combines refillable
+e-cigarettes, heated-tobacco heaters and multifunction devices. Until the
+AKC-4/R type split is obtained, neither count is e-cigarette-specific. They are
+not a full-year device market, consumer sell-through or retail value. No price
+is inserted and no Polish retail-equivalent value is computed in this release.
 
 ## Germany calculation boundary
 
@@ -150,15 +152,20 @@ and an independent retail or rights-cleared POS reconciliation.
 
 ## Canada closure boundary
 
-Canada remains a 7/10 candidate. The route map does not change D5, D7 or D10:
+Canada remains a 7/10 candidate. D5 and D7 are now failed; D10 remains open:
 
-- D5 needs written confirmation of the NAICS 459993/459999 population
-  boundary or quantified omitted channels.
-- D7 needs a commodity-level annual uncertainty measure or defensible official
-  interval; the published quality class `E` alone is not an exact annual error
-  boundary.
+- D5 failed after Statistics Canada confirmed that the RCS target population
+  ends at 459993 while official NAICS examples place vape-specialist retailing
+  in excluded class 459999. The gap is not quantified.
+- D7 failed after the Retail Commodity Program confirmed that exact
+  product-class CV, imputation, standard-error and annual-covariance
+  information is unavailable beyond the published `E` quality class.
 - D10 needs a same-boundary independent retail total or a documented bridge
   from manufacturer/importer shipments to consumer retail.
+
+No further Statistics Canada follow-up is scheduled. The remaining Canada
+route is an independent rights-cleared POS or retailer series with its own
+national coverage, quality method and tax basis.
 
 This project is independent research and not an official Pixan Oy disclosure,
 valuation, lending recommendation or investment recommendation.

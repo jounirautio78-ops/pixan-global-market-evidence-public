@@ -165,14 +165,14 @@ POLAND_RECONSTRUCTION = {
     "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": (
         "PL",
         2025,
-        "vaping_device_excise_amount",
+        "vaporisation_device_broad_group_excise_amount",
         175_300_000,
         "PLN",
         "PLN",
         "calendar_year",
         "official_observed",
         "official_response",
-        "vaping_devices_only",
+        "broad_vaporisation_devices_including_refillable_e_cigarettes_heaters_and_multifunction_devices",
         "official_tax_amount_not_retail_market_value",
         False,
         False,
@@ -181,14 +181,14 @@ POLAND_RECONSTRUCTION = {
     "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": (
         "PL",
         2025,
-        "vaping_component_sets_excise_amount",
+        "vaporisation_device_component_sets_broad_group_excise_amount",
         2_500_000,
         "PLN",
         "PLN",
         "calendar_year",
         "official_observed",
         "official_response",
-        "vaping_component_sets_only",
+        "component_sets_for_broad_vaporisation_device_group",
         "official_tax_amount_not_retail_market_value",
         False,
         False,
@@ -197,14 +197,14 @@ POLAND_RECONSTRUCTION = {
     "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": (
         "PL",
         2025,
-        "vaping_device_excise_backsolved_units",
+        "vaporisation_device_broad_group_excise_backsolved_units",
         4_382_500,
         "unit",
         None,
         "calendar_year",
         "official_table_derived",
         "tax_receipts_divided_by_statutory_rate",
-        "vaping_devices_only",
+        "broad_vaporisation_devices_including_refillable_e_cigarettes_heaters_and_multifunction_devices",
         "derived_taxed_units_not_sales_or_retail_market_value",
         False,
         False,
@@ -213,14 +213,14 @@ POLAND_RECONSTRUCTION = {
     "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": (
         "PL",
         2025,
-        "vaping_component_sets_excise_backsolved_units",
+        "vaporisation_device_component_sets_broad_group_excise_backsolved_units",
         62_500,
         "unit",
         None,
         "calendar_year",
         "official_table_derived",
         "tax_receipts_divided_by_statutory_rate",
-        "vaping_component_sets_only",
+        "component_sets_for_broad_vaporisation_device_group",
         "derived_taxed_units_not_sales_or_retail_market_value",
         False,
         False,
@@ -335,8 +335,8 @@ def parse_date(value: Any) -> date | None:
 
 def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-30":
-        errors.append("Third-donor screen must use the reviewed v36 date")
+    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-31":
+        errors.append("Third-donor screen must use the reviewed v37 date")
     if screen.get("status") != "screening_only_not_donor_assessment":
         errors.append("Third-donor screen must remain screening-only")
     decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
@@ -1021,14 +1021,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-07-30-36"}
+            or set(cache_tokens) != {"2026-07-31-37"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v36 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v37 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-07-30-36"',
+        'src="assets/independent-controls.js?v=2026-07-31-37"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1036,7 +1036,7 @@ def validate_review_structure(
     ):
         if public_control_hook not in review_html:
             errors.append(
-                f"review.html lacks required v36 independent-control hook {public_control_hook!r}"
+                f"review.html lacks required v37 independent-control hook {public_control_hook!r}"
             )
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
@@ -1110,16 +1110,16 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-30-canada-tax-basis-daily-package-v36",
-            'version: "2026.07.30-36"',
-            'publishedAt: "2026-07-30T12:49:00+03:00"',
-            "Canada tax-basis correction and daily evidence package",
-            "Canada, Germany and the daily package",
-            "six downloadable lender-package files are the reviewed v36 daily snapshot",
-            "dashboard and downloads share the v36 daily release",
+            "2026-07-31-canada-scope-quality-nz-poland-v37",
+            'version: "2026.07.31-37"',
+            'publishedAt: "2026-07-31T11:11:21+03:00"',
+            "Canada closure result, New Zealand controls and Poland scope correction",
+            "Canada, New Zealand and Poland",
+            "six downloadable lender-package files are the reviewed v37 daily snapshot",
+            "dashboard and downloads share the v37 daily release",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v36 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v37 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1273,7 +1273,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v36 dashboard / v36 daily-package review experience: HOLD boundary, "
+        "Validated v37 dashboard / v37 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 24-source ledger and required UI hooks."

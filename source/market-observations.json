@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-30",
-  "reviewedAt": "2026-07-30T08:05:00Z",
+  "asOf": "2026-07-31",
+  "reviewedAt": "2026-07-31T07:41:04Z",
   "modelReadiness": {
     "status": "not_estimate_ready",
     "comparableFullYearMarketValueDonors": 0,
@@ -175,18 +175,19 @@
         "D8",
         "D9"
       ],
-      "failedCriteria": [],
-      "openCriteria": [
+      "failedCriteria": [
         "D5",
-        "D7",
+        "D7"
+      ],
+      "openCriteria": [
         "D10"
       ],
       "headlineEn": "Statistics Canada full-year consumer-retail estimate",
       "headlineFi": "Statistics Canadan koko vuoden kuluttajavähittäismyyntiestimaatti",
-      "decisionReasonEn": "The CAD 1.219160 billion annual sum measures national retail sales for NAPCS 5619122 and passes 7/10 criteria. It remains outside the donor count because all 12 months and all four quarters carry E, the published target-population endpoint conflicts with the NAICS placement of vape specialists, the annual error boundary is unavailable and the Health Canada bridge is not reconciled.",
-      "decisionReasonFi": "1,219160 miljardin Kanadan dollarin vuosisumma mittaa NAPCS 5619122 -tuoteryhmän valtakunnallista vähittäismyyntiä ja läpäisee 7/10 ehtoa. Se jää donor-luvun ulkopuolelle, koska kaikilla 12 kuukausiarvolla ja neljällä neljänneksellä on E, julkaistu kohdejoukon päätepiste on ristiriidassa vape-erikoisliikkeiden NAICS-luokan kanssa, vuositason virheraja puuttuu eikä Health Canada -siltaa ole täsmäytetty.",
-      "nextEvidenceEn": "Resolve the NAICS 459993/459999 coverage conflict, obtain the exact 2024 commodity-year precision and imputation metrics, and reconcile the CAD 58,406,203.22 retail-to-shipment residual.",
-      "nextEvidenceFi": "Ratkaise NAICS 459993/459999 -peittoristiriita, hanki täsmälliset vuoden 2024 tuoteryhmä–vuosi-tarkkuus- ja imputointimittarit sekä täsmäytä 58 406 203,22 CAD:n retail–toimitus-jäännös.",
+      "decisionReasonEn": "The CAD 1.219160 billion annual sum measures national retail sales for NAPCS 5619122 and passes 7/10 criteria. It remains outside the donor count because Statistics Canada confirmed that the 441100–459993 target range excludes NAICS 459999, where official examples place vape-specialist retailing; all 12 months and all four quarters carry E; exact product-class precision and imputation information is unavailable; and the Health Canada bridge is not reconciled.",
+      "decisionReasonFi": "1,219160 miljardin Kanadan dollarin vuosisumma mittaa NAPCS 5619122 -tuoteryhmän valtakunnallista vähittäismyyntiä ja läpäisee 7/10 ehtoa. Se jää donor-luvun ulkopuolelle, koska Statistics Canada vahvisti kohdejoukon 441100–459993 rajaavan pois NAICS 459999 -luokan, johon viralliset esimerkit sijoittavat vape-erikoiskaupan; kaikilla 12 kuukausiarvolla ja neljällä neljänneksellä on E; täsmällisiä tuoteryhmätason tarkkuus- ja imputointitietoja ei ole saatavilla; eikä Health Canada -siltaa ole täsmäytetty.",
+      "nextEvidenceEn": "Use an independent rights-cleared POS or retailer route with a national channel denominator, documented method and tax basis, then reconcile the same-year boundary to the RCS and Health Canada shipment series.",
+      "nextEvidenceFi": "Käytä riippumatonta, käyttöoikeuksiltaan selvää POS- tai vähittäiskauppareittiä, jossa on valtakunnallinen kanavanimittäjä, dokumentoitu menetelmä ja veroperusta, ja täsmäytä sen jälkeen saman vuoden rajaus RCS- ja Health Canada -toimitussarjoihin.",
       "sourceIds": [
         "CA-STATCAN-RCS-2023-2025",
         "CA-HC-VAPING-SALES-2024"
@@ -535,8 +536,8 @@
       ],
       "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
       "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
-      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. The questionnaire and RCS-to-MRTS source chain support current CAD and exclusion of GST, HST, PST and QST, but the predecessor table's additional-duty treatment remains unconfirmed. This is a derived annual survey estimate, not an accepted donor.",
-      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kyselylomake ja RCS–MRTS-lähdeketju tukevat käypää CAD-perustaa sekä GST-, HST-, PST- ja QST-verojen poissulkua, mutta edeltäjätaulukon lisäverokäsittely on vahvistamatta. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. Statistics Canada confirmed on 2026-07-30 that the archived table uses the same basis as the current monthly and quarterly tables: GST, HST, PST and QST are excluded and additional duties embedded in retail prices are included. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Statistics Canada vahvisti 30.7.2026, että arkistoidussa taulukossa käytetään samaa perustaa kuin nykyisissä kuukausi- ja kvartaalitaulukoissa: GST, HST, PST ja QST rajataan pois ja vähittäishintaan sisältyvät lisäverot ovat mukana. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "CA-2020-STATCAN-RCS-VAPING-RETAIL-SALES",
@@ -559,8 +560,8 @@
       ],
       "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
       "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
-      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. The questionnaire and RCS-to-MRTS source chain support current CAD and exclusion of GST, HST, PST and QST, but the predecessor table's additional-duty treatment remains unconfirmed. This is a derived annual survey estimate, not an accepted donor.",
-      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kyselylomake ja RCS–MRTS-lähdeketju tukevat käypää CAD-perustaa sekä GST-, HST-, PST- ja QST-verojen poissulkua, mutta edeltäjätaulukon lisäverokäsittely on vahvistamatta. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. Statistics Canada confirmed on 2026-07-30 that the archived table uses the same basis as the current monthly and quarterly tables: GST, HST, PST and QST are excluded and additional duties embedded in retail prices are included. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Statistics Canada vahvisti 30.7.2026, että arkistoidussa taulukossa käytetään samaa perustaa kuin nykyisissä kuukausi- ja kvartaalitaulukoissa: GST, HST, PST ja QST rajataan pois ja vähittäishintaan sisältyvät lisäverot ovat mukana. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "CA-2021-STATCAN-RCS-VAPING-RETAIL-SALES",
@@ -583,8 +584,8 @@
       ],
       "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
       "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
-      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. The questionnaire and RCS-to-MRTS source chain support current CAD and exclusion of GST, HST, PST and QST, but the predecessor table's additional-duty treatment remains unconfirmed. This is a derived annual survey estimate, not an accepted donor.",
-      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kyselylomake ja RCS–MRTS-lähdeketju tukevat käypää CAD-perustaa sekä GST-, HST-, PST- ja QST-verojen poissulkua, mutta edeltäjätaulukon lisäverokäsittely on vahvistamatta. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD; no status symbol is attached to the four published quarters. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. Statistics Canada confirmed on 2026-07-30 that the archived table uses the same basis as the current monthly and quarterly tables: GST, HST, PST and QST are excluded and additional duties embedded in retail prices are included. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein; neljään julkaistuun neljännekseen ei liity statussymbolia. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Statistics Canada vahvisti 30.7.2026, että arkistoidussa taulukossa käytetään samaa perustaa kuin nykyisissä kuukausi- ja kvartaalitaulukoissa: GST, HST, PST ja QST rajataan pois ja vähittäishintaan sisältyvät lisäverot ovat mukana. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "CA-2022-STATCAN-RCS-VAPING-RETAIL-SALES",
@@ -607,8 +608,8 @@
       ],
       "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
       "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
-      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD. Published quarter statuses are Q1 E (use with caution) and Q2–Q4 D. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. The questionnaire and RCS-to-MRTS source chain support current CAD and exclusion of GST, HST, PST and QST, but the predecessor table's additional-duty treatment remains unconfirmed. This is a derived annual survey estimate, not an accepted donor.",
-      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein. Julkaistut neljännesstatukset ovat Q1 E (käytettävä varoen) ja Q2–Q4 D. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Kyselylomake ja RCS–MRTS-lähdeketju tukevat käypää CAD-perustaa sekä GST-, HST-, PST- ja QST-verojen poissulkua, mutta edeltäjätaulukon lisäverokäsittely on vahvistamatta. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0016-01 vector v1038567205 in current CAD. Published quarter statuses are Q1 E (use with caution) and Q2–Q4 D. The pre-2023 [44-453] aggregate includes Internet, mail, telephone and other orders made through in-scope retailers, but excludes separately managed online operations and pure-play Internet retailers classified to NAICS 45411. Statistics Canada confirmed on 2026-07-30 that the archived table uses the same basis as the current monthly and quarterly tables: GST, HST, PST and QST are excluded and additional duties embedded in retail prices are included. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0016-01 vektorista v1038567205 käyvin Kanadan dollarein. Julkaistut neljännesstatukset ovat Q1 E (käytettävä varoen) ja Q2–Q4 D. Vuotta 2023 edeltävä [44-453]-koonti sisältää soveltamisalaan kuuluvien vähittäiskauppiaiden internet-, posti-, puhelin- ja muut tilaukset, mutta jättää NAICS 45411 -luokkaan kuuluvat erikseen hallinnoidut verkkotoiminnot ja puhtaat verkkokauppiaat pois. Statistics Canada vahvisti 30.7.2026, että arkistoidussa taulukossa käytetään samaa perustaa kuin nykyisissä kuukausi- ja kvartaalitaulukoissa: GST, HST, PST ja QST rajataan pois ja vähittäishintaan sisältyvät lisäverot ovat mukana. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "CA-2023-STATCAN-RCS-VAPING-RETAIL-SALES",
@@ -631,8 +632,8 @@
       ],
       "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
       "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
-      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. Published quarter statuses are Q1 E, Q2 D, Q3 E and Q4 E; E means use with caution. Starting in 2023, Internet retail, direct selling and mail-order retail are classified by goods sold rather than separately, supporting broader method-of-sale coverage, but the target-population endpoint 459993 conflicts with the official NAICS placement of vape specialists in 459999. Statistics Canada confirmed that this table excludes GST, HST, PST and QST, includes additional duties embedded in retail prices and is intended to be annualised by summing four quarters; the exact duty components remain under clarification. NAPCS and NAICS 2022 create a classification and scope break from 2022. This is a derived annual survey estimate, not an accepted donor.",
-      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Julkaistut neljännesstatukset ovat Q1 E, Q2 D, Q3 E ja Q4 E; E tarkoittaa varoen käytettävää lukua. Vuodesta 2023 internet-, suoramyynti- ja postimyynti luokitellaan myytyjen tavaroiden eikä erillisen kanavan mukaan, mikä tukee laajempaa myyntitapapeittoa, mutta kohdejoukon päätepiste 459993 on ristiriidassa vape-erikoisliikkeiden virallisen NAICS 459999 -luokan kanssa. Statistics Canada vahvisti taulukon rajaavan GST-, HST-, PST- ja QST-verot pois, sisältävän vähittäishintaan sisältyvät lisäverot ja muodostavan tarkoitetun vuosisumman neljästä kvartaalista; täsmälliset lisäverokomponentit odottavat täsmennystä. NAPCS- ja NAICS 2022 muodostavat luokitus- ja laajuuskatkon vuoteen 2022 nähden. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. Published quarter statuses are Q1 E, Q2 D, Q3 E and Q4 E; E means use with caution. Starting in 2023, Internet retail, direct selling and mail-order retail are classified by goods sold rather than separately, but Statistics Canada confirmed that the target population ends at 459993; official NAICS examples place vape-specialist retailing in excluded class 459999. The table excludes GST, HST, PST and QST and includes additional duties embedded in retail prices, which can include federal, additional and provincial vaping duties. NAPCS and NAICS 2022 create a classification and scope break from 2022. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Julkaistut neljännesstatukset ovat Q1 E, Q2 D, Q3 E ja Q4 E; E tarkoittaa varoen käytettävää lukua. Vuodesta 2023 internet-, suoramyynti- ja postimyynti luokitellaan myytyjen tavaroiden eikä erillisen kanavan mukaan, mutta Statistics Canada vahvisti kohdejoukon päättyvän luokkaan 459993; viralliset NAICS-esimerkit sijoittavat vape-erikoiskaupan ulkopuoliseen luokkaan 459999. Taulukko rajaa GST-, HST-, PST- ja QST-verot pois ja sisältää vähittäishintaan sisältyvät lisäverot, joihin voivat kuulua liittovaltion vaping-vero, lisävaping-vero ja provinssien vaping-verot. NAPCS- ja NAICS 2022 muodostavat luokitus- ja laajuuskatkon vuoteen 2022 nähden. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES",
@@ -655,8 +656,8 @@
       ],
       "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
       "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
-      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. All four quarters carry status E: use with caution, with a coefficient of variation greater than 25% under the cube note; the exact annual error boundary and imputation rate are unavailable. Internet retail, direct selling and mail-order retail are classified by goods sold rather than separately, but the target-population endpoint 459993 conflicts with the official NAICS placement of vape specialists in 459999. Statistics Canada confirmed that this table excludes GST, HST, PST and QST, includes additional duties embedded in retail prices and is intended to be annualised by summing four quarters; the exact duty components remain under clarification. This is a derived annual survey estimate, not an accepted donor.",
-      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Kaikilla neljällä neljänneksellä on status E: lukua on käytettävä varoen ja kuution huomautuksen mukaan variaatiokerroin on yli 25 %, mutta täsmällinen vuositason virheraja ja imputointiaste puuttuvat. Internet-, suoramyynti- ja postimyynti luokitellaan myytyjen tavaroiden eikä erillisen kanavan mukaan, mutta kohdejoukon päätepiste 459993 on ristiriidassa vape-erikoisliikkeiden virallisen NAICS 459999 -luokan kanssa. Statistics Canada vahvisti taulukon rajaavan GST-, HST-, PST- ja QST-verot pois, sisältävän vähittäishintaan sisältyvät lisäverot ja muodostavan tarkoitetun vuosisumman neljästä kvartaalista; täsmälliset lisäverokomponentit odottavat täsmennystä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. All four quarters carry status E: use with caution, with a coefficient of variation greater than 25% under the cube note; Statistics Canada confirmed that exact product-class CV, imputation, standard-error and annual-covariance information is unavailable. The target population ends at 459993, while official NAICS examples place vape-specialist retailing in excluded class 459999. The reviewed quarterly, monthly and archived tables exclude GST, HST, PST and QST and include embedded additional duties, which can include federal, additional and provincial vaping duties. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Kaikilla neljällä neljänneksellä on status E: lukua on käytettävä varoen ja kuution huomautuksen mukaan variaatiokerroin on yli 25 %; Statistics Canada vahvisti, ettei täsmällisiä tuoteryhmätason CV-, imputointi-, keskivirhe- tai vuositason kovarianssitietoja ole saatavilla. Kohdejoukko päättyy luokkaan 459993, kun viralliset NAICS-esimerkit sijoittavat vape-erikoiskaupan ulkopuoliseen luokkaan 459999. Tarkistetut kvartaali-, kuukausi- ja arkistotaulukot rajaavat GST-, HST-, PST- ja QST-verot pois ja sisältävät hintaan upotetut lisäverot, joihin voivat kuulua liittovaltion, lisä- ja provinssien vaping-verot. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES",
@@ -679,8 +680,8 @@
       ],
       "labelEn": "Statistics Canada RCS vaping retail sales, annual sum",
       "labelFi": "Statistics Canadan RCS-sähkötupakkavähittäismyynti, vuosisumma",
-      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. All four quarters carry status E: use with caution, with a coefficient of variation greater than 25% under the cube note; the exact annual error boundary and imputation rate are unavailable. Internet retail, direct selling and mail-order retail are classified by goods sold rather than separately, but the target-population endpoint 459993 conflicts with the official NAICS placement of vape specialists in 459999. Statistics Canada confirmed that this table excludes GST, HST, PST and QST, includes additional duties embedded in retail prices and is intended to be annualised by summing four quarters; the exact duty components remain under clarification. This is a derived annual survey estimate, not an accepted donor.",
-      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Kaikilla neljällä neljänneksellä on status E: lukua on käytettävä varoen ja kuution huomautuksen mukaan variaatiokerroin on yli 25 %, mutta täsmällinen vuositason virheraja ja imputointiaste puuttuvat. Internet-, suoramyynti- ja postimyynti luokitellaan myytyjen tavaroiden eikä erillisen kanavan mukaan, mutta kohdejoukon päätepiste 459993 on ristiriidassa vape-erikoisliikkeiden virallisen NAICS 459999 -luokan kanssa. Statistics Canada vahvisti taulukon rajaavan GST-, HST-, PST- ja QST-verot pois, sisältävän vähittäishintaan sisältyvät lisäverot ja muodostavan tarkoitetun vuosisumman neljästä kvartaalista; täsmälliset lisäverokomponentit odottavat täsmennystä. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
+      "limitationEn": "Sum of four national quarterly values from table 20-10-0071-01 vector v1456717514 in current CAD. All four quarters carry status E: use with caution, with a coefficient of variation greater than 25% under the cube note; Statistics Canada confirmed that exact product-class CV, imputation, standard-error and annual-covariance information is unavailable. The target population ends at 459993, while official NAICS examples place vape-specialist retailing in excluded class 459999. The reviewed quarterly, monthly and archived tables exclude GST, HST, PST and QST and include embedded additional duties, which can include federal, additional and provincial vaping duties. This is a derived annual survey estimate, not an accepted donor.",
+      "limitationFi": "Neljän kansallisen vuosineljänneksen summa taulukon 20-10-0071-01 vektorista v1456717514 käyvin Kanadan dollarein. Kaikilla neljällä neljänneksellä on status E: lukua on käytettävä varoen ja kuution huomautuksen mukaan variaatiokerroin on yli 25 %; Statistics Canada vahvisti, ettei täsmällisiä tuoteryhmätason CV-, imputointi-, keskivirhe- tai vuositason kovarianssitietoja ole saatavilla. Kohdejoukko päättyy luokkaan 459993, kun viralliset NAICS-esimerkit sijoittavat vape-erikoiskaupan ulkopuoliseen luokkaan 459999. Tarkistetut kvartaali-, kuukausi- ja arkistotaulukot rajaavat GST-, HST-, PST- ja QST-verot pois ja sisältävät hintaan upotetut lisäverot, joihin voivat kuulua liittovaltion, lisä- ja provinssien vaping-verot. Kyse on johdetusta vuositason kyselyestimaatista, ei hyväksytystä luovuttajasta."
     },
     {
       "observationId": "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE",
@@ -1146,62 +1147,62 @@
       "countryIso2": "PL",
       "geography": "Poland",
       "year": 2025,
-      "metric": "vaping_device_excise_amount",
+      "metric": "vaporisation_device_broad_group_excise_amount",
       "value": 175300000,
       "unit": "PLN",
       "currency": "PLN",
       "period": "calendar_year",
       "evidenceStatus": "official_observed",
       "finality": "official_response",
-      "productScope": "vaping_devices_only",
+      "productScope": "broad_vaporisation_devices_including_refillable_e_cigarettes_heaters_and_multifunction_devices",
       "marketValueBasis": "official_tax_amount_not_retail_market_value",
       "comparableMarketValue": false,
       "atlasEstimate": false,
       "sourceIds": [
         "PL-SEJM-I17526-O1"
       ],
-      "labelEn": "Officially reported vaping-device excise amount",
-      "labelFi": "Virallisesti ilmoitettu sähkösavukelaitteiden valmisteveromäärä",
-      "limitationEn": "Tax amount reported in an official parliamentary response. It is not device sales revenue or retail market value and must remain separate from e-liquid and component-set tax amounts.",
-      "limitationFi": "Virallisessa parlamenttivastauksessa ilmoitettu veromäärä. Se ei ole laitemyyntiä eikä vähittäismarkkina-arvoa, ja se pidetään erillään nesteiden ja osasarjojen veromääristä."
+      "labelEn": "Officially reported broad vaporisation-device excise amount",
+      "labelFi": "Virallisesti ilmoitettu laajan höyrystyslaiteryhmän valmisteveromäärä",
+      "limitationEn": "Tax amount reported in an official parliamentary response. The statutory group includes refillable e-cigarettes, heated-tobacco heaters and multifunction devices; it is not e-cigarette-only. The amount is not device sales revenue or retail market value and remains separate from e-liquid and component-set tax amounts.",
+      "limitationFi": "Virallisessa parlamenttivastauksessa ilmoitettu veromäärä. Lakisääteinen ryhmä sisältää uudelleentäytettävät sähkötupakat, kuumennettavan tupakan lämmittimet ja monitoimilaitteet, joten se ei ole vain sähkötupakkaluokka. Määrä ei ole laitemyyntiä eikä vähittäismarkkina-arvoa, ja se pidetään erillään nesteiden ja osasarjojen veromääristä."
     },
     {
       "observationId": "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT",
       "countryIso2": "PL",
       "geography": "Poland",
       "year": 2025,
-      "metric": "vaping_component_sets_excise_amount",
+      "metric": "vaporisation_device_component_sets_broad_group_excise_amount",
       "value": 2500000,
       "unit": "PLN",
       "currency": "PLN",
       "period": "calendar_year",
       "evidenceStatus": "official_observed",
       "finality": "official_response",
-      "productScope": "vaping_component_sets_only",
+      "productScope": "component_sets_for_broad_vaporisation_device_group",
       "marketValueBasis": "official_tax_amount_not_retail_market_value",
       "comparableMarketValue": false,
       "atlasEstimate": false,
       "sourceIds": [
         "PL-SEJM-I17526-O1"
       ],
-      "labelEn": "Officially reported vaping component-set excise amount",
-      "labelFi": "Virallisesti ilmoitettu sähkösavukkeiden osasarjojen valmisteveromäärä",
-      "limitationEn": "Tax amount reported in an official parliamentary response. It is not component-set sales revenue or retail market value and must remain separate from e-liquid and device tax amounts.",
-      "limitationFi": "Virallisessa parlamenttivastauksessa ilmoitettu veromäärä. Se ei ole osasarjojen myyntiä eikä vähittäismarkkina-arvoa, ja se pidetään erillään nesteiden ja laitteiden veromääristä."
+      "labelEn": "Officially reported broad vaporisation-device component-set excise amount",
+      "labelFi": "Virallisesti ilmoitettu laajan höyrystyslaiteryhmän osasarjavero",
+      "limitationEn": "Tax amount reported in an official parliamentary response. It covers component sets for the broad statutory vaporisation-device group, not an e-cigarette-only subset. It is not component-set sales revenue or retail market value and remains separate from e-liquid and device tax amounts.",
+      "limitationFi": "Virallisessa parlamenttivastauksessa ilmoitettu veromäärä. Se kattaa laajan lakisääteisen höyrystyslaiteryhmän osasarjat eikä vain sähkötupakkakohtaista alaryhmää. Määrä ei ole osasarjojen myyntiä eikä vähittäismarkkina-arvoa, ja se pidetään erillään nesteiden ja laitteiden veromääristä."
     },
     {
       "observationId": "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS",
       "countryIso2": "PL",
       "geography": "Poland",
       "year": 2025,
-      "metric": "vaping_device_excise_backsolved_units",
+      "metric": "vaporisation_device_broad_group_excise_backsolved_units",
       "value": 4382500,
       "unit": "unit",
       "currency": null,
       "period": "calendar_year",
       "evidenceStatus": "official_table_derived",
       "finality": "tax_receipts_divided_by_statutory_rate",
-      "productScope": "vaping_devices_only",
+      "productScope": "broad_vaporisation_devices_including_refillable_e_cigarettes_heaters_and_multifunction_devices",
       "marketValueBasis": "derived_taxed_units_not_sales_or_retail_market_value",
       "comparableMarketValue": false,
       "atlasEstimate": false,
@@ -1209,24 +1210,24 @@
         "PL-SEJM-I17526-O1",
         "PL-MF-EXCISE-RATES-2025"
       ],
-      "labelEn": "Vaping-device units implied by realised excise",
-      "labelFi": "Toteutuneesta valmisteverosta johdetut sähkösavukelaitteet",
-      "limitationEn": "PLN 175.3 million of 2025 realised device excise divided by the statutory PLN 40 per-device rate gives 4,382,500 implied taxed units. The device tax applied from 1 July 2025, so this is a second-half tax-base bridge, not full-year sell-through, sales revenue or retail market value; cash timing, refunds and stock movements are not reconciled.",
-      "limitationFi": "Vuoden 2025 toteutunut 175,3 miljoonan PLN:n laitevalmistevero jaettuna lakisääteisellä 40 PLN:n laiteverolla antaa 4 382 500 johdettua verollista yksikköä. Laitevero tuli sovellettavaksi 1.7.2025, joten kyse on loppuvuoden veropohjasillasta eikä koko vuoden kuluttajamyynnistä, myyntitulosta tai vähittäismarkkina-arvosta; maksujen ajoitusta, palautuksia ja varastoliikkeitä ei ole täsmäytetty."
+      "labelEn": "Broad vaporisation-device units implied by realised excise",
+      "labelFi": "Toteutuneesta verosta johdetut laajan höyrystyslaiteryhmän yksiköt",
+      "limitationEn": "PLN 175.3 million of 2025 realised excise divided by the statutory PLN 40 rate gives 4,382,500 implied taxed units in the broad group of refillable e-cigarettes, heated-tobacco heaters and multifunction devices. It is not an e-cigarette-only count. The tax applied from 1 July 2025, so this is a second-half tax-base bridge, not full-year sell-through, sales revenue or retail market value; product-type mix, cash timing, refunds and stock movements are not reconciled.",
+      "limitationFi": "Vuoden 2025 toteutunut 175,3 miljoonan PLN:n vero jaettuna lakisääteisellä 40 PLN:n verolla antaa 4 382 500 johdettua verollista yksikköä laajaan ryhmään, joka sisältää uudelleentäytettävät sähkötupakat, kuumennettavan tupakan lämmittimet ja monitoimilaitteet. Luku ei ole sähkötupakkakohtainen. Vero tuli sovellettavaksi 1.7.2025, joten kyse on loppuvuoden veropohjasillasta eikä koko vuoden kuluttajamyynnistä, myyntitulosta tai vähittäismarkkina-arvosta; tuotetyyppijakoa, maksujen ajoitusta, palautuksia ja varastoliikkeitä ei ole täsmäytetty."
     },
     {
       "observationId": "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS",
       "countryIso2": "PL",
       "geography": "Poland",
       "year": 2025,
-      "metric": "vaping_component_sets_excise_backsolved_units",
+      "metric": "vaporisation_device_component_sets_broad_group_excise_backsolved_units",
       "value": 62500,
       "unit": "unit",
       "currency": null,
       "period": "calendar_year",
       "evidenceStatus": "official_table_derived",
       "finality": "tax_receipts_divided_by_statutory_rate",
-      "productScope": "vaping_component_sets_only",
+      "productScope": "component_sets_for_broad_vaporisation_device_group",
       "marketValueBasis": "derived_taxed_units_not_sales_or_retail_market_value",
       "comparableMarketValue": false,
       "atlasEstimate": false,
@@ -1234,10 +1235,10 @@
         "PL-SEJM-I17526-O1",
         "PL-MF-EXCISE-RATES-2025"
       ],
-      "labelEn": "Vaping component-set units implied by realised excise",
-      "labelFi": "Toteutuneesta valmisteverosta johdetut sähkösavukkeiden osasarjat",
-      "limitationEn": "PLN 2.5 million of 2025 realised component-set excise divided by the statutory PLN 40 per-set rate gives 62,500 implied taxed sets. The tax applied from 1 July 2025, so this is a second-half tax-base bridge, not full-year sell-through, sales revenue or retail market value; cash timing, refunds and stock movements are not reconciled.",
-      "limitationFi": "Vuoden 2025 toteutunut 2,5 miljoonan PLN:n osasarjavalmistevero jaettuna lakisääteisellä 40 PLN:n sarjaverolla antaa 62 500 johdettua verollista sarjaa. Vero tuli sovellettavaksi 1.7.2025, joten kyse on loppuvuoden veropohjasillasta eikä koko vuoden kuluttajamyynnistä, myyntitulosta tai vähittäismarkkina-arvosta; maksujen ajoitusta, palautuksia ja varastoliikkeitä ei ole täsmäytetty."
+      "labelEn": "Broad vaporisation-device component-set units implied by realised excise",
+      "labelFi": "Toteutuneesta verosta johdetut laajan höyrystyslaiteryhmän osasarjat",
+      "limitationEn": "PLN 2.5 million of 2025 realised component-set excise divided by the statutory PLN 40 per-set rate gives 62,500 implied taxed sets for the broad vaporisation-device group. It is not an e-cigarette-only count. The tax applied from 1 July 2025, so this is a second-half tax-base bridge, not full-year sell-through, sales revenue or retail market value; product-type mix, cash timing, refunds and stock movements are not reconciled.",
+      "limitationFi": "Vuoden 2025 toteutunut 2,5 miljoonan PLN:n osasarjavero jaettuna lakisääteisellä 40 PLN:n sarjaverolla antaa 62 500 johdettua verollista sarjaa laajalle höyrystyslaiteryhmälle. Luku ei ole sähkötupakkakohtainen. Vero tuli sovellettavaksi 1.7.2025, joten kyse on loppuvuoden veropohjasillasta eikä koko vuoden kuluttajamyynnistä, myyntitulosta tai vähittäismarkkina-arvosta; tuotetyyppijakoa, maksujen ajoitusta, palautuksia ja varastoliikkeitä ei ole täsmäytetty."
     },
     {
       "observationId": "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L",

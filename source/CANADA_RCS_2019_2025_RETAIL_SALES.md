@@ -1,6 +1,6 @@
 # Canada: Statistics Canada RCS retail-sales series, 2019–2025
 
-Reviewed: 2026-07-30
+Reviewed: 2026-07-31
 
 ## Result and use boundary
 
@@ -138,15 +138,14 @@ For 2023–2025 table `20-10-0071-01`, Statistics Canada confirmed in writing on
 2026-07-29 that the values exclude GST, HST, PST and QST, include additional
 duties embedded in retail prices and are intended to be annualised by summing
 the four quarters. This direct table-specific clarification supersedes the
-project's earlier inference that the current table excluded excise. The exact
-federal, additional and provincial vaping-duty components remain under
-clarification.
+project's earlier inference that the current table excluded excise. Embedded
+additional duties can include federal vaping duty, additional vaping duty and
+provincial vaping duties.
 
-The clarification did not expressly cover monthly table `20-10-0080-01` or
-inactive legacy quarterly table `20-10-0016-01`. For the 2019–2022 legacy
-series, the questionnaire and RCS-to-MRTS source chain support current CAD and
-the exclusion of GST/HST/PST/QST, but the predecessor table's additional-duty
-treatment remains unconfirmed. No tax adjustment is made to either series.
+Statistics Canada confirmed on 2026-07-30 that the same basis applies to
+monthly table `20-10-0080-01` and inactive legacy quarterly table
+`20-10-0016-01`: GST/HST/PST/QST are excluded and additional duties embedded
+in retail prices are included. No tax adjustment is made to either series.
 
 ## Classification and comparability boundary
 
@@ -161,11 +160,13 @@ unchanged longitudinal series without a published bridge.
 
 These records remain `comparableMarketValue: false` and
 `atlasEstimate: false`. They materially improve Canada's consumer-retail
-evidence, but donor acceptance remains blocked at least by:
+evidence, but donor acceptance remains blocked by:
 
-1. the pre-2023 pure-play Internet/mail-order gap;
-2. lack of a public vaping-specific response/coverage reconciliation;
-3. weak published precision, especially all-`E` quarters in 2024 and 2025;
+1. confirmed exclusion of NAICS 459999, which official examples use for
+   e-cigarette and vapour-liquid specialist retailing;
+2. unavailable product-class CV, imputation, standard-error and annual
+   covariance fields;
+3. weak published precision, including all-`E` quarters in 2024 and 2025;
 4. lack of independent reconciliation against Health Canada shipment values,
    excise, scanner data or another non-duplicative retail route.
 
@@ -185,14 +186,14 @@ quarterly headline:
 - the apparent RCS target-population endpoint at NAICS 459993 conflicts with
   the official NAICS placement of electronic-cigarette and vapour-liquid
   specialty retailers in 459999;
-- The public table identifies the 2023–2025 quarterly values as current CAD.
-  Statistics Canada's 2026-07-29 table-specific clarification separately
-  establishes that the values exclude GST/HST/PST/QST, include additional
-  duties embedded in retail prices and may be summed across four quarters.
-  The monthly and predecessor-table duty bases and a bounded annual error
-  interval remain unavailable.
+- Statistics Canada confirmed the same current-CAD tax basis for the reviewed
+  quarterly, monthly and archived tables: GST/HST/PST/QST are excluded and
+  additional duties embedded in retail prices are included. Exact
+  product-class CV, imputation, standard-error and annual-covariance fields
+  are unavailable.
 
-Canada therefore remains `not_accepted` at 7/10 passed criteria. D5, D7 and D10
-remain open. The full formulas, product decomposition, EUR conversion,
-allowed wording and exact follow-up evidence are recorded in
+Canada therefore remains `not_accepted` at 7/10 passed criteria. D5 and D7
+failed, D8 passed and D10 remains open. The full formulas, product
+decomposition, EUR conversion, allowed wording and exact closure evidence are
+recorded in
 [`CANADA_2024_DONOR_CLOSURE_PACK.md`](CANADA_2024_DONOR_CLOSURE_PACK.md).

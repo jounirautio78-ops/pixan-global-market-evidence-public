@@ -83,8 +83,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-27-method-control-and-vendor-gates-v30"
-RELEASE_VERSION = "2026.07.27-30"
+RELEASE_ID = "2026-07-31-canada-scope-quality-nz-poland-v37"
+RELEASE_VERSION = "2026.07.31-37"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -496,9 +496,9 @@ def build_context() -> dict[str, Any]:
     if (
         release.get("id") != RELEASE_ID
         or release.get("version") != RELEASE_VERSION
-        or as_of != "2026-07-27"
+        or as_of != "2026-07-31"
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v30 release")
+        raise ValueError("Public inputs are not locked to the reviewed v37 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
     for label, data in (
@@ -515,15 +515,15 @@ def build_context() -> dict[str, Any]:
         global_base.get("schemaVersion") != "1.1"
         or method_control.get("version") != RELEASE_VERSION
         or method_summary.get("countryCount") != 195
-        or method_summary.get("reviewedMethodPlanCount") != 23
-        or method_summary.get("reviewedSourceLeadCount") != 5
+        or method_summary.get("reviewedMethodPlanCount") != 28
+        or method_summary.get("reviewedSourceLeadCount") != 0
         or method_summary.get("regionalTpdPatternOnlyCount") != 15
         or method_summary.get("proxyOnlyUnscopedCount") != 152
         or method_summary.get("eligibleForGlobalRollupCount") != 0
         or method_summary.get("donorAcceptedCount") != 0
         or global_base.get("globalRetailSales", {}).get("value") is not None
     ):
-        raise ValueError("Global base is not locked to the reviewed v30 method-control boundary")
+        raise ValueError("Global base is not locked to the reviewed v37 method-control boundary")
 
     observations = unique_index(market["observations"], "observationId", "market observation")
     models = unique_index(market["models"], "modelId", "market model")
@@ -1261,14 +1261,14 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     for item, label, metric, value in (
         (
             pl_device_excise,
-            "Poland vaping-device excise amount",
-            "vaping_device_excise_amount",
+            "Poland broad vaporisation-device-group excise amount",
+            "vaporisation_device_broad_group_excise_amount",
             175_300_000,
         ),
         (
             pl_component_excise,
-            "Poland component-set excise amount",
-            "vaping_component_sets_excise_amount",
+            "Poland broad-group component-set excise amount",
+            "vaporisation_device_component_sets_broad_group_excise_amount",
             2_500_000,
         ),
     ):
@@ -1289,14 +1289,14 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     for item, label, metric, value in (
         (
             pl_device_units,
-            "Poland implied taxed vaping-device units",
-            "vaping_device_excise_backsolved_units",
+            "Poland implied taxed broad vaporisation-device-group units",
+            "vaporisation_device_broad_group_excise_backsolved_units",
             4_382_500,
         ),
         (
             pl_component_units,
-            "Poland implied taxed component sets",
-            "vaping_component_sets_excise_backsolved_units",
+            "Poland implied taxed broad-group component sets",
+            "vaporisation_device_component_sets_broad_group_excise_backsolved_units",
             62_500,
         ),
     ):
@@ -2227,7 +2227,7 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
         ),
         row(
             "Puolan vuoden 2025 verosilta antaa 4 382 500 johdettua verollista "
-            "sähkötupakkalaitetta ja 62 500 johdettua verollista osasarjaa.",
+            "laajan höyrystyslaiteryhmän yksikköä ja 62 500 johdettua verollista osasarjaa.",
             "Markkinan koko",
             f"Virallisessa vastauksessa ilmoitettiin vuoden 2025 toteutuneeksi veroksi "
             f"{format_local_number(pl_excise['value'] / 1_000_000, 1)} milj. PLN e-nesteistä, "
@@ -2242,11 +2242,13 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             ),
             "2025",
             f"{format_local_number(pl_device_excise['value'])} / 40 = "
-            f"{format_local_number(pl_device_units['value'])} laitetta; "
+            f"{format_local_number(pl_device_units['value'])} laajan ryhmän laitetta; "
             f"{format_local_number(pl_component_excise['value'])} / 40 = "
             f"{format_local_number(pl_component_units['value'])} osasarjaa. "
             "E-nesteen verosta ei tehdä yksikköjohdosta vuoden aikana muuttuneen verorakenteen vuoksi.",
-            "Johdetut yksiköt kuvaavat 1.7.2025 alkaneen veron veropohjasiltaa, eivät koko vuoden "
+            "Johdetut yksiköt kuvaavat 1.7.2025 alkaneen veron veropohjasiltaa. "
+            "Laiteryhmä sisältää sähkötupakat, kuumennettavan tupakan lämmittimet ja "
+            "monitoimilaitteet, joten luvut eivät ole sähkötupakkakohtaisia eivätkä koko vuoden "
             "kuluttajamyyntiä, myyntituloa tai vähittäismarkkina-arvoa.",
             "Vahvistettu",
             "Maksujen ajoitus, palautukset, vienti, varastot, vähittäishinnat ja samaan vuoteen "

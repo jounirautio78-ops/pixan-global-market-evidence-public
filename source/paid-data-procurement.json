@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programmeId": "pixan-independent-paid-data-procurement-v1",
-  "asOf": "2026-07-30",
-  "version": "2026.07.30-36",
+  "asOf": "2026-07-31",
+  "version": "2026.07.31-37",
   "status": "decision_support_only_no_purchase_authorised",
   "publicBoundaryEn": "Independent procurement analysis. No purchase, subscription, commitment, vendor endorsement or Pixan Oy approval is stated or authorised.",
   "publicBoundaryFi": "Riippumaton hankinta-analyysi. Mitään ostoa, tilausta, sitoumusta, toimittajasuositusta tai Pixan Oy:n hyväksyntää ei väitetä eikä ole valtuutettu.",
