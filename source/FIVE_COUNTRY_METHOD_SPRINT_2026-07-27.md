@@ -161,6 +161,31 @@ are alternative reconciliations and are not additive.
 
 ## Switzerland
 
+### Official response and rights update — 2026-07-31
+
+FOCBS directed the aggregate-data request to SwissImpex, Tares and its
+published tobacco-tax materials. The response did not supply the requested
+annual category millilitres, excise receipts or nationwide vaping retail
+sales.
+
+The official route review identified a 1 March 2026 statistical-control-key
+change and a reproducible monthly TN8 customs route. The public TN8-by-country
+file does not expose the statistical control key, so the complete disposable,
+refill-liquid and reusable-product split cannot be reproduced from the public
+file alone.
+
+The relevant opendata.swiss records use `terms_by_ask`: attribution is
+mandatory and commercial use requires the data owner's prior permission.
+Because this project supports lender and buyer diligence, derived SwissImpex
+trade totals remain outside the public repository until FOCBS confirms the
+intended use and onward-disclosure rights in writing.
+
+The 2025 Federal Council report publishes CHF 4.43/ml as an average-price
+reference for nicotine refill liquids and disposable contents. It is a price
+input only, not a complete annual average, taxed volume, annual sales value or
+retail market size. See
+[`SWITZERLAND_FOCBS_RESPONSE_AND_PRICE_ANCHOR_2026-07-31.md`](SWITZERLAND_FOCBS_RESPONSE_AND_PRICE_ANCHOR_2026-07-31.md).
+
 ### Verified official route
 
 Swiss e-cigarette tobacco tax took effect on 1 October 2024. Nicotine products
@@ -201,19 +226,27 @@ volume or an official unit field.
 
 ### Missing evidence
 
-- Category-specific e-cigarette tax receipts and millilitres are not yet public.
+- FOCBS did not supply category-specific e-cigarette tax receipts or
+  millilitres, and no public annual aggregate was verified.
 - Refunds, corrections, imports, domestic production and warehouse releases
   must be reconciled.
 - Reusable nicotine-free liquid and hardware require separate scope.
 - Tabacinfo counts can lag and do not establish sales.
 - No official nationwide vaping-specific POS or retail-turnover series was
   verified.
+- Commercial-use and onward-disclosure permission for derived SwissImpex
+  results remains open.
 
 ### Official sources
 
 - [FOCBS tobacco-tax guidance](https://www.bazg.admin.ch/dam/en/sd-web/GljEzThGISer/Tobacco%20tax.pdf)
+- [Current FOCBS e-cigarette import fact sheet](https://www.bazg.admin.ch/dam/en/sd-web/ONuHZU913W8U/55%20d%20Merkblatt-Einfuhr%20E-Zigaretten%20per%2001.04.2026.pdf)
 - [FOCBS Tobacco Excise Tax page](https://www.bazg.admin.ch/en/tobacco-tax-domestic-companies)
-- [FOCBS foreign-trade statistics contact and data route](https://www.bazg.admin.ch/bazg/en/home/topics/schweizerische-aussenhandelsstatistik/kontakt-aussenhandelsstatistik.html)
+- [FOCBS foreign-trade statistics database and open-data route](https://www.bazg.admin.ch/en/swiss-foreign-trade-statistics-database-opendata)
+- [Foreign trade by tariff number and country](https://opendata.swiss/en/dataset/waren-aussenhandel-nach-tarifnummer-land)
+- [Tariff-number and statistical control-key metadata](https://opendata.swiss/en/dataset/waren-aussenhandel-stammdaten-tarifnummern)
+- [2025 Federal Council report](https://cms.news.admin.ch/fileservice/sdweb-docs-prod-nsbcch-files/files/2025/12/19/0b6e6f46-9c83-4a23-85a9-eb891a093fe8.pdf)
+- [opendata.swiss terms of use](https://opendata.swiss/en/terms-of-use)
 - [Swiss Tobacco Products Act information](https://www.bag.admin.ch/de/tabakproduktegesetz)
 - [Swiss Tabacinfo notification FAQ](https://www.bag.admin.ch/de/faq-produktmeldung-und-tabacinfo)
 

@@ -646,6 +646,11 @@ def country_method_route(
 
     method = method_map[primary_method_id]
     next_action = action_map[next_action_id]
+    boundary_en = method["boundaryEn"]
+    boundary_fi = method["boundaryFi"]
+    if iso2 in country_plans:
+        boundary_en = plan.get("boundaryEn", boundary_en)
+        boundary_fi = plan.get("boundaryFi", boundary_fi)
     provenance_basis_ids = ["UN195", "OPEN_BASE"]
     if iso2 in controls["top20Map"]:
         provenance_basis_ids.append("TOP20")
@@ -694,8 +699,8 @@ def country_method_route(
             )
         ),
         "lastReviewedOn": route_config["asOf"],
-        "boundaryEn": method["boundaryEn"],
-        "boundaryFi": method["boundaryFi"],
+        "boundaryEn": boundary_en,
+        "boundaryFi": boundary_fi,
     }
 
 

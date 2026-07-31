@@ -2,7 +2,7 @@
   "meta": {
     "schemaVersion": 1,
     "asOf": "2026-07-31",
-    "generatedAt": "2026-07-31T07:41:04Z",
+    "generatedAt": "2026-07-31T09:51:53Z",
     "modelReadiness": {
       "status": "not_estimate_ready",
       "comparableFullYearMarketValueDonors": 0,
@@ -434,6 +434,14 @@
       "sourceKind": "retail_listing",
       "pageUrl": "https://www.intaste.de/tobacco-vanilla-nikotinsalz-revoltage-liquid",
       "retrievedAt": "2026-07-22"
+    },
+    {
+      "sourceId": "CH-FEDERAL-COUNCIL-TOBACCO-MARKET-REPORT-2025",
+      "publisher": "Swiss Federal Council",
+      "sourceKind": "official",
+      "pageUrl": "https://cms.news.admin.ch/fileservice/sdweb-docs-prod-nsbcch-files/files/2025/12/19/0b6e6f46-9c83-4a23-85a9-eb891a093fe8.pdf",
+      "downloadUrl": "https://cms.news.admin.ch/fileservice/sdweb-docs-prod-nsbcch-files/files/2025/12/19/0b6e6f46-9c83-4a23-85a9-eb891a093fe8.pdf",
+      "retrievedAt": "2026-07-31"
     },
     {
       "sourceId": "US-FTC-E-CIGARETTE-REPORT-2021",
@@ -2297,6 +2305,30 @@
       "labelFi": "Korkea vähittäishintasyöte: Revoltage Tobacco Vanilla -nikotiinisuola 10 ml",
       "limitationEn": "One online retailer listing observed in 2026; nicotine-strength variant price, product-specific and not a representative market average.",
       "limitationFi": "Yhden verkkokaupan vuoden 2026 nikotiinivahvuusvariantin tuotekohtainen hintahavainto; ei edustava markkinakeskiarvo."
+    },
+    {
+      "observationId": "CH-2025-OFFICIAL-AVERAGE-PRICE-CHF-PER-ML",
+      "countryIso2": "CH",
+      "geography": "Switzerland",
+      "year": 2025,
+      "metric": "retail_price_input",
+      "value": 4.43,
+      "unit": "CHF_per_ml",
+      "currency": "CHF",
+      "period": "official_report_price_snapshot",
+      "evidenceStatus": "published_price_input",
+      "finality": "official_report_average_price",
+      "productScope": "nicotine_refill_liquids_and_disposable_e_cigarette_contents",
+      "marketValueBasis": "official_average_price_anchor_not_market_value",
+      "comparableMarketValue": false,
+      "atlasEstimate": false,
+      "sourceIds": [
+        "CH-FEDERAL-COUNCIL-TOBACCO-MARKET-REPORT-2025"
+      ],
+      "labelEn": "Official average-price anchor for refill liquid and disposable contents",
+      "labelFi": "Virallinen täyttönesteiden ja kertakäyttötuotteiden sisältöjen keskihinta-ankkuri",
+      "limitationEn": "The Federal Council report uses CHF 4.43/ml for both nicotine refill liquids and disposable contents. This is a report price snapshot, not a complete calendar-year market average, taxed volume, annual sales value or nationwide retail-market figure. It cannot be multiplied into a market total until a same-scope category volume is available.",
+      "limitationFi": "Liittoneuvoston raportti käyttää 4,43 CHF/ml -hintaa sekä nikotiinia sisältäville täyttönesteille että kertakäyttötuotteiden sisällöille. Kyse on raportin hintahetkikuvasta, ei koko kalenterivuoden markkinakeskiarvosta, verotetusta määrästä, vuotuisesta myyntiarvosta tai valtakunnallisesta vähittäismarkkinaluvusta. Sitä ei saa kertoa markkinasummaksi ennen saman rajauksen kategoriavolyymin saamista."
     },
     {
       "observationId": "US-2015-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES",

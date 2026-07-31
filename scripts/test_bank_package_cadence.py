@@ -21,9 +21,9 @@ PACKAGE_RELEASE = {
     "publishedAt": "2026-07-31T11:11:21+03:00",
 }
 LATER_SAME_DAY_RELEASE = {
-    "id": "2026-07-31-dashboard-only-test-release",
-    "version": "2026.07.31-38-test",
-    "publishedAt": "2026-07-31T13:15:00+03:00",
+    "id": "2026-07-31-switzerland-route-price-rights-v38",
+    "version": "2026.07.31-38",
+    "publishedAt": "2026-07-31T12:51:53+03:00",
 }
 
 

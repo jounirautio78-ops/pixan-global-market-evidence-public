@@ -158,7 +158,19 @@ class ReviewExperienceTests(unittest.TestCase):
         market["sources"][0]["sourceId"] = "REMOVED-REVIEWED-SOURCE"
         self.assert_data_rejected(
             market=market,
-            needle="exact 24-source set",
+            needle="exact 25-source set",
+        )
+
+    def test_rejects_swiss_price_promoted_to_market_value(self) -> None:
+        market = copy.deepcopy(self.market)
+        observation = next(
+            item for item in market["observations"]
+            if item["observationId"] == "CH-2025-OFFICIAL-AVERAGE-PRICE-CHF-PER-ML"
+        )
+        observation["comparableMarketValue"] = True
+        self.assert_data_rejected(
+            market=market,
+            needle="Swiss official price anchor differs",
         )
 
     def test_rejects_changed_poland_tax_bridge_value(self) -> None:

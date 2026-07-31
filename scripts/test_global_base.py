@@ -225,7 +225,7 @@ class MethodRouteControlTests(unittest.TestCase):
         expected_primary = {
             "AT": "statutory_annual_sales_reporting",
             "BE": "statutory_annual_sales_reporting",
-            "CH": "excise_to_volume_reconstruction",
+            "CH": "customs_trade_proxy",
             "LU": "excise_to_volume_reconstruction",
             "NO": "regulated_supply_plus_enforcement",
         }
@@ -238,6 +238,9 @@ class MethodRouteControlTests(unittest.TestCase):
             self.assertFalse(route["eligibleForGlobalRollup"])
             self.assertFalse(route["donorAccepted"])
             self.assertIn("FIVE_COUNTRY_SPRINT", route["provenanceBasisIds"])
+        self.assertEqual(routes["CH"]["transactionStage"], "border_trade")
+        self.assertIn("commercial-use permission", routes["CH"]["boundaryEn"])
+        self.assertIn("CHF 4.43/ml", routes["CH"]["boundaryEn"])
 
     def test_rejects_method_that_claims_standalone_retail_value(self) -> None:
         mutated = copy.deepcopy(self.method_routes)
