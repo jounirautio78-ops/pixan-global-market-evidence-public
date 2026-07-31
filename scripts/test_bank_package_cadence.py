@@ -4,14 +4,31 @@
 from __future__ import annotations
 
 import copy
+import json
 import unittest
+from unittest.mock import patch
+
+from openpyxl import Workbook
 
 try:
-    from validate_bank_package import EXPECTED_PACKAGE_CADENCE, validate_daily_package_snapshot
+    from validate_bank_package import (
+        EUR_EQUIVALENT_HEADERS,
+        EXPECTED_PACKAGE_CADENCE,
+        LOCK_PATH,
+        MANIFEST_PATH,
+        validate_daily_package_snapshot,
+        validate_eur_equivalent_sheet,
+        validate_release_lock,
+    )
 except ModuleNotFoundError:
     from scripts.validate_bank_package import (
+        EUR_EQUIVALENT_HEADERS,
         EXPECTED_PACKAGE_CADENCE,
+        LOCK_PATH,
+        MANIFEST_PATH,
         validate_daily_package_snapshot,
+        validate_eur_equivalent_sheet,
+        validate_release_lock,
     )
 
 
@@ -20,10 +37,15 @@ PACKAGE_RELEASE = {
     "version": "2026.07.31-37",
     "publishedAt": "2026-07-31T11:11:21+03:00",
 }
-LATER_SAME_DAY_RELEASE = {
+INTERMEDIATE_SAME_DAY_RELEASE = {
     "id": "2026-07-31-switzerland-route-price-rights-v38",
     "version": "2026.07.31-38",
     "publishedAt": "2026-07-31T12:51:53+03:00",
+}
+LATER_SAME_DAY_RELEASE = {
+    "id": "2026-07-31-four-country-donor-closure-v39",
+    "version": "2026.07.31-39",
+    "publishedAt": "2026-07-31T14:48:53+03:00",
 }
 
 
@@ -43,6 +65,57 @@ def changelog(releases: list[dict[str, str]] | None = None) -> dict:
 
 
 class DailyPackageSnapshotTests(unittest.TestCase):
+    @staticmethod
+    def reviewed_manifest_and_lock() -> tuple[dict, dict]:
+        return (
+            json.loads(MANIFEST_PATH.read_text(encoding="utf-8")),
+            json.loads(LOCK_PATH.read_text(encoding="utf-8")),
+        )
+
+    @staticmethod
+    def locked_snapshot_workbook() -> Workbook:
+        workbook = Workbook()
+        sheet = workbook.active
+        sheet.title = "EUR equivalents"
+        sheet.append(EUR_EQUIVALENT_HEADERS["en"])
+        for sequence in range(36):
+            row = sequence + 2
+            sheet.append([
+                "market_observation",
+                f"CAD-{sequence}",
+                "metric",
+                "Canada",
+                2024,
+                "calendar_year",
+                100,
+                "CAD",
+                1.5,
+                f"=G{row}/I{row}",
+                "ECB-EXR-A-CAD-EUR-SP00-A-2024",
+                "https://data-api.ecb.europa.eu/service/data/EXR/A.CAD.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata",
+                "computed",
+                "original_amount_divided_by_ecb_annual_average",
+            ])
+        for sequence in range(8):
+            row = sequence + 38
+            sheet.append([
+                "market_observation",
+                f"EUR-{sequence}",
+                "metric",
+                "Germany",
+                2024,
+                "calendar_year",
+                100,
+                "EUR",
+                1,
+                f"=G{row}",
+                "EUR-IDENTITY",
+                "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+                "already_eur",
+                "original_currency_already_eur",
+            ])
+        return workbook
+
     def test_accepts_current_combined_release_and_requires_input_hashes(self) -> None:
         errors: list[str] = []
         self.assertFalse(validate_daily_package_snapshot(manifest(), changelog(), errors))
@@ -53,7 +126,11 @@ class DailyPackageSnapshotTests(unittest.TestCase):
         self.assertTrue(
             validate_daily_package_snapshot(
                 manifest(),
-                changelog([LATER_SAME_DAY_RELEASE, PACKAGE_RELEASE]),
+                changelog([
+                    LATER_SAME_DAY_RELEASE,
+                    INTERMEDIATE_SAME_DAY_RELEASE,
+                    PACKAGE_RELEASE,
+                ]),
                 errors,
             )
         )
@@ -100,6 +177,56 @@ class DailyPackageSnapshotTests(unittest.TestCase):
             )
         )
         self.assertEqual(errors, [])
+
+    def test_locked_eur_sheet_is_validated_as_its_own_snapshot(self) -> None:
+        workbook = self.locked_snapshot_workbook()
+        errors: list[str] = []
+        validate_eur_equivalent_sheet(
+            workbook,
+            "en",
+            [{"not": "the locked snapshot"}] * 55,
+            False,
+            "locked.xlsx",
+            errors,
+        )
+        self.assertEqual(errors, [])
+
+    def test_locked_eur_sheet_still_fails_closed_on_formula_drift(self) -> None:
+        workbook = self.locked_snapshot_workbook()
+        workbook["EUR equivalents"]["J2"] = "=G2"
+        errors: list[str] = []
+        validate_eur_equivalent_sheet(
+            workbook,
+            "en",
+            [],
+            False,
+            "locked.xlsx",
+            errors,
+        )
+        self.assertTrue(any("full-precision formula" in error for error in errors), errors)
+
+    def test_release_lock_accepts_the_reviewed_snapshot(self) -> None:
+        manifest_snapshot, release_lock = self.reviewed_manifest_and_lock()
+        errors: list[str] = []
+        self.assertTrue(validate_release_lock(manifest_snapshot, release_lock, errors))
+        self.assertEqual(errors, [])
+
+    def test_release_lock_rejects_a_wrong_reviewed_hash(self) -> None:
+        manifest_snapshot, release_lock = self.reviewed_manifest_and_lock()
+        errors: list[str] = []
+        module_name = validate_release_lock.__module__
+        with patch(f"{module_name}.EXPECTED_LOCK_SHA256", "0" * 64):
+            self.assertFalse(validate_release_lock(manifest_snapshot, release_lock, errors))
+        self.assertTrue(any("lock SHA-256" in error for error in errors), errors)
+
+    def test_release_lock_rejects_input_and_artifact_drift(self) -> None:
+        manifest_snapshot, release_lock = self.reviewed_manifest_and_lock()
+        release_lock["reviewedInputs"][0]["sha256"] = "0" * 64
+        release_lock["artifacts"][0]["bytes"] += 1
+        errors: list[str] = []
+        self.assertFalse(validate_release_lock(manifest_snapshot, release_lock, errors))
+        self.assertTrue(any("reviewedInputs" in error for error in errors), errors)
+        self.assertTrue(any("artifacts differ" in error for error in errors), errors)
 
 
 if __name__ == "__main__":

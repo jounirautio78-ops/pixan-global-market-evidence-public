@@ -158,7 +158,7 @@ class ReviewExperienceTests(unittest.TestCase):
         market["sources"][0]["sourceId"] = "REMOVED-REVIEWED-SOURCE"
         self.assert_data_rejected(
             market=market,
-            needle="exact 25-source set",
+            needle="exact 40-source set",
         )
 
     def test_rejects_swiss_price_promoted_to_market_value(self) -> None:

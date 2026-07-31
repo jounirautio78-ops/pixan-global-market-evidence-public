@@ -49,7 +49,7 @@ it has not been sent.
 | D2 Consumer retail transaction | Passed | The candidate uses only AIS and AVP specialist-retailer `Total sales` values. |
 | D3 Devices and consumables | Passed | The public deterministic taxonomy separately quantifies consumables at NZD 189,402,451.96, devices/hardware at NZD 84,709,409.85 and mixed systems at NZD 68,548.40; all three are included in the NZD 274,180,410.21 vaping subtotal. |
 | D4 Adjacent products controlled | Passed | Herbal-smoking and smokeless-tobacco rows are classified first and excluded at NZD 2,137,085.24. A further NZD 4,367,017.37 of unresolved product type is disclosed and excluded rather than guessed into vaping. |
-| D5 National channel coverage | Failed | The Ministry says its at-least NZD 280 million estimate is based only on incomplete specialist-vape-retailer data. RPS general-retailer files publish quantity but no observed sales value. |
+| D5 National channel coverage | Failed | The Ministry says its at-least NZD 280 million estimate is based only on incomplete specialist-vape-retailer data. RPS general-retailer files publish quantity but no observed sales value. The 2024 policy record identifies more than 7,000 physical sellers, but RPS legal-entity counts and specialist store/site counts are incompatible without an entity-location-date bridge. |
 | D6 No supply-stage double counting | Passed | AIS and AVP contribute all NZD 280,684,512.81 of observed `Total sales`; the published Notifier and RPS workbooks contribute NZD 0.00 because no numeric `Total sales` cells are present. Notifier quantities and modelled RPS values are not added. |
 | D7 Method and missingness documented | Passed | The public page's quality warning, file manifest and hashes, parser, row counts, unresolved scope, repeated-row sensitivity and return-class totals are all disclosed. |
 | D8 Currency and tax basis | Open | Currency is NZD, but neither the official page nor the reviewed annual-return guide defines whether `total net sales revenue` includes or excludes GST. No 15% adjustment is made. |
@@ -110,6 +110,25 @@ codes in the prior aggregate check: 1,924 RPS, 919 AVP, 82 AIS and 62 Notifier.
 The **138-return difference is unresolved**. It may not be interpreted as a
 specific kind of nil or missing return without Ministry confirmation.
 
+## Store, site and legal-entity denominator control
+
+The Ministry's 11 June 2024 regulatory impact statement records at least
+**6,749 physical vape sellers** in May 2023: 989 specialist vape retailers and
+at least 5,760 general vape retailers. By May 2024 it records **1,280 specialist
+retailers**, more than **7,000 physical vape sellers** in total and **146
+specialist websites**. A separate 23 May 2024 aide-memo describes an earlier
+specialist-approval interpretation problem potentially affecting about **117
+companies operating 546 stores**.
+
+These figures strengthen the D5 denominator map but do not close D5. The units
+are not interchangeable: RPS reporting may cover a legal entity with multiple
+stores, whereas AVP and AIS specialist reporting is tied to a physical store or
+website. Return, legal-entity, store and site counts must not be divided into a
+coverage rate until entity-store mapping, dates, openings and closures, and
+approval corrections have been reconciled. No such ratio is used here or in
+the public donor decision. Further detail is in
+[`DONOR_CLOSURE_SPRINT_CA_DE_NZ_PL_2026-07-31.md`](DONOR_CLOSURE_SPRINT_CA_DE_NZ_PL_2026-07-31.md).
+
 ## Reproduction
 
 Download the 29 official workbooks listed in the manifest into one local
@@ -151,13 +170,17 @@ Do not claim:
 - that exact repeated rows are proven duplicate errors;
 - that GST is included or excluded;
 - that the 138-return reconciliation difference has a known cause;
+- that return counts divided by store, website or outlet counts measure
+  reporting or market coverage;
 - that New Zealand supports a public global market total.
 
 ## Exact evidence needed to close the remaining gates
 
 1. **D5 — national channel coverage:** an official national general-retail
    value or rights-cleared POS aggregate, plus expected-filer, received-return,
-   nil-return, late-return and usable-return counts by class.
+   nil-return, late-return and usable-return counts by class, with legal
+   entities aligned to stores/sites, dates, openings, closures and approval
+   corrections.
 2. **D8 — tax basis:** Ministry confirmation whether AIS/AVP `total net sales
    revenue` is GST-inclusive or GST-exclusive and how discounts, refunds and
    returns are treated.
@@ -173,6 +196,11 @@ Do not claim:
   https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return
 - Annual-return user guide used for return-role definitions:
   https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf
+- Regulatory impact statement on vape-product visibility and specialist-store
+  proximity:
+  https://www.health.govt.nz/system/files/2024-08/RIS-visibility-of-vape-products-and-proximity-of-Specialist-Vape-Retailers-Redacted.pdf
+- Aide-memo on specialist-vape-retailer approvals:
+  https://www.health.govt.nz/system/files/2024-10/H2024042044%20AM%20-%20Specialist%20Vape%20Retailer%20Approvals.pdf
 - Smokefree Environments and Regulated Products Regulations, version as at
   18 December 2024:
   https://legislation.govt.nz/secondary-legislation/pco-drafted/2021/204/en/2024-12-18.pdf

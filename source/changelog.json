@@ -3,6 +3,35 @@
   "asOf": "2026-07-31",
   "releases": [
     {
+      "id": "2026-07-31-four-country-donor-closure-v39",
+      "version": "2026.07.31-39",
+      "publishedAt": "2026-07-31T14:48:53+03:00",
+      "titleEn": "Four-country donor-closure evidence sprint",
+      "titleFi": "Neljän maan donor-evidenssin sulkemissprintti",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added 27 bounded observations and 15 source records: Canada's weighted CTNS specialist-channel control, Germany's CPI expenditure weights and year-specific broad WZ 47.26 supplies-and-services turnover envelopes, Poland's official disposable-unit, excise, customs and revision controls plus a historical institutional benchmark, and New Zealand's retailer-denominator documents.",
+          "textFi": "Lisättiin 27 rajattua havaintoa ja 15 lähdetietuetta: Kanadan painotettu CTNS-erikoiskanavakontrolli, Saksan CPI-kulutuspainot ja vuosikohtaiset laajat WZ 47.26 -tavaroiden ja palvelujen liikevaihtokehykset, Puolan viralliset kertakäyttötuote-, valmistevero-, tulli- ja revisiokontrollit ja historiallinen institutionaalinen vertailukohta sekä Uuden-Seelannin jälleenmyyjänimittäjän asiakirjat."
+        },
+        {
+          "category": "method",
+          "textEn": "Canada's 2022 CTNS shows an in-person vape shop as a usual source for 62.943% of device users and 62.996% of liquid users with valid answers, supporting potential channel materiality without establishing monetary materiality or missing 2024 sales. Precision is withheld because the public PUMF and bootstrap ID sets do not match. Poland's two official 2023 liquid-volume releases differ by 78.200 million ml, or 9.71% of the later figure; both remain visible and unreconciled.",
+          "textFi": "Kanadan vuoden 2022 CTNS-aineistossa fyysinen vape-erikoisliike on tavallinen hankintalähde 62,943 prosentille laitekäyttäjistä ja 62,996 prosentille nestekäyttäjistä, joilla on kelvollinen vastaus. Tämä tukee kanavan mahdollista olennaisuutta mutta ei osoita rahamääräistä olennaisuutta tai puuttuvaa vuoden 2024 myyntiä. Tarkkuusluvut pidetään pois, koska julkisen PUMF- ja bootstrap-aineiston tunnistejoukot eivät täsmää. Puolan kaksi virallista vuoden 2023 nestetilavuutta eroavat 78,200 miljoonaa ml eli 9,71 % myöhemmästä luvusta; molemmat pidetään näkyvillä täsmäyttämättöminä."
+        },
+        {
+          "category": "diligence",
+          "textEn": "New Zealand's official retailer papers add store, site and legal-entity denominator controls; those units are deliberately not divided into a coverage rate. Germany's new measures remain structural or broad-channel controls, not e-cigarette-only annual retail sales. No donor decision changed.",
+          "textFi": "Uuden-Seelannin viralliset jälleenmyyjäasiakirjat lisäävät myymälä-, sivusto- ja oikeushenkilötason nimittäjäkontrollit; näitä yksiköitä ei tarkoituksella jaeta kattavuusasteeksi. Saksan uudet mittarit pysyvät rakenne- tai laajan kanavan kontrolleina, eivät sähkötupakkaan rajattuina vuotuisina vähittäismyynteinä. Yksikään donor-päätös ei muuttunut."
+        },
+        {
+          "category": "usability",
+          "textEn": "Published dashboard v39 with 112 observations from 40 sources. The 94 official observations split into 58 market measures and 36 Swedish registration-structure records. The six downloadable lender-package files remain the reviewed v37 daily snapshot and were not rebuilt. The donor gate remains 0/3, global retail value remains null/not_computed and Euromonitor remains paused with no purchase, fee, order, licence or commitment authorised.",
+          "textFi": "Julkaistiin dashboard v39, jossa on 112 havaintoa 40 lähteestä. 94 virallista havaintoa jakautuvat 58 markkinamittariin ja 36 Ruotsin rekisterirakennetietueeseen. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v37-päiväsnapshotina eikä niitä rakennettu uudelleen. Donor-portti pysyy 0/3:ssa, maailman vähittäisarvo null/not_computed-tilassa ja Euromonitor pausella ilman valtuutettua ostoa, maksua, tilausta, lisenssiä tai sitoumusta."
+        }
+      ]
+    },
+    {
       "id": "2026-07-31-switzerland-route-price-rights-v38",
       "version": "2026.07.31-38",
       "publishedAt": "2026-07-31T12:51:53+03:00",
