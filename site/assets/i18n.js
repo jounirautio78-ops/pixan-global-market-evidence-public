@@ -3,32 +3,32 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V38 = Object.freeze({
-    id: "2026-07-31-switzerland-route-price-rights-v38",
-    version: "2026.07.31-38",
-    publishedAt: "2026-07-31T12:51:53+03:00",
-    titleEn: "Switzerland official route, price anchor and reuse-rights gate",
-    titleFi: "Sveitsin viranomaisreitti, hinta-ankkuri ja käyttöoikeusportti",
+  const UI_RELEASE_V39 = Object.freeze({
+    id: "2026-07-31-four-country-donor-closure-v39",
+    version: "2026.07.31-39",
+    publishedAt: "2026-07-31T14:48:53+03:00",
+    titleEn: "Four-country donor-closure evidence sprint",
+    titleFi: "Neljän maan donor-evidenssin sulkemissprintti",
     items: Object.freeze([
       Object.freeze({
         category: "market_data",
-        textEn: "Switzerland adds one official CHF 4.43/ml price anchor for nicotine refill liquid and disposable contents. It is a price input—not annual sales, taxed volume or a retail-market value—and is not multiplied into a market total.",
-        textFi: "Sveitsille lisättiin yksi virallinen 4,43 CHF/ml -hinta-ankkuri nikotiinia sisältäville täyttönesteille ja kertakäyttötuotteiden sisällöille. Se on hintasyöte — ei vuotuinen myynti, verotettu määrä tai vähittäismarkkina-arvo — eikä sitä kerrota markkinasummaksi."
+        textEn: "Added 27 bounded observations and 15 source records across Canada, Germany, Poland and New Zealand. Each value remains labelled by transaction stage, product scope and evidential role.",
+        textFi: "Lisättiin 27 rajattua havaintoa ja 15 lähdetietuetta Kanadasta, Saksasta, Puolasta ja Uudesta-Seelannista. Jokainen arvo säilyttää tapahtumavaiheen, tuoterajauksen ja evidenssiroolin."
       }),
       Object.freeze({
         category: "method",
-        textEn: "FOCBS identified SwissImpex, Tares and current product keys but supplied no annual taxed millilitres, category excise or nationwide retail sales. Customs evidence stays at the border stage, and derived trade totals are withheld pending commercial-use permission.",
-        textFi: "FOCBS tunnisti SwissImpexin, Taresin ja nykyiset tuoteavaimet mutta ei toimittanut vuotuisia verotettuja millilitroja, kategoriakohtaista valmisteveroa tai valtakunnallista vähittäismyyntiä. Tullievidenssi pysyy rajavaiheessa, ja johdetut kauppasummat pidetään pois julkisesta käytöstä kaupallisen käyttöluvan varmistamiseen asti."
+        textEn: "Canada's ~63% CTNS point shares support potential specialist-channel materiality but do not quantify sales; precision is withheld because the public PUMF and bootstrap ID sets differ. Poland's two official 2023 liquid volumes remain visibly unreconciled at a 9.71% difference.",
+        textFi: "Kanadan noin 63 prosentin CTNS-pisteosuudet tukevat erikoiskanavan mahdollista olennaisuutta mutta eivät mittaa myyntiä; tarkkuusluvut pidetään pois, koska julkisen PUMF- ja bootstrap-aineiston tunnistejoukot eroavat. Puolan kaksi virallista vuoden 2023 nestemäärää pysyvät näkyvästi täsmäyttämättöminä 9,71 prosentin erolla."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "The live dashboard now contains 85 observations from 25 sources. Official observations remain 75, with 39 market measures and 36 Swedish structure records; the donor gate remains 0/3 and global retail value remains null/not_computed.",
-        textFi: "Live-dashboard sisältää nyt 85 havaintoa 25 lähteestä. Virallisia havaintoja on edelleen 75: 39 markkinamittaria ja 36 Ruotsin rakennetietuetta; donor-portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
+        textEn: "The live dashboard now contains 112 observations from 40 sources. The 94 official observations comprise 58 market measures and 36 Swedish structure records; no donor decision changed, the gate remains 0/3 and global retail value remains null/not_computed.",
+        textFi: "Live-dashboard sisältää nyt 112 havaintoa 40 lähteestä. 94 virallista havaintoa koostuvat 58 markkinamittarista ja 36 Ruotsin rakennetietueesta; yksikään donor-päätös ei muuttunut, portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "The dashboard is v38. The six downloadable lender-package files remain the reviewed v37 daily snapshot and were not rebuilt; the package is generated at most once per Asia/Nicosia calendar day. Euromonitor remains paused and no purchase, fee, order, licence or commitment is authorised.",
-        textFi: "Dashboard on v38. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v37-päiväsnapshotina eikä niitä rakennettu uudelleen; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        textEn: "The dashboard is v39. The six downloadable lender-package files remain the reviewed v37 daily snapshot and were not rebuilt; the package is generated at most once per Asia/Nicosia calendar day. Euromonitor remains paused and no purchase, fee, order, licence or commitment is authorised.",
+        textFi: "Dashboard on v39. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v37-päiväsnapshotina eikä niitä rakennettu uudelleen; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
       })
     ])
   });
@@ -753,7 +753,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V38;
+  window.PixanUiRelease = UI_RELEASE_V39;
 
   init();
 })();

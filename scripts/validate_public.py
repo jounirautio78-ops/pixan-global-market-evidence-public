@@ -1265,8 +1265,8 @@ def validate_market_values(
     if not isinstance(source_rows, list) or not source_rows:
         errors.append("market-observations.json sources must be a non-empty array")
         source_rows = []
-    if len(source_rows) != 25:
-        errors.append("market-observations.json must contain exactly 25 reviewed market sources")
+    if len(source_rows) != 40:
+        errors.append("market-observations.json must contain exactly 40 reviewed market sources")
     expected_source_urls = {
         "CA-HC-VAPING-SALES-2024": (
             "official",
@@ -1283,10 +1283,50 @@ def validate_market_values(
             "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2010007101",
             "https://www150.statcan.gc.ca/n1/en/tbl/csv/20100071-eng.zip",
         ),
+        "CA-STATCAN-CTNS-2022-PUMF": (
+            "official",
+            "https://www150.statcan.gc.ca/n1/pub/13-25-0001/132500012022001-eng.htm",
+            "https://www150.statcan.gc.ca/n1/pub/13-25-0001/2022001/2022/CSV.zip",
+        ),
         "DE-DESTATIS-73411-0003": (
             "official",
             "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003",
             "https://genesis.destatis.de/genesisWS/downloads/00/tables/73411-0003_00.csv",
+        ),
+        "DE-DESTATIS-CPI-WEIGHTS-2020": (
+            "official",
+            "https://www.destatis.de/EN/Themes/Economy/Prices/Consumer-Price-Index/Publications/Downloads-Consumer-Price-Indices/weighting-pattern-2020.pdf?__blob=publicationFile&v=2",
+            "https://www.destatis.de/EN/Themes/Economy/Prices/Consumer-Price-Index/Publications/Downloads-Consumer-Price-Indices/weighting-pattern-2020.pdf?__blob=publicationFile&v=2",
+        ),
+        "DE-DESTATIS-WZ4726-TURNOVER-2019": (
+            "official",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/umsatzsteuerstatistik-zeitreihe-5733103197005.xlsx?__blob=publicationFile&v=5",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/umsatzsteuerstatistik-zeitreihe-5733103197005.xlsx?__blob=publicationFile&v=5",
+        ),
+        "DE-DESTATIS-WZ4726-TURNOVER-2020": (
+            "official",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/umsatzsteuer-2140810207004.pdf?__blob=publicationFile",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/umsatzsteuer-2140810207004.pdf?__blob=publicationFile",
+        ),
+        "DE-DESTATIS-WZ4726-TURNOVER-2021": (
+            "official",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/statistischer-bericht-umsatzsteuer-2140810217005.xlsx?__blob=publicationFile&v=3",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/statistischer-bericht-umsatzsteuer-2140810217005.xlsx?__blob=publicationFile&v=3",
+        ),
+        "DE-DESTATIS-WZ4726-TURNOVER-2022": (
+            "official",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/statistischer-bericht-umsatzsteuer-2140810227005.xlsx?__blob=publicationFile&v=2",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/statistischer-bericht-umsatzsteuer-2140810227005.xlsx?__blob=publicationFile&v=2",
+        ),
+        "DE-DESTATIS-WZ4726-TURNOVER-2023": (
+            "official",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/statistischer-bericht-umsatzsteuer-2140810237005.xlsx?__blob=publicationFile&v=5",
+            "https://www.destatis.de/DE/Themen/Staat/Steuern/Umsatzsteuer/Publikationen/Downloads-Umsatzsteuern/statistischer-bericht-umsatzsteuer-2140810237005.xlsx?__blob=publicationFile&v=5",
+        ),
+        "DE-DESTATIS-WZ4726-TURNOVER-2024": (
+            "official",
+            "https://genesis.destatis.de/datenbank/online/statistic/73311/table/73311-0002/",
+            "https://genesis.destatis.de/genesisWS/downloads/00/tables/73311-0002_00.csv",
         ),
         "FI-TAX-EXCISE-VVT-010-2025": (
             "official",
@@ -1302,6 +1342,31 @@ def validate_market_values(
             "official",
             "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf",
             None,
+        ),
+        "PL-SEJM-I01345-O1": (
+            "official",
+            "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTD2VJJ5/i01345-o1.pdf",
+            None,
+        ),
+        "PL-SEJM-I01344-O1": (
+            "official",
+            "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTD2VJJ4/i01344-o1.pdf",
+            None,
+        ),
+        "PL-SEJM-I02408-O1": (
+            "official",
+            "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTD4DHUB/i02408-o1.pdf",
+            None,
+        ),
+        "PL-SEJM-I18182-O1": (
+            "official",
+            "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDW7AZK/i18182-o1.pdf",
+            None,
+        ),
+        "PL-UOKIK-DKK-211-2015": (
+            "official_secondary",
+            "https://decyzje.uokik.gov.pl/bp/dec_prez.nsf/43104c28a7a1be23c1257eac006d8dd4/7a82fa564deb307ac1257f370063717c/%24FILE/DKK1_421_48_15_MAB_BAT_CHIC_decyzja_BIP.pdf",
+            "https://decyzje.uokik.gov.pl/bp/dec_prez.nsf/43104c28a7a1be23c1257eac006d8dd4/7a82fa564deb307ac1257f370063717c/%24FILE/DKK1_421_48_15_MAB_BAT_CHIC_decyzja_BIP.pdf",
         ),
         "PL-MF-EXCISE-RATES-2025": (
             "official",
@@ -1342,6 +1407,16 @@ def validate_market_values(
             "official",
             "https://www.health.govt.nz/system/files/2024-12/2024-annual-returns-user-guide.pdf",
             None,
+        ),
+        "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024": (
+            "official",
+            "https://www.health.govt.nz/system/files/2024-08/RIS-visibility-of-vape-products-and-proximity-of-Specialist-Vape-Retailers-Redacted.pdf",
+            "https://www.health.govt.nz/system/files/2024-08/RIS-visibility-of-vape-products-and-proximity-of-Specialist-Vape-Retailers-Redacted.pdf",
+        ),
+        "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024": (
+            "official",
+            "https://www.health.govt.nz/system/files/2024-10/H2024042044%20AM%20-%20Specialist%20Vape%20Retailer%20Approvals.pdf",
+            "https://www.health.govt.nz/system/files/2024-10/H2024042044%20AM%20-%20Specialist%20Vape%20Retailer%20Approvals.pdf",
         ),
         "EU-EC-SWD-2025-560": (
             "official_secondary",
@@ -1441,8 +1516,8 @@ def validate_market_values(
     if not isinstance(observations, list) or not observations:
         errors.append("market-observations.json observations must be a non-empty array")
         observations = []
-    if len(observations) != 85:
-        errors.append("market-observations.json must contain exactly 85 reviewed observations")
+    if len(observations) != 112:
+        errors.append("market-observations.json must contain exactly 112 reviewed observations")
     observations_by_id: dict[str, dict[str, Any]] = {}
     expected_observations = {
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
@@ -1455,6 +1530,8 @@ def validate_market_values(
         "CA-2023-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2023, "statcan_rcs_vaping_retail_sales", 1530758000, "CAD", "official_table_derived", "quarterly_sum_status_E_D_E_E", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
         "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2024, "statcan_rcs_vaping_retail_sales", 1219160000, "CAD", "official_table_derived", "quarterly_sum_all_quarters_status_E", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
         "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES": ("CA", 2025, "statcan_rcs_vaping_retail_sales", 1266567000, "CAD", "official_table_derived", "quarterly_sum_all_quarters_status_E", "consumer_retail_sales_current_cad_quarterly_sum_not_accepted_donor", False),
+        "CA-2022-CTNS-DEVICE-VAPE-SHOP-SHARE": ("CA", 2022, "usual_acquisition_source_vape_shop_share", 62.9433183834, "%", "derived_official_files", "weighted_pumf_point_estimate_precision_withheld_id_set_mismatch", "official_consumer_survey_channel_share_not_expenditure_or_retail_sales", False),
+        "CA-2022-CTNS-LIQUID-VAPE-SHOP-SHARE": ("CA", 2022, "usual_acquisition_source_vape_shop_share", 62.9955359395, "%", "derived_official_files", "weighted_pumf_point_estimate_precision_withheld_id_set_mismatch", "official_consumer_survey_channel_share_not_expenditure_or_retail_sales", False),
         "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE": ("NZ", 2022, "official_reported_revenue_mixed_supply_stages", 404000000, "NZD", "official_provisional", "official_approximation_with_significant_quality_warning", "mixed_supply_stage_revenue_incomplete_not_retail_market_value", False),
         "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND": ("NZ", 2023, "official_reported_revenue_mixed_supply_stages", 374000000, "NZD", "official_provisional", "official_lower_bound_with_quality_warning", "mixed_supply_stage_revenue_incomplete_not_retail_market_value", False),
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": ("NZ", 2024, "official_specialist_retail_sales_lower_bound", 280000000, "NZD", "official_provisional", "official_lower_bound_with_quality_warning", "specialist_vape_retailer_sales_incomplete_lower_bound_mixed_notifiable_products", False),
@@ -1467,17 +1544,42 @@ def validate_market_values(
         "DE-2024-SUBSTITUTES-EXCISE-RECEIPTS": ("DE", 2024, "substitutes_excise_receipts", 266000000, "EUR", "official_observed", "final", "excise_receipts_not_retail_market_value", False),
         "DE-2025-TAXED-LIQUID-VOLUME-L": ("DE", 2025, "taxed_substitutes_volume", 1518000, "litre", "official_provisional", "provisional", "taxed_physical_volume_not_retail_market_value", False),
         "DE-2025-SUBSTITUTES-EXCISE-RECEIPTS": ("DE", 2025, "substitutes_excise_receipts", 404000000, "EUR", "official_provisional", "provisional", "excise_receipts_not_retail_market_value", False),
+        "DE-2020-CPI-WEIGHT-E-CIGARETTE-DEVICES-PER-MILLE": ("DE", 2020, "cpi_household_expenditure_weight", 0.05, "per_mille", "official_observed", "published_base_year_weight", "official_cpi_expenditure_structure_weight_not_annual_sales_value", False),
+        "DE-2020-CPI-WEIGHT-E-LIQUID-TOBACCO-STICKS-PER-MILLE": ("DE", 2020, "cpi_household_expenditure_weight", 0.16, "per_mille", "official_observed", "published_base_year_weight", "official_cpi_expenditure_structure_weight_mixed_liquid_and_tobacco_sticks_not_annual_sales_value", False),
+        "DE-2019-WZ4726-TAXABLE-TURNOVER-EUR": ("DE", 2019, "wz4726_tobacco_specialist_taxable_supplies_and_services_turnover", 2247267035, "EUR", "official_table_derived", "official_table_thousand_eur_multiplied_by_1000", "enterprise_tax_return_supplies_and_services_turnover_broad_tobacco_specialist_channel_not_vape_retail_value", False),
+        "DE-2020-WZ4726-TAXABLE-TURNOVER-EUR": ("DE", 2020, "wz4726_tobacco_specialist_taxable_supplies_and_services_turnover", 2444948000, "EUR", "official_table_derived", "official_table_thousand_eur_multiplied_by_1000", "enterprise_tax_return_supplies_and_services_turnover_broad_tobacco_specialist_channel_not_vape_retail_value", False),
+        "DE-2021-WZ4726-TAXABLE-TURNOVER-EUR": ("DE", 2021, "wz4726_tobacco_specialist_taxable_supplies_and_services_turnover", 2325648577, "EUR", "official_table_derived", "official_table_thousand_eur_multiplied_by_1000", "enterprise_tax_return_supplies_and_services_turnover_broad_tobacco_specialist_channel_not_vape_retail_value", False),
+        "DE-2022-WZ4726-TAXABLE-TURNOVER-EUR": ("DE", 2022, "wz4726_tobacco_specialist_taxable_supplies_and_services_turnover", 2510888578, "EUR", "official_table_derived", "official_table_thousand_eur_multiplied_by_1000", "enterprise_tax_return_supplies_and_services_turnover_broad_tobacco_specialist_channel_not_vape_retail_value", False),
+        "DE-2023-WZ4726-TAXABLE-TURNOVER-EUR": ("DE", 2023, "wz4726_tobacco_specialist_taxable_supplies_and_services_turnover", 2581608198, "EUR", "official_table_derived", "official_table_thousand_eur_multiplied_by_1000", "enterprise_tax_return_supplies_and_services_turnover_broad_tobacco_specialist_channel_not_vape_retail_value", False),
+        "DE-2024-WZ4726-TAXABLE-TURNOVER-EUR": ("DE", 2024, "wz4726_tobacco_specialist_taxable_supplies_and_services_turnover", 2687776000, "EUR", "official_table_derived", "official_table_thousand_eur_multiplied_by_1000", "enterprise_tax_return_supplies_and_services_turnover_broad_tobacco_specialist_channel_not_vape_retail_value", False),
         "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("FI", 2025, "nicotine_e_liquid_taxed_volume", 11801.062, "litre", "official_observed", "published", "taxed_physical_volume_not_retail_market_value", False),
         "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("FI", 2025, "nicotine_e_liquid_excise_receipts", 3540319, "EUR", "official_observed", "published", "excise_receipts_not_retail_market_value", False),
         "PL-2020-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2020, "reported_e_liquid_volume", 1451529, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
         "PL-2021-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2021, "reported_e_liquid_volume", 277265, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
         "PL-2022-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2022, "reported_e_liquid_volume", 416088, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
         "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("PL", 2023, "reported_e_liquid_volume", 805441, "litre", "official_observed", "official_response", "official_reported_domestic_sales_intra_eu_acquisition_and_import_volume_not_retail_market_value", False),
-        "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("PL", 2025, "e_liquid_excise_amount", 993100000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
+        "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("PL", 2025, "e_liquid_excise_receipts", 993100000, "PLN", "official_observed", "official_full_year_budget_execution", "excise_receipts_not_retail_market_value", False),
         "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("PL", 2025, "vaporisation_device_broad_group_excise_amount", 175300000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
         "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("PL", 2025, "vaporisation_device_component_sets_broad_group_excise_amount", 2500000, "PLN", "official_observed", "official_response", "official_tax_amount_not_retail_market_value", False),
         "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaporisation_device_broad_group_excise_backsolved_units", 4382500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
         "PL-2025-VAPING-COMPONENT-SETS-EXCISE-BACKSOLVED-UNITS": ("PL", 2025, "vaporisation_device_component_sets_broad_group_excise_backsolved_units", 62500, "unit", "official_table_derived", "tax_receipts_divided_by_statutory_rate", "derived_taxed_units_not_sales_or_retail_market_value", False),
+        "PL-2022-DISPOSABLE-E-CIGARETTE-REPORTED-SALES-UNITS": ("PL", 2022, "disposable_e_cigarette_reported_sales_units", 19525600, "unit", "official_observed", "official_response", "producer_importer_reported_sales_quantity_transaction_stage_unspecified_not_market_value", False),
+        "PL-2021-E-LIQUID-EXCISE-RECEIPTS": ("PL", 2021, "e_liquid_excise_receipts", 179500000, "PLN", "official_observed", "official_response", "excise_receipts_not_retail_market_value", False),
+        "PL-2022-E-LIQUID-EXCISE-RECEIPTS": ("PL", 2022, "e_liquid_excise_receipts", 229900000, "PLN", "official_observed", "official_full_year_budget_execution", "excise_receipts_not_retail_market_value", False),
+        "PL-2023-E-LIQUID-EXCISE-RECEIPTS": ("PL", 2023, "e_liquid_excise_receipts", 443600000, "PLN", "official_observed", "official_full_year_budget_execution", "excise_receipts_not_retail_market_value", False),
+        "PL-2024-E-LIQUID-EXCISE-RECEIPTS": ("PL", 2024, "e_liquid_excise_receipts", 561400000, "PLN", "official_observed", "official_full_year_budget_execution", "excise_receipts_not_retail_market_value", False),
+        "PL-2023-E-LIQUID-EARLIER-REPORTED-VOLUME-L": ("PL", 2023, "reported_e_liquid_volume_revision_control", 883641.3342, "litre", "official_provisional", "earlier_official_response_revisable", "earlier_tax_and_customs_system_volume_conflicts_with_later_official_response_not_retail_value", False),
+        "PL-2019-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("PL", 2019, "disposable_e_cigarette_customs_import_net_mass", 2612, "kg", "official_observed", "official_description_filtered_customs_extract", "customs_release_for_free_circulation_net_mass_not_units_sales_or_retail_value", False),
+        "PL-2020-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("PL", 2020, "disposable_e_cigarette_customs_import_net_mass", 1360, "kg", "official_observed", "official_description_filtered_customs_extract", "customs_release_for_free_circulation_net_mass_not_units_sales_or_retail_value", False),
+        "PL-2021-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("PL", 2021, "disposable_e_cigarette_customs_import_net_mass", 1457, "kg", "official_observed", "official_description_filtered_customs_extract", "customs_release_for_free_circulation_net_mass_not_units_sales_or_retail_value", False),
+        "PL-2022-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("PL", 2022, "disposable_e_cigarette_customs_import_net_mass", 199946, "kg", "official_observed", "official_description_filtered_customs_extract", "customs_release_for_free_circulation_net_mass_not_units_sales_or_retail_value", False),
+        "PL-2023-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("PL", 2023, "disposable_e_cigarette_customs_import_net_mass", 1075597, "kg", "official_observed", "official_description_filtered_customs_extract", "customs_release_for_free_circulation_net_mass_not_units_sales_or_retail_value", False),
+        "PL-2015-UOKIK-E-CIGARETTE-MARKET-VALUE-ESTIMATE": ("PL", 2015, "institutional_market_value_benchmark", 500000000, "PLN", "institutional_supported", "external_estimate_cited_in_official_competition_decision", "case_2015_estimate_republished_by_uokik_exact_annual_and_tax_basis_unstated_not_donor", False),
+        "PL-2015-UOKIK-E-CIGARETTE-SME-COUNT-ESTIMATE": ("PL", 2015, "market_enterprise_count_estimate", 2000, "enterprise", "institutional_supported", "external_estimate_cited_in_official_competition_decision", "historical_market_structure_estimate_not_sales_or_market_value", False),
+        "PL-2015-UOKIK-CHINA-ORIGIN-SHARE-ESTIMATE": ("PL", 2015, "sold_product_origin_share_estimate", 90, "%", "institutional_supported", "trade_association_estimate_cited_in_official_competition_decision", "historical_origin_share_estimate_not_customs_or_sales_value", False),
+        "PL-2014-UOKIK-INTERNET-SALES-CHANNEL-SHARE-ESTIMATE": ("PL", 2014, "sales_channel_share_estimate", 30, "%", "institutional_supported", "ecigintelligence_estimate_cited_in_official_competition_decision", "historical_channel_share_estimate_not_current_sales_value", False),
+        "PL-2014-UOKIK-SPECIALIST-SHOP-SALES-CHANNEL-SHARE-ESTIMATE": ("PL", 2014, "sales_channel_share_estimate", 40, "%", "institutional_supported", "ecigintelligence_estimate_cited_in_official_competition_decision", "historical_channel_share_estimate_not_current_sales_value", False),
+        "PL-2014-UOKIK-GENERAL-RETAIL-SALES-CHANNEL-SHARE-ESTIMATE": ("PL", 2014, "sales_channel_share_estimate", 30, "%", "institutional_supported", "ecigintelligence_estimate_cited_in_official_competition_decision", "historical_channel_share_estimate_not_current_sales_value", False),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("SE", 2024, "nicotine_e_liquid_taxed_volume", 26000, "litre", "official_observed", "official_rounded", "taxed_physical_volume_not_retail_market_value", False),
         "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("SE", 2024, "nicotine_e_liquid_excise_receipts", 80000000, "SEK", "official_observed", "official_rounded", "excise_receipts_not_retail_market_value", False),
         "GLOBAL-2025-IMARC-COMMERCIAL-ESTIMATE": (None, 2025, "commercial_market_estimate", 26000000000, "USD", "commercial_estimate", "external_estimate", "external_non_comparable_reference_not_atlas_estimate", False),
@@ -1568,6 +1670,7 @@ def validate_market_values(
             "nicotine_e_liquid_excise_receipts",
             "reported_e_liquid_volume",
             "e_liquid_excise_amount",
+            "e_liquid_excise_receipts",
             "vaporisation_device_broad_group_excise_amount",
             "vaporisation_device_component_sets_broad_group_excise_amount",
         }:
@@ -1634,14 +1737,30 @@ def validate_market_values(
             ):
                 errors.append(f"{path}: reproduced New Zealand file sums must remain derived, non-comparable and donor-ineligible")
         if item.get("metric") == "institutional_market_value_benchmark":
+            institutional_bases = {
+                "EU-2023-EC-E-CIGARETTE-MARKET-BENCHMARK":
+                    "external_study_benchmark_published_by_official_institution_not_donor",
+                "PL-2015-UOKIK-E-CIGARETTE-MARKET-VALUE-ESTIMATE":
+                    "case_2015_estimate_republished_by_uokik_exact_annual_and_tax_basis_unstated_not_donor",
+            }
             if (
                 item.get("evidenceStatus") != "institutional_supported"
                 or item.get("comparableMarketValue")
                 or item.get("atlasEstimate")
                 or item.get("marketValueBasis")
-                != "external_study_benchmark_published_by_official_institution_not_donor"
+                != institutional_bases.get(observation_id)
             ):
                 errors.append(f"{path}: institutional secondary values must remain supported, non-observed benchmarks")
+            if (
+                observation_id == "PL-2015-UOKIK-E-CIGARETTE-MARKET-VALUE-ESTIMATE"
+                and (
+                    item.get("period") != "study_reference_period_may_2015"
+                    or "No EUR equivalent is computed" not in str(item.get("limitationEn", ""))
+                )
+            ):
+                errors.append(
+                    f"{path}: Poland's UOKiK benchmark must retain its non-annual study-period boundary"
+                )
         if item.get("metric") == "retail_price_input" and (
             item.get("evidenceStatus") != "published_price_input"
             or item.get("comparableMarketValue")
@@ -1760,8 +1879,8 @@ def validate_market_values(
         if isinstance(item, dict)
         and str(item.get("evidenceStatus", "")).startswith("official_")
     ]
-    if len(official_observations) != 75:
-        errors.append("market observations must contain exactly 75 official observations")
+    if len(official_observations) != 94:
+        errors.append("market observations must contain exactly 94 official observations")
     structural_official = [
         item
         for item in official_observations
@@ -1771,9 +1890,9 @@ def validate_market_values(
     market_measure_official = [
         item for item in official_observations if item not in structural_official
     ]
-    if len(structural_official) != 36 or len(market_measure_official) != 39:
+    if len(structural_official) != 36 or len(market_measure_official) != 58:
         errors.append(
-            "market observations must retain 39 official market measures plus "
+            "market observations must retain 58 official market measures plus "
             "36 Sweden registration-structure observations"
         )
     if {
@@ -1890,6 +2009,8 @@ def validate_market_values(
         "CA-2023-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2023-2025"),
         "CA-2024-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2023-2025"),
         "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2023-2025"),
+        "CA-2022-CTNS-DEVICE-VAPE-SHOP-SHARE": ("vaping_devices_from_in_person_vape_shop_among_past_30_day_vapers_with_valid_source_response", "CA-STATCAN-CTNS-2022-PUMF"),
+        "CA-2022-CTNS-LIQUID-VAPE-SHOP-SHARE": ("vaping_liquids_from_in_person_vape_shop_among_past_30_day_vapers_with_valid_source_response", "CA-STATCAN-CTNS-2022-PUMF"),
         "NZ-2022-NOTIFIABLE-PRODUCT-REPORTED-REVENUE": ("all_notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products", "NZ-MOH-ANNUAL-RETURNS-2022"),
         "NZ-2023-NOTIFIABLE-PRODUCT-REPORTED-REVENUE-LOWER-BOUND": ("regulated_notifiable_products_including_heated_tobacco", "NZ-MOH-ANNUAL-RETURNS-2023"),
         "NZ-2024-SPECIALIST-RETAIL-SALES-LOWER-BOUND": ("notifiable_products_including_vaping_smokeless_tobacco_and_herbal_smoking_products", "NZ-MOH-ANNUAL-RETURNS-2024"),
@@ -1904,11 +2025,19 @@ def validate_market_values(
         ),
         "FI-2025-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
         "FI-2025-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "FI-TAX-EXCISE-VVT-010-2025"),
+        "DE-2020-CPI-WEIGHT-E-CIGARETTE-DEVICES-PER-MILLE": ("sea_cpi_1232902200_disposable_and_reusable_electronic_cigarette_devices", "DE-DESTATIS-CPI-WEIGHTS-2020"),
+        "DE-2020-CPI-WEIGHT-E-LIQUID-TOBACCO-STICKS-PER-MILLE": ("sea_cpi_0220301200_e_liquid_tobacco_sticks_or_similar_for_e_cigarettes", "DE-DESTATIS-CPI-WEIGHTS-2020"),
+        "DE-2019-WZ4726-TAXABLE-TURNOVER-EUR": ("all_enterprises_main_activity_wz4726_retail_sale_of_tobacco_products", "DE-DESTATIS-WZ4726-TURNOVER-2019"),
+        "DE-2020-WZ4726-TAXABLE-TURNOVER-EUR": ("all_enterprises_main_activity_wz4726_retail_sale_of_tobacco_products", "DE-DESTATIS-WZ4726-TURNOVER-2020"),
+        "DE-2021-WZ4726-TAXABLE-TURNOVER-EUR": ("all_enterprises_main_activity_wz4726_retail_sale_of_tobacco_products", "DE-DESTATIS-WZ4726-TURNOVER-2021"),
+        "DE-2022-WZ4726-TAXABLE-TURNOVER-EUR": ("all_enterprises_main_activity_wz4726_retail_sale_of_tobacco_products", "DE-DESTATIS-WZ4726-TURNOVER-2022"),
+        "DE-2023-WZ4726-TAXABLE-TURNOVER-EUR": ("all_enterprises_main_activity_wz4726_retail_sale_of_tobacco_products", "DE-DESTATIS-WZ4726-TURNOVER-2023"),
+        "DE-2024-WZ4726-TAXABLE-TURNOVER-EUR": ("all_enterprises_main_activity_wz4726_retail_sale_of_tobacco_products", "DE-DESTATIS-WZ4726-TURNOVER-2024"),
         "PL-2020-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
         "PL-2021-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
         "PL-2022-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
         "PL-2023-E-LIQUID-REPORTED-VOLUME-L": ("e_liquid_only", "PL-SEJM-I07255-O1"),
-        "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("e_liquid_only", "PL-SEJM-I17526-O1"),
+        "PL-2025-E-LIQUID-EXCISE-AMOUNT": ("e_liquid_only", ["PL-SEJM-I17526-O1", "PL-SEJM-I18182-O1"]),
         "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": ("broad_vaporisation_devices_including_refillable_e_cigarettes_heaters_and_multifunction_devices", "PL-SEJM-I17526-O1"),
         "PL-2025-VAPING-COMPONENT-SETS-EXCISE-AMOUNT": ("component_sets_for_broad_vaporisation_device_group", "PL-SEJM-I17526-O1"),
         "PL-2025-VAPING-DEVICE-EXCISE-BACKSOLVED-UNITS": (
@@ -1919,6 +2048,23 @@ def validate_market_values(
             "component_sets_for_broad_vaporisation_device_group",
             ["PL-SEJM-I17526-O1", "PL-MF-EXCISE-RATES-2025"],
         ),
+        "PL-2022-DISPOSABLE-E-CIGARETTE-REPORTED-SALES-UNITS": ("disposable_e_cigarettes_only", "PL-SEJM-I01345-O1"),
+        "PL-2021-E-LIQUID-EXCISE-RECEIPTS": ("e_liquid_only", "PL-SEJM-I02408-O1"),
+        "PL-2022-E-LIQUID-EXCISE-RECEIPTS": ("e_liquid_only", "PL-SEJM-I18182-O1"),
+        "PL-2023-E-LIQUID-EXCISE-RECEIPTS": ("e_liquid_only", "PL-SEJM-I18182-O1"),
+        "PL-2024-E-LIQUID-EXCISE-RECEIPTS": ("e_liquid_only", "PL-SEJM-I18182-O1"),
+        "PL-2023-E-LIQUID-EARLIER-REPORTED-VOLUME-L": ("e_liquid_only", ["PL-SEJM-I02408-O1", "PL-SEJM-I07255-O1"]),
+        "PL-2019-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("disposable_e_cigarettes_description_filtered_across_selected_cn_codes", "PL-SEJM-I01344-O1"),
+        "PL-2020-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("disposable_e_cigarettes_description_filtered_across_selected_cn_codes", "PL-SEJM-I01344-O1"),
+        "PL-2021-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("disposable_e_cigarettes_description_filtered_across_selected_cn_codes", "PL-SEJM-I01344-O1"),
+        "PL-2022-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("disposable_e_cigarettes_description_filtered_across_selected_cn_codes", "PL-SEJM-I01344-O1"),
+        "PL-2023-DISPOSABLE-E-CIGARETTE-IMPORT-NET-MASS-KG": ("disposable_e_cigarettes_description_filtered_across_selected_cn_codes", "PL-SEJM-I01344-O1"),
+        "PL-2015-UOKIK-E-CIGARETTE-MARKET-VALUE-ESTIMATE": ("disposable_and_refillable_e_cigarettes_nicotine_liquids_and_accessories", "PL-UOKIK-DKK-211-2015"),
+        "PL-2015-UOKIK-E-CIGARETTE-SME-COUNT-ESTIMATE": ("small_and_medium_enterprises_in_e_cigarette_market", "PL-UOKIK-DKK-211-2015"),
+        "PL-2015-UOKIK-CHINA-ORIGIN-SHARE-ESTIMATE": ("e_cigarettes_sold_in_poland_originating_from_china", "PL-UOKIK-DKK-211-2015"),
+        "PL-2014-UOKIK-INTERNET-SALES-CHANNEL-SHARE-ESTIMATE": ("e_cigarette_sales_via_internet", "PL-UOKIK-DKK-211-2015"),
+        "PL-2014-UOKIK-SPECIALIST-SHOP-SALES-CHANNEL-SHARE-ESTIMATE": ("e_cigarette_sales_via_specialist_shops_and_stands", "PL-UOKIK-DKK-211-2015"),
+        "PL-2014-UOKIK-GENERAL-RETAIL-SALES-CHANNEL-SHARE-ESTIMATE": ("e_cigarette_sales_via_grocery_kiosk_and_petrol_station_channels", "PL-UOKIK-DKK-211-2015"),
         "SE-2024-NICOTINE-E-LIQUID-TAXED-VOLUME-L": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
         "SE-2024-NICOTINE-E-LIQUID-EXCISE-RECEIPTS": ("nicotine_containing_e_liquid_only", "SE-GOV-BERAKNINGSKONVENTIONER-2026"),
         "CH-2025-OFFICIAL-AVERAGE-PRICE-CHF-PER-ML": (
@@ -2190,8 +2336,10 @@ def validate_market_values(
         "NZ-MOH-ANNUAL-RETURNS-2024",
         "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
         "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
+        "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
+        "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
     ]:
-        errors.append("New Zealand donor candidate must retain the three reviewed official source IDs")
+        errors.append("New Zealand donor candidate must retain the five reviewed official source IDs")
 
     try:
         expected_output = build_market_values()

@@ -250,8 +250,8 @@
       "factId": "dashboard-package-version-separation",
       "titleEn": "Dashboard and downloads are independently versioned",
       "titleFi": "Dashboard ja lataukset versioidaan erikseen",
-      "statementEn": "The public dashboard is release 2026.07.31-38. The six downloadable lender-package files remain the reviewed 2026.07.31-37 daily snapshot; the package is generated at most once per Asia/Nicosia calendar day and each surface retains its own visible version.",
-      "statementFi": "Julkinen dashboard on julkaisu 2026.07.31-38. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna 2026.07.31-37-päiväsnapshotina; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä ja kumpikin pinta säilyttää oman näkyvän versionsa.",
+      "statementEn": "The public dashboard is release 2026.07.31-39. The six downloadable lender-package files remain the reviewed 2026.07.31-37 daily snapshot; the package is generated at most once per Asia/Nicosia calendar day and each surface retains its own visible version.",
+      "statementFi": "Julkinen dashboard on julkaisu 2026.07.31-39. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna 2026.07.31-37-päiväsnapshotina; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä ja kumpikin pinta säilyttää oman näkyvän versionsa.",
       "publicEvidencePaths": [
         "site/data/changelog.json",
         "site/data/bank-package-manifest.json"
@@ -462,7 +462,7 @@
       "paths": [
         "site/index.html"
       ],
-      "versionOrAsOf": "2026.07.31-38",
+      "versionOrAsOf": "2026.07.31-39",
       "publicUseEn": "Initial lender, buyer, funder and adviser screening with bilingual navigation and visible limitations.",
       "publicUseFi": "Lainanantajan, ostajan, rahoittajan ja neuvonantajan alkuarvio kaksikielisellä navigaatiolla ja näkyvillä rajauksilla.",
       "limitationsEn": "Use the page's current version and source-linked qualifications; it is independent research, not Pixan's official position.",
@@ -476,7 +476,7 @@
       "paths": [
         "site/data/changelog.json"
       ],
-      "versionOrAsOf": "2026.07.31-38",
+      "versionOrAsOf": "2026.07.31-39",
       "publicUseEn": "Shows what changed, when it changed and whether the dashboard or daily package was affected.",
       "publicUseFi": "Näyttää, mitä muuttui, milloin muutos tapahtui ja vaikuttiko se dashboardiin vai päiväpakettiin.",
       "limitationsEn": "A change-log entry is a research status record, not independent proof of the underlying claim.",
@@ -493,8 +493,8 @@
       "versionOrAsOf": "2026.07.31-37",
       "publicUseEn": "Verifies the six bilingual downloadable artifacts, build boundary, file sizes and SHA-256 hashes.",
       "publicUseFi": "Varmistaa kuusi kaksikielistä ladattavaa aineistoa, muodostusrajan, tiedostokoot ja SHA-256-tiivisteet.",
-      "limitationsEn": "The v37 daily package predates the same-day v38 dashboard update. It was not silently rebuilt; cite the dashboard and package by their separate visible versions.",
-      "limitationsFi": "v37-päiväpaketti edeltää saman päivän v38-dashboard-päivitystä. Sitä ei rakennettu huomaamatta uudelleen; viittaa dashboardiin ja pakettiin niiden erillisillä näkyvillä versioilla."
+      "limitationsEn": "The v37 daily package predates the same-day v39 dashboard update. It was not silently rebuilt; cite the dashboard and package by their separate visible versions.",
+      "limitationsFi": "v37-päiväpaketti edeltää saman päivän v39-dashboard-päivitystä. Sitä ei rakennettu huomaamatta uudelleen; viittaa dashboardiin ja pakettiin niiden erillisillä näkyvillä versioilla."
     },
     {
       "assetGroupId": "bilingual-decks",

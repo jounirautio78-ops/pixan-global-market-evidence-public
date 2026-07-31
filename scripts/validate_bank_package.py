@@ -42,6 +42,8 @@ ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_packag
 RELEASE_ID = "2026-07-31-canada-scope-quality-nz-poland-v37"
 RELEASE_VERSION = "2026.07.31-37"
 RELEASE_DATE = "2026-07-31"
+LOCK_RELATIVE_PATH = "source/bank-package-en-lock.json"
+EXPECTED_LOCK_SHA256 = "b3b00b0aef338551772e02a6de70516fbd837cb11aa4eaa1f3179392755d04bb"
 PACKAGE_TIME_ZONE = "Asia/Nicosia"
 EXPECTED_PACKAGE_CADENCE = {
     "frequency": "once_daily",
@@ -61,10 +63,10 @@ SWEDEN_STRUCTURE_METRICS = {
     "active_products_count": "ACTIVE-PRODUCTS",
     "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
 }
-EXPECTED_MARKET_OBSERVATIONS = 85
-EXPECTED_MARKET_SOURCES = 25
-EXPECTED_OFFICIAL_OBSERVATIONS = 75
-EXPECTED_OFFICIAL_MARKET_MEASURES = 39
+EXPECTED_MARKET_OBSERVATIONS = 112
+EXPECTED_MARKET_SOURCES = 40
+EXPECTED_OFFICIAL_OBSERVATIONS = 94
+EXPECTED_OFFICIAL_MARKET_MEASURES = 58
 EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
@@ -126,6 +128,8 @@ EUR_EQUIVALENT_HEADERS = {
     ],
 }
 EUR_EQUIVALENT_SHEET_NAMES = {"fi": "Eurovastineet", "en": "EUR equivalents"}
+EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS = 44
+EXPECTED_LOCKED_EUR_STATUS_COUNTS = {"computed": 36, "already_eur": 8}
 EXPECTED_TEMPLATE_INPUTS = {
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
@@ -364,6 +368,83 @@ def validate_daily_package_snapshot(
         )
         return False
     return cadence == EXPECTED_PACKAGE_CADENCE
+
+
+def validate_release_lock(
+    manifest: dict[str, Any],
+    lock: dict[str, Any],
+    errors: list[str],
+) -> bool:
+    """Bind an earlier same-day package to its immutable reviewed snapshot."""
+
+    valid = True
+    expected_lock_keys = {
+        "schemaVersion",
+        "release",
+        "asOf",
+        "reviewedInputs",
+        "artifacts",
+        "generatedBy",
+    }
+    if not isinstance(lock, dict) or set(lock) != expected_lock_keys:
+        errors.append("bank-package lock has an unexpected schema")
+        return False
+    if sha256(LOCK_PATH) != EXPECTED_LOCK_SHA256:
+        errors.append("bank-package lock SHA-256 differs from the reviewed v37 snapshot")
+        valid = False
+    if (
+        lock.get("schemaVersion") != 2
+        or lock.get("release") != manifest.get("release")
+        or lock.get("asOf") != manifest.get("asOf")
+    ):
+        errors.append("bank-package lock release/asOf differs from the manifest snapshot")
+        valid = False
+
+    manifest_inputs = manifest.get("inputs")
+    locked_inputs = lock.get("reviewedInputs")
+    if not isinstance(manifest_inputs, list) or not isinstance(locked_inputs, list):
+        errors.append("bank-package manifest/lock reviewed inputs must be arrays")
+        valid = False
+    else:
+        self_lock_entries = [
+            item
+            for item in manifest_inputs
+            if isinstance(item, dict) and item.get("path") == LOCK_RELATIVE_PATH
+        ]
+        if self_lock_entries != [{"path": LOCK_RELATIVE_PATH, "sha256": EXPECTED_LOCK_SHA256}]:
+            errors.append("manifest must bind exactly one reviewed v37 lock SHA-256")
+            valid = False
+        expected_locked_inputs = [
+            item
+            for item in manifest_inputs
+            if not (isinstance(item, dict) and item.get("path") == LOCK_RELATIVE_PATH)
+        ]
+        if locked_inputs != expected_locked_inputs:
+            errors.append("bank-package lock reviewedInputs differ from the manifest snapshot")
+            valid = False
+
+    manifest_artifacts = manifest.get("artifacts")
+    locked_artifacts = lock.get("artifacts")
+    if not isinstance(manifest_artifacts, list) or not isinstance(locked_artifacts, list):
+        errors.append("bank-package manifest/lock artifacts must be arrays")
+        valid = False
+    else:
+        expected_locked_artifacts: list[dict[str, Any]] = []
+        for item in manifest_artifacts:
+            if not isinstance(item, dict):
+                expected_locked_artifacts.append({})
+                continue
+            count_key = "slideCount" if item.get("kind") == "pptx" else "rowCount"
+            projection = {
+                key: item.get(key)
+                for key in ("id", "kind", "language", "sha256", "bytes", count_key)
+            }
+            projection["path"] = f"site/{item.get('path')}"
+            expected_locked_artifacts.append(projection)
+        if locked_artifacts != expected_locked_artifacts:
+            errors.append("bank-package lock artifacts differ from the manifest snapshot")
+            valid = False
+    return valid
 
 
 def validate_v22_market_bindings(errors: list[str]) -> None:
@@ -1169,6 +1250,7 @@ def validate_eur_equivalent_sheet(
     workbook: Any,
     language: str,
     expected_rows: list[dict[str, Any]],
+    compare_with_current_inputs: bool,
     label: str,
     errors: list[str],
 ) -> None:
@@ -1185,11 +1267,84 @@ def validate_eur_equivalent_sheet(
         for row in sheet.iter_rows(min_row=2, max_col=14)
         if any(cell.value not in (None, "") for cell in row)
     ]
-    if len(actual_rows) != len(expected_rows):
+    expected_row_count = (
+        len(expected_rows)
+        if compare_with_current_inputs
+        else EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS
+    )
+    if len(actual_rows) != expected_row_count:
         errors.append(
             f"{label}: {sheet_name} row coverage differs "
-            f"({len(actual_rows)} != {len(expected_rows)})"
+            f"({len(actual_rows)} != {expected_row_count})"
         )
+    seen_keys: set[tuple[str, str, str]] = set()
+    status_counts: dict[str, int] = {}
+    for index, cells in enumerate(actual_rows, start=2):
+        key = tuple(str(cells[column - 1].value or "") for column in (1, 2, 3))
+        if any(not value for value in key):
+            errors.append(f"{label}: {sheet_name} row {index} lacks a complete record key")
+        elif key in seen_keys:
+            errors.append(f"{label}: {sheet_name} row {index} duplicates record key {key!r}")
+        seen_keys.add(key)
+
+        status = str(cells[12].value or "")
+        status_counts[status] = status_counts.get(status, 0) + 1
+        original_amount = decimal_value(cells[6].value)
+        rate_value = decimal_value(cells[8].value)
+        currency = str(cells[7].value or "")
+        rate_id = str(cells[10].value or "")
+        source_url = str(cells[11].value or "")
+        parsed = urlparse(source_url)
+        if original_amount is None or original_amount <= 0:
+            errors.append(f"{label}: {sheet_name} row {index} lacks a positive original amount")
+        if not re.fullmatch(r"[A-Z]{3}", currency):
+            errors.append(f"{label}: {sheet_name} row {index} has an invalid currency code")
+
+        if status == "computed":
+            expected_formula = f"=G{index}/I{index}"
+            if rate_value is None or rate_value <= 0:
+                errors.append(f"{label}: {sheet_name} row {index} lacks a positive ECB rate")
+            if (
+                not rate_id.startswith("ECB-EXR-A-")
+                or parsed.scheme != "https"
+                or parsed.hostname != "data-api.ecb.europa.eu"
+            ):
+                errors.append(
+                    f"{label}: {sheet_name} row {index} lacks direct ECB rateId/source URL"
+                )
+        elif status == "already_eur":
+            expected_formula = f"=G{index}"
+            if currency != "EUR" or rate_value != Decimal("1") or rate_id != "EUR-IDENTITY":
+                errors.append(
+                    f"{label}: {sheet_name} row {index} lacks the EUR identity conversion"
+                )
+            if parsed.scheme != "https" or parsed.hostname != "www.ecb.europa.eu":
+                errors.append(
+                    f"{label}: {sheet_name} row {index} lacks the official ECB identity source"
+                )
+        elif status == "not_computed":
+            expected_formula = None
+            if cells[8].value not in (None, "") or rate_id:
+                errors.append(
+                    f"{label}: {sheet_name} row {index} must fail closed without an ECB rate/rateId"
+                )
+        else:
+            expected_formula = None
+            errors.append(f"{label}: {sheet_name} row {index} has invalid status {status!r}")
+        if cells[9].value != expected_formula:
+            errors.append(
+                f"{label}: {sheet_name}!{cells[9].coordinate} must preserve "
+                f"full-precision formula {expected_formula!r}"
+            )
+
+    if not compare_with_current_inputs:
+        if status_counts != EXPECTED_LOCKED_EUR_STATUS_COUNTS:
+            errors.append(
+                f"{label}: {sheet_name} locked-snapshot status coverage differs "
+                f"({status_counts!r} != {EXPECTED_LOCKED_EUR_STATUS_COUNTS!r})"
+            )
+        return
+
     for index, expected in enumerate(expected_rows, start=2):
         if index - 2 >= len(actual_rows):
             break
@@ -1214,43 +1369,14 @@ def validate_eur_equivalent_sheet(
                     f"{label}: {sheet_name}!{cells[column - 1].coordinate} "
                     "differs from the reviewed FX row"
                 )
-        actual_amount = decimal_value(cells[6].value)
-        if actual_amount != expected["originalAmount"]:
+        if decimal_value(cells[6].value) != expected["originalAmount"]:
             errors.append(
                 f"{label}: {sheet_name}!{cells[6].coordinate} original amount differs"
             )
-        actual_rate = decimal_value(cells[8].value)
-        if actual_rate != expected["rateValue"]:
+        if decimal_value(cells[8].value) != expected["rateValue"]:
             errors.append(
                 f"{label}: {sheet_name}!{cells[8].coordinate} ECB rate differs"
             )
-        if expected["status"] == "computed":
-            expected_formula = f"=G{index}/I{index}"
-        elif expected["status"] == "already_eur":
-            expected_formula = f"=G{index}"
-        else:
-            expected_formula = None
-        if cells[9].value != expected_formula:
-            errors.append(
-                f"{label}: {sheet_name}!{cells[9].coordinate} must preserve "
-                f"full-precision formula {expected_formula!r}"
-            )
-        source_url = str(cells[11].value or "")
-        parsed = urlparse(source_url)
-        if expected["status"] == "computed":
-            if (
-                not str(cells[10].value or "").startswith("ECB-EXR-A-")
-                or parsed.scheme != "https"
-                or parsed.hostname != "data-api.ecb.europa.eu"
-            ):
-                errors.append(
-                    f"{label}: {sheet_name} row {index} lacks direct ECB rateId/source URL"
-                )
-        elif expected["status"] == "not_computed":
-            if cells[9].value is not None or cells[10].value not in (None, ""):
-                errors.append(
-                    f"{label}: {sheet_name} row {index} must fail closed without an EUR value/rateId"
-                )
 
 
 def validate_workbook(
@@ -1258,6 +1384,7 @@ def validate_workbook(
     csv_rows: list[list[str]],
     expected_headers: list[str],
     expected_eur_rows: list[dict[str, Any]],
+    compare_eur_with_current_inputs: bool,
     errors: list[str],
 ) -> int:
     label = str(path.relative_to(ROOT))
@@ -1359,6 +1486,7 @@ def validate_workbook(
         workbook,
         "fi" if is_finnish else "en",
         expected_eur_rows,
+        compare_eur_with_current_inputs,
         label,
         errors,
     )
@@ -1399,11 +1527,13 @@ def validate_manifest(errors: list[str]) -> None:
         errors.append("manifest must declare schemaVersion 2 and public-data-only generation")
     if manifest.get("languages") != ["en", "fi"]:
         errors.append("manifest languages must be exactly en and fi")
-    allow_reviewed_input_drift = validate_daily_package_snapshot(
+    earlier_same_day_snapshot = validate_daily_package_snapshot(
         manifest,
         changelog,
         errors,
     )
+    release_lock_valid = validate_release_lock(manifest, lock, errors)
+    allow_reviewed_input_drift = earlier_same_day_snapshot and release_lock_valid
     package_release = manifest.get("release", {})
     if (
         package_release.get("id") != RELEASE_ID
@@ -1484,8 +1614,9 @@ def validate_manifest(errors: list[str]) -> None:
             errors.append(f"manifest input is missing: {relative}")
         elif not SHA256_RE.fullmatch(str(item.get("sha256", ""))):
             errors.append(f"manifest input hash is invalid: {relative}")
-        elif item.get("sha256") != sha256(path) and not allow_reviewed_input_drift:
-            errors.append(f"manifest input hash differs: {relative}")
+        elif item.get("sha256") != sha256(path):
+            if not allow_reviewed_input_drift or relative == LOCK_RELATIVE_PATH:
+                errors.append(f"manifest input hash differs: {relative}")
 
     artifacts = manifest.get("artifacts")
     if not isinstance(artifacts, list):
@@ -1809,6 +1940,7 @@ def validate_manifest(errors: list[str]) -> None:
                 csv_rows,
                 headers_by_language[expected["language"]],
                 expected_eur_rows,
+                not allow_reviewed_input_drift,
                 errors,
             )
             if item.get("rowCount") != row_count or row_count != len(csv_rows):

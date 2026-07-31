@@ -34,6 +34,11 @@ EXPECTED_RATES = {
     ("NZD", 2022): Decimal("1.6582474708171"),
     ("NZD", 2023): Decimal("1.762151372549"),
     ("NZD", 2024): Decimal("1.788048828125"),
+    ("PLN", 2015): Decimal("4.184118359375"),
+    ("PLN", 2021): Decimal("4.5651786821705"),
+    ("PLN", 2022): Decimal("4.686106614786"),
+    ("PLN", 2023): Decimal("4.5419658823529"),
+    ("PLN", 2024): Decimal("4.305795703125"),
     ("PLN", 2025): Decimal("4.2396576470588"),
     ("SEK", 2024): Decimal("11.432519140625"),
     ("USD", 2015): Decimal("1.109512890625"),
@@ -59,6 +64,11 @@ EXPECTED_EUR_CHECKS = {
     "CA-2025-STATCAN-RCS-VAPING-RETAIL-SALES": Decimal("802271438.98"),
     "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": Decimal("783176261.20"),
     "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM": Decimal("153340560.89"),
+    "PL-2021-E-LIQUID-EXCISE-RECEIPTS": Decimal("39319381.01"),
+    "PL-2022-E-LIQUID-EXCISE-RECEIPTS": Decimal("49059916.66"),
+    "PL-2023-E-LIQUID-EXCISE-RECEIPTS": Decimal("97666959.97"),
+    "PL-2024-E-LIQUID-EXCISE-RECEIPTS": Decimal("130382405.18"),
+    "PL-2025-E-LIQUID-EXCISE-AMOUNT": Decimal("234240611.55"),
     "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": Decimal("2336340711.87"),
 }
 
@@ -193,7 +203,7 @@ def validate_rate_document(
         return
     if (
         source.get("schemaVersion") != "1.0"
-        or source.get("asOf") != "2026-07-27"
+        or source.get("asOf") != "2026-07-31"
         or source.get("targetCurrency") != "EUR"
     ):
         errors.append("fx-rates.json identity, review date or target currency is invalid")
@@ -325,7 +335,15 @@ def validate_market_coverage(
             item.get("currency") not in (None, "EUR")
             and item.get("unit") == item.get("currency")
         )
-        if is_non_eur_money and result.get("status") != "computed":
+        explicitly_nonannual = (
+            result.get("reason") == "period_not_compatible_with_annual_average"
+            and "No EUR equivalent is computed" in str(item.get("limitationEn", ""))
+        )
+        if (
+            is_non_eur_money
+            and result.get("status") != "computed"
+            and not explicitly_nonannual
+        ):
             errors.append(
                 f"{observation_id} has no compatible reviewed ECB annual-average EUR conversion"
             )
@@ -476,7 +494,7 @@ def main() -> None:
         print(f"FX validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated ECB EUR-equivalent layer: 23 official annual-average rates, "
+        "Validated ECB EUR-equivalent layer: 28 official annual-average rates, "
         "original currencies retained, compatible monetary totals converted, "
         "and physical volumes, unit prices and missing scenarios kept fail closed."
     )

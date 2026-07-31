@@ -40,11 +40,24 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "CA-HC-VAPING-SALES-2024",
     "CA-STATCAN-RCS-2019-2022",
     "CA-STATCAN-RCS-2023-2025",
+    "CA-STATCAN-CTNS-2022-PUMF",
     "DE-DESTATIS-73411-0003",
+    "DE-DESTATIS-CPI-WEIGHTS-2020",
+    "DE-DESTATIS-WZ4726-TURNOVER-2019",
+    "DE-DESTATIS-WZ4726-TURNOVER-2020",
+    "DE-DESTATIS-WZ4726-TURNOVER-2021",
+    "DE-DESTATIS-WZ4726-TURNOVER-2022",
+    "DE-DESTATIS-WZ4726-TURNOVER-2023",
+    "DE-DESTATIS-WZ4726-TURNOVER-2024",
     "FI-TAX-EXCISE-VVT-010-2025",
     "PL-SEJM-I07255-O1",
     "PL-SEJM-I17526-O1",
     "PL-MF-EXCISE-RATES-2025",
+    "PL-SEJM-I01345-O1",
+    "PL-SEJM-I01344-O1",
+    "PL-SEJM-I02408-O1",
+    "PL-SEJM-I18182-O1",
+    "PL-UOKIK-DKK-211-2015",
     "SE-GOV-BERAKNINGSKONVENTIONER-2026",
     "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24",
     "NZ-MOH-ANNUAL-RETURNS-2022",
@@ -52,6 +65,8 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "NZ-MOH-ANNUAL-RETURNS-2024",
     "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
     "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
+    "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
+    "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
     "EU-EC-SWD-2025-560",
     "EU-EC-SWD-2026-111",
     "IMARC-GLOBAL-2025",
@@ -66,10 +81,15 @@ EXPECTED_MARKET_SOURCE_IDS = {
 SWISS_PRICE_ID = "CH-2025-OFFICIAL-AVERAGE-PRICE-CHF-PER-ML"
 NZ_VAPING_OBSERVATION_ID = "NZ-2024-IDENTIFIED-VAPING-PRODUCT-SALES-RAW-SUM"
 NZ_DONOR_CANDIDATE_ID = "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL"
-NZ_SOURCE_IDS = [
+NZ_OBSERVATION_SOURCE_IDS = [
     "NZ-MOH-ANNUAL-RETURNS-2024",
     "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
     "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
+]
+NZ_CANDIDATE_SOURCE_IDS = [
+    *NZ_OBSERVATION_SOURCE_IDS,
+    "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
+    "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
 ]
 GERMANY_MODEL_ID = "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE"
 GERMANY_VOLUME_ID = "DE-2025-TAXED-LIQUID-VOLUME-L"
@@ -151,18 +171,18 @@ POLAND_RECONSTRUCTION = {
     "PL-2025-E-LIQUID-EXCISE-AMOUNT": (
         "PL",
         2025,
-        "e_liquid_excise_amount",
+        "e_liquid_excise_receipts",
         993_100_000,
         "PLN",
         "PLN",
         "calendar_year",
         "official_observed",
-        "official_response",
+        "official_full_year_budget_execution",
         "e_liquid_only",
-        "official_tax_amount_not_retail_market_value",
+        "excise_receipts_not_retail_market_value",
         False,
         False,
-        ["PL-SEJM-I17526-O1"],
+        ["PL-SEJM-I17526-O1", "PL-SEJM-I18182-O1"],
     ),
     "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT": (
         "PL",
@@ -430,10 +450,10 @@ def validate_review_data(
     if not isinstance(sources, list):
         errors.append("Freshness ledger requires a market-source array")
         sources = []
-    elif len(sources) != 25:
-        errors.append("Freshness ledger requires exactly 25 reviewed market sources")
-    if not isinstance(observations, list) or len(observations) != 85:
-        errors.append("Current market baseline must contain exactly 85 observations")
+    elif len(sources) != 40:
+        errors.append("Freshness ledger requires exactly 40 reviewed market sources")
+    if not isinstance(observations, list) or len(observations) != 112:
+        errors.append("Current market baseline must contain exactly 112 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -460,7 +480,7 @@ def validate_review_data(
             errors.append(f"{source_id}: retrievedAt cannot be later than market asOf")
     if source_ids != EXPECTED_MARKET_SOURCE_IDS:
         errors.append(
-            "Current freshness ledger must retain the exact 25-source set; "
+            "Current freshness ledger must retain the exact 40-source set; "
             f"missing={sorted(EXPECTED_MARKET_SOURCE_IDS - source_ids)}, "
             f"extra={sorted(source_ids - EXPECTED_MARKET_SOURCE_IDS)}"
         )
@@ -484,9 +504,21 @@ def validate_review_data(
             if isinstance(observation.get("year"), int):
                 years_by_source[source_id].append(observation["year"])
 
+    for candidate in market.get("donorCandidates", []):
+        if not isinstance(candidate, dict):
+            continue
+        reference_year = observation_by_id.get(
+            candidate.get("referenceId"), {}
+        ).get("year")
+        if not isinstance(reference_year, int):
+            continue
+        for source_id in candidate.get("sourceIds", []):
+            if source_id in source_ids and not years_by_source.get(source_id):
+                years_by_source[source_id].append(reference_year)
+
     unused_sources = source_ids - years_by_source.keys()
     if unused_sources:
-        errors.append(f"Every freshness-ledger source must support a dated observation; unused={sorted(unused_sources)}")
+        errors.append(f"Every freshness-ledger source must support a dated market record; unused={sorted(unused_sources)}")
 
     swiss_price = observation_by_id.get(SWISS_PRICE_ID, {})
     swiss_price_fact = (
@@ -564,7 +596,7 @@ def validate_review_data(
         "conservative_text_classification_raw_sum_not_donor",
         False,
         False,
-        NZ_SOURCE_IDS,
+        NZ_OBSERVATION_SOURCE_IDS,
     ):
         errors.append("v27 New Zealand identified-vaping observation differs from its reviewed fact boundary")
     nz_limitation = str(nz_vaping.get("limitationEn", ""))
@@ -634,14 +666,14 @@ def validate_review_data(
     ]
     market_measure_official = [item for item in official if item not in structural_official]
     if (
-        len(official) != 75
+        len(official) != 94
         or official_countries != EXPECTED_OFFICIAL_COUNTRIES
         or len(structural_official) != 36
         or {item.get("countryIso2") for item in structural_official} != {"SE"}
-        or len(market_measure_official) != 39
+        or len(market_measure_official) != 58
     ):
         errors.append(
-            "v27 must retain 39 official market-measure observations plus 36 Sweden "
+            "v39 must retain 58 official market-measure observations plus 36 Sweden "
             "registration-structure observations across the seven reviewed countries"
         )
     official_retail = [
@@ -705,7 +737,7 @@ def validate_review_data(
         != {"D1", "D2", "D3", "D4", "D6", "D7", "D9"}
         or set(nz_candidate.get("failedCriteria", [])) != {"D5"}
         or set(nz_candidate.get("openCriteria", [])) != {"D8", "D10"}
-        or nz_candidate.get("sourceIds") != NZ_SOURCE_IDS
+        or nz_candidate.get("sourceIds") != NZ_CANDIDATE_SOURCE_IDS
     ):
         errors.append("v27 New Zealand donor candidate differs from the reviewed 7/10 closure decision")
 
@@ -754,9 +786,9 @@ def validate_review_data(
             else:
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
-            "latest_period": 13,
-            "previous_full_year": 5,
-            "historical_only": 7,
+            "latest_period": 14,
+            "previous_full_year": 8,
+            "historical_only": 18,
         }:
             errors.append(f"Unexpected deterministic freshness buckets: {freshness_counts}")
 
@@ -1068,14 +1100,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-07-31-38"}
+            or set(cache_tokens) != {"2026-07-31-39"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v38 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v39 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-07-31-38"',
+        'src="assets/independent-controls.js?v=2026-07-31-39"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1157,17 +1189,17 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-31-switzerland-route-price-rights-v38",
-            'version: "2026.07.31-38"',
-            'publishedAt: "2026-07-31T12:51:53+03:00"',
-            "Switzerland official route, price anchor and reuse-rights gate",
-            "CHF 4.43/ml",
-            "derived trade totals are withheld pending commercial-use permission",
-            "dashboard is v38",
+            "2026-07-31-four-country-donor-closure-v39",
+            'version: "2026.07.31-39"',
+            'publishedAt: "2026-07-31T14:48:53+03:00"',
+            "Four-country donor-closure evidence sprint",
+            "public PUMF and bootstrap ID sets differ",
+            "112 observations from 40 sources",
+            "dashboard is v39",
             "lender-package files remain the reviewed v37 daily snapshot",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v37 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v39 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1324,10 +1356,10 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v38 dashboard / v37 daily-package review experience: HOLD boundary, "
+        "Validated v39 dashboard / v37 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
-        "deterministic 25-source ledger and required UI hooks."
+        "deterministic 40-source ledger and required UI hooks."
     )
 
 

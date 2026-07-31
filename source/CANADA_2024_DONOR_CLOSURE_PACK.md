@@ -14,8 +14,12 @@ NAPCS 5619122:
   the quarterly annual sum.
 
 The point estimate is useful as a national official retail anchor. It is not an
-accepted donor market. D5 national channel coverage and D7 method and
-missingness now fail; D10 independent reconciliation remains open.
+accepted donor market. A separate 2022 consumer survey shows an in-person vape
+shop as a usual acquisition source for about 63% of device and liquid users
+with valid answers. This supports treating the RCS-excluded specialist route as
+potentially material but does not establish monetary materiality or quantify
+the missing 2024 CAD value. D5 national channel coverage and D7 method and
+missingness fail; D10 independent reconciliation remains open.
 The public table identifies the values as current CAD. Statistics Canada
 directly clarified on 2026-07-29 that table `20-10-0071-01` excludes
 GST/HST/PST/QST, includes additional duties embedded in retail prices and is
@@ -51,7 +55,7 @@ summed and are not presented as a low-to-high market range.
 | D2 Consumer retail transaction | Passed | RCS measures sales of commodities by retailers; the reporting period is when the commodities were sold in retail stores. |
 | D3 Devices and consumables | Passed | NAPCS 5619122 includes electronic cigarettes, e-liquid refills, vaporizers and other e-liquid delivery systems. |
 | D4 Adjacent products controlled | Passed | NAPCS 5619122 is separate from tobacco products and accessories other than e-cigarettes. No heated-tobacco or broad tobacco aggregate is added. |
-| D5 National channel coverage | Failed | Statistics Canada confirmed that the RCS target population covers NAICS 441100–459993. Official NAICS examples place electronic-cigarette and vapour-liquid specialist retailing in 459999, outside the target range. The specialist-channel gap is confirmed and unquantified. |
+| D5 National channel coverage | Failed | Statistics Canada confirmed that the RCS target population covers NAICS 441100–459993. Official NAICS examples place electronic-cigarette and vapour-liquid specialist retailing in 459999, outside the target range. CTNS 2022 separately reports an in-person vape shop as a usual source for about 63% of device and liquid users with valid answers, supporting potential channel materiality without quantifying the missing 2024 CAD value. |
 | D6 No supply-stage double counting | Passed | The RCS retail observation stands alone. Health Canada shipments are retained only as a separate cross-check and are never added to retail. |
 | D7 Method and missingness documented | Failed | Statistics Canada documents sampling, weighting, imputation, calibration, revisions and quality-indicator construction. All 12 months and all four quarters in 2024 carry `E`. The Retail Commodity Program confirmed that no exact product-class CV, imputation rate, standard error or annual covariance information exists beyond what is published, so the annual error boundary cannot be bounded. |
 | D8 Currency and tax basis | Passed | Currency is CAD. Statistics Canada confirmed that the reviewed quarterly, monthly and archived vectors exclude GST, HST, PST and QST and include additional duties embedded in retail prices. Those duties can include the federal vaping duty, the additional vaping duty and provincial vaping duties. Four quarters form the intended annual value. |
@@ -143,6 +147,36 @@ exact CV, imputation rate and covariance of the component periods are not
 published. Health Canada's shipment value is a different transaction stage and
 cannot be relabelled as a retail lower bound.
 
+## Consumer-side specialist-channel control
+
+Statistics Canada's 2022 Canadian Tobacco and Nicotine Survey public-use
+microdata gives a separate official consumer-side check on the channel excluded
+from the RCS target population. Its population excludes territories, persons
+living on reserves and other Indigenous settlements in the provinces, and
+residents of collective dwellings. Among past-30-day vapers with a valid yes/no
+answer, an in-person vape shop was reported as a usual acquisition source by:
+
+| Item | Unweighted yes / valid | Weighted yes / valid | Survey-weighted point estimate |
+|:---|---:|---:|---:|
+| Devices (`VAP_40AR`) | 650 / 1,099 | 1,162,671.63 / 1,847,172.44 | **62.943%** |
+| Liquids (`VAP_41AR`) | 644 / 1,095 | 1,156,389.89 / 1,835,669.58 | **62.996%** |
+
+The point estimates use the survey weight `WTPP`. Precision is deliberately
+withheld: `pumf.csv` contains 12,133 unique IDs while `pumf_bsw.csv` contains
+11,526, and there is no reviewed basis for treating the 607 absent replicate-
+weight rows as zero. The acquisition-source questions are multi-select, so
+their channel shares must not be added to 100%.
+
+This evidence supports treating the RCS-excluded specialist route as
+potentially material. It does **not** establish monetary materiality, quantify
+the missing 2024 CAD sales value, convert user incidence to expenditure,
+measure channel coverage, repair RCS coverage or change the donor decision. It
+is not a same-boundary independent reconciliation; D5 remains failed and D10
+remains open. The point estimates and bootstrap mismatch are reproducible with
+`scripts/reproduce_canada_ctns_channel_2022.py`; the full cross-country control
+is documented in
+[`DONOR_CLOSURE_SPRINT_CA_DE_NZ_PL_2026-07-31.md`](DONOR_CLOSURE_SPRINT_CA_DE_NZ_PL_2026-07-31.md).
+
 ## Permitted and prohibited claims
 
 Supported wording:
@@ -159,6 +193,9 @@ Do not claim:
 - that EUR 783.18-822.58 million is a market uncertainty range;
 - that CAD 58.41 million is retailer margin;
 - that the shipment mix is a retail device/liquid split;
+- that CTNS user-source shares can be converted into sales value or channel
+  coverage;
+- that CTNS supplies a D10 same-boundary independent reconciliation;
 - that D5 or D7 is merely unresolved, or that D10 has passed;
 - that Canada supports a public global market total.
 
@@ -201,6 +238,13 @@ Do not claim:
   https://www150.statcan.gc.ca/n1/pub/36-28-0001/2025004/article/00001-eng.pdf
 - Health Canada vaping sales:
   https://health-infobase.canada.ca/substance-use/vaping/sales/
+- Statistics Canada 2022 Canadian Tobacco and Nicotine Survey public-use
+  microdata landing page:
+  https://www150.statcan.gc.ca/n1/pub/13-25-0001/132500012022001-eng.htm
+- CTNS 2022 CSV package:
+  https://www150.statcan.gc.ca/n1/pub/13-25-0001/2022001/2022/CSV.zip
+- CTNS 2022 CSV ZIP SHA-256:
+  `f2bbc5c0a0ea10fa15ef480972b828731a92a1376600e8e2039394ad2cd3320e`
 - Vaping Products Reporting Regulations:
   https://laws-lois.justice.gc.ca/eng/regulations/SOR-2023-123/FullText.html
 - ECB EXR annual-average CAD/EUR query:
