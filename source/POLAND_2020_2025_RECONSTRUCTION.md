@@ -22,6 +22,30 @@ sales, consumer sell-through or observed retail value. The public response does
 not provide the separate domestic-sale, intra-EU and import components,
 coverage denominator, revision history or an independent reconciliation.
 
+The Ministry of Health's earlier annual-report table adds producer/importer
+reported quantities for six categories in 2019-2022:
+
+| Category | 2019 | 2020 | 2021 | 2022 preliminary |
+| --- | ---: | ---: | ---: | ---: |
+| Disposable e-cigarettes | 114,355 | 55,550 | 1,941,050 | 14,663,879 |
+| Reusable e-cigarettes | 2,734,783 | 2,166,606 | 1,479,135 | 5,401,206 |
+| Individual parts | 1,089,435 | 2,107,617 | 776,570 | 398,998 |
+| Kits | 553,775 | 284,767 | 335,984 | 1,349,907 |
+| Other | 470,642 | 336,532 | 243,782 | 227,957 |
+| Refill containers/cartridges with e-liquid | 36,020,303 | 124,015,052 | 130,487,551 | 50,838,653 |
+
+Not all required 2022 reports had been submitted. The preliminary disposable
+count later increased to 19,525,600, a 4,861,721-unit or 33.15% revision. The
+two values are revision controls and must not be summed. The producer/importer
+transaction stage, consumer sell-through, channel coverage, prices, tax basis,
+inventory and import de-duplication remain unestablished.
+
+CMR separately estimates 2023 disposable-e-cigarette retail sales at about PLN
+2 billion. The public article does not disclose the national sample frame,
+weights, extrapolation, specialist-channel reconciliation or VAT/excise basis,
+and the estimate excludes reusable devices, refill liquids and pods. It is a
+commercial segment check, not a whole-market value or donor.
+
 The Ministry response to interpellation 17526 publishes realised 2025 excise:
 
 | Product | Realised 2025 excise |
@@ -89,6 +113,8 @@ release a global estimate.
 
 - [Interpellation 7255 response — national 2020–2023 volumes](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDDEJZ5/i07255-o1.pdf)
 - [Interpellation 17526 response — realised 2025 excise](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDVKHSJ/i17526-o1.pdf)
+- [Interpellation 41718 response — 2019–2022 annual-report quantities](https://api.sejm.gov.pl/sejm/term9/interpellations/attachment/ATTCTNBJB/i41718-o1.pdf)
+- [CMR — 2023 disposable-e-cigarette segment estimate](https://www.cmr.com.pl/2024/01/jednorazowe-e-papierosy-przeboj-sprzedazy-2023/)
 - [Polish Ministry of Finance — excise rates](https://www.podatki.gov.pl/akcyza/stawki-podatkowe/)
 - [Polish Ministry of Finance — broad device-group definition](https://www.podatki.gov.pl/akcyza/komunikaty-w-zakresie-podatku-akcyzowego)
 - [AKC-4/R declaration and device-type field](https://api.sejm.gov.pl/eli/acts/DU/2025/698/text.pdf)

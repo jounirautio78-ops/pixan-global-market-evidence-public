@@ -17,6 +17,103 @@ same-year national consumer-retail value that passes D1-D10.
 | New Zealand | Official 2024 policy papers show more than 7,000 physical vape sellers, 1,280 specialist retailers, 146 specialist websites and an approval problem potentially affecting 117 companies and 546 stores. | Confirms that legal-entity, store and site counts cannot be divided into a coverage rate. D5 remains failed; D8 and D10 remain open. New Zealand stays 7/10. |
 | Poland | Official disposable-unit sales, e-liquid excise, customs net-mass and a conflicting 2023 volume revision route; a 2015 UOKiK decision adds a historical value and channel benchmark. | Adds bounded anchors and exposes a 9.71% official volume conflict, but no full-market consumer-retail value. Poland is not scored as a donor. |
 
+## Additional public controls admitted in v40
+
+The following records improve triangulation without changing the fail-closed
+decision. Every monetary record retains its original currency, period,
+transaction stage and product scope. An analytical EUR equivalent is generated
+only where the reviewed FX rules permit it.
+
+### Canada: 2021 full-market and channel benchmark
+
+Health Canada's first legislative review states that the 2021 Canadian vaping
+market was estimated at **CAD 2.04 billion**. It separately reports gas and
+convenience sales of **CAD 631 million (31%)** and online sales of approximately
+**CAD 436 million (21%)**. The report attributes the figures to a 2022 custom
+Euromonitor International study compiled for Health Canada.
+
+Source: <https://www.canada.ca/en/health-canada/programs/consultation-legislative-review-tobacco-vaping-products-act/final-report.html>.
+
+The published values are useful institutional benchmarks, not official
+measurements with a public underlying workbook or method. The 2021 Statistics
+Canada RCS value of CAD 992.732 million is only 48.66% of the published CAD
+2.04 billion benchmark; the CAD 1.047268 billion difference confirms that the
+two public boundaries are materially different. It does not identify the
+missing 2024 value or prove that every difference is a channel omission.
+
+The public 2023 Survey of Household Spending microdata was also inspected. Its
+released hierarchy combines tobacco products, smokers' supplies and cannabis
+in one field and does not expose a vaping-only expenditure field. It is
+therefore a documented dead end for a vaping-specific donor value.
+
+### Germany: official apparent-supply and tax/VAT sensitivity
+
+Eurostat's annual PRODCOM/Comext dissemination API publishes Germany's 2024
+sold production, imports and exports for two relevant product classes:
+
+| Product class | Sold production | Imports | Exports | Mechanical apparent supply |
+|---|---:|---:|---:|---:|
+| `20595980`, nicotine and nicotine substitutes intended for inhalation | EUR 39,078,000 | EUR 400,843,037 | EUR 120,676,188 | EUR 319,244,849 |
+| `27901152`, electronic cigarettes and similar personal vaporising devices | EUR 99,890,000 | EUR 490,580,247 | EUR 301,380,538 | EUR 289,089,709 |
+| **Combined** |  |  |  | **EUR 608,334,558** |
+
+Sources:
+
+- <https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1/data/DS-059358/A.DE.20595980.?startPeriod=2024&endPeriod=2024>
+- <https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1/data/DS-059358/A.DE.27901152.?startPeriod=2024&endPeriod=2024>
+
+The sold-production values carry Eurostat flag `:E`. Adding the existing
+Destatis 2024 substitutes-excise receipt of EUR 266 million and mechanically
+applying Germany's 19% standard VAT rate gives:
+
+`(EUR 608,334,558 + EUR 266,000,000) x 1.19 = EUR 1,040,458,124.02`
+
+VAT source: <https://www.gesetze-im-internet.de/ustg_1980/__12.html>.
+
+This is deliberately labelled a **zero-distribution-margin sensitivity**, not
+a retail-market estimate. Production and border values are not retail
+sell-through; the formula does not resolve trade and product classification,
+inventory, domestic production coverage, margins, discounts, illicit trade,
+tax timing or whether the excise and supply records share the same boundary.
+
+### New Zealand: 2019 and 2023 household-expenditure control
+
+Stats NZ's detailed Household Economic Survey publishes national household
+expenditure for e-cigarettes and refills. The year-ended-June estimates are NZD
+42.276 million for 2019 and NZD 186.980 million for 2023. Devices and refills
+sum exactly to each total, but the 2023 total has a 22.4% relative sampling
+error and the device component has a 79.1% relative sampling error. Full values,
+quality flags, hashes and the reproduction path are recorded in
+[`NZ_2019_2023_HES_E_CIGARETTE_EXPENDITURE_CONTROL.md`](NZ_2019_2023_HES_E_CIGARETTE_EXPENDITURE_CONTROL.md).
+
+The source is independent and nationwide, but it is not a calendar-year retail
+sell-through census and does not share the 2024 Ministry annual-return boundary.
+It therefore does not close D1, D5, D8 or D10 for the 2024 candidate.
+
+### Poland: annual producer/importer quantity series and retail segment check
+
+The Ministry of Health's annual-report table adds six product rows for
+2019-2022: disposables, reusable devices, individual parts, kits, other devices
+and refill containers/cartridges. The 2022 values are explicitly preliminary
+because not all obliged entities had filed. The preliminary disposable figure
+of 14,663,879 later rose to 19,525,600, a 33.15% revision.
+
+Source: <https://api.sejm.gov.pl/sejm/term9/interpellations/attachment/ATTCTNBJB/i41718-o1.pdf>.
+
+CMR separately reports approximately **PLN 2 billion** of disposable
+e-cigarette sales in 2023. It is admitted only as a commercial disposable-only
+segment estimate: the public page does not disclose a reproducible national
+sample frame, weights, specialist-channel treatment or VAT basis, and it does
+not cover refillable devices, liquids or pods.
+
+Source: <https://www.cmr.com.pl/2024/01/jednorazowe-e-papierosy-przeboj-sprzedazy-2023/>.
+
+The Poland volume bridge is strong but not a value bridge. Dividing official
+2022 and 2023 excise receipts by the then-applicable PLN 0.55/ml rate produces
+418.0 million ml and 806.545 million ml, respectively, only 0.46% and 0.14%
+above the later official reported quantities. That independently checks the
+liquid volume boundary, not consumer retail value.
+
 ## Canada: channel-materiality control
 
 Official package:

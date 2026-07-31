@@ -46,11 +46,11 @@ e-cigarette-device count.
 |:---|:---|:---|:---|:---|
 | D1 | Supported | Open | Full-year e-liquid flows exist for 2020–2023, subject to an unresolved 2023 revision conflict. Full-year e-liquid excise receipts exist for 2021–2025, and producer/importer reporting supplies a 2022 disposable-unit count. | One complete calendar-year consumer-retail value covering devices and consumables on the same boundary. The device tax began only on 1 July 2025. |
 | D2 | Confirmed not met | Failed | ZEFIR2/AIS data describe domestic sale, intra-EU acquisition and import flows; 2021–2025 values are tax receipts. The 2022 producer/importer-reported `sales` unit count does not state the transaction stage and does not establish consumer sell-through. | Consumer-paid retail sell-through value. |
-| D3 | Supported | Open | The 2025 tax response separates e-liquid, a broad device group and component sets; 2022 reporting identifies disposable devices. | Add reusable devices and refill containers, split the broad device group into e-cigarettes, heaters and multifunction devices, and reconcile every component to one full-year boundary. |
+| D3 | Supported | Open | Producer/importer reporting now identifies disposable and reusable devices, individual parts, kits, other products and refill containers/cartridges for 2019-2022. The 2022 table is incomplete and the stages are not reconciled to one retail boundary. | Reconcile all categories to consumer sell-through, split the broad 2025 device-tax group into e-cigarettes, heaters and multifunction devices, and align devices and consumables to one complete year. |
 | D4 | Confirmed not met | Failed | E-liquid and several adjacent categories are separate, but the device-tax group mixes e-cigarettes with heated-tobacco heaters and multifunction devices. | Aggregate AKC-4/R subgroup split and an explicit treatment of multifunction devices. |
 | D5 | Missing | Open | The flow is national, but this does not demonstrate nationwide retail-channel coverage. | Specialist, general-retail, online, illicit and reporting coverage plus a quantitative denominator. |
 | D6 | Missing | Open | The Ministry combines domestic sales, intra-EU acquisitions and imports. A separate description-filtered customs net-mass series is an unreconciled border-stage route. | A non-duplicative bridge for components, exports, returns, destruction, inventories and possible overlapping stages. |
-| D7 | Supported | Open | ZEFIR2 and AIS source systems and headline measures are identified. Two official releases differ on 2023 e-liquid volume by 78,200,334.20 ml, or 9.71% of the later figure. | Reporter counts, missing and late returns, revisions, coverage, quality warnings and an authority explanation of the 2023 conflict and the sharp annual break. |
+| D7 | Supported | Open | ZEFIR2 and AIS source systems and headline measures are identified. Two official releases differ on 2023 e-liquid volume by 78,200,334.20 ml, or 9.71% of the later figure. The preliminary 2022 disposable count later rose 33.15%. | Reporter counts, missing and late returns, revisions, coverage, quality warnings and an authority explanation of both revision paths and the sharp annual breaks. |
 | D8 | Supported | Open | PLN, statutory tax rates and effective dates are official. | The VAT and excise basis of consumer retail price; no retail value currently exists to test. |
 | D9 | Confirmed | Passed for current anchors | Official PDFs, tax rates and deterministic divisions are public and reproducible. | Any future retail value must receive its own public source chain. |
 | D10 | Missing | Open | A Supreme Audit Office publication supplies an additional KAS-based control, and the customs net-mass series supplies a border-stage control; neither is an independent consumer-retail route. | A same-year KAS–EU-CEG–POS or retail reconciliation, or direct official validation. |
@@ -64,6 +64,7 @@ e-cigarette-device count.
 | 2021 | E-liquid excise receipts | PLN 179.5 million | Tax receipts, not sales revenue |
 | 2022 | Same | 416,088 litres | Physical flow, not retail value |
 | 2022 | Reported disposable electronic-cigarette sales | 19,525,600 units | Annual producer/importer reporting; transaction stage and channel coverage unstated |
+| 2022 | Earlier preliminary reported disposable sales | 14,663,879 units | Incomplete annual-report aggregate; revision control only, not additive |
 | 2022 | E-liquid excise receipts | PLN 229.9 million | Tax receipts, not sales revenue |
 | 2023 | Same | 805,441 litres | Physical flow, not retail value |
 | 2023 | Earlier, revisable e-liquid volume | 883,641.3342 litres | Conflicts with the later 805,441-litre release by 9.71%; not combined |
@@ -99,6 +100,11 @@ labelled `institutional_supported`, not official observed market data or donor
 evidence. No EUR equivalent is computed because the source does not establish
 a full-calendar-year reference period. The full admission and exclusion logic is documented in
 [`DONOR_CLOSURE_SPRINT_CA_DE_NZ_PL_2026-07-31.md`](DONOR_CLOSURE_SPRINT_CA_DE_NZ_PL_2026-07-31.md).
+
+CMR's approximately PLN 2 billion 2023 value is visible only as a
+disposable-only commercial segment estimate. It does not establish the whole
+Polish market because refillable devices, liquids and pods are excluded and
+the public method, full channel coverage and VAT/excise basis are unavailable.
 
 ## Machine-readable preassessment
 
@@ -151,6 +157,8 @@ approval.
 - [Ministry response 1344 — customs net-mass sensitivity](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTD2VJJ4/i01344-o1.pdf)
 - [Ministry response 2408 — earlier volume and 2021–2023 excise](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTD4DHUB/i02408-o1.pdf)
 - [Ministry response 18182 — 2022–2025 excise](https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDW7AZK/i18182-o1.pdf)
+- [Ministry response 41718 — 2019–2022 producer/importer quantities](https://api.sejm.gov.pl/sejm/term9/interpellations/attachment/ATTCTNBJB/i41718-o1.pdf)
+- [CMR — 2023 disposable-e-cigarette segment estimate](https://www.cmr.com.pl/2024/01/jednorazowe-e-papierosy-przeboj-sprzedazy-2023/)
 - [UOKiK decision DKK-211/2015 — historical institutional benchmark](https://decyzje.uokik.gov.pl/bp/dec_prez.nsf/43104c28a7a1be23c1257eac006d8dd4/7a82fa564deb307ac1257f370063717c/%24FILE/DKK1_421_48_15_MAB_BAT_CHIC_decyzja_BIP.pdf)
 - [Ministry of Finance — excise rates](https://www.podatki.gov.pl/akcyza/stawki-podatkowe/)
 - [Ministry of Finance — broad device-group definition](https://www.podatki.gov.pl/akcyza/komunikaty-w-zakresie-podatku-akcyzowego)

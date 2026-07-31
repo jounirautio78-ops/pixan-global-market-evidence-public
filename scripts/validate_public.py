@@ -1265,13 +1265,18 @@ def validate_market_values(
     if not isinstance(source_rows, list) or not source_rows:
         errors.append("market-observations.json sources must be a non-empty array")
         source_rows = []
-    if len(source_rows) != 40:
-        errors.append("market-observations.json must contain exactly 40 reviewed market sources")
+    if len(source_rows) != 47:
+        errors.append("market-observations.json must contain exactly 47 reviewed market sources")
     expected_source_urls = {
         "CA-HC-VAPING-SALES-2024": (
             "official",
             "https://health-infobase.canada.ca/substance-use/vaping/sales/",
             "https://health-infobase.canada.ca/src/data/substance-use/vaping/sales/VPRR%20Data%20-%202026-01-22.zip",
+        ),
+        "CA-HC-TVPA-REVIEW-2022": (
+            "official_secondary",
+            "https://www.canada.ca/en/health-canada/programs/consultation-legislative-review-tobacco-vaping-products-act/final-report.html",
+            None,
         ),
         "CA-STATCAN-RCS-2019-2022": (
             "official",
@@ -1328,6 +1333,21 @@ def validate_market_values(
             "https://genesis.destatis.de/datenbank/online/statistic/73311/table/73311-0002/",
             "https://genesis.destatis.de/genesisWS/downloads/00/tables/73311-0002_00.csv",
         ),
+        "DE-EUROSTAT-PRODCOM-COMEXT-20595980-2024": (
+            "official",
+            "https://ec.europa.eu/eurostat/databrowser/view/DS-059358/default/table?lang=en",
+            "https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1/data/DS-059358/A.DE.20595980.?startPeriod=2024&endPeriod=2024",
+        ),
+        "DE-EUROSTAT-PRODCOM-COMEXT-27901152-2024": (
+            "official",
+            "https://ec.europa.eu/eurostat/databrowser/view/DS-059358/default/table?lang=en",
+            "https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1/data/DS-059358/A.DE.27901152.?startPeriod=2024&endPeriod=2024",
+        ),
+        "DE-USTG-SECTION-12-VAT": (
+            "official",
+            "https://www.gesetze-im-internet.de/ustg_1980/__12.html",
+            None,
+        ),
         "FI-TAX-EXCISE-VVT-010-2025": (
             "official",
             "https://vero2.stat.fi/PXWeb/api/v1/en/Vero/Valmistevero/vvt_010.px",
@@ -1361,6 +1381,16 @@ def validate_market_values(
         "PL-SEJM-I18182-O1": (
             "official",
             "https://api.sejm.gov.pl/sejm/term10/interpellations/attachment/ATTDW7AZK/i18182-o1.pdf",
+            None,
+        ),
+        "PL-SEJM-I41718-O1": (
+            "official",
+            "https://api.sejm.gov.pl/sejm/term9/interpellations/attachment/ATTCTNBJB/i41718-o1.pdf",
+            "https://api.sejm.gov.pl/sejm/term9/interpellations/attachment/ATTCTNBJB/i41718-o1.pdf",
+        ),
+        "PL-CMR-DISPOSABLES-2023": (
+            "commercial_estimate",
+            "https://www.cmr.com.pl/2024/01/jednorazowe-e-papierosy-przeboj-sprzedazy-2023/",
             None,
         ),
         "PL-UOKIK-DKK-211-2015": (
@@ -1417,6 +1447,11 @@ def validate_market_values(
             "official",
             "https://www.health.govt.nz/system/files/2024-10/H2024042044%20AM%20-%20Specialist%20Vape%20Retailer%20Approvals.pdf",
             "https://www.health.govt.nz/system/files/2024-10/H2024042044%20AM%20-%20Specialist%20Vape%20Retailer%20Approvals.pdf",
+        ),
+        "NZ-STATSNZ-HES-DETAILED-2019-2023": (
+            "official",
+            "https://www.stats.govt.nz/information-releases/household-expenditure-statistics-year-ended-june-2023/",
+            "https://www.stats.govt.nz/assets/Uploads/Household-expenditure-statistics/Household-expenditure-statistics-Year-ended-June-2023/Download-data/detailed-household-expenditure-year-ended-June-2023-updated.zip",
         ),
         "EU-EC-SWD-2025-560": (
             "official_secondary",
@@ -1516,8 +1551,8 @@ def validate_market_values(
     if not isinstance(observations, list) or not observations:
         errors.append("market-observations.json observations must be a non-empty array")
         observations = []
-    if len(observations) != 112:
-        errors.append("market-observations.json must contain exactly 112 reviewed observations")
+    if len(observations) != 156:
+        errors.append("market-observations.json must contain exactly 156 reviewed observations")
     observations_by_id: dict[str, dict[str, Any]] = {}
     expected_observations = {
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
@@ -1597,6 +1632,62 @@ def validate_market_values(
         "US-2020-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2020, "ftc_reported_cartridge_and_disposable_sales", 2394423105, "USD", "official_table_derived", "corrected_and_expanded_official_table_sum", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
         "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("US", 2021, "ftc_reported_cartridge_and_disposable_sales", 2763284338, "USD", "official_table_derived", "official_table_sum", "manufacturer_reported_sales_not_complete_consumer_retail_sell_through", False),
     }
+    expected_observations.update(
+        {
+            "NZ-2019-HES-E-CIGARETTES-AND-REFILLS-EXPENDITURE-NZD": ("NZ", 2019, "household_expenditure_estimate", 42276000, "NZD", "official_observed", "official_survey_estimate_rse_57_1_percent_quality_L", "national_household_expenditure_survey_estimate_not_calendar_year_retail_sales", False),
+            "NZ-2019-HES-E-CIGARETTE-DEVICES-EXPENDITURE-NZD": ("NZ", 2019, "household_expenditure_estimate", 18034000, "NZD", "official_observed", "official_survey_estimate_rse_106_9_percent_quality_P", "national_household_expenditure_survey_estimate_not_calendar_year_retail_sales", False),
+            "NZ-2019-HES-E-CIGARETTE-REFILLS-EXPENDITURE-NZD": ("NZ", 2019, "household_expenditure_estimate", 24242000, "NZD", "official_observed", "official_survey_estimate_rse_38_4_percent_quality_M", "national_household_expenditure_survey_estimate_not_calendar_year_retail_sales", False),
+            "NZ-2023-HES-E-CIGARETTES-AND-REFILLS-EXPENDITURE-NZD": ("NZ", 2023, "household_expenditure_estimate", 186980000, "NZD", "official_observed", "official_survey_estimate_rse_22_4_percent_quality_M", "national_household_expenditure_survey_estimate_not_calendar_year_retail_sales", False),
+            "NZ-2023-HES-E-CIGARETTE-DEVICES-EXPENDITURE-NZD": ("NZ", 2023, "household_expenditure_estimate", 22488000, "NZD", "official_observed", "official_survey_estimate_rse_79_1_percent_quality_L", "national_household_expenditure_survey_estimate_not_calendar_year_retail_sales", False),
+            "NZ-2023-HES-E-CIGARETTE-REFILLS-EXPENDITURE-NZD": ("NZ", 2023, "household_expenditure_estimate", 164492000, "NZD", "official_observed", "official_survey_estimate_rse_22_6_percent_quality_M", "national_household_expenditure_survey_estimate_not_calendar_year_retail_sales", False),
+            "CA-2021-HC-VAPING-MARKET-BENCHMARK": ("CA", 2021, "institutional_market_value_benchmark", 2040000000, "CAD", "institutional_supported", "published_secondary_benchmark", "custom_commercial_study_benchmark_published_by_official_institution_not_donor", False),
+            "CA-2021-HC-GAS-CONVENIENCE-VAPING-SALES-BENCHMARK": ("CA", 2021, "institutional_channel_value_benchmark", 631000000, "CAD", "institutional_supported", "published_secondary_channel_benchmark", "custom_commercial_channel_benchmark_published_by_official_institution_not_donor", False),
+            "CA-2021-HC-ONLINE-VAPING-SALES-BENCHMARK": ("CA", 2021, "institutional_channel_value_benchmark", 436000000, "CAD", "institutional_supported", "published_approximate_secondary_channel_benchmark", "custom_commercial_channel_benchmark_published_by_official_institution_not_donor", False),
+            "DE-2024-EUROSTAT-20595980-SOLD-PRODUCTION-EUR": ("DE", 2024, "prodcom_20595980_sold_production_value", 39078000, "EUR", "official_provisional", "published_reliable_estimate_flag_E", "sold_production_value_ex_vat_excise_not_retail_market_value", False),
+            "DE-2024-EUROSTAT-20595980-IMPORTS-EUR": ("DE", 2024, "prodcom_20595980_import_value", 400843037, "EUR", "official_observed", "published", "cif_import_value_ex_import_taxes_not_retail_market_value", False),
+            "DE-2024-EUROSTAT-20595980-EXPORTS-EUR": ("DE", 2024, "prodcom_20595980_export_value", 120676188, "EUR", "official_observed", "published", "fob_export_value_not_retail_market_value", False),
+            "DE-2024-EUROSTAT-27901152-SOLD-PRODUCTION-EUR": ("DE", 2024, "prodcom_27901152_sold_production_value", 99890000, "EUR", "official_provisional", "published_reliable_estimate_flag_E", "sold_production_value_ex_vat_excise_not_retail_market_value", False),
+            "DE-2024-EUROSTAT-27901152-IMPORTS-EUR": ("DE", 2024, "prodcom_27901152_import_value", 490580247, "EUR", "official_observed", "published", "cif_import_value_ex_import_taxes_not_retail_market_value", False),
+            "DE-2024-EUROSTAT-27901152-EXPORTS-EUR": ("DE", 2024, "prodcom_27901152_export_value", 301380538, "EUR", "official_observed", "published", "fob_export_value_not_retail_market_value", False),
+            "DE-2024-EUROSTAT-20595980-APPARENT-SUPPLY-EUR": ("DE", 2024, "prodcom_20595980_apparent_supply_value", 319244849, "EUR", "official_table_derived", "derived_production_plus_imports_minus_exports_production_flag_E", "production_plus_imports_minus_exports_supply_stage_value_not_consumer_retail_sell_through", False),
+            "DE-2024-EUROSTAT-27901152-APPARENT-SUPPLY-EUR": ("DE", 2024, "prodcom_27901152_apparent_supply_value", 289089709, "EUR", "official_table_derived", "derived_production_plus_imports_minus_exports_production_flag_E", "production_plus_imports_minus_exports_supply_stage_value_not_consumer_retail_sell_through", False),
+            "DE-2024-EUROSTAT-COMBINED-APPARENT-SUPPLY-EUR": ("DE", 2024, "combined_prodcom_apparent_supply_value", 608334558, "EUR", "official_table_derived", "sum_of_two_derived_apparent_supply_categories", "combined_apparent_supply_stage_value_not_consumer_retail_sell_through", False),
+            "DE-2024-EUROSTAT-APPARENT-SUPPLY-EXCISE-VAT-BRIDGE-EUR": ("DE", 2024, "mechanical_apparent_supply_excise_vat_bridge", 1040458124.02, "EUR", "official_table_derived", "derived_with_rounded_official_excise_receipts_and_statutory_vat_rate", "mechanical_supply_plus_cash_excise_receipts_times_vat_not_observed_retail_market_value", False),
+            "PL-2023-CMR-DISPOSABLE-E-CIGARETTE-RETAIL-SALES-VALUE": ("PL", 2023, "commercial_disposable_e_cigarette_retail_sales_value", 2000000000, "PLN", "commercial_estimate", "publisher_approximation", "commercial_disposable_only_retail_sales_estimate_non_reproducible_not_donor", False),
+        }
+    )
+    poland_reported_quantity_series = (
+        ("DISPOSABLE-E-CIGARETTE-REPORTED-SALES-UNITS", "disposable_e_cigarette_reported_sales_units", "unit", (114355, 55550, 1941050, 14663879)),
+        ("REUSABLE-E-CIGARETTE-REPORTED-SALES-UNITS", "reusable_e_cigarette_reported_sales_units", "unit", (2734783, 2166606, 1479135, 5401206)),
+        ("INDIVIDUAL-E-CIGARETTE-PART-REPORTED-SALES-UNITS", "individual_e_cigarette_part_reported_sales_units", "unit", (1089435, 2107617, 776570, 398998)),
+        ("E-CIGARETTE-KIT-REPORTED-SALES-UNITS", "e_cigarette_kit_reported_sales_units", "kit", (553775, 284767, 335984, 1349907)),
+        ("OTHER-E-CIGARETTE-PRODUCT-REPORTED-SALES-UNITS", "other_e_cigarette_product_reported_sales_units", "unit", (470642, 336532, 243782, 227957)),
+        ("E-LIQUID-REFILL-CONTAINER-CARTRIDGE-REPORTED-SALES-UNITS", "e_liquid_refill_container_cartridge_reported_sales_units", "unit", (36020303, 124015052, 130487551, 50838653)),
+    )
+    for slug, metric, unit, values in poland_reported_quantity_series:
+        for year, value in zip((2019, 2020, 2021, 2022), values):
+            observation_id = f"PL-{year}-{slug}"
+            metric_name = metric
+            if year == 2022:
+                observation_id += "-PRELIMINARY"
+                status = "official_provisional"
+                finality = "preliminary_incomplete_annual_reports"
+                if slug == "DISPOSABLE-E-CIGARETTE-REPORTED-SALES-UNITS":
+                    metric_name = "disposable_e_cigarette_reported_sales_units_revision_control"
+            else:
+                status = "official_observed"
+                finality = "official_response_annual_report_aggregate"
+            expected_observations[observation_id] = (
+                "PL",
+                year,
+                metric_name,
+                value,
+                unit,
+                status,
+                finality,
+                "producer_importer_reported_sales_quantity_transaction_stage_unspecified_not_market_value",
+                False,
+            )
     sweden_fhm_values = {
         2018: (226, 18356, 16264, 2092),
         2019: (310, 24525, 17704, 6821),
@@ -1742,6 +1833,8 @@ def validate_market_values(
                     "external_study_benchmark_published_by_official_institution_not_donor",
                 "PL-2015-UOKIK-E-CIGARETTE-MARKET-VALUE-ESTIMATE":
                     "case_2015_estimate_republished_by_uokik_exact_annual_and_tax_basis_unstated_not_donor",
+                "CA-2021-HC-VAPING-MARKET-BENCHMARK":
+                    "custom_commercial_study_benchmark_published_by_official_institution_not_donor",
             }
             if (
                 item.get("evidenceStatus") != "institutional_supported"
@@ -1761,6 +1854,81 @@ def validate_market_values(
                 errors.append(
                     f"{path}: Poland's UOKiK benchmark must retain its non-annual study-period boundary"
                 )
+        if item.get("metric") == "institutional_channel_value_benchmark" and (
+            item.get("countryIso2") != "CA"
+            or item.get("year") != 2021
+            or item.get("evidenceStatus") != "institutional_supported"
+            or item.get("marketValueBasis")
+            != "custom_commercial_channel_benchmark_published_by_official_institution_not_donor"
+            or item.get("comparableMarketValue")
+            or item.get("atlasEstimate")
+            or item.get("sourceIds") != ["CA-HC-TVPA-REVIEW-2022"]
+        ):
+            errors.append(
+                f"{path}: Canada channel benchmarks must remain institutional, historical and donor-ineligible"
+            )
+        if item.get("metric") == "household_expenditure_estimate":
+            limitation = str(item.get("limitationEn", ""))
+            if (
+                item.get("countryIso2") != "NZ"
+                or item.get("period") != "year_ended_june"
+                or item.get("evidenceStatus") != "official_observed"
+                or item.get("marketValueBasis")
+                != "national_household_expenditure_survey_estimate_not_calendar_year_retail_sales"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+                or item.get("sourceIds") != ["NZ-STATSNZ-HES-DETAILED-2019-2023"]
+                or "relative sampling error" not in limitation
+                or "No EUR equivalent is computed" not in limitation
+            ):
+                errors.append(
+                    f"{path}: New Zealand HES values must retain their survey, non-calendar and non-donor boundaries"
+                )
+        if item.get("marketValueBasis") == "producer_importer_reported_sales_quantity_transaction_stage_unspecified_not_market_value":
+            if (
+                item.get("countryIso2") != "PL"
+                or item.get("currency") is not None
+                or item.get("period") != "calendar_year"
+                or item.get("comparableMarketValue")
+                or item.get("atlasEstimate")
+                or "sell-through" not in str(item.get("limitationEn", ""))
+            ):
+                errors.append(
+                    f"{path}: Poland producer/importer quantities must remain non-retail, non-monetary controls"
+                )
+        if item.get("metric") == "commercial_disposable_e_cigarette_retail_sales_value" and (
+            item.get("countryIso2") != "PL"
+            or item.get("productScope") != "disposable_e_cigarettes_only"
+            or item.get("period") != "calendar_year"
+            or item.get("evidenceStatus") != "commercial_estimate"
+            or item.get("marketValueBasis")
+            != "commercial_disposable_only_retail_sales_estimate_non_reproducible_not_donor"
+            or item.get("comparableMarketValue")
+            or item.get("atlasEstimate")
+            or item.get("sourceIds") != ["PL-CMR-DISPOSABLES-2023"]
+        ):
+            errors.append(
+                f"{path}: CMR value must remain a non-reproducible disposable-only segment estimate"
+            )
+        if item.get("countryIso2") == "DE" and item.get("year") == 2024 and item.get("metric") in {
+            "prodcom_20595980_sold_production_value",
+            "prodcom_20595980_import_value",
+            "prodcom_20595980_export_value",
+            "prodcom_27901152_sold_production_value",
+            "prodcom_27901152_import_value",
+            "prodcom_27901152_export_value",
+            "prodcom_20595980_apparent_supply_value",
+            "prodcom_27901152_apparent_supply_value",
+            "combined_prodcom_apparent_supply_value",
+            "mechanical_apparent_supply_excise_vat_bridge",
+        } and (
+            item.get("comparableMarketValue")
+            or item.get("atlasEstimate")
+            or "retail" not in str(item.get("marketValueBasis", ""))
+        ):
+            errors.append(
+                f"{path}: Germany's supply-stage controls must remain outside retail value and the donor roll-up"
+            )
         if item.get("metric") == "retail_price_input" and (
             item.get("evidenceStatus") != "published_price_input"
             or item.get("comparableMarketValue")
@@ -1879,8 +2047,8 @@ def validate_market_values(
         if isinstance(item, dict)
         and str(item.get("evidenceStatus", "")).startswith("official_")
     ]
-    if len(official_observations) != 94:
-        errors.append("market observations must contain exactly 94 official observations")
+    if len(official_observations) != 134:
+        errors.append("market observations must contain exactly 134 official observations")
     structural_official = [
         item
         for item in official_observations
@@ -1890,9 +2058,9 @@ def validate_market_values(
     market_measure_official = [
         item for item in official_observations if item not in structural_official
     ]
-    if len(structural_official) != 36 or len(market_measure_official) != 58:
+    if len(structural_official) != 36 or len(market_measure_official) != 98:
         errors.append(
-            "market observations must retain 58 official market measures plus "
+            "market observations must retain 98 official market measures plus "
             "36 Sweden registration-structure observations"
         )
     if {
@@ -2000,6 +2168,56 @@ def validate_market_values(
         )
         if actual != expected:
             errors.append(f"market observation {observation_id} differs from its reviewed fact tuple")
+
+    nz_hes_values = (
+        observations_by_id.get("NZ-2019-HES-E-CIGARETTES-AND-REFILLS-EXPENDITURE-NZD", {}).get("value"),
+        observations_by_id.get("NZ-2019-HES-E-CIGARETTE-DEVICES-EXPENDITURE-NZD", {}).get("value"),
+        observations_by_id.get("NZ-2019-HES-E-CIGARETTE-REFILLS-EXPENDITURE-NZD", {}).get("value"),
+        observations_by_id.get("NZ-2023-HES-E-CIGARETTES-AND-REFILLS-EXPENDITURE-NZD", {}).get("value"),
+        observations_by_id.get("NZ-2023-HES-E-CIGARETTE-DEVICES-EXPENDITURE-NZD", {}).get("value"),
+        observations_by_id.get("NZ-2023-HES-E-CIGARETTE-REFILLS-EXPENDITURE-NZD", {}).get("value"),
+    )
+    if (
+        not all(isinstance(value, (int, float)) and not isinstance(value, bool) for value in nz_hes_values)
+        or nz_hes_values[0] != nz_hes_values[1] + nz_hes_values[2]
+        or nz_hes_values[3] != nz_hes_values[4] + nz_hes_values[5]
+    ):
+        errors.append("New Zealand HES device and refill components must add exactly to each published total")
+
+    de_supply_2059 = observations_by_id.get(
+        "DE-2024-EUROSTAT-20595980-APPARENT-SUPPLY-EUR", {}
+    ).get("value")
+    de_supply_2790 = observations_by_id.get(
+        "DE-2024-EUROSTAT-27901152-APPARENT-SUPPLY-EUR", {}
+    ).get("value")
+    de_supply_combined = observations_by_id.get(
+        "DE-2024-EUROSTAT-COMBINED-APPARENT-SUPPLY-EUR", {}
+    ).get("value")
+    de_bridge = observations_by_id.get(
+        "DE-2024-EUROSTAT-APPARENT-SUPPLY-EXCISE-VAT-BRIDGE-EUR", {}
+    ).get("value")
+    if (
+        not all(
+            isinstance(value, (int, float)) and not isinstance(value, bool)
+            for value in (de_supply_2059, de_supply_2790, de_supply_combined, de_bridge)
+        )
+        or de_supply_2059 != 39078000 + 400843037 - 120676188
+        or de_supply_2790 != 99890000 + 490580247 - 301380538
+        or de_supply_combined != de_supply_2059 + de_supply_2790
+        or de_bridge != round((de_supply_combined + 266000000) * 1.19, 2)
+    ):
+        errors.append("Germany 2024 apparent-supply and zero-margin tax/VAT bridge algebra must remain exact")
+
+    pl_disposable_preliminary = observations_by_id.get(
+        "PL-2022-DISPOSABLE-E-CIGARETTE-REPORTED-SALES-UNITS-PRELIMINARY", {}
+    )
+    if (
+        pl_disposable_preliminary.get("sourceIds")
+        != ["PL-SEJM-I41718-O1", "PL-SEJM-I01345-O1"]
+        or "33.15% higher" not in str(pl_disposable_preliminary.get("limitationEn", ""))
+        or "do not sum" not in str(pl_disposable_preliminary.get("limitationEn", ""))
+    ):
+        errors.append("Poland's preliminary 2022 disposable count must retain its revision and non-addition control")
 
     expected_scope_sources = {
         "CA-2019-STATCAN-RCS-VAPING-RETAIL-SALES": ("napcs_5619122_electronic_cigarettes_e_liquid_refills_vaporizers_and_other_e_liquid_delivery_systems_at_retail", "CA-STATCAN-RCS-2019-2022"),
@@ -2338,8 +2556,9 @@ def validate_market_values(
         "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
         "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
         "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
+        "NZ-STATSNZ-HES-DETAILED-2019-2023",
     ]:
-        errors.append("New Zealand donor candidate must retain the five reviewed official source IDs")
+        errors.append("New Zealand donor candidate must retain the six reviewed official source IDs")
 
     try:
         expected_output = build_market_values()

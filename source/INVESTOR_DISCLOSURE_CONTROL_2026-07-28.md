@@ -94,11 +94,11 @@ nykyiset julkaistut faktat ovat julkisen tiedonannon vähimmäistaso:
    Tilanteessa 29.7.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty eikä
    ostoa ole valtuutettu. Asiakirjan, tarjouksen tai näytteen vastaanotto ei
    osoita täydellisyyttä, menetelmän laatua tai luovutusoikeuksia.
-8. The dashboard is release **2026.07.31-39**. The six downloadable files
+8. The dashboard is release **2026.07.31-40**. The six downloadable files
    remain the reviewed **2026.07.31-37** daily snapshot. The downloadable
    package is generated at most once per Asia/Nicosia calendar day, and each
    surface retains its own visible version.
-   Dashboard on julkaisu **2026.07.31-39**. Kuusi ladattavaa tiedostoa pysyvät
+   Dashboard on julkaisu **2026.07.31-40**. Kuusi ladattavaa tiedostoa pysyvät
    tarkistettuna **2026.07.31-37**-päiväsnapshotina. Ladattava paketti
    muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä, ja kumpikin
    pinta säilyttää oman näkyvän versionsa.
@@ -120,8 +120,8 @@ tai rajaa päätöspaketti.
 
 | Asset group / Aineistoryhmä | Public paths / Julkiset polut | Version or boundary / Versio tai raja |
 | --- | --- | --- |
-| Dashboard / Dashboard | `site/index.html` | `2026.07.31-39` |
-| Change log / Muutosloki | `site/data/changelog.json` | `2026.07.31-39` |
+| Dashboard / Dashboard | `site/index.html` | `2026.07.31-40` |
+| Change log / Muutosloki | `site/data/changelog.json` | `2026.07.31-40` |
 | Daily manifest / Päivämanifesti | `site/data/bank-package-manifest.json` | `2026.07.31-37` |
 | Concise and extended decks / Suppeat ja laajat dekit | `site/downloads/pixan-bank-deck-short-en.pptx`, `...-fi.pptx`, `site/downloads/pixan-bank-deck-large-en.pptx`, `...-fi.pptx` | `2026.07.31-37` |
 | Evidence Registers / Evidence Registerit | `site/downloads/pixan-bank-evidence-register-en.xlsx`, `...-fi.xlsx` | `2026.07.31-37` |

@@ -3,32 +3,32 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V39 = Object.freeze({
-    id: "2026-07-31-four-country-donor-closure-v39",
-    version: "2026.07.31-39",
-    publishedAt: "2026-07-31T14:48:53+03:00",
-    titleEn: "Four-country donor-closure evidence sprint",
-    titleFi: "Neljän maan donor-evidenssin sulkemissprintti",
+  const UI_RELEASE_V40 = Object.freeze({
+    id: "2026-07-31-comparator-controls-v40",
+    version: "2026.07.31-40",
+    publishedAt: "2026-07-31T16:32:30+03:00",
+    titleEn: "Four-country comparator controls and annual series",
+    titleFi: "Neljän maan vertailukontrollit ja vuosisarjat",
     items: Object.freeze([
       Object.freeze({
         category: "market_data",
-        textEn: "Added 27 bounded observations and 15 source records across Canada, Germany, Poland and New Zealand. Each value remains labelled by transaction stage, product scope and evidential role.",
-        textFi: "Lisättiin 27 rajattua havaintoa ja 15 lähdetietuetta Kanadasta, Saksasta, Puolasta ja Uudesta-Seelannista. Jokainen arvo säilyttää tapahtumavaiheen, tuoterajauksen ja evidenssiroolin."
+        textEn: "Added 44 bounded observations from seven public sources: New Zealand HES expenditure estimates, Canada institutional market and channel benchmarks, Germany official supply-stage controls, and Poland annual quantities plus a disposable-only segment estimate.",
+        textFi: "Lisättiin 44 rajattua havaintoa seitsemästä julkisesta lähteestä: Uuden-Seelannin HES-kulutusestimaatit, Kanadan institutionaaliset markkina- ja kanavavertailut, Saksan viralliset tarjontavaiheen kontrollit sekä Puolan vuotuiset määrät ja kertakäyttösegmenttiarvio."
       }),
       Object.freeze({
         category: "method",
-        textEn: "Canada's ~63% CTNS point shares support potential specialist-channel materiality but do not quantify sales; precision is withheld because the public PUMF and bootstrap ID sets differ. Poland's two official 2023 liquid volumes remain visibly unreconciled at a 9.71% difference.",
-        textFi: "Kanadan noin 63 prosentin CTNS-pisteosuudet tukevat erikoiskanavan mahdollista olennaisuutta mutta eivät mittaa myyntiä; tarkkuusluvut pidetään pois, koska julkisen PUMF- ja bootstrap-aineiston tunnistejoukot eroavat. Puolan kaksi virallista vuoden 2023 nestemäärää pysyvät näkyvästi täsmäyttämättöminä 9,71 prosentin erolla."
+        textEn: "Germany's reproducible apparent-supply control is EUR 608.335 million and its zero-margin supply-excise-VAT sensitivity is EUR 1.040 billion. New Zealand's 2023 HES total is NZD 186.980 million with 22.4% relative sampling error. Neither is complete retail sell-through.",
+        textFi: "Saksan toistettava laskennallinen tarjontakontrolli on 608,335 miljoonaa euroa ja nollamarginaalinen tarjonta-valmistevero-ALV-herkkyys 1,040 miljardia euroa. Uuden-Seelannin vuoden 2023 HES-summa on 186,980 miljoonaa NZD ja suhteellinen otantavirhe 22,4 %. Kumpikaan ei ole koko vähittäismyynti."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "The live dashboard now contains 112 observations from 40 sources. The 94 official observations comprise 58 market measures and 36 Swedish structure records; no donor decision changed, the gate remains 0/3 and global retail value remains null/not_computed.",
-        textFi: "Live-dashboard sisältää nyt 112 havaintoa 40 lähteestä. 94 virallista havaintoa koostuvat 58 markkinamittarista ja 36 Ruotsin rakennetietueesta; yksikään donor-päätös ei muuttunut, portti pysyy 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa."
+        textEn: "The live dashboard now contains 156 observations from 47 sources. The 134 official observations comprise 98 market measures and 36 Swedish structure records; donor decisions remain unchanged, the gate stays 0/3 and global retail value remains null/not_computed.",
+        textFi: "Live-dashboard sisältää nyt 156 havaintoa 47 lähteestä. 134 virallista havaintoa koostuvat 98 markkinamittarista ja 36 Ruotsin rakennetietueesta; donor-päätökset pysyvät muuttumattomina, portti on 0/3 ja maailman vähittäisarvo null/not_computed-tilassa."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "The dashboard is v39. The six downloadable lender-package files remain the reviewed v37 daily snapshot and were not rebuilt; the package is generated at most once per Asia/Nicosia calendar day. Euromonitor remains paused and no purchase, fee, order, licence or commitment is authorised.",
-        textFi: "Dashboard on v39. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v37-päiväsnapshotina eikä niitä rakennettu uudelleen; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        textEn: "The dashboard is v40. The six downloadable lender-package files remain the reviewed v37 daily snapshot and were not rebuilt; the package is generated at most once per Asia/Nicosia calendar day. Euromonitor remains paused and no purchase, fee, order, licence or commitment is authorised.",
+        textFi: "Dashboard on v40. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v37-päiväsnapshotina eikä niitä rakennettu uudelleen; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
       })
     ])
   });
@@ -753,7 +753,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V39;
+  window.PixanUiRelease = UI_RELEASE_V40;
 
   init();
 })();

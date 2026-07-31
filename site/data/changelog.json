@@ -3,6 +3,35 @@
   "asOf": "2026-07-31",
   "releases": [
     {
+      "id": "2026-07-31-comparator-controls-v40",
+      "version": "2026.07.31-40",
+      "publishedAt": "2026-07-31T16:32:30+03:00",
+      "titleEn": "Four-country comparator controls and annual series",
+      "titleFi": "Neljän maan vertailukontrollit ja vuosisarjat",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added 44 bounded observations from seven new public sources: New Zealand's 2019 and 2023 HES expenditure estimates, Canada's 2021 Health Canada-published market and channel benchmarks, Germany's 2024 Eurostat supply bridge, and Poland's 2019-2022 producer/importer quantity series plus a 2023 disposable-only commercial segment estimate.",
+          "textFi": "Lisättiin 44 rajattua havaintoa seitsemästä uudesta julkisesta lähteestä: Uuden-Seelannin vuosien 2019 ja 2023 HES-kulutusestimaatit, Kanadan Health Canadan julkaisemat vuoden 2021 markkina- ja kanavavertailut, Saksan vuoden 2024 Eurostat-tarjontasilta sekä Puolan vuosien 2019-2022 valmistaja- ja maahantuojamääräsarja ja vuoden 2023 kaupallinen kertakäyttösegmenttiarvio."
+        },
+        {
+          "category": "method",
+          "textEn": "Germany's reproducible apparent-supply control is EUR 608.335 million; the mechanical zero-margin supply-plus-excise-plus-VAT sensitivity is EUR 1.040 billion. New Zealand's 2023 HES total is NZD 186.980 million with 22.4% relative sampling error. Neither is relabelled as complete consumer-retail sell-through.",
+          "textFi": "Saksan toistettava laskennallinen tarjontakontrolli on 608,335 miljoonaa euroa ja mekaaninen nollamarginaalinen tarjonta-valmistevero-ALV-herkkyys 1,040 miljardia euroa. Uuden-Seelannin vuoden 2023 HES-yhteissumma on 186,980 miljoonaa NZD ja suhteellinen otantavirhe 22,4 %. Kumpaakaan ei nimetä koko kuluttajavähittäismyynniksi."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Canada's CAD 2.04 billion 2021 institutional benchmark confirms that its public boundary materially differs from the CAD 992.732 million RCS series, but the underlying custom study is not public and the difference cannot be transferred to 2024. Poland's preliminary 2022 disposable count was later revised upward by 33.15%, reinforcing the missingness and revision warning.",
+          "textFi": "Kanadan vuoden 2021 2,04 miljardin CAD:n institutionaalinen vertailuarvo vahvistaa, että sen julkinen rajaus eroaa olennaisesti 992,732 miljoonan CAD:n RCS-sarjasta, mutta taustalla oleva tilaustutkimus ei ole julkinen eikä erotusta saa siirtää vuoteen 2024. Puolan vuoden 2022 alustavaa kertakäyttölukua korjattiin myöhemmin 33,15 % ylöspäin, mikä vahvistaa puuttuvuus- ja revisiovaroitusta."
+        },
+        {
+          "category": "usability",
+          "textEn": "Published dashboard v40 with 156 observations from 47 sources. The 134 official observations split into 98 market measures and 36 Swedish registration-structure records. Donor decisions remain unchanged at 0/3 and global retail value remains null/not_computed. The six lender-package downloads remain the once-daily reviewed v37 snapshot; Euromonitor remains paused and no purchase, fee, order, licence or commitment is authorised.",
+          "textFi": "Julkaistiin dashboard v40, jossa on 156 havaintoa 47 lähteestä. 134 virallista havaintoa jakautuvat 98 markkinamittariin ja 36 Ruotsin rekisterirakennetietueeseen. Donor-päätökset pysyvät muuttumattomina 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa. Kuusi rahoittajapaketin latausta pysyvät kerran päivässä muodostettuna tarkistettuna v37-snapshotina; Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        }
+      ]
+    },
+    {
       "id": "2026-07-31-four-country-donor-closure-v39",
       "version": "2026.07.31-39",
       "publishedAt": "2026-07-31T14:48:53+03:00",
