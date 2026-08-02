@@ -3003,8 +3003,8 @@ def validate_third_donor_screen(
         errors.append("third-donor-screen.json must use the exact reviewed top-level schema")
     if source.get("schemaVersion") != "1.0":
         errors.append("third-donor screen schemaVersion must be 1.0")
-    if source.get("asOf") != "2026-07-31":
-        errors.append("third-donor screen must be reviewed as of 2026-07-31")
+    if source.get("asOf") != "2026-08-02":
+        errors.append("third-donor screen must be reviewed as of 2026-08-02")
     if source.get("status") != "screening_only_not_donor_assessment":
         errors.append("third-donor screen must remain screening-only")
 

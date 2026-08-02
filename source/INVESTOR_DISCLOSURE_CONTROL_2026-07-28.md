@@ -1,7 +1,7 @@
 # Investor / buyer disclosure control
 # Sijoittaja- ja ostajatiedonantokontrolli
 
-**As of / Tilanne:** 2026-07-31
+**As of / Tilanne:** 2026-08-02
 **State / Tila:** `fail_closed`
 **Machine-readable source / Koneluettava lähde:** `source/investor-disclosure-control.json`
 **Public data copy / Julkinen datakopio:** `site/data/investor-disclosure-control.json`
@@ -68,9 +68,9 @@ nykyiset julkaistut faktat ovat julkisen tiedonannon vähimmäistaso:
    investment recommendation or lending recommendation.
    Paketti ei ole tilintarkastus, yritys- tai vakuusarvon määritys,
    oikeudellinen lausunto, sijoitussuositus tai lainasuositus.
-3. As of 2026-07-31, the donor gate is **0/3** and the global vaping retail
+3. As of 2026-08-02, the donor gate is **0/3** and the global vaping retail
    value is **`null/not_computed`**.
-   Tilanteessa 30.7.2026 donor-portti on **0/3** ja maailman
+   Tilanteessa 2.8.2026 donor-portti on **0/3** ja maailman
    sähkötupakkavähittäisarvo on **`null/not_computed`**.
 4. Tax, customs, shipment, registration, structural, modelled and proxy
    observations are not observed consumer-retail sales. Missing evidence is not
@@ -88,18 +88,16 @@ nykyiset julkaistut faktat ovat julkisen tiedonannon vähimmäistaso:
    validity, infringement, damages or enforceability elsewhere.
    Yhden maan ratkaisu tai tekninen havainto ei yksin osoita pätevyyttä,
    loukkausta, vahingonkorvausta tai täytäntöönpanokelpoisuutta muualla.
-7. As of 2026-07-31, no tracked vendor is scored and no purchase is authorised.
+7. As of 2026-08-02, no tracked vendor is scored and no purchase is authorised.
    Receipt of a document, quote or sample is not proof of completeness, method
    quality or disclosure rights.
-   Tilanteessa 29.7.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty eikä
+   Tilanteessa 2.8.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty eikä
    ostoa ole valtuutettu. Asiakirjan, tarjouksen tai näytteen vastaanotto ei
    osoita täydellisyyttä, menetelmän laatua tai luovutusoikeuksia.
-8. The dashboard is release **2026.07.31-40**. The six downloadable files
-   remain the reviewed **2026.07.31-37** daily snapshot. The downloadable
+8. The dashboard and six downloadable files are release **2026.08.02-41**. The downloadable
    package is generated at most once per Asia/Nicosia calendar day, and each
    surface retains its own visible version.
-   Dashboard on julkaisu **2026.07.31-40**. Kuusi ladattavaa tiedostoa pysyvät
-   tarkistettuna **2026.07.31-37**-päiväsnapshotina. Ladattava paketti
+   Dashboard ja kuusi ladattavaa tiedostoa ovat julkaisua **2026.08.02-41**. Ladattava paketti
    muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä, ja kumpikin
    pinta säilyttää oman näkyvän versionsa.
 9. Failed gates, lapses, challenges, unresolved proceedings, conflicts and later
@@ -120,14 +118,14 @@ tai rajaa päätöspaketti.
 
 | Asset group / Aineistoryhmä | Public paths / Julkiset polut | Version or boundary / Versio tai raja |
 | --- | --- | --- |
-| Dashboard / Dashboard | `site/index.html` | `2026.07.31-40` |
-| Change log / Muutosloki | `site/data/changelog.json` | `2026.07.31-40` |
-| Daily manifest / Päivämanifesti | `site/data/bank-package-manifest.json` | `2026.07.31-37` |
-| Concise and extended decks / Suppeat ja laajat dekit | `site/downloads/pixan-bank-deck-short-en.pptx`, `...-fi.pptx`, `site/downloads/pixan-bank-deck-large-en.pptx`, `...-fi.pptx` | `2026.07.31-37` |
-| Evidence Registers / Evidence Registerit | `site/downloads/pixan-bank-evidence-register-en.xlsx`, `...-fi.xlsx` | `2026.07.31-37` |
+| Dashboard / Dashboard | `site/index.html` | `2026.08.02-41` |
+| Change log / Muutosloki | `site/data/changelog.json` | `2026.08.02-41` |
+| Daily manifest / Päivämanifesti | `site/data/bank-package-manifest.json` | `2026.08.02-41` |
+| Concise and extended decks / Suppeat ja laajat dekit | `site/downloads/pixan-bank-deck-short-en.pptx`, `...-fi.pptx`, `site/downloads/pixan-bank-deck-large-en.pptx`, `...-fi.pptx` | `2026.08.02-41` |
+| Evidence Registers / Evidence Registerit | `site/downloads/pixan-bank-evidence-register-en.xlsx`, `...-fi.xlsx` | `2026.08.02-41` |
 | Structured market controls / Rakenteiset markkinakontrollit | `site/data/atlas.json`, `countries.csv`, `evidence.csv`, `market-values.*`, `evidence-lanes.json`, `donor-cockpit.json`, `country-scenarios.json`, `global-base-layer.*`, `fx-rates.json`, `third-donor-screen.json` | Each asset's own `asOf` / Kunkin aineiston oma `asOf` |
 | Patent record / Patenttitietue | `site/data/patent-history.json`, `site/data/patent-family.csv` | Embedded review dates / Sisäiset tarkistuspäivät |
-| Vendor control / Toimittajakontrolli | `site/data/vendor-response-control.json`, `.csv` | `2026-07-31` |
+| Vendor control / Toimittajakontrolli | `site/data/vendor-response-control.json`, `.csv` | `2026-08-02` |
 | Request routes and templates / Pyyntöreitit ja -mallit | `site/data/top20-data-request-routes.*`, `site/downloads/data-request-template-en.txt`, `...-fi.txt` | Embedded status dates / Sisäiset tilapäivät |
 | Paid-data procurement guide / Maksullisen datan hankintaopas | `site/downloads/pixan-paid-data-procurement-fi-en.xlsx` | Current published workbook / Nykyinen julkaistu työkirja |
 

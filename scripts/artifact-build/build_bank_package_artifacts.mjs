@@ -15,11 +15,11 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v37", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v37", "renders");
-const releaseVersion = "2026.07.31-37";
-const releaseId = "2026-07-31-canada-scope-quality-nz-poland-v37";
-const releaseDate = "2026-07-31";
+const qaDir = path.join(repo, "tmp", "bank-v41", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v41", "renders");
+const releaseVersion = "2026.08.02-41";
+const releaseId = "2026-08-02-nz-ca-de-donor-control-v41";
+const releaseDate = "2026-08-02";
 const packageCadence = Object.freeze({
   frequency: "once_daily",
   timeZone: "Asia/Nicosia",
@@ -41,10 +41,10 @@ const swedenStructureSuffixByMetric = new Map([
   ["withdrawn_products_count", "WITHDRAWN-PRODUCTS"],
 ]);
 const expectedMarketCounts = {
-  observations: 84,
-  sources: 24,
-  official: 75,
-  officialMarketMeasures: 39,
+  observations: 156,
+  sources: 47,
+  official: 134,
+  officialMarketMeasures: 98,
   swedenRegisterStructure: 36,
 };
 const artifactToolPackageUrl = new URL("../package.json", import.meta.resolve("@oai/artifact-tool"));
@@ -216,11 +216,11 @@ const deckUpdates = {
         "sh/doj29oba": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC; ADM`,
         "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
         "sh/ih8ju9sn": "195",
-        "sh/kbm987y5": "578 WB-havaintoa · 39 markkinamittaria + 36 Ruotsin FHM-lukua",
+        "sh/kbm987y5": "578 WB-havaintoa · 98 markkinamittaria + 36 Ruotsin FHM-lukua",
         "sh/i94r6xgz": "274,180 milj. NZD",
         "sh/jadsz2xk": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
-        "sh/v6tsv2xo": "Kanada 7/10: D5/D7 hylätty, D8 läpäisty (GST/HST/PST/QST pois; lisäverot mukana), D10 avoin. Uuden-Seelannin 7.8. seuranta valmisteltu, ei lähetetty. Puolan verosilta koskee laajaa ryhmää. Euromonitor pausella 0/6, EI PISTEYTETTY; ei ostoa tai maksua.",
-        "sh/p0batw72": "Menetelmäkontrolli 28 / 0 / 15 / 152. Kanada retail 1,219160 mrd CAD ja toimitukset 1,160754 mrd CAD. Uusi-Seelanti 274,180 milj. NZD, 7/10. Puolan esiarviolla ei ole donor-pistemäärää: retail-arvo puuttuu. Donor 0/3.",
+        "sh/v6tsv2xo": "Kanada 7/10: D5/D7 hylätty ja D10 avoin. NZ:n 183,371/197,070 milj. NZD nettorajaproxyt eivät ole retail-arvoja. Saksa DE-BLIND-1.0.0: EI PISTEYTETTY. Euromonitor pausella; ei ostoa tai maksua.",
+        "sh/p0batw72": "Menetelmäkontrolli 28 / 0 / 15 / 152. Kanada retail 1,219160 mrd CAD ja toimitukset 1,160754 mrd CAD. Uusi-Seelanti 274,180 milj. NZD, 7/10; tullisuhteet eivät ole katteita. Donor 0/3.",
       },
     },
     medium: {
@@ -233,15 +233,15 @@ const deckUpdates = {
         "sh/cbu58j2h": "Kaupallistaminen etenee näyttöporttien kautta",
         "sh/ml07i9sv": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission`,
         "sh/zi98nu94": "Markkinakoko on haarukka — ei yksi luku",
-        "sh/pc76hkr2": "39 + 36",
-        "sh/h4bupgn6": "39 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä",
+        "sh/pc76hkr2": "98 + 36",
+        "sh/h4bupgn6": "98 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; eri mittarit eivät summaudu markkinaksi",
         "sh/v2tcn650": "274,180 milj. NZD",
         "sh/u1kbu1ov": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
         "sh/i54bylor": "Uusi-Seelanti läpäisee 7/10: D5 hylätty, D8 ja D10 avoinna. Ei hyväksytty; donor-portti 0/3.",
         "sh/cbe5g3ih": "Kanada 2024: retail 1,219160 mrd CAD; toimitukset 1,160754 mrd CAD. Saman kyselyn kuukausireitti eroaa 1 000 CAD. Kanada 7/10; D5/D7 hylätty, D10 avoin. Ei summata.",
       },
       tables: {
-        "tb/nq547y9g": [[3, 2, "39 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; ei myyntiä"]],
+        "tb/nq547y9g": [[3, 2, "98 markkinamittaria 7 maasta + 36 Ruotsin FHM-rekisterilukua; eri mittarit eivät summaudu markkinaksi"]],
         "tb/rexkf2d4": [[1, 2, "0/3 retail-luovuttajaa; 5 ehdokasta jäi D1–D10-portin ulkopuolelle"]],
       },
     },
@@ -264,20 +264,20 @@ const deckUpdates = {
         "sh/y5wjitgj": "kuukausi–kvartaali-ero",
         "sh/z650byxo": "Retail ylittää toimitukset 58,406 milj. CAD eli 5,03 %, mutta jäännös ei ole kate tai markkinahaarukka. D8 on suljettu virallisella veroperustalla.",
         "sh/hsvy50re": "Kanada läpäisee 7/10. D5 hylätty: NAICS 459999 jää kohdejoukon ulkopuolelle. D7 hylätty: tarkkoja tuoteryhmätason laatumittareita ei ole saatavilla. D10 avoin: eri tapahtumatasojen silta on täsmäyttämättä.",
-        "sh/9kby1g7m": "Saksan malli näyttää herkkyyden, ei myyntiä",
-        "sh/mpgj6t8j": "Ei havaittua myyntiä. Laskelma käyttää vuoden 2025 alustavaa verotettua nestemäärää ja kolmea verkkokaupan vuoden 2026 hintaa. Rajattu tuotejakauma ja poikkeava ajankohta pitävät luottamustason matalana.",
+        "sh/9kby1g7m": "Saksan sokkotesti falsifioi — ei arvota markkinaa",
+        "sh/mpgj6t8j": "DE-BLIND-1.0.0 lukittiin ennen tulevaa toimittajatoimitusta: 2023 ankkuri 1,241 milj. l, 2024 ankkuri 1,284 milj. l ja yhteensä 2,525 milj. l. Rajat 15 % vuodessa ja 10 % yhdessä. EI PISTEYTETTY; ei automaattista donor- tai kaupallista vaikutusta.",
         "sh/gbedwfmx": "Globaalit arviot ovat ristiintarkistus",
         "sh/hsn2l4bu": "Maailmanestimaatti vaatii vähintään 3 donoria",
         "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
         "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
         "sh/8jup8rad": "Ensimmäisen donorin 90 päivän sulkemissprintti",
-        "sh/5gbupcrm": "Uusi-Seelanti: 7.8. ministeriöseuranta ja riippumaton D10-silta; Stats NZ -tullikontrolli ei ole retail-arvo. Kanada: riippumaton POS-/retail-reitti D5/D7/D10:lle; ei uutta StatCan-seurantaa.",
+        "sh/5gbupcrm": "Uusi-Seelanti: 183,371/197,070 milj. NZD:n nettorajaproxyt ovat vain D10-diagnostiikkaa; tarvitaan saman rajauksen retail-silta. Kanada: NAICS 459999-, tarkkuus- ja tapahtumavajeet vaativat riippumattoman POS-/retail-reitin.",
         "sh/t4butcri": "Puola: virallinen 2020–2023 e-nestevirta ja vuoden 2025 laajan höyrystyslaiteryhmän verosilta. E-sähkötupakka-/lämmitin-/monitoimilaitejako, retail-arvo ja varsinainen donor-kandidaatti puuttuvat.",
-        "sh/98ruxsre": "31.7.: Kanada D5/D7 hylätty, D8 läpäisty, D10 avoin. NZ:n tullivaiheen kontrollin näyttö vahvistui; 7.8. seuranta valmisteltu eikä lähetetty. Puolan laajan ryhmän verosilta ei ole retail-arvo. Euromonitor pausella 0/6, EI PISTEYTETTY; ei ostoa tai maksua.",
+        "sh/98ruxsre": "2.8.: Kanada pysyy 7/10; NAICS 459999, laatumittarit ja D10-silta puuttuvat. NZ:n valitut tullikontrollit ovat diagnostiikkaa. Saksa DE-BLIND-1.0.0 lukittu ennakolta, EI PISTEYTETTY. Euromonitor pausella; ei ostoa tai maksua.",
         "sh/218rq9kr": "Hyväksy donor vain, jos kaikki kymmenen ehtoa läpäisevät. Muuten 0/3 ja not_computed säilyvät.",
         "sh/21gnuts7": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
         "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  195 maan menetelmäkontrolli erottaa 28 tarkistettua suunnitelmaa, 0 lähdepolkua, 15 EU TPD -mallia ja 152 rajaamatonta proxy-reittiä; mikään ei avaa 0/3 donor-porttia.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
-        "sh/bq9orito": "39 markkinamittaria ja 36 Ruotsin FHM-lukua; menetelmäkontrolli 28 / 0 / 15 / 152",
+        "sh/bq9orito": "98 markkinamittaria ja 36 Ruotsin FHM-lukua; menetelmäkontrolli 28 / 0 / 15 / 152",
         "sh/6hw3y9sb": "Uusi-Seelanti 7/10: D5 hylätty, D8 ja D10 avoinna. Kaikki 5 ehdokasta ovat ulkona; donor-portti 0/3.",
         "sh/rip4retw": "•  Uuden-Seelannin tunnistettu AIS/AVP-summa 274,180 milj. NZD jakautuu kulutustarvikkeisiin 189 402 451,96, laitteisiin/hardwareen 84 709 409,85 ja sekajärjestelmiin 68 548,40 NZD.\n•  Viereiset 2 137 085,24 ja ratkaisemattomat 4 367 017,37 NZD rajataan pois. Maa läpäisee 7/10; D5 hylätään sekä D8 ja D10 ovat avoimia.\n•  Erillinen 533,7–731,2 milj. NZD RPS-herkkyys on tuettu malli, ei havaittu kansallinen arvo. Donor-portti pysyy 0/3:ssa.",
         "sh/x8japo3e": "Päiväpaketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä; dashboard voi päivittyä päivän aikana.",
@@ -303,26 +303,26 @@ const deckUpdates = {
         "sh/doj29oba": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC; ADM`,
         "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
         "sh/ih8ju9sn": "195",
-        "sh/kbm987y5": "578 WB records; 39 market measures + 36 Swedish FHM register counts; not sales",
+        "sh/kbm987y5": "578 WB records; 98 market measures + 36 Swedish FHM register counts; unlike measures are not summed",
         "sh/i94r6xgz": "NZD 274.180m",
         "sh/jadsz2xk": "New Zealand 2024: identified AIS/AVP subtotal",
-        "sh/v6tsv2xo": "Canada 7/10: D5/D7 failed, D8 passed (GST/HST/PST/QST excluded; additional duties included), D10 open. NZ 7 August follow-up prepared, not sent. Poland's tax bridge is broad-group only. Euromonitor paused 0/6, NOT SCORED; no purchase or fee.",
-        "sh/p0batw72": "Method control 28 / 0 / 15 / 152. Canada retail CAD 1.219160bn and shipments CAD 1.160754bn. New Zealand NZD 274.180m, 7/10. Poland has no donor score because retail value is absent. Donor 0/3.",
+        "sh/v6tsv2xo": "Canada 7/10: D5/D7 failed and D10 open. NZD 183.371m/197.070m NZ net border proxies are not retail values. Germany DE-BLIND-1.0.0: NOT SCORED. Euromonitor paused; no purchase or fee.",
+        "sh/p0batw72": "Method control 28 / 0 / 15 / 152. Canada retail CAD 1.219160bn and shipments CAD 1.160754bn. New Zealand NZD 274.180m, 7/10; customs ratios are not margins. Donor 0/3.",
       },
     },
     medium: {
       shapes: {
         "sh/ml07i9sv": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: Statistics Canada; Market-values; FHM; FTC; IMARC; GVR; Fortune; European Commission`,
         "sh/zi98nu94": "Market size remains a range — not a single value",
-        "sh/pc76hkr2": "39 + 36",
-        "sh/h4bupgn6": "39 market measures across 7 countries + 36 Swedish FHM register counts; not sales",
+        "sh/pc76hkr2": "98 + 36",
+        "sh/h4bupgn6": "98 market measures across 7 countries + 36 Swedish FHM register counts; unlike measures are not summed",
         "sh/v2tcn650": "NZD 274.180m",
         "sh/u1kbu1ov": "New Zealand 2024: identified AIS/AVP subtotal",
         "sh/i54bylor": "New Zealand passes 7/10: D5 failed; D8 and D10 open. Not accepted; the donor gate remains 0/3.",
         "sh/cbe5g3ih": "Canada 2024: retail CAD 1.219160bn; shipments CAD 1.160754bn. Same-survey monthly retail differs by CAD 1,000. Canada 7/10; D5/D7 failed, D10 open. Do not sum.",
       },
       tables: {
-        "tb/nq547y9g": [[3, 2, "39 market measures across 7 countries + 36 Swedish FHM register counts; not sales"]],
+        "tb/nq547y9g": [[3, 2, "98 market measures across 7 countries + 36 Swedish FHM register counts; unlike measures are not summed"]],
         "tb/rexkf2d4": [[1, 2, "0/3 retail-value donors; 5 candidates remain outside the D1–D10 gate"]],
       },
     },
@@ -340,15 +340,17 @@ const deckUpdates = {
         "sh/y5wjitgj": "monthly–quarterly gap",
         "sh/z650byxo": "Retail is CAD 58.406m, or 5.03%, above shipments. The residual is not margin or a market range; official tax evidence closes D8.",
         "sh/hsvy50re": "Canada passes 7/10. D5 failed: NAICS 459999 is outside the target population. D7 failed: exact product-class quality metrics are unavailable. D10 remains open: transaction stages are unreconciled.",
+        "sh/9kby1g7m": "Germany's blind test falsifies — it does not value the market",
+        "sh/mpgj6t8j": "DE-BLIND-1.0.0 was locked before a future vendor submission: 2023 anchor 1.241m l, 2024 anchor 1.284m l and 2.525m l combined. Caps are 15% annually and 10% combined. NOT SCORED; no automatic donor or commercial effect.",
         "sh/hk3ipcr6": "Manufacturer: licence, freedom to operate or settlement.\nTechnology provider: integrable function or legal position.\nFinancier or buyer: controllable, realisable cash flow and downside protection.",
         "sh/8jup8rad": "First-donor conversion sprint · next 90 days",
-        "sh/5gbupcrm": "New Zealand: use the prepared 7 August Ministry follow-up and an independent D10 bridge; the Stats NZ customs control is not retail value. Canada: independent POS/retail route for D5/D7/D10; no further StatCan follow-up.",
+        "sh/5gbupcrm": "New Zealand: NZD 183.371m/197.070m net border proxies are D10 diagnostics only; a same-boundary retail bridge is required. Canada: NAICS 459999, precision and transaction-stage gaps require an independent POS/retail route.",
         "sh/t4butcri": "Poland: official 2020–2023 e-liquid flow and a 2025 broad vaporisation-device-group tax bridge. The e-cigarette/heater/multifunction split, retail value and an actual donor candidate are missing.",
-        "sh/98ruxsre": "31 July: Canada D5/D7 failed, D8 passed, D10 open. NZ customs-stage control confirmed; 7 August follow-up prepared and not sent. Poland remains non-donor: broad-group tax bridge, no retail value. Euromonitor paused 0/6, NOT SCORED; no purchase or fee.",
+        "sh/98ruxsre": "2 August: Canada remains 7/10; NAICS 459999, exact quality metrics and the D10 bridge are missing. NZ selected customs controls remain diagnostics. Germany DE-BLIND-1.0.0 is prospectively locked and NOT SCORED. Euromonitor paused; no purchase or fee.",
         "sh/218rq9kr": "Accept a donor only if all ten criteria pass. Otherwise retain 0/3 and not_computed.",
         "sh/21gnuts7": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
         "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The 195-country method control separates 28 reviewed plans, 0 source leads, 15 EU TPD patterns and 152 unscoped proxy routes; none unlocks the 0/3 donor gate.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
-        "sh/bq9orito": "39 market measures and 36 Swedish FHM register counts; method control 28 / 0 / 15 / 152",
+        "sh/bq9orito": "98 market measures and 36 Swedish FHM register counts; method control 28 / 0 / 15 / 152",
         "sh/6hw3y9sb": "New Zealand is 7/10: D5 failed; D8 and D10 open. All 5 candidates remain outside; the donor gate is 0/3.",
         "sh/rip4retw": "•  New Zealand's identified AIS/AVP subtotal of NZD 274.180m comprises NZD 189,402,451.96 consumables, NZD 84,709,409.85 devices/hardware and NZD 68,548.40 mixed systems.\n•  NZD 2,137,085.24 adjacent and NZD 4,367,017.37 unresolved rows are excluded. New Zealand passes 7/10; D5 fails and D8/D10 remain open.\n•  The separate NZD 533.7–731.2m RPS sensitivity remains a supported model, not observed national value. The donor gate remains 0/3.",
         "sh/x8japo3e": "The daily package is generated at most once per Asia/Nicosia calendar day; the dashboard may update intraday.",
@@ -373,26 +375,15 @@ const deckUpdates = {
 const registerAdditions = {
   fi: [
     [
-      "Uuden-Seelannin erillinen vuoden 2024 RPS-vähittäisherkkyys on tuettu malli: 533 662 383,68–731 175 792,50 NZD ja perusskenaario 641 811 687,89 NZD.",
+      "Stats NZ:n valittu vuoden 2024 HS10-kontrolli tuottaa 183 370 681 ja 197 070 322 NZD:n nettorajaproxyt; ne eivät ole vähittäismarkkina-arvoja.",
       "Markkinakoko",
-      "Matalan, perus- ja korkean skenaarion yhdistetyt arvot ovat 533 662 383,68 / 641 811 687,89 / 731 175 792,50 NZD. Malli yhdistää erikoisvähittäiskaupan ankkurin yleisvähittäiskaupan määrä- ja hintamalliin.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md ; source/NZ_2024_DONOR_CLOSURE_PACK.md",
-      "2026-07-26",
-      "Matala (täsmällisten rivien deduplikointi): 258 327 110,88 + 275 335 272,80 = 533 662 383,68 NZD. Perus (raportoidut/raakrivit): 274 180 410,21 + 367 631 277,68 = 641 811 687,89 NZD. Korkea (raportoidut/raakrivit): 274 180 410,21 + 456 995 382,29 = 731 175 792,50 NZD.",
-      "GST-käsittely, palautusten täydellisyys ja riippumaton täsmäytys ovat avoimia; ilmoittajien toimitusketjutason arvot on jätetty pois.",
-      "Tuettu",
-      "Ei havaittu kansallinen arvo eikä hyväksytty donor. Tarvitaan viranomaisen scope- ja GST-vahvistus sekä riippumaton toisto.",
-    ],
-    [
-      "Vuoden 2023 kuuden virallisen työkirjan uusi numeerinen rekonstruktio on jätetty tarkoituksella laskematta.",
-      "Markkinakoko",
-      "Ministeriön julkaisema koonti on vähintään 374 milj. NZD ja 2 570 ilmoitusta. Se sisältää kaikki ilmoitettavat tuotteet, myös heated tobacco -tuotteet, ja ministeriö varoittaa laadusta.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2023 ; source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
-      "2026-07-26",
-      "Kuusi virallista tiedostoa on eheystiivistetty; kaikki uusi laskenta palauttaa tilan not_computed.",
-      "Tuoterajaus, määräkentät, duplikaatit, toimitusketjutaso, veroperusta ja riippumaton täsmäytys ovat ratkaisematta.",
+      "Valitut tuonnit ovat 189 640 890 NZD tullausarvona ja 203 340 531 NZD CIF-arvona. Valitut viennit ovat 6 270 209 NZD FOB-arvona. Kontrolli käyttää lukittua vuoden 2024 tuotekoodisääntöä.",
+      "https://www.stats.govt.nz/large-datasets/csv-files-for-download/overseas-merchandise-trade-datasets/ ; https://www3.stats.govt.nz/HS10_by_Country/2024_Imports_HS10.zip ; https://www3.stats.govt.nz/HS10_by_Country/2024_Exports_HS10.zip ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+      "2026-08-02",
+      "189 640 890 − 6 270 209 = 183 370 681 NZD; 203 340 531 − 6 270 209 = 197 070 322 NZD. Ehdokas / proxyt = 1,495224911 ja 1,391282094.",
+      "Rajavaihe, tuoterajaus, kotimainen tuotanto, varastot, jälleenvienti, katteet, kanavat, GST ja kuluttajamyynti eivät täsmää vähittäisrajaan.",
       "Vahvistettu",
-      "Vuoden 2023 uusi vaping-only-arvo puuttuu, eikä 374 milj. NZD:tä saa nimetä puhtaaksi sähkötupakkamarkkinaksi.",
+      "Suhteet eivät ole kate, korotuskerroin, validointiväli tai markkinahaarukka. D10 pysyy avoinna ja NZ pysyy 7/10 EI HYVÄKSYTTY.",
     ],
     [
       "FTC:n virallisista taulukoista johdettu suljettujen järjestelmien ja kertakäyttötuotteiden raportoitu myynti oli 2 763 284 338 USD vuonna 2021.",
@@ -406,11 +397,22 @@ const registerAdditions = {
       "Ei täydellinen kansallinen kuluttajavähittäisarvo eikä hyväksytty donor; tarvitaan avoin POS- tai kuluttajamyyntisarja ja veroperusta.",
     ],
     [
+      "Saksan tuleva toimittajatesti DE-BLIND-1.0.0 lukittiin ennen tulevan toimituksen pisteytystä; testi on EI PISTEYTETTY.",
+      "Markkinakoko / Saksa",
+      "Viralliset lopulliset ankkurit ovat 1 241 000 litraa vuonna 2023 ja 1 284 000 litraa vuonna 2024 eli yhteensä 2 525 000 litraa. Ennalta rekisteröidyt rajat ovat 15 % vuodessa ja 10 % yhteensä.",
+      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+      "2026-08-02",
+      "Vuotuinen poikkeama = |toimittajan litrat / viralliset litrat − 1|; yhteispoikkeama = |toimittajan kahden vuoden summa / 2 525 000 − 1|.",
+      "Numeerinen osuma ei yksin osoita samaa tuotetta, yksikköä, veroperustaa, kanavaa tai tapahtumavaihetta. Rajoja ei soviteta yksityisiin arvoihin.",
+      "Vahvistettu",
+      "Testin läpäisy ei hyväksy Saksaa donoriksi eikä valtuuta ostoa, lisenssiä, maksua tai luovutusta. Saksan virallinen retail-arvo pysyy not_computed.",
+    ],
+    [
       "Julkinen sivusto erottaa kolme evidenssikaistaa ja estää maailman kokonaisarvon, kun hyväksytty donor-portti on 0/3.",
       "Markkinakoko",
       "Viisi ehdokasta on arvioitu samoilla 10 D1–D10-kriteerillä; yksikään ei ole hyväksytty. Lisäksi alue- ja sääntelytyyppien peittoporttien on läpäistävä tarkistus.",
       "site/data/evidence-lanes.json ; site/data/donor-cockpit.json ; site/data/third-donor-screen.json ; site/data/country-scenarios.json",
-      "2026-07-27",
+      "2026-08-02",
       "Fail-closed-portit: puuttuva tai virheellinen syöte tuottaa tilan not_computed eikä nollaa.",
       "Vain tarkistetut julkiset koontitiedot ja menetelmät ovat julkisella kaistalla; lisensoitu ja yksityinen aineisto eivät siirry repositorioon.",
       "Vahvistettu",
@@ -419,26 +421,15 @@ const registerAdditions = {
   ],
   en: [
     [
-      "New Zealand's separate supported 2024 RPS retail-sensitivity model is NZD 533,662,383.68–731,175,792.50, with a base case of NZD 641,811,687.89.",
+      "Stats NZ's selected 2024 HS10 control yields NZD 183,370,681 and NZD 197,070,322 net border proxies; neither is retail market value.",
       "Market size",
-      "The combined low, base and high cases are NZD 533,662,383.68 / 641,811,687.89 / 731,175,792.50. The model combines the specialist-retailer anchor with a general-retailer quantity-and-price model.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md ; source/NZ_2024_DONOR_CLOSURE_PACK.md",
-      "2026-07-26",
-      "Low (exact-row deduplication): NZD 258,327,110.88 + 275,335,272.80 = 533,662,383.68. Base (reported/raw rows): NZD 274,180,410.21 + 367,631,277.68 = 641,811,687.89. High (reported/raw rows): NZD 274,180,410.21 + 456,995,382.29 = 731,175,792.50.",
-      "GST treatment, return completeness and independent reconciliation are open; notifier supply-stage values are excluded.",
-      "Supported",
-      "Not an observed national value or accepted donor. Authority confirmation of scope and GST plus independent reproduction are required.",
-    ],
-    [
-      "The new numerical reconstruction from the six official 2023 workbooks is intentionally not computed.",
-      "Market size",
-      "The Ministry's published aggregate is at least NZD 374 million and 2,570 returns. It covers all notifiable products, including heated tobacco, and the Ministry warns about data quality.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2023 ; source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
-      "2026-07-26",
-      "Six official files are integrity-hashed; every new computation returns not_computed.",
-      "Product scope, quantity fields, duplication, supply-chain level, tax basis and independent reconciliation remain unresolved.",
+      "Selected imports are NZD 189,640,890 at value for duty and NZD 203,340,531 at CIF. Selected exports are NZD 6,270,209 FOB. The control applies a locked 2024 product-code selection rule.",
+      "https://www.stats.govt.nz/large-datasets/csv-files-for-download/overseas-merchandise-trade-datasets/ ; https://www3.stats.govt.nz/HS10_by_Country/2024_Imports_HS10.zip ; https://www3.stats.govt.nz/HS10_by_Country/2024_Exports_HS10.zip ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+      "2026-08-02",
+      "NZD 189,640,890 − 6,270,209 = 183,370,681; NZD 203,340,531 − 6,270,209 = 197,070,322. Candidate / proxies = 1.495224911 and 1.391282094.",
+      "Border event stage, product scope, domestic production, inventory, re-exports, margins, channels, GST and consumer sell-through do not match the retail boundary.",
       "Confirmed",
-      "A new 2023 vaping-only value is missing, and NZD 374 million must not be relabelled as a pure vaping market.",
+      "The ratios are not margin, uplift, validation intervals or a market range. D10 remains open and New Zealand remains 7/10 NOT ACCEPTED.",
     ],
     [
       "Official FTC tables yield USD 2,763,284,338 of reported cartridge-system-plus-disposable sales in 2021.",
@@ -452,11 +443,22 @@ const registerAdditions = {
       "Not complete national consumer-retail value or an accepted donor; an open POS or consumer-sales series and tax basis are required.",
     ],
     [
+      "Germany's prospective vendor benchmark DE-BLIND-1.0.0 was locked before any future submission is scored; it is NOT SCORED.",
+      "Market size / Germany",
+      "Final official anchors are 1,241,000 litres for 2023 and 1,284,000 litres for 2024, or 2,525,000 litres combined. Preregistered caps are 15% annually and 10% combined.",
+      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+      "2026-08-02",
+      "Annual deviation = |vendor litres / official litres − 1|; combined deviation = |vendor two-year sum / 2,525,000 − 1|.",
+      "A numeric match alone does not establish matching product, unit, tax basis, channel or event stage. Thresholds are not tuned to private values.",
+      "Confirmed",
+      "Passing does not accept Germany as a donor or authorise a purchase, licence, fee or disclosure. Germany's official retail value remains not_computed.",
+    ],
+    [
       "The public site separates three evidence lanes and blocks a global total while the accepted-donor gate is 0/3.",
       "Market size",
       "Five candidates are assessed against the same ten D1–D10 criteria; none is accepted. The regional and regulatory-archetype coverage gates must also pass.",
       "site/data/evidence-lanes.json ; site/data/donor-cockpit.json ; site/data/third-donor-screen.json ; site/data/country-scenarios.json",
-      "2026-07-27",
+      "2026-08-02",
       "Fail-closed gates: a missing or invalid input returns not_computed rather than zero.",
       "Only reviewed public aggregates and methods enter the public lane; licensed and private material do not enter the repository.",
       "Confirmed",
@@ -1083,7 +1085,7 @@ function validateGlobalBase(globalBase) {
     || globalBase?.methodRouteControl?.summary?.regionalTpdPatternOnlyCount !== 15
     || globalBase?.methodRouteControl?.summary?.proxyOnlyUnscopedCount !== 152
   ) {
-    throw new Error("v37 global base differs from the reviewed fail-closed method-control snapshot");
+    throw new Error("v41 global base differs from the reviewed fail-closed method-control snapshot");
   }
   const measureSummary = new Map(
     (globalBase.summary.measures ?? []).map((item) => [item.measureId, item]),
@@ -1123,7 +1125,7 @@ function validateGlobalBase(globalBase) {
       || country?.methodRoute?.eligibleForGlobalRollup !== false
       || country?.methodRoute?.donorAccepted !== false
     ) {
-      throw new Error(`v37 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
+      throw new Error(`v41 global-base proxy boundary differs: ${country?.iso2 ?? "unknown"}`);
     }
   }
 }
@@ -1165,7 +1167,7 @@ function validateVendorGateBoundary(vendorControl) {
       ([gate, status]) => euromonitor?.gateResults?.[gate]?.status !== status,
     )
   ) {
-    throw new Error("v37 Euromonitor pause and 0/6 vendor-gate boundary differs");
+    throw new Error("v41 Euromonitor pause and 0/6 vendor-gate boundary differs");
   }
 }
 
@@ -1203,7 +1205,7 @@ function validateOfficialRequestBoundary(requestProgram) {
     || !denmark?.rationaleEn?.includes("neither collects nor receives industry sales figures")
     || !denmark?.rationaleEn?.includes("not sales data or market size")
   ) {
-    throw new Error("v37 Germany, Canada, France and Denmark official-response boundary differs");
+    throw new Error("v41 Germany, Canada, France and Denmark official-response boundary differs");
   }
 }
 
@@ -1239,7 +1241,7 @@ function validateThirdDonorScreen(publicScreen, sourceScreen) {
     ])
     || wave?.excluded?.[0]?.vendor !== "NIQ"
   ) {
-    throw new Error("Third-donor screen differs from the reviewed v37 acquisition decision");
+    throw new Error("Third-donor screen differs from the reviewed v41 acquisition decision");
   }
 }
 
@@ -1444,27 +1446,29 @@ function upgradeRegister(rows, language) {
     || row[0].includes("79 havaintoa")
     || row[0].includes("84 observations")
     || row[0].includes("84 havaintoa")
+    || row[0].includes("156 observations")
+    || row[0].includes("156 havaintoa")
   ));
   if (countIndex < 0) throw new Error(`${language}: official-observation row not found`);
   output[countIndex] = language === "fi"
     ? [
-      "Julkinen markkina-aineisto sisältää 84 havaintoa 24 lähteestä; 75 virallista havaintoa jakautuvat 39 markkinamittariin ja 36 Ruotsin FHM-rekisterirakenteen lukuun.",
+      "Julkinen markkina-aineisto sisältää 156 havaintoa 47 lähteestä; 134 virallista havaintoa jakautuvat 98 markkinamittariin ja 36 Ruotsin FHM-rekisterirakenteen lukuun.",
       "Markkinakoko",
       "Markkinamittarit kattavat Kanadan, Saksan, Suomen, Uuden-Seelannin, Puolan, Ruotsin ja Yhdysvallat. FHM-luvut kuvaavat vuosien 2018–2026 raportoivia toimijoita sekä ilmoitettuja, aktiivisia ja markkinoilta poistettuja tuotteita; ne eivät ole myyntiä tai markkina-arvoa.",
       "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
       "2026-07-27",
-      "84 = 48 markkina- ja mallihavaintoa + 36 FHM-rakennelukua; 75 virallista = 39 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään eikä niitä summata markkinaksi.",
+      "156 = 120 markkina- ja mallihavaintoa + 36 FHM-rakennelukua; 134 virallista = 98 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään eikä niitä summata markkinaksi.",
       "Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja kalenterivuoden virtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken tilannekuva, ei valmis vuosijakso. Virallinen lähde ei tee eri mittareista yhteismitallisia.",
       "Vahvistettu",
       "Lisämaista tarvitaan yhteismitalliset vuotuiset laite- ja nestemäisen kuluttajavähittäisarvon sarjat.",
     ]
     : [
-      "The public market dataset contains 84 observations from 24 sources; its 75 official observations split into 39 market measures and 36 Swedish FHM register-structure counts.",
+      "The public market dataset contains 156 observations from 47 sources; its 134 official observations split into 98 market measures and 36 Swedish FHM register-structure counts.",
       "Market size",
       "The market measures cover Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",
       "site/data/market-values.json (machine-readable source file of the public site)",
       "2026-07-27",
-      "84 = 48 market and model observations + 36 FHM structure counts; 75 official = 39 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
+      "156 = 120 market and model observations + 36 FHM structure counts; 134 official = 98 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
       "The 2018–2025 figures are authority-supplied year labels, not assumed calendar-year flows or year-end snapshots. The 2026 FHM records are a current snapshot, not a completed annual period. Official sourcing does not make unlike metrics comparable.",
       "Confirmed",
       "Comparable annual device and liquid consumer-retail-value series are required from additional countries.",
@@ -1673,7 +1677,7 @@ function upgradeRegister(rows, language) {
       "Vuonna 2024 verotettiin 26 000 litraa nikotiininestettä ja valmisteverotulo oli pyöristetysti 80 000 000 SEK. Viranomaisen toimittamassa ja 24.7.2026 tarkistetussa työkirjassa on 9 vuosilabelia × 4 rakennemittaria: raportoivat toimijat sekä ilmoitetut, aktiiviset ja markkinoilta poistetut tuotteet. Julkinen FHM-sivu dokumentoi ilmoitusjärjestelmän, ei siinä julkaistua numeerista sarjaa.",
       `https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf ; ${fhmSourceUrl} ; site/data/market-values.json`,
       "2026-07-24",
-      "36 = 9 vuotta (2018–2026) × 4 rekisterirakenteen mittaria. Veroankkuri, 39 markkinamittaria ja 36 rakennelukua pidetään erillään.",
+      "36 = 9 vuotta (2018–2026) × 4 rekisterirakenteen mittaria. Veroankkuri, 98 markkinamittaria ja 36 rakennelukua pidetään erillään.",
       "Rakenneluvuista ei päätellä myyntiarvoa, myyntimäärää tai markkinaosuutta. Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja vuosivirtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken tilannekuva eikä sitä vuositasoiteta.",
       "Vahvistettu",
       "Tarvitaan toteutunut kuluttajamyynti EUR-määräisenä, laitekappaleet ja ml-määrät sekä julkisesti uudelleenkäytettävä numeerinen FHM-sarja.",
@@ -1684,7 +1688,7 @@ function upgradeRegister(rows, language) {
       "Sweden taxed 26,000 litres of nicotine liquid in 2024 and reported rounded excise receipts of SEK 80,000,000. An authority-supplied workbook received and reviewed on 24 July 2026 contains 9 year labels × 4 structure metrics: reporting entities and notified, active and withdrawn products. The public FHM page documents the notification system; it is not presented as publishing the numeric series.",
       `https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf ; ${fhmSourceUrl} ; site/data/market-values.json`,
       "2026-07-24",
-      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 39 market measures and 36 structure counts remain separate.",
+      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 98 market measures and 36 structure counts remain separate.",
       "No sales value, sales volume or market share is inferred from the structure counts. The 2018–2025 figures are authority-supplied year labels, not assumed annual flows or year-end snapshots. The 2026 records are a current snapshot and are not annualised.",
       "Confirmed",
       "Observed consumer sales in euros, device units and liquid millilitres, plus a publicly reusable numeric FHM series, are still required.",
@@ -1720,7 +1724,7 @@ function upgradeRegister(rows, language) {
 
   const canadaIndex = output.findIndex((row) => (
     row[0].startsWith(language === "fi"
-      ? "Kanadan vuoden 2024"
+      ? "Kanadan vuoden 2024 valmistaja"
       : "Canada's 2024 manufacturer")
     || row[0].startsWith(language === "fi"
       ? "Kanadan Statistics Canada -sarja"
@@ -1740,7 +1744,7 @@ function upgradeRegister(rows, language) {
       "Kuukausi − kvartaali = 1 000 CAD (0,000082 %). Retail − toimitukset = 58 406 203,22 CAD; retail / toimitukset − 1 = 5,031748 %. ECB 2024: 1 219 160 000 / 1,482110546875 = 822 583 715,21 EUR.",
       "D8 läpäisee: tarkistetuille kvartaali-, kuukausi- ja arkistotaulukoille on vahvistettu CAD, GST/HST/PST/QST-verojen poissulku sekä hintaan upotettujen lisäverojen mukanaolo. Lisäveroihin voivat kuulua liittovaltion, lisä- ja provinssien vaping-verot. Kuukausireitti on saman kyselyn QA, ei D10.",
       "Tuettu",
-      "D5 hylättiin, koska NAICS 459999 -erikoiskauppa jää vahvistetun kohdejoukon 441100–459993 ulkopuolelle. D7 hylättiin, koska täsmällisiä tuoteryhmätason laatu- ja vuositason epävarmuustietoja ei ole saatavilla. D10 on avoin; Kanada ei ole hyväksytty donor.",
+      "D5 hylättiin, koska NAICS 459999 -erikoiskauppa jää vahvistetun kohdejoukon 441100–459993 ulkopuolelle; kehikkoon kuuluva verkkomyynti ei kata pois rajattuja erikois-, ulkomaisia suora- tai rajakauppakanavia. D7 hylättiin, koska täsmälliset NAPCS 5619122 -vastaus-, imputointi-, CV-, keskivirhe-, luottamusväli- ja kovarianssimittarit puuttuvat. D10 on avoin; Kanada ei ole hyväksytty donor.",
     ]
     : [
       "Canada's official 2024 consumer-retail point estimate is CAD 1,219,160,000, or EUR 822,583,715.21; the donor test passes 7/10 criteria.",
@@ -1751,7 +1755,7 @@ function upgradeRegister(rows, language) {
       "Monthly − quarterly = CAD 1,000 (0.000082%). Retail − shipments = CAD 58,406,203.22; retail / shipments − 1 = 5.031748%. ECB 2024: 1,219,160,000 / 1.482110546875 = EUR 822,583,715.21.",
       "D8 passes: CAD, exclusion of GST/HST/PST/QST and inclusion of embedded additional duties are confirmed for the reviewed quarterly, monthly and archived tables. Additional duties can include federal, additional and provincial vaping duties. The monthly route is same-survey QA, not D10.",
       "Supported",
-      "D5 failed because NAICS 459999 specialist retail is outside the confirmed 441100–459993 target range. D7 failed because exact product-class quality and annual-uncertainty information is unavailable. D10 remains open; Canada is not an accepted donor.",
+      "D5 failed because NAICS 459999 specialist retail is outside the confirmed 441100–459993 target range; in-scope online sales do not cover excluded specialist, foreign direct or cross-border channels. D7 failed because exact NAPCS 5619122 response, imputation, CV, standard-error, confidence-interval and covariance metrics are unavailable. D10 remains open; Canada is not an accepted donor.",
     ];
 
   const canadaShipmentIndex = output.findIndex((row) => row[0].startsWith(language === "fi"
@@ -1786,6 +1790,10 @@ function upgradeRegister(rows, language) {
     ];
 
   const existingAddition = output.findIndex((row) => (
+    row[0].startsWith(language === "fi"
+      ? "Stats NZ:n valittu vuoden 2024 HS10-kontrolli"
+      : "Stats NZ's selected 2024 HS10 control")
+    ||
     row[0].startsWith(language === "fi"
       ? "Uuden-Seelannin erillinen vuoden 2024 RPS"
       : "New Zealand's separate supported 2024 RPS")
@@ -2453,7 +2461,7 @@ async function writeReleaseLocks(artifacts) {
     || release?.version !== releaseVersion
     || changelog.asOf !== releaseDate
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v37 release");
+    throw new Error("The public changelog is not locked to the reviewed v41 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -2515,6 +2523,7 @@ async function writeReleaseLocks(artifacts) {
     "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
     "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/CANADA_INDEPENDENT_D5_D7_D10_ROUTE_MAP_2026-07-31.md",
+    "source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
     "source/THIRD_DONOR_SCREEN_2026-07-27.md",
     "source/POLAND_2020_2025_RECONSTRUCTION.md",
     "source/POLAND_D1_D10_PREASSESSMENT_2026-07-31.md",
@@ -2558,7 +2567,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 84-observation, 24-source market dataset share one v37 release boundary. The 75 official observations remain separated into 39 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Statistics Canada confirmed the same tax basis for the quarterly, monthly and archived tables, the NAICS 441100–459993 target range and the unavailability of exact product-class quality fields; Canada remains not accepted at 7/10 with D5 and D7 failed, D8 passed and D10 open. New Zealand's 2024 customs controls remain border-stage evidence and its 7 August follow-up pack is prepared but not sent; New Zealand remains not accepted at 7/10 with D5 failed and D8/D10 open. Poland's 2025 device-tax bridge is corrected to a broad statutory group and no Poland country-year retail value or donor score is created. Euromonitor remains paused; no extract, fee, order, licence or commitment was accepted or activated, all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
+      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 156-observation, 47-source market dataset share one v41 release boundary. The 134 official observations remain separated into 98 market measures across seven countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Canada remains not accepted at 7/10: the RCS frame ends at NAICS 459993 while official classification examples place vape specialist retail in excluded NAICS 459999, exact NAPCS 5619122 quality metrics are unavailable and the D10 bridge remains open. New Zealand remains not accepted at 7/10: selected 2024 border controls produce NZD 183,370,681 and NZD 197,070,322 net-import proxies, with candidate-to-proxy ratios of 1.495224911 and 1.391282094; these are diagnostic customs-stage controls, not retail values, margins, uplifts or uncertainty ranges. Germany's prospective DE-BLIND-1.0.0 benchmark is locked to 2023 and 2024 taxed-volume anchors of 1.241 million and 1.284 million litres, with 15% annual and 10% combined deviation caps; it remains NOT SCORED and has no automatic donor or commercial effect. Poland's 2025 device-tax bridge remains bounded to a broad statutory group and creates no Poland country-year retail value or donor score. Euromonitor remains paused; no extract, fee, order, licence or commitment was accepted or activated, all six gates remain evaluated at 0/6 and the vendor remains NOT SCORED. The donor gate remains 0/3 and the global estimate remains not_computed.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,

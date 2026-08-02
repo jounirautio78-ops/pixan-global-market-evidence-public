@@ -489,7 +489,7 @@ def validate_germany_benchmark(value: Any, errors: list[str]) -> None:
         errors.append("Germany benchmark schema differs")
         return
     if (
-        value.get("benchmarkId") != "de-taxed-e-liquid-volume-vendor-gate"
+        value.get("benchmarkId") != "DE-BLIND-1.0.0"
         or value.get("countryIso2") != "DE"
         or value.get("unit") != "litre"
         or value.get("status") != "not_testable"
@@ -505,6 +505,19 @@ def validate_germany_benchmark(value: Any, errors: list[str]) -> None:
     ):
         if not isinstance(value.get(field), str) or not value[field].strip():
             errors.append(f"Germany benchmark {field} must be non-empty")
+    status_reason = str(value.get("statusReasonEn", ""))
+    if not all(
+        marker in status_reason
+        for marker in (
+            "DE-BLIND-1.0.0",
+            "prospectively locked",
+            "2,525,000 litres",
+            "15% per year",
+            "10% combined",
+            "NOT SCORED",
+        )
+    ):
+        errors.append("Germany benchmark prospective blind-control boundary differs")
     if (
         value.get("vendorPassDoesNotEstablishDonorPass") is not True
         or value.get("donorGateEffect") != "none"
@@ -652,7 +665,7 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("unexpected control ID")
     if source.get("status") != "public_status_only_no_purchase_authorised":
         errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.07.31-37" or source.get("asOf") != "2026-07-31":
+    if source.get("version") != "2026.08.02-41" or source.get("asOf") != "2026-08-02":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,

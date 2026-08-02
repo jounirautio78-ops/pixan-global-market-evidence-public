@@ -365,8 +365,8 @@ def parse_date(value: Any) -> date | None:
 
 def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-07-31":
-        errors.append("Third-donor screen must use the reviewed v37 date")
+    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-08-02":
+        errors.append("Third-donor screen must use the reviewed v41 date")
     if screen.get("status") != "screening_only_not_donor_assessment":
         errors.append("Third-donor screen must remain screening-only")
     decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
@@ -681,7 +681,7 @@ def validate_review_data(
         or len(market_measure_official) != 98
     ):
         errors.append(
-            "v40 must retain 98 official market-measure observations plus 36 Sweden "
+            "v41 must retain 98 official market-measure observations plus 36 Sweden "
             "registration-structure observations across the seven reviewed countries"
         )
     official_retail = [
@@ -1108,14 +1108,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-07-31-40"}
+            or set(cache_tokens) != {"2026-08-02-41"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v40 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v41 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-07-31-40"',
+        'src="assets/independent-controls.js?v=2026-08-02-41"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1197,16 +1197,19 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-07-31-comparator-controls-v40",
-            'version: "2026.07.31-40"',
-            'publishedAt: "2026-07-31T16:32:30+03:00"',
-            "Four-country comparator controls and annual series",
+            "2026-08-02-nz-ca-de-donor-control-v41",
+            'version: "2026.08.02-41"',
+            'publishedAt: "2026-08-02T10:30:00+03:00"',
+            "Donor-control checkpoint and prospectively locked Germany benchmark",
             "156 observations from 47 sources",
-            "dashboard is v40",
-            "lender-package files remain the reviewed v37 daily snapshot",
+            "Dashboard and all six once-daily English/Finnish lender-package files are v41",
+            "DE-BLIND-1.0.0",
+            "2.525m litres combined",
+            "15% annual and 10% combined caps",
+            "NOT SCORED",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v40 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v41 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1363,7 +1366,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v40 dashboard / v37 daily-package review experience: HOLD boundary, "
+        "Validated v41 dashboard / v41 daily-package review experience: HOLD boundary, "
         "0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 47-source ledger and required UI hooks."
