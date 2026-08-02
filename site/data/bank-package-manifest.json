@@ -2,11 +2,11 @@
   "schemaVersion": 2,
   "generatedFromPublicDataOnly": true,
   "release": {
-    "id": "2026-07-31-canada-scope-quality-nz-poland-v37",
-    "version": "2026.07.31-37",
-    "publishedAt": "2026-07-31T11:11:21+03:00"
+    "id": "2026-08-02-nz-ca-de-donor-control-v41",
+    "version": "2026.08.02-41",
+    "publishedAt": "2026-08-02T10:30:00+03:00"
   },
-  "asOf": "2026-07-31",
+  "asOf": "2026-08-02",
   "cadence": {
     "frequency": "once_daily",
     "timeZone": "Asia/Nicosia",
@@ -49,11 +49,11 @@
   "inputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "bbbc36cb8a6371bd89214aa90d78676bc916b3401aebe2fa4c3f86c9ff507cf6"
+      "sha256": "2906e284c597714945f4c853426c26867f84ef729008eebfdf329b6fbde1349a"
     },
     {
       "path": "scripts/build_global_base.py",
-      "sha256": "375c5cfae94d5f4d274aacc13294309852928033ea5f4a4544b72e18758607c5"
+      "sha256": "6af457dde3f6e157653f17ffe3538885d7319fbc839ed248bfe08a7b7fe1e70a"
     },
     {
       "path": "scripts/refresh_global_base.py",
@@ -93,19 +93,19 @@
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "8389c4e957e1175d29a19c34a1f0779c99adb34edb93ad8f0dd380a55d1ff665"
+      "sha256": "5683bfbb1b3146f94aa7cda65493a703dc9e822d9c7442293818c83d4b9d4b15"
     },
     {
       "path": "site/data/global-base-layer.json",
-      "sha256": "52fc88d8bee8698846cda45936b0b30a906d4cfb9d0f322653a7c6e87336a01e"
+      "sha256": "96be1da541988e5735ad9f62e525c8c2967e741b565176fc5a05ba8e5b0d857f"
     },
     {
       "path": "site/data/global-base-layer.csv",
-      "sha256": "44f1b16f3b9e458e93358f1234516d9d2c5a81165b0c105793f17cc951f837ee"
+      "sha256": "5a446ff87f3a7e71007234706d6f51169a05df8782200d0365f463be06ee6acd"
     },
     {
       "path": "site/data/market-values.json",
-      "sha256": "62c140673ca573c824c9278f4c847f0cf65d4c493e2eeb9545eb7d3b1e21ca6b"
+      "sha256": "92f767cdec3b85780792ea8e2f54bd5b796b890fb8772e532c1d80d006c2288f"
     },
     {
       "path": "site/data/patent-history.json",
@@ -113,11 +113,11 @@
     },
     {
       "path": "site/data/donor-cockpit.json",
-      "sha256": "c6280f88e9527296ac0116bdd8d7866549a51197a3ffe5a37a9722db2b3d3fa7"
+      "sha256": "c57a6cdbff07adb5bf99ff470ccf72b91a8ff0df74a530028df2cc7dc5a40f97"
     },
     {
       "path": "site/data/third-donor-screen.json",
-      "sha256": "08c5890152e0b65fde6863e4f47cc2e7e292ba83c707ecfc83ff21a65282d4e6"
+      "sha256": "8af86d40ae5c0c2aa34ebfa71d80a86713fc93e75089d2dd6f2f8fab95aaad37"
     },
     {
       "path": "site/data/country-scenarios.json",
@@ -129,15 +129,15 @@
     },
     {
       "path": "site/data/fx-rates.json",
-      "sha256": "4e3e0c5f196bf416d7e5cf1d96e604f486b314b981b971c112c08bdff50c15b1"
+      "sha256": "6940101de939f43d3e6a7c8e9a53c382e0e5921aaac775582797aaaf14b2129e"
     },
     {
       "path": "site/data/vendor-response-control.json",
-      "sha256": "803df7d947251df30d8adfabeff2d45722488b8e8cf76878a41017ac03d71c92"
+      "sha256": "57c6dbf28adbcb8db71c893068bdbf0728a4419be0b798224f34f286ff4275a0"
     },
     {
       "path": "site/data/vendor-response-control.csv",
-      "sha256": "a581b7bfe0653ef3c51b7f021da1f8e94e1db418b8fe031a992b48a48eb2e670"
+      "sha256": "f94351588bff769fd5526c70cef1d257549fe58728ad5284bba0a8f49d841d0d"
     },
     {
       "path": "site/schemas/fx-rates.schema.json",
@@ -153,11 +153,11 @@
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "52796a178fdea0eb6036f15efac954f0d7a648fc3e742e55ddb9404092f3a75f"
+      "sha256": "9b74d77529da14e74ae68ca095eaa617c9a2c262ade0c904d0b2f2f16887a692"
     },
     {
       "path": "source/fx-rates.json",
-      "sha256": "4e3e0c5f196bf416d7e5cf1d96e604f486b314b981b971c112c08bdff50c15b1"
+      "sha256": "6940101de939f43d3e6a7c8e9a53c382e0e5921aaac775582797aaaf14b2129e"
     },
     {
       "path": "source/global-base-config.json",
@@ -169,7 +169,7 @@
     },
     {
       "path": "source/country-method-route-config.json",
-      "sha256": "cdd86f38e7192731571cb3c3d85fab563d21452280bc913066e17ef1f297b19a"
+      "sha256": "45b2458938b22af050f16300e326fe599bda51dc6de4529f5c75234dc228f997"
     },
     {
       "path": "source/COUNTRY_METHOD_ROUTE_MAP.md",
@@ -177,7 +177,7 @@
     },
     {
       "path": "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
-      "sha256": "6fbd287b914133f9957e89b82de8bdbd539358271960fad4dd8118eebaab32d9"
+      "sha256": "88a362e56738fa31adc213498c08af4ab31f18f42008895cccad696b1741e0fe"
     },
     {
       "path": "source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
@@ -189,15 +189,15 @@
     },
     {
       "path": "source/top20-data-request-routes.json",
-      "sha256": "c7fd7004a3f1953e717a4f860cc21e5c501f222dce8b5c50253312990fa7a40d"
+      "sha256": "50c389eedcf5625d56bc03fb9ee2f71c3a4d87c9459b32ae26f0eaacca0d33ff"
     },
     {
       "path": "source/vendor-response-control.json",
-      "sha256": "55534c5756d5e1a7d92702fc52918f52c5b417fbd9f3ad10a3ddc2855dd6250a"
+      "sha256": "8b60afd385fd319a7dc14e50479b8c9fe0a0cc460576ddfbdf072b97f82848f2"
     },
     {
       "path": "source/third-donor-screen.json",
-      "sha256": "08c5890152e0b65fde6863e4f47cc2e7e292ba83c707ecfc83ff21a65282d4e6"
+      "sha256": "8af86d40ae5c0c2aa34ebfa71d80a86713fc93e75089d2dd6f2f8fab95aaad37"
     },
     {
       "path": "source/schemas/fx-rates.schema.json",
@@ -217,11 +217,11 @@
     },
     {
       "path": "source/NZ_2024_DONOR_CLOSURE_PACK.md",
-      "sha256": "5f6866adacf38a698b2da53b511525cc133c8275d279382ed38de6b4ad45864e"
+      "sha256": "6dad76afc0fd9469d6ec688a631eb512befe469cae361090560e96747ae241c4"
     },
     {
       "path": "source/NZ_2024_D8_D10_OFFICIAL_SOURCE_AUDIT.md",
-      "sha256": "e835726f07be922cdbc11e05d7da720662d6287c42d08635baf4ca9c0b670d5c"
+      "sha256": "fc5aaca9d05d4cdf2311256ddcddc6a7e2fbfb366db17f9bb3e818844fa39503"
     },
     {
       "path": "source/NZ_DONOR_FOLLOWUP_PACK_2026-08-07.md",
@@ -261,15 +261,19 @@
     },
     {
       "path": "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
-      "sha256": "76c0db61cc1b9ed3d8fbcaf258f4a03542b6ec73c24a19f5b7e3b5c8ca29021c"
+      "sha256": "5b11484229fa6a3f77409b28334961db6bdeba40821708e43c3dcfe0c91345f7"
     },
     {
       "path": "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
-      "sha256": "f6d33f76b491ba123a80db30f3b66ea211ce11d6804389da2c001042423b4c3b"
+      "sha256": "c9fc04d3eaf6beea673ff8fa039eab7ea791e077528b32b2a47b87fb53862e6c"
     },
     {
       "path": "source/CANADA_INDEPENDENT_D5_D7_D10_ROUTE_MAP_2026-07-31.md",
       "sha256": "2590d25b0baf0c18ba59248f99bc66fa876ddcfe785e4762720330ffbf4f21d0"
+    },
+    {
+      "path": "source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+      "sha256": "090f79ecc65a95560e1e7340debf4fd9bb23149fb07eabb629bf03c0aef3e4a0"
     },
     {
       "path": "source/THIRD_DONOR_SCREEN_2026-07-27.md",
@@ -277,11 +281,11 @@
     },
     {
       "path": "source/POLAND_2020_2025_RECONSTRUCTION.md",
-      "sha256": "8ff82a2767f9aabf2954629671562e9820255c8d05ac831b3bf468a56e8021f7"
+      "sha256": "475e075dd624379979bed70887bb9a7c2089e14b9e123e9b39f85a534a9c7d7c"
     },
     {
       "path": "source/POLAND_D1_D10_PREASSESSMENT_2026-07-31.md",
-      "sha256": "319571f6c1a8fca8c6e6f1be1868adaa18d6e1eb23da42e9a7169700f6b26839"
+      "sha256": "b22cc4f9447833b8c23267d6ec6999857697f385ba10183cf344dda7cda8ba7b"
     },
     {
       "path": "source/FOLLOW_UP_DRAFTS_2026-07-28.md",
@@ -297,7 +301,7 @@
     },
     {
       "path": "source/bank-package-en-lock.json",
-      "sha256": "b3b00b0aef338551772e02a6de70516fbd837cb11aa4eaa1f3179392755d04bb"
+      "sha256": "a5497dc19e119a31a0ce24a006afdd37bad451e99727cdc90496017ba5de8096"
     }
   ],
   "artifacts": [
@@ -309,8 +313,8 @@
       "titleEn": "Concise bank deck (English)",
       "fileName": "pixan-bank-deck-short-en.pptx",
       "path": "downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "9723f536529a2ac1b302cc9d8ad3805df45d5323609faa930a029ec64d06579a",
-      "bytes": 61885,
+      "sha256": "1f96452c34c4db57efcf516b3fa378177f73950174345a27cab03c926d95282e",
+      "bytes": 61823,
       "slideCount": 6
     },
     {
@@ -321,8 +325,8 @@
       "titleEn": "Extended bank deck (English)",
       "fileName": "pixan-bank-deck-large-en.pptx",
       "path": "downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "d8b62ec0c113cdd6e4631879c19e9be4ae30fc568745755a156f400eb71df43c",
-      "bytes": 197370,
+      "sha256": "506d88e62efcdcddbd50998ada6838efcbe9e929358a08b337aa1f0ae466ad8d",
+      "bytes": 197421,
       "slideCount": 30
     },
     {
@@ -333,8 +337,8 @@
       "titleEn": "Evidence Register (English)",
       "fileName": "pixan-bank-evidence-register-en.xlsx",
       "path": "downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "459ee9aa93f9c2f8e47fe8846484be6d207336bb0b47aab77e42d5adc3d5153d",
-      "bytes": 41603,
+      "sha256": "3fbd05e11409291d8a9aabd1462c79f7c0abe3ee7b68e5050e6bd8686f4aaa3c",
+      "bytes": 45146,
       "rowCount": 60
     },
     {
@@ -345,8 +349,8 @@
       "titleEn": "Concise bank deck (Finnish)",
       "fileName": "pixan-bank-deck-short-fi.pptx",
       "path": "downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "c438b1363d6952131624a8d1a7cfc02f2e180f45231295f87386350e5f8219d5",
-      "bytes": 62243,
+      "sha256": "1e34d691515db744eb8bd01938515c98ad557d1cdf95c7b8a7efc1ff223531f7",
+      "bytes": 62168,
       "slideCount": 6
     },
     {
@@ -357,8 +361,8 @@
       "titleEn": "Extended bank deck (Finnish)",
       "fileName": "pixan-bank-deck-large-fi.pptx",
       "path": "downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "28b9682c0f9c262e3ff00fba215114a4bf0abdf82e9a981d922d65b30b32b620",
-      "bytes": 199088,
+      "sha256": "3c1592f390de30f287dd90eb8edcc42e9cd7d3d9179f53e3201c05b412b3fac9",
+      "bytes": 199181,
       "slideCount": 30
     },
     {
@@ -369,8 +373,8 @@
       "titleEn": "Evidence Register (Finnish)",
       "fileName": "pixan-bank-evidence-register-fi.xlsx",
       "path": "downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "478b6cf8dd979170fc1f158149ff6ef8233db2039bb3f9c4de629b4d097e5687",
-      "bytes": 43041,
+      "sha256": "f5053cc88ad6b0aafed51a608f0becb88aa6e89335171ecd377711e166d9c093",
+      "bytes": 46603,
       "rowCount": 60
     }
   ]

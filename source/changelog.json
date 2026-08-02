@@ -1,7 +1,36 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-31",
+  "asOf": "2026-08-02",
   "releases": [
+    {
+      "id": "2026-08-02-nz-ca-de-donor-control-v41",
+      "version": "2026.08.02-41",
+      "publishedAt": "2026-08-02T10:30:00+03:00",
+      "titleEn": "Donor-control checkpoint and prospectively locked Germany benchmark",
+      "titleFi": "Donor-kontrollien tarkistuspiste ja ennakkoon lukittu Saksa-testi",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Added a tighter public-official New Zealand 2024 border-stage diagnostic: selected imports are NZD 189.641 million at value for duty and NZD 203.341 million at CIF; selected exports are NZD 6.270 million FOB. The resulting NZD 183.371 million and NZD 197.070 million net proxies are diagnostics only—not retail value, margin, uplift or a market range.",
+          "textFi": "Lisättiin tiukempi julkiseen viranomaisdataan perustuva Uuden-Seelannin vuoden 2024 rajavaiheen kontrolli: valittujen tuontien tullausarvo on 189,641 milj. NZD ja CIF-arvo 203,341 milj. NZD; valittujen vientien FOB-arvo on 6,270 milj. NZD. Näin saadut 183,371 ja 197,070 milj. NZD:n nettoproxyt ovat vain diagnostiikkaa — eivät vähittäisarvo, kate, korotuskerroin tai markkinahaarukka."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Canada remains NOT ACCEPTED at 7/10. The official RCS population ends at NAICS 459993 while official examples place vape-specialist retail in excluded NAICS 459999; exact NAPCS 5619122 response, imputation and precision metrics remain unavailable, and the retail-to-shipment bridge remains unresolved. No missing channel is treated as zero and no new Canada market value is created.",
+          "textFi": "Kanada pysyy tilassa EI HYVÄKSYTTY tuloksella 7/10. Virallisen RCS-aineiston kohdejoukko päättyy NAICS 459993 -luokkaan, kun viralliset esimerkit sijoittavat vape-erikoiskaupan pois rajattuun NAICS 459999 -luokkaan; täsmälliset NAPCS 5619122 -vastaus-, imputointi- ja tarkkuusmittarit puuttuvat yhä, eikä vähittäis- ja toimitusvaiheen siltaa ole ratkaistu. Puuttuvaa kanavaa ei käsitellä nollana eikä uutta Kanadan markkina-arvoa muodosteta."
+        },
+        {
+          "category": "method",
+          "textEn": "Locked Germany benchmark DE-BLIND-1.0.0 before any future vendor submission is scored. Final official taxed-liquid anchors are 1,241,000 litres for 2023, 1,284,000 litres for 2024 and 2,525,000 litres combined; the preregistered caps are 15% per year and 10% combined. The benchmark is NOT SCORED and has no automatic donor, purchase, licence or disclosure effect.",
+          "textFi": "Lukittiin Saksan testi DE-BLIND-1.0.0 ennen minkään tulevan toimittajatoimituksen pisteytystä. Lopulliset viralliset verotetun nesteen ankkurit ovat 1 241 000 litraa vuonna 2023, 1 284 000 litraa vuonna 2024 ja yhteensä 2 525 000 litraa; ennalta rekisteröidyt rajat ovat 15 % vuodessa ja 10 % yhteensä. Testi on EI PISTEYTETTY eikä sillä ole automaattista donor-, osto-, lisenssi- tai luovutusvaikutusta."
+        },
+        {
+          "category": "usability",
+          "textEn": "Published dashboard and once-daily English/Finnish lender packages as v41. The public market dataset remains 156 observations from 47 sources, including 98 official market measures plus 36 Swedish structure records. Donor decisions remain 0/3 and global retail value remains null/not_computed. Euromonitor remains paused; no purchase, fee, order, licence or commitment is authorised.",
+          "textFi": "Julkaistiin dashboard ja kerran päivässä muodostettavat englannin- ja suomenkieliset rahoittajapaketit versiona v41. Julkinen markkina-aineisto pysyy 156 havainnossa ja 47 lähteessä, joihin sisältyvät 98 virallista markkinamittaria ja 36 Ruotsin rakennetietuetta. Donor-päätökset pysyvät 0/3:ssa ja maailman vähittäisarvo null/not_computed-tilassa. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        }
+      ]
+    },
     {
       "id": "2026-07-31-comparator-controls-v40",
       "version": "2026.07.31-40",

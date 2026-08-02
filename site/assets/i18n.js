@@ -3,32 +3,32 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V40 = Object.freeze({
-    id: "2026-07-31-comparator-controls-v40",
-    version: "2026.07.31-40",
-    publishedAt: "2026-07-31T16:32:30+03:00",
-    titleEn: "Four-country comparator controls and annual series",
-    titleFi: "Neljän maan vertailukontrollit ja vuosisarjat",
+  const UI_RELEASE_V41 = Object.freeze({
+    id: "2026-08-02-nz-ca-de-donor-control-v41",
+    version: "2026.08.02-41",
+    publishedAt: "2026-08-02T10:30:00+03:00",
+    titleEn: "Donor-control checkpoint and prospectively locked Germany benchmark",
+    titleFi: "Donor-kontrollien tarkistuspiste ja ennakkoon lukittu Saksa-testi",
     items: Object.freeze([
       Object.freeze({
         category: "market_data",
-        textEn: "Added 44 bounded observations from seven public sources: New Zealand HES expenditure estimates, Canada institutional market and channel benchmarks, Germany official supply-stage controls, and Poland annual quantities plus a disposable-only segment estimate.",
-        textFi: "Lisättiin 44 rajattua havaintoa seitsemästä julkisesta lähteestä: Uuden-Seelannin HES-kulutusestimaatit, Kanadan institutionaaliset markkina- ja kanavavertailut, Saksan viralliset tarjontavaiheen kontrollit sekä Puolan vuotuiset määrät ja kertakäyttösegmenttiarvio."
-      }),
-      Object.freeze({
-        category: "method",
-        textEn: "Germany's reproducible apparent-supply control is EUR 608.335 million and its zero-margin supply-excise-VAT sensitivity is EUR 1.040 billion. New Zealand's 2023 HES total is NZD 186.980 million with 22.4% relative sampling error. Neither is complete retail sell-through.",
-        textFi: "Saksan toistettava laskennallinen tarjontakontrolli on 608,335 miljoonaa euroa ja nollamarginaalinen tarjonta-valmistevero-ALV-herkkyys 1,040 miljardia euroa. Uuden-Seelannin vuoden 2023 HES-summa on 186,980 miljoonaa NZD ja suhteellinen otantavirhe 22,4 %. Kumpikaan ei ole koko vähittäismyynti."
+        textEn: "New Zealand's selected 2024 official border controls produce NZD 183.371m and NZD 197.070m net proxies. They are diagnostics only—not retail value, margin, uplift or a market range.",
+        textFi: "Uuden-Seelannin valitut vuoden 2024 viralliset rajakontrollit tuottavat 183,371 ja 197,070 milj. NZD:n nettoproxyt. Ne ovat vain diagnostiikkaa — eivät vähittäisarvo, kate, korotuskerroin tai markkinahaarukka."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "The live dashboard now contains 156 observations from 47 sources. The 134 official observations comprise 98 market measures and 36 Swedish structure records; donor decisions remain unchanged, the gate stays 0/3 and global retail value remains null/not_computed.",
-        textFi: "Live-dashboard sisältää nyt 156 havaintoa 47 lähteestä. 134 virallista havaintoa koostuvat 98 markkinamittarista ja 36 Ruotsin rakennetietueesta; donor-päätökset pysyvät muuttumattomina, portti on 0/3 ja maailman vähittäisarvo null/not_computed-tilassa."
+        textEn: "Canada remains 7/10 and NOT ACCEPTED: NAICS 459999 specialist retail, exact product-class quality metrics and the same-boundary independent bridge remain unresolved. No missing channel is treated as zero.",
+        textFi: "Kanada pysyy tuloksessa 7/10 ja tilassa EI HYVÄKSYTTY: NAICS 459999 -erikoiskauppa, täsmälliset tuoteryhmätason laatumittarit ja saman rajauksen riippumaton silta ovat ratkaisematta. Puuttuvaa kanavaa ei käsitellä nollana."
+      }),
+      Object.freeze({
+        category: "method",
+        textEn: "Prospective benchmark DE-BLIND-1.0.0 is locked at 1.241m litres for 2023, 1.284m litres for 2024 and 2.525m litres combined, with 15% annual and 10% combined caps. It is NOT SCORED and has no automatic donor or commercial effect.",
+        textFi: "Tuleva testi DE-BLIND-1.0.0 on lukittu ankkureihin 1,241 milj. litraa vuonna 2023, 1,284 milj. litraa vuonna 2024 ja 2,525 milj. litraa yhteensä sekä 15 %:n vuosi- ja 10 %:n yhteisrajoihin. Se on EI PISTEYTETTY eikä aiheuta automaattista donor- tai kaupallista vaikutusta."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "The dashboard is v40. The six downloadable lender-package files remain the reviewed v37 daily snapshot and were not rebuilt; the package is generated at most once per Asia/Nicosia calendar day. Euromonitor remains paused and no purchase, fee, order, licence or commitment is authorised.",
-        textFi: "Dashboard on v40. Kuusi ladattavaa rahoittajapaketin tiedostoa pysyvät tarkistettuna v37-päiväsnapshotina eikä niitä rakennettu uudelleen; paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        textEn: "Dashboard and all six once-daily English/Finnish lender-package files are v41. The dataset remains 156 observations from 47 sources; donor gate 0/3 and global value null/not_computed. Euromonitor remains paused; no purchase, fee, order, licence or commitment is authorised.",
+        textFi: "Dashboard ja kaikki kuusi kerran päivässä muodostettavaa englannin- ja suomenkielistä rahoittajapakettitiedostoa ovat versiota v41. Aineisto pysyy 156 havainnossa ja 47 lähteessä; donor-portti on 0/3 ja maailmanarvo null/not_computed. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
       })
     ])
   });
@@ -753,7 +753,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V40;
+  window.PixanUiRelease = UI_RELEASE_V41;
 
   init();
 })();

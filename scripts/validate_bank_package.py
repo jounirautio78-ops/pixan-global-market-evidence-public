@@ -39,11 +39,11 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-07-31-canada-scope-quality-nz-poland-v37"
-RELEASE_VERSION = "2026.07.31-37"
-RELEASE_DATE = "2026-07-31"
+RELEASE_ID = "2026-08-02-nz-ca-de-donor-control-v41"
+RELEASE_VERSION = "2026.08.02-41"
+RELEASE_DATE = "2026-08-02"
 LOCK_RELATIVE_PATH = "source/bank-package-en-lock.json"
-EXPECTED_LOCK_SHA256 = "b3b00b0aef338551772e02a6de70516fbd837cb11aa4eaa1f3179392755d04bb"
+EXPECTED_LOCK_SHA256 = "a5497dc19e119a31a0ce24a006afdd37bad451e99727cdc90496017ba5de8096"
 PACKAGE_TIME_ZONE = "Asia/Nicosia"
 EXPECTED_PACKAGE_CADENCE = {
     "frequency": "once_daily",
@@ -191,6 +191,7 @@ EXPECTED_INPUTS = {
     "source/CANADA_2024_DONOR_CLOSURE_PACK.md",
     "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/CANADA_INDEPENDENT_D5_D7_D10_ROUTE_MAP_2026-07-31.md",
+    "source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
     "source/THIRD_DONOR_SCREEN_2026-07-27.md",
     "source/POLAND_2020_2025_RECONSTRUCTION.md",
     "source/POLAND_D1_D10_PREASSESSMENT_2026-07-31.md",
@@ -390,7 +391,7 @@ def validate_release_lock(
         errors.append("bank-package lock has an unexpected schema")
         return False
     if sha256(LOCK_PATH) != EXPECTED_LOCK_SHA256:
-        errors.append("bank-package lock SHA-256 differs from the reviewed v37 snapshot")
+        errors.append("bank-package lock SHA-256 differs from the reviewed package snapshot")
         valid = False
     if (
         lock.get("schemaVersion") != 2
@@ -412,7 +413,7 @@ def validate_release_lock(
             if isinstance(item, dict) and item.get("path") == LOCK_RELATIVE_PATH
         ]
         if self_lock_entries != [{"path": LOCK_RELATIVE_PATH, "sha256": EXPECTED_LOCK_SHA256}]:
-            errors.append("manifest must bind exactly one reviewed v37 lock SHA-256")
+            errors.append("manifest must bind exactly one reviewed package lock SHA-256")
             valid = False
         expected_locked_inputs = [
             item
@@ -707,7 +708,7 @@ def validate_artifact_builder_fx_contract(builder_text: str, errors: list[str]) 
         "validateV27MarketEvidence": "v27 market-role validation",
         FHM_SOURCE_ID: "Swedish FHM source binding",
         SWEDEN_STRUCTURE_BASIS: "Swedish non-sales structure-role marker",
-        "officialMarketMeasures: 39": "39 official market-measure lock",
+        "officialMarketMeasures: 98": "98 official market-measure lock",
         "swedenRegisterStructure: 36": "36 Swedish register-count lock",
     }
     for token, description in required_tokens.items():
@@ -1635,7 +1636,7 @@ def validate_manifest(errors: list[str]) -> None:
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 60 for rows in csv_rows_by_language.values()):
-        errors.append("both v37 Evidence Registers must contain exactly 60 reviewed rows")
+        errors.append("both v41 Evidence Registers must contain exactly 60 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1645,18 +1646,21 @@ def validate_manifest(errors: list[str]) -> None:
             "68 548,40",
             "2 137 085,24",
             "4 367 017,37",
-            "258 327 110,88 + 275 335 272,80 = 533 662 383,68",
-            "274 180 410,21 + 367 631 277,68 = 641 811 687,89",
-            "274 180 410,21 + 456 995 382,29 = 731 175 792,50",
-            "533 662 383,68",
-            "731 175 792,50",
+            "189 640 890",
+            "203 340 531",
+            "6 270 209",
+            "183 370 681",
+            "197 070 322",
+            "1,495224911",
+            "1,391282094",
             "2 763 284 338",
             "4,99 mrd",
             "1 219 160 000",
             "5,031748 %",
             "D1–D10",
-            "84 havaintoa 24 lähteestä",
-            "39 markkinamittariin",
+            "156 havaintoa 47 lähteestä",
+            "134 virallista havaintoa",
+            "98 markkinamittariin",
             "36 Ruotsin FHM-rekisterirakenteen lukuun",
             "578 havaittua World Bank",
             "194/195",
@@ -1686,6 +1690,13 @@ def validate_manifest(errors: list[str]) -> None:
             "eivät ole myyntiä",
             "26 000 litraa",
             "80 000 000 SEK",
+            "DE-BLIND-1.0.0",
+            "1 241 000 litraa vuonna 2023",
+            "1 284 000 litraa vuonna 2024",
+            "2 525 000 litraa",
+            "15 % vuodessa",
+            "10 % yhteensä",
+            "EI PISTEYTETTY",
         ),
         "en": (
             "280,684,512.81",
@@ -1695,18 +1706,21 @@ def validate_manifest(errors: list[str]) -> None:
             "68,548.40",
             "2,137,085.24",
             "4,367,017.37",
-            "258,327,110.88 + 275,335,272.80 = 533,662,383.68",
-            "274,180,410.21 + 367,631,277.68 = 641,811,687.89",
-            "274,180,410.21 + 456,995,382.29 = 731,175,792.50",
-            "533,662,383.68",
-            "731,175,792.50",
+            "189,640,890",
+            "203,340,531",
+            "6,270,209",
+            "183,370,681",
+            "197,070,322",
+            "1.495224911",
+            "1.391282094",
             "2,763,284,338",
             "4.99 billion",
             "1,219,160,000",
             "5.031748%",
             "D1–D10",
-            "84 observations from 24 sources",
-            "39 market measures",
+            "156 observations from 47 sources",
+            "134 official observations",
+            "98 market measures",
             "36 Swedish FHM register-structure counts",
             "578 observed World Bank",
             "194/195",
@@ -1736,13 +1750,20 @@ def validate_manifest(errors: list[str]) -> None:
             "are not sales",
             "26,000 litres",
             "SEK 80,000,000",
+            "DE-BLIND-1.0.0",
+            "1,241,000 litres for 2023",
+            "1,284,000 litres for 2024",
+            "2,525,000 litres combined",
+            "15% annually",
+            "10% combined",
+            "NOT SCORED",
         ),
     }
     for language, rows in csv_rows_by_language.items():
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v37 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v41 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1805,7 +1826,7 @@ def validate_manifest(errors: list[str]) -> None:
             release_deck_markers = (
                 (
                     "274,180 milj. nzd",
-                    "39 markkinamittaria",
+                    "98 markkinamittaria",
                     "36 ruotsin fhm",
                     "578 wb-havaintoa",
                     "28 / 0 / 15 / 152",
@@ -1814,11 +1835,10 @@ def validate_manifest(errors: list[str]) -> None:
                     "d5/d7",
                     "d10 avoin",
                     "1,219160 mrd cad",
-                    "uuden-seelannin",
-                    "puolan",
+                    "nz:n",
                     "euromonitor",
                     "pausella",
-                    "0/6",
+                    "de-blind-1.0.0",
                     "ei pisteytetty",
                     "ei ostoa tai maksua",
                     RELEASE_DATE,
@@ -1827,7 +1847,7 @@ def validate_manifest(errors: list[str]) -> None:
                 if not is_english
                 else (
                     "nzd 274.180m",
-                    "39 market measures",
+                    "98 market measures",
                     "36 swedish fhm register",
                     "578 wb records",
                     "28 / 0 / 15 / 152",
@@ -1837,10 +1857,9 @@ def validate_manifest(errors: list[str]) -> None:
                     "d10 open",
                     "cad 1.219160bn",
                     "new zealand",
-                    "poland",
                     "euromonitor",
                     "paused",
-                    "0/6",
+                    "de-blind-1.0.0",
                     "not scored",
                     "no purchase or fee",
                     RELEASE_DATE,
@@ -1882,7 +1901,6 @@ def validate_manifest(errors: list[str]) -> None:
                     ),
                     "puola" if not is_english else "poland",
                     "euromonitor",
-                    "0/6",
                     ftc_fx_marker,
                     nz_model_fx_marker,
                     "nzd 533.7–731.2m" if is_english else "533,7–731,2 milj. nzd",
@@ -1894,44 +1912,52 @@ def validate_manifest(errors: list[str]) -> None:
                 )
             for marker in release_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v37 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v41 market marker is missing: {marker!r}")
             if expected["slideCount"] == 6:
                 short_only_markers = (
                     (
-                        "gst/hst/pst/qst",
-                        "lisäverot",
+                        "183,371/197,070 milj. nzd",
+                        "eivät ole retail-arvoja",
+                        "de-blind-1.0.0",
+                        "ei pisteytetty",
                         "ei ostoa tai maksua",
                     )
                     if not is_english
                     else (
-                        "gst/hst/pst/qst",
-                        "additional duties",
+                        "nzd 183.371m/197.070m",
+                        "not retail values",
+                        "de-blind-1.0.0",
+                        "not scored",
                         "no purchase or fee",
                     )
                 )
                 for marker in short_only_markers:
                     if marker not in combined:
                         errors.append(
-                            f"{relative}: v37 concise-deck marker is missing: {marker!r}"
+                            f"{relative}: v41 concise-deck marker is missing: {marker!r}"
                         )
             if expected["slideCount"] == 30:
                 large_only_markers = (
                     (
                         "d8 on suljettu virallisella veroperustalla",
-                        "tullivaiheen kontrollin",
-                        "valmisteltu eikä lähetetty",
+                        "183,371/197,070 milj. nzd:n nettorajaproxyt ovat vain d10-diagnostiikkaa",
+                        "2,525 milj. l",
+                        "15 % vuodessa",
+                        "10 % yhdessä",
                     )
                     if not is_english
                     else (
                         "official tax evidence closes d8",
-                        "customs-stage control",
-                        "prepared and not sent",
+                        "nzd 183.371m/197.070m net border proxies are d10 diagnostics only",
+                        "2.525m l combined",
+                        "15% annually",
+                        "10% combined",
                     )
                 )
                 for marker in large_only_markers:
                     if marker not in combined:
                         errors.append(
-                            f"{relative}: v37 extended-deck marker is missing: {marker!r}"
+                            f"{relative}: v41 extended-deck marker is missing: {marker!r}"
                         )
         else:
             csv_rows = csv_rows_by_language[expected["language"]]

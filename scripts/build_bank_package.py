@@ -83,8 +83,8 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-07-31-canada-scope-quality-nz-poland-v37"
-RELEASE_VERSION = "2026.07.31-37"
+RELEASE_ID = "2026-08-02-nz-ca-de-donor-control-v41"
+RELEASE_VERSION = "2026.08.02-41"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -98,9 +98,9 @@ SWEDEN_STRUCTURE_METRICS = {
     "active_products_count": "ACTIVE-PRODUCTS",
     "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
 }
-EXPECTED_MARKET_OBSERVATIONS = 84
-EXPECTED_MARKET_SOURCES = 24
-EXPECTED_OFFICIAL_MARKET_MEASURES = 39
+EXPECTED_MARKET_OBSERVATIONS = 156
+EXPECTED_MARKET_SOURCES = 47
+EXPECTED_OFFICIAL_MARKET_MEASURES = 98
 EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
@@ -496,9 +496,9 @@ def build_context() -> dict[str, Any]:
     if (
         release.get("id") != RELEASE_ID
         or release.get("version") != RELEASE_VERSION
-        or as_of != "2026-07-31"
+        or as_of != "2026-08-02"
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v37 release")
+        raise ValueError("Public inputs are not locked to the reviewed v41 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
     for label, data in (
@@ -523,7 +523,7 @@ def build_context() -> dict[str, Any]:
         or method_summary.get("donorAcceptedCount") != 0
         or global_base.get("globalRetailSales", {}).get("value") is not None
     ):
-        raise ValueError("Global base is not locked to the reviewed v37 method-control boundary")
+        raise ValueError("Global base is not locked to the reviewed v41 method-control boundary")
 
     observations = unique_index(market["observations"], "observationId", "market observation")
     models = unique_index(market["models"], "modelId", "market model")

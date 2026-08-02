@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1",
-  "asOf": "2026-07-31",
+  "asOf": "2026-08-02",
   "protocol": {
     "protocolVersion": "1.0",
     "acceptanceRuleEn": "A country-year enters the public donor count only when D1–D10 all pass with source-linked evidence. Failed, open or structurally invalid records remain outside the count.",
@@ -110,15 +110,15 @@
         {"criterionId": "D9", "status": "passed"},
         {"criterionId": "D10", "status": "open"}
       ],
-      "blockerEn": "The NZD 274,180,410.21 subtotal is vaping-only and supply-stage controlled, but it remains incomplete specialist retail: general-retail value is unobserved, GST treatment is unstated and no independent route validates it.",
-      "blockerFi": "274 180 410,21 NZD:n summa on sähkötupakkarajattu ja toimitusketjutaso hallittu, mutta se on yhä puutteellinen erikoisvähittäiskaupan luku: yleisvähittäiskaupan arvoa ei ole havaittu, GST-käsittelyä ei ole ilmoitettu eikä riippumaton reitti validoi sitä.",
+      "blockerEn": "The NZD 274,180,410.21 subtotal is vaping-only and supply-stage controlled, but it remains incomplete specialist retail: general-retail value is unobserved and GST treatment is unstated. The new NZD 183,370,681 and NZD 197,070,322 net border proxies are different-stage diagnostics, not a D10 retail reconciliation.",
+      "blockerFi": "274 180 410,21 NZD:n summa on sähkötupakkarajattu ja toimitusketjutaso hallittu, mutta se on yhä puutteellinen erikoisvähittäiskaupan luku: yleisvähittäiskaupan arvoa ei ole havaittu eikä GST-käsittelyä ilmoitettu. Uudet 183 370 681 ja 197 070 322 NZD:n nettorajaproxyt ovat eri tapahtumavaiheen diagnostiikkaa, eivät D10:n retail-täsmäytys.",
       "nextEvidenceEn": "Obtain an observed national general-retail value and return-completeness denominator, confirm the GST basis, and reconcile the same 2024 boundary against an independent route.",
       "nextEvidenceFi": "Hanki havaittu valtakunnallinen yleisvähittäiskaupan arvo ja ilmoitusten peiton nimittäjä, vahvista GST-perusta ja täsmäytä sama vuoden 2024 rajaus riippumattomaan reittiin.",
       "acquisitionRouteEn": "New Zealand Ministry of Health coverage and GST clarification, followed by a non-duplicative tax, customs, POS or direct official reconciliation.",
       "acquisitionRouteFi": "Uuden-Seelannin terveysministeriön peitto- ja GST-täsmennys, minkä jälkeen riippumaton vero-, tulli-, POS- tai suora viranomaistäsmäytys.",
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
-      "lastReviewedAt": "2026-07-31",
+      "lastReviewedAt": "2026-08-02",
       "sourceIds": [
         "NZ-MOH-ANNUAL-RETURNS-2024",
         "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
@@ -156,12 +156,12 @@
           "criterionIds": ["D10"],
           "ownerRole": "independent_validator",
           "routeType": "independent_reconciliation",
-          "routeEn": "Use the final 2024 Stats NZ HS10 control only as a customs-stage sensitivity and seek Ministry internal validation or a complete independent POS, tax or customs-to-retail bridge without adding supply stages.",
-          "routeFi": "Käytä lopullista vuoden 2024 Stats NZ HS10 -kontrollia vain tullivaiheen herkkyytenä ja pyydä ministeriön sisäinen validointi tai täydellinen riippumaton POS-, vero- tai tulli–retail-silta lisäämättä toimitusketjun portaita.",
-          "evidenceTargetEn": "An independent validation or reproducible bridge that reconciles product scope, low-value trade, production, inventory, channels, timing, GST and supply stages.",
-          "evidenceTargetFi": "Riippumaton validointi tai toistettava silta, joka täsmäyttää tuoterajauksen, pienarvokaupan, tuotannon, varastot, kanavat, ajoituksen, GST:n ja toimitusketjun tasot.",
+          "routeEn": "Use the selected 2024 Stats NZ controls—imports NZD 189,640,890 VFD and NZD 203,340,531 CIF, exports NZD 6,270,209 FOB, net proxies NZD 183,370,681 and NZD 197,070,322—only as border-stage diagnostics. Candidate ratios of 1.4952x and 1.3913x are not margin, uplift, validation intervals or market ranges.",
+          "routeFi": "Käytä valittuja Stats NZ:n vuoden 2024 kontrolleja — tuonti 189 640 890 NZD VFD ja 203 340 531 NZD CIF, vienti 6 270 209 NZD FOB sekä nettoproxyt 183 370 681 ja 197 070 322 NZD — vain rajavaiheen diagnostiikkana. Ehdokkaan suhteet 1,4952 ja 1,3913 eivät ole kate, korotuskerroin, validointiväli tai markkinahaarukka.",
+          "evidenceTargetEn": "An independent validation or reproducible bridge that reconciles product mapping, production, inventory, re-exports, margins, channels, timing, GST and consumer sell-through.",
+          "evidenceTargetFi": "Riippumaton validointi tai toistettava silta, joka täsmäyttää tuoteluokituksen, tuotannon, varastot, jälleenviennin, katteet, kanavat, ajoituksen, GST:n ja kuluttajamyynnin.",
           "publicStatus": "in_progress",
-          "statusAsOf": "2026-07-27",
+          "statusAsOf": "2026-08-02",
           "nextFollowUpOn": "2026-08-07"
         }
       ]
@@ -253,15 +253,15 @@
         {"criterionId": "D9", "status": "passed"},
         {"criterionId": "D10", "status": "open"}
       ],
-      "blockerEn": "Statistics Canada confirmed that the target population ends at 459993 while official examples place vape-specialist retailing in excluded NAICS 459999. All 12 monthly values and all four 2024 quarters carry E, exact product-class precision and imputation information is unavailable, and the independent Health Canada bridge remains unresolved.",
-      "blockerFi": "Statistics Canada vahvisti kohdejoukon päättyvän luokkaan 459993, kun viralliset esimerkit sijoittavat vape-erikoiskaupan ulkopuoliseen NAICS 459999 -luokkaan. Kaikilla 12 kuukausiarvolla ja neljällä vuoden 2024 kvartaalilla on E, täsmällisiä tuoteryhmätason tarkkuus- ja imputointitietoja ei ole saatavilla eikä riippumatonta Health Canada -siltaa ole täsmäytetty.",
+      "blockerEn": "Statistics Canada confirmed that the target population ends at 459993 while official examples place vape-specialist retailing in excluded NAICS 459999. In-scope online sales follow goods classification, but excluded specialist, foreign/direct and cross-border values remain unquantified. All 12 months and four quarters carry E; exact NAPCS 5619122 response, imputation, CV, standard-error, confidence-interval and covariance metrics are unavailable, and the Health Canada bridge remains unresolved.",
+      "blockerFi": "Statistics Canada vahvisti kohdejoukon päättyvän luokkaan 459993, kun viralliset esimerkit sijoittavat vape-erikoiskaupan ulkopuoliseen NAICS 459999 -luokkaan. Kehikkoon kuuluva verkkomyynti seuraa tavaraluokitusta, mutta pois rajatun erikoiskaupan, ulkomaisen suoramyynnin ja rajakaupan arvot jäävät määrällistämättä. Kaikilla 12 kuukaudella ja neljällä kvartaalilla on E; täsmälliset NAPCS 5619122 -vastaus-, imputointi-, CV-, keskivirhe-, luottamusväli- ja kovarianssimittarit puuttuvat, eikä Health Canada -siltaa ole täsmäytetty.",
       "nextEvidenceEn": "Use an independent rights-cleared POS or retailer route with a national channel denominator, documented method and tax basis, then validate a non-duplicative bridge to the RCS and Health Canada shipment series.",
       "nextEvidenceFi": "Käytä riippumatonta, käyttöoikeuksiltaan selvää POS- tai vähittäiskauppareittiä, jossa on valtakunnallinen kanavanimittäjä, dokumentoitu menetelmä ja veroperusta, ja validoi sen jälkeen kaksoislaskennaton silta RCS- ja Health Canada -toimitussarjoihin.",
       "acquisitionRouteEn": "No further Statistics Canada follow-up is scheduled. The remaining route is independent rights-cleared POS or retailer coverage with explicit national scope, quality metrics and a same-year reconciliation.",
       "acquisitionRouteFi": "Uutta Statistics Canada -seurantaa ei ole aikataulutettu. Jäljellä oleva reitti on riippumaton, käyttöoikeuksiltaan selvä POS- tai vähittäiskauppapeitto, jossa on yksiselitteinen valtakunnallinen rajaus, laatumittarit ja saman vuoden täsmäytys.",
       "responseStatus": "public_source_available",
       "licenseStatus": "public_source_link_only",
-      "lastReviewedAt": "2026-07-31",
+      "lastReviewedAt": "2026-08-02",
       "sourceIds": ["CA-STATCAN-RCS-2023-2025", "CA-HC-VAPING-SALES-2024"],
       "closureActions": [
         {
@@ -269,12 +269,12 @@
           "criterionIds": ["D5", "D7"],
           "ownerRole": "data_supplier",
           "routeType": "rights_cleared_retail_data",
-          "routeEn": "The Statistics Canada route closed with a confirmed specialist-channel exclusion and unavailable product-class quality metrics. Seek an independent national POS or retailer dataset with channel coverage, missingness, precision and tax basis documented.",
-          "routeFi": "Statistics Canada -reitti sulkeutui vahvistettuun erikoiskauppakanavan poissulkuun ja puuttuviin tuoteryhmätason laatumittareihin. Hanki riippumaton valtakunnallinen POS- tai vähittäiskauppa-aineisto, jossa kanavapeitto, puuttuvuus, tarkkuus ja veroperusta on dokumentoitu.",
+          "routeEn": "The Statistics Canada route closed with a confirmed NAICS 459999 specialist-channel exclusion and unavailable exact NAPCS 5619122 response, imputation and precision metrics. Seek an independent national POS or retailer dataset that quantifies specialist, general, online/direct and cross-border coverage and overlap.",
+          "routeFi": "Statistics Canada -reitti sulkeutui vahvistettuun NAICS 459999 -erikoiskaupan poissulkuun sekä puuttuviin täsmällisiin NAPCS 5619122 -vastaus-, imputointi- ja tarkkuusmittareihin. Hanki riippumaton valtakunnallinen POS- tai vähittäiskauppa-aineisto, joka määrällistää erikois-, yleis-, verkko-/suora- ja rajakauppapeiton sekä päällekkäisyydet.",
           "evidenceTargetEn": "A rights-cleared same-year retail series that quantifies specialist and general-retail channels and publishes its own bounded quality method.",
           "evidenceTargetFi": "Käyttöoikeuksiltaan selvä saman vuoden vähittäissarja, joka määrällistää erikois- ja yleisvähittäiskaupan kanavat ja julkaisee oman rajatun laatumenetelmänsä.",
           "publicStatus": "queued",
-          "statusAsOf": "2026-07-31",
+          "statusAsOf": "2026-08-02",
           "nextFollowUpOn": "2026-08-14"
         },
         {
@@ -282,12 +282,12 @@
           "criterionIds": ["D10"],
           "ownerRole": "independent_validator",
           "routeType": "independent_reconciliation",
-          "routeEn": "Explain the CAD 58,406,203.22 residual between the CAD 1.219160 billion RCS retail estimate and CAD 1.16075379678 billion Health Canada net shipment value without treating it as margin: the retail value includes embedded additional duties while the shipment value excludes taxes and duties.",
-          "routeFi": "Selitä 58 406 203,22 CAD:n jäännös RCS:n 1,219160 miljardin CAD:n vähittäismyyntiestimaatin ja Health Canadan 1,16075379678 miljardin CAD:n nettotoimitusarvon välillä käsittelemättä sitä katteena: vähittäisarvo sisältää hintaan upotetut lisäverot, kun taas toimitusarvo rajaa verot pois.",
+          "routeEn": "Explain the CAD 58,406,203.22 residual between the CAD 1.219160 billion RCS retail estimate and CAD 1.16075379678 billion Health Canada net shipment value without treating it as margin, error band or a market range: the stages, tax bases, inventory, returns, timing and channel frames differ.",
+          "routeFi": "Selitä 58 406 203,22 CAD:n jäännös RCS:n 1,219160 miljardin CAD:n vähittäismyyntiestimaatin ja Health Canadan 1,16075379678 miljardin CAD:n nettotoimitusarvon välillä käsittelemättä sitä katteena, virhevälinä tai markkinahaarukkana: tapahtumavaiheet, veroperustat, varastot, palautukset, ajoitus ja kanavakehikot eroavat.",
           "evidenceTargetEn": "A non-duplicative bridge for tax basis, margin, inventory, returns, timing and product-scope effects.",
           "evidenceTargetFi": "Kaksoislaskennaton silta veroperusta-, kate-, varasto-, palautus-, ajoitus- ja tuoterajausvaikutuksille.",
           "publicStatus": "blocked_external",
-          "statusAsOf": "2026-07-31",
+          "statusAsOf": "2026-08-02",
           "nextFollowUpOn": "2026-08-14"
         }
       ]
@@ -316,15 +316,15 @@
         {"criterionId": "D9", "status": "passed"},
         {"criterionId": "D10", "status": "failed"}
       ],
-      "blockerEn": "The range combines a provisional 2025 liquid volume with 2026 point-in-time prices, excludes devices and is not observed consumer sales.",
-      "blockerFi": "Vaihteluväli yhdistää vuoden 2025 alustavan nestemäärän vuoden 2026 pistemäisiin hintoihin, rajaa laitteet pois eikä ole havaittua kuluttajamyyntiä.",
+      "blockerEn": "The range combines a provisional 2025 liquid volume with 2026 point-in-time prices, excludes devices and is not observed consumer sales. Prospective benchmark DE-BLIND-1.0.0 is NOT SCORED; matching its 2023–2024 official volume anchors would not by itself close the retail boundary or donor gates.",
+      "blockerFi": "Vaihteluväli yhdistää vuoden 2025 alustavan nestemäärän vuoden 2026 pistemäisiin hintoihin, rajaa laitteet pois eikä ole havaittua kuluttajamyyntiä. Tuleva testi DE-BLIND-1.0.0 on EI PISTEYTETTY; sen vuosien 2023–2024 virallisiin volyymiankkureihin osuminen ei yksin sulje retail-rajausta tai donor-portteja.",
       "nextEvidenceEn": "Add same-year representative retail prices, device sell-through, channel coverage, tax treatment and an independent reconciliation route.",
       "nextEvidenceFi": "Lisää saman vuoden edustavat vähittäishinnat, laitemyynti, kanavapeitto, verokäsittely ja riippumaton täsmäytysreitti.",
       "acquisitionRouteEn": "Destatis tax-volume series plus same-year public or rights-cleared price, hardware and channel evidence.",
       "acquisitionRouteFi": "Destatisin verovolyymisarja sekä saman vuoden julkinen tai käyttöoikeuksiltaan selvitetty hinta-, laite- ja kanavanäyttö.",
       "responseStatus": "public_source_available",
       "licenseStatus": "mixed_public_inputs_only",
-      "lastReviewedAt": "2026-07-24",
+      "lastReviewedAt": "2026-08-02",
       "sourceIds": [
         "DE-DESTATIS-73411-0003",
         "INTASTE-GERMANFLAVOURS-2026",
@@ -363,12 +363,12 @@
           "criterionIds": ["D10"],
           "ownerRole": "independent_validator",
           "routeType": "independent_reconciliation",
-          "routeEn": "Reconcile the eventual retail series to the official taxed-liquid and customs routes without adding alternative estimates.",
-          "routeFi": "Täsmäytä myöhemmin saatava vähittäissarja virallisiin verotetun nesteen ja tullin reitteihin laskematta vaihtoehtoisia arvioita yhteen.",
-          "evidenceTargetEn": "An independent same-year reconciliation with explained coverage, inventory and price differences.",
-          "evidenceTargetFi": "Riippumaton saman vuoden täsmäytys, jossa peitto-, varasto- ja hintaerot on selitetty.",
+          "routeEn": "Apply prospective DE-BLIND-1.0.0 only after a future submission is frozen: official anchors are 1,241,000 litres for 2023, 1,284,000 litres for 2024 and 2,525,000 litres combined; preregistered caps are 15% annually and 10% combined. Do not tune thresholds to private values.",
+          "routeFi": "Sovella tulevaa DE-BLIND-1.0.0-testiä vasta tulevan toimituksen jäädyttämisen jälkeen: viralliset ankkurit ovat 1 241 000 litraa vuonna 2023, 1 284 000 litraa vuonna 2024 ja yhteensä 2 525 000 litraa; ennalta rekisteröidyt rajat ovat 15 % vuodessa ja 10 % yhteensä. Älä sovita rajoja yksityisiin arvoihin.",
+          "evidenceTargetEn": "A frozen, rights-reviewed submission with matching product unit, calendar years, tax basis, channel and event stage; a benchmark pass has no automatic donor or commercial effect.",
+          "evidenceTargetFi": "Jäädytetty, käyttöoikeuksiltaan tarkistettu toimitus, jossa tuote, yksikkö, kalenterivuodet, veroperusta, kanava ja tapahtumavaihe täsmäävät; testin läpäisy ei aiheuta automaattista donor- tai kaupallista vaikutusta.",
           "publicStatus": "queued",
-          "statusAsOf": "2026-07-24",
+          "statusAsOf": "2026-08-02",
           "nextFollowUpOn": "2026-08-14"
         }
       ]

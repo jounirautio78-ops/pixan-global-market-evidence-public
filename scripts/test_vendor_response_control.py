@@ -91,7 +91,13 @@ class VendorResponseControlTests(unittest.TestCase):
 
     def test_germany_benchmark_is_not_testable_and_uses_reviewed_anchors(self) -> None:
         benchmark = self.source["germanyBenchmark"]
+        self.assertEqual(benchmark["benchmarkId"], "DE-BLIND-1.0.0")
         self.assertEqual(benchmark["status"], "not_testable")
+        self.assertIn("prospectively locked", benchmark["statusReasonEn"])
+        self.assertIn("2,525,000 litres", benchmark["statusReasonEn"])
+        self.assertIn("15% per year", benchmark["statusReasonEn"])
+        self.assertIn("10% combined", benchmark["statusReasonEn"])
+        self.assertIn("NOT SCORED", benchmark["statusReasonEn"])
         self.assertEqual(
             [
                 (
@@ -115,6 +121,14 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertEqual(
             benchmark["thresholds"]["twoYearCumulativeDeviation"]["maximumPct"],
             10,
+        )
+        self.assertEqual(
+            sum(
+                item["value"]
+                for item in benchmark["officialAnchors"]
+                if item["role"] == "pass_test"
+            ),
+            2_525_000,
         )
         self.assertTrue(benchmark["vendorPassDoesNotEstablishDonorPass"])
         self.assertEqual(benchmark["donorGateEffect"], "none")

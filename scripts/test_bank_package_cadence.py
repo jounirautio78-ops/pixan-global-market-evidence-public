@@ -33,33 +33,33 @@ except ModuleNotFoundError:
 
 
 PACKAGE_RELEASE = {
-    "id": "2026-07-31-canada-scope-quality-nz-poland-v37",
-    "version": "2026.07.31-37",
-    "publishedAt": "2026-07-31T11:11:21+03:00",
+    "id": "2026-08-02-nz-ca-de-donor-control-v41",
+    "version": "2026.08.02-41",
+    "publishedAt": "2026-08-02T10:30:00+03:00",
 }
 INTERMEDIATE_SAME_DAY_RELEASE = {
-    "id": "2026-07-31-switzerland-route-price-rights-v38",
-    "version": "2026.07.31-38",
-    "publishedAt": "2026-07-31T12:51:53+03:00",
+    "id": "test-only-2026-08-02-intermediate-dashboard-release",
+    "version": "test-only-intermediate",
+    "publishedAt": "2026-08-02T12:51:53+03:00",
 }
 LATER_SAME_DAY_RELEASE = {
-    "id": "2026-07-31-comparator-controls-v40",
-    "version": "2026.07.31-40",
-    "publishedAt": "2026-07-31T16:32:30+03:00",
+    "id": "test-only-2026-08-02-later-dashboard-release",
+    "version": "test-only-later",
+    "publishedAt": "2026-08-02T16:32:30+03:00",
 }
 
 
 def manifest(release: dict[str, str] | None = None) -> dict:
     return {
         "release": copy.deepcopy(release or PACKAGE_RELEASE),
-        "asOf": "2026-07-31",
+        "asOf": "2026-08-02",
         "cadence": copy.deepcopy(EXPECTED_PACKAGE_CADENCE),
     }
 
 
 def changelog(releases: list[dict[str, str]] | None = None) -> dict:
     return {
-        "asOf": "2026-07-31",
+        "asOf": "2026-08-02",
         "releases": copy.deepcopy(releases or [PACKAGE_RELEASE]),
     }
 
@@ -140,10 +140,10 @@ class DailyPackageSnapshotTests(unittest.TestCase):
         errors: list[str] = []
         stale_release = {
             **PACKAGE_RELEASE,
-            "publishedAt": "2026-07-30T23:59:00+03:00",
+            "publishedAt": "2026-08-01T23:59:00+03:00",
         }
         stale = manifest(stale_release)
-        stale["asOf"] = "2026-07-30"
+        stale["asOf"] = "2026-08-01"
         history = changelog([PACKAGE_RELEASE, stale_release])
         self.assertFalse(validate_daily_package_snapshot(stale, history, errors))
         self.assertTrue(any("older than" in error for error in errors), errors)
@@ -159,16 +159,16 @@ class DailyPackageSnapshotTests(unittest.TestCase):
         errors: list[str] = []
         latest = {
             **LATER_SAME_DAY_RELEASE,
-            "publishedAt": "2026-07-31T21:15:00Z",
+            "publishedAt": "2026-08-02T21:15:00Z",
         }
         package = {
             **PACKAGE_RELEASE,
-            "publishedAt": "2026-07-31T21:05:00Z",
+            "publishedAt": "2026-08-02T21:05:00Z",
         }
         next_day_manifest = manifest(package)
-        next_day_manifest["asOf"] = "2026-08-01"
+        next_day_manifest["asOf"] = "2026-08-03"
         next_day_changelog = changelog([latest, package])
-        next_day_changelog["asOf"] = "2026-08-01"
+        next_day_changelog["asOf"] = "2026-08-03"
         self.assertTrue(
             validate_daily_package_snapshot(
                 next_day_manifest,

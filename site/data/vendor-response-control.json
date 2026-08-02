@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-31",
+  "asOf": "2026-08-02",
   "controlId": "vendor-response-control-public",
   "criteria": [
     {
@@ -97,7 +97,7 @@
     }
   ],
   "germanyBenchmark": {
-    "benchmarkId": "de-taxed-e-liquid-volume-vendor-gate",
+    "benchmarkId": "DE-BLIND-1.0.0",
     "countryIso2": "DE",
     "donorBoundaryEn": "Passing this benchmark is only a vendor-sample quality gate. It does not make Germany an accepted donor, change the 0/3 donor count or unlock a global total; D1–D10 remain separate.",
     "donorBoundaryFi": "Tämän vertailun läpäisy on vain toimittajanäytteen laatuportti. Se ei tee Saksasta hyväksyttyä luovuttajaa, muuta 0/3-luovuttajamäärää eikä avaa maailman kokonaisarvoa; D1–D10 arvioidaan erikseen.",
@@ -185,8 +185,8 @@
     "scopeEn": "Official taxed substitutes-for-tobacco liquid volume. This physical-volume anchor does not measure devices, untaxed or illicit sales, or total retail market value.",
     "scopeFi": "Virallinen verotettujen tupakankorvikkeiden nestetilavuus. Tämä fyysisen määrän ankkuri ei mittaa laitteita, verotonta tai laitonta myyntiä eikä koko vähittäismarkkina-arvoa.",
     "status": "not_testable",
-    "statusReasonEn": "The expanded Germany sample permits a private numerical 2023–2024 liquid-volume comparison, but the vendor retail-volume stage, tax basis and product scope have not been bridged to the official taxed-volume series. A comparable official-anchor conclusion therefore remains not testable.",
-    "statusReasonFi": "Laajennettu Saksa-näyte mahdollistaa yksityisen numeerisen vuosien 2023–2024 nestemäärävertailun, mutta toimittajan vähittäismyyntivolyymin vaihetta, veroperustaa ja tuoterajausta ei ole sillattu viralliseen verotetun volyymin sarjaan. Vertailukelpoinen viranomaisankkuripäätelmä ei siksi ole vielä testattavissa.",
+    "statusReasonEn": "DE-BLIND-1.0.0 is prospectively locked before any future vendor submission is scored. The official 2023 and 2024 taxed-liquid anchors sum to 2,525,000 litres; the preregistered caps are 15% per year and 10% combined. The control remains NOT SCORED until a frozen submission matches product, unit, calendar year, tax basis, channel and event stage. Passing the numerical caps alone would not establish comparability, donor acceptance or commercial approval.",
+    "statusReasonFi": "DE-BLIND-1.0.0 on lukittu ennakolta ennen minkään tulevan toimittajatoimituksen pisteytystä. Viralliset vuosien 2023 ja 2024 verotetun nesteen ankkurit summautuvat 2 525 000 litraan; ennalta rekisteröidyt rajat ovat 15 % vuodessa ja 10 % yhteensä. Kontrolli pysyy tilassa EI PISTEYTETTY, kunnes jäädytetty toimitus täsmää tuotteen, yksikön, kalenterivuoden, veroperustan, kanavan ja tapahtumavaiheen osalta. Pelkkä numeeristen rajojen läpäisy ei osoita vertailukelpoisuutta, donor-hyväksyntää tai kaupallista hyväksyntää.",
     "thresholds": {
       "annualDeviation": {
         "formulaEn": "abs(vendor litres - official litres) / official litres × 100; each final test year must be ≤15%.",
@@ -578,5 +578,5 @@
       "weightedScore": null
     }
   ],
-  "version": "2026.07.31-37"
+  "version": "2026.08.02-41"
 }

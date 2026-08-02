@@ -77,6 +77,7 @@ NUMBER_WORDS = {
     "nolla": "0",
     "nollaa": "0",
     "nollana": "0",
+    "nollalla": "0",
     "nollasta": "0",
     "yhden": "1",
     "yksi": "1",

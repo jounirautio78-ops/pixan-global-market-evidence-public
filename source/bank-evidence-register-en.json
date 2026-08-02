@@ -188,12 +188,12 @@
       "Nicotine and nicotine-free split, litres, devices, consumer prices, refunds, cash timing and a scope-comparable series are missing; Italy is not a donor."
     ],
     [
-      "The public market dataset contains 84 observations from 24 sources; its 75 official observations split into 39 market measures and 36 Swedish FHM register-structure counts.",
+      "The public market dataset contains 156 observations from 47 sources; its 134 official observations split into 98 market measures and 36 Swedish FHM register-structure counts.",
       "Market size",
       "The market measures cover Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",
       "site/data/market-values.json (machine-readable source file of the public site)",
       "2026-07-27",
-      "84 = 48 market and model observations + 36 FHM structure counts; 75 official = 39 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
+      "156 = 120 market and model observations + 36 FHM structure counts; 134 official = 98 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
       "The 2018–2025 figures are authority-supplied year labels, not assumed calendar-year flows or year-end snapshots. The 2026 FHM records are a current snapshot, not a completed annual period. Official sourcing does not make unlike metrics comparable.",
       "Confirmed",
       "Comparable annual device and liquid consumer-retail-value series are required from additional countries."
@@ -243,26 +243,15 @@
       "D5 fails for missing national channel coverage; D8 GST basis and D10 independent reconciliation remain open. The donor gate remains 0/3."
     ],
     [
-      "New Zealand's separate supported 2024 RPS retail-sensitivity model is NZD 533,662,383.68–731,175,792.50, with a base case of NZD 641,811,687.89.",
+      "Stats NZ's selected 2024 HS10 control yields NZD 183,370,681 and NZD 197,070,322 net border proxies; neither is retail market value.",
       "Market size",
-      "The combined low, base and high cases are NZD 533,662,383.68 / 641,811,687.89 / 731,175,792.50. The model combines the specialist-retailer anchor with a general-retailer quantity-and-price model.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2024 ; source/NZ_2024_RPS_RETAIL_VALUE_SENSITIVITY.md ; source/NZ_2024_DONOR_CLOSURE_PACK.md",
-      "2026-07-26",
-      "Low (exact-row deduplication): NZD 258,327,110.88 + 275,335,272.80 = 533,662,383.68. Base (reported/raw rows): NZD 274,180,410.21 + 367,631,277.68 = 641,811,687.89. High (reported/raw rows): NZD 274,180,410.21 + 456,995,382.29 = 731,175,792.50.",
-      "GST treatment, return completeness and independent reconciliation are open; notifier supply-stage values are excluded.",
-      "Supported",
-      "Not an observed national value or accepted donor. Authority confirmation of scope and GST plus independent reproduction are required."
-    ],
-    [
-      "The new numerical reconstruction from the six official 2023 workbooks is intentionally not computed.",
-      "Market size",
-      "The Ministry's published aggregate is at least NZD 374 million and 2,570 returns. It covers all notifiable products, including heated tobacco, and the Ministry warns about data quality.",
-      "https://www.health.govt.nz/regulation-legislation/vaping-herbal-smoking-and-smokeless-tobacco/requirements/complete-a-notifiable-product-annual-return/annual-returns-2023 ; source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
-      "2026-07-26",
-      "Six official files are integrity-hashed; every new computation returns not_computed.",
-      "Product scope, quantity fields, duplication, supply-chain level, tax basis and independent reconciliation remain unresolved.",
+      "Selected imports are NZD 189,640,890 at value for duty and NZD 203,340,531 at CIF. Selected exports are NZD 6,270,209 FOB. The control applies a locked 2024 product-code selection rule.",
+      "https://www.stats.govt.nz/large-datasets/csv-files-for-download/overseas-merchandise-trade-datasets/ ; https://www3.stats.govt.nz/HS10_by_Country/2024_Imports_HS10.zip ; https://www3.stats.govt.nz/HS10_by_Country/2024_Exports_HS10.zip ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+      "2026-08-02",
+      "NZD 189,640,890 − 6,270,209 = 183,370,681; NZD 203,340,531 − 6,270,209 = 197,070,322. Candidate / proxies = 1.495224911 and 1.391282094.",
+      "Border event stage, product scope, domestic production, inventory, re-exports, margins, channels, GST and consumer sell-through do not match the retail boundary.",
       "Confirmed",
-      "A new 2023 vaping-only value is missing, and NZD 374 million must not be relabelled as a pure vaping market."
+      "The ratios are not margin, uplift, validation intervals or a market range. D10 remains open and New Zealand remains 7/10 NOT ACCEPTED."
     ],
     [
       "Official FTC tables yield USD 2,763,284,338 of reported cartridge-system-plus-disposable sales in 2021.",
@@ -276,11 +265,22 @@
       "Not complete national consumer-retail value or an accepted donor; an open POS or consumer-sales series and tax basis are required."
     ],
     [
+      "Germany's prospective vendor benchmark DE-BLIND-1.0.0 was locked before any future submission is scored; it is NOT SCORED.",
+      "Market size / Germany",
+      "Final official anchors are 1,241,000 litres for 2023 and 1,284,000 litres for 2024, or 2,525,000 litres combined. Preregistered caps are 15% annually and 10% combined.",
+      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+      "2026-08-02",
+      "Annual deviation = |vendor litres / official litres − 1|; combined deviation = |vendor two-year sum / 2,525,000 − 1|.",
+      "A numeric match alone does not establish matching product, unit, tax basis, channel or event stage. Thresholds are not tuned to private values.",
+      "Confirmed",
+      "Passing does not accept Germany as a donor or authorise a purchase, licence, fee or disclosure. Germany's official retail value remains not_computed."
+    ],
+    [
       "The public site separates three evidence lanes and blocks a global total while the accepted-donor gate is 0/3.",
       "Market size",
       "Five candidates are assessed against the same ten D1–D10 criteria; none is accepted. The regional and regulatory-archetype coverage gates must also pass.",
       "site/data/evidence-lanes.json ; site/data/donor-cockpit.json ; site/data/third-donor-screen.json ; site/data/country-scenarios.json",
-      "2026-07-27",
+      "2026-08-02",
       "Fail-closed gates: a missing or invalid input returns not_computed rather than zero.",
       "Only reviewed public aggregates and methods enter the public lane; licensed and private material do not enter the repository.",
       "Confirmed",
@@ -306,7 +306,7 @@
       "Monthly − quarterly = CAD 1,000 (0.000082%). Retail − shipments = CAD 58,406,203.22; retail / shipments − 1 = 5.031748%. ECB 2024: 1,219,160,000 / 1.482110546875 = EUR 822,583,715.21.",
       "D8 passes: CAD, exclusion of GST/HST/PST/QST and inclusion of embedded additional duties are confirmed for the reviewed quarterly, monthly and archived tables. Additional duties can include federal, additional and provincial vaping duties. The monthly route is same-survey QA, not D10.",
       "Supported",
-      "D5 failed because NAICS 459999 specialist retail is outside the confirmed 441100–459993 target range. D7 failed because exact product-class quality and annual-uncertainty information is unavailable. D10 remains open; Canada is not an accepted donor."
+      "D5 failed because NAICS 459999 specialist retail is outside the confirmed 441100–459993 target range; in-scope online sales do not cover excluded specialist, foreign direct or cross-border channels. D7 failed because exact NAPCS 5619122 response, imputation, CV, standard-error, confidence-interval and covariance metrics are unavailable. D10 remains open; Canada is not an accepted donor."
     ],
     [
       "Health Canada's four 2024 categories sum to CAD 1,160,753,796.78 of net shipment value, 118,901,910 units and 1,251,843 litres.",
@@ -391,7 +391,7 @@
       "Sweden taxed 26,000 litres of nicotine liquid in 2024 and reported rounded excise receipts of SEK 80,000,000. An authority-supplied workbook received and reviewed on 24 July 2026 contains 9 year labels × 4 structure metrics: reporting entities and notified, active and withdrawn products. The public FHM page documents the notification system; it is not presented as publishing the numeric series.",
       "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf ; https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/ ; site/data/market-values.json",
       "2026-07-24",
-      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 39 market measures and 36 structure counts remain separate.",
+      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 98 market measures and 36 structure counts remain separate.",
       "No sales value, sales volume or market share is inferred from the structure counts. The 2018–2025 figures are authority-supplied year labels, not assumed annual flows or year-end snapshots. The 2026 records are a current snapshot and are not annualised.",
       "Confirmed",
       "Observed consumer sales in euros, device units and liquid millilitres, plus a publicly reusable numeric FHM series, are still required."
