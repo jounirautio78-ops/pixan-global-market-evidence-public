@@ -50,7 +50,7 @@ LOCK_RELATIVE_PATH = "source/bank-package-en-lock.json"
 # The reviewed v43 lock is written only by the once-daily artifact build. Keep
 # the last reviewed hash here until that build has completed, then replace it
 # with the new lock SHA-256 before the release validator is run.
-EXPECTED_LOCK_SHA256 = "7264671ca143797d2db3a3d4f667918774dfe1eee4303478abe30c824c4bd35d"
+EXPECTED_LOCK_SHA256 = "914692c51205e72282b315a5cd69b580292fe22dc31146d6708fd611c5176ffe"
 PACKAGE_TIME_ZONE = "Asia/Nicosia"
 EXPECTED_PACKAGE_CADENCE = {
     "frequency": "once_daily",

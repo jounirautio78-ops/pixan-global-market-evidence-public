@@ -281,7 +281,7 @@
     },
     {
       "path": "source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
-      "sha256": "edab7331196c7d9e4111b8ecbb2a6c7940472f56b033b18ddece2dc06ecf6e29"
+      "sha256": "9753e0023e22904d50b32732b2ead45eb68640f5b1b90ee3663a3bf4f323e018"
     },
     {
       "path": "source/THIRD_DONOR_SCREEN_2026-07-27.md",
@@ -309,7 +309,7 @@
     },
     {
       "path": "source/bank-package-en-lock.json",
-      "sha256": "7264671ca143797d2db3a3d4f667918774dfe1eee4303478abe30c824c4bd35d"
+      "sha256": "914692c51205e72282b315a5cd69b580292fe22dc31146d6708fd611c5176ffe"
     }
   ],
   "artifacts": [
