@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "1.0",
+  "seriesId": "JP_MOF_ESTAT_CUSTOMS_IMPORT_2022_2025",
+  "asOf": "2026-08-02",
+  "authority": "Ministry of Finance Japan and Japan Customs",
+  "transactionStage": "customs_import_declaration",
+  "flow": "imports_cif",
+  "valueUnit": "JPY_THOUSAND",
+  "retailSalesEligible": false,
+  "globalRollupEligible": false,
+  "sourceDirectoryBoundary": "Official CSV files are preserved outside the public repository; only hashes, controls and aggregate observations are committed.",
+  "classificationRulings": [
+    {
+      "scope": "nicotine_filled_disposable_e_cigarette",
+      "code": "240412000",
+      "url": "https://www.customs.go.jp/tetsuzuki_search/bunrui/J4/24/J42400321.htm",
+      "boundary": "The ruling confirms that this product can fall inside the broad nicotine non-combustion code; it does not make the aggregate code e-cigarette-only."
+    },
+    {
+      "scope": "nicotine_free_e_cigarette_cartridge",
+      "code": "240419200",
+      "url": "https://www.customs.go.jp/tetsuzuki/bunruijirei/bunruijirei2404001.pdf",
+      "boundary": "The example confirms that a vaping product can fall inside the broad other code; it does not permit treating the whole code as vaping."
+    }
+  ],
+  "codes": [
+    {
+      "code": "240412000",
+      "chapterFile": "04",
+      "label": "Other products containing nicotine",
+      "bucket": "regulated_nicotine_noncombustion_product",
+      "decision": "separate_review_required"
+    },
+    {
+      "code": "240419100",
+      "chapterFile": "04",
+      "label": "Manufactured tobacco substitutes",
+      "bucket": "broad_tobacco_substitutes",
+      "decision": "excluded_until_scope_review"
+    },
+    {
+      "code": "240419200",
+      "chapterFile": "04",
+      "label": "Other non-combustion product",
+      "bucket": "broad_other_noncombustion_product",
+      "decision": "excluded_until_scope_review"
+    },
+    {
+      "code": "854340000",
+      "chapterFile": "16",
+      "label": "Electronic cigarettes and similar personal electric vaporising devices",
+      "bucket": "e_cigarette_device",
+      "decision": "included_as_device_customs_proxy"
+    }
+  ],
+  "years": [
+    {
+      "year": 2022,
+      "classificationVersion": "JAPAN_IMPORT_STATISTICAL_CODE_2022_01_01",
+      "tariffSources": [
+        "https://www.customs.go.jp/english/tariff/2022_1_1/data/e_24.htm",
+        "https://www.customs.go.jp/english/tariff/2022_1_1/data/e_85.htm"
+      ],
+      "ecbRate": {
+        "currencyUnitsPerEur": 138.027392996109,
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2022&endPeriod=2022&format=csvdata"
+      },
+      "files": [
+        {
+          "chapterFile": "04",
+          "fileName": "ik-2022-04.csv",
+          "statInfId": "000040117446",
+          "bytes": 927362,
+          "sha256": "ab56e42732aafffd40790cf2eb1144cbd2da515bcd8e5dee343abcf62f550ffa"
+        },
+        {
+          "chapterFile": "16",
+          "fileName": "ik-2022-16.csv",
+          "statInfId": "000040117458",
+          "bytes": 3029004,
+          "sha256": "2053c552e95e2f2e163ffb46fb43ccd8aa8f102a1d271db5471b8886b8fdf293"
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "classificationVersion": "JAPAN_IMPORT_STATISTICAL_CODE_2023_01_01",
+      "tariffSources": [
+        "https://www.customs.go.jp/english/tariff/2023_01_01/data/e_24.htm",
+        "https://www.customs.go.jp/english/tariff/2023_01_01/data/e_85.htm"
+      ],
+      "ecbRate": {
+        "currencyUnitsPerEur": 151.9902745098038,
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2023&endPeriod=2023&format=csvdata"
+      },
+      "files": [
+        {
+          "chapterFile": "04",
+          "fileName": "ik-2023-04.csv",
+          "statInfId": "000040223234",
+          "bytes": 927525,
+          "sha256": "7756e58b603ea07a871ea0d39d0918281b076c13cb40fd28cdfa15a09c1a7673"
+        },
+        {
+          "chapterFile": "16",
+          "fileName": "ik-2023-16.csv",
+          "statInfId": "000040223246",
+          "bytes": 3002121,
+          "sha256": "c8b923cc6d53fdd5c473646df12afc6874657b8597e38b753ac0a06a3fbbdfd1"
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "classificationVersion": "JAPAN_IMPORT_STATISTICAL_CODE_2024_01_01",
+      "tariffSources": [
+        "https://www.customs.go.jp/english/tariff/2024_01_01/data/e_24.htm",
+        "https://www.customs.go.jp/english/tariff/2024_01_01/data/e_85.htm"
+      ],
+      "ecbRate": {
+        "currencyUnitsPerEur": 163.8519140625,
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata"
+      },
+      "files": [
+        {
+          "chapterFile": "04",
+          "fileName": "ik-2024-04.csv",
+          "statInfId": "000040368858",
+          "bytes": 929900,
+          "sha256": "d681f7a2936ec05ca1fdb09d0eca5b4e8447a11a54db746aa6105cb1dc54251d"
+        },
+        {
+          "chapterFile": "16",
+          "fileName": "ik-2024-16.csv",
+          "statInfId": "000040368870",
+          "bytes": 3005285,
+          "sha256": "050c0f414b34afe269b3ea55f7cd434310cf72d6fda045152e894d098a2409d7"
+        }
+      ]
+    },
+    {
+      "year": 2025,
+      "classificationVersion": "JAPAN_IMPORT_STATISTICAL_CODE_2025_01_01",
+      "tariffSources": [
+        "https://www.customs.go.jp/english/tariff/2025_01_01/data/e_24.htm",
+        "https://www.customs.go.jp/english/tariff/2025_01_01/data/e_85.htm"
+      ],
+      "ecbRate": {
+        "currencyUnitsPerEur": 169.0434509803921,
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2025&endPeriod=2025&format=csvdata"
+      },
+      "files": [
+        {
+          "chapterFile": "04",
+          "fileName": "ik-100h2025i004.csv",
+          "statInfId": "000040424871",
+          "bytes": 942412,
+          "sha256": "f5ada22048a0f0bcd98e8269c427c20b30b07b2639b82cfe213cb1fd0f5b4841"
+        },
+        {
+          "chapterFile": "16",
+          "fileName": "ik-100h2025i016.csv",
+          "statInfId": "000040424883",
+          "bytes": 3024864,
+          "sha256": "628c9c76f9d5564be8c3c8cae5f588e3d0a96bf709ad673dc5fe0e8156ef49af"
+        }
+      ]
+    }
+  ],
+  "failClosedRules": [
+    "Every source file must match its recorded byte size and SHA-256.",
+    "Only import rows for the exact source year and four reviewed 9-digit codes are aggregated.",
+    "Codes are never added together into a vaping-market total.",
+    "JPY remains the primary source currency; EUR is a secondary analytical equivalent using the same-year ECB annual average.",
+    "Customs CIF value is not consumer retail sell-through and is never eligible for the global retail roll-up.",
+    "Exports, domestic production, inventory, illicit supply, retail mark-up and channel coverage are not inferred."
+  ]
+}

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import copy
 import csv
 import hashlib
 import json
@@ -33,17 +34,23 @@ CHANGELOG_PATH = ROOT / "site" / "data" / "changelog.json"
 REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register.csv"
 EN_REGISTER_CSV_PATH = ROOT / "site" / "data" / "bank-evidence-register-en.csv"
 MARKET_VALUES_PATH = ROOT / "site" / "data" / "market-values.json"
+GLOBAL_BASE_PATH = ROOT / "site" / "data" / "global-base-layer.json"
+VENDOR_RESPONSE_CONTROL_PATH = ROOT / "site" / "data" / "vendor-response-control.json"
+SOURCE_VENDOR_RESPONSE_CONTROL_PATH = ROOT / "source" / "vendor-response-control.json"
 COUNTRY_SCENARIOS_PATH = ROOT / "site" / "data" / "country-scenarios.json"
 PUBLIC_FX_PATH = ROOT / "site" / "data" / "fx-rates.json"
 SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-08-02-nz-ca-de-donor-control-v41"
-RELEASE_VERSION = "2026.08.02-41"
-RELEASE_DATE = "2026-08-02"
+RELEASE_ID = "2026-08-03-germany-vendor-audit-v43"
+RELEASE_VERSION = "2026.08.03-43"
+RELEASE_DATE = "2026-08-03"
 LOCK_RELATIVE_PATH = "source/bank-package-en-lock.json"
-EXPECTED_LOCK_SHA256 = "a5497dc19e119a31a0ce24a006afdd37bad451e99727cdc90496017ba5de8096"
+# The reviewed v43 lock is written only by the once-daily artifact build. Keep
+# the last reviewed hash here until that build has completed, then replace it
+# with the new lock SHA-256 before the release validator is run.
+EXPECTED_LOCK_SHA256 = "914692c51205e72282b315a5cd69b580292fe22dc31146d6708fd611c5176ffe"
 PACKAGE_TIME_ZONE = "Asia/Nicosia"
 EXPECTED_PACKAGE_CADENCE = {
     "frequency": "once_daily",
@@ -63,10 +70,10 @@ SWEDEN_STRUCTURE_METRICS = {
     "active_products_count": "ACTIVE-PRODUCTS",
     "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
 }
-EXPECTED_MARKET_OBSERVATIONS = 156
-EXPECTED_MARKET_SOURCES = 47
-EXPECTED_OFFICIAL_OBSERVATIONS = 134
-EXPECTED_OFFICIAL_MARKET_MEASURES = 98
+EXPECTED_MARKET_OBSERVATIONS = 174
+EXPECTED_MARKET_SOURCES = 54
+EXPECTED_OFFICIAL_OBSERVATIONS = 152
+EXPECTED_OFFICIAL_MARKET_MEASURES = 116
 EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
@@ -128,8 +135,12 @@ EUR_EQUIVALENT_HEADERS = {
     ],
 }
 EUR_EQUIVALENT_SHEET_NAMES = {"fi": "Eurovastineet", "en": "EUR equivalents"}
-EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS = 44
-EXPECTED_LOCKED_EUR_STATUS_COUNTS = {"computed": 36, "already_eur": 8}
+EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS = 84
+EXPECTED_LOCKED_EUR_STATUS_COUNTS = {
+    "computed": 48,
+    "already_eur": 29,
+    "not_computed": 7,
+}
 EXPECTED_TEMPLATE_INPUTS = {
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-large-en.pptx",
@@ -172,6 +183,7 @@ EXPECTED_INPUTS = {
     "source/ITALY_ADM_RESPONSE_BOUNDARY_2026-07-24.md",
     "source/POLAND_EUCEG_ANNUAL_SALES_REQUEST_2026-07-28.md",
     "source/top20-data-request-routes.json",
+    "source/paid-data-procurement.json",
     "source/third-donor-screen.json",
     "source/vendor-response-control.json",
     "source/schemas/fx-rates.schema.json",
@@ -192,6 +204,7 @@ EXPECTED_INPUTS = {
     "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/CANADA_INDEPENDENT_D5_D7_D10_ROUTE_MAP_2026-07-31.md",
     "source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
+    "source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
     "source/THIRD_DONOR_SCREEN_2026-07-27.md",
     "source/POLAND_2020_2025_RECONSTRUCTION.md",
     "source/POLAND_D1_D10_PREASSESSMENT_2026-07-31.md",
@@ -514,11 +527,11 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
     if (
         len(official_market_measures) != EXPECTED_OFFICIAL_MARKET_MEASURES
         or {item.get("countryIso2") for item in official_market_measures} != {
-        "CA", "DE", "FI", "NZ", "PL", "SE", "US"
+        "CA", "DE", "ES", "FI", "JP", "NZ", "PL", "SE", "US"
         }
     ):
         errors.append(
-            f"current bank-package input requires {EXPECTED_OFFICIAL_MARKET_MEASURES} official market measures across seven reviewed countries"
+            f"current bank-package input requires {EXPECTED_OFFICIAL_MARKET_MEASURES} official market measures across nine reviewed countries"
         )
 
     expected_structure_ids = {
@@ -661,6 +674,142 @@ def validate_v22_market_bindings(errors: list[str]) -> None:
         errors.append("accepted-donor gate must remain 0/3")
 
 
+def validate_v43_vendor_and_global_boundary(errors: list[str]) -> None:
+    """Validate the privacy-safe Germany result without reading licensed data."""
+
+    try:
+        vendor_control = load_json(VENDOR_RESPONSE_CONTROL_PATH)
+        source_vendor_control = load_json(SOURCE_VENDOR_RESPONSE_CONTROL_PATH)
+        market = load_json(MARKET_VALUES_PATH)
+        global_base = load_json(GLOBAL_BASE_PATH)
+    except ValueError as error:
+        errors.append(str(error))
+        return
+
+    public_source_projection = copy.deepcopy(vendor_control)
+    public_source_projection.pop("summary", None)
+    for vendor in public_source_projection.get("vendors", []):
+        if not isinstance(vendor, dict):
+            continue
+        vendor.pop("evidenceReceivedCount", None)
+        vendor.pop("evaluatedGateCount", None)
+        vendor.pop("mandatoryGatePassCount", None)
+    if public_source_projection != source_vendor_control:
+        errors.append("public vendor-response control differs from the reviewed source")
+
+    benchmark = vendor_control.get("germanyBenchmark")
+    vendors = vendor_control.get("vendors")
+    euromonitor = next(
+        (
+            item
+            for item in vendors or []
+            if isinstance(item, dict)
+            and item.get("vendorId") == "euromonitor-passport-nicotine"
+        ),
+        None,
+    )
+    expected_gate_results = {
+        "G1": "pass",
+        "G2": "fail",
+        "G3": "fail",
+        "G4": "not_testable",
+        "G5": "fail",
+        "G6": "fail",
+    }
+    gate_results = (euromonitor or {}).get("gateResults")
+    public_status_en = str((euromonitor or {}).get("publicStatusEn", ""))
+    public_status_fi = str((euromonitor or {}).get("publicStatusFi", ""))
+    evaluated_gate_count = sum(
+        (gate_results.get(gate_id) or {}).get("status") != "missing"
+        for gate_id in expected_gate_results
+    ) if isinstance(gate_results, dict) else -1
+    mandatory_gate_pass_count = sum(
+        (gate_results.get(gate_id) or {}).get("status") == "pass"
+        for gate_id in expected_gate_results
+    ) if isinstance(gate_results, dict) else -1
+    if (
+        vendor_control.get("schemaVersion") != 3
+        or vendor_control.get("asOf") != RELEASE_DATE
+        or vendor_control.get("version") != RELEASE_VERSION
+        or vendor_control.get("status")
+        != "public_status_only_germany_extract_received_wider_package_not_authorised"
+        or not isinstance(benchmark, dict)
+        or benchmark.get("benchmarkId") != "DE-BLIND-1.0.0"
+        or benchmark.get("status") != "numeric_pass_scope_open"
+        or benchmark.get("vendorPassDoesNotEstablishDonorPass") is not True
+        or benchmark.get("donorGateEffect") != "none"
+        or not isinstance(euromonitor, dict)
+        or euromonitor.get("quoteReceived") is not True
+        or euromonitor.get("responseState")
+        != "evaluation_extract_received_private_audit_complete"
+        or euromonitor.get("mandatoryGatePassCount", mandatory_gate_pass_count) != 1
+        or euromonitor.get("evaluatedGateCount", evaluated_gate_count) != 6
+        or mandatory_gate_pass_count != 1
+        or evaluated_gate_count != 6
+        or euromonitor.get("scoringState") != "not_scored"
+        or euromonitor.get("weightedScore") is not None
+        or euromonitor.get("evaluationExtractAuthorised") is not True
+        or euromonitor.get("evaluationExtractReceived") is not True
+        or euromonitor.get("widerPackagePurchaseAuthorised") is not False
+        or (euromonitor.get("receivedEvidence") or {}).get(
+            "officialAnchorReconciliation"
+        )
+        is not True
+        or not isinstance(gate_results, dict)
+        or any(
+            (gate_results.get(gate_id) or {}).get("status") != expected_status
+            for gate_id, expected_status in expected_gate_results.items()
+        )
+        or "full 19-tab Germany evaluation extract" not in public_status_en
+        or "numerical liquid-volume proximity tests passed" not in public_status_en
+        or "no wider 25/50/78-country subscription is authorised" not in public_status_en
+        or "donor gate remains 0/3" not in public_status_en
+        or "global value remains not_computed" not in public_status_en
+        or "NOT SCORED" not in public_status_en
+        or "täysi 19 välilehden arviointiote" not in public_status_fi
+        or "numeerinen läheisyystesti läpäistiin" not in public_status_fi
+        or "laajempaa 25/50/78 maan tilausta ei ole valtuutettu" not in public_status_fi
+        or "donor-portti pysyy 0/3:ssa" not in public_status_fi
+        or "maailmanarvo not_computed-tilassa" not in public_status_fi
+        or "EI PISTEYTETTY" not in public_status_fi
+    ):
+        errors.append("v43 Germany extract and 1/6 vendor-gate boundary differs")
+
+    germany_candidate = next(
+        (
+            item
+            for item in market.get("donorCandidates", [])
+            if isinstance(item, dict)
+            and item.get("candidateId") == "DE-2025-LIQUID-RETAIL-MODEL"
+        ),
+        None,
+    )
+    germany_decision_reason_en = str(
+        (germany_candidate or {}).get(
+            "decisionReasonEn",
+            (germany_candidate or {}).get("blockerEn", ""),
+        )
+    )
+    readiness = market.get("meta", {}).get("modelReadiness", {})
+    global_retail = global_base.get("globalRetailSales", {})
+    method_summary = global_base.get("methodRouteControl", {}).get("summary", {})
+    if (
+        not isinstance(germany_candidate, dict)
+        or germany_candidate.get("decision") != "not_accepted"
+        or "Germany remains NOT ACCEPTED" not in germany_decision_reason_en
+        or readiness.get("comparableFullYearMarketValueDonors") != 0
+        or readiness.get("minimumRequiredDonors") != 3
+        or global_retail.get("value") is not None
+        or global_retail.get("currency") is not None
+        or global_retail.get("eligibleObservationCount") != 0
+        or method_summary.get("eligibleForGlobalRollupCount") != 0
+        or method_summary.get("donorAcceptedCount") != 0
+    ):
+        errors.append(
+            "v43 must keep Germany outside the donor set, donor gate 0/3 and global value not_computed"
+        )
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -708,8 +857,9 @@ def validate_artifact_builder_fx_contract(builder_text: str, errors: list[str]) 
         "validateV27MarketEvidence": "v27 market-role validation",
         FHM_SOURCE_ID: "Swedish FHM source binding",
         SWEDEN_STRUCTURE_BASIS: "Swedish non-sales structure-role marker",
-        "officialMarketMeasures: 98": "98 official market-measure lock",
+        "officialMarketMeasures: 116": "116 official market-measure lock",
         "swedenRegisterStructure: 36": "36 Swedish register-count lock",
+        "validateVendorGateBoundary": "v43 Germany vendor-gate validation",
     }
     for token, description in required_tokens.items():
         if token not in builder_text:
@@ -1636,7 +1786,7 @@ def validate_manifest(errors: list[str]) -> None:
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
     if any(len(rows) != 60 for rows in csv_rows_by_language.values()):
-        errors.append("both v41 Evidence Registers must contain exactly 60 reviewed rows")
+        errors.append("both v43 Evidence Registers must contain exactly 60 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1658,9 +1808,9 @@ def validate_manifest(errors: list[str]) -> None:
             "1 219 160 000",
             "5,031748 %",
             "D1–D10",
-            "156 havaintoa 47 lähteestä",
-            "134 virallista havaintoa",
-            "98 markkinamittariin",
+            "174 havaintoa 54 lähteestä",
+            "152 virallista havaintoa",
+            "116 markkinamittariin",
             "36 Ruotsin FHM-rekisterirakenteen lukuun",
             "578 havaittua World Bank",
             "194/195",
@@ -1691,12 +1841,13 @@ def validate_manifest(errors: list[str]) -> None:
             "26 000 litraa",
             "80 000 000 SEK",
             "DE-BLIND-1.0.0",
-            "1 241 000 litraa vuonna 2023",
-            "1 284 000 litraa vuonna 2024",
-            "2 525 000 litraa",
-            "15 % vuodessa",
-            "10 % yhteensä",
+            "Kaikki kolme numeerista testiä läpäistiin",
+            "toimittaja-arvot ja tarkat poikkeamat pidetään salassa",
+            "Saksa ei ole donor",
+            "Euromonitor on 1/6",
             "EI PISTEYTETTY",
+            "laajempi paketti HOLD",
+            "retail-arvo not_computed",
         ),
         "en": (
             "280,684,512.81",
@@ -1718,9 +1869,9 @@ def validate_manifest(errors: list[str]) -> None:
             "1,219,160,000",
             "5.031748%",
             "D1–D10",
-            "156 observations from 47 sources",
-            "134 official observations",
-            "98 market measures",
+            "174 observations from 54 sources",
+            "152 official observations",
+            "116 market measures",
             "36 Swedish FHM register-structure counts",
             "578 observed World Bank",
             "194/195",
@@ -1751,19 +1902,20 @@ def validate_manifest(errors: list[str]) -> None:
             "26,000 litres",
             "SEK 80,000,000",
             "DE-BLIND-1.0.0",
-            "1,241,000 litres for 2023",
-            "1,284,000 litres for 2024",
-            "2,525,000 litres combined",
-            "15% annually",
-            "10% combined",
+            "All three numerical tests passed",
+            "vendor values and exact deviations remain withheld",
+            "Germany is not a donor",
+            "Euromonitor is 1/6",
             "NOT SCORED",
+            "wider package is HOLD",
+            "retail value remains not_computed",
         ),
     }
     for language, rows in csv_rows_by_language.items():
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v41 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v43 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1826,42 +1978,40 @@ def validate_manifest(errors: list[str]) -> None:
             release_deck_markers = (
                 (
                     "274,180 milj. nzd",
-                    "98 markkinamittaria",
+                    "116 markkinamittaria",
                     "36 ruotsin fhm",
                     "578 wb-havaintoa",
                     "28 / 0 / 15 / 152",
                     "0/3",
                     "7/10",
-                    "d5/d7",
-                    "d10 avoin",
                     "1,219160 mrd cad",
-                    "nz:n",
+                    "uusi-seelanti",
                     "euromonitor",
-                    "pausella",
-                    "de-blind-1.0.0",
+                    "1/6",
+                    "hold",
+                    "de-blind",
                     "ei pisteytetty",
-                    "ei ostoa tai maksua",
+                    "arvot salassa",
                     RELEASE_DATE,
                     RELEASE_VERSION,
                 )
                 if not is_english
                 else (
                     "nzd 274.180m",
-                    "98 market measures",
+                    "116 market measures",
                     "36 swedish fhm register",
                     "578 wb records",
                     "28 / 0 / 15 / 152",
                     "0/3",
                     "7/10",
-                    "d5/d7 failed",
-                    "d10 open",
                     "cad 1.219160bn",
                     "new zealand",
                     "euromonitor",
-                    "paused",
-                    "de-blind-1.0.0",
+                    "1/6",
+                    "hold",
+                    "de-blind",
                     "not scored",
-                    "no purchase or fee",
+                    "values remain withheld",
                     RELEASE_DATE,
                     RELEASE_VERSION,
                 )
@@ -1912,52 +2062,60 @@ def validate_manifest(errors: list[str]) -> None:
                 )
             for marker in release_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v41 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v43 market marker is missing: {marker!r}")
             if expected["slideCount"] == 6:
                 short_only_markers = (
                     (
-                        "183,371/197,070 milj. nzd",
-                        "eivät ole retail-arvoja",
-                        "de-blind-1.0.0",
+                        "nz:n rajaproxyt eivät ole retail-arvoja",
+                        "yksityinen de-blind-audit",
+                        "vuosien 2023 ja 2024 vuosirajat sekä yhteisrajan",
+                        "arvot salassa",
+                        "1/6",
                         "ei pisteytetty",
-                        "ei ostoa tai maksua",
+                        "hold",
                     )
                     if not is_english
                     else (
-                        "nzd 183.371m/197.070m",
-                        "not retail values",
-                        "de-blind-1.0.0",
+                        "nz border proxies are not retail values",
+                        "private de-blind audit",
+                        "2023, 2024 and combined caps",
+                        "values remain withheld",
+                        "1/6",
                         "not scored",
-                        "no purchase or fee",
+                        "hold",
                     )
                 )
                 for marker in short_only_markers:
                     if marker not in combined:
                         errors.append(
-                            f"{relative}: v41 concise-deck marker is missing: {marker!r}"
+                            f"{relative}: v43 concise-deck marker is missing: {marker!r}"
                         )
             if expected["slideCount"] == 30:
                 large_only_markers = (
                     (
                         "d8 on suljettu virallisella veroperustalla",
                         "183,371/197,070 milj. nzd:n nettorajaproxyt ovat vain d10-diagnostiikkaa",
-                        "2,525 milj. l",
-                        "15 % vuodessa",
-                        "10 % yhdessä",
+                        "lisensoitu vuosien 2022–2025 saksa-ote vastaanotettiin",
+                        "vuoden 2023 ja 2024 vuosirajat sekä kahden vuoden yhteisrajan",
+                        "toimittaja-arvot ja tarkat poikkeamat pidetään salassa",
+                        "saksa ei ole donor",
+                        "laajempi 25/50/78 maan paketti hold",
                     )
                     if not is_english
                     else (
                         "official tax evidence closes d8",
                         "nzd 183.371m/197.070m net border proxies are d10 diagnostics only",
-                        "2.525m l combined",
-                        "15% annually",
-                        "10% combined",
+                        "licensed germany 2022–2025 extract was received",
+                        "2023 and 2024 annual caps and the two-year combined cap",
+                        "vendor values and exact deviations remain withheld",
+                        "germany is not a donor",
+                        "wider 25/50/78-country package hold",
                     )
                 )
                 for marker in large_only_markers:
                     if marker not in combined:
                         errors.append(
-                            f"{relative}: v41 extended-deck marker is missing: {marker!r}"
+                            f"{relative}: v43 extended-deck marker is missing: {marker!r}"
                         )
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
@@ -1976,6 +2134,7 @@ def validate_manifest(errors: list[str]) -> None:
 def main() -> None:
     errors: list[str] = []
     validate_v22_market_bindings(errors)
+    validate_v43_vendor_and_global_boundary(errors)
     validate_manifest(errors)
     if errors:
         for error in errors:

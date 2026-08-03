@@ -188,12 +188,12 @@
       "Nicotine and nicotine-free split, litres, devices, consumer prices, refunds, cash timing and a scope-comparable series are missing; Italy is not a donor."
     ],
     [
-      "The public market dataset contains 156 observations from 47 sources; its 134 official observations split into 98 market measures and 36 Swedish FHM register-structure counts.",
+      "The public market dataset contains 174 observations from 54 sources; its 152 official observations split into 116 market measures and 36 Swedish FHM register-structure counts.",
       "Market size",
-      "The market measures cover Canada, Germany, Finland, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",
+      "The market measures cover Canada, Germany, Spain, Finland, Japan, New Zealand, Poland, Sweden and the United States. The FHM counts describe reporting entities and notified, active and withdrawn products for 2018–2026; they are not sales or market value.",
       "site/data/market-values.json (machine-readable source file of the public site)",
-      "2026-07-27",
-      "156 = 120 market and model observations + 36 FHM structure counts; 134 official = 98 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
+      "2026-08-02",
+      "174 = 138 market and model observations + 36 FHM structure counts; 152 official = 116 market measures + 36 structure counts. The roles remain separate and are not summed into a market.",
       "The 2018–2025 figures are authority-supplied year labels, not assumed calendar-year flows or year-end snapshots. The 2026 FHM records are a current snapshot, not a completed annual period. Official sourcing does not make unlike metrics comparable.",
       "Confirmed",
       "Comparable annual device and liquid consumer-retail-value series are required from additional countries."
@@ -265,15 +265,15 @@
       "Not complete national consumer-retail value or an accepted donor; an open POS or consumer-sales series and tax basis are required."
     ],
     [
-      "Germany's prospective vendor benchmark DE-BLIND-1.0.0 was locked before any future submission is scored; it is NOT SCORED.",
+      "Germany's private DE-BLIND-1.0.0 audit passed the 2023 and 2024 annual caps and the combined cap; vendor values and exact deviations remain withheld.",
       "Market size / Germany",
-      "Final official anchors are 1,241,000 litres for 2023 and 1,284,000 litres for 2024, or 2,525,000 litres combined. Preregistered caps are 15% annually and 10% combined.",
-      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
-      "2026-08-02",
+      "The final official anchors and preregistered annual and combined numerical caps were publicly locked before the licensed extract was reviewed privately. All three numerical tests passed.",
+      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md ; source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
+      "2026-08-03",
       "Annual deviation = |vendor litres / official litres − 1|; combined deviation = |vendor two-year sum / 2,525,000 − 1|.",
-      "A numeric match alone does not establish matching product, unit, tax basis, channel or event stage. Thresholds are not tuned to private values.",
-      "Confirmed",
-      "Passing does not accept Germany as a donor or authorise a purchase, licence, fee or disclosure. Germany's official retail value remains not_computed."
+      "A numeric match alone does not establish matching product, tax basis, channel, event stage or source lineage. Thresholds were not tuned to private values.",
+      "Supported",
+      "A public reader cannot reproduce the licensed-vendor comparison. Germany is not a donor, Euromonitor is 1/6 and NOT SCORED, the wider package is HOLD and Germany's retail value remains not_computed."
     ],
     [
       "The public site separates three evidence lanes and blocks a global total while the accepted-donor gate is 0/3.",
@@ -391,7 +391,7 @@
       "Sweden taxed 26,000 litres of nicotine liquid in 2024 and reported rounded excise receipts of SEK 80,000,000. An authority-supplied workbook received and reviewed on 24 July 2026 contains 9 year labels × 4 structure metrics: reporting entities and notified, active and withdrawn products. The public FHM page documents the notification system; it is not presented as publishing the numeric series.",
       "https://www.regeringen.se/contentassets/1ed01e00001b42e5ad8d47433db63ece/berakningskonventioner_2026.pdf ; https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/ ; site/data/market-values.json",
       "2026-07-24",
-      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 98 market measures and 36 structure counts remain separate.",
+      "36 = 9 years (2018–2026) × 4 register-structure metrics. The tax anchor, 116 market measures and 36 structure counts remain separate.",
       "No sales value, sales volume or market share is inferred from the structure counts. The 2018–2025 figures are authority-supplied year labels, not assumed annual flows or year-end snapshots. The 2026 records are a current snapshot and are not annualised.",
       "Confirmed",
       "Observed consumer sales in euros, device units and liquid millilitres, plus a publicly reusable numeric FHM series, are still required."

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v27 review-experience publication gates."""
+"""Mutation tests for the v43 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -147,7 +147,7 @@ class ReviewExperienceTests(unittest.TestCase):
 
     def test_rejects_future_retrieval_date(self) -> None:
         market = copy.deepcopy(self.market)
-        market["sources"][0]["retrievedAt"] = "2026-08-03"
+        market["sources"][0]["retrievedAt"] = "2026-08-04"
         self.assert_data_rejected(
             market=market,
             needle="retrievedAt cannot be later than market asOf",
@@ -158,7 +158,7 @@ class ReviewExperienceTests(unittest.TestCase):
         market["sources"][0]["sourceId"] = "REMOVED-REVIEWED-SOURCE"
         self.assert_data_rejected(
             market=market,
-            needle="exact 47-source set",
+            needle="exact 54-source set",
         )
 
     def test_rejects_swiss_price_promoted_to_market_value(self) -> None:
@@ -414,11 +414,23 @@ class ReviewExperienceTests(unittest.TestCase):
         errors = validate_third_donor_screen(screen)
         self.assertTrue(any("completed or superseded" in error for error in errors), errors)
 
+    def test_rejects_stale_third_donor_release_date(self) -> None:
+        screen = copy.deepcopy(self.third_donor)
+        screen["asOf"] = "2026-08-02"
+        errors = validate_third_donor_screen(screen)
+        self.assertTrue(any("reviewed v43 date" in error for error in errors), errors)
+
     def test_rejects_false_follow_up_completion_state(self) -> None:
         screen = copy.deepcopy(self.third_donor)
-        screen["followUpWave"]["items"][1]["threadStatus"] = "follow_up_sent"
+        screen["followUpWave"]["items"][1]["threadStatus"] = "superseded_by_comprehensive_request_sent"
         errors = validate_third_donor_screen(screen)
         self.assertTrue(any("completion states differ" in error for error in errors), errors)
+
+    def test_rejects_stale_third_donor_germany_boundary(self) -> None:
+        screen = copy.deepcopy(self.third_donor)
+        screen["boundaryEn"] = "Euromonitor response pending; no purchase is authorised."
+        errors = validate_third_donor_screen(screen)
+        self.assertTrue(any("boundaryEn" in error for error in errors), errors)
 
     def test_rejects_stale_circana_follow_up_state(self) -> None:
         screen = copy.deepcopy(self.third_donor)
@@ -441,6 +453,36 @@ class ReviewExperienceTests(unittest.TestCase):
             self.app_js,
         )
         self.assertTrue(any("third-donor-screen.json" in error for error in errors), errors)
+
+    def test_rejects_stale_v42_asset_cache_buster(self) -> None:
+        mutated = self.review_html.replace("2026-08-03-43", "2026-08-03-42", 1)
+        errors = validate_review_structure(
+            mutated,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("v43 asset cache-busters" in error for error in errors), errors)
+
+    def test_rejects_stale_germany_vendor_html_boundary(self) -> None:
+        mutated = self.review_html.replace(
+            "Full Germany extract audited · numeric test passed · wider package HOLD",
+            "Partial Germany sample and indicative quotes received · 0/6 mandatory gates passed",
+            1,
+        )
+        errors = validate_review_structure(
+            mutated,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("v43 Germany vendor boundary" in error for error in errors), errors)
 
     def test_rejects_wall_clock_freshness(self) -> None:
         mutated = self.review_js.replace(

@@ -13,6 +13,8 @@ from openpyxl import Workbook
 try:
     from validate_bank_package import (
         EUR_EQUIVALENT_HEADERS,
+        EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS,
+        EXPECTED_LOCKED_EUR_STATUS_COUNTS,
         EXPECTED_PACKAGE_CADENCE,
         LOCK_PATH,
         MANIFEST_PATH,
@@ -23,6 +25,8 @@ try:
 except ModuleNotFoundError:
     from scripts.validate_bank_package import (
         EUR_EQUIVALENT_HEADERS,
+        EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS,
+        EXPECTED_LOCKED_EUR_STATUS_COUNTS,
         EXPECTED_PACKAGE_CADENCE,
         LOCK_PATH,
         MANIFEST_PATH,
@@ -31,35 +35,46 @@ except ModuleNotFoundError:
         validate_release_lock,
     )
 
+try:
+    from build_bank_package import (
+        GERMANY_VENDOR_AUDIT_BOUNDARY_SOURCE,
+        validate_v43_vendor_boundary,
+    )
+except ModuleNotFoundError:
+    from scripts.build_bank_package import (
+        GERMANY_VENDOR_AUDIT_BOUNDARY_SOURCE,
+        validate_v43_vendor_boundary,
+    )
+
 
 PACKAGE_RELEASE = {
-    "id": "2026-08-02-nz-ca-de-donor-control-v41",
-    "version": "2026.08.02-41",
-    "publishedAt": "2026-08-02T10:30:00+03:00",
+    "id": "2026-08-03-germany-vendor-audit-v43",
+    "version": "2026.08.03-43",
+    "publishedAt": "2026-08-03T17:50:00+03:00",
 }
 INTERMEDIATE_SAME_DAY_RELEASE = {
-    "id": "test-only-2026-08-02-intermediate-dashboard-release",
+    "id": "test-only-2026-08-03-intermediate-dashboard-release",
     "version": "test-only-intermediate",
-    "publishedAt": "2026-08-02T12:51:53+03:00",
+    "publishedAt": "2026-08-03T18:51:53+03:00",
 }
 LATER_SAME_DAY_RELEASE = {
-    "id": "test-only-2026-08-02-later-dashboard-release",
+    "id": "test-only-2026-08-03-later-dashboard-release",
     "version": "test-only-later",
-    "publishedAt": "2026-08-02T16:32:30+03:00",
+    "publishedAt": "2026-08-03T20:32:30+03:00",
 }
 
 
 def manifest(release: dict[str, str] | None = None) -> dict:
     return {
         "release": copy.deepcopy(release or PACKAGE_RELEASE),
-        "asOf": "2026-08-02",
+        "asOf": "2026-08-03",
         "cadence": copy.deepcopy(EXPECTED_PACKAGE_CADENCE),
     }
 
 
 def changelog(releases: list[dict[str, str]] | None = None) -> dict:
     return {
-        "asOf": "2026-08-02",
+        "asOf": "2026-08-03",
         "releases": copy.deepcopy(releases or [PACKAGE_RELEASE]),
     }
 
@@ -78,8 +93,8 @@ class DailyPackageSnapshotTests(unittest.TestCase):
         sheet = workbook.active
         sheet.title = "EUR equivalents"
         sheet.append(EUR_EQUIVALENT_HEADERS["en"])
-        for sequence in range(36):
-            row = sequence + 2
+        row = 2
+        for sequence in range(EXPECTED_LOCKED_EUR_STATUS_COUNTS["computed"]):
             sheet.append([
                 "market_observation",
                 f"CAD-{sequence}",
@@ -96,8 +111,8 @@ class DailyPackageSnapshotTests(unittest.TestCase):
                 "computed",
                 "original_amount_divided_by_ecb_annual_average",
             ])
-        for sequence in range(8):
-            row = sequence + 38
+            row += 1
+        for sequence in range(EXPECTED_LOCKED_EUR_STATUS_COUNTS["already_eur"]):
             sheet.append([
                 "market_observation",
                 f"EUR-{sequence}",
@@ -114,6 +129,27 @@ class DailyPackageSnapshotTests(unittest.TestCase):
                 "already_eur",
                 "original_currency_already_eur",
             ])
+            row += 1
+        for sequence in range(EXPECTED_LOCKED_EUR_STATUS_COUNTS["not_computed"]):
+            sheet.append([
+                "market_observation",
+                f"NZD-NOT-COMPUTED-{sequence}",
+                "metric",
+                "New Zealand",
+                2023,
+                "year_ended_june",
+                100,
+                "NZD",
+                None,
+                None,
+                None,
+                "https://data-api.ecb.europa.eu/service/data/EXR",
+                "not_computed",
+                "period_not_compatible_with_annual_average",
+            ])
+            row += 1
+        if row - 2 != EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS:
+            raise AssertionError("locked EUR fixture does not match the v43 release counts")
         return workbook
 
     def test_accepts_current_combined_release_and_requires_input_hashes(self) -> None:
@@ -140,10 +176,10 @@ class DailyPackageSnapshotTests(unittest.TestCase):
         errors: list[str] = []
         stale_release = {
             **PACKAGE_RELEASE,
-            "publishedAt": "2026-08-01T23:59:00+03:00",
+            "publishedAt": "2026-08-02T23:59:00+03:00",
         }
         stale = manifest(stale_release)
-        stale["asOf"] = "2026-08-01"
+        stale["asOf"] = "2026-08-02"
         history = changelog([PACKAGE_RELEASE, stale_release])
         self.assertFalse(validate_daily_package_snapshot(stale, history, errors))
         self.assertTrue(any("older than" in error for error in errors), errors)
@@ -159,16 +195,16 @@ class DailyPackageSnapshotTests(unittest.TestCase):
         errors: list[str] = []
         latest = {
             **LATER_SAME_DAY_RELEASE,
-            "publishedAt": "2026-08-02T21:15:00Z",
+            "publishedAt": "2026-08-03T21:15:00Z",
         }
         package = {
             **PACKAGE_RELEASE,
-            "publishedAt": "2026-08-02T21:05:00Z",
+            "publishedAt": "2026-08-03T21:05:00Z",
         }
         next_day_manifest = manifest(package)
-        next_day_manifest["asOf"] = "2026-08-03"
+        next_day_manifest["asOf"] = "2026-08-04"
         next_day_changelog = changelog([latest, package])
-        next_day_changelog["asOf"] = "2026-08-03"
+        next_day_changelog["asOf"] = "2026-08-04"
         self.assertTrue(
             validate_daily_package_snapshot(
                 next_day_manifest,
@@ -227,6 +263,31 @@ class DailyPackageSnapshotTests(unittest.TestCase):
         self.assertFalse(validate_release_lock(manifest_snapshot, release_lock, errors))
         self.assertTrue(any("reviewedInputs" in error for error in errors), errors)
         self.assertTrue(any("artifacts differ" in error for error in errors), errors)
+
+    def test_accepts_v43_privacy_safe_germany_vendor_boundary(self) -> None:
+        control_path = GERMANY_VENDOR_AUDIT_BOUNDARY_SOURCE.parent / "vendor-response-control.json"
+        control = json.loads(control_path.read_text(encoding="utf-8"))
+        vendor = validate_v43_vendor_boundary(control)
+        statuses = {
+            gate: result["status"] for gate, result in vendor["gateResults"].items()
+        }
+        self.assertEqual(sum(status == "pass" for status in statuses.values()), 1)
+        self.assertEqual(sum(status != "missing" for status in statuses.values()), 6)
+        self.assertEqual(vendor["scoringState"], "not_scored")
+        self.assertFalse(vendor["widerPackagePurchaseAuthorised"])
+
+    def test_rejects_vendor_gate_or_wider_purchase_drift(self) -> None:
+        control_path = GERMANY_VENDOR_AUDIT_BOUNDARY_SOURCE.parent / "vendor-response-control.json"
+        control = json.loads(control_path.read_text(encoding="utf-8"))
+        vendor = next(
+            item
+            for item in control["vendors"]
+            if item["vendorId"] == "euromonitor-passport-nicotine"
+        )
+        vendor["gateResults"]["G1"]["status"] = "fail"
+        vendor["widerPackagePurchaseAuthorised"] = True
+        with self.assertRaisesRegex(ValueError, "1/6 vendor-gate"):
+            validate_v43_vendor_boundary(control)
 
 
 if __name__ == "__main__":

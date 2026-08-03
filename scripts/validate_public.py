@@ -346,6 +346,7 @@ MARKET_META_KEYS = {
 }
 MARKET_EVIDENCE_STATUSES = {
     "official_observed",
+    "official_observed_partial",
     "official_provisional",
     "official_table_derived",
     "derived_official_files",
@@ -1265,8 +1266,8 @@ def validate_market_values(
     if not isinstance(source_rows, list) or not source_rows:
         errors.append("market-observations.json sources must be a non-empty array")
         source_rows = []
-    if len(source_rows) != 47:
-        errors.append("market-observations.json must contain exactly 47 reviewed market sources")
+    if len(source_rows) != 54:
+        errors.append("market-observations.json must contain exactly 54 reviewed market sources")
     expected_source_urls = {
         "CA-HC-VAPING-SALES-2024": (
             "official",
@@ -1503,6 +1504,41 @@ def validate_market_values(
             "https://www.ftc.gov/reports/e-cigarette-report-2021",
             "https://www.ftc.gov/system/files/ftc_gov/pdf/E-CigaretteReportfor2021.pdf",
         ),
+        "ES-AEAT-ANNUAL-2025-CUADRO-5-1": (
+            "official",
+            "https://sede.agenciatributaria.gob.es/Sede/estadisticas/recaudacion-tributaria/informe-anual/ejercicio-2025.html",
+            "https://sede.agenciatributaria.gob.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informes_Anuales_de_Recaudacion_Tributaria/Ejercicio_2025/Cuadro_5.1_es_es.xlsx",
+        ),
+        "ES-AEAT-MONTHLY-SERIES-2026-07-31": (
+            "official",
+            "https://sede.agenciatributaria.gob.es/Sede/estadisticas/recaudacion-tributaria/informes-mensuales-recaudacion-tributaria.html",
+            "https://sede.agenciatributaria.gob.es/static_files/Sede/Tema/Estadisticas/Recaudacion_Tributaria/Informes_mensuales/Cuadros_estadisticos_series_es_es.xlsx",
+        ),
+        "JP-ESTAT-CUSTOMS-2022-CH85": (
+            "official",
+            "https://www.customs.go.jp/toukei/info/tsdl_e.htm",
+            "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040117458",
+        ),
+        "JP-ESTAT-CUSTOMS-2023-CH85": (
+            "official",
+            "https://www.customs.go.jp/toukei/info/tsdl_e.htm",
+            "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040223246",
+        ),
+        "JP-ESTAT-CUSTOMS-2024-CH85": (
+            "official",
+            "https://www.customs.go.jp/toukei/info/tsdl_e.htm",
+            "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040368870",
+        ),
+        "JP-ESTAT-CUSTOMS-2025-CH85": (
+            "official",
+            "https://www.customs.go.jp/toukei/info/tsdl_e.htm",
+            "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040424883",
+        ),
+        "NZ-STATSNZ-CPI-WEIGHTS-2024": (
+            "official",
+            "https://www.stats.govt.nz/methods/consumers-price-index-expenditure-weights/",
+            "https://www.stats.govt.nz/assets/Methods/Consumers-price-index-expenditure-weights/consumers-price-index-expenditure-weights-2024.xlsx",
+        ),
     }
     source_by_id: dict[str, dict[str, Any]] = {}
     for index, item in enumerate(source_rows):
@@ -1551,8 +1587,8 @@ def validate_market_values(
     if not isinstance(observations, list) or not observations:
         errors.append("market-observations.json observations must be a non-empty array")
         observations = []
-    if len(observations) != 156:
-        errors.append("market-observations.json must contain exactly 156 reviewed observations")
+    if len(observations) != 174:
+        errors.append("market-observations.json must contain exactly 174 reviewed observations")
     observations_by_id: dict[str, dict[str, Any]] = {}
     expected_observations = {
         "CA-2024-MANUFACTURER-IMPORTER-SHIPMENTS-VALUE": ("CA", 2024, "manufacturer_importer_shipments_value", 1160753796.78, "CAD", "official_observed", "published", "manufacturer_importer_shipments_value_not_retail_sales", False),
@@ -1656,6 +1692,100 @@ def validate_market_values(
             "PL-2023-CMR-DISPOSABLE-E-CIGARETTE-RETAIL-SALES-VALUE": ("PL", 2023, "commercial_disposable_e_cigarette_retail_sales_value", 2000000000, "PLN", "commercial_estimate", "publisher_approximation", "commercial_disposable_only_retail_sales_estimate_non_reproducible_not_donor", False),
         }
     )
+    expected_observations.update(
+        {
+            "ES-2025-AEAT-M573-ALL-EPIGRAPHS-ACCRUED-EXCISE-LIABILITY-EUR": (
+                "ES", 2025, "accrued_excise_liability", 36_151_000, "EUR",
+                "official_provisional", "annual_report_provisional",
+                "all_epigraphs_excise_liability_not_retail_sales_or_market_value", False,
+            ),
+            "ES-2025-AEAT-M573-ALL-EPIGRAPHS-GROSS-CASH-RECEIPTS-EUR": (
+                "ES", 2025, "gross_excise_cash_receipts", 31_797_000, "EUR",
+                "official_observed", "sum_of_2025_monthly_official_cash_series",
+                "all_epigraphs_excise_gross_cash_receipts_not_retail_sales_or_market_value", False,
+            ),
+            "ES-2025-AEAT-M573-ALL-EPIGRAPHS-CASH-REFUNDS-EUR": (
+                "ES", 2025, "excise_cash_refunds", -2_229_000, "EUR",
+                "official_observed", "sum_of_2025_monthly_official_cash_series",
+                "all_epigraphs_excise_cash_refunds_not_retail_sales_or_market_value", False,
+            ),
+            "ES-2025-AEAT-M573-ALL-EPIGRAPHS-NET-CASH-RECEIPTS-EUR": (
+                "ES", 2025, "net_excise_cash_receipts", 29_568_000, "EUR",
+                "official_provisional", "annual_report_provisional_cash_basis_reconciled_to_monthly_series",
+                "all_epigraphs_excise_net_cash_receipts_not_retail_sales_or_market_value", False,
+            ),
+            "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-GROSS-CASH-RECEIPTS-EUR": (
+                "ES", 2026, "gross_excise_cash_receipts", 25_726_000, "EUR",
+                "official_observed_partial", "sum_of_january_to_june_2026_monthly_official_cash_series",
+                "partial_period_all_epigraphs_excise_gross_cash_receipts_not_retail_sales_or_market_value", False,
+            ),
+            "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-CASH-REFUNDS-EUR": (
+                "ES", 2026, "excise_cash_refunds", -3_950_000, "EUR",
+                "official_observed_partial", "sum_of_january_to_june_2026_monthly_official_cash_series",
+                "partial_period_all_epigraphs_excise_cash_refunds_not_retail_sales_or_market_value", False,
+            ),
+            "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-NET-CASH-RECEIPTS-EUR": (
+                "ES", 2026, "net_excise_cash_receipts", 21_776_000, "EUR",
+                "official_observed_partial", "sum_of_january_to_june_2026_monthly_official_cash_series",
+                "partial_period_all_epigraphs_excise_net_cash_receipts_not_retail_sales_or_market_value", False,
+            ),
+            "JP-2022-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+                "JP", 2022, "e_cigarette_device_customs_import_cif_value", 70_257_202_000,
+                "JPY", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_cif_value_not_retail_sales_or_market_value", False,
+            ),
+            "JP-2022-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+                "JP", 2022, "e_cigarette_device_customs_import_declared_quantity", 19_099_172,
+                "unit", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_declared_quantity_not_sales_or_market_value", False,
+            ),
+            "JP-2023-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+                "JP", 2023, "e_cigarette_device_customs_import_cif_value", 70_496_284_000,
+                "JPY", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_cif_value_not_retail_sales_or_market_value", False,
+            ),
+            "JP-2023-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+                "JP", 2023, "e_cigarette_device_customs_import_declared_quantity", 18_058_688,
+                "unit", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_declared_quantity_not_sales_or_market_value", False,
+            ),
+            "JP-2024-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+                "JP", 2024, "e_cigarette_device_customs_import_cif_value", 74_526_020_000,
+                "JPY", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_cif_value_not_retail_sales_or_market_value", False,
+            ),
+            "JP-2024-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+                "JP", 2024, "e_cigarette_device_customs_import_declared_quantity", 17_657_457,
+                "unit", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_declared_quantity_not_sales_or_market_value", False,
+            ),
+            "JP-2025-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+                "JP", 2025, "e_cigarette_device_customs_import_cif_value", 84_361_341_000,
+                "JPY", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_cif_value_not_retail_sales_or_market_value", False,
+            ),
+            "JP-2025-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+                "JP", 2025, "e_cigarette_device_customs_import_declared_quantity", 20_529_032,
+                "unit", "official_table_derived", "partner_rows_aggregated_from_revised_annual_customs_table",
+                "customs_import_declared_quantity_not_sales_or_market_value", False,
+            ),
+            "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTES-AND-REFILLS-PERCENT": (
+                "NZ", 2024, "cpi_expenditure_weight", 0.11, "%", "official_observed",
+                "official_cpi_weight_rounded_to_two_decimal_percentage_points",
+                "official_cpi_expenditure_weight_not_2024_sales_or_independent_reconciliation", False,
+            ),
+            "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTE-DEVICES-PERCENT": (
+                "NZ", 2024, "cpi_expenditure_weight", 0.01, "%", "official_observed",
+                "official_cpi_weight_rounded_to_two_decimal_percentage_points",
+                "official_cpi_expenditure_weight_not_2024_sales_or_independent_reconciliation", False,
+            ),
+            "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTE-REFILLS-PERCENT": (
+                "NZ", 2024, "cpi_expenditure_weight", 0.10, "%", "official_observed",
+                "official_cpi_weight_rounded_to_two_decimal_percentage_points",
+                "official_cpi_expenditure_weight_not_2024_sales_or_independent_reconciliation", False,
+            ),
+        }
+    )
     poland_reported_quantity_series = (
         ("DISPOSABLE-E-CIGARETTE-REPORTED-SALES-UNITS", "disposable_e_cigarette_reported_sales_units", "unit", (114355, 55550, 1941050, 14663879)),
         ("REUSABLE-E-CIGARETTE-REPORTED-SALES-UNITS", "reusable_e_cigarette_reported_sales_units", "unit", (2734783, 2166606, 1479135, 5401206)),
@@ -1736,8 +1866,19 @@ def validate_market_values(
             errors.append(f"market observations contain duplicate ID {observation_id}")
         observations_by_id[observation_id] = item
         value = item.get("value")
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
-            errors.append(f"{path}.value must be a positive finite number")
+        is_refund_component = item.get("metric") == "excise_cash_refunds"
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            or value == 0
+            or (is_refund_component and value >= 0)
+            or (not is_refund_component and value <= 0)
+        ):
+            errors.append(
+                f"{path}.value must be a finite non-zero number with a negative "
+                "sign reserved for excise cash-refund components"
+            )
         if item.get("countryIso2") is not None and item.get("countryIso2") not in COUNTRY_ISO2:
             errors.append(f"{path}.countryIso2 must be null or a UN195 country")
         if item.get("evidenceStatus") not in MARKET_EVIDENCE_STATUSES:
@@ -2047,8 +2188,8 @@ def validate_market_values(
         if isinstance(item, dict)
         and str(item.get("evidenceStatus", "")).startswith("official_")
     ]
-    if len(official_observations) != 134:
-        errors.append("market observations must contain exactly 134 official observations")
+    if len(official_observations) != 152:
+        errors.append("market observations must contain exactly 152 official observations")
     structural_official = [
         item
         for item in official_observations
@@ -2058,17 +2199,17 @@ def validate_market_values(
     market_measure_official = [
         item for item in official_observations if item not in structural_official
     ]
-    if len(structural_official) != 36 or len(market_measure_official) != 98:
+    if len(structural_official) != 36 or len(market_measure_official) != 116:
         errors.append(
-            "market observations must retain 98 official market measures plus "
+            "market observations must retain 116 official market measures plus "
             "36 Sweden registration-structure observations"
         )
     if {
         item.get("countryIso2")
         for item in official_observations
         if item.get("countryIso2") is not None
-    } != {"CA", "DE", "FI", "NZ", "PL", "SE", "US"}:
-        errors.append("official market observations must retain the reviewed seven-country set")
+    } != {"CA", "DE", "ES", "FI", "JP", "NZ", "PL", "SE", "US"}:
+        errors.append("official market observations must retain the reviewed nine-country set")
 
     sweden_fhm_rows = {
         (item.get("year"), item.get("metric")): item
@@ -2168,6 +2309,159 @@ def validate_market_values(
         )
         if actual != expected:
             errors.append(f"market observation {observation_id} differs from its reviewed fact tuple")
+
+    es_scope = (
+        "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_"
+        "and_other_nicotine_products"
+    )
+    es_2025_ids = {
+        "accrued": "ES-2025-AEAT-M573-ALL-EPIGRAPHS-ACCRUED-EXCISE-LIABILITY-EUR",
+        "gross": "ES-2025-AEAT-M573-ALL-EPIGRAPHS-GROSS-CASH-RECEIPTS-EUR",
+        "refunds": "ES-2025-AEAT-M573-ALL-EPIGRAPHS-CASH-REFUNDS-EUR",
+        "net": "ES-2025-AEAT-M573-ALL-EPIGRAPHS-NET-CASH-RECEIPTS-EUR",
+    }
+    es_2026_h1_ids = {
+        "gross": "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-GROSS-CASH-RECEIPTS-EUR",
+        "refunds": "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-CASH-REFUNDS-EUR",
+        "net": "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-NET-CASH-RECEIPTS-EUR",
+    }
+    for observation_id in (*es_2025_ids.values(), *es_2026_h1_ids.values()):
+        item = observations_by_id.get(observation_id, {})
+        limitation = str(item.get("limitationEn", "")).lower()
+        if (
+            item.get("countryIso2") != "ES"
+            or item.get("currency") != "EUR"
+            or item.get("unit") != "EUR"
+            or item.get("productScope") != es_scope
+            or item.get("comparableMarketValue") is not False
+            or item.get("atlasEstimate") is not False
+            or "retail" not in str(item.get("marketValueBasis", ""))
+            or "not" not in limitation
+            or "market value" not in limitation
+        ):
+            errors.append(
+                f"market observation {observation_id} must remain an all-epigraph "
+                "Spanish excise control outside retail value and every roll-up"
+            )
+    for observation_id in es_2026_h1_ids.values():
+        item = observations_by_id.get(observation_id, {})
+        if (
+            item.get("period") != "2026_h1"
+            or item.get("evidenceStatus") != "official_observed_partial"
+            or "partial-period" not in str(item.get("limitationEn", "")).lower()
+        ):
+            errors.append(
+                f"market observation {observation_id} must remain an explicitly partial 2026 H1 control"
+            )
+    es_2025_values = {
+        key: observations_by_id.get(observation_id, {}).get("value")
+        for key, observation_id in es_2025_ids.items()
+    }
+    es_2026_h1_values = {
+        key: observations_by_id.get(observation_id, {}).get("value")
+        for key, observation_id in es_2026_h1_ids.items()
+    }
+    if (
+        not all(
+            isinstance(value, (int, float)) and not isinstance(value, bool)
+            for value in es_2025_values.values()
+        )
+        or es_2025_values["gross"] + es_2025_values["refunds"]
+        != es_2025_values["net"]
+        or es_2025_values["accrued"] - es_2025_values["net"] != 6_583_000
+    ):
+        errors.append(
+            "Spain 2025 must reconcile gross plus refunds to net and retain the "
+            "EUR 6,583,000 accrued-minus-net timing difference"
+        )
+    if (
+        not all(
+            isinstance(value, (int, float)) and not isinstance(value, bool)
+            for value in es_2026_h1_values.values()
+        )
+        or es_2026_h1_values["gross"] + es_2026_h1_values["refunds"]
+        != es_2026_h1_values["net"]
+    ):
+        errors.append("Spain 2026 H1 must reconcile gross plus refunds exactly to net")
+
+    jp_rows = [
+        item
+        for item in observations
+        if isinstance(item, dict) and item.get("countryIso2") == "JP"
+    ]
+    expected_jp_ids = {
+        f"JP-{year}-854340000-E-CIGARETTE-DEVICE-IMPORT-{suffix}"
+        for year in range(2022, 2026)
+        for suffix in ("CIF-VALUE-JPY", "DECLARED-UNITS")
+    }
+    if {item.get("observationId") for item in jp_rows} != expected_jp_ids:
+        errors.append(
+            "Japan public core must contain only the eight reviewed 854340000 "
+            "device value-and-unit observations"
+        )
+    for item in jp_rows:
+        observation_id = str(item.get("observationId", ""))
+        year = item.get("year")
+        source_id = f"JP-ESTAT-CUSTOMS-{year}-CH85"
+        limitation = str(item.get("limitationEn", "")).lower()
+        if (
+            item.get("productScope")
+            != "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices"
+            or item.get("period") != "calendar_year"
+            or item.get("evidenceStatus") != "official_table_derived"
+            or item.get("sourceIds") != [source_id]
+            or item.get("comparableMarketValue") is not False
+            or item.get("atlasEstimate") is not False
+            or "not" not in limitation
+            or not ("retail" in limitation or "consumer sales" in limitation)
+        ):
+            errors.append(
+                f"market observation {observation_id} must remain an exact-code "
+                "854340000 customs-border control outside retail value and every roll-up"
+            )
+        if item.get("metric") == "e_cigarette_device_customs_import_cif_value":
+            if item.get("unit") != "JPY" or item.get("currency") != "JPY":
+                errors.append(f"market observation {observation_id} must retain source JPY")
+        elif item.get("metric") == "e_cigarette_device_customs_import_declared_quantity":
+            if item.get("unit") != "unit" or item.get("currency") is not None:
+                errors.append(f"market observation {observation_id} must remain a non-monetary unit count")
+        else:
+            errors.append(f"market observation {observation_id} uses an unreviewed Japan metric")
+
+    nz_cpi_ids = {
+        "total": "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTES-AND-REFILLS-PERCENT",
+        "devices": "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTE-DEVICES-PERCENT",
+        "refills": "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTE-REFILLS-PERCENT",
+    }
+    nz_cpi_values = {
+        key: observations_by_id.get(observation_id, {}).get("value")
+        for key, observation_id in nz_cpi_ids.items()
+    }
+    if (
+        not all(
+            isinstance(value, (int, float)) and not isinstance(value, bool)
+            for value in nz_cpi_values.values()
+        )
+        or nz_cpi_values["devices"] + nz_cpi_values["refills"]
+        != nz_cpi_values["total"]
+    ):
+        errors.append("New Zealand CPI device 0.01% plus refill 0.10% must equal total 0.11%")
+    for key, observation_id in nz_cpi_ids.items():
+        item = observations_by_id.get(observation_id, {})
+        limitation = str(item.get("limitationEn", ""))
+        required_boundary = "D10" if key == "total" else "7/10"
+        if (
+            item.get("currency") is not None
+            or item.get("unit") != "%"
+            or item.get("sourceIds") != ["NZ-STATSNZ-CPI-WEIGHTS-2024"]
+            or item.get("comparableMarketValue") is not False
+            or item.get("atlasEstimate") is not False
+            or required_boundary not in limitation
+        ):
+            errors.append(
+                f"market observation {observation_id} must remain a rounded, "
+                "non-monetary CPI weight that does not change the donor decision"
+            )
 
     nz_hes_values = (
         observations_by_id.get("NZ-2019-HES-E-CIGARETTES-AND-REFILLS-EXPENDITURE-NZD", {}).get("value"),
@@ -2296,6 +2590,78 @@ def validate_market_values(
         "US-2019-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
         "US-2020-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
         "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": ("cartridge_system_and_disposable_e_cigarette_products_excluding_open_system", "US-FTC-E-CIGARETTE-REPORT-2021"),
+        "ES-2025-AEAT-M573-ALL-EPIGRAPHS-ACCRUED-EXCISE-LIABILITY-EUR": (
+            "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_and_other_nicotine_products",
+            "ES-AEAT-ANNUAL-2025-CUADRO-5-1",
+        ),
+        "ES-2025-AEAT-M573-ALL-EPIGRAPHS-GROSS-CASH-RECEIPTS-EUR": (
+            "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_and_other_nicotine_products",
+            "ES-AEAT-MONTHLY-SERIES-2026-07-31",
+        ),
+        "ES-2025-AEAT-M573-ALL-EPIGRAPHS-CASH-REFUNDS-EUR": (
+            "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_and_other_nicotine_products",
+            "ES-AEAT-MONTHLY-SERIES-2026-07-31",
+        ),
+        "ES-2025-AEAT-M573-ALL-EPIGRAPHS-NET-CASH-RECEIPTS-EUR": (
+            "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_and_other_nicotine_products",
+            ["ES-AEAT-ANNUAL-2025-CUADRO-5-1", "ES-AEAT-MONTHLY-SERIES-2026-07-31"],
+        ),
+        "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-GROSS-CASH-RECEIPTS-EUR": (
+            "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_and_other_nicotine_products",
+            "ES-AEAT-MONTHLY-SERIES-2026-07-31",
+        ),
+        "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-CASH-REFUNDS-EUR": (
+            "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_and_other_nicotine_products",
+            "ES-AEAT-MONTHLY-SERIES-2026-07-31",
+        ),
+        "ES-2026-H1-AEAT-M573-ALL-EPIGRAPHS-NET-CASH-RECEIPTS-EUR": (
+            "model_573_all_four_epigraphs_e_liquids_nicotine_pouches_and_other_nicotine_products",
+            "ES-AEAT-MONTHLY-SERIES-2026-07-31",
+        ),
+        "JP-2022-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2022-CH85",
+        ),
+        "JP-2022-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2022-CH85",
+        ),
+        "JP-2023-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2023-CH85",
+        ),
+        "JP-2023-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2023-CH85",
+        ),
+        "JP-2024-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2024-CH85",
+        ),
+        "JP-2024-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2024-CH85",
+        ),
+        "JP-2025-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2025-CH85",
+        ),
+        "JP-2025-854340000-E-CIGARETTE-DEVICE-IMPORT-DECLARED-UNITS": (
+            "japan_statistical_code_854340000_electronic_cigarettes_and_similar_personal_electric_vaporising_devices",
+            "JP-ESTAT-CUSTOMS-2025-CH85",
+        ),
+        "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTES-AND-REFILLS-PERCENT": (
+            "nzhesco_02_2_00_4_e_cigarettes_and_refills",
+            "NZ-STATSNZ-CPI-WEIGHTS-2024",
+        ),
+        "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTE-DEVICES-PERCENT": (
+            "nzhesco_02_2_00_4_0_01_e_cigarette_devices",
+            "NZ-STATSNZ-CPI-WEIGHTS-2024",
+        ),
+        "NZ-2024-CPI-EXPENDITURE-WEIGHT-E-CIGARETTE-REFILLS-PERCENT": (
+            "nzhesco_02_2_00_4_0_02_e_cigarette_refills",
+            "NZ-STATSNZ-CPI-WEIGHTS-2024",
+        ),
     }
     for observation_id, (product_scope, source_id) in expected_scope_sources.items():
         item = observations_by_id.get(observation_id, {})
@@ -2557,8 +2923,9 @@ def validate_market_values(
         "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
         "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
         "NZ-STATSNZ-HES-DETAILED-2019-2023",
+        "NZ-STATSNZ-CPI-WEIGHTS-2024",
     ]:
-        errors.append("New Zealand donor candidate must retain the six reviewed official source IDs")
+        errors.append("New Zealand donor candidate must retain the seven reviewed official source IDs")
 
     try:
         expected_output = build_market_values()
@@ -3003,8 +3370,8 @@ def validate_third_donor_screen(
         errors.append("third-donor-screen.json must use the exact reviewed top-level schema")
     if source.get("schemaVersion") != "1.0":
         errors.append("third-donor screen schemaVersion must be 1.0")
-    if source.get("asOf") != "2026-08-02":
-        errors.append("third-donor screen must be reviewed as of 2026-08-02")
+    if source.get("asOf") != "2026-08-03":
+        errors.append("third-donor screen must be reviewed as of 2026-08-03 for v43")
     if source.get("status") != "screening_only_not_donor_assessment":
         errors.append("third-donor screen must remain screening-only")
 
@@ -3127,7 +3494,7 @@ def validate_third_donor_screen(
         errors.append("third-donor follow-up item IDs must be unique and complete")
     if [item.get("threadStatus") for item in items if isinstance(item, dict)] != [
         "follow_up_sent",
-        "superseded_by_comprehensive_request_sent",
+        "germany_extract_delivered_private_audit_complete_broader_subscription_hold",
         "qualification_response_received_clarification_sent",
     ]:
         errors.append("third-donor follow-up completion states differ from the reviewed wave")
@@ -3147,6 +3514,60 @@ def validate_third_donor_screen(
         or excluded[0].get("vendor") != "NIQ"
     ):
         errors.append("NIQ must remain excluded from the 2026-07-28 follow-up wave")
+
+    euromonitor = items[1] if len(items) > 1 and isinstance(items[1], dict) else {}
+    objective_en = str(euromonitor.get("objectiveEn", ""))
+    objective_fi = str(euromonitor.get("objectiveFi", ""))
+    for token in (
+        "Germany extract",
+        "delivered on 2026-08-03",
+        "audited privately",
+        "All three preregistered numerical liquid-volume proximity tests passed",
+        "NOT SCORED",
+        "no wider 25/50/78-country subscription is authorised",
+    ):
+        if token not in objective_en:
+            errors.append(f"Euromonitor v43 objective lacks required public-safe boundary {token!r}")
+    for token in (
+        "Saksa-ote",
+        "toimitettiin 3.8.2026",
+        "auditoitiin yksityisesti",
+        "Kaikki kolme ennalta rekisteröityä",
+        "EI PISTEYTETTY",
+        "laajempaa 25/50/78 maan tilausta ole valtuutettu",
+    ):
+        if token not in objective_fi:
+            errors.append(f"Euromonitorin v43-tavoite puuttuu julkisesta rajasta {token!r}")
+
+    boundary_en = str(source.get("boundaryEn", ""))
+    boundary_fi = str(source.get("boundaryFi", ""))
+    required_boundary_en = (
+        "No screened country is an accepted donor",
+        "one-country Germany extract was delivered and audited privately",
+        "all three preregistered numerical proximity tests passed",
+        "NOT SCORED at 1/6",
+        "25/50/78-country",
+        "HOLD",
+        "unauthorised",
+        "donor gate remains 0/3",
+        "global value remains not_computed",
+        "no licensed values",
+    )
+    required_boundary_fi = (
+        "Yksikään seulottu maa ei ole hyväksytty donor",
+        "yhden maan Saksa-ote toimitettiin ja auditoitiin yksityisesti",
+        "kaikki kolme ennalta rekisteröityä numeerista läheisyystestiä läpäistiin",
+        "EI PISTEYTETTY -tilassa tuloksella 1/6",
+        "25/50/78 maan",
+        "HOLD-tilassa ilman valtuutusta",
+        "Donor-portti pysyy 0/3:ssa",
+        "maailmanarvo not_computed-tilassa",
+        "lisensoituja arvoja",
+    )
+    if any(token not in boundary_en for token in required_boundary_en) or "Euromonitor responses remain pending" in boundary_en:
+        errors.append("third-donor boundaryEn must disclose the v43 Germany private-audit, 1/6 NOT SCORED, 0/3/not_computed and wider-HOLD boundary")
+    if any(token not in boundary_fi for token in required_boundary_fi) or "Euromonitorin vastaukset odottavat" in boundary_fi:
+        errors.append("third-donor boundaryFi must disclose the v43 Germany private-audit, 1/6 EI PISTEYTETTY, 0/3/not_computed and wider-HOLD boundary")
 
     forbidden_keys = {
         "accepted",

@@ -26,7 +26,7 @@ class VendorResponseControlTests(unittest.TestCase):
         validate_source(copy.deepcopy(self.source), errors)
         self.assertEqual(errors, [])
 
-    def test_germany_sample_and_quote_are_received_but_not_scoreable(self) -> None:
+    def test_germany_extract_is_received_numeric_gate_passes_but_vendor_is_not_scoreable(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
         vendor = next(
             item
@@ -35,23 +35,16 @@ class VendorResponseControlTests(unittest.TestCase):
         )
         self.assertEqual(
             vendor["responseState"],
-            "substantive_response_received",
+            "evaluation_extract_received_private_audit_complete",
         )
-        self.assertIn("expanded numerical Germany sample", vendor["publicStatusEn"])
-        self.assertIn("three indicative annual package quotes", vendor["publicStatusEn"])
-        self.assertIn("78-market e-vapour value-coverage list", vendor["publicStatusEn"])
-        self.assertIn("eight-tab category-schema workbook", vendor["publicStatusEn"])
-        self.assertIn("95 listed geographies", vendor["publicStatusEn"])
-        self.assertIn("country-year value cells are unpopulated", vendor["publicStatusEn"])
-        self.assertIn("end-consumer sales including applied product taxes/VAT", vendor["publicStatusEn"])
-        self.assertIn("enterprise-AI use where provider training is disabled", vendor["publicStatusEn"])
-        self.assertIn("modelled Cyprus volume", vendor["publicStatusEn"])
-        self.assertIn("Record-level observed/reported/modelled flags", vendor["publicStatusEn"])
-        self.assertIn("exact product-scope bridge", vendor["publicStatusEn"])
-        self.assertIn("lender/buyer data-room rights", vendor["publicStatusEn"])
-        self.assertIn("all-in tax, fee, retention and renewal terms", vendor["publicStatusEn"])
-        self.assertIn("populated Germany 2022–2025 test", vendor["publicStatusEn"])
-        self.assertIn("proposed Special Condition", vendor["publicStatusEn"])
+        self.assertIn("full 19-tab Germany evaluation extract", vendor["publicStatusEn"])
+        self.assertIn("numerical liquid-volume proximity tests passed", vendor["publicStatusEn"])
+        self.assertIn("Licensed vendor values and exact deviations remain private", vendor["publicStatusEn"])
+        self.assertIn("G1 passes", vendor["publicStatusEn"])
+        self.assertIn("G4 remains not testable", vendor["publicStatusEn"])
+        self.assertIn("accepted and delivered", vendor["publicStatusEn"])
+        self.assertIn("no wider 25/50/78-country subscription is authorised", vendor["publicStatusEn"])
+        self.assertIn("donor gate remains 0/3", vendor["publicStatusEn"])
         self.assertIn("NOT SCORED", vendor["publicStatusEn"])
         self.assertNotIn("CEO", vendor["publicStatusEn"])
         self.assertNotIn("single-consultant", vendor["publicStatusEn"])
@@ -62,7 +55,7 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertTrue(vendor["receivedEvidence"]["quote"])
         self.assertTrue(vendor["receivedEvidence"]["methodology"])
         self.assertTrue(vendor["receivedEvidence"]["coverageMatrix"])
-        self.assertFalse(vendor["receivedEvidence"]["officialAnchorReconciliation"])
+        self.assertTrue(vendor["receivedEvidence"]["officialAnchorReconciliation"])
         self.assertTrue(vendor["receivedEvidence"]["transactionUseRights"])
         self.assertTrue(vendor["receivedEvidence"]["totalCostTerms"])
         self.assertEqual(
@@ -71,7 +64,7 @@ class VendorResponseControlTests(unittest.TestCase):
                 for gate_id, result in vendor["gateResults"].items()
             },
             {
-                "G1": "not_testable",
+                "G1": "pass",
                 "G2": "fail",
                 "G3": "fail",
                 "G4": "not_testable",
@@ -80,23 +73,27 @@ class VendorResponseControlTests(unittest.TestCase):
             },
         )
         self.assertTrue(vendor["quoteReceived"])
-        self.assertEqual(vendor["evidenceReceivedCount"], 6)
+        self.assertEqual(vendor["evidenceReceivedCount"], 7)
         self.assertEqual(vendor["evaluatedGateCount"], 6)
-        self.assertEqual(vendor["mandatoryGatePassCount"], 0)
+        self.assertEqual(vendor["mandatoryGatePassCount"], 1)
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
-        self.assertFalse(vendor["purchaseAuthorised"])
+        self.assertTrue(vendor["evaluationExtractAuthorised"])
+        self.assertTrue(vendor["evaluationExtractReceived"])
+        self.assertFalse(vendor["widerPackagePurchaseAuthorised"])
         self.assertEqual(candidate["summary"]["substantiveResponses"], 1)
 
-    def test_germany_benchmark_is_not_testable_and_uses_reviewed_anchors(self) -> None:
+    def test_germany_benchmark_exposes_numeric_pass_with_scope_open(self) -> None:
         benchmark = self.source["germanyBenchmark"]
         self.assertEqual(benchmark["benchmarkId"], "DE-BLIND-1.0.0")
-        self.assertEqual(benchmark["status"], "not_testable")
+        self.assertEqual(benchmark["status"], "numeric_pass_scope_open")
         self.assertIn("prospectively locked", benchmark["statusReasonEn"])
         self.assertIn("2,525,000 litres", benchmark["statusReasonEn"])
         self.assertIn("15% per year", benchmark["statusReasonEn"])
         self.assertIn("10% combined", benchmark["statusReasonEn"])
+        self.assertIn("numerical proximity tests passed", benchmark["statusReasonEn"])
+        self.assertIn("NOT TESTABLE", benchmark["statusReasonEn"])
         self.assertIn("NOT SCORED", benchmark["statusReasonEn"])
         self.assertEqual(
             [
@@ -193,7 +190,9 @@ class VendorResponseControlTests(unittest.TestCase):
         self.assertTrue(all(value is None for value in vendor["criterionScores"].values()))
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
-        self.assertFalse(vendor["purchaseAuthorised"])
+        self.assertFalse(vendor["evaluationExtractAuthorised"])
+        self.assertFalse(vendor["evaluationExtractReceived"])
+        self.assertFalse(vendor["widerPackagePurchaseAuthorised"])
 
     def test_circana_commercial_qualification_response_remains_unscored(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
@@ -228,26 +227,27 @@ class VendorResponseControlTests(unittest.TestCase):
         )
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
-        self.assertFalse(vendor["purchaseAuthorised"])
+        self.assertFalse(vendor["evaluationExtractAuthorised"])
+        self.assertFalse(vendor["evaluationExtractReceived"])
+        self.assertFalse(vendor["widerPackagePurchaseAuthorised"])
         self.assertEqual(candidate["summary"]["substantiveResponses"], 1)
 
-    def test_euromonitor_conditional_extract_offer_remains_unaccepted_and_unscored(self) -> None:
+    def test_euromonitor_germany_extract_is_received_but_wider_package_remains_unscored(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
         vendor = next(
             item
             for item in candidate["vendors"]
             if item["vendorId"] == "euromonitor-passport-nicotine"
         )
-        self.assertIn("2026-07-29 call was completed", vendor["publicStatusEn"])
-        self.assertIn("conditional paid arrangement", vendor["publicStatusEn"])
-        self.assertIn(
-            "No extract, order, invoice, fee, subscription or commitment is authorised or accepted",
-            vendor["publicStatusEn"],
-        )
-        self.assertIn("remains non-testable", vendor["publicStatusEn"])
-        self.assertEqual(vendor["mandatoryGatePassCount"], 0)
+        self.assertIn("full 19-tab Germany evaluation extract", vendor["publicStatusEn"])
+        self.assertIn("accepted and delivered", vendor["publicStatusEn"])
+        self.assertIn("no wider 25/50/78-country subscription is authorised", vendor["publicStatusEn"])
+        self.assertIn("G4 remains not testable", vendor["publicStatusEn"])
+        self.assertEqual(vendor["mandatoryGatePassCount"], 1)
         self.assertEqual(vendor["scoringState"], "not_scored")
-        self.assertFalse(vendor["purchaseAuthorised"])
+        self.assertTrue(vendor["evaluationExtractAuthorised"])
+        self.assertTrue(vendor["evaluationExtractReceived"])
+        self.assertFalse(vendor["widerPackagePurchaseAuthorised"])
 
     def test_missing_mandatory_evidence_is_not_scored(self) -> None:
         candidate = copy.deepcopy(self.source)
@@ -355,7 +355,7 @@ class VendorResponseControlTests(unittest.TestCase):
             errors,
         )
 
-    def test_quote_does_not_count_as_a_mandatory_gate_pass(self) -> None:
+    def test_quote_is_separate_from_the_single_sample_gate_pass(self) -> None:
         candidate = normalised(copy.deepcopy(self.source))
         vendor = next(
             item
@@ -364,7 +364,7 @@ class VendorResponseControlTests(unittest.TestCase):
         )
         self.assertTrue(vendor["quoteReceived"])
         self.assertTrue(vendor["receivedEvidence"]["quote"])
-        self.assertEqual(vendor["mandatoryGatePassCount"], 0)
+        self.assertEqual(vendor["mandatoryGatePassCount"], 1)
         self.assertEqual(vendor["scoringState"], "not_scored")
         self.assertIsNone(vendor["weightedScore"])
 
@@ -425,6 +425,22 @@ class VendorResponseControlTests(unittest.TestCase):
 
     def test_visible_receipt_ledger_hooks_are_fail_closed(self) -> None:
         script = (
+            'const EXPECTED_RECEIPTS = new Map([\n'
+            '["ecig-global-market-database", {\n'
+            '      sample: false,\n'
+            '      methodology: false,\n'
+            '      coverageMatrix: false,\n'
+            '      quote: false,\n'
+            '      officialAnchorReconciliation: false,\n'
+            '}],\n'
+            '["euromonitor-passport-nicotine", {\n'
+            '      sample: true,\n'
+            '      methodology: true,\n'
+            '      coverageMatrix: true,\n'
+            '      quote: true,\n'
+            '      officialAnchorReconciliation: true,\n'
+            '}],\n'
+            ']); '
             "function receiptLabel() { return ['Rights-related material', "
             "'Commercial-terms material']; } "
             "function renderReceiptLedger() { "
@@ -432,11 +448,40 @@ class VendorResponseControlTests(unittest.TestCase):
             "control.evidenceTypes, 'vendor-response-receipts', "
             "'vendor-response-receipt-list', "
             "'Material receipt does not establish completeness or gate passage.', "
-            "'Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.']; }"
+            "'Aineiston vastaanotto ei osoita täydellisyyttä eikä portin läpäisyä.']; } "
+            "if (benchmark.benchmarkId !== \"DE-BLIND-1.0.0\") { throw new Error(); }"
         )
         errors: list[str] = []
         validate_vendor_script_text(script, errors)
         self.assertEqual(errors, [])
+
+        errors = []
+        validate_vendor_script_text(
+            script.replace(
+                "officialAnchorReconciliation: false,",
+                "officialAnchorReconciliation: true,",
+                1,
+            ),
+            errors,
+        )
+        self.assertTrue(
+            any("ECig official-anchor receipt false" in error for error in errors),
+            errors,
+        )
+
+        errors = []
+        validate_vendor_script_text(
+            script.replace(
+                "officialAnchorReconciliation: true,",
+                "officialAnchorReconciliation: false,",
+                1,
+            ),
+            errors,
+        )
+        self.assertTrue(
+            any("Euromonitor official-anchor receipt true" in error for error in errors),
+            errors,
+        )
 
         errors = []
         validate_vendor_script_text(

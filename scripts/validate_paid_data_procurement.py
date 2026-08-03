@@ -64,7 +64,7 @@ PRICE_TYPES = {"public_list_price", "vendor_quote"}
 OUTREACH_KEYS = {"itemId", "state", "recordedOn", "noteEn", "noteFi"}
 EXPECTED_OUTREACH = {
     "ecig-global-market-database": "followup_sent_response_pending",
-    "euromonitor-passport-nicotine": "expanded_schema_and_package_quotes_review_pending",
+    "euromonitor-passport-nicotine": "germany_extract_delivered_private_audit_complete_broader_subscription_hold",
     "niq-rms-pilot": "blocked_not_submitted",
     "circana-us-tobacco-pilot": "administrative_qualification_received",
 }
@@ -110,10 +110,10 @@ PRIVATE_METADATA_MARKERS = (
     "messageid",
     "threadid",
 )
-CURRENT_DASHBOARD_VERSION = "2026.07.31-37"
-WORKBOOK_SNAPSHOT_VERSION = "2026.07.31-37"
-WORKBOOK_SNAPSHOT_AS_OF = "2026-07-31"
-EXPECTED_XLSX_SHA256 = "5b243335fb8ed64e7af5bcc935d2d7072af7ca55de682adf513aade7c0f7c6c9"
+CURRENT_DASHBOARD_VERSION = "2026.08.03-43"
+WORKBOOK_SNAPSHOT_VERSION = "2026.08.03-43"
+WORKBOOK_SNAPSHOT_AS_OF = "2026-08-03"
+EXPECTED_XLSX_SHA256 = "2d60ecdaa93672f0936e6b342e6c1166dd1ad454a1eb70c498fcb4553a224e62"
 EXPECTED_RESPONSE_ROWS = (
     (
         "ecig-global-market-database",
@@ -128,10 +128,10 @@ EXPECTED_RESPONSE_ROWS = (
         "euromonitor-passport-nicotine",
         "Euromonitor International",
         "Passport Nicotine / e-vapour country series",
-        "CALL COMPLETED + CONDITIONAL PAID GERMANY EXTRACT OFFERED · NOT ACCEPTED · 0/6 GATES PASS · NOT SCORED\nFI: PUHELU PIDETTY + EHDOLLINEN MAKSULLINEN SAKSA-OTE TARJOTTU · EI HYVÄKSYTTY · 0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
+        "GERMANY EXTRACT DELIVERED + PRIVATE AUDIT COMPLETE · 1/6 GATES PASS · WIDER PACKAGE HOLD · NOT SCORED\nFI: SAKSA-OTE TOIMITETTU + YKSITYINEN AUDITOINTI VALMIS · 1/6 PORTTIA LÄPÄISTY · LAAJEMPI PAKETTI HOLD · EI PISTEYTETTY",
         None,
         "='Sources'!C9",
-        "Status only. A conditional paid Germany extract was offered after the 2026-07-29 call. It has not been accepted or activated; no order, invoice, fee, subscription or commitment is authorised. Product scope, transaction-stage reconciliation, current Germany coverage, rights and all-in terms remain open. NOT SCORED; 0/6 gates pass.",
+        "Status only. The Germany extract was delivered and audited privately. The three preregistered numerical proximity tests passed, but licensed values remain withheld and scope, lineage, rights and all-in terms remain open. NOT SCORED; 1/6 gates pass; the wider package remains HOLD.",
     ),
     (
         "niq-rms-pilot",
@@ -218,8 +218,8 @@ def validate_source(source: Any, errors: list[str]) -> None:
     if set(source) != EXPECTED_TOP_LEVEL or source.get("schemaVersion") != 1:
         errors.append("source has an unsupported top-level schema")
         return
-    if source.get("status") != "decision_support_only_no_purchase_authorised":
-        errors.append("source must state that no purchase is authorised")
+    if source.get("status") != "decision_support_only_broader_purchase_not_authorised":
+        errors.append("source must distinguish the delivered Germany extract from the unauthorised wider package")
     if not valid_iso_date(source.get("asOf")) or source.get("version") != CURRENT_DASHBOARD_VERSION:
         errors.append("source date or version is invalid")
     if source.get("asOf") != WORKBOOK_SNAPSHOT_AS_OF:
@@ -270,6 +270,25 @@ def validate_source(source: Any, errors: list[str]) -> None:
                 for field in ("noteEn", "noteFi")
             ):
                 errors.append(f"bilingual outreach notes are required for {item_id!r}")
+            elif item_id == "euromonitor-passport-nicotine":
+                for marker in (
+                    "full 19-tab Germany evaluation extract",
+                    "numerical liquid-volume proximity tests passed",
+                    "Licensed values and exact deviations are not published",
+                    "One of six mandatory vendor gates passes",
+                    "wider 25/50/78-country subscription remains HOLD",
+                ):
+                    if marker not in record["noteEn"]:
+                        errors.append(f"Euromonitor outreach English note lacks {marker!r}")
+                for marker in (
+                    "täysi 19 välilehden arviointiote",
+                    "nestemäärän numeerinen läheisyystesti läpäistiin",
+                    "Lisensoituja arvoja tai tarkkoja poikkeamia ei julkaista",
+                    "Yksi kuudesta pakollisesta toimittajaportista läpäisee",
+                    "laajempi 25/50/78 maan tilaus pysyy HOLD-tilassa",
+                ):
+                    if marker not in record["noteFi"]:
+                        errors.append(f"Euromonitor outreach Finnish note lacks {marker!r}")
             elif (record["noteEn"], record["noteFi"]) != EXPECTED_OUTREACH_NOTES.get(item_id):
                 errors.append(f"outreach notes differ from the approved public record for {item_id!r}")
         if seen_outreach != set(EXPECTED_OUTREACH):
@@ -321,8 +340,8 @@ def validate_source(source: Any, errors: list[str]) -> None:
         errors.append("source contains an email address")
     if UUID_PATTERN.search(combined):
         errors.append("source contains a UUID-like private reference")
-    if "no purchase" not in combined and "mitään ostoa" not in combined:
-        errors.append("visible no-purchase boundary is missing")
+    if "no wider subscription" not in combined and "laajempaa tilausta" not in combined:
+        errors.append("visible wider-purchase HOLD boundary is missing")
     if "data-room" not in combined and "datahuone" not in combined:
         errors.append("transaction data-room licence gate is missing")
 
@@ -338,8 +357,8 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
         rows = list(csv.DictReader(io.StringIO(OUTPUT_CSV.read_text(encoding="utf-8"))))
         if len(rows) != 11 or (rows and list(rows[0]) != CSV_FIELDS):
             errors.append("public paid-data CSV schema or row count differs")
-        if any(row["purchaseAuthorised"] != "false" for row in rows):
-            errors.append("public paid-data CSV must state purchaseAuthorised=false")
+        if any(row["widerPackagePurchaseAuthorised"] != "false" for row in rows):
+            errors.append("public paid-data CSV must state widerPackagePurchaseAuthorised=false")
         expected_states = {
             item_id: state for item_id, state in EXPECTED_OUTREACH.items()
         }
@@ -440,15 +459,16 @@ def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
 
     decision = workbook["Decision"]
     if decision["A3"].value != (
-        "Independent decision support · No purchase authorised · "
+        "Independent decision support · Germany extract delivered · Wider package HOLD · "
         f"Version {WORKBOOK_SNAPSHOT_VERSION} · Verified {WORKBOOK_SNAPSHOT_AS_OF}"
     ):
         errors.append("paid-data XLSX decision release boundary differs")
     if not isinstance(decision["A10"].value, str) or not all(
         phrase in decision["A10"].value
         for phrase in (
-            "Do not activate the conditional Germany extract or buy before explicit purchase authority",
-            "Älä aktivoi ehdollista Saksa-otetta tai osta ennen nimenomaista ostovaltuutusta",
+            "Germany evaluation extract has been received and privately audited",
+            "Saksan arviointiote on vastaanotettu ja auditoitu yksityisesti",
+            "wider 25/50/78-country subscription on HOLD",
             "complete all-in commercial terms",
         )
     ):
@@ -503,8 +523,9 @@ def validate_workbook(source: dict[str, Any], errors: list[str]) -> None:
                 f"paid-data XLSX response identity, public state, reviewer note, "
                 f"source or boundary differs at row {row}"
             )
-        if any(response.cell(row, column).value != "OPEN" for column in range(5, 11)):
-            errors.append(f"paid-data XLSX current vendor gates must remain OPEN at row {row}")
+        expected_gates = ["PASS", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN"] if row == 15 else ["OPEN"] * 6
+        if [response.cell(row, column).value for column in range(5, 11)] != expected_gates:
+            errors.append(f"paid-data XLSX current vendor gates differ at row {row}")
         if any(response.cell(row, column).value is not None for column in range(11, 18)):
             errors.append(f"paid-data XLSX current vendor scores must remain blank at row {row}")
         if response.cell(row, 18).value != f'=COUNTIF(E{row}:J{row},"PASS")&"/6"':
@@ -655,8 +676,8 @@ def main() -> int:
         return 1
     print(
         "PASS: 11-item paid-data shortlist, transparent scores, 3 package options, "
-        "go/stop gates, v37 JSON/CSV parity, reviewed v37 daily XLSX snapshot "
-        "and no-purchase boundary verified."
+        "go/stop gates, v43 JSON/CSV parity, reviewed v43 daily XLSX snapshot "
+        "and wider-package HOLD boundary verified."
     )
     return 0
 

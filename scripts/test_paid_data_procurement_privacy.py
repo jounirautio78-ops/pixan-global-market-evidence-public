@@ -88,50 +88,46 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         )
         self.assertEqual(
             outreach["euromonitor-passport-nicotine"]["state"],
-            "expanded_schema_and_package_quotes_review_pending",
+            "germany_extract_delivered_private_audit_complete_broader_subscription_hold",
         )
         self.assertIn(
-            "expanded numerical Germany sample",
+            "full 19-tab Germany evaluation extract",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "indicative annual package quotes",
+            "numerical liquid-volume proximity tests passed",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "78-market e-vapour value-coverage list",
+            "Licensed values and exact deviations are not published",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "later eight-tab category-schema workbook",
+            "Product, tax, channel and transaction-stage comparability",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "lists 95 geographies",
+            "25/50/78-country field-year coverage matrix",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "country-year value cells are blank",
+            "One of six mandatory vendor gates passes",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "2026-07-29 call was completed",
+            "one-country Germany extract was accepted and delivered",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "conditional paid arrangement",
+            "wider 25/50/78-country subscription remains HOLD",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "No extract, order, invoice, fee, subscription or commitment is authorised or accepted",
+            "onward-sharing/data-room rights",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertIn(
-            "lender/buyer NDA data-room rights",
-            outreach["euromonitor-passport-nicotine"]["noteEn"],
-        )
-        self.assertIn(
-            "complete all-in terms remain open",
+            "complete commercial terms remain open",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
         self.assertNotIn("pending and has not been sent", outreach["euromonitor-passport-nicotine"]["noteEn"])
@@ -141,15 +137,14 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
         self.assertNotIn("consultant", outreach["euromonitor-passport-nicotine"]["noteEn"].lower())
         self.assertNotIn("CEO", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertIn(
-            "0/6 passes",
+            "donor gate remains 0/3",
             outreach["euromonitor-passport-nicotine"]["noteEn"],
         )
-        self.assertTrue(outreach["euromonitor-passport-nicotine"]["noteEn"].endswith("NOT SCORED."))
+        self.assertIn("NOT SCORED", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertNotRegex(
             outreach["euromonitor-passport-nicotine"]["noteEn"],
             r"(?:EUR|USD|GBP)\s*[0-9]",
         )
-        self.assertIn("remains non-testable", outreach["euromonitor-passport-nicotine"]["noteEn"])
         self.assertEqual(
             outreach["circana-us-tobacco-pilot"]["state"],
             "administrative_qualification_received",
@@ -175,7 +170,7 @@ class PaidDataWorkbookPrivacyTests(unittest.TestCase):
             r"(?:EUR|USD|GBP)\s*[0-9]",
         )
 
-    def test_dashboard_and_reviewed_daily_workbook_share_v37_snapshot(self) -> None:
+    def test_dashboard_and_reviewed_daily_workbook_share_v43_snapshot(self) -> None:
         self.assertEqual(self.source["version"], CURRENT_DASHBOARD_VERSION)
         self.assertEqual(self.source["asOf"], WORKBOOK_SNAPSHOT_AS_OF)
         self.assertEqual(CURRENT_DASHBOARD_VERSION, WORKBOOK_SNAPSHOT_VERSION)

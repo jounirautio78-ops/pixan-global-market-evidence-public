@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programmeId": "pixan-independent-paid-data-procurement-v1",
-  "asOf": "2026-07-31",
-  "version": "2026.07.31-37",
-  "status": "decision_support_only_no_purchase_authorised",
-  "publicBoundaryEn": "Independent procurement analysis. No purchase, subscription, commitment, vendor endorsement or Pixan Oy approval is stated or authorised.",
-  "publicBoundaryFi": "Riippumaton hankinta-analyysi. Mitään ostoa, tilausta, sitoumusta, toimittajasuositusta tai Pixan Oy:n hyväksyntää ei väitetä eikä ole valtuutettu.",
+  "asOf": "2026-08-03",
+  "version": "2026.08.03-43",
+  "status": "decision_support_only_broader_purchase_not_authorised",
+  "publicBoundaryEn": "Independent procurement analysis. The delivered one-country Germany evaluation extract is recorded, but no wider subscription, additional purchase, vendor endorsement or Pixan Oy approval is stated or authorised.",
+  "publicBoundaryFi": "Riippumaton hankinta-analyysi. Toimitettu yhden maan Saksa-arviointiote kirjataan, mutta laajempaa tilausta, lisäostoa, toimittajasuositusta tai Pixan Oy:n hyväksyntää ei väitetä eikä ole valtuutettu.",
   "rankingBoundaryEn": "The order prioritises closing the annual country-market-series gap. Scores are transparent decision aids, not investment ratings or claims of data accuracy.",
   "rankingBoundaryFi": "Järjestys painottaa vuosittaisen maakohtaisen markkinasarjan puutteen sulkemista. Pisteet ovat läpinäkyviä päätösapuja, eivät sijoitusluokituksia tai väitteitä datan oikeellisuudesta.",
   "currencyNoteEn": "Public list prices are vendor-page observations on the as-of date and may exclude VAT, taxes, licence extensions, users, exports and transaction-data-room rights. Quote means no reliable public project price was identified.",
@@ -20,10 +20,10 @@
     },
     {
       "itemId": "euromonitor-passport-nicotine",
-      "state": "expanded_schema_and_package_quotes_review_pending",
-      "recordedOn": "2026-07-29",
-      "noteEn": "An expanded numerical Germany sample, a 78-market e-vapour value-coverage list, generic methodology, standard licence terms, indicative annual package quotes and a later eight-tab category-schema workbook were received by 2026-07-27. A 2026-07-29 call was completed. The vendor then offered a limited Germany extract under a conditional paid arrangement: the extract fee would be waived only if a wider country package were purchased within the stated window; otherwise the extract could be invoiced. No extract, order, invoice, fee, subscription or commitment is authorised or accepted. The private 2023–2024 Germany comparison remains non-testable because the product scope, retail-versus-tax stage and record-status bridge is unresolved. The later workbook lists 95 geographies but its country-year value cells are blank, and the 95-geography structure remains unreconciled to the 78-country quote. A populated current Germany 2022–2025 test, exact country-product-field-year coverage, lender/buyer NDA data-room rights and complete all-in terms remain open. All six gates are evaluated, but 0/6 passes. NOT SCORED.",
-      "noteFi": "Laajennettu numeerinen Saksa-näyte, 78 sähkötupakkamarkkinan arvotietojen peittolista, yleinen menetelmäkuvaus, vakiolisenssiehdot, suuntaa-antavat vuosipakettitarjoukset ja myöhempi kahdeksan välilehden kategoriaskeematyökirja saatiin 27.7.2026 mennessä. Puhelu pidettiin 29.7.2026. Toimittaja tarjosi sen jälkeen rajattua Saksa-otetta ehdollisella maksullisella järjestelyllä: otteen maksu poistuisi vain, jos laajempi maapaketti ostettaisiin ilmoitetun määräajan kuluessa; muutoin ote voitaisiin laskuttaa. Otetta, tilausta, laskua, maksua tai sitoumusta ei ole valtuutettu tai hyväksytty. Yksityinen vuosien 2023–2024 Saksa-vertailu ei ole vielä testattavissa, koska tuoterajaus, vähittäis- ja verovaiheen ero sekä tietueiden tilasilta ovat ratkaisematta. Myöhempi työkirja luettelee 95 maantiedettä, mutta sen maa–vuosi-arvosolut ovat tyhjiä eikä 95 maantieteen rakennetta ole täsmäytetty 78 maan tarjoukseen. Täytetty ajantasainen Saksan 2022–2025-testi, täsmällinen maa–tuote–kenttä–vuosi-peitto, lainanantaja-/ostaja-NDA-datahuoneoikeudet ja täydelliset kaikki kustannukset kattavat ehdot ovat avoinna. Kaikki kuusi porttia on arvioitu, mutta 0/6 läpäisee. EI PISTEYTETTY."
+      "state": "germany_extract_delivered_private_audit_complete_broader_subscription_hold",
+      "recordedOn": "2026-08-03",
+      "noteEn": "A full 19-tab Germany evaluation extract was received on 2026-08-03 and audited privately. The preregistered 2023, 2024 and combined numerical liquid-volume proximity tests passed. Licensed values and exact deviations are not published. Product, tax, channel and transaction-stage comparability, country-specific source-to-series lineage, record-status flags, the 25/50/78-country field-year coverage matrix, onward-sharing/data-room rights and complete commercial terms remain open. Germany is not an accepted donor, the donor gate remains 0/3 and global value remains not_computed. One of six mandatory vendor gates passes, but the vendor remains NOT SCORED. The one-country Germany extract was accepted and delivered; the wider 25/50/78-country subscription remains HOLD and is not authorised.",
+      "noteFi": "Saksan täysi 19 välilehden arviointiote saatiin 3.8.2026 ja auditoitiin yksityisesti. Ennalta rekisteröidyt vuosien 2023 ja 2024 sekä yhdistetty nestemäärän numeerinen läheisyystesti läpäistiin. Lisensoituja arvoja tai tarkkoja poikkeamia ei julkaista. Tuote-, vero-, kanava- ja tapahtumavaiheen vertailukelpoisuus, maakohtainen lähde–sarja-linja, tietueiden tilamerkinnät, 25/50/78 maan kenttä–vuosi-peittomatriisi, edelleenjako- ja datahuoneoikeudet sekä täydelliset kaupalliset ehdot ovat avoinna. Saksaa ei ole hyväksytty donoriksi, donor-portti pysyy 0/3:ssa ja maailmanarvo not_computed-tilassa. Yksi kuudesta pakollisesta toimittajaportista läpäisee, mutta toimittaja pysyy EI PISTEYTETTY -tilassa. Yhden maan Saksa-ote hyväksyttiin ja toimitettiin; laajempi 25/50/78 maan tilaus pysyy HOLD-tilassa eikä sitä ole valtuutettu."
     },
     {
       "itemId": "niq-rms-pilot",
@@ -157,16 +157,16 @@
       "category": "global_market_series",
       "roleEn": "Institutionally strong alternative global master with country value, volume, category, company, brand, distribution and forecast tables.",
       "roleFi": "Institutionaalisesti vahva vaihtoehtoinen globaali pääaineisto, jossa on maa-, arvo-, volyymi-, kategoria-, yhtiö-, brändi-, jakelu- ja ennustetaulukoita.",
-      "coverageEn": "The received 78-market value-coverage list and three quotes describe 25-, 50- and 78-market options. A later category-schema workbook lists 95 geographies, but it is not a populated coverage matrix. Exact country-product-field-year availability and researched/modelled status remain unreconciled.",
-      "coverageFi": "Saatu 78 markkinan arvotietojen peittolista ja kolme tarjousta kuvaavat 25, 50 ja 78 markkinan vaihtoehtoja. Myöhempi kategoriaskeematyökirja luettelee 95 maantiedettä, mutta se ei ole täytetty peittomatriisi. Täsmällinen maa–tuote–kenttä–vuosi-saatavuus sekä tutkittu/mallinnettu-tila ovat edelleen täsmäyttämättä.",
+      "coverageEn": "The delivered Germany extract contains 19 populated tabs spanning market size, category, company/brand, channel and forecast structures. The received value-coverage list and three quotes describe 25-, 50- and 78-market options, while a separate schema workbook lists 95 geographies. Exact global country-product-field-year availability, exclusions and researched/modelled status remain unreconciled.",
+      "coverageFi": "Toimitettu Saksa-ote sisältää 19 täytettyä välilehteä markkinakoko-, kategoria-, yhtiö-/brändi-, kanava- ja ennusterakenteista. Saatu arvopeittolista ja kolme tarjousta kuvaavat 25, 50 ja 78 markkinan vaihtoehtoja, kun erillinen skeematyökirja luettelee 95 maantiedettä. Täsmällinen globaali maa–tuote–kenttä–vuosi-saatavuus, poissulut ja tutkittu/mallinnettu-tila ovat edelleen täsmäyttämättä.",
       "priceType": "vendor_quote",
       "priceAmount": null,
       "currency": null,
-      "priceDisplay": "Private indicative annual quotes received",
-      "decisionEn": "Continue evaluation, but do not activate the conditional Germany extract or buy before explicit purchase authority and a populated current 2022–2025 Germany test, reconciled 78/95 country-product-field-year coverage, category-specific method and record-status flags, a legally approved Pixan/NDA data-room Special Condition, and complete all-in commercial terms are confirmed. Buy at most one global master unless non-overlap is demonstrated.",
-      "decisionFi": "Jatka arviointia, mutta älä aktivoi ehdollista Saksa-otetta tai osta ennen nimenomaista ostovaltuutusta ja ennen kuin täytetty ajantasainen Saksan 2022–2025-testi, täsmäytetty 78/95 maan maa–tuote–kenttä–vuosi-peitto, kategoriakohtainen menetelmä ja tietueiden tilamerkinnät, legal-tiimin hyväksymä Pixan-/NDA-datahuone-erityisehto sekä täydelliset kaikki kustannukset kattavat kaupalliset ehdot on vahvistettu. Osta enintään yksi globaali pääaineisto, ellei päällekkäisyyden puuttumista osoiteta.",
-      "conditionsEn": "The expanded Germany sample permits a private 2023–2024 numerical liquid-volume comparison, but the product scope, retail-versus-tax stage and record-status bridge remain unresolved and the later 95-geography schema workbook has blank country-year value cells. A conditional paid Germany extract was offered on 2026-07-29; it has not been accepted or activated. End-consumer tax basis, restricted enterprise-AI processing and modelled Cyprus volume were clarified; NDA data-room rights, export and retention rights, taxes, fees and renewal terms remain open. No licensed values or private quote amounts are published.",
-      "conditionsFi": "Laajennettu Saksa-näyte mahdollistaa yksityisen vuosien 2023–2024 numeerisen nestemäärävertailun, mutta tuoterajaus, vähittäis- ja verovaiheen ero sekä tietueiden tilasilta ovat ratkaisematta ja myöhemmän 95 maantieteen skeematyökirjan maa–vuosi-arvosolut ovat tyhjiä. Ehdollinen maksullinen Saksa-ote tarjottiin 29.7.2026; sitä ei ole hyväksytty tai aktivoitu. Loppuasiakasmyynnin veroperusta, rajattu yritystason tekoälykäsittely ja mallinnettu Kyproksen volyymi täsmennettiin; NDA-datahuoneoikeudet, vienti- ja säilytysoikeudet, verot, maksut ja uusimisehdot ovat avoinna. Lisensoituja arvoja tai yksityisiä tarjoushintoja ei julkaista.",
+      "priceDisplay": "Private indicative annual quotes received; Germany extract delivered",
+      "decisionEn": "Keep the wider 25/50/78-country subscription on HOLD. Proceed only after written clarification of the product, tax, channel and transaction-stage bridge; country-specific source and record-status lineage; exact field-year coverage; legally approved Pixan/lender/buyer/adviser NDA data-room rights; user, export, retention, cancellation and renewal terms; and complete all-in commercial terms. Buy at most one global master unless non-overlap is demonstrated.",
+      "decisionFi": "Pidä laajempi 25/50/78 maan tilaus HOLD-tilassa. Etene vasta, kun tuote-, vero-, kanava- ja tapahtumavaiheen silta, maakohtainen lähde- ja tietueiden tilalinja, täsmällinen kenttä–vuosi-peitto, legal-tiimin hyväksymät Pixan-/lainanantaja-/ostaja-/neuvonantaja-NDA-datahuoneoikeudet, käyttäjä-, vienti-, säilytys-, peruutus- ja uusimisehdot sekä täydelliset kaikki kustannukset kattavat kaupalliset ehdot on vahvistettu kirjallisesti. Osta enintään yksi globaali pääaineisto, ellei päällekkäisyyden puuttumista osoiteta.",
+      "conditionsEn": "The full Germany extract passed the three preregistered numerical liquid-volume proximity tests in private review. This supports numerical coherence, not final accuracy or boundary equivalence. Licensed values and exact deviations remain private. G1 passes; G2, G3, G5 and G6 fail; G4 remains not testable. Germany remains outside the donor count and no wider subscription is authorised.",
+      "conditionsFi": "Saksan täysi ote läpäisi yksityisessä tarkastuksessa kolme ennalta rekisteröityä nestemäärän numeerista läheisyystestiä. Tämä tukee numeerista johdonmukaisuutta, ei lopullista tarkkuutta tai rajauksen vastaavuutta. Lisensoidut arvot ja tarkat poikkeamat pysyvät yksityisinä. G1 läpäisee; G2, G3, G5 ja G6 hylätään; G4 ei ole testattavissa. Saksa pysyy donor-määrän ulkopuolella eikä laajempaa tilausta ole valtuutettu.",
       "alternativeGroup": "global_master_choose_one",
       "scores": {
         "annualSalesFit": 4,
@@ -181,7 +181,7 @@
         "https://www.euromonitor.com/terms-and-conditions",
         "https://www.euromonitor.com/contact-us"
       ],
-      "verifiedOn": "2026-07-27"
+      "verifiedOn": "2026-08-03"
     },
     {
       "rank": 3,

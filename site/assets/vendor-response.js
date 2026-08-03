@@ -6,7 +6,7 @@
 
   const EXPECTED_STATES = new Map([
     ["ecig-global-market-database", ["request_sent", "pending_no_acknowledgement"]],
-    ["euromonitor-passport-nicotine", ["request_sent", "substantive_response_received"]],
+    ["euromonitor-passport-nicotine", ["request_sent", "evaluation_extract_received_private_audit_complete"]],
     ["niq-rms-pilot", ["not_submitted_terms_gate", "not_submitted"]],
     ["circana-us-tobacco-pilot", ["submission_confirmed", "commercial_qualification_response_received"]]
   ]);
@@ -47,7 +47,7 @@
   const VALID_GATE_STATUSES = new Set(["pass", "fail", "not_testable", "missing"]);
   const EXPECTED_GATE_STATUSES = new Map([
     ["ecig-global-market-database", ["missing", "missing", "missing", "missing", "missing", "missing"]],
-    ["euromonitor-passport-nicotine", ["not_testable", "fail", "fail", "not_testable", "fail", "fail"]],
+    ["euromonitor-passport-nicotine", ["pass", "fail", "fail", "not_testable", "fail", "fail"]],
     ["niq-rms-pilot", ["missing", "missing", "missing", "missing", "missing", "missing"]],
     ["circana-us-tobacco-pilot", ["missing", "missing", "missing", "missing", "missing", "missing"]]
   ]);
@@ -72,7 +72,7 @@
       methodology: true,
       coverageMatrix: true,
       quote: true,
-      officialAnchorReconciliation: false,
+      officialAnchorReconciliation: true,
       transactionUseRights: true,
       totalCostTerms: true
     }],
@@ -143,10 +143,10 @@
 
   function validateGermanyBenchmark(benchmark) {
     if (!benchmark
-      || benchmark.benchmarkId !== "de-taxed-e-liquid-volume-vendor-gate"
+      || benchmark.benchmarkId !== "DE-BLIND-1.0.0"
       || benchmark.countryIso2 !== "DE"
       || benchmark.unit !== "litre"
-      || benchmark.status !== "not_testable"
+      || benchmark.status !== "numeric_pass_scope_open"
       || benchmark.vendorPassDoesNotEstablishDonorPass !== true
       || benchmark.donorGateEffect !== "none"
       || typeof benchmark.scopeEn !== "string" || !benchmark.scopeEn.trim()
@@ -202,9 +202,9 @@
   }
 
   function validate(raw) {
-    if (!raw || raw.schemaVersion !== 2
+    if (!raw || raw.schemaVersion !== 3
       || raw.controlId !== "vendor-response-control-public"
-      || raw.status !== "public_status_only_no_purchase_authorised"
+      || raw.status !== "public_status_only_germany_extract_received_wider_package_not_authorised"
       || typeof raw.version !== "string"
       || !/^2026\.\d{2}\.\d{2}-\d+$/.test(raw.version)
       || !validDate(raw.asOf)
@@ -273,7 +273,7 @@
             || !VALID_GATE_STATUSES.has(result.status)
             || result.status !== expectedGateStatuses[index]
             || !Array.isArray(result.reasonCodes)
-            || result.reasonCodes.length === 0
+            || (result.status === "pass" ? result.reasonCodes.length !== 0 : result.reasonCodes.length === 0)
             || result.reasonCodes.some((reason) =>
               typeof reason !== "string" || !/^[A-Z0-9_]+$/.test(reason));
         })
@@ -290,7 +290,12 @@
         || Object.values(vendor.criterionScores).some((value) => value !== null)
         || vendor.scoringState !== "not_scored"
         || vendor.weightedScore !== null
-        || vendor.purchaseAuthorised !== false
+        || typeof vendor.evaluationExtractAuthorised !== "boolean"
+        || typeof vendor.evaluationExtractReceived !== "boolean"
+        || vendor.widerPackagePurchaseAuthorised !== false
+        || (vendor.vendorId === "euromonitor-passport-nicotine"
+          ? vendor.evaluationExtractAuthorised !== true || vendor.evaluationExtractReceived !== true
+          : vendor.evaluationExtractAuthorised !== false || vendor.evaluationExtractReceived !== false)
         || vendor.evidenceReceivedCount
           !== Object.values(vendor.receivedEvidence).filter((value) => value === true).length
         || vendor.evaluatedGateCount
@@ -305,7 +310,9 @@
       || raw.summary.trackedVendors !== 4
       || raw.summary.substantiveResponses !== 1
       || raw.summary.scoredVendors !== 0
-      || raw.summary.purchaseAuthorisations !== 0) {
+      || raw.summary.evaluationExtractAuthorisations !== 1
+      || raw.summary.evaluationExtractReceipts !== 1
+      || raw.summary.widerPackagePurchaseAuthorisations !== 0) {
       throw new Error("vendor-response summary differs");
     }
     return raw;
@@ -326,12 +333,12 @@
         "This view separates outreach status from received evidence and scoring so a missing response never looks like a poor result."
       ),
       "[data-vendor-response-boundary-title]": l(
-        "Ehdollinen maksullinen Saksa-ote tarjottu · ei hyväksytty · 0/6 pakollista porttia läpäisty",
-        "Conditional paid Germany extract offered · not accepted · 0/6 mandatory gates passed"
+        "Saksan täysi ote auditoitu · numeerinen testi läpäisty · laajempi paketti HOLD",
+        "Full Germany extract audited · numeric test passed · wider package HOLD"
       ),
       "[data-vendor-response-boundary-copy]": l(
-        "Osittainen työkirja osoittaa arviointikenttien olemassaolon, mutta se ei ole edustava näyte eikä mahdollista Saksan viranomaisankkuritestiä. Yleinen menetelmä ja kaksi suuntaa-antavaa vuosipakettitarjousta on saatu, mutta täsmällinen peitto, täydelliset kaupalliset ehdot ja kirjalliset transaktiokäyttöoikeudet puuttuvat. Julkisessa näkymässä ei näytetä täsmällisiä hintoja, lisensoituja arvoja tai toimittajaliitteitä. EI PISTEYTETTY; ostoa, tilausta, maksua, NDA:ta tai automaattista uusintaa ei ole valtuutettu.",
-        "The expanded sample and 78-market list materially improve the review, but current fields, the exact country-product-year-measure matrix, the official tax/stage/scope bridge, complete commercial terms and written transaction-use rights remain unresolved. This public view discloses no exact prices, licensed values or vendor attachments. All 6 gates are evaluated; 0 pass. NOT SCORED; no purchase, subscription, fee, NDA or auto-renewal is authorised."
+        "Saksan 19 välilehden arviointiote saatiin ja auditoitiin yksityisesti. Vuosien 2023 ja 2024 sekä yhdistetty numeerinen läheisyystesti läpäistiin, mutta tuote-, vero-, kanava-, tapahtumavaihe-, lähdelinja-, oikeus- ja kokonaiskustannussillat ovat avoinna. Julkisessa näkymässä ei näytetä lisensoituja arvoja, tarkkoja poikkeamia tai toimittajaliitteitä. G1 läpäisee; muut pakolliset portit eivät. EI PISTEYTETTY; laajempaa 25/50/78 maan tilausta ei ole valtuutettu.",
+        "The 19-tab Germany evaluation extract was received and audited privately. The 2023, 2024 and combined numerical proximity tests passed, but product, tax, channel, transaction-stage, source-lineage, rights and all-in-cost bridges remain open. This public view discloses no licensed values, exact deviations or vendor attachments. G1 passes; the other mandatory gates do not. NOT SCORED; no wider 25/50/78-country subscription is authorised."
       ),
       "[data-vendor-response-germany-kicker]": l(
         "Saksa · toimittajanäytteen kontrollimarkkina",
@@ -370,8 +377,8 @@
         "Download source JSON"
       ),
       "[data-vendor-response-note]": l(
-        "Tila perustuu varmennettuun julkiseen tarkistuspisteeseen. Tarjouksen vastaanotto ei osoita edustavaa näytettä, varmennettua dataa, täydellisiä ehtoja tai ostokelpoisuutta.",
-        "Status reflects a verified public checkpoint. Receipt of a quote does not establish a representative sample, verified data, complete terms or purchase readiness."
+        "Tila perustuu varmennettuun julkiseen tarkistuspisteeseen. Numeerinen läpäisy ei osoita täydellistä rajausvastaavuutta, donor-hyväksyntää tai laajemman paketin ostokelpoisuutta.",
+        "Status reflects a verified public checkpoint. A numerical pass does not establish full boundary equivalence, donor acceptance or wider-package purchase readiness."
       )
     };
     for (const [selector, value] of Object.entries(values)) {
@@ -412,8 +419,8 @@
         control.summary.substantiveResponses,
         "toimittajareittiä, joilla sisällöllisiä vastauksia",
         "vendor routes with substantive responses",
-        "ehdollinen maksullinen Saksa-ote tarjottu · ei hyväksytty · 0/6 porttia läpäisty",
-        "conditional paid Germany extract offered · not accepted · 0/6 gates passed",
+        "Saksa-ote vastaanotettu ja auditoitu · 1/6 porttia läpäisty",
+        "Germany extract received and audited · 1/6 gates passed",
         "pending"
       ),
       summaryCard(
@@ -425,11 +432,11 @@
         "pending"
       ),
       summaryCard(
-        control.summary.purchaseAuthorisations,
-        "ostovaltuutusta",
-        "purchase authorisations",
-        "kaikki hankinnat portilla",
-        "all procurement remains gated",
+        control.summary.widerPackagePurchaseAuthorisations,
+        "laajemman paketin ostovaltuutusta",
+        "wider-package purchase authorisations",
+        "25/50/78 maan paketit HOLD",
+        "25/50/78-country packages HOLD",
         "stop"
       )
     );
@@ -594,7 +601,7 @@
     const name = node("div", "");
     name.append(node("h3", "", vendor.vendor), node("p", "", vendor.product));
     const statusLabel = vendor.vendorId === "euromonitor-passport-nicotine"
-      ? l("OSITTAINEN NÄYTE · TARJOUS SAATU", "PARTIAL SAMPLE · QUOTE RECEIVED")
+      ? l("SAKSA-OTE AUDITOITU · 1/6 · LAAJEMPI PAKETTI HOLD", "GERMANY EXTRACT AUDITED · 1/6 · WIDER PACKAGE HOLD")
       : vendor.responseState === "commercial_qualification_response_received"
         ? l("KAUPALLINEN RAJAUS · NÄYTE + TARJOUS ODOTTAVAT", "COMMERCIAL QUALIFICATION · SAMPLE + QUOTE PENDING")
       : vendor.responseState === "substantive_response_received"
@@ -727,7 +734,7 @@
     const panel = root.querySelector("[data-vendor-response-germany-benchmark]");
     panel.hidden = false;
     const note = root.querySelector("[data-vendor-response-germany-note]");
-    note.textContent = `${l("EI TESTATTAVISSA", "NOT TESTABLE")} · ${
+    note.textContent = `${l("NUMEERINEN LÄPÄISY · RAJAUS AVOIN", "NUMERIC PASS · SCOPE OPEN")} · ${
       isFi() ? benchmark.statusReasonFi : benchmark.statusReasonEn
     } ${isFi() ? benchmark.donorBoundaryFi : benchmark.donorBoundaryEn}`;
     note.hidden = false;
@@ -779,8 +786,8 @@
     status.replaceChildren(
       node("span", "bank-package-status-dot", ""),
       node("span", "", l(
-        "4 toimittajaa seurannassa · Euromonitor 0/6 läpäistyä porttia · 0 pisteytettyä toimittajanäytettä · 0 ostovaltuutusta.",
-        "4 vendors tracked · Euromonitor 0/6 gates passed · 0 vendor samples scored · 0 purchase authorisations."
+        "4 toimittajaa seurannassa · Euromonitor 1/6 läpäistyä porttia · 0 pisteytettyä toimittajanäytettä · 0 laajemman paketin ostovaltuutusta.",
+        "4 vendors tracked · Euromonitor 1/6 gates passed · 0 vendor samples scored · 0 wider-package purchase authorisations."
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

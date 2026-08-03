@@ -53,6 +53,27 @@
         "Devices are outside this fiscal aggregate."
       ]
     },
+    ES_AEAT_2025_2026_MODEL573_MACHINE_READABLE_SERIES: {
+      roleCode: "official_fiscal_series_and_reconciliation_control",
+      roleFi: "Virallinen fiskaalinen sarja ja täsmäytyskontrolli",
+      roleEn: "Official fiscal series and reconciliation control",
+      limitationsFi: [
+        "Kaikki neljä Model 573 -epigrafia yhdistetään, joten sarja ei ole vain e-nesteitä.",
+        "Valmisteverovelka sekä brutto-, palautus- ja nettokassavirrat ovat verovaiheen mittareita, eivät kuluttajavähittäismyyntiä tai markkina-arvoa.",
+        "Laitteet eivät sisälly veroaggregaattiin.",
+        "Maantieteellinen rajaus on Manner-Espanja ja Baleaarit; Kanariansaaret, Ceuta ja Melilla jäävät ulkopuolelle.",
+        "Julkaisematon epigrafijakauma estää kassakertymän muuntamisen millilitroiksi tai grammoiksi.",
+        "Vuoden 2026 havainto kattaa vain tammi–kesäkuun."
+      ],
+      limitationsEn: [
+        "All four Model 573 epigraphs are combined, so the series is not e-liquid-only.",
+        "Excise liability and gross, refund and net cash flows are tax-stage measures, not consumer retail sales or market value.",
+        "Devices are outside the fiscal aggregate.",
+        "The geography is mainland Spain and the Balearic Islands; the Canary Islands, Ceuta and Melilla are excluded.",
+        "The unpublished epigraph mix prevents conversion of receipts into millilitres or grams.",
+        "The 2026 observation covers January through June only."
+      ]
+    },
     ES_AEAT_MODEL573_EPIGRAPH_QUANTITIES: {
       roleCode: "quantity_and_scope_closure",
       roleFi: "Määrä- ja tuoterajauksen sulkeminen",
@@ -115,11 +136,13 @@
   ]);
   const ROUTE_STATE_LABELS = Object.freeze({
     ready_with_scope_blocker: ["Valmis, mutta rajauseste avoin", "Ready with a scope blocker"],
+    ready_exact_fiscal_series_with_scope_blocker: ["Tarkka fiskaalinen sarja valmis, mutta rajauseste avoin", "Exact fiscal series ready with a scope blocker"],
     auth_and_historical_codebook_required: ["Tunniste ja historiallinen koodisto vaaditaan", "Authentication and historical codebook required"],
     ready_customs_proxy_with_permission_separation: ["Tulliproxy valmis, lupa- ja markkinarajaus erillään", "Customs proxy ready with permission boundary kept separate"]
   });
   const TRANSACTION_STAGE_LABELS = Object.freeze({
     realised_excise_cash_receipts: ["Toteutunut valmisteverokassakertymä", "Realised excise cash receipts"],
+    excise_liability_and_cash_receipts: ["Valmisteverovelka ja kassakertymät", "Excise liability and cash receipts"],
     taxpayer_self_assessed_excise_base: ["Verovelvollisen itse ilmoittama valmisteveropohja", "Taxpayer self-assessed excise base"],
     customs_border_declaration: ["Tulli-ilmoitus rajalla", "Customs border declaration"],
     customs_import_declaration: ["Tuonnin tulli-ilmoitus", "Customs import declaration"]
@@ -375,8 +398,8 @@
     setText(
       usRoot,
       "[data-us-boundary-copy]",
-      "Mitään tapahtumavaiheita ei lasketa mekaanisesti yhteen. Yhdysvallat pysyy donor-portin ulkopuolella, toimittajanäyte ei ole vielä pisteytettävissä eikä ostoa ole valtuutettu.",
-      "No transaction stages are mechanically added. The United States remains outside the donor gate, no vendor sample is yet scorable and no purchase is authorised."
+      "Mitään tapahtumavaiheita ei lasketa mekaanisesti yhteen. Yhdysvallat pysyy donor-portin ulkopuolella eikä yhtään Yhdysvaltain toimittajanäytettä ole pisteytetty. Toimitettu Saksa-ote ei muuta tätä kontrollia eikä valtuuta laajempaa tilausta.",
+      "No transaction stages are mechanically added. The United States remains outside the donor gate and no United States vendor sample is currently scored. The delivered Germany extract does not change this control or authorise a wider subscription."
     );
 
     const summary = usRoot.querySelector("[data-us-summary]");

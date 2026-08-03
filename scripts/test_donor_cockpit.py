@@ -162,7 +162,7 @@ class DonorCockpitTests(unittest.TestCase):
         mutations = (
             (
                 "statusAsOf",
-                "2026-08-03",
+                "2026-08-04",
                 ".statusAsOf must be no later than cockpit asOf",
             ),
             (

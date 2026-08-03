@@ -88,16 +88,21 @@ nykyiset julkaistut faktat ovat julkisen tiedonannon vähimmäistaso:
    validity, infringement, damages or enforceability elsewhere.
    Yhden maan ratkaisu tai tekninen havainto ei yksin osoita pätevyyttä,
    loukkausta, vahingonkorvausta tai täytäntöönpanokelpoisuutta muualla.
-7. As of 2026-08-02, no tracked vendor is scored and no purchase is authorised.
-   Receipt of a document, quote or sample is not proof of completeness, method
-   quality or disclosure rights.
-   Tilanteessa 2.8.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty eikä
-   ostoa ole valtuutettu. Asiakirjan, tarjouksen tai näytteen vastaanotto ei
-   osoita täydellisyyttä, menetelmän laatua tai luovutusoikeuksia.
-8. The dashboard and six downloadable files are release **2026.08.02-41**. The downloadable
+7. As of 2026-08-03, no tracked vendor is scored. Euromonitor's one-country
+   Germany extract was accepted, delivered and audited privately; G1 passes,
+   the vendor remains NOT SCORED at 1/6 and no wider 25/50/78-country purchase
+   is authorised. Receipt and numerical proximity do not prove complete scope,
+   method quality or disclosure rights.
+   Tilanteessa 3.8.2026 yhtäkään seurattua toimittajaa ei ole pisteytetty.
+   Euromonitorin yhden maan Saksa-ote hyväksyttiin, toimitettiin ja auditoitiin
+   yksityisesti; G1 läpäisee, toimittaja pysyy EI PISTEYTETTY -tilassa tuloksella
+   1/6 eikä laajempaa 25/50/78 maan ostoa ole valtuutettu. Vastaanotto ja
+   numeerinen läheisyys eivät osoita täydellistä rajausta, menetelmän laatua tai
+   luovutusoikeuksia.
+8. The dashboard and six downloadable files are release **2026.08.03-43**. The downloadable
    package is generated at most once per Asia/Nicosia calendar day, and each
    surface retains its own visible version.
-   Dashboard ja kuusi ladattavaa tiedostoa ovat julkaisua **2026.08.02-41**. Ladattava paketti
+   Dashboard ja kuusi ladattavaa tiedostoa ovat julkaisua **2026.08.03-43**. Ladattava paketti
    muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä, ja kumpikin
    pinta säilyttää oman näkyvän versionsa.
 9. Failed gates, lapses, challenges, unresolved proceedings, conflicts and later
@@ -118,14 +123,14 @@ tai rajaa päätöspaketti.
 
 | Asset group / Aineistoryhmä | Public paths / Julkiset polut | Version or boundary / Versio tai raja |
 | --- | --- | --- |
-| Dashboard / Dashboard | `site/index.html` | `2026.08.02-41` |
-| Change log / Muutosloki | `site/data/changelog.json` | `2026.08.02-41` |
-| Daily manifest / Päivämanifesti | `site/data/bank-package-manifest.json` | `2026.08.02-41` |
-| Concise and extended decks / Suppeat ja laajat dekit | `site/downloads/pixan-bank-deck-short-en.pptx`, `...-fi.pptx`, `site/downloads/pixan-bank-deck-large-en.pptx`, `...-fi.pptx` | `2026.08.02-41` |
-| Evidence Registers / Evidence Registerit | `site/downloads/pixan-bank-evidence-register-en.xlsx`, `...-fi.xlsx` | `2026.08.02-41` |
+| Dashboard / Dashboard | `site/index.html` | `2026.08.03-43` |
+| Change log / Muutosloki | `site/data/changelog.json` | `2026.08.03-43` |
+| Daily manifest / Päivämanifesti | `site/data/bank-package-manifest.json` | `2026.08.03-43` |
+| Concise and extended decks / Suppeat ja laajat dekit | `site/downloads/pixan-bank-deck-short-en.pptx`, `...-fi.pptx`, `site/downloads/pixan-bank-deck-large-en.pptx`, `...-fi.pptx` | `2026.08.03-43` |
+| Evidence Registers / Evidence Registerit | `site/downloads/pixan-bank-evidence-register-en.xlsx`, `...-fi.xlsx` | `2026.08.03-43` |
 | Structured market controls / Rakenteiset markkinakontrollit | `site/data/atlas.json`, `countries.csv`, `evidence.csv`, `market-values.*`, `evidence-lanes.json`, `donor-cockpit.json`, `country-scenarios.json`, `global-base-layer.*`, `fx-rates.json`, `third-donor-screen.json` | Each asset's own `asOf` / Kunkin aineiston oma `asOf` |
 | Patent record / Patenttitietue | `site/data/patent-history.json`, `site/data/patent-family.csv` | Embedded review dates / Sisäiset tarkistuspäivät |
-| Vendor control / Toimittajakontrolli | `site/data/vendor-response-control.json`, `.csv` | `2026-08-02` |
+| Vendor control / Toimittajakontrolli | `site/data/vendor-response-control.json`, `.csv` | `2026-08-03` |
 | Request routes and templates / Pyyntöreitit ja -mallit | `site/data/top20-data-request-routes.*`, `site/downloads/data-request-template-en.txt`, `...-fi.txt` | Embedded status dates / Sisäiset tilapäivät |
 | Paid-data procurement guide / Maksullisen datan hankintaopas | `site/downloads/pixan-paid-data-procurement-fi-en.xlsx` | Current published workbook / Nykyinen julkaistu työkirja |
 
