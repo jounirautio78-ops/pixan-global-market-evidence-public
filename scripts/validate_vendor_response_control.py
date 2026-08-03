@@ -231,11 +231,8 @@ def uniform_missing_gate_results(reason_code: str) -> dict[str, dict[str, Any]]:
 
 EUROMONITOR_GATE_RESULTS = {
     "G1": {
-        "status": "not_testable",
-        "reasonCodes": [
-            "SAMPLE_REQUIRED_YEARS_MISSING",
-            "SAMPLE_REQUIRED_METRICS_INCOMPLETE",
-        ],
+        "status": "pass",
+        "reasonCodes": [],
     },
     "G2": {
         "status": "fail",
@@ -274,7 +271,7 @@ EUROMONITOR_RECEIPTS = {
     "methodology": True,
     "coverageMatrix": True,
     "quote": True,
-    "officialAnchorReconciliation": False,
+    "officialAnchorReconciliation": True,
     "transactionUseRights": True,
     "totalCostTerms": True,
 }
@@ -296,12 +293,15 @@ EXPECTED_VENDORS = {
         "quoteReceived": False,
         "receivedEvidence": EMPTY_RECEIPTS,
         "gateResults": uniform_missing_gate_results("EVIDENCE_NOT_RECEIVED"),
+        "evaluationExtractAuthorised": False,
+        "evaluationExtractReceived": False,
+        "widerPackagePurchaseAuthorised": False,
     },
     "euromonitor-passport-nicotine": {
         "vendor": "Euromonitor International",
         "product": "Passport Nicotine / e-vapour country series",
         "requestState": "request_sent",
-        "responseState": "substantive_response_received",
+        "responseState": "evaluation_extract_received_private_audit_complete",
         "publicStatusEn": (
             "An expanded numerical Germany sample, a 78-market e-vapour value-coverage list, "
             "generic methodology, standard licence terms, three indicative annual package quotes "
@@ -350,6 +350,9 @@ EXPECTED_VENDORS = {
         "quoteReceived": True,
         "receivedEvidence": EUROMONITOR_RECEIPTS,
         "gateResults": EUROMONITOR_GATE_RESULTS,
+        "evaluationExtractAuthorised": True,
+        "evaluationExtractReceived": True,
+        "widerPackagePurchaseAuthorised": False,
     },
     "niq-rms-pilot": {
         "vendor": "NielsenIQ",
@@ -361,6 +364,9 @@ EXPECTED_VENDORS = {
         "quoteReceived": False,
         "receivedEvidence": EMPTY_RECEIPTS,
         "gateResults": uniform_missing_gate_results("ROUTE_NOT_SUBMITTED"),
+        "evaluationExtractAuthorised": False,
+        "evaluationExtractReceived": False,
+        "widerPackagePurchaseAuthorised": False,
     },
     "circana-us-tobacco-pilot": {
         "vendor": "Circana",
@@ -388,6 +394,9 @@ EXPECTED_VENDORS = {
         "quoteReceived": False,
         "receivedEvidence": EMPTY_RECEIPTS,
         "gateResults": uniform_missing_gate_results("EVIDENCE_NOT_RECEIVED"),
+        "evaluationExtractAuthorised": False,
+        "evaluationExtractReceived": False,
+        "widerPackagePurchaseAuthorised": False,
     },
 }
 VENDOR_KEYS = {
@@ -404,7 +413,9 @@ VENDOR_KEYS = {
     "criterionScores",
     "scoringState",
     "weightedScore",
-    "purchaseAuthorised",
+    "evaluationExtractAuthorised",
+    "evaluationExtractReceived",
+    "widerPackagePurchaseAuthorised",
 }
 OUTPUT_VENDOR_KEYS = VENDOR_KEYS | {
     "receivedEvidence",
@@ -416,7 +427,9 @@ SUMMARY_KEYS = {
     "trackedVendors",
     "substantiveResponses",
     "scoredVendors",
-    "purchaseAuthorisations",
+    "evaluationExtractAuthorisations",
+    "evaluationExtractReceipts",
+    "widerPackagePurchaseAuthorisations",
 }
 
 EMAIL_RE = re.compile(r"\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b", re.IGNORECASE)
@@ -492,9 +505,9 @@ def validate_germany_benchmark(value: Any, errors: list[str]) -> None:
         value.get("benchmarkId") != "DE-BLIND-1.0.0"
         or value.get("countryIso2") != "DE"
         or value.get("unit") != "litre"
-        or value.get("status") != "not_testable"
+        or value.get("status") != "numeric_pass_scope_open"
     ):
-        errors.append("Germany benchmark identity or not-testable state differs")
+        errors.append("Germany benchmark identity or numeric-pass/scope-open state differs")
     for field in (
         "scopeEn",
         "scopeFi",
@@ -514,6 +527,8 @@ def validate_germany_benchmark(value: Any, errors: list[str]) -> None:
             "2,525,000 litres",
             "15% per year",
             "10% combined",
+            "numerical proximity tests passed",
+            "NOT TESTABLE",
             "NOT SCORED",
         )
     ):
@@ -659,13 +674,16 @@ def validate_source(source: Any, errors: list[str]) -> None:
     if set(source) != TOP_LEVEL_KEYS:
         errors.append("source top-level schema differs")
         return
-    if source.get("schemaVersion") != 2:
+    if source.get("schemaVersion") != 3:
         errors.append("unsupported schema version")
     if source.get("controlId") != "vendor-response-control-public":
         errors.append("unexpected control ID")
-    if source.get("status") != "public_status_only_no_purchase_authorised":
-        errors.append("control must state that no purchase is authorised")
-    if source.get("version") != "2026.08.02-41" or source.get("asOf") != "2026-08-02":
+    if (
+        source.get("status")
+        != "public_status_only_germany_extract_received_wider_package_not_authorised"
+    ):
+        errors.append("control must distinguish the received Germany extract from the unauthorised wider package")
+    if source.get("version") != "2026.08.03-43" or source.get("asOf") != "2026-08-03":
         errors.append("control version or date differs")
     if source.get("scoreScale") != {
         "minimum": 0,
@@ -775,9 +793,48 @@ def validate_source(source: Any, errors: list[str]) -> None:
             "publicStatusFi",
             "quoteReceived",
             "receivedEvidence",
+            "evaluationExtractAuthorised",
+            "evaluationExtractReceived",
+            "widerPackagePurchaseAuthorised",
         ):
+            if (
+                vendor_id == "euromonitor-passport-nicotine"
+                and field in {"publicStatusEn", "publicStatusFi"}
+            ):
+                continue
             if vendor[field] != expected[field]:
                 errors.append(f"{vendor_id}: {field} differs from the reviewed public state")
+        if vendor_id == "euromonitor-passport-nicotine":
+            required_en = (
+                "full 19-tab Germany evaluation extract",
+                "2023, 2024 and combined numerical liquid-volume proximity tests passed",
+                "Licensed vendor values and exact deviations remain private",
+                "G1 passes",
+                "G4 remains not testable",
+                "one-country Germany extract was accepted and delivered",
+                "no wider 25/50/78-country subscription is authorised",
+                "donor gate remains 0/3",
+                "One of six mandatory gates passes",
+                "NOT SCORED",
+            )
+            required_fi = (
+                "täysi 19 välilehden arviointiote",
+                "vuosien 2023 ja 2024 sekä yhdistetty nestemäärän numeerinen läheisyystesti läpäistiin",
+                "Lisensoidut toimittaja-arvot ja tarkat poikkeamat pysyvät yksityisinä",
+                "G1 läpäisee",
+                "G4 ei ole testattavissa",
+                "Yhden maan Saksa-ote hyväksyttiin ja toimitettiin",
+                "laajempaa 25/50/78 maan tilausta ei ole valtuutettu",
+                "donor-portti pysyy 0/3:ssa",
+                "Yksi kuudesta pakollisesta portista läpäisee",
+                "EI PISTEYTETTY",
+            )
+            for marker in required_en:
+                if marker not in vendor["publicStatusEn"]:
+                    errors.append(f"{vendor_id}: publicStatusEn lacks {marker!r}")
+            for marker in required_fi:
+                if marker not in vendor["publicStatusFi"]:
+                    errors.append(f"{vendor_id}: publicStatusFi lacks {marker!r}")
         receipts = vendor.get("receivedEvidence")
         if (
             not isinstance(receipts, dict)
@@ -798,8 +855,26 @@ def validate_source(source: Any, errors: list[str]) -> None:
             errors.append(f"{vendor_id}: missing evidence must not be converted into scores")
         if vendor.get("scoringState") != "not_scored" or vendor.get("weightedScore") is not None:
             errors.append(f"{vendor_id}: missing response must remain NOT SCORED")
-        if vendor.get("purchaseAuthorised") is not False:
-            errors.append(f"{vendor_id}: purchase authorisation must remain false")
+        for field in (
+            "evaluationExtractAuthorised",
+            "evaluationExtractReceived",
+            "widerPackagePurchaseAuthorised",
+        ):
+            if not isinstance(vendor.get(field), bool):
+                errors.append(f"{vendor_id}: {field} must be boolean")
+        if vendor.get("widerPackagePurchaseAuthorised") is not False:
+            errors.append(f"{vendor_id}: wider-package purchase authorisation must remain false")
+        if vendor_id == "euromonitor-passport-nicotine":
+            if (
+                vendor.get("evaluationExtractAuthorised") is not True
+                or vendor.get("evaluationExtractReceived") is not True
+            ):
+                errors.append("Euromonitor Germany extract authorisation and receipt must be explicit")
+        elif (
+            vendor.get("evaluationExtractAuthorised") is not False
+            or vendor.get("evaluationExtractReceived") is not False
+        ):
+            errors.append(f"{vendor_id}: no evaluation extract is authorised or received")
         if isinstance(gate_results, dict) and isinstance(scores, dict):
             if isinstance(receipts, dict):
                 for gate_id, result in gate_results.items():
@@ -845,7 +920,9 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
             "trackedVendors": 4,
             "substantiveResponses": 1,
             "scoredVendors": 0,
-            "purchaseAuthorisations": 0,
+            "evaluationExtractAuthorisations": 1,
+            "evaluationExtractReceipts": 1,
+            "widerPackagePurchaseAuthorisations": 0,
         }:
             errors.append("public JSON summary differs from the reviewed current state")
         validate_germany_benchmark(output.get("germanyBenchmark"), errors)
@@ -893,8 +970,13 @@ def validate_outputs(source: dict[str, Any], errors: list[str]) -> None:
         for row in rows:
             if row.get("scoringState") != "not_scored" or row.get("weightedScore") != "":
                 errors.append("public CSV missing evidence must remain not_scored with a blank score")
-            if row.get("purchaseAuthorised") != "false":
-                errors.append("public CSV purchaseAuthorised must remain false")
+            if row.get("widerPackagePurchaseAuthorised") != "false":
+                errors.append("public CSV widerPackagePurchaseAuthorised must remain false")
+            expected_extract = row.get("vendorId") == "euromonitor-passport-nicotine"
+            if row.get("evaluationExtractAuthorised") != str(expected_extract).lower():
+                errors.append("public CSV evaluationExtractAuthorised differs")
+            if row.get("evaluationExtractReceived") != str(expected_extract).lower():
+                errors.append("public CSV evaluationExtractReceived differs")
             for field in (
                 "sampleGateStatus",
                 "methodologyGateStatus",
@@ -946,6 +1028,26 @@ def validate_vendor_script_text(text: str, errors: list[str]) -> None:
             "vendor-response.js lacks the visible receipt-ledger hooks: "
             + ", ".join(repr(hook) for hook in missing)
         )
+    if 'benchmark.benchmarkId !== "DE-BLIND-1.0.0"' not in text:
+        errors.append("vendor-response.js does not enforce the current Germany benchmark ID")
+    if "de-taxed-e-liquid-volume-vendor-gate" in text:
+        errors.append("vendor-response.js retains the retired Germany benchmark ID")
+    ecig_receipt = '''["ecig-global-market-database", {
+      sample: false,
+      methodology: false,
+      coverageMatrix: false,
+      quote: false,
+      officialAnchorReconciliation: false,'''
+    euromonitor_receipt = '''["euromonitor-passport-nicotine", {
+      sample: true,
+      methodology: true,
+      coverageMatrix: true,
+      quote: true,
+      officialAnchorReconciliation: true,'''
+    if ecig_receipt not in text:
+        errors.append("vendor-response.js must keep ECig official-anchor receipt false")
+    if euromonitor_receipt not in text:
+        errors.append("vendor-response.js must keep Euromonitor official-anchor receipt true")
 
 
 def main() -> None:
@@ -973,7 +1075,8 @@ def main() -> None:
         f'{output["summary"]["trackedVendors"]} tracked, '
         f'{output["summary"]["substantiveResponses"]} substantive responses, '
         f'{output["summary"]["scoredVendors"]} scored, '
-        f'{output["summary"]["purchaseAuthorisations"]} purchase authorisations.'
+        f'{output["summary"]["evaluationExtractReceipts"]} evaluation extract receipt, '
+        f'{output["summary"]["widerPackagePurchaseAuthorisations"]} wider-package purchase authorisations.'
     )
 
 

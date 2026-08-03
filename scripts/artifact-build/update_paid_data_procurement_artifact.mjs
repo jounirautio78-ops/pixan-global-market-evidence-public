@@ -14,8 +14,8 @@ const workbookPath = path.join(
   "pixan-paid-data-procurement-fi-en.xlsx",
 );
 const sourcePath = path.join(repo, "source", "paid-data-procurement.json");
-const temporaryPath = `${workbookPath}.v37.tmp`;
-const qaDir = path.join(repo, "tmp", "paid-data-v37", "renders");
+const temporaryPath = `${workbookPath}.v43.tmp`;
+const qaDir = path.join(repo, "tmp", "paid-data-v43", "renders");
 const sheetNames = [
   "Decision",
   "Priorities",
@@ -42,18 +42,18 @@ const ecigBoundary = [
 ];
 const euromonitorState = [
   [
-    "CALL COMPLETED + CONDITIONAL PAID GERMANY EXTRACT OFFERED · NOT ACCEPTED · "
-      + "0/6 GATES PASS · NOT SCORED\n"
-      + "FI: PUHELU PIDETTY + EHDOLLINEN MAKSULLINEN SAKSA-OTE TARJOTTU · EI HYVÄKSYTTY · "
-      + "0/6 PORTTIA LÄPÄISTY · EI PISTEYTETTY",
+    "GERMANY EXTRACT DELIVERED + PRIVATE AUDIT COMPLETE · 1/6 GATES PASS · "
+      + "WIDER PACKAGE HOLD · NOT SCORED\n"
+      + "FI: SAKSA-OTE TOIMITETTU + YKSITYINEN AUDITOINTI VALMIS · "
+      + "1/6 PORTTIA LÄPÄISTY · LAAJEMPI PAKETTI HOLD · EI PISTEYTETTY",
   ],
 ];
 const euromonitorBoundary = [
   [
-    "Status only. A conditional paid Germany extract was offered after the 2026-07-29 call. "
-      + "It has not been accepted or activated; no order, invoice, fee, subscription or commitment "
-      + "is authorised. Product scope, transaction-stage reconciliation, current Germany coverage, "
-      + "rights and all-in terms remain open. NOT SCORED; 0/6 gates pass.",
+    "Status only. The Germany extract was delivered and audited privately. The three "
+      + "preregistered numerical proximity tests passed, but licensed values remain withheld and "
+      + "scope, lineage, rights and all-in terms remain open. NOT SCORED; 1/6 gates pass; "
+      + "the wider package remains HOLD.",
   ],
 ];
 const circanaState = [
@@ -73,10 +73,10 @@ const circanaBoundary = [
 
 const source = JSON.parse(await fs.readFile(sourcePath, "utf8"));
 if (
-  source?.version !== "2026.07.31-37"
-  || source?.status !== "decision_support_only_no_purchase_authorised"
+  source?.version !== "2026.08.03-43"
+  || source?.status !== "decision_support_only_broader_purchase_not_authorised"
 ) {
-  throw new Error("Canonical paid-data source is not the reviewed v37 no-purchase release");
+  throw new Error("Canonical paid-data source is not the reviewed v43 wider-package-HOLD release");
 }
 const euromonitorItem = source.items.find(
   (item) => item.itemId === "euromonitor-passport-nicotine",
@@ -96,24 +96,29 @@ const euromonitorDecision = [
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(workbookPath));
 const decision = workbook.worksheets.getItem("Decision");
 decision.getRange("A3").values = [[
-  "Independent decision support · No purchase authorised · "
-    + "Version 2026.07.31-37 · Verified 2026-07-31",
+  "Independent decision support · Germany extract delivered · Wider package HOLD · "
+    + "Version 2026.08.03-43 · Verified 2026-08-03",
+]];
+decision.getRange("A5").values = [[
+  "DECISION STATUS: NO WIDER-PACKAGE SPEND AUTHORISED\n"
+    + "The one-country Germany extract was accepted and delivered. Do not place a 25/50/78-country "
+    + "order before the remaining method, scope, rights and commercial gates are closed.\n"
+    + "PÄÄTÖSTILA: LAAJEMMAN PAKETIN OSTOVALTUUTTA EI OLE. Yhden maan Saksa-ote hyväksyttiin ja "
+    + "toimitettiin. Älä tilaa 25/50/78 maan pakettia ennen jäljellä olevien menetelmä-, rajaus-, "
+    + "käyttöoikeus- ja kaupallisten porttien sulkemista.",
 ]];
 decision.getRange("A10").values = [[
-  "1) Continue sample and transaction-rights evaluation with ECigIntelligence and Euromonitor "
-    + "in parallel. 2) Do not activate the conditional Germany extract or buy before explicit "
-    + "purchase authority, a populated current 2022–2025 "
-    + "Germany test, reconciled 78/95 country-product-field-year coverage, record-level status "
-    + "flags, a legally approved NDA data-room Special Condition and complete all-in commercial "
-    + "terms pass review. 3) Consider a tightly scoped NIQ/Circana POS pilot only as a later "
-    + "validation layer for selected countries.\n\n"
-    + "FI: 1) Jatka ECigIntelligencen ja Euromonitorin näyte- ja transaktio-oikeuksien arviointia "
-    + "rinnakkain. 2) Älä aktivoi ehdollista Saksa-otetta tai osta ennen nimenomaista "
-    + "ostovaltuutusta, täytettyä ajantasaista Saksan 2022–2025-testiä, täsmäytettyä "
-    + "78/95 maan maa–tuote–kenttä–vuosi-peittoa, "
-    + "tietuetason tilamerkinnät, legal-tiimin hyväksymä NDA-datahuone-erityisehto ja täydelliset "
-    + "kaikki kustannukset kattavat kaupalliset ehdot läpäisevät tarkistuksen. 3) Harkitse rajattua "
-    + "NIQ/Circana-POS-pilottia vasta myöhempänä varmennuskerroksena valituille maille.",
+  "1) The Germany evaluation extract has been received and privately audited. "
+    + "2) Keep the wider 25/50/78-country subscription on HOLD until product, tax, channel and "
+    + "transaction-stage scope; source and record-status lineage; lender/buyer NDA data-room "
+    + "rights; and complete all-in commercial terms are confirmed in writing. "
+    + "3) Treat the numerical pass as coherence evidence, not final accuracy or donor acceptance.\n\n"
+    + "FI: 1) Saksan arviointiote on vastaanotettu ja auditoitu yksityisesti. "
+    + "2) Pidä laajempi 25/50/78 maan tilaus HOLD-tilassa, kunnes tuote-, vero-, kanava- ja "
+    + "tapahtumavaiheen rajaus, lähde- ja tietueiden tilalinja, lainanantaja-/ostaja-NDA-"
+    + "datahuoneoikeudet sekä täydelliset kaikki kustannukset kattavat kaupalliset ehdot on "
+    + "vahvistettu kirjallisesti. 3) Käsittele numeerista läpäisyä johdonmukaisuusnäyttönä, "
+    + "ei lopullisena tarkkuutena tai donor-hyväksyntänä.",
 ]];
 decision.getRange("M17").values = [[recommendedPackage.knownPrice]];
 decision.getRange("O17").values = [[
@@ -126,17 +131,18 @@ scorecard.getRange("A3").values = [[
 ]];
 scorecard.getRange("A5").values = [[
   "CURRENT RELEASE: 4 VENDORS TRACKED · 1 VENDOR ROUTE WITH SUBSTANTIVE RESPONSES · "
-    + "0 SCORED · 0 PURCHASES AUTHORISED\n"
+    + "1 GERMANY EVALUATION EXTRACT RECEIVED · 0 SCORED · 0 WIDER PACKAGES AUTHORISED\n"
     + "Keep every score blank until all six mandatory gates read PASS. "
     + "A missing input is NOT SCORED, never a zero.\n"
     + "FI: NYKYJULKAISU: 4 TOIMITTAJAA SEURANNASSA · 1 TOIMITTAJAREITILLÄ SISÄLLÖLLISIÄ VASTAUKSIA · "
-    + "0 PISTEYTETTY · 0 OSTOVALTUUTTA. Pidä pisteet tyhjinä, kunnes kaikki kuusi "
+    + "1 SAKSA-ARVIOINTIOTE VASTAANOTETTU · 0 PISTEYTETTY · 0 LAAJEMMAN PAKETIN OSTOVALTUUTTA. Pidä pisteet tyhjinä, kunnes kaikki kuusi "
     + "pakollista porttia ovat PASS-tilassa. Puuttuva tieto tarkoittaa EI PISTEYTETTY, ei nollaa.",
 ]];
 scorecard.getRange("D14").values = ecigState;
 scorecard.getRange("X14").values = ecigBoundary;
 scorecard.getRange("D15").values = euromonitorState;
 scorecard.getRange("X15").values = euromonitorBoundary;
+scorecard.getRange("E15").values = [["PASS"]];
 scorecard.getRange("D17").values = circanaState;
 scorecard.getRange("X17").values = circanaBoundary;
 const priorities = workbook.worksheets.getItem("Priorities");
@@ -164,8 +170,9 @@ for (const sheetName of sheetNames) {
         || values[row][column] === "2026.07.28-34"
         || values[row][column] === "2026.07.29-35"
         || values[row][column] === "2026.07.30-36"
+        || values[row][column] === "2026.07.31-37"
       ) {
-        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.07.31-37"]];
+        sheet.getRangeByIndexes(row, column, 1, 1).values = [["2026.08.03-43"]];
       }
     }
   }
@@ -178,6 +185,7 @@ const reopenedDecision = reopened.worksheets.getItem("Decision");
 const reopenedPriorities = reopened.worksheets.getItem("Priorities");
 const reviewed = {
   release: reopenedDecision.getRange("A3").values,
+  authorityBoundary: reopenedDecision.getRange("A5").values,
   recommendation: reopenedDecision.getRange("A10").values,
   recommendedPackagePrice: reopenedDecision.getRange("M17").values,
   recommendedPackageUnknowns: reopenedDecision.getRange("O17").values,
@@ -195,8 +203,16 @@ const reviewed = {
 };
 if (
   reviewed.release[0][0] !== (
-    "Independent decision support · No purchase authorised · "
-      + "Version 2026.07.31-37 · Verified 2026-07-31"
+    "Independent decision support · Germany extract delivered · Wider package HOLD · "
+      + "Version 2026.08.03-43 · Verified 2026-08-03"
+  )
+  || reviewed.authorityBoundary[0][0] !== (
+    "DECISION STATUS: NO WIDER-PACKAGE SPEND AUTHORISED\n"
+      + "The one-country Germany extract was accepted and delivered. Do not place a 25/50/78-country "
+      + "order before the remaining method, scope, rights and commercial gates are closed.\n"
+      + "PÄÄTÖSTILA: LAAJEMMAN PAKETIN OSTOVALTUUTTA EI OLE. Yhden maan Saksa-ote hyväksyttiin ja "
+      + "toimitettiin. Älä tilaa 25/50/78 maan pakettia ennen jäljellä olevien menetelmä-, rajaus-, "
+      + "käyttöoikeus- ja kaupallisten porttien sulkemista."
   )
   || reviewed.recommendedPackagePrice[0][0] !== recommendedPackage.knownPrice
   || reviewed.recommendedPackageUnknowns[0][0] !== (
@@ -213,7 +229,7 @@ if (
   || reviewed.ecigSourceFormula[0][0] !== "='Sources'!C6"
   || reviewed.euromonitorSourceFormula[0][0] !== "='Sources'!C9"
 ) {
-  throw new Error("Reopened paid-data workbook differs from the reviewed v37 state");
+  throw new Error("Reopened paid-data workbook differs from the reviewed v43 state");
 }
 
 await fs.mkdir(qaDir, { recursive: true });
@@ -234,10 +250,10 @@ for (const sheetName of sheetNames) {
 await fs.rename(temporaryPath, workbookPath);
 await fs.rm(`${temporaryPath}.inspect.ndjson`, { force: true });
 await fs.writeFile(
-  path.join(repo, "tmp", "paid-data-v37", "artifact-build.json"),
+  path.join(repo, "tmp", "paid-data-v43", "artifact-build.json"),
   `${JSON.stringify(
     {
-      release: "2026.07.31-37",
+      release: "2026.08.03-43",
       workbook: "site/downloads/pixan-paid-data-procurement-fi-en.xlsx",
       renderedSheets: sheetNames,
       reviewed,
@@ -247,4 +263,4 @@ await fs.writeFile(
   )}\n`,
   "utf8",
 );
-console.log(`Updated and rendered paid-data workbook for 2026.07.31-37: ${workbookPath}`);
+console.log(`Updated and rendered paid-data workbook for 2026.08.03-43: ${workbookPath}`);

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "asOf": "2026-07-31",
+  "asOf": "2026-08-02",
   "targetCurrency": "EUR",
   "provider": {
     "name": "European Central Bank",
@@ -331,6 +331,50 @@
       "currencyUnitsPerEur": 11.432519140625,
       "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.SEK.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata",
       "reviewedAt": "2026-07-31",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-JPY-EUR-SP00-A-2022",
+      "seriesKey": "EXR.A.JPY.EUR.SP00.A",
+      "currency": "JPY",
+      "year": 2022,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 138.027392996109,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2022&endPeriod=2022&format=csvdata",
+      "reviewedAt": "2026-08-02",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-JPY-EUR-SP00-A-2023",
+      "seriesKey": "EXR.A.JPY.EUR.SP00.A",
+      "currency": "JPY",
+      "year": 2023,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 151.9902745098038,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2023&endPeriod=2023&format=csvdata",
+      "reviewedAt": "2026-08-02",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-JPY-EUR-SP00-A-2024",
+      "seriesKey": "EXR.A.JPY.EUR.SP00.A",
+      "currency": "JPY",
+      "year": 2024,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 163.8519140625,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2024&endPeriod=2024&format=csvdata",
+      "reviewedAt": "2026-08-02",
+      "status": "available"
+    },
+    {
+      "rateId": "ECB-EXR-A-JPY-EUR-SP00-A-2025",
+      "seriesKey": "EXR.A.JPY.EUR.SP00.A",
+      "currency": "JPY",
+      "year": 2025,
+      "rateType": "annual_average_reference_rate",
+      "currencyUnitsPerEur": 169.0434509803921,
+      "sourceUrl": "https://data-api.ecb.europa.eu/service/data/EXR/A.JPY.EUR.SP00.A?startPeriod=2025&endPeriod=2025&format=csvdata",
+      "reviewedAt": "2026-08-02",
       "status": "available"
     }
   ]

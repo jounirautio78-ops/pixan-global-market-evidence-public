@@ -410,6 +410,7 @@ const MARKET_METHODS = {
 
 const MARKET_EVIDENCE_LABELS = {
   official_observed: ["Virallinen havainto", "Official observation"],
+  official_observed_partial: ["Virallinen havainto · osavuosi", "Official observation · partial period"],
   official_table_derived: ["Virallisista taulukoista johdettu", "Derived from official tables"],
   official_provisional: ["Virallinen · alustava", "Official · provisional"],
   derived_official_files: ["Johdettu virallisista tiedostoista", "Derived from official files"],

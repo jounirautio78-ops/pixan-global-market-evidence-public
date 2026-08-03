@@ -56,7 +56,9 @@ CSV_FIELDS = [
     "mandatoryGatePassCount",
     "scoringState",
     "weightedScore",
-    "purchaseAuthorised",
+    "evaluationExtractAuthorised",
+    "evaluationExtractReceived",
+    "widerPackagePurchaseAuthorised",
     "controlVersion",
     "controlAsOf",
 ]
@@ -132,14 +134,25 @@ def normalised(source: dict[str, Any]) -> dict[str, Any]:
     result["summary"] = {
         "trackedVendors": len(result["vendors"]),
         "substantiveResponses": sum(
-            vendor["responseState"] == "substantive_response_received"
+            vendor["responseState"]
+            in {
+                "substantive_response_received",
+                "evaluation_extract_received_private_audit_complete",
+            }
             for vendor in result["vendors"]
         ),
         "scoredVendors": sum(
             vendor["scoringState"] == "scored" for vendor in result["vendors"]
         ),
-        "purchaseAuthorisations": sum(
-            vendor["purchaseAuthorised"] is True for vendor in result["vendors"]
+        "evaluationExtractAuthorisations": sum(
+            vendor["evaluationExtractAuthorised"] is True for vendor in result["vendors"]
+        ),
+        "evaluationExtractReceipts": sum(
+            vendor["evaluationExtractReceived"] is True for vendor in result["vendors"]
+        ),
+        "widerPackagePurchaseAuthorisations": sum(
+            vendor["widerPackagePurchaseAuthorised"] is True
+            for vendor in result["vendors"]
         ),
     }
     return result
@@ -213,7 +226,15 @@ def render_csv(source: dict[str, Any]) -> bytes:
                     if vendor["weightedScore"] is None
                     else f'{vendor["weightedScore"]:.2f}'
                 ),
-                "purchaseAuthorised": str(vendor["purchaseAuthorised"]).lower(),
+                "evaluationExtractAuthorised": str(
+                    vendor["evaluationExtractAuthorised"]
+                ).lower(),
+                "evaluationExtractReceived": str(
+                    vendor["evaluationExtractReceived"]
+                ).lower(),
+                "widerPackagePurchaseAuthorised": str(
+                    vendor["widerPackagePurchaseAuthorised"]
+                ).lower(),
                 "controlVersion": control["version"],
                 "controlAsOf": control["asOf"],
             }

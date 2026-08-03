@@ -1,0 +1,265 @@
+{
+  "schemaVersion": "1.0",
+  "seriesId": "ES_AEAT_ECIG_LIQUID_EXCISE_2025_2026H1",
+  "asOf": "2026-08-02",
+  "sourceIntegrity": {
+    "controlSha256": "453e58697530c5ccbdaf96bd95111a891ebc43b087f022a44788ded9ff5d3553",
+    "filesValidated": 2,
+    "bytesValidated": 1757433
+  },
+  "geography": "Spain common-tax territory: mainland Spain and Balearic Islands",
+  "taxScope": "Combined AEAT excise aggregate for e-cigarette liquids and other related products across all four tax epigraphs.",
+  "annual2025": {
+    "provisional": true,
+    "accruedExciseEurMillion": 36.151,
+    "accruedExciseEur": 36151000,
+    "netCashReceiptsEurMillion": 29.568,
+    "netCashReceiptsEur": 29568000
+  },
+  "monthlyCashSeries": [
+    {
+      "observationId": "ES-AEAT-CASH-2025-01",
+      "year": 2025,
+      "month": 1,
+      "monthLabel": "ENERO",
+      "grossEurThousand": null,
+      "refundsEurThousand": null,
+      "netEurThousand": null,
+      "grossEur": null,
+      "refundsEur": null,
+      "netEur": null
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-02",
+      "year": 2025,
+      "month": 2,
+      "monthLabel": "FEBRERO",
+      "grossEurThousand": null,
+      "refundsEurThousand": null,
+      "netEurThousand": null,
+      "grossEur": null,
+      "refundsEur": null,
+      "netEur": null
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-03",
+      "year": 2025,
+      "month": 3,
+      "monthLabel": "MARZO",
+      "grossEurThousand": null,
+      "refundsEurThousand": null,
+      "netEurThousand": null,
+      "grossEur": null,
+      "refundsEur": null,
+      "netEur": null
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-04",
+      "year": 2025,
+      "month": 4,
+      "monthLabel": "ABRIL",
+      "grossEurThousand": 294,
+      "refundsEurThousand": 0,
+      "netEurThousand": 294,
+      "grossEur": 294000,
+      "refundsEur": 0,
+      "netEur": 294000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-05",
+      "year": 2025,
+      "month": 5,
+      "monthLabel": "MAYO",
+      "grossEurThousand": 2332,
+      "refundsEurThousand": 0,
+      "netEurThousand": 2332,
+      "grossEur": 2332000,
+      "refundsEur": 0,
+      "netEur": 2332000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-06",
+      "year": 2025,
+      "month": 6,
+      "monthLabel": "JUNIO",
+      "grossEurThousand": 2518,
+      "refundsEurThousand": 0,
+      "netEurThousand": 2518,
+      "grossEur": 2518000,
+      "refundsEur": 0,
+      "netEur": 2518000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-07",
+      "year": 2025,
+      "month": 7,
+      "monthLabel": "JULIO",
+      "grossEurThousand": 5311,
+      "refundsEurThousand": 0,
+      "netEurThousand": 5311,
+      "grossEur": 5311000,
+      "refundsEur": 0,
+      "netEur": 5311000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-08",
+      "year": 2025,
+      "month": 8,
+      "monthLabel": "AGOSTO",
+      "grossEurThousand": 4296,
+      "refundsEurThousand": 0,
+      "netEurThousand": 4296,
+      "grossEur": 4296000,
+      "refundsEur": 0,
+      "netEur": 4296000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-09",
+      "year": 2025,
+      "month": 9,
+      "monthLabel": "SEPTIEMBRE",
+      "grossEurThousand": 4426,
+      "refundsEurThousand": -357,
+      "netEurThousand": 4069,
+      "grossEur": 4426000,
+      "refundsEur": -357000,
+      "netEur": 4069000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-10",
+      "year": 2025,
+      "month": 10,
+      "monthLabel": "OCTUBRE",
+      "grossEurThousand": 3930,
+      "refundsEurThousand": -1016,
+      "netEurThousand": 2914,
+      "grossEur": 3930000,
+      "refundsEur": -1016000,
+      "netEur": 2914000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-11",
+      "year": 2025,
+      "month": 11,
+      "monthLabel": "NOVIEMBRE",
+      "grossEurThousand": 4508,
+      "refundsEurThousand": -12,
+      "netEurThousand": 4496,
+      "grossEur": 4508000,
+      "refundsEur": -12000,
+      "netEur": 4496000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2025-12",
+      "year": 2025,
+      "month": 12,
+      "monthLabel": "DICIEMBRE",
+      "grossEurThousand": 4182,
+      "refundsEurThousand": -844,
+      "netEurThousand": 3338,
+      "grossEur": 4182000,
+      "refundsEur": -844000,
+      "netEur": 3338000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2026-01",
+      "year": 2026,
+      "month": 1,
+      "monthLabel": "ENERO",
+      "grossEurThousand": 4352,
+      "refundsEurThousand": -9,
+      "netEurThousand": 4343,
+      "grossEur": 4352000,
+      "refundsEur": -9000,
+      "netEur": 4343000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2026-02",
+      "year": 2026,
+      "month": 2,
+      "monthLabel": "FEBRERO",
+      "grossEurThousand": 3633,
+      "refundsEurThousand": -232,
+      "netEurThousand": 3401,
+      "grossEur": 3633000,
+      "refundsEur": -232000,
+      "netEur": 3401000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2026-03",
+      "year": 2026,
+      "month": 3,
+      "monthLabel": "MARZO",
+      "grossEurThousand": 3563,
+      "refundsEurThousand": -723,
+      "netEurThousand": 2840,
+      "grossEur": 3563000,
+      "refundsEur": -723000,
+      "netEur": 2840000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2026-04",
+      "year": 2026,
+      "month": 4,
+      "monthLabel": "ABRIL",
+      "grossEurThousand": 5157,
+      "refundsEurThousand": -2492,
+      "netEurThousand": 2665,
+      "grossEur": 5157000,
+      "refundsEur": -2492000,
+      "netEur": 2665000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2026-05",
+      "year": 2026,
+      "month": 5,
+      "monthLabel": "MAYO",
+      "grossEurThousand": 4578,
+      "refundsEurThousand": -107,
+      "netEurThousand": 4471,
+      "grossEur": 4578000,
+      "refundsEur": -107000,
+      "netEur": 4471000
+    },
+    {
+      "observationId": "ES-AEAT-CASH-2026-06",
+      "year": 2026,
+      "month": 6,
+      "monthLabel": "JUNIO",
+      "grossEurThousand": 4443,
+      "refundsEurThousand": -387,
+      "netEurThousand": 4056,
+      "grossEur": 4443000,
+      "refundsEur": -387000,
+      "netEur": 4056000
+    }
+  ],
+  "cashSummaries": {
+    "2025": {
+      "grossEurThousand": 31797,
+      "refundsEurThousand": -2229,
+      "netEurThousand": 29568,
+      "grossEur": 31797000,
+      "refundsEur": -2229000,
+      "netEur": 29568000
+    },
+    "2026H1": {
+      "grossEurThousand": 25726,
+      "refundsEurThousand": -3950,
+      "netEurThousand": 21776,
+      "grossEur": 25726000,
+      "refundsEur": -3950000,
+      "netEur": 21776000
+    }
+  },
+  "retailMarketValueComputed": false,
+  "globalRollupChanged": false,
+  "limitations": [
+    "The tax aggregate combines all four epigraphs and is not e-liquid-only.",
+    "The series contains no device sales, device quantities or device revenue.",
+    "Accrued excise and cash receipts are tax-stage measures, not consumer retail sell-through.",
+    "January through March 2025 are blank in the official monthly workbook and remain null, not zero.",
+    "The controlled geography is mainland Spain and the Balearic Islands, excluding Canary Islands, Ceuta and Melilla.",
+    "No taxable volume, retail price, tax-exclusive sales, illicit supply or channel coverage is inferred."
+  ]
+}

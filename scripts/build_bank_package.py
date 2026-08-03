@@ -51,6 +51,10 @@ NZ_DONOR_CLOSURE_SOURCE = ROOT / "source" / "NZ_2024_DONOR_CLOSURE_PACK.md"
 NZ_WORKBOOK_MANIFEST_SOURCE = ROOT / "source" / "NZ_2024_WORKBOOK_MANIFEST.json"
 NZ_PRODUCT_SCOPE_AUDIT_SOURCE = ROOT / "source" / "NZ_2024_PRODUCT_SCOPE_AUDIT.json"
 NZ_REPRODUCTION_PARSER_SOURCE = ROOT / "scripts" / "analyze_nz_2024_returns.py"
+VENDOR_RESPONSE_CONTROL_SOURCE = DATA_DIR / "vendor-response-control.json"
+GERMANY_VENDOR_AUDIT_BOUNDARY_SOURCE = (
+    ROOT / "source" / "GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md"
+)
 
 INPUT_FILES = (
     DATA_DIR / "atlas.json",
@@ -65,6 +69,8 @@ INPUT_FILES = (
     NZ_WORKBOOK_MANIFEST_SOURCE,
     NZ_PRODUCT_SCOPE_AUDIT_SOURCE,
     NZ_REPRODUCTION_PARSER_SOURCE,
+    VENDOR_RESPONSE_CONTROL_SOURCE,
+    GERMANY_VENDOR_AUDIT_BOUNDARY_SOURCE,
 )
 
 OUTPUTS = {
@@ -83,8 +89,9 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-08-02-nz-ca-de-donor-control-v41"
-RELEASE_VERSION = "2026.08.02-41"
+RELEASE_ID = "2026-08-03-germany-vendor-audit-v43"
+RELEASE_VERSION = "2026.08.03-43"
+RELEASE_DATE = "2026-08-03"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -98,9 +105,9 @@ SWEDEN_STRUCTURE_METRICS = {
     "active_products_count": "ACTIVE-PRODUCTS",
     "withdrawn_products_count": "WITHDRAWN-PRODUCTS",
 }
-EXPECTED_MARKET_OBSERVATIONS = 156
-EXPECTED_MARKET_SOURCES = 47
-EXPECTED_OFFICIAL_MARKET_MEASURES = 98
+EXPECTED_MARKET_OBSERVATIONS = 174
+EXPECTED_MARKET_SOURCES = 54
+EXPECTED_OFFICIAL_MARKET_MEASURES = 116
 EXPECTED_SWEDEN_STRUCTURE_COUNTS = 36
 
 REGISTER_HEADERS = [
@@ -482,12 +489,96 @@ def source_url(source_id: str, market_sources: dict[str, Any], patent_sources: d
     return url
 
 
+def validate_v43_vendor_boundary(vendor_control: dict[str, Any]) -> dict[str, Any]:
+    """Fail closed on the privacy-safe Germany vendor-audit outcome."""
+
+    expected_gate_results = {
+        "G1": "pass",
+        "G2": "fail",
+        "G3": "fail",
+        "G4": "not_testable",
+        "G5": "fail",
+        "G6": "fail",
+    }
+    vendors = vendor_control.get("vendors")
+    euromonitor = next(
+        (
+            item
+            for item in vendors or []
+            if isinstance(item, dict)
+            and item.get("vendorId") == "euromonitor-passport-nicotine"
+        ),
+        None,
+    )
+    benchmark = vendor_control.get("germanyBenchmark")
+    public_status_en = str((euromonitor or {}).get("publicStatusEn", ""))
+    public_status_fi = str((euromonitor or {}).get("publicStatusFi", ""))
+    gate_results = (euromonitor or {}).get("gateResults")
+    evaluated_gate_count = sum(
+        (gate_results.get(gate_id) or {}).get("status") != "missing"
+        for gate_id in expected_gate_results
+    ) if isinstance(gate_results, dict) else -1
+    mandatory_gate_pass_count = sum(
+        (gate_results.get(gate_id) or {}).get("status") == "pass"
+        for gate_id in expected_gate_results
+    ) if isinstance(gate_results, dict) else -1
+    if (
+        vendor_control.get("schemaVersion") != 3
+        or vendor_control.get("asOf") != RELEASE_DATE
+        or vendor_control.get("version") != RELEASE_VERSION
+        or vendor_control.get("status")
+        != "public_status_only_germany_extract_received_wider_package_not_authorised"
+        or not isinstance(benchmark, dict)
+        or benchmark.get("benchmarkId") != "DE-BLIND-1.0.0"
+        or benchmark.get("status") != "numeric_pass_scope_open"
+        or benchmark.get("vendorPassDoesNotEstablishDonorPass") is not True
+        or benchmark.get("donorGateEffect") != "none"
+        or not isinstance(euromonitor, dict)
+        or euromonitor.get("quoteReceived") is not True
+        or euromonitor.get("responseState")
+        != "evaluation_extract_received_private_audit_complete"
+        or euromonitor.get("mandatoryGatePassCount", mandatory_gate_pass_count) != 1
+        or euromonitor.get("evaluatedGateCount", evaluated_gate_count) != 6
+        or mandatory_gate_pass_count != 1
+        or evaluated_gate_count != 6
+        or euromonitor.get("scoringState") != "not_scored"
+        or euromonitor.get("weightedScore") is not None
+        or euromonitor.get("evaluationExtractAuthorised") is not True
+        or euromonitor.get("evaluationExtractReceived") is not True
+        or euromonitor.get("widerPackagePurchaseAuthorised") is not False
+        or (euromonitor.get("receivedEvidence") or {}).get(
+            "officialAnchorReconciliation"
+        )
+        is not True
+        or not isinstance(gate_results, dict)
+        or any(
+            (gate_results.get(gate_id) or {}).get("status") != expected_status
+            for gate_id, expected_status in expected_gate_results.items()
+        )
+        or "full 19-tab Germany evaluation extract" not in public_status_en
+        or "numerical liquid-volume proximity tests passed" not in public_status_en
+        or "no wider 25/50/78-country subscription is authorised" not in public_status_en
+        or "donor gate remains 0/3" not in public_status_en
+        or "global value remains not_computed" not in public_status_en
+        or "NOT SCORED" not in public_status_en
+        or "täysi 19 välilehden arviointiote" not in public_status_fi
+        or "numeerinen läheisyystesti läpäistiin" not in public_status_fi
+        or "laajempaa 25/50/78 maan tilausta ei ole valtuutettu" not in public_status_fi
+        or "donor-portti pysyy 0/3:ssa" not in public_status_fi
+        or "maailmanarvo not_computed-tilassa" not in public_status_fi
+        or "EI PISTEYTETTY" not in public_status_fi
+    ):
+        raise ValueError("Reviewed v43 Germany extract and 1/6 vendor-gate boundary differs")
+    return euromonitor
+
+
 def build_context() -> dict[str, Any]:
     atlas = read_json(DATA_DIR / "atlas.json")
     global_base = read_json(DATA_DIR / "global-base-layer.json")
     market = read_json(DATA_DIR / "market-values.json")
     patent = read_json(DATA_DIR / "patent-history.json")
     changelog = read_json(DATA_DIR / "changelog.json")
+    vendor_control = read_json(VENDOR_RESPONSE_CONTROL_SOURCE)
 
     if not changelog.get("releases"):
         raise ValueError("changelog.json must contain at least one release")
@@ -496,9 +587,9 @@ def build_context() -> dict[str, Any]:
     if (
         release.get("id") != RELEASE_ID
         or release.get("version") != RELEASE_VERSION
-        or as_of != "2026-08-02"
+        or as_of != RELEASE_DATE
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v41 release")
+        raise ValueError("Public inputs are not locked to the reviewed v43 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
     for label, data in (
@@ -522,8 +613,12 @@ def build_context() -> dict[str, Any]:
         or method_summary.get("eligibleForGlobalRollupCount") != 0
         or method_summary.get("donorAcceptedCount") != 0
         or global_base.get("globalRetailSales", {}).get("value") is not None
+        or global_base.get("globalRetailSales", {}).get("currency") is not None
+        or global_base.get("globalRetailSales", {}).get("eligibleObservationCount") != 0
     ):
-        raise ValueError("Global base is not locked to the reviewed v41 method-control boundary")
+        raise ValueError("Global base is not locked to the reviewed v43 method-control boundary")
+
+    euromonitor = validate_v43_vendor_boundary(vendor_control)
 
     observations = unique_index(market["observations"], "observationId", "market observation")
     models = unique_index(market["models"], "modelId", "market model")
@@ -556,6 +651,8 @@ def build_context() -> dict[str, Any]:
         "market": market,
         "patent_history": patent,
         "changelog": changelog,
+        "vendor_control": vendor_control,
+        "euromonitor_vendor": euromonitor,
         "release": release,
         "as_of": as_of,
         "observations": observations,
@@ -869,10 +966,11 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     )
     if (
         len(official_observations) != expected_official_observation_count
-        or official_country_codes != ["CA", "DE", "FI", "NZ", "PL", "SE", "US"]
+        or official_country_codes
+        != ["CA", "DE", "ES", "FI", "JP", "NZ", "PL", "SE", "US"]
     ):
         raise ValueError(
-            f"Bank package v27 requires {EXPECTED_OFFICIAL_MARKET_MEASURES} official market measures across seven reviewed countries"
+            f"Bank package v43 requires {EXPECTED_OFFICIAL_MARKET_MEASURES} official market measures across nine reviewed countries"
         )
     expected_structure_ids = {
         f"SE-{year}-FHM-{suffix}"
@@ -1042,7 +1140,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     fi_excise = market_observation("FI", "nicotine_e_liquid_excise_receipts")
     pl_volumes = market_observations("PL", "reported_e_liquid_volume")
     pl_volume = market_observation("PL", "reported_e_liquid_volume")
-    pl_excise = market_observation("PL", "e_liquid_excise_amount")
+    pl_excise = market_observation("PL", "e_liquid_excise_receipts")
     pl_device_excise = market_observation_by_id(
         "PL-2025-VAPING-DEVICE-EXCISE-AMOUNT"
     )
@@ -1226,7 +1324,16 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         (fi_volume, "Finland taxed-liquid volume", "FI", "Finland", "nicotine_e_liquid_taxed_volume", "litre", None, "published"),
         (fi_excise, "Finland liquid-excise receipt", "FI", "Finland", "nicotine_e_liquid_excise_receipts", "EUR", "EUR", "published"),
         (pl_volume, "Poland reported-liquid volume", "PL", "Poland", "reported_e_liquid_volume", "litre", None, "official_response"),
-        (pl_excise, "Poland liquid-excise amount", "PL", "Poland", "e_liquid_excise_amount", "PLN", "PLN", "official_response"),
+        (
+            pl_excise,
+            "Poland liquid-excise receipts",
+            "PL",
+            "Poland",
+            "e_liquid_excise_receipts",
+            "PLN",
+            "PLN",
+            "official_full_year_budget_execution",
+        ),
         (se_volume, "Sweden taxed-liquid volume", "SE", "Sweden", "nicotine_e_liquid_taxed_volume", "litre", None, "official_rounded"),
         (se_excise, "Sweden liquid-excise receipt", "SE", "Sweden", "nicotine_e_liquid_excise_receipts", "SEK", "SEK", "official_rounded"),
     )
@@ -1475,7 +1582,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("Donor protocol must contain the ordered criteria D1-D10")
     if not isinstance(donor_candidates, list) or len(donor_candidates) != 5:
-        raise ValueError("Bank package v27 requires exactly five reviewed donor candidates")
+        raise ValueError("Bank package v43 requires exactly five reviewed donor candidates")
     candidate_ids = {
         "NZ-2024-IDENTIFIED-VAPING-RETAIL-SUBTOTAL",
         "EU-2023-COMMISSION-BENCHMARK",
@@ -1484,10 +1591,10 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         "US-2021-FTC-REPORTED-MANUFACTURER-SALES",
     }
     if {item.get("candidateId") for item in donor_candidates} != candidate_ids:
-        raise ValueError("Donor-candidate identities differ from the reviewed v27 set")
+        raise ValueError("Donor-candidate identities differ from the reviewed v43 set")
     for candidate in donor_candidates:
         if candidate.get("decision") != "not_accepted":
-            raise ValueError("Every v17 donor candidate must remain outside the accepted count")
+            raise ValueError("Every v43 donor candidate must remain outside the accepted count")
         passed = candidate.get("passedCriteria")
         failed = candidate.get("failedCriteria")
         open_criteria = candidate.get("openCriteria")
@@ -1546,7 +1653,7 @@ def canonical_facts(ctx: dict[str, Any]) -> dict[str, Any]:
         or readiness.get("comparableFullYearMarketValueDonors") != 0
         or readiness.get("minimumRequiredDonors") != 3
     ):
-        raise ValueError("Model-readiness gate must remain 0/3 for bank package v17")
+        raise ValueError("Model-readiness gate must remain 0/3 for bank package v43")
 
     alerts = list(patent_history["diligenceAlerts"])
     for item in alerts:
@@ -2008,8 +2115,8 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "numeerinen poiminta ja UN Comtrade -luokituksen validointi puuttuvat.",
         ),
         row(
-            "195 maan menetelmäkontrolli erottaa 23 tarkistettua maasuunnitelmaa, "
-            "5 tarkistettua lähdepolkua, 15 alueellista EU TPD -raportointimallia "
+            "195 maan menetelmäkontrolli erottaa 28 tarkistettua maasuunnitelmaa, "
+            "0 tarkistettua lähdepolkua, 15 alueellista EU TPD -raportointimallia "
             "ja 152 maakohtaisesti rajaamatonta proxy-reittiä.",
             "Markkinan rajaus",
             "Jokaisella maalla on näkyvä menetelmäluokka, seuraava evidenssitoimi ja "
@@ -2018,18 +2125,18 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "site/data/global-base-layer.json ; source/country-method-route-config.json ; "
             "source/COUNTRY_METHOD_ROUTE_MAP.md",
             as_of,
-            "195 = 23 reviewed_method_plan + 5 reviewed_source_lead + "
+            "195 = 28 reviewed_method_plan + 0 reviewed_source_lead + "
             "15 regional_tpd_pattern_only + 152 proxy_only_unscoped.",
-            "Vain 23 maalla on tarkistettu maakohtainen menetelmäsuunnitelma. "
-            "Viisi lähdepolkua ja 15 alueellista TPD-mallia eivät osoita kansallista "
+            "Vain 28 maalla on tarkistettu maakohtainen menetelmäsuunnitelma. "
+            "Nolla lähdepolkua ja 15 alueellista TPD-mallia eivät osoita kansallista "
             "myyntisarjaa; 152 reittiä vaatii maakohtaisen rajauksen.",
             "Vahvistettu",
             "Yksikään menetelmäluokka ei korvaa vuosittaista laite- ja e-nestemyynnin "
             "arvoa, veroperustaa, kanavapeittoa tai D1–D10-hyväksyntää.",
         ),
         row(
-            "Julkinen markkina-aineisto sisältää 84 havaintoa 24 lähteestä; "
-            f"75 virallista havaintoa jakautuvat {facts['official_observation_count']} "
+            "Julkinen markkina-aineisto sisältää 174 havaintoa 54 lähteestä; "
+            f"152 virallista havaintoa jakautuvat {facts['official_observation_count']} "
             f"markkinamittariin ja {facts['sweden_structure_count']} Ruotsin "
             "FHM-rekisterirakenteen lukuun.",
             "Markkinan koko",
@@ -2038,8 +2145,8 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             "aktiivisia ja markkinoilta poistettuja tuotteita; ne eivät ole myyntiä tai markkina-arvoa.",
             "site/data/market-values.json (julkisen sivuston koneellisesti luettava lähdetiedosto)",
             as_of,
-            "84 = 48 markkina- ja mallihavaintoa + 36 FHM-rakennelukua; 75 virallista = "
-            "39 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään.",
+            "174 = 138 markkina- ja mallihavaintoa + 36 FHM-rakennelukua; 152 virallista = "
+            "116 markkinamittaria + 36 rakennelukua. Luokat pidetään erillään.",
             "Vuosi 2026 on FHM-sarjassa tilannekuva, ei valmis vuosijakso. "
             "Virallinen julkaisu ei tee mittareista automaattisesti vertailukelpoisia.",
             "Vahvistettu",
@@ -2269,7 +2376,7 @@ def evidence_rows(ctx: dict[str, Any]) -> list[dict[str, str]]:
             sources(*se_volume["sourceIds"], FHM_SOURCE_ID),
             "2026-07-24",
             "36 = 9 vuotta (2018–2026) × 4 rekisterirakenteen mittaria. "
-            "Veroankkuri, 39 markkinamittaria ja 36 rakennelukua pidetään erillään.",
+            "Veroankkuri, 116 markkinamittaria ja 36 rakennelukua pidetään erillään.",
             "Rakenneluvuista ei päätellä myyntiarvoa, myyntimäärää tai markkinaosuutta. "
             "Vuosien 2018–2025 luvut ovat viranomaisen vuosilabeleita, eivät oletettuja "
             "vuosivirtoja tai vuoden lopun tilannekuvia. Vuosi 2026 on tarkistushetken "

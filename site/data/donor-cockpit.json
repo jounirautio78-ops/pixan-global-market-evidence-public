@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1",
-  "asOf": "2026-08-02",
+  "asOf": "2026-08-03",
   "protocol": {
     "protocolVersion": "1.0",
     "acceptanceRuleEn": "A country-year enters the public donor count only when D1–D10 all pass with source-linked evidence. Failed, open or structurally invalid records remain outside the count.",
@@ -110,8 +110,8 @@
         {"criterionId": "D9", "status": "passed"},
         {"criterionId": "D10", "status": "open"}
       ],
-      "blockerEn": "The NZD 274,180,410.21 subtotal is vaping-only and supply-stage controlled, but it remains incomplete specialist retail: general-retail value is unobserved and GST treatment is unstated. The new NZD 183,370,681 and NZD 197,070,322 net border proxies are different-stage diagnostics, not a D10 retail reconciliation.",
-      "blockerFi": "274 180 410,21 NZD:n summa on sähkötupakkarajattu ja toimitusketjutaso hallittu, mutta se on yhä puutteellinen erikoisvähittäiskaupan luku: yleisvähittäiskaupan arvoa ei ole havaittu eikä GST-käsittelyä ilmoitettu. Uudet 183 370 681 ja 197 070 322 NZD:n nettorajaproxyt ovat eri tapahtumavaiheen diagnostiikkaa, eivät D10:n retail-täsmäytys.",
+      "blockerEn": "The NZD 274,180,410.21 subtotal is vaping-only and supply-stage controlled, but it remains incomplete specialist retail. Official forms require general retailers to report quantities but not retail prices or sales value, so D5 is structurally failed; GST treatment remains unstated, so D8 is open. The NZD 183,370,681 and NZD 197,070,322 border proxies are different-stage diagnostics. The 0.11% CPI weight is based mainly on the HES year ended June 2023 and price-updated to December 2024, so it is not an independent calendar-2024 sales reconciliation. D10 remains open.",
+      "blockerFi": "274 180 410,21 NZD:n summa on sähkötupakkarajattu ja toimitusketjutaso hallittu, mutta se on yhä puutteellinen erikoisvähittäiskaupan luku. Viralliset lomakkeet vaativat yleiskauppiailta määrät mutta eivät vähittäishintoja tai myyntiarvoa, joten D5 on rakenteellisesti hylätty; GST-käsittely pysyy ilmoittamatta, joten D8 on avoin. 183 370 681 ja 197 070 322 NZD:n rajaproxyt ovat eri tapahtumavaiheen diagnostiikkaa. 0,11 prosentin CPI-paino perustuu pääosin kesäkuuhun 2023 päättyneeseen HES-jaksoon ja on hinta-ajantasaistettu joulukuuhun 2024, joten se ei ole riippumaton kalenterivuoden 2024 myyntitäsmäytys. D10 pysyy avoinna.",
       "nextEvidenceEn": "Obtain an observed national general-retail value and return-completeness denominator, confirm the GST basis, and reconcile the same 2024 boundary against an independent route.",
       "nextEvidenceFi": "Hanki havaittu valtakunnallinen yleisvähittäiskaupan arvo ja ilmoitusten peiton nimittäjä, vahvista GST-perusta ja täsmäytä sama vuoden 2024 rajaus riippumattomaan reittiin.",
       "acquisitionRouteEn": "New Zealand Ministry of Health coverage and GST clarification, followed by a non-duplicative tax, customs, POS or direct official reconciliation.",
@@ -122,7 +122,8 @@
       "sourceIds": [
         "NZ-MOH-ANNUAL-RETURNS-2024",
         "NZ-MOH-ANNUAL-RETURN-REQUIREMENTS",
-        "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE"
+        "NZ-MOH-ANNUAL-RETURNS-2024-GUIDE",
+        "NZ-STATSNZ-CPI-WEIGHTS-2024"
       ],
       "closureActions": [
         {
@@ -156,8 +157,8 @@
           "criterionIds": ["D10"],
           "ownerRole": "independent_validator",
           "routeType": "independent_reconciliation",
-          "routeEn": "Use the selected 2024 Stats NZ controls—imports NZD 189,640,890 VFD and NZD 203,340,531 CIF, exports NZD 6,270,209 FOB, net proxies NZD 183,370,681 and NZD 197,070,322—only as border-stage diagnostics. Candidate ratios of 1.4952x and 1.3913x are not margin, uplift, validation intervals or market ranges.",
-          "routeFi": "Käytä valittuja Stats NZ:n vuoden 2024 kontrolleja — tuonti 189 640 890 NZD VFD ja 203 340 531 NZD CIF, vienti 6 270 209 NZD FOB sekä nettoproxyt 183 370 681 ja 197 070 322 NZD — vain rajavaiheen diagnostiikkana. Ehdokkaan suhteet 1,4952 ja 1,3913 eivät ole kate, korotuskerroin, validointiväli tai markkinahaarukka.",
+          "routeEn": "Use the selected 2024 Stats NZ customs controls only as border-stage diagnostics. Retain the new 0.11% CPI weight, including its 0.01% device and 0.10% refill components, only as an HES-derived structure check; it is not independent calendar-2024 sales. Candidate-to-border ratios are not margin, uplift, validation intervals or market ranges.",
+          "routeFi": "Käytä valittuja Stats NZ:n vuoden 2024 tullikontrolleja vain rajavaiheen diagnostiikkana. Säilytä uusi 0,11 prosentin CPI-paino, mukaan lukien 0,01 prosentin laite- ja 0,10 prosentin täyttötuoteosat, vain HES-pohjaisena rakennekontrollina; se ei ole riippumaton kalenterivuoden 2024 myynti. Ehdokkaan ja rajaproxyjen suhteet eivät ole kate, korotuskerroin, validointiväli tai markkinahaarukka.",
           "evidenceTargetEn": "An independent validation or reproducible bridge that reconciles product mapping, production, inventory, re-exports, margins, channels, timing, GST and consumer sell-through.",
           "evidenceTargetFi": "Riippumaton validointi tai toistettava silta, joka täsmäyttää tuoteluokituksen, tuotannon, varastot, jälleenviennin, katteet, kanavat, ajoituksen, GST:n ja kuluttajamyynnin.",
           "publicStatus": "in_progress",
@@ -316,15 +317,15 @@
         {"criterionId": "D9", "status": "passed"},
         {"criterionId": "D10", "status": "failed"}
       ],
-      "blockerEn": "The range combines a provisional 2025 liquid volume with 2026 point-in-time prices, excludes devices and is not observed consumer sales. Prospective benchmark DE-BLIND-1.0.0 is NOT SCORED; matching its 2023–2024 official volume anchors would not by itself close the retail boundary or donor gates.",
-      "blockerFi": "Vaihteluväli yhdistää vuoden 2025 alustavan nestemäärän vuoden 2026 pistemäisiin hintoihin, rajaa laitteet pois eikä ole havaittua kuluttajamyyntiä. Tuleva testi DE-BLIND-1.0.0 on EI PISTEYTETTY; sen vuosien 2023–2024 virallisiin volyymiankkureihin osuminen ei yksin sulje retail-rajausta tai donor-portteja.",
-      "nextEvidenceEn": "Add same-year representative retail prices, device sell-through, channel coverage, tax treatment and an independent reconciliation route.",
-      "nextEvidenceFi": "Lisää saman vuoden edustavat vähittäishinnat, laitemyynti, kanavapeitto, verokäsittely ja riippumaton täsmäytysreitti.",
+      "blockerEn": "The public range combines a provisional 2025 liquid volume with 2026 point-in-time prices, excludes devices and is not observed consumer sales. The full vendor extract passed DE-BLIND-1.0.0's preregistered 2023, 2024 and combined numerical proximity tests in private review, but product, tax, channel, transaction-stage and source-lineage comparability remain open. Licensed values are not published. The vendor remains NOT SCORED and Germany remains NOT ACCEPTED.",
+      "blockerFi": "Julkinen vaihteluväli yhdistää vuoden 2025 alustavan nestemäärän vuoden 2026 pistemäisiin hintoihin, rajaa laitteet pois eikä ole havaittua kuluttajamyyntiä. Täysi toimittajaote läpäisi yksityisessä tarkastuksessa DE-BLIND-1.0.0-testin ennalta rekisteröidyt vuosien 2023 ja 2024 sekä yhdistetyn numeerisen läheisyystestin, mutta tuote-, vero-, kanava-, tapahtumavaihe- ja lähdelinjan vertailukelpoisuus pysyvät avoimina. Lisensoituja arvoja ei julkaista. Toimittaja pysyy EI PISTEYTETTY -tilassa ja Saksa EI HYVÄKSYTTY -tilassa.",
+      "nextEvidenceEn": "Obtain written product/tax/channel/stage definitions, country-specific source and record-status lineage, same-year device sell-through and transaction-use rights before any donor or broader-procurement decision.",
+      "nextEvidenceFi": "Hanki kirjalliset tuote-, vero-, kanava- ja tapahtumavaiheen määritelmät, maakohtainen lähde- ja tietueiden tilalinja, saman vuoden laitemyynti sekä transaktiokäyttöoikeudet ennen donor- tai laajempaa hankintapäätöstä.",
       "acquisitionRouteEn": "Destatis tax-volume series plus same-year public or rights-cleared price, hardware and channel evidence.",
       "acquisitionRouteFi": "Destatisin verovolyymisarja sekä saman vuoden julkinen tai käyttöoikeuksiltaan selvitetty hinta-, laite- ja kanavanäyttö.",
       "responseStatus": "public_source_available",
       "licenseStatus": "mixed_public_inputs_only",
-      "lastReviewedAt": "2026-08-02",
+      "lastReviewedAt": "2026-08-03",
       "sourceIds": [
         "DE-DESTATIS-73411-0003",
         "INTASTE-GERMANFLAVOURS-2026",
@@ -363,12 +364,12 @@
           "criterionIds": ["D10"],
           "ownerRole": "independent_validator",
           "routeType": "independent_reconciliation",
-          "routeEn": "Apply prospective DE-BLIND-1.0.0 only after a future submission is frozen: official anchors are 1,241,000 litres for 2023, 1,284,000 litres for 2024 and 2,525,000 litres combined; preregistered caps are 15% annually and 10% combined. Do not tune thresholds to private values.",
-          "routeFi": "Sovella tulevaa DE-BLIND-1.0.0-testiä vasta tulevan toimituksen jäädyttämisen jälkeen: viralliset ankkurit ovat 1 241 000 litraa vuonna 2023, 1 284 000 litraa vuonna 2024 ja yhteensä 2 525 000 litraa; ennalta rekisteröidyt rajat ovat 15 % vuodessa ja 10 % yhteensä. Älä sovita rajoja yksityisiin arvoihin.",
-          "evidenceTargetEn": "A frozen, rights-reviewed submission with matching product unit, calendar years, tax basis, channel and event stage; a benchmark pass has no automatic donor or commercial effect.",
-          "evidenceTargetFi": "Jäädytetty, käyttöoikeuksiltaan tarkistettu toimitus, jossa tuote, yksikkö, kalenterivuodet, veroperusta, kanava ja tapahtumavaihe täsmäävät; testin läpäisy ei aiheuta automaattista donor- tai kaupallista vaikutusta.",
-          "publicStatus": "queued",
-          "statusAsOf": "2026-08-02",
+          "routeEn": "The frozen full Germany extract has been tested against prospectively locked DE-BLIND-1.0.0. The three numerical proximity tests passed privately; thresholds were not tuned to vendor values. Keep the reconciliation open until product, tax, channel, event-stage and record-status lineage match.",
+          "routeFi": "Jäädytetty Saksan täysi ote on testattu ennakolta lukittua DE-BLIND-1.0.0-kontrollia vasten. Kolme numeerista läheisyystestiä läpäistiin yksityisesti; rajoja ei sovitettu toimittaja-arvoihin. Pidä täsmäytys avoinna, kunnes tuote-, vero-, kanava-, tapahtumavaihe- ja tietueiden tilalinja täsmäävät.",
+          "evidenceTargetEn": "Written scope and lineage bridge plus rights clearance. The numerical pass has no automatic donor or commercial effect.",
+          "evidenceTargetFi": "Kirjallinen rajaus- ja lähdelinjan silta sekä käyttöoikeuksien selvitys. Numeerisella läpäisyllä ei ole automaattista donor- tai kaupallista vaikutusta.",
+          "publicStatus": "response_under_review",
+          "statusAsOf": "2026-08-03",
           "nextFollowUpOn": "2026-08-14"
         }
       ]

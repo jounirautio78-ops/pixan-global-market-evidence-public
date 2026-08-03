@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "seriesId": "ES_AEAT_ECIG_LIQUID_EXCISE_2025_2026H1",
+  "asOf": "2026-08-02",
+  "authority": "Agencia Estatal de Administracion Tributaria (AEAT)",
+  "geography": "Spain common-tax territory: mainland Spain and Balearic Islands",
+  "transactionStage": "excise_tax_accrual_and_cash_receipt",
+  "currency": "EUR",
+  "annualValueUnit": "EUR_MILLION",
+  "monthlyValueUnit": "EUR_THOUSAND",
+  "taxScope": "Combined AEAT excise aggregate for e-cigarette liquids and other related products across all four tax epigraphs.",
+  "retailSalesEligible": false,
+  "globalRollupEligible": false,
+  "sourceDirectoryBoundary": "Official XLSX files are preserved outside the public repository; only hashes, controls and aggregate observations are committed.",
+  "sources": [
+    {
+      "role": "annual_2025_reconciliation",
+      "fileName": "Cuadro_5.1_es_es.xlsx",
+      "url": "https://sede.agenciatributaria.gob.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informes_Anuales_de_Recaudacion_Tributaria/Ejercicio_2025/Cuadro_5.1_es_es.xlsx",
+      "landingPageUrl": "https://sede.agenciatributaria.gob.es/Sede/estadisticas/recaudacion-tributaria/informe-anual/ejercicio-2025/5-impuestos-especiales.html",
+      "bytes": 67176,
+      "sha256": "643a4cbfe0a8f647167f43b6433f9f9b45f804916916d5cf3ae720e796e5ecd7",
+      "sheet": "5.1",
+      "expectedCells": {
+        "B3": {
+          "type": "text",
+          "value": "Millones de euros, salvo indicación"
+        },
+        "AG6": {
+          "type": "text",
+          "value": "2025 (p)"
+        },
+        "B29": {
+          "type": "text",
+          "value": "Líquido cigarrillos electrónicos"
+        },
+        "AG29": {
+          "type": "number",
+          "value": "36.151",
+          "decimalPlaces": 3
+        },
+        "B45": {
+          "type": "text",
+          "value": "Líquido cigarrillos electrónicos"
+        },
+        "AG45": {
+          "type": "number",
+          "value": "29.568",
+          "decimalPlaces": 3
+        },
+        "B54": {
+          "type": "text",
+          "value": "(p) Datos provisionales (sombreados en azul)."
+        },
+        "B57": {
+          "type": "text",
+          "value": "(3) Los datos se expresan en términos de caja."
+        }
+      }
+    },
+    {
+      "role": "monthly_cash_series_2025_2026H1",
+      "fileName": "Cuadros_estadisticos_series_es_es.xlsx",
+      "url": "https://sede.agenciatributaria.gob.es/static_files/Sede/Tema/Estadisticas/Recaudacion_Tributaria/Informes_mensuales/Cuadros_estadisticos_series_es_es.xlsx",
+      "landingPageUrl": "https://sede.agenciatributaria.gob.es/Sede/datosabiertos/catalogo/hacienda/Informe_mensual_de_Recaudacion_Tributaria.shtml",
+      "bytes": 1690257,
+      "sha256": "e5186b7d7ca55eae22c24bdd8cd2b047f26db6313fba8b755596e70569578f8f",
+      "sheet": "Ingresos tributarios",
+      "headerCells": {
+        "DI2": "Impuestos Especiales",
+        "DI3": "Ingresos brutos",
+        "DT3": "Devoluciones",
+        "EH3": "Ingresos netos",
+        "DO4": "Líquido cigarrillos electrónicos y otros productos",
+        "EC4": "Líquido cigarrillos electrónicos y otros productos",
+        "FL5": "Líquido cigarrillos electrónicos y otros productos"
+      },
+      "columns": {
+        "year": "A",
+        "month": "B",
+        "monthLabel": "C",
+        "grossEurThousand": "DO",
+        "refundsEurThousand": "EC",
+        "netEurThousand": "FL"
+      },
+      "rows": [
+        {"row": 368, "year": 2025, "month": 1, "monthLabel": "ENERO", "gross": null, "refunds": null, "net": null},
+        {"row": 369, "year": 2025, "month": 2, "monthLabel": "FEBRERO", "gross": null, "refunds": null, "net": null},
+        {"row": 370, "year": 2025, "month": 3, "monthLabel": "MARZO", "gross": null, "refunds": null, "net": null},
+        {"row": 371, "year": 2025, "month": 4, "monthLabel": "ABRIL", "gross": 294, "refunds": 0, "net": 294},
+        {"row": 372, "year": 2025, "month": 5, "monthLabel": "MAYO", "gross": 2332, "refunds": 0, "net": 2332},
+        {"row": 373, "year": 2025, "month": 6, "monthLabel": "JUNIO", "gross": 2518, "refunds": 0, "net": 2518},
+        {"row": 374, "year": 2025, "month": 7, "monthLabel": "JULIO", "gross": 5311, "refunds": 0, "net": 5311},
+        {"row": 375, "year": 2025, "month": 8, "monthLabel": "AGOSTO", "gross": 4296, "refunds": 0, "net": 4296},
+        {"row": 376, "year": 2025, "month": 9, "monthLabel": "SEPTIEMBRE", "gross": 4426, "refunds": -357, "net": 4069},
+        {"row": 377, "year": 2025, "month": 10, "monthLabel": "OCTUBRE", "gross": 3930, "refunds": -1016, "net": 2914},
+        {"row": 378, "year": 2025, "month": 11, "monthLabel": "NOVIEMBRE", "gross": 4508, "refunds": -12, "net": 4496},
+        {"row": 379, "year": 2025, "month": 12, "monthLabel": "DICIEMBRE", "gross": 4182, "refunds": -844, "net": 3338},
+        {"row": 380, "year": 2026, "month": 1, "monthLabel": "ENERO", "gross": 4352, "refunds": -9, "net": 4343},
+        {"row": 381, "year": 2026, "month": 2, "monthLabel": "FEBRERO", "gross": 3633, "refunds": -232, "net": 3401},
+        {"row": 382, "year": 2026, "month": 3, "monthLabel": "MARZO", "gross": 3563, "refunds": -723, "net": 2840},
+        {"row": 383, "year": 2026, "month": 4, "monthLabel": "ABRIL", "gross": 5157, "refunds": -2492, "net": 2665},
+        {"row": 384, "year": 2026, "month": 5, "monthLabel": "MAYO", "gross": 4578, "refunds": -107, "net": 4471},
+        {"row": 385, "year": 2026, "month": 6, "monthLabel": "JUNIO", "gross": 4443, "refunds": -387, "net": 4056}
+      ],
+      "expectedTotalsEurThousand": {
+        "2025": {"gross": 31797, "refunds": -2229, "net": 29568},
+        "2026H1": {"gross": 25726, "refunds": -3950, "net": 21776}
+      }
+    }
+  ],
+  "failClosedRules": [
+    "Both official XLSX files must match their recorded byte size and SHA-256.",
+    "The exact annual cells, monthly headers and monthly cells must match the control.",
+    "January through March 2025 remain null and are never recoded as zero.",
+    "Gross plus refunds must equal net for every observed month and controlled total.",
+    "The 2025 monthly net total must reconcile exactly to the annual cash value.",
+    "The tax category combines all four epigraphs and is not an e-liquid-only measure.",
+    "The series contains no device sales, quantities or revenue.",
+    "Tax accrual and cash receipts are not consumer retail sell-through and are never eligible for the global retail roll-up.",
+    "The geography is mainland Spain and the Balearic Islands; Canary Islands, Ceuta and Melilla are outside this controlled scope."
+  ]
+}

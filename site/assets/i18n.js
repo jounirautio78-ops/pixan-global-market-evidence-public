@@ -3,32 +3,37 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V41 = Object.freeze({
-    id: "2026-08-02-nz-ca-de-donor-control-v41",
-    version: "2026.08.02-41",
-    publishedAt: "2026-08-02T10:30:00+03:00",
-    titleEn: "Donor-control checkpoint and prospectively locked Germany benchmark",
-    titleFi: "Donor-kontrollien tarkistuspiste ja ennakkoon lukittu Saksa-testi",
+  const UI_RELEASE_V43 = Object.freeze({
+    id: "2026-08-03-germany-vendor-audit-v43",
+    version: "2026.08.03-43",
+    publishedAt: "2026-08-03T17:50:00+03:00",
+    titleEn: "Germany vendor audit and daily lender-package refresh",
+    titleFi: "Saksan toimittaja-auditointi ja päivittäinen rahoittajapaketin päivitys",
     items: Object.freeze([
       Object.freeze({
         category: "market_data",
-        textEn: "New Zealand's selected 2024 official border controls produce NZD 183.371m and NZD 197.070m net proxies. They are diagnostics only—not retail value, margin, uplift or a market range.",
-        textFi: "Uuden-Seelannin valitut vuoden 2024 viralliset rajakontrollit tuottavat 183,371 ja 197,070 milj. NZD:n nettoproxyt. Ne ovat vain diagnostiikkaa — eivät vähittäisarvo, kate, korotuskerroin tai markkinahaarukka."
+        textEn: "Activated the previously prepared public-official Spain, Japan and New Zealand controls. The public dataset now contains 174 observations from 54 sources: 152 official observations split into 116 market measures across nine countries and 36 Swedish registration-structure records. Tax, customs and CPI records remain non-retail controls and do not enter the global roll-up.",
+        textFi: "Aktivoitiin aiemmin valmistellut Espanjan, Japanin ja Uuden-Seelannin julkiset viranomaiskontrollit. Julkisessa aineistossa on nyt 174 havaintoa 54 lähteestä: 152 virallista havaintoa jakautuvat 116 markkinamittariin yhdeksässä maassa ja 36 Ruotsin rekisterirakennetietueeseen. Vero-, tulli- ja CPI-tietueet pysyvät muina kuin vähittäismyyntikontrolleina eivätkä mene maailman roll-upiin."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "Canada remains 7/10 and NOT ACCEPTED: NAICS 459999 specialist retail, exact product-class quality metrics and the same-boundary independent bridge remain unresolved. No missing channel is treated as zero.",
-        textFi: "Kanada pysyy tuloksessa 7/10 ja tilassa EI HYVÄKSYTTY: NAICS 459999 -erikoiskauppa, täsmälliset tuoteryhmätason laatumittarit ja saman rajauksen riippumaton silta ovat ratkaisematta. Puuttuvaa kanavaa ei käsitellä nollana."
+        textEn: "A full 19-tab Germany vendor extract was received and audited privately. The preregistered 2023, 2024 and combined numerical liquid-volume proximity tests all passed. Licensed values and exact deviations remain private. The result supports numerical coherence, not final accuracy or full scope equivalence.",
+        textFi: "Saksan täysi 19 välilehden toimittajaote saatiin ja auditoitiin yksityisesti. Ennalta rekisteröidyt vuosien 2023 ja 2024 sekä yhdistetty nestemäärän numeerinen läheisyystesti läpäistiin. Lisensoidut arvot ja tarkat poikkeamat pysyvät yksityisinä. Tulos tukee numeerista johdonmukaisuutta, ei lopullista tarkkuutta tai täydellistä rajausvastaavuutta."
       }),
       Object.freeze({
         category: "method",
-        textEn: "Prospective benchmark DE-BLIND-1.0.0 is locked at 1.241m litres for 2023, 1.284m litres for 2024 and 2.525m litres combined, with 15% annual and 10% combined caps. It is NOT SCORED and has no automatic donor or commercial effect.",
-        textFi: "Tuleva testi DE-BLIND-1.0.0 on lukittu ankkureihin 1,241 milj. litraa vuonna 2023, 1,284 milj. litraa vuonna 2024 ja 2,525 milj. litraa yhteensä sekä 15 %:n vuosi- ja 10 %:n yhteisrajoihin. Se on EI PISTEYTETTY eikä aiheuta automaattista donor- tai kaupallista vaikutusta."
+        textEn: "Euromonitor vendor gate G1 now passes. G2, G3, G5 and G6 fail and G4 remains not testable because source lineage, observed/reported/modelled status, product/tax/channel/transaction-stage comparability, rights and complete terms remain open. The vendor remains NOT SCORED; Germany remains NOT ACCEPTED, donor gate 0/3 and global value null/not_computed.",
+        textFi: "Euromonitorin toimittajaportti G1 läpäisee nyt. G2, G3, G5 ja G6 hylätään ja G4 ei ole testattavissa, koska lähdelinja, havaittu/raportoitu/mallinnettu-tila, tuote-/vero-/kanava-/tapahtumavaiheen vertailukelpoisuus, oikeudet ja täydelliset ehdot ovat avoinna. Toimittaja pysyy EI PISTEYTETTY -tilassa, Saksa EI HYVÄKSYTTY -tilassa, donor-portti 0/3:ssa ja maailmanarvo null/not_computed-tilassa."
+      }),
+      Object.freeze({
+        category: "diligence",
+        textEn: "The delivered one-country Germany extract is recorded as accepted and received. Any wider 25/50/78-country subscription remains HOLD and is not authorised pending written scope, method, rights and all-in commercial clarifications.",
+        textFi: "Toimitettu yhden maan Saksa-ote kirjataan hyväksytyksi ja vastaanotetuksi. Laajempi 25/50/78 maan tilaus pysyy HOLD-tilassa eikä sitä ole valtuutettu ennen kirjallisia rajaus-, menetelmä-, oikeus- ja kokonaiskustannustäsmennyksiä."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "Dashboard and all six once-daily English/Finnish lender-package files are v41. The dataset remains 156 observations from 47 sources; donor gate 0/3 and global value null/not_computed. Euromonitor remains paused; no purchase, fee, order, licence or commitment is authorised.",
-        textFi: "Dashboard ja kaikki kuusi kerran päivässä muodostettavaa englannin- ja suomenkielistä rahoittajapakettitiedostoa ovat versiota v41. Aineisto pysyy 156 havainnossa ja 47 lähteessä; donor-portti on 0/3 ja maailmanarvo null/not_computed. Euromonitor pysyy pausella eikä ostoa, maksua, tilausta, lisenssiä tai sitoumusta ole valtuutettu."
+        textEn: "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and two Evidence Registers as the single 2026-08-03 daily package. No licensed vendor values or reconstructable derivatives enter the public dashboard or downloads.",
+        textFi: "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja kaksi Evidence Registeriä päivän 3.8.2026 ainoaksi päiväpaketiksi. Julkiseen dashboardiin tai latauksiin ei viedä lisensoituja toimittaja-arvoja tai niistä palautettavia johdannaisia."
       })
     ])
   });
@@ -476,9 +481,9 @@
     ["Minkä datan rahoittamista Pixanin kannattaa harkita — ja missä järjestyksessä?", "What should Pixan consider funding—and in what order?"],
     ["Lista painottaa ensin tarkistettavaa vuosittaista maakohtaista markkinasarjaa, sitten havaittua vähittäismyyntivarmennusta ja vasta sen jälkeen kapeampia riski- ja parametriaukkoja.", "The shortlist prioritises a reviewable annual country-market series, then observed retail validation and only then narrower risk and parameter gaps."],
     ["Maksullisen datan hankintarajaus", "Paid-data procurement boundary"],
-    ["EI OSTOVALTUUTTA", "NO SPEND"],
-    ["Mitään ostoa, tilausta tai toimittajasitoumusta ei ole valtuutettu", "No purchase, subscription or vendor commitment is authorised"],
-    ["Hinnat ovat päivättyjä julkisten sivujen havaintoja tai tietosuojattuja tarjoustiloja. Täsmällisiä yksityisiä hintoja tai kaupallisia ehtoja ei julkaista. Jokainen osto edellyttää edustavaa näytettä, yksityiskohtaista menetelmää, täsmäytystä viralliseen dataan, täsmällistä peittoa, täydellisiä ehtoja sekä kirjallisia rahoittaja-/M&A-datahuoneoikeuksia. Maksullista raakadataa ei saa julkaista täällä ilman erillistä lisenssiä.", "Prices are dated public page observations or privacy-safe quote states. Exact private prices and commercial terms are not published. Every purchase remains conditional on a representative sample, detailed methodology, official-data reconciliation, exact coverage, complete terms and written lender/M&A data-room rights. Raw paid data must not be published here without a separate licence."],
+    ["LAAJEMPI HOLD", "WIDER HOLD"],
+    ["Saksa-ote toimitettu · laajempaa tilausta ei ole valtuutettu", "Germany extract delivered · wider subscription not authorised"],
+    ["Yhden maan Saksan arviointiote hyväksyttiin, toimitettiin ja auditoitiin yksityisesti. Täsmällisiä yksityisiä hintoja, lisensoituja arvoja, tarkkoja poikkeamia tai kaupallisia ehtoja ei julkaista. Jokainen laajempi tilaus edellyttää edustavaa näytettä, yksityiskohtaista menetelmää, täsmäytystä viralliseen dataan, täsmällistä peittoa, täydellisiä ehtoja sekä kirjallisia rahoittaja-/M&A-datahuoneoikeuksia. Maksullista raakadataa ei saa julkaista täällä ilman erillistä lisenssiä.", "The one-country Germany evaluation extract was accepted, delivered and audited privately. Exact private prices, licensed values, exact deviations and commercial terms are not published. Every wider subscription remains conditional on a representative sample, detailed methodology, official-data reconciliation, exact coverage, complete terms and written lender/M&A data-room rights. Raw paid data must not be published here without a separate licence."],
     ["Lataa päätöstyökirja XLSX", "Download decision workbook XLSX"],
     ["Lataa hankintalista CSV", "Download shortlist CSV"],
     ["Lataa lähde-JSON", "Download source JSON"],
@@ -579,8 +584,7 @@
     ["Kolmannen maan seulonnan rajaus", "Third-country screening boundary"],
     ["VAIN SEULONTA", "SCREEN ONLY"],
     ["Puola on käytännöllinen ensisijainen ohjelma; Venäjä on vain korkean kitkan lähdejohtolanka", "Poland is the practical primary programme; Russia is a source-only, high-friction lead"],
-    ["Yksikään seulottu maa ei ole hyväksytty donor. Tämän aallon seurantaviestejä ei ole lähetetty eikä ostoa ole hyväksytty.", "No screened country is an accepted donor. No follow-up in this wave has been sent and no purchase has been authorised."],
-    ["Yksikään seulottu maa ei ole hyväksytty donor. Tarkistettu seuranta-aalto on valmis tai korvattu uudemmalla; ostoa ei ole valtuutettu.", "No screened country is an accepted donor. The reviewed follow-up wave is completed or superseded; no purchase has been authorised."],
+    ["Yksikään seulottu maa ei ole hyväksytty donor. Yhden maan Saksa-ote toimitettiin ja auditoitiin yksityisesti; Euromonitor pysyy EI PISTEYTETTY -tilassa tuloksella 1/6 eikä laajempaa 25/50/78 maan tilausta ole valtuutettu.", "No screened country is an accepted donor. The one-country Germany extract was delivered and audited privately; Euromonitor remains NOT SCORED at 1/6 and no wider 25/50/78-country subscription is authorised."],
     ["Tarkistetut virallisen datan hankintareitit", "Reviewed official-data acquisition routes"],
     ["Sija / maa", "Rank / country"],
     ["Ohjelmaluokka", "Programme class"],
@@ -598,7 +602,12 @@
     ["Yhdysvaltain vertailukontrollin rajaus", "United States benchmark boundary"],
     ["KONTROLLI", "CONTROL"],
     ["19 kontrollihavaintoa · kansallista vähittäisarvoa ei laskettu", "19 control observations · national retail value not computed"],
-    ["Mitään tapahtumavaiheita ei lasketa mekaanisesti yhteen. Yhdysvallat pysyy donor-portin ulkopuolella, toimittajanäyte ei ole vielä pisteytettävissä eikä ostoa ole valtuutettu.", "No transaction stages are mechanically added. The United States remains outside the donor gate, no vendor sample is yet scorable and no purchase is authorised."],
+    ["Mitään tapahtumavaiheita ei lasketa mekaanisesti yhteen. Yhdysvallat pysyy donor-portin ulkopuolella eikä yhtään Yhdysvaltain toimittajanäytettä ole pisteytetty. Toimitettu Saksa-ote ei muuta tätä kontrollia eikä valtuuta laajempaa tilausta.", "No transaction stages are mechanically added. The United States remains outside the donor gate and no United States vendor sample is currently scored. The delivered Germany extract does not change this control or authorise a wider subscription."],
+    ["Saksan täysi ote auditoitu · numeerinen testi läpäisty · laajempi paketti HOLD", "Full Germany extract audited · numeric test passed · wider package HOLD"],
+    ["Saksan 19 välilehden arviointiote saatiin ja auditoitiin yksityisesti. Vuosien 2023 ja 2024 sekä yhdistetty numeerinen läheisyystesti läpäistiin, mutta tuote-, vero-, kanava-, tapahtumavaihe-, lähdelinja-, oikeus- ja kokonaiskustannussillat ovat avoinna. Julkisessa näkymässä ei näytetä lisensoituja arvoja, tarkkoja poikkeamia tai toimittajaliitteitä. G1 läpäisee; muut pakolliset portit eivät. EI PISTEYTETTY; laajempaa 25/50/78 maan tilausta ei ole valtuutettu.", "The 19-tab Germany evaluation extract was received and audited privately. The 2023, 2024 and combined numerical proximity tests passed, but product, tax, channel, transaction-stage, source-lineage, rights and all-in-cost bridges remain open. This public view discloses no licensed values, exact deviations or vendor attachments. G1 passes; the other mandatory gates do not. NOT SCORED; no wider 25/50/78-country subscription is authorised."],
+    ["Vuosien 2023–2024 lopullisia julkisia verotetun nestemäärän ankkureita käytettiin ennalta rekisteröidyssä yksityisessä numeerisessa testissä. Kaikki kolme läheisyysrajaa läpäistiin; rajaus, lähdelinja, oikeudet ja täydelliset ehdot ovat avoinna.", "Final public 2023–2024 taxed-liquid anchors were used in the pre-registered private numerical test. All three proximity caps passed; scope, lineage, rights and complete terms remain open."],
+    ["NUMEERINEN LÄPÄISY · RAJAUS AVOIN · Kolme yksityistä läheisyystestiä läpäistiin. Toimittaja-arvot ja tarkat poikkeamat pysyvät yksityisinä. Tämä ei hyväksy Saksaa donoriksi, muuta 0/3-porttia tai laske maailmanarvoa.", "NUMERIC PASS · SCOPE OPEN · The three private proximity tests passed. Vendor values and exact deviations remain private. This does not accept Germany as a donor, change 0/3 or compute a global value."],
+    ["Tila kuvaa vain tätä julkista tarkistuspistettä. Vastaanotto ja numeerinen läpäisy osoittavat vain evidenssin vastaanoton ja numeerisen johdonmukaisuuden — eivät lopullista tarkkuutta, täydellistä rajausvastaavuutta, oikeuksia, ehtoja tai laajemman paketin valmiutta.", "Status reflects only this public checkpoint. Receipt and the numerical pass establish evidence receipt and numerical coherence only—not final accuracy, full scope equivalence, rights, terms or wider-package readiness."],
     ["Ennalta rekisteröity hyväksymistesti", "Pre-registered acceptance test"],
     ["Kuusi porttia ennen kaupallisen näytteen pisteytystä", "Six gates before a commercial sample can be scored"],
     ["Täsmäytetyn FTC-osajoukon, kanavamaailman, menetelmän, oikeuksien ja täydellisten ehtojen on kaikkien oltava testattavissa. Porttien läpäisy ei hyväksyisi Yhdysvaltoja automaattisesti donoriksi.", "The matched FTC subset, channel universe, method, rights and complete terms must all be testable. Passing these gates would not automatically accept the United States as a donor."],
@@ -753,7 +762,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V41;
+  window.PixanUiRelease = UI_RELEASE_V43;
 
   init();
 })();

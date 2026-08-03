@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "asOf": "2026-08-02",
+  "asOf": "2026-08-03",
   "status": "screening_only_not_donor_assessment",
   "method": {
     "ruleEn": "This screen ranks public official acquisition routes. It does not score D1-D10, accept a donor market or change the 0/3 gate.",
@@ -364,9 +364,9 @@
         "itemId": "EUROMONITOR-COMBINED-FOLLOW-UP-20260728",
         "vendor": "Euromonitor",
         "route": "existing_thread",
-        "threadStatus": "superseded_by_comprehensive_request_sent",
-        "objectiveEn": "This draft was superseded by the comprehensive Germany sample, coverage, rights and terms request sent 2026-07-27. A 2026-07-29 call was completed and a conditional paid Germany extract was offered. It has not been accepted or activated; the route remains NOT SCORED and no purchase, fee or commitment is authorised.",
-        "objectiveFi": "Tämä luonnos korvautui 27.7.2026 lähetetyllä kattavalla Saksan näyte-, peitto-, oikeus- ja ehtopyynnöllä. Puhelu pidettiin 29.7.2026 ja ehdollinen maksullinen Saksa-ote tarjottiin. Sitä ei ole hyväksytty tai aktivoitu; reitti pysyy EI PISTEYTETTY -tilassa eikä ostoa, maksua tai sitoumusta ole valtuutettu.",
+        "threadStatus": "germany_extract_delivered_private_audit_complete_broader_subscription_hold",
+        "objectiveEn": "The one-country Germany extract was accepted, delivered on 2026-08-03 and audited privately. All three preregistered numerical liquid-volume proximity tests passed, but scope, lineage, rights and complete commercial-term gates remain open. Licensed values are not public. The vendor remains NOT SCORED; Germany remains outside the donor count and no wider 25/50/78-country subscription is authorised.",
+        "objectiveFi": "Yhden maan Saksa-ote hyväksyttiin, toimitettiin 3.8.2026 ja auditoitiin yksityisesti. Kaikki kolme ennalta rekisteröityä nestemäärän numeerista läheisyystestiä läpäistiin, mutta rajaus-, lähdelinja-, käyttöoikeus- ja täydellisten kaupallisten ehtojen portit ovat avoinna. Lisensoidut arvot eivät ole julkisia. Toimittaja pysyy EI PISTEYTETTY -tilassa, Saksa donor-määrän ulkopuolella eikä laajempaa 25/50/78 maan tilausta ole valtuutettu.",
         "draftFile": "FOLLOW_UP_DRAFTS_2026-07-28.md"
       },
       {
@@ -387,6 +387,6 @@
       }
     ]
   },
-  "boundaryEn": "No screened country is an accepted donor. ECigIntelligence and Euromonitor responses remain pending. Circana provided a commercial qualification response, but the United States retail sample, channel and methodology details and non-binding project-specific quote remain pending. No donor is accepted, no purchase is authorised and no private correspondence is published.",
-  "boundaryFi": "Yksikään seulottu maa ei ole hyväksytty luovuttajamarkkina. ECigIntelligencen ja Euromonitorin vastaukset odottavat edelleen. Circana toimitti kaupallisen kelpoisuusvastauksen, mutta Yhdysvaltain vähittäismyyntinäyte, kanava- ja menetelmätiedot sekä ei-sitova projektikohtainen tarjous odottavat. Yhtäkään donoria ei ole hyväksytty, ostoa ei ole valtuutettu eikä yksityistä kirjeenvaihtoa julkaista."
+  "boundaryEn": "No screened country is an accepted donor. ECigIntelligence remains pending. Euromonitor's one-country Germany extract was delivered and audited privately: all three preregistered numerical proximity tests passed, but the vendor remains NOT SCORED at 1/6, Germany remains outside the donor count and every wider 25/50/78-country package remains on HOLD and unauthorised. Circana provided a commercial qualification response, but the United States retail sample, channel and methodology details and non-binding project-specific quote remain pending. The donor gate remains 0/3, global value remains not_computed and no licensed values or private correspondence are published.",
+  "boundaryFi": "Yksikään seulottu maa ei ole hyväksytty donor-markkina. ECigIntelligencen vastaus odottaa. Euromonitorin yhden maan Saksa-ote toimitettiin ja auditoitiin yksityisesti: kaikki kolme ennalta rekisteröityä numeerista läheisyystestiä läpäistiin, mutta toimittaja pysyy EI PISTEYTETTY -tilassa tuloksella 1/6, Saksa donor-määrän ulkopuolella ja kaikki laajemmat 25/50/78 maan paketit HOLD-tilassa ilman valtuutusta. Circana toimitti kaupallisen kelpoisuusvastauksen, mutta Yhdysvaltain vähittäismyyntinäyte, kanava- ja menetelmätiedot sekä ei-sitova projektikohtainen tarjous odottavat. Donor-portti pysyy 0/3:ssa, maailmanarvo not_computed-tilassa eikä lisensoituja arvoja tai yksityistä kirjeenvaihtoa julkaista."
 }

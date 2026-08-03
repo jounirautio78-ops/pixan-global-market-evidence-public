@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "waveId": "ES_KR_JP_OPEN_OFFICIAL_2026_07_28",
-  "asOf": "2026-07-28",
+  "asOf": "2026-08-02",
   "status": "route_control_not_market_size",
   "purposeEn": "Credential-aware extraction control for official Spain, South Korea and Japan evidence. No route establishes annual consumer retail sales by itself.",
   "purposeFi": "Käyttöoikeudet huomioiva poimintakontrolli Espanjan, Etelä-Korean ja Japanin viralliseen näyttöön. Mikään reitti ei yksin osoita vuosittaista kuluttajavähittäismyyntiä.",
@@ -12,7 +12,7 @@
       "countryIso2": "ES",
       "countryEn": "Spain",
       "countryFi": "Espanja",
-      "routeState": "ready_with_scope_blocker",
+      "routeState": "ready_exact_fiscal_series_with_scope_blocker",
       "marketValueStatus": "not_computed",
       "routes": [
         {
@@ -82,6 +82,97 @@
             "The published aggregate does not split the four epigraphs, so it cannot be labelled e-liquid-only.",
             "The first-year observation begins in April 2025 and includes transitional stock rules; it is not a full-year comparable.",
             "Devices are outside this fiscal aggregate."
+          ],
+          "retailSalesEligible": false,
+          "globalRollupEligible": false
+        },
+        {
+          "routeId": "ES_AEAT_2025_2026_MODEL573_MACHINE_READABLE_SERIES",
+          "role": "official_fiscal_series_and_reconciliation_control",
+          "status": "ready",
+          "feeStatus": "free",
+          "authority": "Agencia Estatal de Administración Tributaria",
+          "sourceVersion": "AEAT_ANNUAL_2025_AND_MONTHLY_SERIES_UPDATED_2026_07_31",
+          "sources": [
+            {
+              "title": "AEAT 2025 annual report table 5.1 workbook",
+              "url": "https://sede.agenciatributaria.gob.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informes_Anuales_de_Recaudacion_Tributaria/Ejercicio_2025/Cuadro_5.1_es_es.xlsx",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "AEAT monthly tax-revenue statistical series workbook",
+              "url": "https://sede.agenciatributaria.gob.es/static_files/Sede/Tema/Estadisticas/Recaudacion_Tributaria/Informes_mensuales/Cuadros_estadisticos_series_es_es.xlsx",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "Order HAC/86/2025",
+              "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2025-1732",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "AEAT scope for e-liquids and other tobacco-related products",
+              "url": "https://sede.agenciatributaria.gob.es/Sede/impuestos-especiales-medioambientales/impuestos-especiales-fabricacion/liquidos-cigarrillos-electronicos-otros-productos-tabaco.html",
+              "verifiedOn": "2026-08-02"
+            }
+          ],
+          "access": {
+            "credentialRequired": false,
+            "publicAggregateAvailable": true,
+            "machineReadableFormat": "xlsx",
+            "feeRequired": false
+          },
+          "query": {
+            "method": "download_xlsx_validate_sha256_and_read_exact_cells",
+            "annualWorkbook": {
+              "sheet": "5.1",
+              "cells": {
+                "unit": "B3",
+                "yearStatus": "AG6",
+                "accruedExciseLiability": "AG29",
+                "netCashReceipts": "AG45",
+                "provisionalNote": "B54",
+                "cashBasisNote": "B57"
+              }
+            },
+            "monthlyWorkbook": {
+              "sheet": "Ingresos tributarios",
+              "yearMonthColumns": ["A", "B", "C"],
+              "grossColumn": "DO",
+              "refundColumn": "EC",
+              "netColumn": "FL",
+              "rows2025": [368, 379],
+              "rows2026H1": [380, 385]
+            },
+            "currencyUnit": "EUR",
+            "monthlySourceScale": 1000
+          },
+          "classification": {
+            "system": "AEAT_MODEL_573",
+            "version": "ORDER_HAC_86_2025",
+            "aggregateCode": "ALL_EPIGRAPHS",
+            "epigraphCount": 4
+          },
+          "transactionStage": "excise_liability_and_cash_receipts",
+          "flow": "accrual_gross_refunds_and_net_cash",
+          "outputMeasures": [
+            "accrued_excise_liability_eur",
+            "gross_excise_cash_receipts_eur",
+            "excise_cash_refunds_eur",
+            "net_excise_cash_receipts_eur"
+          ],
+          "coverage": {
+            "annualSourcePeriod": 2025,
+            "partialSourcePeriod": "2026-H1",
+            "taxEffectiveFrom": "2025-04-01",
+            "annualStatus": "provisional"
+          },
+          "limitations": [
+            "Every value combines all four Model 573 epigraphs and is not e-liquid-only.",
+            "The series covers excise liability or cash receipts, not consumer retail sales or market value.",
+            "Devices are outside the fiscal aggregate.",
+            "The scope is mainland Spain and the Balearic Islands; the Canary Islands, Ceuta and Melilla are outside it.",
+            "The unpublished epigraph mix prevents conversion of receipts to millilitres or grams.",
+            "The 2026 observation is a January-to-June partial period."
           ],
           "retailSalesEligible": false,
           "globalRollupEligible": false
@@ -218,37 +309,73 @@
           "status": "ready",
           "feeStatus": "free",
           "authority": "Ministry of Finance Japan and Japan Customs",
-          "sourceVersion": "ESTAT_2025_DEC_REVISED_UPDATED_2026_03_12",
+          "sourceVersion": "ESTAT_2022_2025_REVISED_ANNUAL_SERIES_VERIFIED_2026_08_02",
+          "seriesControl": {
+            "control": "source/JAPAN_2022_2025_OFFICIAL_CUSTOMS_SERIES_CONTROL.json",
+            "output": "source/JAPAN_2022_2025_OFFICIAL_CUSTOMS_SERIES.json",
+            "extractor": "scripts/extract_japan_2022_2025_series.py",
+            "validator": "scripts/validate_japan_2022_2025_series.py"
+          },
           "sources": [
             {
               "title": "Trade Statistics data download",
               "url": "https://www.customs.go.jp/toukei/info/tsdl_e.htm",
-              "verifiedOn": "2026-07-28"
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "2022 Commodity by Country Import, chapters 16-24",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040117446",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "2022 Commodity by Country Import, chapters 84-85",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040117458",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "2023 Commodity by Country Import, chapters 16-24",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040223234",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "2023 Commodity by Country Import, chapters 84-85",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040223246",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "2024 Commodity by Country Import, chapters 16-24",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040368858",
+              "verifiedOn": "2026-08-02"
+            },
+            {
+              "title": "2024 Commodity by Country Import, chapters 84-85",
+              "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040368870",
+              "verifiedOn": "2026-08-02"
             },
             {
               "title": "2025 Commodity by Country Import, Chapter 16-24, table 25-04",
               "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040424871",
-              "verifiedOn": "2026-07-28"
+              "verifiedOn": "2026-08-02"
             },
             {
               "title": "2025 Commodity by Country Import, Chapter 84-85, table 25-16",
               "url": "https://www.e-stat.go.jp/en/stat-search/file-download?fileKind=1&statInfId=000040424883",
-              "verifiedOn": "2026-07-28"
+              "verifiedOn": "2026-08-02"
             },
             {
               "title": "Trade Statistics code lists",
               "url": "https://www.customs.go.jp/toukei/sankou/code/code_e.htm",
-              "verifiedOn": "2026-07-28"
+              "verifiedOn": "2026-08-02"
             },
             {
               "title": "Japan import statistical codes chapter 24, 2025-01-01",
               "url": "https://www.customs.go.jp/english/tariff/2025_01_01/data/e_24.htm",
-              "verifiedOn": "2026-07-28"
+              "verifiedOn": "2026-08-02"
             },
             {
               "title": "Japan import statistical codes chapter 85, 2025-01-01",
               "url": "https://www.customs.go.jp/english/tariff/2025_01_01/data/e_85.htm",
-              "verifiedOn": "2026-07-28"
+              "verifiedOn": "2026-08-02"
             },
             {
               "title": "MHLW pharmaceutical import procedure Q&A, Q63",
@@ -264,16 +391,21 @@
           },
           "query": {
             "method": "download_csv_and_filter",
-            "dataset": "Trade Statistics / Commodity by Country / Import / 2025 Dec revised",
-            "tableNumbers": ["25-04", "25-16"],
-            "rowFilter": {"Exp or Imp": "2", "Year": "2025", "HS": ["240412000", "240419100", "240419200", "854340000"]},
+            "dataset": "Trade Statistics / Commodity by Country / Import / 2022-2025 revised annual tables",
+            "tableNumbersByYear": {
+              "2022": ["chapter_16_24", "chapter_84_85"],
+              "2023": ["chapter_16_24", "chapter_84_85"],
+              "2024": ["chapter_16_24", "chapter_84_85"],
+              "2025": ["25-04", "25-16"]
+            },
+            "rowFilter": {"Exp or Imp": "2", "Year": [2022, 2023, 2024, 2025], "HS": ["240412000", "240419100", "240419200", "854340000"]},
             "sourceFields": ["Exp or Imp", "Year", "HS", "Country", "Unit1", "Unit2", "Quantity1-Year", "Quantity2-Year", "Value-Year"],
             "valueUnit": "JPY_THOUSAND",
             "importValuation": "CIF"
           },
           "classification": {
             "system": "JAPAN_IMPORT_STATISTICAL_CODE_9_DIGIT",
-            "version": "2025_01_01",
+            "version": "2022_01_01_THROUGH_2025_01_01_VERIFIED_PER_YEAR",
             "codes": [
               {"code": "240412000", "label": "Other, containing nicotine", "bucket": "regulated_nicotine_noncombustion_product", "decision": "separate_review_required", "permissionBoundary": "nicotine_containing"},
               {"code": "240419100", "label": "Manufactured tobacco substitutes", "bucket": "broad_tobacco_substitutes", "decision": "excluded_until_scope_review", "permissionBoundary": "not_determined_by_customs_code"},

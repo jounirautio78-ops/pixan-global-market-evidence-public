@@ -166,6 +166,7 @@
           "enum": [
             "follow_up_sent",
             "superseded_by_comprehensive_request_sent",
+            "germany_extract_delivered_private_audit_complete_broader_subscription_hold",
             "qualification_response_received_clarification_sent"
           ]
         },

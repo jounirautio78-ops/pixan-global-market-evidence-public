@@ -6,7 +6,7 @@
 
   const EXPECTED_OUTREACH = new Map([
     ["ecig-global-market-database", "followup_sent_response_pending"],
-    ["euromonitor-passport-nicotine", "expanded_schema_and_package_quotes_review_pending"],
+    ["euromonitor-passport-nicotine", "germany_extract_delivered_private_audit_complete_broader_subscription_hold"],
     ["niq-rms-pilot", "blocked_not_submitted"],
     ["circana-us-tobacco-pilot", "administrative_qualification_received"]
   ]);
@@ -47,8 +47,8 @@
 
   function validate(raw) {
     if (!raw || raw.schemaVersion !== 1
-      || raw.status !== "decision_support_only_no_purchase_authorised"
-      || raw.version !== "2026.07.31-37"
+      || raw.status !== "decision_support_only_broader_purchase_not_authorised"
+      || raw.version !== "2026.08.03-43"
       || !validDate(raw.asOf)) {
       throw new Error("unsupported procurement programme");
     }
@@ -89,7 +89,7 @@
         throw new Error("quote-only item exposes an unsupported price");
       }
       if (item.itemId === "euromonitor-passport-nicotine"
-        && (item.priceDisplay !== "Private indicative annual quotes received"
+        && (item.priceDisplay !== "Private indicative annual quotes received; Germany extract delivered"
           || /\d/.test(item.priceDisplay)
           || item.sourceUrls.some((url) => ![
             "https://www.euromonitor.com/smokeless-tobacco-e-vapour-products-and-heated-tobacco-in-denmark/report",
@@ -132,9 +132,9 @@
         "Seuranta lähetetty · vastaus odottaa",
         "Follow-up sent · response pending"
       ),
-      expanded_schema_and_package_quotes_review_pending: l(
-        "Ehdollinen maksullinen Saksa-ote tarjottu · ei hyväksytty · lisänäyttö odottaa",
-        "Conditional paid Germany extract offered · not accepted · further evidence pending"
+      germany_extract_delivered_private_audit_complete_broader_subscription_hold: l(
+        "Saksa-ote toimitettu ja auditoitu · laajempi paketti HOLD",
+        "Germany extract delivered and audited · wider package HOLD"
       ),
       blocked_not_submitted: l("Ei lähetetty · ehtoraja", "Not submitted · terms gate"),
       administrative_qualification_received: l(
@@ -190,7 +190,7 @@
       );
       const price = node("td", "");
       const receivedIndicativeQuote = outreach?.state
-        === "expanded_schema_and_package_quotes_review_pending";
+        === "germany_extract_delivered_private_audit_complete_broader_subscription_hold";
       price.append(
         node("strong", "paid-data-price", item.priceDisplay),
         node("small", "", item.priceType === "vendor_quote"
@@ -232,7 +232,7 @@
     const publicPrices = programme.items.filter((item) => item.priceType === "public_list_price").length;
     const quotes = programme.items.length - publicPrices;
     const submitted = programme.outreach.filter((item) =>
-      ["sent", "followup_sent_response_pending", "expanded_schema_and_package_quotes_review_pending", "administrative_qualification_received"]
+      ["sent", "followup_sent_response_pending", "germany_extract_delivered_private_audit_complete_broader_subscription_hold", "administrative_qualification_received"]
         .includes(item.state)).length;
     const blocked = programme.outreach.filter((item) => item.state === "blocked_not_submitted").length;
     const status = root.querySelector("[data-paid-data-status]");
@@ -240,8 +240,8 @@
     status.replaceChildren(
       node("span", "bank-package-status-dot", ""),
       node("span", "", l(
-        `${programme.items.length} hankintakohdetta · ${submitted} pyyntöä kirjattu · ${blocked} estynyt · ei ostovaltuutta.`,
-        `${programme.items.length} procurement items · ${submitted} requests recorded · ${blocked} blocked · no purchase authorised.`
+        `${programme.items.length} hankintakohdetta · ${submitted} pyyntöä kirjattu · ${blocked} estynyt · laajempi paketti HOLD.`,
+        `${programme.items.length} procurement items · ${submitted} requests recorded · ${blocked} blocked · wider package HOLD.`
       ))
     );
     status.firstElementChild.setAttribute("aria-hidden", "true");

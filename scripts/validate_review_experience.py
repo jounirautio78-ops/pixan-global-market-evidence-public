@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DATA = SITE / "data"
 
-EXPECTED_OFFICIAL_COUNTRIES = {"CA", "DE", "FI", "NZ", "PL", "SE", "US"}
+EXPECTED_OFFICIAL_COUNTRIES = {"CA", "DE", "ES", "FI", "JP", "NZ", "PL", "SE", "US"}
 EXPECTED_PROCESS_STATES = {
     "DE": "registered_processing_notice_received",
     "FI": "registered_processing_notice_received",
@@ -53,7 +53,13 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "DE-EUROSTAT-PRODCOM-COMEXT-20595980-2024",
     "DE-EUROSTAT-PRODCOM-COMEXT-27901152-2024",
     "DE-USTG-SECTION-12-VAT",
+    "ES-AEAT-ANNUAL-2025-CUADRO-5-1",
+    "ES-AEAT-MONTHLY-SERIES-2026-07-31",
     "FI-TAX-EXCISE-VVT-010-2025",
+    "JP-ESTAT-CUSTOMS-2022-CH85",
+    "JP-ESTAT-CUSTOMS-2023-CH85",
+    "JP-ESTAT-CUSTOMS-2024-CH85",
+    "JP-ESTAT-CUSTOMS-2025-CH85",
     "PL-SEJM-I07255-O1",
     "PL-SEJM-I17526-O1",
     "PL-MF-EXCISE-RATES-2025",
@@ -74,6 +80,7 @@ EXPECTED_MARKET_SOURCE_IDS = {
     "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
     "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
     "NZ-STATSNZ-HES-DETAILED-2019-2023",
+    "NZ-STATSNZ-CPI-WEIGHTS-2024",
     "EU-EC-SWD-2025-560",
     "EU-EC-SWD-2026-111",
     "IMARC-GLOBAL-2025",
@@ -98,6 +105,7 @@ NZ_CANDIDATE_SOURCE_IDS = [
     "NZ-MOH-RIS-VAPE-RETAILER-VISIBILITY-2024",
     "NZ-MOH-AIDE-MEMO-SVR-APPROVALS-2024",
     "NZ-STATSNZ-HES-DETAILED-2019-2023",
+    "NZ-STATSNZ-CPI-WEIGHTS-2024",
 ]
 GERMANY_MODEL_ID = "DE-2025-LIQUID-RETAIL-EQUIVALENT-RANGE"
 GERMANY_VOLUME_ID = "DE-2025-TAXED-LIQUID-VOLUME-L"
@@ -339,6 +347,10 @@ REQUIRED_I18N_EN = {
     "Where the next official-data programme should focus",
     "Poland is the practical primary programme; Russia is a source-only, high-friction lead",
     "Prepared drafts remain unsent until separately approved",
+    "Germany extract delivered · wider subscription not authorised",
+    "Full Germany extract audited · numeric test passed · wider package HOLD",
+    "NUMERIC PASS · SCOPE OPEN",
+    "no wider 25/50/78-country subscription is authorised",
 }
 
 
@@ -365,8 +377,8 @@ def parse_date(value: Any) -> date | None:
 
 def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-08-02":
-        errors.append("Third-donor screen must use the reviewed v41 date")
+    if screen.get("schemaVersion") != "1.0" or screen.get("asOf") != "2026-08-03":
+        errors.append("Third-donor screen must use the reviewed v43 date")
     if screen.get("status") != "screening_only_not_donor_assessment":
         errors.append("Third-donor screen must remain screening-only")
     decision = screen.get("decision") if isinstance(screen.get("decision"), dict) else {}
@@ -410,7 +422,7 @@ def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
         errors.append("Third-donor follow-up vendors differ from the reviewed wave")
     if [item.get("threadStatus") for item in wave_items] != [
         "follow_up_sent",
-        "superseded_by_comprehensive_request_sent",
+        "germany_extract_delivered_private_audit_complete_broader_subscription_hold",
         "qualification_response_received_clarification_sent",
     ]:
         errors.append("Third-donor follow-up completion states differ from the reviewed wave")
@@ -423,6 +435,60 @@ def validate_third_donor_screen(screen: dict[str, Any]) -> list[str]:
     excluded = wave.get("excluded") if isinstance(wave.get("excluded"), list) else []
     if len(excluded) != 1 or excluded[0].get("vendor") != "NIQ":
         errors.append("NIQ must remain outside the reviewed follow-up wave")
+
+    euromonitor = wave_items[1] if len(wave_items) > 1 else {}
+    objective_en = str(euromonitor.get("objectiveEn", ""))
+    objective_fi = str(euromonitor.get("objectiveFi", ""))
+    for token in (
+        "Germany extract",
+        "delivered on 2026-08-03",
+        "audited privately",
+        "All three preregistered numerical liquid-volume proximity tests passed",
+        "NOT SCORED",
+        "no wider 25/50/78-country subscription is authorised",
+    ):
+        if token not in objective_en:
+            errors.append(f"Euromonitor v43 objective lacks required public-safe boundary {token!r}")
+    for token in (
+        "Saksa-ote",
+        "toimitettiin 3.8.2026",
+        "auditoitiin yksityisesti",
+        "Kaikki kolme ennalta rekisteröityä",
+        "EI PISTEYTETTY",
+        "laajempaa 25/50/78 maan tilausta ole valtuutettu",
+    ):
+        if token not in objective_fi:
+            errors.append(f"Euromonitorin v43-tavoite puuttuu julkisesta rajasta {token!r}")
+
+    boundary_en = str(screen.get("boundaryEn", ""))
+    boundary_fi = str(screen.get("boundaryFi", ""))
+    required_boundary_en = (
+        "No screened country is an accepted donor",
+        "one-country Germany extract was delivered and audited privately",
+        "all three preregistered numerical proximity tests passed",
+        "NOT SCORED at 1/6",
+        "25/50/78-country",
+        "HOLD",
+        "unauthorised",
+        "donor gate remains 0/3",
+        "global value remains not_computed",
+        "no licensed values",
+    )
+    required_boundary_fi = (
+        "Yksikään seulottu maa ei ole hyväksytty donor",
+        "yhden maan Saksa-ote toimitettiin ja auditoitiin yksityisesti",
+        "kaikki kolme ennalta rekisteröityä numeerista läheisyystestiä läpäistiin",
+        "EI PISTEYTETTY -tilassa tuloksella 1/6",
+        "25/50/78 maan",
+        "HOLD-tilassa ilman valtuutusta",
+        "Donor-portti pysyy 0/3:ssa",
+        "maailmanarvo not_computed-tilassa",
+        "lisensoituja arvoja",
+    )
+    if any(token not in boundary_en for token in required_boundary_en) or "Euromonitor responses remain pending" in boundary_en:
+        errors.append("Third-donor boundaryEn must disclose the v43 Germany private-audit, 1/6 NOT SCORED, 0/3/not_computed and wider-HOLD boundary")
+    if any(token not in boundary_fi for token in required_boundary_fi) or "Euromonitorin vastaukset odottavat" in boundary_fi:
+        errors.append("Third-donor boundaryFi must disclose the v43 Germany private-audit, 1/6 EI PISTEYTETTY, 0/3/not_computed and wider-HOLD boundary")
     return errors
 
 
@@ -458,10 +524,10 @@ def validate_review_data(
     if not isinstance(sources, list):
         errors.append("Freshness ledger requires a market-source array")
         sources = []
-    elif len(sources) != 47:
-        errors.append("Freshness ledger requires exactly 47 reviewed market sources")
-    if not isinstance(observations, list) or len(observations) != 156:
-        errors.append("Current market baseline must contain exactly 156 observations")
+    elif len(sources) != 54:
+        errors.append("Freshness ledger requires exactly 54 reviewed market sources")
+    if not isinstance(observations, list) or len(observations) != 174:
+        errors.append("Current market baseline must contain exactly 174 observations")
         observations = []
     if not isinstance(models, list):
         errors.append("Market models must be a list")
@@ -488,7 +554,7 @@ def validate_review_data(
             errors.append(f"{source_id}: retrievedAt cannot be later than market asOf")
     if source_ids != EXPECTED_MARKET_SOURCE_IDS:
         errors.append(
-            "Current freshness ledger must retain the exact 47-source set; "
+            "Current freshness ledger must retain the exact 54-source set; "
             f"missing={sorted(EXPECTED_MARKET_SOURCE_IDS - source_ids)}, "
             f"extra={sorted(source_ids - EXPECTED_MARKET_SOURCE_IDS)}"
         )
@@ -504,27 +570,39 @@ def validate_review_data(
             errors.append(f"Duplicate observationId {observation_id}")
         observation_by_id[observation_id] = observation
         value = observation.get("value")
-        if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(value) or value <= 0:
-            errors.append(f"{observation_id}: numeric value must be positive and finite")
+        is_numeric_value = (
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and math.isfinite(value)
+        )
+        is_signed_refund = (
+            is_numeric_value
+            and observation.get("metric") == "excise_cash_refunds"
+            and value < 0
+        )
+        if (
+            not is_numeric_value
+            or (value <= 0 and not is_signed_refund)
+        ):
+            errors.append(
+                f"{observation_id}: numeric value must be positive and finite, "
+                "except signed excise cash refunds"
+            )
         for source_id in observation.get("sourceIds", []):
             if source_id not in source_ids:
                 errors.append(f"{observation_id}: unresolved sourceId {source_id}")
             if isinstance(observation.get("year"), int):
                 years_by_source[source_id].append(observation["year"])
 
+    candidate_referenced_source_ids: set[str] = set()
     for candidate in market.get("donorCandidates", []):
         if not isinstance(candidate, dict):
             continue
-        reference_year = observation_by_id.get(
-            candidate.get("referenceId"), {}
-        ).get("year")
-        if not isinstance(reference_year, int):
-            continue
         for source_id in candidate.get("sourceIds", []):
-            if source_id in source_ids and not years_by_source.get(source_id):
-                years_by_source[source_id].append(reference_year)
+            if source_id in source_ids:
+                candidate_referenced_source_ids.add(source_id)
 
-    unused_sources = source_ids - years_by_source.keys()
+    unused_sources = source_ids - years_by_source.keys() - candidate_referenced_source_ids
     if unused_sources:
         errors.append(f"Every freshness-ledger source must support a dated market record; unused={sorted(unused_sources)}")
 
@@ -674,15 +752,15 @@ def validate_review_data(
     ]
     market_measure_official = [item for item in official if item not in structural_official]
     if (
-        len(official) != 134
+        len(official) != 152
         or official_countries != EXPECTED_OFFICIAL_COUNTRIES
         or len(structural_official) != 36
         or {item.get("countryIso2") for item in structural_official} != {"SE"}
-        or len(market_measure_official) != 98
+        or len(market_measure_official) != 116
     ):
         errors.append(
-            "v41 must retain 98 official market-measure observations plus 36 Sweden "
-            "registration-structure observations across the seven reviewed countries"
+            "The live dataset must retain 116 official market-measure observations plus 36 Sweden "
+            "registration-structure observations across the nine reviewed countries"
         )
     official_retail = [
         item for item in official
@@ -781,10 +859,16 @@ def validate_review_data(
 
     if reference_date:
         reference_year = reference_date.year
-        freshness_counts = {"latest_period": 0, "previous_full_year": 0, "historical_only": 0}
+        freshness_counts = {
+            "latest_period": 0,
+            "previous_full_year": 0,
+            "historical_only": 0,
+            "undated": 0,
+        }
         for source_id in source_ids:
             source_years = years_by_source.get(source_id, [])
             if not source_years:
+                freshness_counts["undated"] += 1
                 continue
             latest_year = max(source_years)
             if latest_year >= reference_year - 1:
@@ -794,9 +878,10 @@ def validate_review_data(
             else:
                 freshness_counts["historical_only"] += 1
         if freshness_counts != {
-            "latest_period": 14,
+            "latest_period": 17,
             "previous_full_year": 11,
-            "historical_only": 22,
+            "historical_only": 24,
+            "undated": 2,
         }:
             errors.append(f"Unexpected deterministic freshness buckets: {freshness_counts}")
 
@@ -1108,14 +1193,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-08-02-41"}
+            or set(cache_tokens) != {"2026-08-03-43"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v41 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v43 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-08-02-41"',
+        'src="assets/independent-controls.js?v=2026-08-03-43"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1125,6 +1210,30 @@ def validate_review_structure(
             errors.append(
                 f"review.html lacks required v37 independent-control hook {public_control_hook!r}"
             )
+
+    for v43_boundary_hook in (
+        "The one-country Germany extract was delivered and audited privately; Euromonitor remains NOT SCORED at 1/6",
+        "Germany extract delivered · wider subscription not authorised",
+        "Full Germany extract audited · numeric test passed · wider package HOLD",
+        "The 19-tab Germany evaluation extract was received and audited privately.",
+        "G1 passes; the other mandatory gates do not.",
+        "NUMERIC PASS · SCOPE OPEN",
+        "This does not accept Germany as a donor, change 0/3 or compute a global value.",
+        "no wider 25/50/78-country subscription is authorised",
+    ):
+        if v43_boundary_hook not in review_html:
+            errors.append(
+                f"review.html lacks required v43 Germany vendor boundary {v43_boundary_hook!r}"
+            )
+    for stale_boundary in (
+        "Partial Germany sample",
+        "0/6 mandatory gates passed",
+        "NOT TESTABLE · The partial sample lacks",
+        "No purchase, subscription or vendor commitment is authorised",
+        "No screened country is an accepted donor. The reviewed follow-up wave is completed or superseded; no purchase has been authorised.",
+    ):
+        if stale_boundary in review_html:
+            errors.append(f"review.html retains stale pre-v43 vendor boundary {stale_boundary!r}")
 
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
@@ -1197,19 +1306,21 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-08-02-nz-ca-de-donor-control-v41",
-            'version: "2026.08.02-41"',
-            'publishedAt: "2026-08-02T10:30:00+03:00"',
-            "Donor-control checkpoint and prospectively locked Germany benchmark",
-            "156 observations from 47 sources",
-            "Dashboard and all six once-daily English/Finnish lender-package files are v41",
-            "DE-BLIND-1.0.0",
-            "2.525m litres combined",
-            "15% annual and 10% combined caps",
+            "2026-08-03-germany-vendor-audit-v43",
+            'version: "2026.08.03-43"',
+            'publishedAt: "2026-08-03T17:50:00+03:00"',
+            "Germany vendor audit and daily lender-package refresh",
+            "174 observations from 54 sources",
+            "A full 19-tab Germany vendor extract was received and audited privately",
+            "Euromonitor vendor gate G1 now passes",
             "NOT SCORED",
+            "donor gate 0/3",
+            "global value null/not_computed",
+            "wider 25/50/78-country subscription remains HOLD",
+            "No licensed vendor values or reconstructable derivatives",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v41 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v43 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1270,6 +1381,7 @@ def validate_review_structure(
             "CHF_per_ml",
             "Price and proxy anchors",
             'record.metric === "retail_price_input"',
+            'official_observed_partial: ["Virallinen havainto · osavuosi", "Official observation · partial period"]',
         ):
             if hook not in app_js:
                 errors.append(f"app.js lacks required method/price-control hook {hook!r}")
@@ -1286,12 +1398,16 @@ def validate_review_structure(
             "item.retailSalesEligible !== false",
             'raw.waveId !== "ES_KR_JP_OPEN_OFFICIAL_2026_07_28"',
             'raw.countries.map((item) => item.countryIso2).join(",") !== "ES,KR,JP"',
+            "ES_AEAT_2025_2026_MODEL573_MACHINE_READABLE_SERIES",
+            "ready_exact_fiscal_series_with_scope_blocker",
+            "excise_liability_and_cash_receipts",
             'country.marketValueStatus !== "not_computed"',
             "route.retailSalesEligible !== false",
             "route.globalRollupEligible !== false",
             "function renderUs(",
             "function renderWave(",
             "function renderError(",
+            "The delivered Germany extract does not change this control or authorise a wider subscription.",
         ):
             if hook not in independent_controls_js:
                 errors.append(
@@ -1366,10 +1482,10 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v41 dashboard / v41 daily-package review experience: HOLD boundary, "
-        "0/3 donor gate, exact Germany "
+        "Validated v43 dashboard / v43 daily-package review experience: Germany numeric-pass / wider-HOLD boundary, "
+        "1/6 NOT SCORED vendor state, 0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
-        "deterministic 47-source ledger and required UI hooks."
+        "deterministic 54-source ledger and required UI hooks."
     )
 
 

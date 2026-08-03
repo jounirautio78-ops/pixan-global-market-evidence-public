@@ -31,6 +31,10 @@ EXPECTED_RATES = {
     ("CAD", 2023): Decimal("1.459468627451"),
     ("CAD", 2024): Decimal("1.482110546875"),
     ("CAD", 2025): Decimal("1.5787262745098"),
+    ("JPY", 2022): Decimal("138.027392996109"),
+    ("JPY", 2023): Decimal("151.9902745098038"),
+    ("JPY", 2024): Decimal("163.8519140625"),
+    ("JPY", 2025): Decimal("169.0434509803921"),
     ("NZD", 2022): Decimal("1.6582474708171"),
     ("NZD", 2023): Decimal("1.762151372549"),
     ("NZD", 2024): Decimal("1.788048828125"),
@@ -70,6 +74,10 @@ EXPECTED_EUR_CHECKS = {
     "PL-2024-E-LIQUID-EXCISE-RECEIPTS": Decimal("130382405.18"),
     "PL-2025-E-LIQUID-EXCISE-AMOUNT": Decimal("234240611.55"),
     "US-2021-FTC-CARTRIDGE-DISPOSABLE-REPORTED-SALES": Decimal("2336340711.87"),
+    "JP-2022-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": Decimal("509009121.12"),
+    "JP-2023-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": Decimal("463821018.99"),
+    "JP-2024-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": Decimal("454837652.81"),
+    "JP-2025-854340000-E-CIGARETTE-DEVICE-IMPORT-CIF-VALUE-JPY": Decimal("499051223.28"),
 }
 
 EXPECTED_SCENARIO_EUR = {
@@ -203,7 +211,7 @@ def validate_rate_document(
         return
     if (
         source.get("schemaVersion") != "1.0"
-        or source.get("asOf") != "2026-07-31"
+        or source.get("asOf") != "2026-08-02"
         or source.get("targetCurrency") != "EUR"
     ):
         errors.append("fx-rates.json identity, review date or target currency is invalid")
@@ -246,6 +254,14 @@ def validate_rate_document(
     if not isinstance(rates, list):
         errors.append("fx-rates.json rates must be an array")
         return
+    if len(rates) != 32:
+        errors.append("fx-rates.json must contain exactly 32 reviewed annual-average rates")
+    if {
+        item.get("currency")
+        for item in rates
+        if isinstance(item, dict)
+    } != {"CAD", "JPY", "NZD", "PLN", "SEK", "USD"}:
+        errors.append("fx-rates.json must retain the six reviewed source currencies")
     seen_ids: set[str] = set()
     seen_keys: set[tuple[str, int]] = set()
     for position, item in enumerate(rates):
@@ -273,10 +289,11 @@ def validate_rate_document(
             errors.append(f"{path} is outside the reviewed ECB rate allowlist")
         elif decimal_value(item.get("currencyUnitsPerEur")) != expected_rate:
             errors.append(f"{path} differs from the reviewed ECB OBS_VALUE")
+        expected_reviewed_at = "2026-08-02" if currency == "JPY" else "2026-07-31"
         if (
             item.get("rateType") != "annual_average_reference_rate"
             or item.get("status") != "available"
-            or item.get("reviewedAt") != source.get("asOf")
+            or item.get("reviewedAt") != expected_reviewed_at
         ):
             errors.append(f"{path} rate type, status or review date is invalid")
         if item.get("sourceUrl") != expected_source:
@@ -494,7 +511,8 @@ def main() -> None:
         print(f"FX validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated ECB EUR-equivalent layer: 28 official annual-average rates, "
+        "Validated ECB EUR-equivalent layer: 32 official annual-average rates "
+        "across six source currencies, "
         "original currencies retained, compatible monetary totals converted, "
         "and physical volumes, unit prices and missing scenarios kept fail closed."
     )

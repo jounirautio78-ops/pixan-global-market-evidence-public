@@ -1,7 +1,41 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-08-02",
+  "asOf": "2026-08-03",
   "releases": [
+    {
+      "id": "2026-08-03-germany-vendor-audit-v43",
+      "version": "2026.08.03-43",
+      "publishedAt": "2026-08-03T17:50:00+03:00",
+      "titleEn": "Germany vendor audit and daily lender-package refresh",
+      "titleFi": "Saksan toimittaja-auditointi ja päivittäinen rahoittajapaketin päivitys",
+      "items": [
+        {
+          "category": "market_data",
+          "textEn": "Activated the previously prepared public-official Spain, Japan and New Zealand controls. The public dataset now contains 174 observations from 54 sources: 152 official observations split into 116 market measures across nine countries and 36 Swedish registration-structure records. Tax, customs and CPI records remain non-retail controls and do not enter the global roll-up.",
+          "textFi": "Aktivoitiin aiemmin valmistellut Espanjan, Japanin ja Uuden-Seelannin julkiset viranomaiskontrollit. Julkisessa aineistossa on nyt 174 havaintoa 54 lähteestä: 152 virallista havaintoa jakautuvat 116 markkinamittariin yhdeksässä maassa ja 36 Ruotsin rekisterirakennetietueeseen. Vero-, tulli- ja CPI-tietueet pysyvät muina kuin vähittäismyyntikontrolleina eivätkä mene maailman roll-upiin."
+        },
+        {
+          "category": "diligence",
+          "textEn": "A full 19-tab Germany vendor extract was received and audited privately. The preregistered 2023, 2024 and combined numerical liquid-volume proximity tests all passed. Licensed values and exact deviations remain private. The result supports numerical coherence, not final accuracy or full scope equivalence.",
+          "textFi": "Saksan täysi 19 välilehden toimittajaote saatiin ja auditoitiin yksityisesti. Ennalta rekisteröidyt vuosien 2023 ja 2024 sekä yhdistetty nestemäärän numeerinen läheisyystesti läpäistiin. Lisensoidut arvot ja tarkat poikkeamat pysyvät yksityisinä. Tulos tukee numeerista johdonmukaisuutta, ei lopullista tarkkuutta tai täydellistä rajausvastaavuutta."
+        },
+        {
+          "category": "method",
+          "textEn": "Euromonitor vendor gate G1 now passes. G2, G3, G5 and G6 fail and G4 remains not testable because source lineage, observed/reported/modelled status, product/tax/channel/transaction-stage comparability, rights and complete terms remain open. The vendor remains NOT SCORED; Germany remains NOT ACCEPTED, donor gate 0/3 and global value null/not_computed.",
+          "textFi": "Euromonitorin toimittajaportti G1 läpäisee nyt. G2, G3, G5 ja G6 hylätään ja G4 ei ole testattavissa, koska lähdelinja, havaittu/raportoitu/mallinnettu-tila, tuote-/vero-/kanava-/tapahtumavaiheen vertailukelpoisuus, oikeudet ja täydelliset ehdot ovat avoinna. Toimittaja pysyy EI PISTEYTETTY -tilassa, Saksa EI HYVÄKSYTTY -tilassa, donor-portti 0/3:ssa ja maailmanarvo null/not_computed-tilassa."
+        },
+        {
+          "category": "diligence",
+          "textEn": "The delivered one-country Germany extract is recorded as accepted and received. Any wider 25/50/78-country subscription remains HOLD and is not authorised pending written scope, method, rights and all-in commercial clarifications.",
+          "textFi": "Toimitettu yhden maan Saksa-ote kirjataan hyväksytyksi ja vastaanotetuksi. Laajempi 25/50/78 maan tilaus pysyy HOLD-tilassa eikä sitä ole valtuutettu ennen kirjallisia rajaus-, menetelmä-, oikeus- ja kokonaiskustannustäsmennyksiä."
+        },
+        {
+          "category": "usability",
+          "textEn": "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and two Evidence Registers as the single 2026-08-03 daily package. No licensed vendor values or reconstructable derivatives enter the public dashboard or downloads.",
+          "textFi": "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja kaksi Evidence Registeriä päivän 3.8.2026 ainoaksi päiväpaketiksi. Julkiseen dashboardiin tai latauksiin ei viedä lisensoituja toimittaja-arvoja tai niistä palautettavia johdannaisia."
+        }
+      ]
+    },
     {
       "id": "2026-08-02-nz-ca-de-donor-control-v41",
       "version": "2026.08.02-41",

@@ -55,7 +55,7 @@ CSV_FIELDS = [
     "verifiedOn",
     "programmeVersion",
     "programmeAsOf",
-    "purchaseAuthorised",
+    "widerPackagePurchaseAuthorised",
 ]
 
 
@@ -129,7 +129,7 @@ def render_csv(source: dict[str, Any]) -> bytes:
                 "verifiedOn": item["verifiedOn"],
                 "programmeVersion": programme["version"],
                 "programmeAsOf": programme["asOf"],
-                "purchaseAuthorised": "false",
+                "widerPackagePurchaseAuthorised": "false",
             }
         )
     return buffer.getvalue().encode("utf-8")
