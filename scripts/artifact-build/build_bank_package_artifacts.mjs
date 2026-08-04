@@ -15,15 +15,21 @@ const downloadDir = path.join(repo, "site", "downloads");
 const dataDir = path.join(repo, "site", "data");
 const sourceDir = path.join(repo, "source");
 const seedDir = path.join(repo, "scripts", "artifact-build", "seeds", "v17");
-const qaDir = path.join(repo, "tmp", "bank-v43", "qa");
-const renderRoot = path.join(repo, "tmp", "bank-v43", "renders");
-const releaseVersion = "2026.08.03-43";
-const releaseId = "2026-08-03-germany-vendor-audit-v43";
+const qaDir = path.join(repo, "tmp", "bank-v44", "qa");
+const renderRoot = path.join(repo, "tmp", "bank-v44", "renders");
+const releaseVersion = "2026.08.03-44";
+const releaseId = "2026-08-03-patent-valuation-pivot-v44";
 const releaseDate = "2026-08-03";
+const componentSnapshotVersion = "2026.08.03-43";
 const packageCadence = Object.freeze({
   frequency: "once_daily",
   timeZone: "Asia/Nicosia",
   dashboardMayUpdateIntraday: true,
+});
+const exceptionalSameDayAlignment = Object.freeze({
+  priorReleaseId: "2026-08-03-germany-vendor-audit-v43",
+  targetReleaseId: releaseId,
+  reason: "exceptional_same_day_alignment_replacement",
 });
 const fhmSourceId = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24";
 const fhmSourceUrl = "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/tobak-och-nikotinprodukter-regler-for-tillverkning-handel-och-hantering/elektroniska-cigaretter-och-pafyllningsbehallare-sa-foljer-du-reglerna/";
@@ -157,16 +163,16 @@ const EUR_EQUIVALENT_HEADERS = {
   fi: [
     "Tietuetyyppi",
     "Tunniste",
-    "Erä / komponentti",
+    "Erätunniste / komponentti",
     "Maa / maantiede",
     "Vuosi",
-    "Periodi",
+    "Jakso",
     "Alkuperäinen määrä",
     "Valuutta",
-    "ECB-kurssi (valuuttayksikköä / EUR)",
+    "EKP-kurssi (valuuttayksikköä / EUR)",
     "EUR-vasta-arvo (täysi tarkkuus)",
-    "Rate ID",
-    "ECB-lähde URL",
+    "Kurssitunniste",
+    "EKP-lähteen URL",
     "Tila",
     "Syy / menetelmä",
   ],
@@ -187,6 +193,100 @@ const EUR_EQUIVALENT_HEADERS = {
     "Reason / method",
   ],
 };
+
+const FI_EUR_ITEM_LABELS = new Map(Object.entries({
+  manufacturer_importer_shipments_value: "valmistajien ja maahantuojien toimitusarvo",
+  statcan_rcs_vaping_retail_sales: "Statistics Canadan sähkötupakkavähittäismyynti",
+  official_reported_revenue_mixed_supply_stages: "virallisesti ilmoitettu liikevaihto, sekalaiset toimitusvaiheet",
+  official_specialist_retail_sales_lower_bound: "erikoisvähittäiskaupan virallinen myynnin alaraja",
+  derived_official_workbook_sales_raw_sum: "virallisten työkirjojen johdettu myynnin raakasumma",
+  derived_identified_vaping_product_sales_raw_sum: "tunnistettujen sähkötupakkatuotteiden johdettu myynnin raakasumma",
+  institutional_market_value_benchmark: "institutionaalinen markkina-arvon vertailuarvo",
+  substitutes_excise_receipts: "korvaavien tuotteiden valmisteverotuotto",
+  wz4726_tobacco_specialist_taxable_supplies_and_services_turnover: "WZ 47.26 -tupakkaerikoiskaupan verollinen liikevaihto",
+  nicotine_e_liquid_excise_receipts: "nikotiinillisten e-nesteiden valmisteverotuotto",
+  e_liquid_excise_receipts: "e-nesteiden valmisteverotuotto",
+  vaporisation_device_broad_group_excise_amount: "laajan höyrystyslaiteryhmän valmisteveron määrä",
+  vaporisation_device_component_sets_broad_group_excise_amount: "laajan höyrystyslaitteiden osasarjaryhmän valmisteveron määrä",
+  commercial_market_estimate: "kaupallinen markkina-arvio",
+  ftc_reported_cartridge_and_disposable_sales: "FTC:n ilmoittama kasetti- ja kertakäyttötuotteiden myynti",
+  household_expenditure_estimate: "kotitalouskulutuksen arvio",
+  institutional_channel_value_benchmark: "institutionaalinen kanava-arvon vertailuarvo",
+  prodcom_20595980_sold_production_value: "PRODCOM 20595980: myydyn tuotannon arvo",
+  prodcom_20595980_import_value: "PRODCOM 20595980: tuonnin arvo",
+  prodcom_20595980_export_value: "PRODCOM 20595980: viennin arvo",
+  prodcom_27901152_sold_production_value: "PRODCOM 27901152: myydyn tuotannon arvo",
+  prodcom_27901152_import_value: "PRODCOM 27901152: tuonnin arvo",
+  prodcom_27901152_export_value: "PRODCOM 27901152: viennin arvo",
+  prodcom_20595980_apparent_supply_value: "PRODCOM 20595980: näennäisen tarjonnan arvo",
+  prodcom_27901152_apparent_supply_value: "PRODCOM 27901152: näennäisen tarjonnan arvo",
+  combined_prodcom_apparent_supply_value: "yhdistetty PRODCOM-näennäisen tarjonnan arvo",
+  mechanical_apparent_supply_excise_vat_bridge: "mekaaninen näennäisen tarjonnan valmistevero- ja ALV-silta",
+  commercial_disposable_e_cigarette_retail_sales_value: "kaupallinen kertakäyttöisten sähkötupakoiden vähittäismyyntiarvo",
+  accrued_excise_liability: "kertynyt valmisteverovelka",
+  gross_excise_cash_receipts: "valmisteveron bruttokassakertymä",
+  net_excise_cash_receipts: "valmisteveron nettokassakertymä",
+  e_cigarette_device_customs_import_cif_value: "sähkötupakkalaitteiden tullituonnin CIF-arvo",
+  "low.specialistRetailNzd": "ala: erikoisvähittäiskauppa, NZD",
+  "low.generalRetailRpsNzd": "ala: yleisvähittäiskaupan RPS-malli, NZD",
+  "low.combinedNzd": "ala: yhdistetty, NZD",
+  "base.specialistRetailNzd": "perus: erikoisvähittäiskauppa, NZD",
+  "base.generalRetailRpsNzd": "perus: yleisvähittäiskaupan RPS-malli, NZD",
+  "base.combinedNzd": "perus: yhdistetty, NZD",
+  "high.specialistRetailNzd": "ylä: erikoisvähittäiskauppa, NZD",
+  "high.generalRetailRpsNzd": "ylä: yleisvähittäiskaupan RPS-malli, NZD",
+  "high.combinedNzd": "ylä: yhdistetty, NZD",
+  low: "ala",
+  central: "keskitaso",
+  high: "ylä",
+}));
+
+function localizeFinnishEurRow(row) {
+  const recordTypes = {
+    market_observation: "markkinahavainto",
+    scenario_component: "skenaariokomponentti",
+    model: "malli",
+  };
+  const geographies = {
+    Canada: "Kanada",
+    "New Zealand": "Uusi-Seelanti",
+    "European Union": "Euroopan unioni",
+    Germany: "Saksa",
+    Finland: "Suomi",
+    Poland: "Puola",
+    Sweden: "Ruotsi",
+    Global: "Maailma",
+    "United States": "Yhdysvallat",
+    Spain: "Espanja",
+    Japan: "Japani",
+  };
+  const periods = {
+    calendar_year: "kalenterivuosi",
+    study_reference_period_may_2015: "tutkimuksen viitejakso toukokuussa 2015",
+    calendar_year_estimate: "kalenterivuoden arvio",
+    year_ended_june: "kesäkuussa päättynyt vuosi",
+    "2026_h1": "vuoden 2026 ensimmäinen puolisko",
+  };
+  const statuses = {
+    computed: "laskettu",
+    already_eur: "valmiiksi euroina",
+    not_computed: "ei laskettu",
+  };
+  const reasons = {
+    original_amount_divided_by_ecb_annual_average: "alkuperäinen määrä jaettuna EKP:n vuotuisella keskikurssilla",
+    original_currency_already_eur: "alkuperäinen valuutta on jo euro",
+    period_not_compatible_with_annual_average: "jakso ei ole yhteensopiva vuotuisen keskikurssin kanssa",
+  };
+  return {
+    ...row,
+    recordType: recordTypes[row.recordType] ?? row.recordType,
+    item: FI_EUR_ITEM_LABELS.get(row.item) ?? row.item,
+    geography: geographies[row.geography] ?? row.geography,
+    period: periods[row.period] ?? row.period,
+    statusLabel: statuses[row.status] ?? row.status,
+    reasonLabel: reasons[row.reason] ?? row.reason,
+  };
+}
 
 const EUR_EQUIVALENT_SHEET_NAMES = {
   fi: "Eurovastineet",
@@ -212,15 +312,27 @@ const deckUpdates = {
   fi: {
     short: {
       shapes: {
-        "sh/ozy1ofad": "Rahoitusteesi perustuu näyttöön",
-        "sh/doj29oba": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC; ADM`,
-        "sh/0ba143al": "Globaali markkina-arvo ei ole vielä tuettu",
-        "sh/ih8ju9sn": "195",
-        "sh/kbm987y5": "578 WB-havaintoa · 116 markkinamittaria + 36 Ruotsin FHM-lukua",
-        "sh/i94r6xgz": "274,180 milj. NZD",
-        "sh/jadsz2xk": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
-        "sh/v6tsv2xo": "Kanada 7/10; NZ:n rajaproxyt eivät ole retail-arvoja. Saksan yksityinen DE-BLIND-audit läpäisi vuosien 2023 ja 2024 vuosirajat sekä yhteisrajan; arvot salassa. Euromonitor 1/6, EI PISTEYTETTY; laajempi paketti HOLD.",
-        "sh/p0batw72": "Menetelmäkontrolli 28 / 0 / 15 / 152. Kanada retail 1,219160 mrd CAD ja toimitukset 1,160754 mrd CAD. Uusi-Seelanti 274,180 milj. NZD, 7/10; tullisuhteet eivät ole katteita. Donor 0/3.",
+        "sh/7qp4be9c": "Puolustettavissa oleva patentin arvo\nnäyttöporttien kautta",
+        "sh/65g3298r": "Riippumaton julkinen päätöstiivistelmä",
+        "sh/ozy1ofad": "Rahoitusteesi: arvoa ei ole vielä laskettu",
+        "sh/r65knqtk": "Tavoite on arvioida puolustettavissa oleva patentin arvon vaihteluväli — ei nimetä suurinta mahdollista markkinalukua.",
+        "sh/q5wjelsz": "•  Seitsemän perustekohtaista, ei-yhteenlaskettavaa arvotulosta ovat null/NOT_COMPUTED; kaikki seitsemän arvonmääritysporttia ovat OPEN.\n•  Markkinaevidenssi on vain syöte: markkinan koko ei ole patentin arvo eikä puuttuva evidenssi ole nolla.\n•  Saksan ratkaisu on vain mahdollinen tapauskohtainen evidenssi ratkaistulle tuotteelle ja vaatimukselle; siirto vaatii uuden asiantuntija-arvion.",
+        "sh/mtwrmxg7": "Nykyinen evidenssi tukee jatkotarkastusta, ei vielä tiettyä patenttiarvoa, lainamäärää tai osakearvoa.",
+        "sh/d0jax03i": "Saksan näyttö kalibroi — se ei globalisoi",
+        "sh/w7ulsvqp": "Oikeusnäyttö on arvokasta vain maakohtaisen oikeuden, tuotevertailun ja paikallisen teon kanssa.",
+        "sh/e10f2twf": "Oikeudet ovat alueellisia. Tavanomaiset PCT-/EP-laajennusajat ovat umpeutuneet; puuttuvien maiden poikkeusreitti vaatii maakohtaisen asiantuntija-arvion.",
+        "sh/0ba143al": "Seitsemän askelta erillisiin arvotuloksiin",
+        "sh/ih8ju9sn": "7",
+        "sh/kbm987y5": "pakollista porttia · kaikki OPEN · lopullinen arvo NOT_COMPUTED",
+        "sh/i94r6xgz": "NOT_COMPUTED",
+        "sh/jadsz2xk": "kaikki seitsemän arvotulosta = null",
+        "sh/v6tsv2xo": "Markkinaevidenssi → rajausavainten täsmäytys → katettu myynti → reittikohtainen taloudellinen hyöty → painotetut päivätyt kassavirrat → nykyarvo/oikaisut → erillinen ei-yhteenlaskettava tulos.",
+        "sh/p0batw72": "Lisensointi ei vaadi loukkausmyyntiä; vain menneen täytäntöönpanon haara vaatii. Puuttuva ei ole nolla. Donor 0/3 on evidenssivalmiuden syöte, ei lopputavoite.",
+        "sh/cf2tcr61": "Seitsemän avointa porttia määrittävät työohjelman",
+        "sh/m5kbi1oj": "Lukitse peruste/kohde, oikeudet, vaatimusvertailu, katettu myynti, talous, kassavirta ja riskit ennen tuloskohtaista laskentaa.",
+        "sh/zi98nu94": "Ehdollinen eteneminen: sulje portit ennen arvopäätöstä",
+        "sh/87ipkzal": "•  Peruste ja kohde: oikeudet, alueet, käyttötarkoitus, markkinaosapuoli-/omistajaperuste sekä brutto/netto/verot.\n•  Oikeudet, tuote ja katettu myynti: Boolean-/aikamaskit, mitattu SKU-kohdistus ja asiantuntijan vaatimusvertailun tila.\n•  Neljä haaraa: RFR/oma käyttö, lisensointi, mennyt täytäntöönpano ja strateginen optio; vain täytäntöönpano vaatii loukkausmyyntiä.\n•  Painotetut päivätyt kassavirrat, yhden kerran riskikohdistus ja vakuudelle erillinen realisaatiotapaus; tuloksia ei summata.",
+        "sh/doj29oba": `Riippumaton julkinen evidenssikooste · ei Pixan Oy:n virallinen kanta · ${releaseVersion} · ${releaseDate}`,
       },
     },
     medium: {
@@ -238,58 +350,126 @@ const deckUpdates = {
         "sh/v2tcn650": "274,180 milj. NZD",
         "sh/u1kbu1ov": "Uusi-Seelanti 2024: tunnistettu AIS/AVP-summa",
         "sh/i54bylor": "Uusi-Seelanti läpäisee 7/10: D5 hylätty, D8 ja D10 avoinna. Ei hyväksytty; donor-portti 0/3.",
-        "sh/cbe5g3ih": "Kanada 2024: retail 1,219160 mrd CAD; toimitukset 1,160754 mrd CAD. Saman kyselyn kuukausireitti eroaa 1 000 CAD. Kanada 7/10; D5/D7 hylätty, D10 avoin. Ei summata.",
+        "sh/cbe5g3ih": "Kanada 2024: vähittäismyynti 1,219160 mrd CAD; toimitukset 1,160754 mrd CAD. Saman kyselyn kuukausireitti eroaa 1 000 CAD. Kanada 7/10; D5/D7 hylätty, D10 avoin. Ei summata.",
       },
       tables: {
         "tb/nq547y9g": [[3, 2, "116 markkinamittaria 9 maasta + 36 Ruotsin FHM-rekisterilukua; eri mittarit eivät summaudu markkinaksi"]],
-        "tb/rexkf2d4": [[1, 2, "0/3 retail-luovuttajaa; 5 ehdokasta jäi D1–D10-portin ulkopuolelle"]],
+        "tb/rexkf2d4": [[1, 2, "0/3 hyväksyttyä vähittäisarvon luovuttajamarkkinaa; 5 ehdokasta jäi D1–D10-portin ulkopuolelle"]],
       },
     },
     large: {
       shapes: {
-        "sh/ozy1ofad": "Rahoitettavuus on mahdollisuus, ei johtopäätös",
-        "sh/0ba143al": "Todennusketju katkeaa ennen kassavirtaa",
+        "sh/7qp4be9c": "Puolustettavissa oleva patentin arvo\nnäyttöporttien kautta",
+        "sh/65g3298r": "Riippumaton 30 dian tutkija- ja rahoituspäätöspaketti",
+        "sh/ozy1ofad": "Rahoitusteesi: patentin arvo on NOT_COMPUTED",
+        "sh/r65knqtk": "Tavoite on arvioida puolustettavissa oleva patentin arvon vaihteluväli läpinäkyvällä, portitetulla evidenssiketjulla.",
+        "sh/mtwrmxg7": "Jatka tarkastusta; älä tee lopullista arvo- tai luottopäätöstä ennen seitsemän tuloskohtaisen portin sulkemista.",
+        "sh/0ba143al": "Seitsemän askeleen ketju johtaa erillisiin arvotuloksiin",
+        "sh/3ihk3et8": "Markkinaevidenssi → rajausavainten täsmäytys → katettu myynti → neljä taloudellista reittiä → painotetut päivätyt kassavirrat → nykyarvo ja kertaluonteiset oikaisut → erilliset ei-yhteenlaskettavat tulokset.",
+        "sh/ih8ju9sn": "•  Kaikki seitsemän perustekohtaista arvotulosta ja välivaiheet ovat null/NOT_COMPUTED.\n•  Kaikki seitsemän tuloskohtaista pakollista porttia ovat OPEN.\n•  Puuttuva ei ole nolla, markkina ei ole patenttiarvo eikä aikaa tai riskiä saa laskea kahdesti.",
+        "sh/i94r6xgz": "Yksi avoin pakollinen portti estää lopullisen ala-, keski- ja yläarvon laskemisen.",
         "sh/cf2tcr61": "Patentoitu ratkaisu ohjaa tehoa resistanssitiedolla",
+        "sh/m5kbi1oj": "•  Mittaus: lämmityselementin resistanssi.\n•  Tieto: tallennetut resistanssi–tehoarvot.\n•  Ohjaus: lämmittimelle syötetty teho ja käyttäjäsäädön rajat.",
+        "sh/ahkvi1cb": "Yleiskielinen kuvaus ei korvaa maakohtaista patenttivaatimusten tulkintaa tai tuotekohtaista vaatimusanalyysiä.",
         "sh/dcbud0ra": "IP-historian ydintapahtumat ovat jäljitettävissä",
-        "sh/g72x4zyd": "Patenttiperhe: 22 julkaisua, maapeitto avoin",
-        "sh/0f2lgnmp": "195 maan pohja: 578 WB-havaintoa; reitit 28 / 0 / 15 / 152; ei myyntiä",
+        "sh/g72x4zyd": "22 julkaisua = 20 kansallista + EP + WO; 28 maariviä eivät todista voimassaoloa",
+        "sh/6twve1oz": "Asiamiehen maamatriisin tulee sisältää haltija, voimassa olevat patenttivaatimukset, vuosimaksu, kuitti, rasitteet, UPC-asema ja seuraava määräpäivä.",
+        "sh/725onyl4": "Julkinen sekundäärinen asiakirjarekisteritieto viittaa hylätyn hakemuksen hakijapuolen uudelleentarkastukseen.",
+        "sh/m1cnetkj": "•  Menettely luokitellaan uudelleentarkastuspyynnöksi.\n•  Virallista päätöstä ja tarkkoja perusteluja ei saatu julkiseen pakettiin.\n•  CN105764365B julkaistiin myöhemmin myönnettynä 4.5.2021.",
+        "sh/ah8nu54b": "Saksan ratkaisu on vain dokumentoidun rajauksen kalibrointi- ja teknisen neuvotteluvoiman syöte; se ei globalisoi suojaa tai loukkausta.",
+        "sh/0f2lgnmp": "195 maan markkinaevidenssi on syöte — ei patentin arvo",
         "sh/4felwzu5": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: Market-values model; Method-route control; Readiness ja donorCandidates`,
         "sh/wbydknq1": "Kanada 2024: vahva piste-estimaatti, 7/10",
         "sh/5grehs7i": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: Statistics Canada; Health Canada 2024`,
         "sh/ehwvat8n": "1,219160 mrd CAD",
-        "sh/c3e1gjyd": "retail · 822,58 milj. EUR",
+        "sh/c3e1gjyd": "vähittäismyynti · 822,58 milj. EUR",
         "sh/a1wze9g7": "1,160754 mrd CAD",
         "sh/b2507exs": "toimitukset · 783,18 milj. EUR",
         "sh/ls7idofu": "1 000 CAD",
         "sh/y5wjitgj": "kuukausi–kvartaali-ero",
-        "sh/z650byxo": "Retail ylittää toimitukset 58,406 milj. CAD eli 5,03 %, mutta jäännös ei ole kate tai markkinahaarukka. D8 on suljettu virallisella veroperustalla.",
+        "sh/z650byxo": "Vähittäismyynti ylittää toimitukset 58,406 milj. CAD (5,03 %). Jäännös ei ole kate eikä markkinahaarukka; D8 suljettu veroaineistolla.",
         "sh/hsvy50re": "Kanada läpäisee 7/10. D5 hylätty: NAICS 459999 jää kohdejoukon ulkopuolelle. D7 hylätty: tarkkoja tuoteryhmätason laatumittareita ei ole saatavilla. D10 avoin: eri tapahtumatasojen silta on täsmäyttämättä.",
-        "sh/9kby1g7m": "Saksan sokkotesti: numeerinen läpäisy, rajaus yhä avoin",
-        "sh/mpgj6t8j": "DE-BLIND-1.0.0: lisensoitu vuosien 2022–2025 Saksa-ote vastaanotettiin. Jäädytetty yksityinen testi läpäisi vuoden 2023 ja 2024 vuosirajat sekä kahden vuoden yhteisrajan. Toimittaja-arvot ja tarkat poikkeamat pidetään salassa. Tuote-, vero-, kanava-, tapahtumavaihe- ja menetelmäsillat ovat avoinna; Saksa ei ole donor.",
+        "sh/9kby1g7m": "Saksan näyttö kalibroi — se ei globalisoi",
+        "sh/mpgj6t8j": "Julkaistu Saksan ratkaisu on vain mahdollinen tapauskohtainen evidenssi ratkaistulle tuotteelle ja patenttivaatimukselle. Siirtäminen toiseen tuotteeseen, vastapuoleen, ajanjaksoon tai maahan vaatii ajantasaisen asiantuntijan vaatimusvertailun ja prosessitilan tarkastuksen.",
         "sh/gbedwfmx": "Globaalit arviot ovat ristiintarkistus",
-        "sh/hsn2l4bu": "Maailmanestimaatti vaatii vähintään 3 donoria",
+        "sh/hsn2l4bu": "Donor 0/3 on evidenssivalmiuden syöte — ei lopputavoite",
         "sh/rq50vmp8": "Asiakassegmentit ovat vielä hypoteeseja",
         "sh/7a18rydc": "Tuotevalidointi tarvitsee katkeamattoman ketjun",
-        "sh/8jup8rad": "Ensimmäisen donorin 90 päivän sulkemissprintti",
-        "sh/5gbupcrm": "Uusi-Seelanti: 183,371/197,070 milj. NZD:n nettorajaproxyt ovat vain D10-diagnostiikkaa; tarvitaan saman rajauksen retail-silta. Kanada: NAICS 459999-, tarkkuus- ja tapahtumavajeet vaativat riippumattoman POS-/retail-reitin.",
-        "sh/t4butcri": "Puola: virallinen 2020–2023 e-nestevirta ja vuoden 2025 laajan höyrystyslaiteryhmän verosilta. E-sähkötupakka-/lämmitin-/monitoimilaitejako, retail-arvo ja varsinainen donor-kandidaatti puuttuvat.",
-        "sh/98ruxsre": "3.8.: Saksan täysi ote auditoitu yksityisesti; kolme ennalta lukittua numeerista testiä läpäisty, arvot salassa. Euromonitor 1/6 ja EI PISTEYTETTY; Saksa ei donor. Laajempi 25/50/78 maan paketti HOLD.",
-        "sh/218rq9kr": "Hyväksy donor vain, jos kaikki kymmenen ehtoa läpäisevät. Muuten 0/3 ja not_computed säilyvät.",
+        "sh/8v2pobax": "Viisi näyttösuodatinta syöttää seitsemän askeleen arvomallia",
+        "sh/il47u5sz": "Vain riski-, kulu-, vero- ja aikakorjattu patenttikassavirta voi muodostaa arvon; kokonaismarkkina ei yksin muodosta sitä.",
+        "sh/cfyt4beh": "Seitsemän arvotulosta alkaa null-tilasta",
+        "sh/elwbu1wj": "Markkinaosapuoli-, omistajakohtainen, RFR-/oma käyttö-, kolmannen lisensointi-, täytäntöönpano-, transaktio- ja vakuustulos pysyvät null/NOT_COMPUTED-tilassa eikä niitä summata.",
+        "sh/vitkzqlc": "Herkkyydet ilman riskien päällekkäisyyttä",
+        "sh/lcr2tw3a": "Älä syötä prosentteja ennen lähdenäyttöä; samaa myyntiä, kassavirtaa tai riskioikaisua ei saa laskea kahdesti.",
+        "sh/1cj61w7q": "Purkuanalyysi ja testi",
+        "sh/yp0zipk7": "Vaatimusvertailu",
+        "sh/wnihgf2h": "Markkinamyynti voidaan kohdistaa vasta, kun tuoteidentiteetti ja vaatimusvertailu ovat hallittuja.",
+        "sh/ix47utcn": "Valitse reitti vasta, kun oikeus, vastapuoli, kassavirta ja alariski on todennettu.",
+        "sh/8jup8rad": "90 päivän ohjelma sulkee seitsemän porttia",
+        "sh/5gbupcrm": "Lukitse arvonmääritysperuste, kohde, käyttötarkoitus ja rajausavaimet; vahvista oikeudet, omistus, rasitteet, vaatimukset ja jäljellä oleva aika.",
+        "sh/t4butcri": "Kohdista tuote ja katettu myynti Boolean-/aikamaskilla, mitatulla SKU-myynnillä ja vaatimusvertailun tilalla; loukkausnäyttö vain täytäntöönpanon haaralle.",
+        "sh/98ruxsre": "Valitse RFR/oma käyttö, lisensointi, täytäntöönpano tai strateginen reitti; määritä täydet skenaariot ja todennäköisyyksien summa yksi.",
+        "sh/218rq9kr": "Diskonttaa päivätyt painotetut kassavirrat ilman riskin/aikatekijän tuplalaskentaa; vakuus vaatii erillisen realisaatio-, etusija- ja myyntikulutapauksen.",
         "sh/21gnuts7": `Julkinen riippumaton evidenssikooste · ${releaseVersion} · ${releaseDate} · Lähteet: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
-        "sh/q5wjelsz": "•  EPO:n muutettu EP3032975B2 ja Saksan kaksi virallista ratkaisua muodostavat oikeusnäytön ankkurin.\n•  195 maan menetelmäkontrolli erottaa 28 tarkistettua suunnitelmaa, 0 lähdepolkua, 15 EU TPD -mallia ja 152 rajaamatonta proxy-reittiä; mikään ei avaa 0/3 donor-porttia.\n•  Rahoitusrakenne tarvitsee kansalliset oikeudet, claim-mapped sales -sillan, kassavirran ja riippumattoman arvonmäärityksen.",
+        "sh/q5wjelsz": "•  22 julkaisua tarkoittaa 20 kansallista + EP + WO; 28 muodollista maariviä eivät ole 28 vahvistettua voimassa olevaa oikeutta.\n•  Tavalliset PCT-kansallisen vaiheen ja EP-validoinnin ikkunat ovat umpeutuneet; mahdollinen poikkeus on maa- ja asiakirjakohtainen.\n•  Seitsemän erillistä arvotulosta ovat null/NOT_COMPUTED; seitsemän tuloskohtaista porttia estävät perusteiden, riskien ja vakuusarvon sekoittamisen.",
         "sh/bq9orito": "116 markkinamittaria ja 36 Ruotsin FHM-lukua; menetelmäkontrolli 28 / 0 / 15 / 152",
-        "sh/6hw3y9sb": "Uusi-Seelanti 7/10: D5 hylätty, D8 ja D10 avoinna. Kaikki 5 ehdokasta ovat ulkona; donor-portti 0/3.",
-        "sh/rip4retw": "•  Uuden-Seelannin tunnistettu AIS/AVP-summa 274,180 milj. NZD jakautuu kulutustarvikkeisiin 189 402 451,96, laitteisiin/hardwareen 84 709 409,85 ja sekajärjestelmiin 68 548,40 NZD.\n•  Viereiset 2 137 085,24 ja ratkaisemattomat 4 367 017,37 NZD rajataan pois. Maa läpäisee 7/10; D5 hylätään sekä D8 ja D10 ovat avoimia.\n•  Erillinen 533,7–731,2 milj. NZD RPS-herkkyys on tuettu malli, ei havaittu kansallinen arvo. Donor-portti pysyy 0/3:ssa.",
-        "sh/x8japo3e": "Päiväpaketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä; dashboard voi päivittyä päivän aikana.",
+        "sh/6hw3y9sb": "Nykyinen donor-portti on 0/3; se mittaa mahdollisen globaalin markkinamallin evidenssivalmiutta, ei patentin lopullista arvoa.",
+        "sh/rip4retw": "•  Jokaisen donor-ehdokkaan on läpäistävä D1–D10; tällä hetkellä hyväksyttyjä donoreita on nolla.\n•  Donor-portti ei korvaa maakohtaisia oikeuksia, tuote–vaatimusvertailua, kohdistettavaa myyntiä tai taloudellista perustetta.\n•  Markkina-arviot säilyvät ristiintarkistuksina; niitä ei summata keskenään eikä nimetä patentin arvoksi.",
+        "sh/1cr2tg72": "Vertaa kysyntä-, vero-, tulli-, yritys- ja hintamenetelmiä; älä lisää vaihtoehtoisia estimaatteja yhteen tai käytä puuttuvaa nollana.",
+        "sh/x8japo3e": "Ladattava paketti päivitetään enintään kerran Asia/Nicosia-kalenteripäivässä.",
+        "sh/o3yl4361": "Puolustettava patenttiarvo on läpinäkyvä ketju — ei suurin markkinaluku",
+        "sh/bqpkfy5s": "•  Tavoite: arvioida puolustettavissa olevat, perustekohtaiset patenttiarvon vaihteluvälit.\n•  Nykytila: seitsemän ei-yhteenlaskettavaa tulosta ovat null/NOT_COMPUTED ja kaikki 7/7 tuloskohtaista porttia OPEN.\n•  Seuraava päätös: sulje peruste-, oikeus-, tuote-, myynti-, talous-, kassavirta- ja riskinäyttö ilman tuplalaskentaa.\n•  Tämä on riippumaton julkinen evidenssikooste, ei Pixan Oy:n virallinen kanta, arvonmääritys tai rahoitussuositus.",
       },
       tables: {
+        "tb/epsjupkr": [
+          [0, 2, "Tarkastuskysymys"],
+        ],
+        "tb/zi9gfitk": [
+          [2, 1, "Voimassa oleva patenttivaatimus"],
+          [3, 0, "3. Kohdetuotteet"],
+          [3, 1, "Vaatimusvertailutaulukko"],
+          [4, 0, "4. Kohdistettava myynti"],
+          [4, 1, "Tuote × maa × aika × nettomyynti"],
+        ],
+        "tb/3i5gfahc": [
+          [2, 1, "Vaatimukset, aiempi tekniikka, tila, toimintavapaus (FTO)"],
+          [2, 2, "Patenttimaisema"],
+          [3, 2, "Kiertoratkaisuarvio"],
+          [4, 2, "Osta / rakenna / lisensoi / riitele -malli"],
+        ],
+        "tb/ba5ovadg": [
+          [1, 1, "Alkumaksu + jatkuva rojalti"],
+          [3, 2, "Luovutetaan tuleva tuottopotentiaali"],
+          [4, 1, "Velka tai tuotto-osuus"],
+        ],
+        "tb/jmdwja5s": [
+          [0, 2, "Tila"],
+          [1, 0, "Maakohtainen kohdistettava myynti"],
+          [1, 1, "Viranomainen / vastapuolen ilmoitus"],
+          [2, 0, "Vaatimuksiin kohdistettu osuus"],
+          [2, 1, "Asiamiehen tarkastama tuotedossieri"],
+          [6, 0, "Diskonttaus ja alariski"],
+        ],
+        "tb/al8by58z": [
+          [0, 1, "Ala"],
+          [0, 2, "Perus"],
+          [0, 3, "Ylä"],
+          [2, 0, "Vaatimusosuvuus"],
+          [4, 2, "Sopimusreitti"],
+          [4, 3, "Etupainotteinen rakenne"],
+        ],
+        "tb/8f2dgr69": [
+          [2, 2, "Vaatimusvertailutaulukko + riippumaton testi"],
+          [3, 2, "Tuote–maa–aika–nettomyynti"],
+          [5, 1, "Mitä vakuus realisoi alariskitilanteessa?"],
+        ],
         "tb/m983m983": [
           [0, 2, "Virallinen havainto / tuettu malli"],
           [1, 1, "2019–2025"],
-          [1, 2, "StatsCan retail 2024: 1,219160 mrd CAD / 822,58 milj. EUR; kuukausireitti +1 000 CAD. Kanada 7/10; D5/D7 hylätty, D10 avoin"],
-          [4, 2, "tunnistettu AIS/AVP-vaping-summa 274,180 milj. NZD; kulutustarvikkeet 189,402 + laitteet/hardware 84,709 + sekajärjestelmät 0,069 milj. NZD. NZ 7/10; D5 hylätty, D8/D10 avoinna"],
+          [1, 2, "StatsCan-vähittäismyynti 2024: 1,219160 mrd CAD / 822,58 milj. EUR; kuukausireitti +1 000 CAD. Kanada 7/10; D5/D7 hylätty, D10 avoin"],
+          [4, 2, "tunnistettu AIS/AVP-sähkötupakkasumma 274,180 milj. NZD; kulutustarvikkeet 189,402 + laitteet 84,709 + sekajärjestelmät 0,069 milj. NZD. NZ 7/10; D5 hylätty, D8/D10 avoinna"],
           [5, 1, "2020–2023 / 2025"],
-          [5, 2, "e-nestevirta 1 451 529 → 805 441 litraa; verosilta 4 382 500 laajan ryhmän laitteelle + 62 500 osasarjalle. Ei sähkötupakkakohtainen, retail-arvo tai donor"],
+          [5, 2, "e-nestevirta 1 451 529 → 805 441 litraa; verosilta 4 382 500 laajan ryhmän laitteelle + 62 500 osasarjalle. Ei sähkötupakkakohtainen vähittäisarvo tai hyväksytty luovuttajamarkkina"],
           [6, 0, "Yhdysvallat"],
           [6, 1, "2015–2021"],
           [6, 2, "FTC: suljettujen järjestelmien ja kertakäyttötuotteiden raportoitu myynti 2,763 mrd USD vuonna 2021; valmistajaraportointia"],
@@ -300,14 +480,27 @@ const deckUpdates = {
   en: {
     short: {
       shapes: {
-        "sh/doj29oba": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; NZ Ministry of Health; Sejm; FHM; FTC; ADM`,
-        "sh/0ba143al": "Market evidence is transparent; a global value is not yet supported",
-        "sh/ih8ju9sn": "195",
-        "sh/kbm987y5": "578 WB records; 116 market measures + 36 Swedish FHM register counts; unlike measures are not summed",
-        "sh/i94r6xgz": "NZD 274.180m",
-        "sh/jadsz2xk": "New Zealand 2024: identified AIS/AVP subtotal",
-        "sh/v6tsv2xo": "Canada remains 7/10; NZ border proxies are not retail values. Germany's private DE-BLIND audit passed the 2023, 2024 and combined caps; values remain withheld. Euromonitor is 1/6 and NOT SCORED; the wider package is on hold.",
-        "sh/p0batw72": "Method control 28 / 0 / 15 / 152. Canada retail CAD 1.219160bn and shipments CAD 1.160754bn. New Zealand NZD 274.180m, 7/10; customs ratios are not margins. Donor 0/3.",
+        "sh/7qp4be9c": "Defensible patent value\nthrough evidence gates",
+        "sh/65g3298r": "Independent public decision summary",
+        "sh/ozy1ofad": "Financing thesis: value has not been computed",
+        "sh/r65knqtk": "The objective is to estimate defensible, premise-specific patent-value ranges—not to select the largest possible market number.",
+        "sh/q5wjelsz": "•  Seven premise-specific, non-additive outputs are null/NOT_COMPUTED; all seven valuation gates are OPEN.\n•  Market evidence is input only: market size is not patent value and missing evidence is not zero.\n•  The German judgment is possible case-specific evidence for the adjudicated product and claim only; transfer requires fresh counsel review.",
+        "sh/mtwrmxg7": "Current evidence supports further diligence, not a specific patent value, loan amount or equity value.",
+        "sh/d0jax03i": "Germany informs the adjudicated case—it does not globalise it",
+        "sh/w7ulsvqp": "Legal evidence has value only with country-specific rights, covered-use mapping and verified local acts.",
+        "sh/e10f2twf": "Rights are territorial. Ordinary PCT/EP expansion windows have expired; any exceptional route for a missing country requires country-specific counsel review.",
+        "sh/0ba143al": "Seven steps to separate value outputs",
+        "sh/ih8ju9sn": "7",
+        "sh/kbm987y5": "mandatory gates · all OPEN · seven outputs NOT_COMPUTED",
+        "sh/i94r6xgz": "NOT_COMPUTED",
+        "sh/jadsz2xk": "all output values = null",
+        "sh/v6tsv2xo": "Market evidence → scope-key reconciliation → covered sales → route-specific economic benefit → weighted dated cash flows → PV/non-overlapping adjustments → separate non-additive output.",
+        "sh/p0batw72": "Licensing does not require infringing sales; only the past-enforcement branch does. Missing is not zero. Donor 0/3 is an evidence-readiness input, not the final objective.",
+        "sh/cf2tcr61": "Seven open gates define the work programme",
+        "sh/m5kbi1oj": "Fix basis/subject, rights, claim mapping, covered sales, economics, cash flow and risk before any output-specific computation.",
+        "sh/zi98nu94": "Conditional progression: close the gates before a value decision",
+        "sh/87ipkzal": "•  Basis and subject: rights, territories, intended use, market-participant/owner premise and gross/net/tax basis.\n•  Rights, product and covered sales: Boolean/time masks, measured SKU allocation and counsel-reviewed claim state.\n•  Four branches: RFR/direct use, licensing, past enforcement and strategic option; only enforcement requires infringing sales.\n•  Weighted dated cash flows, each risk once and a separate collateral-recovery case; never add the outputs.",
+        "sh/doj29oba": `Independent public evidence summary · not Pixan Oy's official position · ${releaseVersion} · ${releaseDate}`,
       },
     },
     medium: {
@@ -328,7 +521,20 @@ const deckUpdates = {
     },
     large: {
       shapes: {
-        "sh/0f2lgnmp": "195-country open base: 578 WB records; method control 28 / 0 / 15 / 152; not sales",
+        "sh/7qp4be9c": "Defensible patent value\nthrough evidence gates",
+        "sh/65g3298r": "Independent 30-slide reviewer and financing-decision package",
+        "sh/ozy1ofad": "Financing thesis: patent value is NOT_COMPUTED",
+        "sh/r65knqtk": "The objective is to estimate defensible, premise-specific patent-value ranges through a transparent gated evidence chain.",
+        "sh/mtwrmxg7": "Continue diligence; do not make a final value or credit decision before the output-specific gates close.",
+        "sh/0ba143al": "Seven steps lead to separate value outputs",
+        "sh/3ihk3et8": "Market evidence → scope-key reconciliation → covered sales → four economic routes → weighted dated cash flows → PV and single-use adjustments → separate non-additive outputs.",
+        "sh/ih8ju9sn": "•  All seven premise-specific outputs and every intermediate value remain null/NOT_COMPUTED.\n•  All seven output-specific mandatory gates remain OPEN.\n•  Missing is not zero, market is not patent value, and neither time nor risk may be counted twice.",
+        "sh/i94r6xgz": "One open output dependency prevents that premise-specific low, central and high range from being computed.",
+        "sh/cf2tcr61": "Resistance data drives the patented heating control",
+        "sh/m5kbi1oj": "•  Measurement: heating-element resistance.\n•  Data: stored resistance–power values.\n•  Control: power delivered to the heater and user-adjustment limits.",
+        "sh/g72x4zyd": "22 publications = 20 national + EP + WO; 28 country rows do not prove live rights",
+        "sh/ah8nu54b": "Germany is possible case-specific evidence for the adjudicated product and claim only; any transfer requires current counsel mapping and procedural-status review.",
+        "sh/0f2lgnmp": "195-country market evidence is an input—not patent value",
         "sh/4felwzu5": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: Market-values model; Method-route control; Readiness and donorCandidates`,
         "sh/wbydknq1": "Canada 2024: strong point estimate, 7/10",
         "sh/5grehs7i": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: Statistics Canada; Health Canada 2024`,
@@ -340,20 +546,30 @@ const deckUpdates = {
         "sh/y5wjitgj": "monthly–quarterly gap",
         "sh/z650byxo": "Retail is CAD 58.406m, or 5.03%, above shipments. The residual is not margin or a market range; official tax evidence closes D8.",
         "sh/hsvy50re": "Canada passes 7/10. D5 failed: NAICS 459999 is outside the target population. D7 failed: exact product-class quality metrics are unavailable. D10 remains open: transaction stages are unreconciled.",
-        "sh/9kby1g7m": "Germany blind test: numeric pass, scope still open",
-        "sh/mpgj6t8j": "DE-BLIND-1.0.0: a licensed Germany 2022–2025 extract was received. The frozen private test passed the 2023 and 2024 annual caps and the two-year combined cap. Vendor values and exact deviations remain withheld. Product, tax, channel, event-stage and method bridges remain open; Germany is not a donor.",
+        "sh/9kby1g7m": "Germany informs the adjudicated case—it does not globalise it",
+        "sh/mpgj6t8j": "The published German judgment is possible case-specific evidence for the adjudicated product and claim only. Transfer to another product, counterparty, period or country requires current counsel-reviewed claim mapping and procedural-status verification.",
         "sh/hk3ipcr6": "Manufacturer: licence, freedom to operate or settlement.\nTechnology provider: integrable function or legal position.\nFinancier or buyer: controllable, realisable cash flow and downside protection.",
-        "sh/8jup8rad": "First-donor conversion sprint · next 90 days",
-        "sh/5gbupcrm": "New Zealand: NZD 183.371m/197.070m net border proxies are D10 diagnostics only; a same-boundary retail bridge is required. Canada: NAICS 459999, precision and transaction-stage gaps require an independent POS/retail route.",
-        "sh/t4butcri": "Poland: official 2020–2023 e-liquid flow and a 2025 broad vaporisation-device-group tax bridge. The e-cigarette/heater/multifunction split, retail value and an actual donor candidate are missing.",
-        "sh/98ruxsre": "3 August: the full Germany extract was audited privately; all three preregistered numerical tests passed and values remain withheld. Euromonitor is 1/6 and NOT SCORED; Germany is not a donor. Wider 25/50/78-country package HOLD.",
-        "sh/218rq9kr": "Accept a donor only if all ten criteria pass. Otherwise retain 0/3 and not_computed.",
+        "sh/8v2pobax": "Five evidence filters feed the controlled seven-step value model",
+        "sh/il47u5sz": "Only probability-weighted, dated and risk-consistent cash flow can support an output; the overall market cannot do so by itself.",
+        "sh/cfyt4beh": "Seven distinct patent-value outputs start at null",
+        "sh/elwbu1wj": "Market-participant, owner-specific, RFR/direct-use, third-party licensing, enforcement, transaction and collateral outputs remain null/NOT_COMPUTED and may not be added.",
+        "sh/vitkzqlc": "Sensitivities follow evidenced risks without overlap",
+        "sh/lcr2tw3a": "Do not enter percentages before source evidence; never count the same sales, cash flow, time factor or risk twice.",
+        "sh/8jup8rad": "A 90-day programme closes seven gates",
+        "sh/5gbupcrm": "Fix valuation basis, subject, intended use and scope keys; verify rights, title, encumbrances, operative claims and remaining term.",
+        "sh/t4butcri": "Map product and covered sales with Boolean/time masks, measured SKU sales and counsel claim state; infringement evidence only for enforcement.",
+        "sh/98ruxsre": "Select RFR/direct use, licensing, enforcement or strategic route; define a complete scenario set whose probabilities sum to one.",
+        "sh/218rq9kr": "Discount weighted dated cash flows without risk/time duplication; collateral requires a separate recovery, priority, marketability, sale-time and cost case.",
         "sh/21gnuts7": `Independent public evidence summary · ${releaseVersion} · ${releaseDate} · Sources: World Bank; Statistics Canada; Health Canada; New Zealand Ministry of Health; Destatis; Vero; Sejm; FHM; FTC; ADM`,
-        "sh/q5wjelsz": "•  The amended EP3032975B2 and two official German decisions anchor the legal evidence.\n•  The 195-country method control separates 28 reviewed plans, 0 source leads, 15 EU TPD patterns and 152 unscoped proxy routes; none unlocks the 0/3 donor gate.\n•  A financing structure requires national rights, a claim-mapped-sales bridge, cash flow and an independent valuation.",
+        "sh/q5wjelsz": "•  22 publications means 20 national + EP + WO; 28 formal country rows are not 28 confirmed live rights.\n•  Ordinary PCT national-phase and EP validation windows are long past; any exception is country- and dossier-specific.\n•  Seven separate outputs remain null/NOT_COMPUTED; seven output-specific gates keep premises, risks and collateral recovery separate.",
         "sh/bq9orito": "116 market measures and 36 Swedish FHM register counts; method control 28 / 0 / 15 / 152",
-        "sh/6hw3y9sb": "New Zealand is 7/10: D5 failed; D8 and D10 open. All 5 candidates remain outside; the donor gate is 0/3.",
-        "sh/rip4retw": "•  New Zealand's identified AIS/AVP subtotal of NZD 274.180m comprises NZD 189,402,451.96 consumables, NZD 84,709,409.85 devices/hardware and NZD 68,548.40 mixed systems.\n•  NZD 2,137,085.24 adjacent and NZD 4,367,017.37 unresolved rows are excluded. New Zealand passes 7/10; D5 fails and D8/D10 remain open.\n•  The separate NZD 533.7–731.2m RPS sensitivity remains a supported model, not observed national value. The donor gate remains 0/3.",
-        "sh/x8japo3e": "The daily package is generated at most once per Asia/Nicosia calendar day; the dashboard may update intraday.",
+        "sh/hsn2l4bu": "Donor 0/3 is an evidence-readiness input—not the final objective",
+        "sh/6hw3y9sb": "The current donor gate is 0/3; it measures readiness for a possible global market model, not any final patent-value output.",
+        "sh/rip4retw": "•  Every donor candidate must pass D1–D10; zero candidates are currently accepted.\n•  The donor gate does not replace national rights, product–claim mapping, attributable covered sales or an economic basis.\n•  Market estimates remain cross-checks; they are neither added together nor relabelled as patent value.",
+        "sh/1cr2tg72": "Compare demand, tax, customs, company and price methods; never add alternative estimates or turn missing evidence into zero.",
+        "sh/x8japo3e": "The downloadable package is refreshed at most once per Asia/Nicosia calendar day.",
+        "sh/o3yl4361": "Defensible patent value is a transparent chain—not the largest market number",
+        "sh/bqpkfy5s": "•  Objective: estimate defensible, premise-specific patent-value ranges.\n•  Current state: seven non-additive outputs are null/NOT_COMPUTED and all 7/7 output-specific gates are OPEN.\n•  Next decision: close basis, rights, product, sales, economics, cash-flow and risk evidence without double counting.\n•  This is an independent public evidence summary, not Pixan Oy's official position, a valuation or a financing recommendation.",
       },
       tables: {
         "tb/m983m983": [
@@ -397,15 +613,15 @@ const registerAdditions = {
       "Ei täydellinen kansallinen kuluttajavähittäisarvo eikä hyväksytty donor; tarvitaan avoin POS- tai kuluttajamyyntisarja ja veroperusta.",
     ],
     [
-      "Saksan yksityinen DE-BLIND-1.0.0-audit läpäisi vuosien 2023 ja 2024 vuosirajat sekä yhdistetyn rajan; toimittaja-arvot ja tarkat poikkeamat pidetään salassa.",
-      "Markkinakoko / Saksa",
-      "Viralliset lopulliset ankkurit ja ennalta rekisteröidyt vuosittaiset sekä yhdistetty numeerinen raja olivat julkisesti lukittuja ennen lisensoidun otteen yksityistä tarkastusta. Kaikki kolme numeerista testiä läpäistiin.",
-      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md ; source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
+      "Saksan julkaistu ratkaisu on vain mahdollinen tapauskohtainen evidenssi ratkaistulle tuotteelle ja patenttivaatimukselle; se ei osoita maailmanlaajuista suojaa, loukkausta tai patentin arvoa.",
+      "Patentin arvonmääritys / Saksa",
+      "Siirtäminen toiseen tuotteeseen, vastapuoleen, ajanjaksoon tai maahan vaatii ajantasaisen patenttiasiantuntijan tarkastaman claim mappingin ja prosessitilan vahvistuksen.",
+      "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206 ; site/data/patent-history.json (monetisation.valuationControl.germanyRole)",
       "2026-08-03",
-      "Vuotuinen poikkeama = |toimittajan litrat / viralliset litrat − 1|; yhteispoikkeama = |toimittajan kahden vuoden summa / 2 525 000 − 1|.",
-      "Numeerinen osuma ei yksin osoita samaa tuotetta, veroperustaa, kanavaa, tapahtumavaihetta tai lähdelinjaa. Rajoja ei sovitettu yksityisiin arvoihin.",
-      "Tuettu",
-      "Julkinen lukija ei voi toisintaa lisensoitujen toimittaja-arvojen vertailua. Saksa ei ole donor, Euromonitor on 1/6 ja EI PISTEYTETTY, laajempi paketti HOLD ja Saksan retail-arvo not_computed.",
+      "Ei numeerista ekstrapolointia. Ratkaisua käytetään vain lähteistettynä tapauskohtaisena evidenssinä ja jokainen siirto käsitellään uutena output-kohtaisena riippuvuutena.",
+      "Tuomion julkaisu ei yksin vahvista lainvoimaisuutta, nykyistä prosessitilaa, toisen tuotteen claim mappingia, myyntiä, rojaltia, vahingonkorvausta tai arvoa.",
+      "Vahvistettu",
+      "Tarvitaan ajantasainen prosessitilan tarkistus, maakohtainen oikeusnäyttö, säilytetty tuotetodiste ja asiantuntijan claim mapping ennen käyttöä toisessa tapauksessa.",
     ],
     [
       "Julkinen sivusto erottaa kolme evidenssikaistaa ja estää maailman kokonaisarvon, kun hyväksytty donor-portti on 0/3.",
@@ -443,15 +659,15 @@ const registerAdditions = {
       "Not complete national consumer-retail value or an accepted donor; an open POS or consumer-sales series and tax basis are required.",
     ],
     [
-      "Germany's private DE-BLIND-1.0.0 audit passed the 2023 and 2024 annual caps and the combined cap; vendor values and exact deviations remain withheld.",
-      "Market size / Germany",
-      "The final official anchors and preregistered annual and combined numerical caps were publicly locked before the licensed extract was reviewed privately. All three numerical tests passed.",
-      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md ; source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
+      "The published German judgment is possible case-specific evidence for the adjudicated product and claim only; it does not establish worldwide coverage, infringement or patent value.",
+      "Patent valuation / Germany",
+      "Transfer to another product, counterparty, period or country requires current patent-counsel-reviewed claim mapping and procedural-status verification.",
+      "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206 ; site/data/patent-history.json (monetisation.valuationControl.germanyRole)",
       "2026-08-03",
-      "Annual deviation = |vendor litres / official litres − 1|; combined deviation = |vendor two-year sum / 2,525,000 − 1|.",
-      "A numeric match alone does not establish matching product, tax basis, channel, event stage or source lineage. Thresholds were not tuned to private values.",
-      "Supported",
-      "A public reader cannot reproduce the licensed-vendor comparison. Germany is not a donor, Euromonitor is 1/6 and NOT SCORED, the wider package is HOLD and Germany's retail value remains not_computed.",
+      "No numerical extrapolation. The judgment is used only as source-linked case-specific evidence and every transfer is treated as a new output-specific dependency.",
+      "Publication alone does not confirm finality, current procedural status, another product's claim mapping, sales, royalty, damages or value.",
+      "Confirmed",
+      "Current procedural-status review, national-right evidence, preserved product evidence and counsel claim mapping are required before use in another case.",
     ],
     [
       "The public site separates three evidence lanes and blocks a global total while the accepted-donor gate is 0/3.",
@@ -463,6 +679,57 @@ const registerAdditions = {
       "Only reviewed public aggregates and methods enter the public lane; licensed and private material do not enter the repository.",
       "Confirmed",
       "The global value remains uncomputed until at least three donors and both coverage gates are accepted.",
+    ],
+  ],
+};
+
+const valuationRegisterRows = {
+  fi: [
+    [
+      "Seitsemän perustekohtaista patenttiarvon tulosta ovat erillisiä, ei-yhteenlaskettavia ja null/NOT_COMPUTED-tilassa; kaikki seitsemän tuloskohtaista porttia ovat avoinna.",
+      "Patentin arvonmääritys",
+      "Markkinaosapuolen patentti-/perhearvo, omistajakohtainen strateginen arvo, RFR-/oman käytön arvo, kolmannen osapuolen lisensointiarvo, menneen täytäntöönpanon NPV, transaktioindikaatio ja vakuuden realisaatioarvo pysyvät erillään. BASIS-AND-SUBJECT lukitsee kohteen, käyttötarkoituksen ja perusteen ennen muita portteja.",
+      "site/data/patent-history.json (monetisation.valuationControl) ; site/schemas/patent-valuation-control.schema.json ; https://www.wipo.int/en/web/ip-financing ; https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/",
+      "2026-08-03",
+      "Kukin tulos voidaan laskea vain sen omien lähde- ja porttiriippuvuuksien sulkeuduttua. Nykytila: 7/7 OPEN; kaikki seitsemän outputCases-arvoa ja niiden painotetut arvot ovat null.",
+      "IFRS 13 määrittää vain markkinaosapuolen mittauspäivän exit price -perustetta; muita tuloksia ei nimetä IFRS-käyväksi arvoksi. Puuttuva ei ole nolla eikä tuloksia summata.",
+      "Vahvistettu",
+      "Tarvitaan allekirjoitettu peruste- ja kohdetaulukko, maaoikeusmatriisi, covered-use/claim mapping, kohdistettu SKU-myynti, reittikohtainen talousmalli, skenaarioiden summa-yhteen-QA ja vakuudelle erillinen realisaatiotapaus.",
+    ],
+    [
+      "Seitsemän vaiheen menetelmä haarautuu katetun myynnin jälkeen RFR-/omaan käyttöön, kolmannen lisensointiin, menneeseen täytäntöönpanoon tai strategiseen optioarvoon; vain täytäntöönpanon haara vaatii loukkausmyyntiä.",
+      "Patentin arvonmääritys / menetelmä",
+      "Reitti tuottaa todennäköisyyspainotetut päivätyt kassavirrat; diskonttokorko ei sisällä erikseen mallinnettuja riskejä ja kukin riski kohdistetaan kerran. Donor 0/3 on vain markkinamallin evidenssivalmiuden syöte.",
+      "site/data/patent-history.json (monetisation.valuationControl) ; https://www.wipo.int/en/web/ip-financing",
+      "2026-08-03",
+      "Täsmäytä tuote, maa, vastapuoli, ajanjakso ja taloudellinen hyöty; käytä Boolean-/aikamaskeja, mitattua SKU-kohdistusta ja asiantuntijan claim-tilaa ilman päällekkäisiä leikkureita.",
+      "Saksan ratkaisu on vain mahdollinen tapauskohtainen evidenssi ratkaistulle tuotteelle ja vaatimukselle; siirto vaatii ajantasaisen asiantuntijan mappingin ja prosessitilan tarkastuksen. Vakuusarvo ei ole arvo kerrottuna yleisellä leikkurilla.",
+      "Vahvistettu",
+      "Kaikki välivaiheet, seitsemän arvotulosta ja probabilityWeightedValueEUR pysyvät null/NOT_COMPUTED-tilassa, kunnes tuloskohtaiset riippuvuudet on suljettu lähteistetyllä näytöllä.",
+    ],
+  ],
+  en: [
+    [
+      "Seven premise-specific patent-value outputs are separate, non-additive and null/NOT_COMPUTED; all seven output-specific gates are open.",
+      "Patent valuation",
+      "Market-participant patent/family value, owner-specific strategic value, RFR/direct-use value, third-party licensing value, past-enforcement NPV, transaction indication and collateral recovery remain separate. BASIS-AND-SUBJECT fixes subject, intended use and premise before the other gates.",
+      "site/data/patent-history.json (monetisation.valuationControl) ; site/schemas/patent-valuation-control.schema.json ; https://www.wipo.int/en/web/ip-financing ; https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/",
+      "2026-08-03",
+      "Each output may be computed only after its own source and gate dependencies close. Current state: 7/7 OPEN; all seven outputCases values and their probability-weighted values are null.",
+      "IFRS 13 is used only to define the market-participant measurement-date exit-price premise; no other output is labelled IFRS fair value. Missing is not zero and outputs are never added.",
+      "Confirmed",
+      "A signed basis/subject schedule, national-rights matrix, covered-use/claim mapping, allocated SKU sales, route-specific economic model, probability-sum QA and a separate collateral recovery case are required.",
+    ],
+    [
+      "The seven-step method branches after covered sales into RFR/direct use, third-party licensing, past enforcement or strategic option value; only enforcement requires potentially infringing sales.",
+      "Patent valuation / method",
+      "Each route produces probability-weighted dated cash flows; the discount rate excludes separately modelled risks and each risk maps once. Donor 0/3 is only a market-model evidence-readiness input.",
+      "site/data/patent-history.json (monetisation.valuationControl) ; https://www.wipo.int/en/web/ip-financing",
+      "2026-08-03",
+      "Reconcile product, country, counterparty, period and economic benefit; use Boolean/time masks, measured SKU allocation and counsel claim state without overlapping haircuts.",
+      "The German judgment is possible case-specific evidence for the adjudicated product and claim only; transfer requires current counsel mapping and procedural-status review. Collateral value is not value multiplied by a generic haircut.",
+      "Confirmed",
+      "All intermediate steps, seven outputs and probabilityWeightedValueEUR remain null/NOT_COMPUTED until output-specific dependencies close with source-linked evidence.",
     ],
   ],
 };
@@ -656,7 +923,22 @@ async function assertDailyBuildWindow() {
       existingPublishedAt,
       packageCadence.timeZone,
     );
-    if (existingDate === targetDate) {
+    const isExceptionalSameDayAlignment = (
+      existingDate === targetDate
+      && existingManifest?.release?.id === exceptionalSameDayAlignment.priorReleaseId
+      && release?.id === exceptionalSameDayAlignment.targetReleaseId
+      && exceptionalSameDayAlignment.reason === "exceptional_same_day_alignment_replacement"
+    );
+    const isAuthorisedPrepublicationCorrection = (
+      existingDate === targetDate
+      && existingManifest?.release?.id === release?.id
+      && process.env.PIXAN_PREPUBLICATION_CORRECTION_RELEASE_ID === release?.id
+    );
+    if (
+      existingDate === targetDate
+      && !isExceptionalSameDayAlignment
+      && !isAuthorisedPrepublicationCorrection
+    ) {
       throw new Error(
         `Bank-package artifacts may be generated at most once per ${packageCadence.timeZone} calendar day; ${targetDate} already has a package snapshot.`,
       );
@@ -1079,13 +1361,13 @@ function validateGlobalBase(globalBase) {
     || globalBase?.globalRetailSales?.status !== "blocked"
     || globalBase?.globalRetailSales?.value !== null
     || globalBase?.globalRetailSales?.eligibleObservationCount !== 0
-    || globalBase?.methodRouteControl?.version !== releaseVersion
+    || globalBase?.methodRouteControl?.version !== componentSnapshotVersion
     || globalBase?.methodRouteControl?.summary?.reviewedMethodPlanCount !== 28
     || globalBase?.methodRouteControl?.summary?.reviewedSourceLeadCount !== 0
     || globalBase?.methodRouteControl?.summary?.regionalTpdPatternOnlyCount !== 15
     || globalBase?.methodRouteControl?.summary?.proxyOnlyUnscopedCount !== 152
   ) {
-    throw new Error("v43 global base differs from the reviewed fail-closed method-control snapshot");
+    throw new Error("The v43 global-base component differs from the reviewed fail-closed method-control snapshot");
   }
   const measureSummary = new Map(
     (globalBase.summary.measures ?? []).map((item) => [item.measureId, item]),
@@ -1145,7 +1427,7 @@ function validateVendorGateBoundary(vendorControl) {
   if (
     vendorControl?.schemaVersion !== 3
     || vendorControl?.asOf !== releaseDate
-    || vendorControl?.version !== releaseVersion
+    || vendorControl?.version !== componentSnapshotVersion
     || vendorControl?.status !== "public_status_only_germany_extract_received_wider_package_not_authorised"
     || !euromonitor
     || euromonitor.quoteReceived !== true
@@ -1174,6 +1456,137 @@ function validateVendorGateBoundary(vendorControl) {
     )
   ) {
     throw new Error("v43 Germany extract and 1/6 vendor-gate boundary differs");
+  }
+}
+
+function validatePatentValuationBoundary(patent) {
+  const control = patent?.monetisation?.valuationControl;
+  const expectedSteps = [
+    "MARKET-EVIDENCE",
+    "SCOPE-KEY-RECONCILIATION",
+    "POTENTIALLY-COVERED-SALES",
+    "ROUTE-SPECIFIC-ECONOMIC-BENEFIT",
+    "PROBABILITY-WEIGHTED-DATED-CASH-FLOWS",
+    "PRESENT-VALUE-AND-NON-OVERLAPPING-ADJUSTMENTS",
+    "SEPARATE-NON-ADDITIVE-OUTPUTS",
+  ];
+  const expectedGates = [
+    "BASIS-AND-SUBJECT",
+    "RIGHTS-TITLE-TERM",
+    "PRODUCT-CLAIM-MAPPING",
+    "ATTRIBUTABLE-SALES",
+    "ROYALTY-DAMAGES-LICENSING-BASIS",
+    "CASH-FLOW-TIMING",
+    "RISK-COST-TAX-COLLECTABILITY",
+  ];
+  const expectedOutputs = [
+    "MARKET-PARTICIPANT-PATENT-FAMILY-VALUE",
+    "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE",
+    "RFR-DIRECT-USE-VALUE",
+    "THIRD-PARTY-LICENSING-VALUE",
+    "PAST-ENFORCEMENT-CLAIM-NPV",
+    "EXIT-TRANSACTION-INDICATION",
+    "COLLATERAL-RECOVERY-VALUE",
+  ];
+  const expectedRoutes = [
+    "PROSPECTIVE-RFR-DIRECT-USE",
+    "THIRD-PARTY-LICENSING",
+    "PAST-ENFORCEMENT-DAMAGES",
+    "STRATEGIC-OPTION-BARRIER",
+  ];
+  const expectedExpression = "market evidence -> scope-key reconciliation -> potentially covered sales -> route-specific economic benefit -> probability-weighted dated cash flows -> non-overlapping risk/cost/tax and present value -> separate non-additive output";
+  const steps = Array.isArray(control?.formulaBridge?.steps) ? control.formulaBridge.steps : [];
+  const gates = Array.isArray(control?.hardGates) ? control.hardGates : [];
+  const outputs = Array.isArray(control?.outputCases) ? control.outputCases : [];
+  const routes = Array.isArray(control?.routeBranches) ? control.routeBranches : [];
+  if (
+    control?.controlId !== "PIXAN-PATENT-VALUATION-CONTROL-2026-08-03"
+    || control?.controlVersion !== "2.0"
+    || control?.valuationDate !== releaseDate
+    || control?.purposeEn !== "Estimate defensible patent value range"
+    || control?.purposeFi !== "Arvioida puolustettavissa oleva patentin arvon vaihteluväli"
+    || control?.status !== "NOT_COMPUTED"
+    || control?.ultimatePatentValueEUR !== null
+    || control?.valueRangeEUR?.low !== null
+    || control?.valueRangeEUR?.central !== null
+    || control?.valueRangeEUR?.high !== null
+    || control?.ultimateScalarPermitted !== false
+    || control?.decision !== "HOLD"
+    || control?.gateLogic !== "OUTPUT_SPECIFIC_DEPENDENCIES_MUST_PASS"
+    || control?.valuationBasis?.status !== "NOT_DEFINED"
+    || control?.valuationBasis?.otherPremisesAreIfrsFairValue !== false
+    || control?.valuationBasis?.grossNetTaxBasis !== "NOT_DEFINED"
+    || JSON.stringify(control?.scopeKeyControl?.requiredKeys) !== JSON.stringify(["product", "country", "counterparty", "period", "economicBenefit"])
+    || control?.scopeKeyControl?.allKeysMustReconcileBeforeUse !== true
+    || control?.scopeKeyControl?.missingKeyIsZero !== false
+    || JSON.stringify(outputs.map((item) => item?.outputId)) !== JSON.stringify(expectedOutputs)
+    || outputs.some((item) => item?.valueEUR !== null
+      || item?.valueRangeEUR?.low !== null
+      || item?.valueRangeEUR?.central !== null
+      || item?.valueRangeEUR?.high !== null
+      || item?.probabilityWeightedValueEUR !== null
+      || item?.status !== "NOT_COMPUTED"
+      || item?.nonAdditive !== true)
+    || control?.marketEvidenceRole?.role !== "INPUT_ONLY"
+    || Object.entries(control?.marketEvidenceRole ?? {})
+      .filter(([key]) => key.startsWith("maySet"))
+      .some(([, value]) => value !== false)
+    || control?.donorGateSnapshot?.accepted !== 0
+    || control?.donorGateSnapshot?.required !== 3
+    || control?.donorGateSnapshot?.status !== "OPEN"
+    || !control?.donorGateSnapshot?.roleEn?.includes("not the final valuation objective")
+    || control?.formulaBridge?.expressionEn !== expectedExpression
+    || JSON.stringify(steps.map((step) => step?.stepId)) !== JSON.stringify(expectedSteps)
+    || steps.some((step, index) => (
+      step?.sequence !== index + 1
+      || step?.status !== "NOT_COMPUTED"
+      || step?.valueEUR !== null
+    ))
+    || JSON.stringify(routes.map((item) => item?.routeId)) !== JSON.stringify(expectedRoutes)
+    || routes.some((item) => item?.valueEUR !== null || item?.status !== "NOT_COMPUTED")
+    || routes.find((item) => item?.routeId === "PAST-ENFORCEMENT-DAMAGES")?.requiresPotentiallyInfringingSales !== true
+    || routes.filter((item) => item?.routeId !== "PAST-ENFORCEMENT-DAMAGES").some((item) => item?.requiresPotentiallyInfringingSales !== false)
+    || control?.allocationControls?.overlappingHaircutsPermitted !== false
+    || control?.presentValueConvention?.cashFlowBasis !== "PROBABILITY_WEIGHTED_DATED_CASH_FLOWS"
+    || control?.presentValueConvention?.discountRateExcludesSeparatelyModelledRisks !== true
+    || control?.presentValueConvention?.eachRiskMappedExactlyOnce !== true
+    || control?.presentValueConvention?.separateTimeDiscountFactorPermitted !== false
+    || control?.presentValueConvention?.probabilityWeightedValueEUR !== null
+    || control?.scenarioControl?.probabilitiesMustSumToOne !== true
+    || control?.scenarioControl?.probabilitySum !== null
+    || control?.scenarioControl?.probabilityWeightedValueEUR !== null
+    || control?.independentReview?.usedAsComputationInput !== false
+    || control?.collateralRecoveryCase?.simpleValueTimesHaircutPermitted !== false
+    || control?.collateralRecoveryCase?.lenderHaircutsApplyOnlyHere !== true
+    || Object.values(control?.collateralRecoveryCase?.requiredInputs ?? {}).some((value) => value !== null)
+    || JSON.stringify(gates.map((gate) => gate?.gateId)) !== JSON.stringify(expectedGates)
+    || gates.some((gate) => gate?.status !== "OPEN"
+      || gate?.blocksComputation !== true
+      || gate?.usedInModel !== true
+      || gate?.dependencies?.mode !== "OUTPUT_SPECIFIC"
+      || !Array.isArray(gate?.appliesToOutputIds))
+    || control?.dependencyControl?.globalCircularBlock !== false
+    || control?.dependencyControl?.gateDependenciesAreOutputSpecific !== true
+    || control?.dependencyControl?.sourceDependenciesAreOutputSpecific !== true
+    || control?.germanyRole?.role !== "CALIBRATION_AND_TECHNICAL_LEVERAGE_ONLY"
+    || !control?.germanyRole?.statementEn?.includes("case-specific evidence for the adjudicated product and claim only")
+    || control?.germanyRole?.statementEn?.includes("materially comparable")
+    || control?.germanyRole?.mayEstablishGlobalCoverage !== false
+    || control?.germanyRole?.mayEstablishGlobalInfringement !== false
+    || control?.germanyRole?.mayEstablishGlobalDamages !== false
+    || control?.germanyRole?.maySetPatentValue !== false
+    || control?.guardrails?.noDoubleCounting !== true
+    || control?.guardrails?.outputsAreNonAdditive !== true
+    || control?.guardrails?.overlappingHaircutsPermitted !== false
+    || control?.guardrails?.missingIsZero !== false
+    || control?.guardrails?.marketEqualsPatentValue !== false
+    || control?.guardrails?.ultimateScalarPermitted !== false
+    || control?.guardrails?.independentReviewIsComputationInput !== false
+    || control?.guardrails?.lenderHaircutsOutsideCollateralCasePermitted !== false
+    || control?.guardrails?.licensedVendorValuesIncluded !== false
+    || control?.guardrails?.independentResearchNotPixanPosition !== true
+  ) {
+    throw new Error("The v44 public patent-valuation boundary differs from the reviewed fail-closed control");
   }
 }
 
@@ -1430,11 +1843,52 @@ function assertRegister(rows, headers, allowed) {
   if (headers.length !== 9 || rows.some((row) => row.length !== 9)) {
     throw new Error("Evidence Register must contain exactly nine columns");
   }
-  if (rows.length !== 60) throw new Error(`Evidence Register must contain 60 rows, got ${rows.length}`);
+  if (rows.length !== 62) throw new Error(`Evidence Register must contain 62 rows, got ${rows.length}`);
   const statuses = new Set(rows.map((row) => row[7]));
   if (statuses.size !== 4 || [...statuses].some((value) => !allowed.has(value))) {
     throw new Error("Evidence Register confidence classification mismatch");
   }
+}
+
+const FI_REGISTER_REPLACEMENTS = [
+  ["claim constructionia", "patenttivaatimusten tulkintaa"],
+  ["claim construction", "patenttivaatimusten tulkinta"],
+  ["Review Request -menettelyksi", "uudelleentarkastuspyyntömenettelyksi"],
+  ["Sekundäärisen docket-tiedon", "Sekundäärisen asiakirjarekisteritiedon"],
+  ["claim-mapped sales -silta", "vaatimuksiin kohdistetun myynnin silta"],
+  ["covered-use/claim mapping", "suojatun käytön ja patenttivaatimusten vertailu"],
+  ["claim-map-status", "vaatimusvertailun tila"],
+  ["counsel-reviewed claim chartia", "asiamiehen tarkastamaa vaatimusvertailutaulukkoa"],
+  ["claim mappingin", "patenttivaatimusten vertailun"],
+  ["claim mapping", "patenttivaatimusten vertailu"],
+  ["Claim chartit", "Vaatimusvertailutaulukot"],
+  ["claim chartit", "vaatimusvertailutaulukot"],
+  ["Claim chart", "Vaatimusvertailutaulukko"],
+  ["claim chart", "vaatimusvertailutaulukko"],
+  ["Diligence-rajaus", "Tarkastusrajaus"],
+  ["Diligence-arkkitehtuurin", "Tarkastusarkkitehtuurin"],
+  ["diligence-hälytys", "tarkastushälytys"],
+  ["due diligence", "huolellisuustarkastus"],
+  ["teardown", "purkuanalyysi"],
+  ["downside-analyysi", "alariskianalyysi"],
+  ["retailValueStatus", "vähittäisarvon tila"],
+  ["retail-täsmäytys", "vähittäismyynnin täsmäytys"],
+  ["retail-reitti", "vähittäismyyntireitti"],
+  ["retail-arvo", "vähittäisarvo"],
+  ["output-kohtaisena", "tuloskohtaisena"],
+  ["outputCases-arvoa", "tulostapausarvoa"],
+  ["tulostapausten arvoa", "tulostapausarvoa"],
+  ["entity status", "toimijaluokka"],
+  ["addressable/in-scope/", "osoitettavan ja rajaukseen kuuluvan "],
+];
+
+function localizeFinnishRegisterRows(rows) {
+  return rows.map((row) => row.map((value, column) => {
+    if (typeof value !== "string" || column === 3 || column === 4 || column === 7) return value;
+    let localized = value;
+    for (const [from, to] of FI_REGISTER_REPLACEMENTS) localized = localized.replaceAll(from, to);
+    return localized;
+  }));
 }
 
 function upgradeRegister(rows, language) {
@@ -1842,7 +2296,19 @@ function upgradeRegister(rows, language) {
       "Confirmed",
       "Do not publish a single global value before the methodology gates are met.",
     ];
-  return output;
+  const existingValuation = output.findIndex((row) => row[0].startsWith(language === "fi"
+    ? "Seitsemän perustekohtaista patenttiarvon tulosta"
+    : "Seven premise-specific patent-value outputs"));
+  if (existingValuation < 0) {
+    output.splice(globalIndex + 1, 0, ...valuationRegisterRows[language]);
+  } else {
+    output.splice(
+      existingValuation,
+      valuationRegisterRows[language].length,
+      ...valuationRegisterRows[language],
+    );
+  }
+  return language === "fi" ? localizeFinnishRegisterRows(output) : output;
 }
 
 function rewriteText(target, desired) {
@@ -1876,11 +2342,11 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
   }
   const update = deckUpdates[language][deckName];
   const fxPhrases = prominentDeckFxPhrases(language, market, scenarios, fxData);
-  const nzCardValueShapeIds = new Set(["sh/i94r6xgz", "sh/v2tcn650"]);
-  const nzCardSubtitleShapeIds = new Set(["sh/jadsz2xk", "sh/u1kbu1ov"]);
-  const canadaCardValueShapeIds = new Set(["sh/ehwvat8n", "sh/a1wze9g7"]);
-  const canadaRetailCardSubtitleShapeIds = new Set(["sh/c3e1gjyd"]);
-  const canadaShipmentsCardSubtitleShapeIds = new Set(["sh/b2507exs"]);
+  const nzCardValueShapeIds = new Set(deckName === "large" ? ["sh/v2tcn650"] : []);
+  const nzCardSubtitleShapeIds = new Set(deckName === "large" ? ["sh/u1kbu1ov"] : []);
+  const canadaCardValueShapeIds = new Set(deckName === "large" ? ["sh/ehwvat8n", "sh/a1wze9g7"] : []);
+  const canadaRetailCardSubtitleShapeIds = new Set(deckName === "large" ? ["sh/c3e1gjyd"] : []);
+  const canadaShipmentsCardSubtitleShapeIds = new Set(deckName === "large" ? ["sh/b2507exs"] : []);
   let nzFxMarkers = 0;
   let ftcFxMarkers = 0;
   let canadaFxMarkers = 0;
@@ -1949,11 +2415,7 @@ async function buildDeck(language, deckName, market, scenarios, fxData) {
       table.cells.set(row, column, withFxEquivalents(value));
     }
   }
-  if (
-    nzFxMarkers < 1
-    || canadaFxMarkers < 1
-    || (deckName !== "short" && ftcFxMarkers < 1)
-  ) {
+  if (deckName === "large" && (nzFxMarkers < 1 || canadaFxMarkers < 1 || ftcFxMarkers < 1)) {
     throw new Error(
       `${language}/${deckName}: required prominent NZ, Canada or applicable FTC FX marker is missing`,
     );
@@ -2140,6 +2602,7 @@ async function readSourceRows(filePath, sheetName) {
 async function buildWorkbook(language, rows, sourceRows, eurRows) {
   const isFi = language === "fi";
   const headers = isFi ? FI_HEADERS : EN_HEADERS;
+  const displayEurRows = isFi ? eurRows.map(localizeFinnishEurRow) : eurRows;
   const workbook = Workbook.create();
   const register = workbook.worksheets.add("Evidence Register");
   const summary = workbook.worksheets.add(isFi ? "Yhteenveto" : "Summary");
@@ -2257,9 +2720,9 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
   summary.getRange("A24:B27").values = isFi
     ? [
       [1, "Asianajajan allekirjoittama oikeus-, omistus-, rasite- ja vuosimaksumatriisi."],
-      [2, "Riippumattomat testit ja claim chartit priorisoiduille tuotteille."],
+      [2, "Riippumattomat testit ja vaatimusvertailutaulukot priorisoiduille tuotteille."],
       [3, "Toteutunut tai sopimuspohjainen kassavirta ja tarkastetut taloustiedot."],
-      [4, "Riippumaton arvonmääritys ja vakuuden downside-analyysi."],
+      [4, "Riippumaton arvonmääritys ja vakuuden alariskianalyysi."],
     ]
     : [
       [1, "Counsel-signed rights, title, encumbrance and fee-payment matrix."],
@@ -2280,10 +2743,10 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
     ? [
       ["Prioriteetti", "Todennäköinen kysymys", "Tarvittava näyttö", "Nykytila"],
       [1, "Mitä tarkalleen omistetaan ja missä oikeus on käytettävissä?", "Maakohtainen oikeusmatriisi", "Kattavasti puuttuu"],
-      [2, "Mikä tuote täyttää mitkä patenttivaatimuksen rajat?", "Riippumaton testi ja claim chart", "Rajallinen Saksan näyttö"],
+      [2, "Mikä tuote täyttää mitkä patenttivaatimuksen rajat?", "Riippumaton testi ja vaatimusvertailutaulukko", "Rajallinen Saksan näyttö"],
       [3, "Mitkä ovat varmennetut relevantit myynnit?", "Tuote–maa–aika-nettomyynti", "Puuttuu"],
       [4, "Mistä ja milloin velanhoitokassa syntyy?", "Sopimukset, maksut ja ennuste", "Puuttuu"],
-      [5, "Mitä vakuudesta realisoidaan downside-tilanteessa?", "Riippumaton arvo ja realisointipolku", "Puuttuu"],
+      [5, "Mitä vakuudesta realisoidaan alariskitilanteessa?", "Riippumaton arvo ja realisointipolku", "Puuttuu"],
     ]
     : [
       ["Priority", "Likely question", "Required evidence", "Current status"],
@@ -2324,7 +2787,7 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
   equivalents.showGridLines = false;
   equivalents.getRange(`A1:N${equivalentEnd}`).values = [
     EUR_EQUIVALENT_HEADERS[language],
-    ...eurRows.map((row) => [
+    ...displayEurRows.map((row) => [
       row.recordType,
       row.recordId,
       row.item,
@@ -2337,8 +2800,8 @@ async function buildWorkbook(language, rows, sourceRows, eurRows) {
       null,
       row.rateId,
       row.sourceUrl,
-      row.status,
-      row.reason,
+      row.statusLabel ?? row.status,
+      row.reasonLabel ?? row.reason,
     ]),
   ];
   for (let index = 0; index < eurRows.length; index += 1) {
@@ -2469,7 +2932,7 @@ async function writeReleaseLocks(artifacts) {
     || release?.version !== releaseVersion
     || changelog.asOf !== releaseDate
   ) {
-    throw new Error("The public changelog is not locked to the reviewed v43 release");
+    throw new Error("The public changelog is not locked to the reviewed v44 release");
   }
   const artifactOrder = [
     "short-deck-en",
@@ -2491,6 +2954,7 @@ async function writeReleaseLocks(artifacts) {
     "site/data/global-base-layer.csv",
     "site/data/market-values.json",
     "site/data/patent-history.json",
+    "site/schemas/patent-valuation-control.schema.json",
     "site/data/donor-cockpit.json",
     "site/data/third-donor-screen.json",
     "site/data/country-scenarios.json",
@@ -2505,6 +2969,8 @@ async function writeReleaseLocks(artifacts) {
     "source/fx-rates.json",
     "source/global-base-config.json",
     "source/global-base-observations.json",
+    "source/patent-history.json",
+    "source/schemas/patent-valuation-control.schema.json",
     "source/country-method-route-config.json",
     "source/COUNTRY_METHOD_ROUTE_MAP.md",
     "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
@@ -2533,7 +2999,6 @@ async function writeReleaseLocks(artifacts) {
     "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/CANADA_INDEPENDENT_D5_D7_D10_ROUTE_MAP_2026-07-31.md",
     "source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
-    "source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
     "source/THIRD_DONOR_SCREEN_2026-07-27.md",
     "source/POLAND_2020_2025_RECONSTRUCTION.md",
     "source/POLAND_D1_D10_PREASSESSMENT_2026-07-31.md",
@@ -2577,7 +3042,7 @@ async function writeReleaseLocks(artifacts) {
       sourceLocked: true,
       byteReproducible: false,
       sourceTemplates: templateInputs,
-      executionNote: "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 174-observation, 54-source market dataset share one release boundary. The 152 official observations remain separated into 116 market measures across nine countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Canada remains not accepted at 7/10: the RCS frame ends at NAICS 459993 while official classification examples place vape specialist retail in excluded NAICS 459999, exact NAPCS 5619122 quality metrics are unavailable and the D10 bridge remains open. New Zealand remains not accepted at 7/10: selected 2024 border controls produce NZD 183,370,681 and NZD 197,070,322 net-import proxies, with candidate-to-proxy ratios of 1.495224911 and 1.391282094; these are diagnostic customs-stage controls, not retail values, margins, uplifts or uncertainty ranges. Germany's private DE-BLIND-1.0.0 audit passed the preregistered 2023 and 2024 annual caps and the combined cap; licensed vendor values and exact deviations remain withheld. Numerical proximity does not close the product, tax, channel, transaction-stage, lineage, record-status or data-room-rights bridges. Germany remains not accepted as a donor. Poland's 2025 device-tax bridge remains bounded to a broad statutory group and creates no Poland country-year retail value or donor score. The one-country Germany extract was delivered and audited privately. Euromonitor has one of six mandatory gates passing and remains NOT SCORED; every wider 25/50/78-country package remains on HOLD and is not authorised. The donor gate remains 0/3 and the global estimate remains not_computed.",
+      executionNote: "Both language versions were authored and rendered from the same reviewed public release boundary. The bilingual registers contain 62 evidence rows. The patent-valuation control contains seven premise-specific, non-additive outputs, seven formula steps and seven output-specific hard gates; all values remain null/NOT_COMPUTED and all gates remain OPEN. Market evidence branches only after potentially covered sales; potentially infringing sales are used only in the past-enforcement branch. The German judgment remains possible case-specific evidence for the adjudicated product and claim, not proof of worldwide rights, infringement, damages or value. The territorial boundary records that ordinary PCT national-phase and EP post-grant validation windows are long past and that 22 publications plus 28 formal country rows do not prove live rights. The accepted-donor gate remains 0/3 and the global market estimate remains not_computed. Licensed or private vendor values, deviations, quotes, commercial terms and file identifiers are excluded from this public package.",
       qualityAssurance: {
         exactRegisterRowsAfterReopen: true,
         summaryFormulasAfterReopen: true,
@@ -2632,6 +3097,7 @@ async function main() {
   const scenarios = JSON.parse(await fs.readFile(path.join(dataDir, "country-scenarios.json"), "utf8"));
   const globalBase = JSON.parse(await fs.readFile(path.join(dataDir, "global-base-layer.json"), "utf8"));
   const vendorControl = JSON.parse(await fs.readFile(path.join(dataDir, "vendor-response-control.json"), "utf8"));
+  const patent = JSON.parse(await fs.readFile(path.join(dataDir, "patent-history.json"), "utf8"));
   const requestProgram = JSON.parse(
     await fs.readFile(path.join(sourceDir, "top20-data-request-routes.json"), "utf8"),
   );
@@ -2642,6 +3108,7 @@ async function main() {
   validateV27MarketEvidence(market);
   validateGlobalBase(globalBase);
   validateVendorGateBoundary(vendorControl);
+  validatePatentValuationBoundary(patent);
   validateOfficialRequestBoundary(requestProgram);
   validateReviewedFx(publicFx, sourceFx);
   validateThirdDonorScreen(publicThirdDonorScreen, sourceThirdDonorScreen);
@@ -2659,6 +3126,11 @@ async function main() {
   const sourceThirdDonorSchemaPath = path.join(sourceDir, "schemas", "third-donor-screen.schema.json");
   if (!fsSync.readFileSync(publicThirdDonorSchemaPath).equals(fsSync.readFileSync(sourceThirdDonorSchemaPath))) {
     throw new Error("Public third-donor schema differs from the reviewed source schema");
+  }
+  const publicValuationSchemaPath = path.join(repo, "site", "schemas", "patent-valuation-control.schema.json");
+  const sourceValuationSchemaPath = path.join(sourceDir, "schemas", "patent-valuation-control.schema.json");
+  if (!fsSync.readFileSync(publicValuationSchemaPath).equals(fsSync.readFileSync(sourceValuationSchemaPath))) {
+    throw new Error("Public patent-valuation schema differs from the reviewed source schema");
   }
   const eurRows = buildEurEquivalentRows(market, scenarios, publicFx);
   const fxSourceUrls = [

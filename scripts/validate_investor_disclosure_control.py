@@ -52,6 +52,7 @@ REQUIRED_MATERIAL_FACTS = {
     "independent-not-official",
     "not-professional-opinion",
     "global-total-not-computed",
+    "patent-value-not-computed",
     "proxies-not-retail-sales",
     "missing-is-not-zero",
     "patent-status-is-territorial",
@@ -232,6 +233,76 @@ def validate_control(control: dict, errors: list[str]) -> None:
         for path in paths:
             validate_public_path(path, context, errors)
 
+    facts_by_id = {str(fact.get("factId")): fact for fact in facts}
+    valuation_fact = facts_by_id.get("patent-value-not-computed", {})
+    valuation_statement_en = str(valuation_fact.get("statementEn", ""))
+    valuation_statement_fi = str(valuation_fact.get("statementFi", ""))
+    for token in (
+        "estimate defensible, premise-specific patent-value ranges",
+        "ultimatePatentValueEUR",
+        "seven separate non-additive outputs remain null/NOT_COMPUTED",
+        "market-participant patent/family value",
+        "owner-specific strategic/investment value",
+        "RFR/direct-use value",
+        "third-party licensing value",
+        "past enforcement-claim NPV",
+        "exit/transaction indication",
+        "collateral-recovery value",
+        "All seven output-specific valuation gates are open",
+        "BASIS-AND-SUBJECT",
+        "exact rights, claims, territories, separately evidenced know-how, measurement date",
+        "gross/net/tax basis",
+        "market evidence -> scope-key reconciliation -> potentially covered sales",
+        "route-specific economic benefit -> probability-weighted dated cash flows",
+        "potentially infringing sales are used only in the past-enforcement branch",
+        "scenario probabilities must sum to one",
+        "independent review is post-computation assurance",
+        "collateral recovery is a separate recovery case",
+        "Germany is only possible case-specific evidence for the adjudicated product and claim",
+        "transfer requires current counsel mapping and procedural-status review",
+        "IFRS 13 (https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/)",
+        "cited solely for the market-participant, measurement-date exit-price basis",
+        "no other premise is classified as IFRS fair value",
+        "No licensed vendor values are included",
+    ):
+        require(token in valuation_statement_en, f"patent-value fact missing public boundary: {token}", errors)
+    for token in (
+        "puolustettavissa olevia, perustekohtaisia patenttiarvon vaihteluvälejä",
+        "ultimatePatentValueEUR",
+        "NOT_COMPUTED",
+        "seitsemän erillistä, ei-yhteenlaskettavaa tulosta",
+        "RFR- tai oman käytön arvo",
+        "kolmannen osapuolen lisensointiarvo",
+        "Kaikki seitsemän tuloskohtaista arvonmääritysporttia ovat avoinna",
+        "BASIS-AND-SUBJECT",
+        "brutto-/netto-/verokäsittelyn",
+        "mahdollisesti loukkaavaa myyntiä käytetään vain menneen täytäntöönpanon haarassa",
+        "skenaariotodennäköisyyksien on summauduttava yhteen",
+        "riippumaton tarkastus on laskennan jälkeinen varmennus",
+        "Saksa on vain mahdollista tapauskohtaista evidenssiä ratkaistusta tuotteesta ja vaatimuksesta",
+        "IFRS 13:een (https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/)",
+        "ei luokitella IFRS-käyväksi arvoksi",
+        "Lisensoituja toimittaja-arvoja ei sisällytetä",
+    ):
+        require(token in valuation_statement_fi, f"patent-value fact missing Finnish boundary: {token}", errors)
+    require(
+        "site/data/patent-history.json" in valuation_fact.get("publicEvidencePaths", []),
+        "patent-value fact must point to the public patent control",
+        errors,
+    )
+
+    release_fact = facts_by_id.get("dashboard-package-version-separation", {})
+    for token in (
+        "2026.08.03-44",
+        "exceptional same-day alignment replacement of v43",
+        "normal once-daily Asia/Nicosia package cadence resumes thereafter",
+    ):
+        require(
+            token in str(release_fact.get("statementEn", "")),
+            f"release fact missing controlled v44 exception boundary: {token}",
+            errors,
+        )
+
     prohibited = control.get("prohibitedPublicItems", [])
     prohibited_ids = ids(prohibited, "itemId")
     require(set(prohibited_ids) == REQUIRED_PROHIBITED_ITEMS, "prohibited-public set mismatch", errors)
@@ -263,6 +334,20 @@ def validate_control(control: dict, errors: list[str]) -> None:
         require(isinstance(paths, list) and bool(paths), f"{context}: paths missing", errors)
         for path in paths:
             validate_public_path(path, context, errors)
+    versioned_asset_ids = {
+        "public-dashboard",
+        "change-log",
+        "daily-package-manifest",
+        "bilingual-decks",
+        "bilingual-evidence-registers",
+    }
+    assets_by_id = {str(asset.get("assetGroupId")): asset for asset in assets}
+    for asset_id in versioned_asset_ids:
+        require(
+            assets_by_id.get(asset_id, {}).get("versionOrAsOf") == "2026.08.03-44",
+            f"public asset {asset_id}: v44 version mismatch",
+            errors,
+        )
 
     gates = control.get("hardGates", [])
     gate_ids = ids(gates, "gateId")

@@ -18,10 +18,10 @@
   <meta name="twitter:image" content="https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/assets/og-pixan-global-market-evidence.png">
   <title>Pixan Global Market Evidence</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=2026-08-03-43">
-  <script defer src="assets/i18n.js?v=2026-08-03-43"></script>
-  <script defer src="assets/downloads.js?v=2026-08-03-43"></script>
-  <script defer src="assets/app.js?v=2026-08-03-43"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=2026-08-03-44">
+  <script defer src="assets/i18n.js?v=2026-08-03-44"></script>
+  <script defer src="assets/downloads.js?v=2026-08-03-44"></script>
+  <script defer src="assets/app.js?v=2026-08-03-44"></script>
 </head>
 <body class="atlas-page" data-review-view="evidence">
   <a class="skip-link" href="#main">Siirry sisältöön</a>
@@ -70,9 +70,9 @@
   <main id="main">
     <section class="hero shell" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow">Global vape market intelligence · public evidence only</p>
-        <h1 id="hero-title">Markkinaväite on hyödyllinen vasta, kun sen voi jäljittää lähteeseen.</h1>
-        <p class="hero-lead">Rakennamme 195 maan vertailukelpoista kuvaa sähkötupakka-, laite-, podi- ja e-nestemarkkinoista. Virallinen myynti, verovolyymi, tullivirta ja mallinnus pidetään tarkoituksella erillään.</p>
+        <p class="eyebrow">Patent value evidence · public evidence only</p>
+        <h1 id="hero-title">Tavoite on puolustettavissa oleva patentin arvon vaihteluväli.</h1>
+        <p class="hero-lead">Markkinaevidenssi on vain yksi syöte. Ennen patenttiarvoa on vahvistettava oikeudet, tuote- ja vaatimusvertailu, kohdistettava myynti, taloudellinen kassavirtareitti sekä riski-, kulu-, vero- ja aikaoikaisut.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="#market">Avaa markkina-arvo ja vuosihavainnot</a>
           <a class="button button-primary" href="#countries">Avaa maakohtainen atlas</a>
@@ -537,6 +537,16 @@
       </div>
 
       <div id="patent-metrics" class="market-summary-grid patent-metrics" aria-live="polite"></div>
+
+      <article id="patent-valuation-summary" class="panel patent-valuation-summary" aria-labelledby="patent-valuation-summary-title">
+        <div class="panel-heading">
+          <div><p class="kicker">Arvonmäärityksen ensisijainen lopputulos</p><h3 id="patent-valuation-summary-title">Puolustettavissa oleva patentin arvon vaihteluväli</h3></div>
+          <span id="patent-valuation-summary-status" class="market-status-chip">NOT_COMPUTED</span>
+        </div>
+        <p id="patent-valuation-summary-boundary">Vanha yhden luvun kenttä on vain null-sentinel, ei lopullisen arvon tavoite. Seitsemän erillistä tulostapausta ovat keskenään ei-summattavia ja pysyvät NOT_COMPUTED-tilassa, kunnes seitsemän tuloskohtaista porttia sulkeutuvat.</p>
+        <div id="patent-valuation-summary-formula" class="patent-valuation-formula"></div>
+        <div id="patent-valuation-summary-gates" class="patent-valuation-gates"></div>
+      </article>
 
       <div class="patent-overview-grid">
         <article class="panel patent-overview-card">

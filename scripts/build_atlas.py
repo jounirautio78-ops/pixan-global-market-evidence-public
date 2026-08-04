@@ -20,6 +20,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+from validate_patent_valuation_control import validate_control as validate_patent_valuation_control
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CURATED_PATH = ROOT / "source" / "curated.json"
@@ -1071,6 +1073,16 @@ def build_patent_history() -> dict[str, Any]:
     monetisation = source.get("monetisation")
     if not isinstance(monetisation, dict):
         raise ValueError("patent-history.json monetisation must be an object")
+    valuation_errors: list[str] = []
+    validate_patent_valuation_control(
+        monetisation.get("valuationControl"),
+        valuation_errors,
+        known_source_ids=source_ids,
+    )
+    if valuation_errors:
+        raise ValueError(
+            "patent-history.json valuationControl failed: " + "; ".join(valuation_errors)
+        )
 
     output = {
         "meta": {
@@ -1275,6 +1287,7 @@ def write_outputs(
         "third-donor-screen.schema.json",
         "country-scenarios.schema.json",
         "fx-rates.schema.json",
+        "patent-valuation-control.schema.json",
     ):
         atomic_write_text(
             PUBLIC_SCHEMA_DIR / schema_name,

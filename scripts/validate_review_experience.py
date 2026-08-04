@@ -13,6 +13,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+from validate_patent_valuation_control import validate_control as validate_patent_valuation_control
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
@@ -273,6 +275,15 @@ REQUIRED_REVIEW_IDS = {
     "cockpit-supported-list",
     "cockpit-not-supported-list",
     "cockpit-gates-list",
+    "patent-valuation-control",
+    "patent-valuation-title",
+    "patent-valuation-intro",
+    "patent-valuation-boundary-title",
+    "patent-valuation-boundary",
+    "patent-valuation-metrics",
+    "patent-valuation-formula",
+    "patent-valuation-gates",
+    "patent-valuation-status",
     "research-operations-overview",
     "research-operations-metrics",
     "third-donor-programme",
@@ -320,6 +331,8 @@ REQUIRED_REVIEW_FUNCTIONS = {
     "renderReviewDonorLedgerUnavailable",
     "renderReviewDonorClosureBoard",
     "renderReviewDonorClosureUnavailable",
+    "assessReviewPatentValuationControl",
+    "renderReviewPatentValuationControl",
 }
 REQUIRED_I18N_EN = {
     "Workspace views",
@@ -903,6 +916,19 @@ def validate_review_data(
         errors.append("v18 patent baseline must retain three unresolved proceedings")
     if not isinstance(alerts, list) or len(alerts) != 4:
         errors.append("v18 patent baseline must contain four diligence alerts")
+    valuation_errors: list[str] = []
+    patent_sources = patent.get("sources") if isinstance(patent.get("sources"), list) else []
+    known_patent_source_ids = {
+        item.get("sourceId")
+        for item in patent_sources
+        if isinstance(item, dict) and isinstance(item.get("sourceId"), str)
+    }
+    validate_patent_valuation_control(
+        patent.get("monetisation", {}).get("valuationControl"),
+        valuation_errors,
+        known_source_ids=known_patent_source_ids,
+    )
+    errors.extend(f"Patent valuation control: {error}" for error in valuation_errors)
 
     if requests.get("schemaVersion") != 3:
         errors.append("Research Operations requires request-programme schema version 3")
@@ -1148,6 +1174,12 @@ def validate_review_structure(
         "market-donor-status",
         "method-route-summary",
         "method-route-filter",
+        "patent-valuation-summary",
+        "patent-valuation-summary-title",
+        "patent-valuation-summary-status",
+        "patent-valuation-summary-boundary",
+        "patent-valuation-summary-formula",
+        "patent-valuation-summary-gates",
     }
     index_ids = set(re.findall(r"""\bid=["']([^"']+)["']""", index_html))
     missing_index_ids = required_index_ids - index_ids
@@ -1177,10 +1209,32 @@ def validate_review_structure(
         tag = tag_match.group(0) if tag_match else ""
         if not tag or not re.search(r"""data-review-surface=["']operations["']""", tag):
             errors.append(f"{control_hook} must be isolated on the operations surface")
-    for element_id in ("decision-cockpit", "review-calculation-audit", "review-source-freshness", "bankability"):
+    for element_id in ("decision-cockpit", "patent-valuation-control", "review-calculation-audit", "review-source-freshness", "bankability"):
         tag = opening_tag_with_id(review_html, element_id)
         if not tag or not re.search(r"""data-review-surface=["']review["']""", tag):
             errors.append(f"#{element_id} must be isolated on the review surface")
+
+    for hook in (
+        "Legacy single-value field: null sentinel only",
+        "Seven separate, non-additive output cases remain NOT_COMPUTED",
+        "Seven mandatory gates",
+        "From market evidence to separate non-additive outputs",
+    ):
+        if hook not in review_html:
+            errors.append(f"review.html lacks required multi-output valuation boundary {hook!r}")
+    for hook in (
+        "Vanha yhden luvun kenttä on vain null-sentinel, ei lopullisen arvon tavoite.",
+        "Seitsemän erillistä tulostapausta",
+        "seitsemän tuloskohtaista porttia",
+    ):
+        if hook not in index_html:
+            errors.append(f"index.html lacks required multi-output valuation boundary {hook!r}")
+    for stale_hook in (
+        "Ultimate patent value: null",
+        "Six mandatory gates",
+    ):
+        if stale_hook in review_html:
+            errors.append(f"review.html retains stale single-output valuation label {stale_hook!r}")
 
     for page_name, page, expected_count in (
         ("review.html", review_html, 8),
@@ -1193,14 +1247,14 @@ def validate_review_structure(
         )
         if (
             len(cache_tokens) != expected_count
-            or set(cache_tokens) != {"2026-08-03-43"}
+            or set(cache_tokens) != {"2026-08-03-44"}
         ):
             errors.append(
-                f"{page_name} must expose exactly {expected_count} v43 asset cache-busters"
+                f"{page_name} must expose exactly {expected_count} v44 asset cache-busters"
             )
 
     for public_control_hook in (
-        'src="assets/independent-controls.js?v=2026-08-03-43"',
+        'src="assets/independent-controls.js?v=2026-08-03-44"',
         'href="data/us-independent-benchmark-control.json"',
         'href="schemas/us-independent-benchmark-sample.schema.json"',
         'href="data/open-official-extraction-wave-es-kr-jp.json"',
@@ -1238,6 +1292,77 @@ def validate_review_structure(
     for function_name in REQUIRED_REVIEW_FUNCTIONS:
         if f"function {function_name}(" not in review_js:
             errors.append(f"review.js lacks required function {function_name}")
+    for function_name in ("assessPatentValuationControl", "renderPatentValuationSummary"):
+        if app_js is None or f"function {function_name}(" not in app_js:
+            errors.append(f"app.js lacks required patent-valuation function {function_name}")
+    valuation_review_body = function_body(review_js, "assessReviewPatentValuationControl")
+    valuation_render_body = function_body(review_js, "renderReviewPatentValuationControl")
+    valuation_app_body = function_body(app_js or "", "assessPatentValuationControl")
+    valuation_app_render_body = function_body(app_js or "", "renderPatentValuationSummary")
+    for page_name, source in (("review.js", review_js), ("app.js", app_js or "")):
+        if "innerHTML" in source:
+            errors.append(f"{page_name} patent-valuation UI must not use innerHTML")
+    for body_name, body in (
+        ("review assessment", valuation_review_body),
+        ("atlas assessment", valuation_app_body),
+    ):
+        for hook in (
+            "monetisation?.valuationControl",
+            "formulaBridge?.steps",
+            "hardGates",
+            "outputCases",
+            "routeBranches",
+            'status !== "NOT_COMPUTED"',
+            "ultimatePatentValueEUR !== null",
+            "ultimateScalarPermitted !== false",
+            "valuationBasis?.status",
+            "scopeKeyControl?.requiredKeys",
+            "scenarioControl",
+            "collateralRecoveryCase",
+            "presentValueConvention",
+            "allocationControls",
+            "independentReview",
+            "dependencyControl",
+            'role !== "INPUT_ONLY"',
+            'role !== "CALIBRATION_AND_TECHNICAL_LEVERAGE_ONLY"',
+            'includes("adjudicated")',
+            'includes("current counsel")',
+            "noDoubleCounting !== true",
+            "missingIsZero !== false",
+            "marketEqualsPatentValue !== false",
+        ):
+            if hook not in body:
+                errors.append(f"Patent valuation {body_name} lacks fail-closed hook {hook!r}")
+    for body_name, body in (
+        ("review renderer", valuation_render_body),
+        ("atlas renderer", valuation_app_render_body),
+    ):
+        for hook in (
+            "DATA_MISSING",
+            "donorGateSnapshot",
+            "germanyRole",
+            "scenarioControl",
+            "collateralRecoveryCase",
+            "outputs",
+            "routes",
+            "replaceChildren",
+        ):
+            if hook not in body:
+                errors.append(f"Patent valuation {body_name} lacks source-driven UI hook {hook!r}")
+    if "gates.filter((gate) => gate.status === \"OPEN\").length" not in valuation_render_body:
+        errors.append("Review patent-valuation gate count must be derived from source gate states")
+    for body_name, body in (
+        ("review renderer", valuation_render_body),
+        ("atlas renderer", valuation_app_render_body),
+    ):
+        if "outputs.length" not in body:
+            errors.append(f"Patent valuation {body_name} must render the source-derived output count")
+    if "PATENT_VALUATION_GATE_IDS" in review_js or "PATENT_VALUATION_GATE_IDS" in (app_js or ""):
+        errors.append("Patent-valuation runtime UI must not hardcode a gate-count-specific ID list")
+    if "renderReviewPatentValuationControl();" not in function_body(review_js, "renderReview"):
+        errors.append("Review render path must invoke the patent-valuation control")
+    if "renderPatentValuationSummary(data);" not in function_body(app_js or "", "renderLegal"):
+        errors.append("Atlas legal render path must invoke the patent-valuation summary")
     freshness_body = function_body(review_js, "renderReviewSourceFreshness")
     for forbidden in ("Date.now(", "new Date(", "performance.now(", "toLocaleDateString("):
         if forbidden in freshness_body:
@@ -1306,21 +1431,20 @@ def validate_review_structure(
             if text not in i18n_js:
                 errors.append(f"i18n.js lacks the Finnish/English pair for {text!r}")
         for release_hook in (
-            "2026-08-03-germany-vendor-audit-v43",
-            'version: "2026.08.03-43"',
-            'publishedAt: "2026-08-03T17:50:00+03:00"',
-            "Germany vendor audit and daily lender-package refresh",
-            "174 observations from 54 sources",
-            "A full 19-tab Germany vendor extract was received and audited privately",
-            "Euromonitor vendor gate G1 now passes",
-            "NOT SCORED",
-            "donor gate 0/3",
-            "global value null/not_computed",
-            "wider 25/50/78-country subscription remains HOLD",
-            "No licensed vendor values or reconstructable derivatives",
+            "2026-08-03-patent-valuation-pivot-v44",
+            'version: "2026.08.03-44"',
+            'publishedAt: "2026-08-03T23:35:00+03:00"',
+            "Patent-value objective and fail-closed valuation control",
+            "Seven separate non-additive outputs remain null/NOT_COMPUTED",
+            "RFR/direct-use",
+            "third-party licensing",
+            "Potentially infringing sales are used only in the past-enforcement branch",
+            "All seven output-specific gates remain open",
+            "donor readiness remains 0/3",
+            "No licensed vendor values, exact deviations, quotes, terms or private material",
         ):
             if release_hook not in i18n_js:
-                errors.append(f"i18n.js lacks required v43 UI release hook {release_hook!r}")
+                errors.append(f"i18n.js lacks required v44 UI release hook {release_hook!r}")
     if request_program_js is not None:
         required_rows = (
             "[2018, 226, 18356, 16264, 2092]",
@@ -1482,7 +1606,7 @@ def main() -> None:
         print(f"Review-experience validation failed with {len(errors)} error(s).", file=sys.stderr)
         raise SystemExit(1)
     print(
-        "Validated v43 dashboard / v43 daily-package review experience: Germany numeric-pass / wider-HOLD boundary, "
+        "Validated v44 dashboard and daily-package review experience: seven patent-value outputs and gates, Germany case boundary, "
         "1/6 NOT SCORED vendor state, 0/3 donor gate, exact Germany "
         "waterfall, New Zealand and Canada 7/10 closures, Poland reconstruction, "
         "deterministic 54-source ledger and required UI hooks."

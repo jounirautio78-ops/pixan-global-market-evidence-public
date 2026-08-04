@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-07-24",
-  "reviewedAt": "2026-07-23T22:03:44Z",
+  "asOf": "2026-08-03",
+  "reviewedAt": "2026-08-03T20:35:00Z",
   "disclaimerEn": "This independent public-source dataset is not legal advice, a patent-validity or infringement opinion, a valuation, an allegation against any company, or evidence of realised cash flow. A PCT filing is not a worldwide patent; an EPO family publication is not proof of current national status. National status, operative claims, title, encumbrances, limitation periods, jurisdiction, finality, product-specific claim mapping, damages and cash flow must be verified separately by qualified advisers before reliance.",
   "disclaimerFi": "Tämä riippumaton julkisiin lähteisiin perustuva aineisto ei ole oikeudellinen neuvonta, lausunto patentin pätevyydestä tai loukkauksesta, arvonmääritys, väite mitään yhtiötä vastaan eikä näyttö toteutuneesta kassavirrasta. PCT-hakemus ei ole maailmanlaajuinen patentti, eikä EPO:n patenttiperhejulkaisu osoita nykyistä kansallista voimassaoloa. Kansallinen voimassaolo, käytettävä vaatimusversio, saantoketju, rasitteet, vanhentuminen, toimivalta, lainvoimaisuus, tuotekohtainen vaatimusvertailu, vahingonkorvaus ja kassavirta on vahvistettava erikseen pätevillä asiantuntijoilla.",
   "patent": {
@@ -291,6 +291,19 @@
       "scopeFi": "Virallinen arvonmäärityskehikko tuotto-, markkina- ja kustannusmenetelmille sekä erillisen IP-arvon edellytyksille.",
       "limitationEn": "General guidance, not a valuation of Pixan, its patent family, shares or collateral.",
       "limitationFi": "Yleinen ohje, ei Pixanin, patenttiperheen, osakkeiden tai vakuuden arvonmääritys."
+    },
+    {
+      "sourceId": "IFRS-13-FAIR-VALUE",
+      "publisher": "IFRS Foundation",
+      "title": "IFRS 13 Fair Value Measurement",
+      "sourceKind": "official_standard_overview",
+      "evidenceTier": "official",
+      "url": "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/",
+      "retrievedAt": "2026-08-03",
+      "scopeEn": "Used only to define the market-participant, measurement-date exit-price basis and the separation of that premise from owner intent.",
+      "scopeFi": "Käytetään vain markkinaosapuolen mittauspäivän exit price -perusteen sekä omistajan aikomuksesta erillisen lähtökohdan määrittelyyn.",
+      "limitationEn": "This source does not classify the project's owner-specific, licensing, enforcement, transaction or collateral cases as IFRS fair value and does not value Pixan or its patents.",
+      "limitationFi": "Lähde ei luokittele hankkeen omistajakohtaista, lisensointi-, täytäntöönpano-, transaktio- tai vakuustapausta IFRS-käyväksi arvoksi eikä määritä Pixanin tai sen patenttien arvoa."
     },
     {
       "sourceId": "WIPO-IP-FINANCE",
@@ -1412,11 +1425,574 @@
     }
   ],
   "monetisation": {
+    "valuationControl": {
+      "controlId": "PIXAN-PATENT-VALUATION-CONTROL-2026-08-03",
+      "controlVersion": "2.0",
+      "valuationDate": "2026-08-03",
+      "purposeEn": "Estimate defensible patent value range",
+      "purposeFi": "Arvioida puolustettavissa oleva patentin arvon vaihteluväli",
+      "status": "NOT_COMPUTED",
+      "ultimatePatentValueEUR": null,
+      "valueRangeEUR": {
+        "low": null,
+        "central": null,
+        "high": null
+      },
+      "ultimateScalarPermitted": false,
+      "ultimateScalarRoleEn": "Legacy null sentinel only. The control does not collapse distinct valuation premises into one scalar ultimate value.",
+      "ultimateScalarRoleFi": "Vain vanha null-tilan varmistuskenttä. Kontrolli ei yhdistä eri arvonmääritysperusteita yhdeksi lopulliseksi luvuksi.",
+      "decision": "HOLD",
+      "gateLogic": "OUTPUT_SPECIFIC_DEPENDENCIES_MUST_PASS",
+      "valuationBasis": {
+        "status": "NOT_DEFINED",
+        "subjectMatterEn": "Exact rights, operative claims, territories, remaining terms and any separately evidenced know-how must be fixed before computation.",
+        "subjectMatterFi": "Täsmälliset oikeudet, sovellettavat vaatimukset, alueet, jäljellä oleva aika ja erikseen todennettu know-how on lukittava ennen laskentaa.",
+        "premiseAndUseEn": "The valuation premise, measurement date and intended use must be stated separately for each output.",
+        "premiseAndUseFi": "Arvonmääritysperuste, mittauspäivä ja käyttötarkoitus on ilmoitettava erikseen jokaiselle tulokselle.",
+        "marketParticipantBasisEn": "Only the market-participant patent/family output uses the IFRS 13 overview solely to define a measurement-date exit-price premise in which owner intent is not relevant.",
+        "marketParticipantBasisFi": "Vain markkinaosapuolen patentti-/perhearvon tulos käyttää IFRS 13 -yleiskuvaa määrittämään mittauspäivän exit price -perusteen, jossa omistajan aikomus ei ole relevantti.",
+        "otherPremisesAreIfrsFairValue": false,
+        "grossNetTaxBasis": "NOT_DEFINED",
+        "sourceIds": ["IFRS-13-FAIR-VALUE", "WIPO-IP-VALUATION"]
+      },
+      "scopeKeyControl": {
+        "requiredKeys": ["product", "country", "counterparty", "period", "economicBenefit"],
+        "allKeysMustReconcileBeforeUse": true,
+        "missingKeyIsZero": false,
+        "statementEn": "Every source and model input must reconcile product, country, counterparty, period and economic benefit before it is used in an output.",
+        "statementFi": "Jokaisen lähteen ja mallisyötteen tuote, maa, vastapuoli, ajanjakso ja taloudellinen hyöty on täsmäytettävä ennen käyttöä tuloksessa."
+      },
+      "outputCases": [
+        {
+          "outputId": "MARKET-PARTICIPANT-PATENT-FAMILY-VALUE",
+          "titleEn": "Market-participant patent or family value",
+          "titleFi": "Markkinaosapuolen patentti- tai perhearvo",
+          "premise": "MARKET_PARTICIPANT_MEASUREMENT_DATE_EXIT_PRICE",
+          "valueEUR": null,
+          "valueRangeEUR": {"low": null, "central": null, "high": null},
+          "probabilityWeightedValueEUR": null,
+          "status": "NOT_COMPUTED",
+          "nonAdditive": true,
+          "sourceIds": ["IFRS-13-FAIR-VALUE", "WIPO-IP-VALUATION"]
+        },
+        {
+          "outputId": "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE",
+          "titleEn": "Owner-specific strategic or investment value",
+          "titleFi": "Omistajakohtainen strateginen tai investointiarvo",
+          "premise": "OWNER_SPECIFIC_NOT_IFRS_FAIR_VALUE",
+          "valueEUR": null,
+          "valueRangeEUR": {"low": null, "central": null, "high": null},
+          "probabilityWeightedValueEUR": null,
+          "status": "NOT_COMPUTED",
+          "nonAdditive": true,
+          "sourceIds": ["WIPO-IP-VALUATION", "EPO-IPSCORE"]
+        },
+        {
+          "outputId": "RFR-DIRECT-USE-VALUE",
+          "titleEn": "Relief-from-royalty or direct-use value",
+          "titleFi": "Relief-from-royalty- tai oman käytön arvo",
+          "premise": "PROSPECTIVE_RFR_OR_DIRECT_USE",
+          "valueEUR": null,
+          "valueRangeEUR": {"low": null, "central": null, "high": null},
+          "probabilityWeightedValueEUR": null,
+          "status": "NOT_COMPUTED",
+          "nonAdditive": true,
+          "sourceIds": ["WIPO-IP-VALUATION"]
+        },
+        {
+          "outputId": "THIRD-PARTY-LICENSING-VALUE",
+          "titleEn": "Third-party licensing value",
+          "titleFi": "Kolmannen osapuolen lisensointiarvo",
+          "premise": "THIRD_PARTY_LICENSING",
+          "valueEUR": null,
+          "valueRangeEUR": {"low": null, "central": null, "high": null},
+          "probabilityWeightedValueEUR": null,
+          "status": "NOT_COMPUTED",
+          "nonAdditive": true,
+          "sourceIds": ["WIPO-IP-VALUATION", "WIPO-ASSIGNMENT-LICENSING"]
+        },
+        {
+          "outputId": "PAST-ENFORCEMENT-CLAIM-NPV",
+          "titleEn": "Past enforcement-claim net present value",
+          "titleFi": "Menneen täytäntöönpanovaatimuksen nettonykyarvo",
+          "premise": "CASE_SPECIFIC_PAST_ENFORCEMENT_CLAIM",
+          "valueEUR": null,
+          "valueRangeEUR": {"low": null, "central": null, "high": null},
+          "probabilityWeightedValueEUR": null,
+          "status": "NOT_COMPUTED",
+          "nonAdditive": true,
+          "sourceIds": ["WIPO-IP-VALUATION", "WIPO-DISPUTE-RESOLUTION"]
+        },
+        {
+          "outputId": "EXIT-TRANSACTION-INDICATION",
+          "titleEn": "Exit or transaction indication",
+          "titleFi": "Exit- tai transaktioindikaatio",
+          "premise": "TRANSACTION_SPECIFIC_INDICATION_NOT_COMPANY_VALUE",
+          "valueEUR": null,
+          "valueRangeEUR": {"low": null, "central": null, "high": null},
+          "probabilityWeightedValueEUR": null,
+          "status": "NOT_COMPUTED",
+          "nonAdditive": true,
+          "sourceIds": ["WIPO-IP-VALUATION"]
+        },
+        {
+          "outputId": "COLLATERAL-RECOVERY-VALUE",
+          "titleEn": "Collateral recovery value",
+          "titleFi": "Vakuuden realisaatioarvo",
+          "premise": "LENDER_SPECIFIC_RECOVERY_CASE",
+          "valueEUR": null,
+          "valueRangeEUR": {"low": null, "central": null, "high": null},
+          "probabilityWeightedValueEUR": null,
+          "status": "NOT_COMPUTED",
+          "nonAdditive": true,
+          "sourceIds": ["WIPO-IP-FINANCE", "WIPO-IP-VALUATION"]
+        }
+      ],
+      "marketEvidenceRole": {
+        "role": "INPUT_ONLY",
+        "statementEn": "Market evidence can inform a bounded sales input only after territory, product, transaction stage and period are reconciled. It cannot by itself set covered sales, potentially infringing sales, a royalty base, damages, licensing cash flow or patent value.",
+        "statementFi": "Markkinaevidenssi voi tukea rajattua myyntisyötettä vasta, kun alue, tuote, tapahtumavaihe ja ajanjakso on täsmäytetty. Se ei yksin määritä suojan piiriin mahdollisesti kuuluvaa myyntiä, mahdollisesti loukkaavaa myyntiä, rojaltipohjaa, vahingonkorvausta, lisenssikassavirtaa tai patentin arvoa.",
+        "maySetCoveredSales": false,
+        "maySetPotentiallyInfringingSales": false,
+        "maySetRoyaltyOrDamages": false,
+        "maySetLicensingCashFlow": false,
+        "maySetPatentValue": false
+      },
+      "donorGateSnapshot": {
+        "accepted": 0,
+        "required": 3,
+        "status": "OPEN",
+        "roleEn": "Evidence-readiness input for a possible global market model; not the final valuation objective and not a patent-value gate.",
+        "roleFi": "Mahdollisen globaalin markkinamallin evidenssivalmiuden syöte; ei arvonmäärityksen lopputavoite eikä patenttiarvon portti."
+      },
+      "formulaBridge": {
+        "expressionEn": "market evidence -> scope-key reconciliation -> potentially covered sales -> route-specific economic benefit -> probability-weighted dated cash flows -> non-overlapping risk/cost/tax and present value -> separate non-additive output",
+        "expressionFi": "markkinaevidenssi -> scope key -täsmäytys -> suojan piiriin mahdollisesti kuuluva myynti -> reittikohtainen taloudellinen hyöty -> todennäköisyyspainotetut päivätyt kassavirrat -> päällekkäisyydettömät riski-/kulu-/vero- ja nykyarvo-oikaisut -> erillinen ei-yhteenlaskettava tulos",
+        "steps": [
+          {
+            "stepId": "MARKET-EVIDENCE",
+            "sequence": 1,
+            "titleEn": "Market evidence",
+            "titleFi": "Markkinaevidenssi",
+            "valueEUR": null,
+            "status": "NOT_COMPUTED",
+            "requirementEn": "Use only compatible, source-linked country-year observations and keep retail, shipment, tax, customs and model stages separate.",
+            "requirementFi": "Käytä vain yhteensopivia, lähteistettyjä maa–vuosi-havaintoja ja pidä vähittäismyynti, toimitukset, vero, tulli ja malli erillään.",
+            "sourceIds": ["WIPO-IP-VALUATION"]
+          },
+          {
+            "stepId": "SCOPE-KEY-RECONCILIATION",
+            "sequence": 2,
+            "titleEn": "Scope-key reconciliation",
+            "titleFi": "Scope key -täsmäytys",
+            "valueEUR": null,
+            "status": "NOT_COMPUTED",
+            "requirementEn": "Reconcile product, country, counterparty, period and economic benefit; missing keys stay missing rather than becoming zero.",
+            "requirementFi": "Täsmäytä tuote, maa, vastapuoli, ajanjakso ja taloudellinen hyöty; puuttuvat avaimet pysyvät puuttuvina eivätkä muutu nolliksi.",
+            "sourceIds": ["WIPO-IP-VALUATION"]
+          },
+          {
+            "stepId": "POTENTIALLY-COVERED-SALES",
+            "sequence": 3,
+            "titleEn": "Potentially covered sales",
+            "titleFi": "Suojan piiriin mahdollisesti kuuluva myynti",
+            "valueEUR": null,
+            "status": "NOT_COMPUTED",
+            "requirementEn": "Apply Boolean country-right and claim masks plus remaining-term time masks, then allocate measured SKU sales without overlapping territory, claim or infringement haircuts.",
+            "requirementFi": "Sovella maaoikeus- ja vaatimuskohtaisia Boolean-maskeja sekä jäljellä olevan ajan maskeja ja kohdista mitattu SKU-myynti ilman päällekkäisiä alue-, vaatimus- tai loukkausleikkureita.",
+            "sourceIds": ["EPO-NATIONAL-VALIDATION", "EPO-REGISTER-LEGAL", "EPO-B2-SPECIFICATION"]
+          },
+          {
+            "stepId": "ROUTE-SPECIFIC-ECONOMIC-BENEFIT",
+            "sequence": 4,
+            "titleEn": "Route-specific economic benefit",
+            "titleFi": "Reittikohtainen taloudellinen hyöty",
+            "valueEUR": null,
+            "status": "NOT_COMPUTED",
+            "requirementEn": "Branch after covered sales into prospective RFR/direct use, third-party licensing, past enforcement/damages or strategic option/barrier value. Only the enforcement route requires potentially infringing sales.",
+            "requirementFi": "Haaraudu katetun myynnin jälkeen ennakoivaan RFR-/omaan käyttöön, kolmannen lisensointiin, menneeseen täytäntöönpanoon/vahingonkorvaukseen tai strategiseen optio-/estearvoon. Vain täytäntöönpanoreitti edellyttää mahdollisesti loukkaavaa myyntiä.",
+            "sourceIds": ["WIPO-IP-VALUATION", "WIPO-ASSIGNMENT-LICENSING", "WIPO-DISPUTE-RESOLUTION"]
+          },
+          {
+            "stepId": "PROBABILITY-WEIGHTED-DATED-CASH-FLOWS",
+            "sequence": 5,
+            "titleEn": "Probability-weighted dated cash flows",
+            "titleFi": "Todennäköisyyspainotetut päivätyt kassavirrat",
+            "valueEUR": null,
+            "status": "NOT_COMPUTED",
+            "requirementEn": "Define dated gross and net cash flows by scenario; scenario probabilities must sum to one before probability-weighted value can be computed.",
+            "requirementFi": "Määritä päivätyt brutto- ja nettokassavirrat skenaarioittain; skenaariotodennäköisyyksien summan on oltava yksi ennen painotetun arvon laskentaa.",
+            "sourceIds": ["WIPO-IP-VALUATION", "EPO-IPSCORE"]
+          },
+          {
+            "stepId": "PRESENT-VALUE-AND-NON-OVERLAPPING-ADJUSTMENTS",
+            "sequence": 6,
+            "titleEn": "Present value and non-overlapping adjustments",
+            "titleFi": "Nykyarvo ja päällekkäisyydettömät oikaisut",
+            "valueEUR": null,
+            "status": "NOT_COMPUTED",
+            "requirementEn": "Discount probability-weighted dated cash flows at a rate excluding separately modelled risks; map every risk exactly once and do not add a separate time factor.",
+            "requirementFi": "Diskonttaa todennäköisyyspainotetut päivätyt kassavirrat korolla, joka ei sisällä erikseen mallinnettuja riskejä; kohdista jokainen riski täsmälleen kerran äläkä käytä erillistä aikakerrointa.",
+            "sourceIds": ["WIPO-IP-VALUATION", "WIPO-IP-FINANCE"]
+          },
+          {
+            "stepId": "SEPARATE-NON-ADDITIVE-OUTPUTS",
+            "sequence": 7,
+            "titleEn": "Separate non-additive value outputs",
+            "titleFi": "Erilliset ei-yhteenlaskettavat arvotulokset",
+            "valueEUR": null,
+            "status": "NOT_COMPUTED",
+            "requirementEn": "Compute only the output whose stated premise, intended use and dependencies are evidenced; never add the seven output cases together.",
+            "requirementFi": "Laske vain tulos, jonka ilmoitettu peruste, käyttötarkoitus ja riippuvuudet on todennettu; seitsemää arvotapausta ei koskaan lasketa yhteen.",
+            "sourceIds": ["WIPO-IP-VALUATION", "IFRS-13-FAIR-VALUE"]
+          }
+        ]
+      },
+      "routeBranches": [
+        {
+          "routeId": "PROSPECTIVE-RFR-DIRECT-USE",
+          "titleEn": "Prospective relief-from-royalty or direct use",
+          "titleFi": "Ennakoiva relief-from-royalty tai oma käyttö",
+          "requiresPotentiallyInfringingSales": false,
+          "valueEUR": null,
+          "status": "NOT_COMPUTED",
+          "usedInOutputs": ["RFR-DIRECT-USE-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE"]
+        },
+        {
+          "routeId": "THIRD-PARTY-LICENSING",
+          "titleEn": "Third-party licensing",
+          "titleFi": "Kolmannen osapuolen lisensointi",
+          "requiresPotentiallyInfringingSales": false,
+          "valueEUR": null,
+          "status": "NOT_COMPUTED",
+          "usedInOutputs": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "THIRD-PARTY-LICENSING-VALUE", "EXIT-TRANSACTION-INDICATION"]
+        },
+        {
+          "routeId": "PAST-ENFORCEMENT-DAMAGES",
+          "titleEn": "Past enforcement or damages",
+          "titleFi": "Mennyt täytäntöönpano tai vahingonkorvaus",
+          "requiresPotentiallyInfringingSales": true,
+          "valueEUR": null,
+          "status": "NOT_COMPUTED",
+          "usedInOutputs": ["PAST-ENFORCEMENT-CLAIM-NPV"]
+        },
+        {
+          "routeId": "STRATEGIC-OPTION-BARRIER",
+          "titleEn": "Strategic option or barrier value",
+          "titleFi": "Strateginen optio- tai estearvo",
+          "requiresPotentiallyInfringingSales": false,
+          "valueEUR": null,
+          "status": "NOT_COMPUTED",
+          "usedInOutputs": ["OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "EXIT-TRANSACTION-INDICATION"]
+        }
+      ],
+      "components": [
+        {
+          "componentId": "RIGHTS-PERIMETER",
+          "titleEn": "Rights perimeter and remaining term",
+          "titleFi": "Oikeuspiiri ja jäljellä oleva suoja-aika",
+          "status": "OPEN",
+          "valueEUR": null,
+          "sourceIds": ["EPO-NATIONAL-VALIDATION", "EPO-REGISTER-LEGAL"]
+        },
+        {
+          "componentId": "PRODUCT-SALES-ATTRIBUTION",
+          "titleEn": "Product, claim and sales attribution",
+          "titleFi": "Tuote-, vaatimus- ja myyntikohdistus",
+          "status": "OPEN",
+          "valueEUR": null,
+          "sourceIds": ["EPO-B2-SPECIFICATION", "DE-LGMUC-7O3341-24"]
+        },
+        {
+          "componentId": "ECONOMIC-CASH-FLOW",
+          "titleEn": "Royalty, damages and licensing cash-flow case",
+          "titleFi": "Rojalti-, vahingonkorvaus- ja lisenssikassavirtatapaus",
+          "status": "OPEN",
+          "valueEUR": null,
+          "sourceIds": ["WIPO-IP-VALUATION", "WIPO-ASSIGNMENT-LICENSING"]
+        },
+        {
+          "componentId": "RISK-AND-DISCOUNT",
+          "titleEn": "Risk, cost, tax, timing and discounting",
+          "titleFi": "Riski, kulut, verot, ajoitus ja diskonttaus",
+          "status": "OPEN",
+          "valueEUR": null,
+          "sourceIds": ["WIPO-IP-VALUATION", "WIPO-IP-FINANCE", "EPO-IPSCORE"]
+        },
+        {
+          "componentId": "PREMISE-SPECIFIC-OUTPUT-RANGES",
+          "titleEn": "Premise-specific low, central and high output ranges",
+          "titleFi": "Perustekohtaiset ala-, keski- ja ylätulosten vaihteluvälit",
+          "status": "OPEN",
+          "valueEUR": null,
+          "sourceIds": ["WIPO-IP-VALUATION"]
+        }
+      ],
+      "allocationControls": {
+        "rightsAndTerm": "BOOLEAN_COUNTRY_RIGHT_AND_TIME_MASKS",
+        "productSales": "MEASURED_SKU_SALES_ALLOCATION",
+        "claimState": "COUNSEL_REVIEWED_CLAIM_STATE",
+        "economicAdjustment": "ONE_DISTINCT_APPORTIONMENT_OR_PROBABILITY_PER_RISK",
+        "overlappingHaircutsPermitted": false,
+        "statementEn": "Do not multiply overlapping territory, claim, mapping or infringement haircuts. Use Boolean/time masks, measured SKU allocation, counsel claim state and one distinct economic apportionment or probability for each non-overlapping risk.",
+        "statementFi": "Älä kerro päällekkäisiä alue-, vaatimus-, mapping- tai loukkausleikkureita. Käytä Boolean-/aikamaskeja, mitattua SKU-kohdistusta, asiantuntijan claim-tilaa ja yhtä erillistä taloudellista kohdistusta tai todennäköisyyttä kullekin päällekkäisyydettömälle riskille."
+      },
+      "presentValueConvention": {
+        "status": "NOT_DEFINED",
+        "cashFlowBasis": "PROBABILITY_WEIGHTED_DATED_CASH_FLOWS",
+        "discountRateExcludesSeparatelyModelledRisks": true,
+        "eachRiskMappedExactlyOnce": true,
+        "separateTimeDiscountFactorPermitted": false,
+        "probabilityWeightedValueEUR": null,
+        "statementEn": "Present value uses probability-weighted dated cash flows and a discount rate that excludes risks modelled separately. Every risk maps once; no separate time discount factor is applied before or after PV.",
+        "statementFi": "Nykyarvo käyttää todennäköisyyspainotettuja päivättyjä kassavirtoja ja diskonttokorkoa, joka ei sisällä erikseen mallinnettuja riskejä. Jokainen riski kohdistetaan kerran; erillistä aikadiskonttikerrointa ei sovelleta ennen nykyarvoa eikä sen jälkeen.",
+        "sourceIds": ["WIPO-IP-VALUATION"]
+      },
+      "scenarioControl": {
+        "status": "NOT_DEFINED",
+        "scenarioProbabilities": [],
+        "probabilitiesMustSumToOne": true,
+        "sumTolerance": 0.000001,
+        "probabilitySum": null,
+        "probabilityWeightedValueEUR": null,
+        "sumToOneQaStatus": "NOT_COMPUTED",
+        "statementEn": "Probability-weighted value remains null until a complete mutually exclusive scenario set is source-linked and probabilities sum to one within tolerance.",
+        "statementFi": "Todennäköisyyspainotettu arvo pysyy null-tilassa, kunnes täydellinen toisensa poissulkeva skenaariosarja on lähteistetty ja todennäköisyydet summautuvat yhteen toleranssin rajoissa."
+      },
+      "independentReview": {
+        "role": "POST_COMPUTATION_RELEASE_AND_ASSURANCE_GATE",
+        "usedAsComputationInput": false,
+        "status": "NOT_STARTED",
+        "statementEn": "Independent review is a post-computation release and assurance gate, not a numeric model input.",
+        "statementFi": "Riippumaton tarkastus on laskennan jälkeinen julkaisu- ja varmennusportti, ei numeerinen mallisyöte."
+      },
+      "collateralRecoveryCase": {
+        "status": "NOT_COMPUTED",
+        "valueEUR": null,
+        "probabilityWeightedValueEUR": null,
+        "simpleValueTimesHaircutPermitted": false,
+        "lenderHaircutsApplyOnlyHere": true,
+        "requiredInputs": {
+          "recoveryPremise": null,
+          "perfection": null,
+          "priority": null,
+          "transferability": null,
+          "foreclosureMarketability": null,
+          "saleTime": null,
+          "saleCosts": null
+        },
+        "statementEn": "Collateral recovery is a separate lender-specific case requiring a recovery premise, perfection, priority, transferability, foreclosure marketability, sale time and sale costs. It is not value multiplied by a generic haircut.",
+        "statementFi": "Vakuuden realisaatio on erillinen rahoittajakohtainen tapaus, joka vaatii realisaatioperusteen, vakuuden perustamisen, etusijan, siirrettävyyden, ulosmittausmarkkinoitavuuden, myyntiajan ja myyntikulut. Se ei ole arvo kerrottuna yleisellä leikkurilla.",
+        "sourceIds": ["WIPO-IP-FINANCE", "WIPO-IP-VALUATION"]
+      },
+      "hardGates": [
+        {
+          "gateId": "BASIS-AND-SUBJECT",
+          "status": "OPEN",
+          "blocksComputation": true,
+          "titleEn": "Valuation basis, subject and intended use",
+          "titleFi": "Arvonmääritysperuste, kohde ja käyttötarkoitus",
+          "requirementEn": "Fix exact rights, claims, territories, separately evidenced know-how, measurement date, intended use, market-participant versus owner-specific premise, and gross, net and tax basis for each output.",
+          "requirementFi": "Lukitse jokaiselle tulokselle täsmälliset oikeudet, vaatimukset, alueet, erikseen todennettu know-how, mittauspäivä, käyttötarkoitus, markkinaosapuoli- tai omistajakohtainen peruste sekä brutto-, netto- ja veroperusta.",
+          "evidenceNeededEn": "Signed valuation instruction and subject schedule identifying the output-specific premise and scope keys.",
+          "evidenceNeededFi": "Allekirjoitettu arvonmääritystoimeksianto ja kohdetaulukko, jotka yksilöivät tuloskohtaisen perusteen ja scope key -avaimet.",
+          "usedInModel": true,
+          "appliesToOutputIds": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "RFR-DIRECT-USE-VALUE", "THIRD-PARTY-LICENSING-VALUE", "PAST-ENFORCEMENT-CLAIM-NPV", "EXIT-TRANSACTION-INDICATION", "COLLATERAL-RECOVERY-VALUE"],
+          "dependencies": {"mode": "OUTPUT_SPECIFIC", "gateIds": []},
+          "sourceIds": ["IFRS-13-FAIR-VALUE", "WIPO-IP-VALUATION"]
+        },
+        {
+          "gateId": "RIGHTS-TITLE-TERM",
+          "status": "OPEN",
+          "blocksComputation": true,
+          "titleEn": "Rights, title and remaining term",
+          "titleFi": "Oikeudet, omistus ja jäljellä oleva aika",
+          "requirementEn": "Verify national validation, proprietor, chain of title, encumbrances, operative claims, renewals and remaining term in every included jurisdiction.",
+          "requirementFi": "Vahvista kansallinen validointi, haltija, saantoketju, rasitteet, sovellettavat vaatimukset, vuosimaksut ja jäljellä oleva suoja-aika jokaisessa mukana olevassa maassa.",
+          "evidenceNeededEn": "Counsel-signed national-rights schedule based on current official registers.",
+          "evidenceNeededFi": "Ajantasaisiin virallisiin rekistereihin perustuva patenttiasiantuntijan allekirjoittama maakohtainen oikeustaulukko.",
+          "usedInModel": true,
+          "appliesToOutputIds": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "RFR-DIRECT-USE-VALUE", "THIRD-PARTY-LICENSING-VALUE", "PAST-ENFORCEMENT-CLAIM-NPV", "EXIT-TRANSACTION-INDICATION", "COLLATERAL-RECOVERY-VALUE"],
+          "dependencies": {"mode": "OUTPUT_SPECIFIC", "gateIds": ["BASIS-AND-SUBJECT"]},
+          "sourceIds": ["EPO-NATIONAL-VALIDATION", "EPO-REGISTER-LEGAL"]
+        },
+        {
+          "gateId": "PRODUCT-CLAIM-MAPPING",
+          "status": "OPEN",
+          "blocksComputation": true,
+          "titleEn": "Product and claim mapping",
+          "titleFi": "Tuote- ja vaatimusvertailu",
+          "requirementEn": "Link preserved product versions and local acts to every relevant claim limitation by country.",
+          "requirementFi": "Yhdistä säilytetyt tuoteversiot ja paikalliset teot jokaiseen olennaiseen patenttivaatimuksen piirteeseen maittain.",
+          "evidenceNeededEn": "Chain of custody, teardown, raw test data and counsel-reviewed country-specific claim charts.",
+          "evidenceNeededFi": "Hallussapitoketju, purkuanalyysi, raaka testidata ja asiantuntijan tarkastamat maakohtaiset claim chartit.",
+          "usedInModel": true,
+          "coveredUseMappingPermittedForRfr": true,
+          "infringementFindingRequiredOnlyForOutputIds": ["PAST-ENFORCEMENT-CLAIM-NPV"],
+          "appliesToOutputIds": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "RFR-DIRECT-USE-VALUE", "THIRD-PARTY-LICENSING-VALUE", "PAST-ENFORCEMENT-CLAIM-NPV", "EXIT-TRANSACTION-INDICATION", "COLLATERAL-RECOVERY-VALUE"],
+          "dependencies": {"mode": "OUTPUT_SPECIFIC", "gateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM"]},
+          "sourceIds": ["EPO-B2-SPECIFICATION", "DE-LGMUC-7O3341-24"]
+        },
+        {
+          "gateId": "ATTRIBUTABLE-SALES",
+          "status": "OPEN",
+          "blocksComputation": true,
+          "titleEn": "Attributable covered sales; enforcement-only infringing sales",
+          "titleFi": "Kohdistettava katettu myynti; loukkaava myynti vain täytäntöönpanolle",
+          "requirementEn": "Reconcile product, country, counterparty, period, economic benefit, transaction stage, returns, taxes and channel. RFR, direct use and licensing may use covered-use sales and do not require an infringement finding; potentially infringing sales are required only for the past-enforcement branch.",
+          "requirementFi": "Täsmäytä tuote, maa, vastapuoli, ajanjakso, taloudellinen hyöty, tapahtumavaihe, palautukset, verot ja kanava. RFR, oma käyttö ja lisensointi voivat käyttää katetun käytön myyntiä eivätkä vaadi loukkausratkaisua; mahdollisesti loukkaava myynti vaaditaan vain menneen täytäntöönpanon haarassa.",
+          "evidenceNeededEn": "Source-linked company, authority, customs or retail records with an auditable scope bridge.",
+          "evidenceNeededFi": "Lähteistetyt yhtiö-, viranomais-, tulli- tai vähittäismyyntitiedot sekä auditoitava rajaussilta.",
+          "usedInModel": true,
+          "infringementRequiredOnlyForOutputIds": ["PAST-ENFORCEMENT-CLAIM-NPV"],
+          "appliesToOutputIds": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "RFR-DIRECT-USE-VALUE", "THIRD-PARTY-LICENSING-VALUE", "PAST-ENFORCEMENT-CLAIM-NPV", "EXIT-TRANSACTION-INDICATION"],
+          "dependencies": {"mode": "OUTPUT_SPECIFIC", "gateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING"]},
+          "sourceIds": ["WIPO-IP-VALUATION"]
+        },
+        {
+          "gateId": "ROYALTY-DAMAGES-LICENSING-BASIS",
+          "status": "OPEN",
+          "blocksComputation": true,
+          "titleEn": "Royalty, damages and licensing basis",
+          "titleFi": "Rojalti-, vahingonkorvaus- ja lisensointiperuste",
+          "requirementEn": "Select and document the legally and economically appropriate route, royalty base, rate evidence, comparable terms and causation limits.",
+          "requirementFi": "Valitse ja dokumentoi oikeudellisesti ja taloudellisesti soveltuva reitti, rojaltipohja, rojaltinäyttö, vertailuehdot ja syy-yhteyden rajat.",
+          "evidenceNeededEn": "Counsel-reviewed damages or licence model with public or controlled comparables and explicit assumptions.",
+          "evidenceNeededFi": "Asiantuntijan tarkastama vahingonkorvaus- tai lisenssimalli julkisilla tai hallituilla vertailuilla ja avoimilla oletuksilla.",
+          "usedInModel": true,
+          "appliesToOutputIds": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "RFR-DIRECT-USE-VALUE", "THIRD-PARTY-LICENSING-VALUE", "PAST-ENFORCEMENT-CLAIM-NPV", "EXIT-TRANSACTION-INDICATION", "COLLATERAL-RECOVERY-VALUE"],
+          "dependencies": {"mode": "OUTPUT_SPECIFIC", "gateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM"]},
+          "sourceIds": ["WIPO-IP-VALUATION", "WIPO-ASSIGNMENT-LICENSING", "WIPO-DISPUTE-RESOLUTION"]
+        },
+        {
+          "gateId": "CASH-FLOW-TIMING",
+          "status": "OPEN",
+          "blocksComputation": true,
+          "titleEn": "Cash-flow timing and remaining-term model",
+          "titleFi": "Kassavirran ajoitus ja jäljellä olevan ajan malli",
+          "requirementEn": "Model payment timing, ramp, remaining legal and economic life, probability-weighted scenarios and discounting.",
+          "requirementFi": "Mallinna maksujen ajoitus, kasvu, jäljellä oleva oikeudellinen ja taloudellinen käyttöaika, todennäköisyyspainotetut skenaariot ja diskonttaus.",
+          "evidenceNeededEn": "Reviewable low, central and high cash-flow model linked to verified inputs.",
+          "evidenceNeededFi": "Tarkistettava ala-, keski- ja yläkassavirtamalli, joka on sidottu vahvistettuihin syötteisiin.",
+          "usedInModel": true,
+          "appliesToOutputIds": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "RFR-DIRECT-USE-VALUE", "THIRD-PARTY-LICENSING-VALUE", "PAST-ENFORCEMENT-CLAIM-NPV", "EXIT-TRANSACTION-INDICATION", "COLLATERAL-RECOVERY-VALUE"],
+          "dependencies": {"mode": "OUTPUT_SPECIFIC", "gateIds": ["BASIS-AND-SUBJECT", "ROYALTY-DAMAGES-LICENSING-BASIS"]},
+          "sourceIds": ["WIPO-IP-VALUATION", "WIPO-IP-FINANCE"]
+        },
+        {
+          "gateId": "RISK-COST-TAX-COLLECTABILITY",
+          "status": "OPEN",
+          "blocksComputation": true,
+          "titleEn": "Risk, cost, tax and collectability",
+          "titleFi": "Riski, kulut, verot ja perittävyys",
+          "requirementEn": "Apply each non-overlapping validity, appeal, design-around, enforcement, funding, adverse-cost, tax, credit and collection risk once. Infringement risk applies only to the past-enforcement output; lender recovery assumptions apply only to the collateral output.",
+          "requirementFi": "Sovella kukin päällekkäisyydetön pätevyys-, valitus-, design-around-, täytäntöönpano-, rahoitus-, vastapuolen kulu-, vero-, luotto- ja perintäriski kerran. Loukkausriski koskee vain menneen täytäntöönpanon tulosta; rahoittajan realisaatio-oletukset vain vakuustulosta.",
+          "evidenceNeededEn": "Country-specific legal budget, recovery analysis, tax review and documented risk matrix.",
+          "evidenceNeededFi": "Maakohtainen oikeudellinen budjetti, perittävyysanalyysi, verotarkastus ja dokumentoitu riskimatriisi.",
+          "usedInModel": true,
+          "infringementRiskAppliesOnlyToOutputIds": ["PAST-ENFORCEMENT-CLAIM-NPV"],
+          "lenderRecoveryAssumptionsApplyOnlyToOutputIds": ["COLLATERAL-RECOVERY-VALUE"],
+          "appliesToOutputIds": ["MARKET-PARTICIPANT-PATENT-FAMILY-VALUE", "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE", "RFR-DIRECT-USE-VALUE", "THIRD-PARTY-LICENSING-VALUE", "PAST-ENFORCEMENT-CLAIM-NPV", "EXIT-TRANSACTION-INDICATION", "COLLATERAL-RECOVERY-VALUE"],
+          "dependencies": {"mode": "OUTPUT_SPECIFIC", "gateIds": ["BASIS-AND-SUBJECT", "CASH-FLOW-TIMING"]},
+          "sourceIds": ["WIPO-IP-VALUATION", "WIPO-IP-FINANCE", "EPO-IPSCORE"]
+        }
+      ],
+      "dependencyControl": {
+        "globalCircularBlock": false,
+        "gateDependenciesAreOutputSpecific": true,
+        "sourceDependenciesAreOutputSpecific": true,
+        "outputs": [
+          {
+            "outputId": "MARKET-PARTICIPANT-PATENT-FAMILY-VALUE",
+            "requiredGateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING", "ATTRIBUTABLE-SALES", "ROYALTY-DAMAGES-LICENSING-BASIS", "CASH-FLOW-TIMING", "RISK-COST-TAX-COLLECTABILITY"],
+            "usedInModelSourceIds": ["IFRS-13-FAIR-VALUE", "WIPO-IP-VALUATION", "EPO-NATIONAL-VALIDATION", "EPO-B2-SPECIFICATION"]
+          },
+          {
+            "outputId": "OWNER-SPECIFIC-STRATEGIC-INVESTMENT-VALUE",
+            "requiredGateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING", "ROYALTY-DAMAGES-LICENSING-BASIS", "CASH-FLOW-TIMING", "RISK-COST-TAX-COLLECTABILITY"],
+            "usedInModelSourceIds": ["WIPO-IP-VALUATION", "EPO-IPSCORE", "EPO-NATIONAL-VALIDATION", "EPO-B2-SPECIFICATION"]
+          },
+          {
+            "outputId": "RFR-DIRECT-USE-VALUE",
+            "requiredGateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING", "ATTRIBUTABLE-SALES", "ROYALTY-DAMAGES-LICENSING-BASIS", "CASH-FLOW-TIMING", "RISK-COST-TAX-COLLECTABILITY"],
+            "usedInModelSourceIds": ["WIPO-IP-VALUATION", "EPO-NATIONAL-VALIDATION", "EPO-B2-SPECIFICATION"]
+          },
+          {
+            "outputId": "THIRD-PARTY-LICENSING-VALUE",
+            "requiredGateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING", "ATTRIBUTABLE-SALES", "ROYALTY-DAMAGES-LICENSING-BASIS", "CASH-FLOW-TIMING", "RISK-COST-TAX-COLLECTABILITY"],
+            "usedInModelSourceIds": ["WIPO-IP-VALUATION", "WIPO-ASSIGNMENT-LICENSING", "EPO-NATIONAL-VALIDATION", "EPO-B2-SPECIFICATION"]
+          },
+          {
+            "outputId": "PAST-ENFORCEMENT-CLAIM-NPV",
+            "requiredGateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING", "ATTRIBUTABLE-SALES", "ROYALTY-DAMAGES-LICENSING-BASIS", "CASH-FLOW-TIMING", "RISK-COST-TAX-COLLECTABILITY"],
+            "usedInModelSourceIds": ["WIPO-IP-VALUATION", "WIPO-DISPUTE-RESOLUTION", "EPO-NATIONAL-VALIDATION", "EPO-B2-SPECIFICATION", "DE-LGMUC-7O3341-24"]
+          },
+          {
+            "outputId": "EXIT-TRANSACTION-INDICATION",
+            "requiredGateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING", "ROYALTY-DAMAGES-LICENSING-BASIS", "CASH-FLOW-TIMING", "RISK-COST-TAX-COLLECTABILITY"],
+            "usedInModelSourceIds": ["WIPO-IP-VALUATION", "EPO-IPSCORE", "EPO-NATIONAL-VALIDATION"]
+          },
+          {
+            "outputId": "COLLATERAL-RECOVERY-VALUE",
+            "requiredGateIds": ["BASIS-AND-SUBJECT", "RIGHTS-TITLE-TERM", "PRODUCT-CLAIM-MAPPING", "ROYALTY-DAMAGES-LICENSING-BASIS", "CASH-FLOW-TIMING", "RISK-COST-TAX-COLLECTABILITY"],
+            "usedInModelSourceIds": ["WIPO-IP-FINANCE", "WIPO-IP-VALUATION", "EPO-NATIONAL-VALIDATION"]
+          }
+        ]
+      },
+      "germanyRole": {
+        "role": "CALIBRATION_AND_TECHNICAL_LEVERAGE_ONLY",
+        "statementEn": "The published German judgment is possible case-specific evidence for the adjudicated product and claim only. Any transfer to another product, counterparty, period or country requires current counsel-reviewed claim mapping and procedural-status verification. It does not establish worldwide patent coverage, worldwide infringement, a global royalty base, global damages or patent value.",
+        "statementFi": "Julkaistu Saksan tuomio on vain mahdollinen tapauskohtainen evidenssi ratkaistulle tuotteelle ja patenttivaatimukselle. Siirtäminen toiseen tuotteeseen, vastapuoleen, ajanjaksoon tai maahan vaatii ajantasaisen asiantuntijan tarkastaman claim mappingin ja prosessitilan vahvistuksen. Se ei osoita maailmanlaajuista patenttisuojaa, maailmanlaajuista loukkausta, globaalia rojaltipohjaa, globaalia vahingonkorvausta tai patentin arvoa.",
+        "mayEstablishGlobalCoverage": false,
+        "mayEstablishGlobalInfringement": false,
+        "mayEstablishGlobalDamages": false,
+        "maySetPatentValue": false,
+        "sourceIds": ["DE-LGMUC-7O3341-24", "DE-BPATG-8NI18-24"]
+      },
+      "guardrails": {
+        "noDoubleCounting": true,
+        "outputsAreNonAdditive": true,
+        "scopeKeysMustReconcile": true,
+        "overlappingHaircutsPermitted": false,
+        "missingIsZero": false,
+        "marketEqualsPatentValue": false,
+        "ultimateScalarPermitted": false,
+        "independentReviewIsComputationInput": false,
+        "lenderHaircutsOutsideCollateralCasePermitted": false,
+        "licensedVendorValuesIncluded": false,
+        "independentResearchNotPixanPosition": true,
+        "statementEn": "Do not add output cases or double count sales, cash flows, time or risk adjustments. Missing evidence is not zero, market size is not patent value, a generic lender haircut is not collateral recovery value, and licensed vendor values, exact deviations, quotes, terms, private filenames and correspondence are excluded from this public control.",
+        "statementFi": "Älä laske arvotapauksia yhteen tai tuplalasketa myyntiä, kassavirtoja, aikaa tai riskioikaisuja. Puuttuva evidenssi ei ole nolla, markkinan koko ei ole patentin arvo, yleinen rahoittajaleikkuri ei ole vakuuden realisaatioarvo, ja lisensoidut toimittaja-arvot, tarkat poikkeamat, tarjoukset, ehdot, yksityiset tiedostonimet ja kirjeenvaihto on rajattu pois tästä julkisesta kontrollista."
+      }
+    },
+    "territorialExpansionBoundary": {
+      "asOf": "2026-08-03",
+      "status": "NO_CURRENT_EVIDENCE_SUPPORTS_ADDING_MISSING_COUNTRIES",
+      "rightsAreTerritorial": true,
+      "ordinaryPctNationalPhaseWindowStatus": "LONG_PAST",
+      "ordinaryEpPostGrantValidationWindowStatus": "LONG_PAST",
+      "priorityDate": "2013-08-14",
+      "pctFilingDate": "2014-08-14",
+      "epGrantDate": "2019-05-29",
+      "publicationCount": 22,
+      "nationalPublicationCount": 20,
+      "epPublicationCount": 1,
+      "woPublicationCount": 1,
+      "formalCountryRowCount": 28,
+      "formalCountryRowsAreConfirmedLiveRights": false,
+      "confirmedLiveRightCount": null,
+      "valuationOpenGateCount": 7,
+      "statementEn": "Patent rights are territorial. For this 2013/2014 family and the European patent granted on 29 May 2019, the ordinary PCT national-phase and EP post-grant validation windows are long past. The current public record provides no evidence that missing countries can now be added through an ordinary route. Any restoration, late-entry or other exceptional route is country- and dossier-specific and must be verified by qualified local patent counsel before reliance.",
+      "statementFi": "Patenttioikeudet ovat alueellisia. Tämän vuosien 2013/2014 perheen ja 29.5.2019 myönnetyn eurooppapatentin tavanomaiset PCT-kansallisen vaiheen ja EP-myöntämisen jälkeisen validoinnin määräajat ovat kauan sitten umpeutuneet. Nykyinen julkinen aineisto ei osoita, että puuttuvia maita voitaisiin nyt lisätä tavanomaisella reitillä. Mahdollinen palauttaminen, myöhäinen kansalliseen vaiheeseen meno tai muu poikkeusreitti on maa- ja asiakirjakohtainen ja pätevän paikallisen patenttiasiantuntijan on vahvistettava se ennen käyttöä.",
+      "countBoundaryEn": "The older count of 22 means 20 national publications plus one EP publication and one WO publication; it is not 22 confirmed live rights. The current formal table contains 28 country rows, but none of those row counts closes a valuation gate or proves a live right.",
+      "countBoundaryFi": "Vanha luku 22 tarkoittaa 20 kansallista julkaisua sekä yhtä EP- ja yhtä WO-julkaisua; se ei tarkoita 22 vahvistettua voimassa olevaa oikeutta. Nykyisessä muodollisessa taulukossa on 28 maariviä, mutta rivimäärä ei sulje arvonmääritysporttia eikä osoita voimassa olevaa oikeutta.",
+      "sourceIds": ["WIPO-PCT-NATIONAL-PHASE", "EPO-NATIONAL-VALIDATION", "EPO-REGISTER-MAIN", "EPO-REGISTER-LEGAL"]
+    },
     "positioning": {
       "titleEn": "Use Germany as a verified decision package — not as a worldwide conclusion",
       "titleFi": "Käytä Saksaa vahvistettuna ratkaisupakettina — ei maailmanlaajuisena johtopäätöksenä",
-      "detailEn": "The Munich judgment can strengthen technical diligence, counterparty risk discussions and a counsel-led licensing approach for materially comparable products. It does not create patent protection, infringement liability or UPC jurisdiction elsewhere. Recognition of the judgment's actual obligations is separate from obtaining a new infringement finding.",
-      "detailFi": "Münchenin tuomio voi vahvistaa teknistä due diligenceä, vastapuoliriskin arviointia ja asiantuntijan johtamaa lisensointia olennaisesti vertailukelpoisille tuotteille. Se ei luo patenttisuojaa, loukkausvastuuta tai UPC-toimivaltaa muualla. Tuomion omien velvoitteiden tunnustaminen on eri asia kuin uuden loukkausratkaisun saaminen.",
+      "detailEn": "The Munich judgment is possible case-specific evidence for the adjudicated product and claims only. Any transfer to another product, counterparty, period or territory requires current counsel-reviewed mapping and procedural-status review. It does not create patent protection, infringement liability or UPC jurisdiction elsewhere. Recognition of the judgment's actual obligations is separate from obtaining a new infringement finding.",
+      "detailFi": "Münchenin tuomio on vain mahdollinen tapauskohtainen evidenssi ratkaistulle tuotteelle ja patenttivaatimuksille. Siirtäminen toiseen tuotteeseen, vastapuoleen, ajanjaksoon tai alueeseen vaatii ajantasaisen asiantuntijan tarkastaman mappingin ja prosessitilan tarkastuksen. Se ei luo patenttisuojaa, loukkausvastuuta tai UPC-toimivaltaa muualla. Tuomion omien velvoitteiden tunnustaminen on eri asia kuin uuden loukkausratkaisun saaminen.",
       "sourceIds": ["DE-LGMUC-7O3341-24", "EU-BRUSSELS-I-BIS", "UPCA-ARTICLE-83"]
     },
     "readinessChecks": [

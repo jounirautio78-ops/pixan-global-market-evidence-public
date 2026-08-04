@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation tests for the v43 review-experience publication gates."""
+"""Mutation tests for the v44 review-experience publication gates."""
 
 from __future__ import annotations
 
@@ -143,6 +143,62 @@ class ReviewExperienceTests(unittest.TestCase):
         self.assert_data_rejected(
             market=market,
             needle="Germany central output does not reproduce exactly",
+        )
+
+    def test_rejects_patent_value_zero_substituted_for_missing(self) -> None:
+        patent = copy.deepcopy(self.patent)
+        patent["monetisation"]["valuationControl"]["ultimatePatentValueEUR"] = 0
+        self.assert_data_rejected(
+            patent=patent,
+            needle="ultimatePatentValueEUR",
+        )
+
+    def test_rejects_legacy_scalar_promoted_to_valuation_target(self) -> None:
+        patent = copy.deepcopy(self.patent)
+        patent["monetisation"]["valuationControl"]["ultimateScalarPermitted"] = True
+        self.assert_data_rejected(
+            patent=patent,
+            needle="ultimate scalar patent value must not be permitted",
+        )
+
+    def test_rejects_missing_patent_value_gate(self) -> None:
+        patent = copy.deepcopy(self.patent)
+        patent["monetisation"]["valuationControl"]["hardGates"].pop()
+        self.assert_data_rejected(
+            patent=patent,
+            needle="hard-gate IDs/order mismatch",
+        )
+
+    def test_rejects_missing_non_additive_output_case(self) -> None:
+        patent = copy.deepcopy(self.patent)
+        patent["monetisation"]["valuationControl"]["outputCases"].pop()
+        self.assert_data_rejected(
+            patent=patent,
+            needle="output-case IDs/order mismatch",
+        )
+
+    def test_rejects_germany_promoted_to_global_infringement(self) -> None:
+        patent = copy.deepcopy(self.patent)
+        patent["monetisation"]["valuationControl"]["germanyRole"]["mayEstablishGlobalInfringement"] = True
+        self.assert_data_rejected(
+            patent=patent,
+            needle="mayEstablishGlobalInfringement must be false",
+        )
+
+    def test_rejects_incomplete_patent_scenario_qa(self) -> None:
+        patent = copy.deepcopy(self.patent)
+        patent["monetisation"]["valuationControl"]["scenarioControl"]["probabilitySum"] = 1
+        self.assert_data_rejected(
+            patent=patent,
+            needle="scenario probability sum must remain null",
+        )
+
+    def test_rejects_generic_collateral_haircut(self) -> None:
+        patent = copy.deepcopy(self.patent)
+        patent["monetisation"]["valuationControl"]["collateralRecoveryCase"]["simpleValueTimesHaircutPermitted"] = True
+        self.assert_data_rejected(
+            patent=patent,
+            needle="value times generic haircut must be prohibited",
         )
 
     def test_rejects_future_retrieval_date(self) -> None:
@@ -455,7 +511,7 @@ class ReviewExperienceTests(unittest.TestCase):
         self.assertTrue(any("third-donor-screen.json" in error for error in errors), errors)
 
     def test_rejects_stale_v42_asset_cache_buster(self) -> None:
-        mutated = self.review_html.replace("2026-08-03-43", "2026-08-03-42", 1)
+        mutated = self.review_html.replace("2026-08-03-44", "2026-08-03-42", 1)
         errors = validate_review_structure(
             mutated,
             self.index_html,
@@ -465,7 +521,7 @@ class ReviewExperienceTests(unittest.TestCase):
             self.app_js,
             self.independent_controls_js,
         )
-        self.assertTrue(any("v43 asset cache-busters" in error for error in errors), errors)
+        self.assertTrue(any("v44 asset cache-busters" in error for error in errors), errors)
 
     def test_rejects_stale_germany_vendor_html_boundary(self) -> None:
         mutated = self.review_html.replace(
@@ -545,6 +601,104 @@ class ReviewExperienceTests(unittest.TestCase):
             self.i18n_js,
         )
         self.assertTrue(any("reviewEurEquivalentNode" in error for error in errors), errors)
+
+    def test_rejects_removed_patent_valuation_review_renderer(self) -> None:
+        mutated = self.review_js.replace(
+            "function renderReviewPatentValuationControl(",
+            "function removedReviewPatentValuationControl(",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            mutated,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("renderReviewPatentValuationControl" in error for error in errors), errors)
+
+    def test_rejects_removed_patent_valuation_atlas_renderer(self) -> None:
+        mutated = self.app_js.replace(
+            "function renderPatentValuationSummary(",
+            "function removedPatentValuationSummary(",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            mutated,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("renderPatentValuationSummary" in error for error in errors), errors)
+
+    def test_rejects_non_source_driven_patent_gate_count(self) -> None:
+        mutated = self.review_js.replace(
+            'gates.filter((gate) => gate.status === "OPEN").length',
+            "6",
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            mutated,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("gate count must be derived" in error for error in errors), errors)
+
+    def test_rejects_non_source_driven_patent_output_count(self) -> None:
+        mutated = self.review_js.replace(
+            'renderPatentValuationMetric(reviewL("Erilliset tulostapaukset", "Separate output cases"), outputs.length,',
+            'renderPatentValuationMetric(reviewL("Erilliset tulostapaukset", "Separate output cases"), 6,',
+            1,
+        )
+        errors = validate_review_structure(
+            self.review_html,
+            self.index_html,
+            mutated,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("source-derived output count" in error for error in errors), errors)
+
+    def test_rejects_stale_single_output_static_label(self) -> None:
+        mutated = self.review_html.replace(
+            "Legacy single-value field: null sentinel only",
+            "Ultimate patent value: null",
+            1,
+        )
+        errors = validate_review_structure(
+            mutated,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("multi-output valuation boundary" in error or "stale single-output" in error for error in errors), errors)
+
+    def test_rejects_stale_six_gate_static_label(self) -> None:
+        mutated = self.review_html.replace("Seven mandatory gates", "Six mandatory gates", 1)
+        errors = validate_review_structure(
+            mutated,
+            self.index_html,
+            self.review_js,
+            self.i18n_js,
+            self.request_program_js,
+            self.app_js,
+            self.independent_controls_js,
+        )
+        self.assertTrue(any("multi-output valuation boundary" in error or "stale single-output" in error for error in errors), errors)
 
     def test_rejects_missing_view_translation(self) -> None:
         mutated = self.i18n_js.replace("Research Operations", "Removed operations label")

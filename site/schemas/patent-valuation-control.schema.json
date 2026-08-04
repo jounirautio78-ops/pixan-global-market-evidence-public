@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jounirautio78-ops.github.io/pixan-global-market-evidence-public/schemas/patent-valuation-control.schema.json",
+  "title": "Pixan public patent-valuation control",
+  "description": "Fail-closed public control for separate, non-additive and not-yet-computed patent-value premises.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "controlId", "controlVersion", "valuationDate", "purposeEn", "purposeFi",
+    "status", "ultimatePatentValueEUR", "valueRangeEUR", "ultimateScalarPermitted",
+    "ultimateScalarRoleEn", "ultimateScalarRoleFi", "decision", "gateLogic",
+    "valuationBasis", "scopeKeyControl", "outputCases", "marketEvidenceRole",
+    "donorGateSnapshot", "formulaBridge", "routeBranches", "components",
+    "allocationControls", "presentValueConvention", "scenarioControl",
+    "independentReview", "collateralRecoveryCase", "hardGates",
+    "dependencyControl", "germanyRole", "guardrails"
+  ],
+  "properties": {
+    "controlId": {"const": "PIXAN-PATENT-VALUATION-CONTROL-2026-08-03"},
+    "controlVersion": {"const": "2.0"},
+    "valuationDate": {"const": "2026-08-03"},
+    "purposeEn": {"const": "Estimate defensible patent value range"},
+    "purposeFi": {"const": "Arvioida puolustettavissa oleva patentin arvon vaihteluväli"},
+    "status": {"const": "NOT_COMPUTED"},
+    "ultimatePatentValueEUR": {"type": "null"},
+    "valueRangeEUR": {"$ref": "#/$defs/nullRange"},
+    "ultimateScalarPermitted": {"const": false},
+    "ultimateScalarRoleEn": {"$ref": "#/$defs/nonEmptyString"},
+    "ultimateScalarRoleFi": {"$ref": "#/$defs/nonEmptyString"},
+    "decision": {"const": "HOLD"},
+    "gateLogic": {"const": "OUTPUT_SPECIFIC_DEPENDENCIES_MUST_PASS"},
+    "valuationBasis": {
+      "type": "object",
+      "required": ["status", "subjectMatterEn", "subjectMatterFi", "premiseAndUseEn", "premiseAndUseFi", "marketParticipantBasisEn", "marketParticipantBasisFi", "otherPremisesAreIfrsFairValue", "grossNetTaxBasis", "sourceIds"],
+      "properties": {
+        "status": {"const": "NOT_DEFINED"},
+        "otherPremisesAreIfrsFairValue": {"const": false},
+        "grossNetTaxBasis": {"const": "NOT_DEFINED"},
+        "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "scopeKeyControl": {
+      "type": "object",
+      "required": ["requiredKeys", "allKeysMustReconcileBeforeUse", "missingKeyIsZero", "statementEn", "statementFi"],
+      "properties": {
+        "requiredKeys": {"const": ["product", "country", "counterparty", "period", "economicBenefit"]},
+        "allKeysMustReconcileBeforeUse": {"const": true},
+        "missingKeyIsZero": {"const": false}
+      }
+    },
+    "outputCases": {
+      "type": "array", "minItems": 7, "maxItems": 7,
+      "items": {"$ref": "#/$defs/outputCase"}
+    },
+    "marketEvidenceRole": {
+      "type": "object",
+      "required": ["role", "statementEn", "statementFi", "maySetCoveredSales", "maySetPotentiallyInfringingSales", "maySetRoyaltyOrDamages", "maySetLicensingCashFlow", "maySetPatentValue"],
+      "properties": {
+        "role": {"const": "INPUT_ONLY"},
+        "maySetCoveredSales": {"const": false},
+        "maySetPotentiallyInfringingSales": {"const": false},
+        "maySetRoyaltyOrDamages": {"const": false},
+        "maySetLicensingCashFlow": {"const": false},
+        "maySetPatentValue": {"const": false}
+      }
+    },
+    "donorGateSnapshot": {
+      "type": "object",
+      "required": ["accepted", "required", "status", "roleEn", "roleFi"],
+      "properties": {"accepted": {"const": 0}, "required": {"const": 3}, "status": {"const": "OPEN"}}
+    },
+    "formulaBridge": {
+      "type": "object",
+      "required": ["expressionEn", "expressionFi", "steps"],
+      "properties": {
+        "steps": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/formulaStep"}}
+      }
+    },
+    "routeBranches": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": {"$ref": "#/$defs/routeBranch"}
+    },
+    "components": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/component"}},
+    "allocationControls": {
+      "type": "object",
+      "required": ["rightsAndTerm", "productSales", "claimState", "economicAdjustment", "overlappingHaircutsPermitted", "statementEn", "statementFi"],
+      "properties": {"overlappingHaircutsPermitted": {"const": false}}
+    },
+    "presentValueConvention": {
+      "type": "object",
+      "required": ["status", "cashFlowBasis", "discountRateExcludesSeparatelyModelledRisks", "eachRiskMappedExactlyOnce", "separateTimeDiscountFactorPermitted", "probabilityWeightedValueEUR", "statementEn", "statementFi", "sourceIds"],
+      "properties": {
+        "status": {"const": "NOT_DEFINED"},
+        "cashFlowBasis": {"const": "PROBABILITY_WEIGHTED_DATED_CASH_FLOWS"},
+        "discountRateExcludesSeparatelyModelledRisks": {"const": true},
+        "eachRiskMappedExactlyOnce": {"const": true},
+        "separateTimeDiscountFactorPermitted": {"const": false},
+        "probabilityWeightedValueEUR": {"type": "null"},
+        "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "scenarioControl": {
+      "type": "object",
+      "required": ["status", "scenarioProbabilities", "probabilitiesMustSumToOne", "sumTolerance", "probabilitySum", "probabilityWeightedValueEUR", "sumToOneQaStatus", "statementEn", "statementFi"],
+      "properties": {
+        "status": {"const": "NOT_DEFINED"},
+        "scenarioProbabilities": {"const": []},
+        "probabilitiesMustSumToOne": {"const": true},
+        "probabilitySum": {"type": "null"},
+        "probabilityWeightedValueEUR": {"type": "null"},
+        "sumToOneQaStatus": {"const": "NOT_COMPUTED"}
+      }
+    },
+    "independentReview": {
+      "type": "object",
+      "required": ["role", "usedAsComputationInput", "status", "statementEn", "statementFi"],
+      "properties": {
+        "role": {"const": "POST_COMPUTATION_RELEASE_AND_ASSURANCE_GATE"},
+        "usedAsComputationInput": {"const": false},
+        "status": {"const": "NOT_STARTED"}
+      }
+    },
+    "collateralRecoveryCase": {
+      "type": "object",
+      "required": ["status", "valueEUR", "probabilityWeightedValueEUR", "simpleValueTimesHaircutPermitted", "lenderHaircutsApplyOnlyHere", "requiredInputs", "statementEn", "statementFi", "sourceIds"],
+      "properties": {
+        "status": {"const": "NOT_COMPUTED"},
+        "valueEUR": {"type": "null"},
+        "probabilityWeightedValueEUR": {"type": "null"},
+        "simpleValueTimesHaircutPermitted": {"const": false},
+        "lenderHaircutsApplyOnlyHere": {"const": true},
+        "requiredInputs": {
+          "type": "object",
+          "required": ["recoveryPremise", "perfection", "priority", "transferability", "foreclosureMarketability", "saleTime", "saleCosts"],
+          "additionalProperties": false,
+          "properties": {
+            "recoveryPremise": {"type": "null"}, "perfection": {"type": "null"},
+            "priority": {"type": "null"}, "transferability": {"type": "null"},
+            "foreclosureMarketability": {"type": "null"}, "saleTime": {"type": "null"},
+            "saleCosts": {"type": "null"}
+          }
+        },
+        "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "hardGates": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/hardGate"}},
+    "dependencyControl": {
+      "type": "object",
+      "required": ["globalCircularBlock", "gateDependenciesAreOutputSpecific", "sourceDependenciesAreOutputSpecific", "outputs"],
+      "properties": {
+        "globalCircularBlock": {"const": false},
+        "gateDependenciesAreOutputSpecific": {"const": true},
+        "sourceDependenciesAreOutputSpecific": {"const": true},
+        "outputs": {"type": "array", "minItems": 7, "maxItems": 7}
+      }
+    },
+    "germanyRole": {
+      "type": "object",
+      "required": ["role", "statementEn", "statementFi", "mayEstablishGlobalCoverage", "mayEstablishGlobalInfringement", "mayEstablishGlobalDamages", "maySetPatentValue", "sourceIds"],
+      "properties": {
+        "role": {"const": "CALIBRATION_AND_TECHNICAL_LEVERAGE_ONLY"},
+        "mayEstablishGlobalCoverage": {"const": false},
+        "mayEstablishGlobalInfringement": {"const": false},
+        "mayEstablishGlobalDamages": {"const": false},
+        "maySetPatentValue": {"const": false},
+        "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "guardrails": {
+      "type": "object",
+      "required": ["noDoubleCounting", "outputsAreNonAdditive", "scopeKeysMustReconcile", "overlappingHaircutsPermitted", "missingIsZero", "marketEqualsPatentValue", "ultimateScalarPermitted", "independentReviewIsComputationInput", "lenderHaircutsOutsideCollateralCasePermitted", "licensedVendorValuesIncluded", "independentResearchNotPixanPosition", "statementEn", "statementFi"],
+      "properties": {
+        "noDoubleCounting": {"const": true}, "outputsAreNonAdditive": {"const": true},
+        "scopeKeysMustReconcile": {"const": true}, "overlappingHaircutsPermitted": {"const": false},
+        "missingIsZero": {"const": false}, "marketEqualsPatentValue": {"const": false},
+        "ultimateScalarPermitted": {"const": false}, "independentReviewIsComputationInput": {"const": false},
+        "lenderHaircutsOutsideCollateralCasePermitted": {"const": false},
+        "licensedVendorValuesIncluded": {"const": false}, "independentResearchNotPixanPosition": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "sourceIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "nullRange": {
+      "type": "object", "additionalProperties": false, "required": ["low", "central", "high"],
+      "properties": {"low": {"type": "null"}, "central": {"type": "null"}, "high": {"type": "null"}}
+    },
+    "outputCase": {
+      "type": "object", "additionalProperties": false,
+      "required": ["outputId", "titleEn", "titleFi", "premise", "valueEUR", "valueRangeEUR", "probabilityWeightedValueEUR", "status", "nonAdditive", "sourceIds"],
+      "properties": {
+        "outputId": {"type": "string", "minLength": 1}, "titleEn": {"$ref": "#/$defs/nonEmptyString"},
+        "titleFi": {"$ref": "#/$defs/nonEmptyString"}, "premise": {"type": "string", "minLength": 1},
+        "valueEUR": {"type": "null"}, "valueRangeEUR": {"$ref": "#/$defs/nullRange"},
+        "probabilityWeightedValueEUR": {"type": "null"}, "status": {"const": "NOT_COMPUTED"},
+        "nonAdditive": {"const": true}, "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "formulaStep": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stepId", "sequence", "titleEn", "titleFi", "valueEUR", "status", "requirementEn", "requirementFi", "sourceIds"],
+      "properties": {
+        "stepId": {"type": "string", "minLength": 1}, "sequence": {"type": "integer", "minimum": 1, "maximum": 7},
+        "titleEn": {"$ref": "#/$defs/nonEmptyString"}, "titleFi": {"$ref": "#/$defs/nonEmptyString"},
+        "valueEUR": {"type": "null"}, "status": {"const": "NOT_COMPUTED"},
+        "requirementEn": {"$ref": "#/$defs/nonEmptyString"}, "requirementFi": {"$ref": "#/$defs/nonEmptyString"},
+        "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "routeBranch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["routeId", "titleEn", "titleFi", "requiresPotentiallyInfringingSales", "valueEUR", "status", "usedInOutputs"],
+      "properties": {
+        "routeId": {"type": "string", "minLength": 1}, "titleEn": {"$ref": "#/$defs/nonEmptyString"},
+        "titleFi": {"$ref": "#/$defs/nonEmptyString"}, "requiresPotentiallyInfringingSales": {"type": "boolean"},
+        "valueEUR": {"type": "null"}, "status": {"const": "NOT_COMPUTED"},
+        "usedInOutputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "component": {
+      "type": "object", "additionalProperties": false,
+      "required": ["componentId", "titleEn", "titleFi", "status", "valueEUR", "sourceIds"],
+      "properties": {
+        "componentId": {"type": "string", "minLength": 1}, "titleEn": {"$ref": "#/$defs/nonEmptyString"},
+        "titleFi": {"$ref": "#/$defs/nonEmptyString"}, "status": {"const": "OPEN"},
+        "valueEUR": {"type": "null"}, "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "hardGate": {
+      "type": "object",
+      "required": ["gateId", "status", "blocksComputation", "titleEn", "titleFi", "requirementEn", "requirementFi", "evidenceNeededEn", "evidenceNeededFi", "usedInModel", "appliesToOutputIds", "dependencies", "sourceIds"],
+      "properties": {
+        "gateId": {"type": "string", "minLength": 1}, "status": {"const": "OPEN"},
+        "blocksComputation": {"const": true}, "usedInModel": {"const": true},
+        "appliesToOutputIds": {"type": "array", "minItems": 1, "uniqueItems": true},
+        "dependencies": {"type": "object", "required": ["mode", "gateIds"], "properties": {"mode": {"const": "OUTPUT_SPECIFIC"}, "gateIds": {"type": "array", "uniqueItems": true}}},
+        "sourceIds": {"$ref": "#/$defs/sourceIds"}
+      }
+    }
+  }
+}

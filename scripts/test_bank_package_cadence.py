@@ -48,19 +48,19 @@ except ModuleNotFoundError:
 
 
 PACKAGE_RELEASE = {
-    "id": "2026-08-03-germany-vendor-audit-v43",
-    "version": "2026.08.03-43",
-    "publishedAt": "2026-08-03T17:50:00+03:00",
+    "id": "2026-08-03-patent-valuation-pivot-v44",
+    "version": "2026.08.03-44",
+    "publishedAt": "2026-08-03T23:35:00+03:00",
 }
 INTERMEDIATE_SAME_DAY_RELEASE = {
     "id": "test-only-2026-08-03-intermediate-dashboard-release",
     "version": "test-only-intermediate",
-    "publishedAt": "2026-08-03T18:51:53+03:00",
+    "publishedAt": "2026-08-03T23:40:00+03:00",
 }
 LATER_SAME_DAY_RELEASE = {
     "id": "test-only-2026-08-03-later-dashboard-release",
     "version": "test-only-later",
-    "publishedAt": "2026-08-03T20:32:30+03:00",
+    "publishedAt": "2026-08-03T23:45:00+03:00",
 }
 
 
@@ -149,7 +149,7 @@ class DailyPackageSnapshotTests(unittest.TestCase):
             ])
             row += 1
         if row - 2 != EXPECTED_LOCKED_EUR_EQUIVALENT_ROWS:
-            raise AssertionError("locked EUR fixture does not match the v43 release counts")
+            raise AssertionError("locked EUR fixture does not match the v44 release counts")
         return workbook
 
     def test_accepts_current_combined_release_and_requires_input_hashes(self) -> None:
