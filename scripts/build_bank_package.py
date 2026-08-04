@@ -89,9 +89,10 @@ EN_DECK_TRANSLATIONS_SOURCE = ROOT / "source" / "bank-deck-en-translations.json"
 EN_LOCK_SOURCE = ROOT / "source" / "bank-package-en-lock.json"
 EN_CSV_OUTPUT = DATA_DIR / "bank-evidence-register-en.csv"
 MANIFEST_OUTPUT = DATA_DIR / "bank-package-manifest.json"
-RELEASE_ID = "2026-08-03-germany-vendor-audit-v43"
-RELEASE_VERSION = "2026.08.03-43"
+RELEASE_ID = "2026-08-03-patent-valuation-pivot-v44"
+RELEASE_VERSION = "2026.08.03-44"
 RELEASE_DATE = "2026-08-03"
+COMPONENT_SNAPSHOT_VERSION = "2026.08.03-43"
 FHM_SOURCE_ID = "SE-FHM-PUBLIC-RECORD-RESPONSE-2026-07-24"
 FHM_SOURCE_URL = (
     "https://www.folkhalsomyndigheten.se/regler-och-tillsyn/"
@@ -525,7 +526,7 @@ def validate_v43_vendor_boundary(vendor_control: dict[str, Any]) -> dict[str, An
     if (
         vendor_control.get("schemaVersion") != 3
         or vendor_control.get("asOf") != RELEASE_DATE
-        or vendor_control.get("version") != RELEASE_VERSION
+        or vendor_control.get("version") != COMPONENT_SNAPSHOT_VERSION
         or vendor_control.get("status")
         != "public_status_only_germany_extract_received_wider_package_not_authorised"
         or not isinstance(benchmark, dict)
@@ -568,7 +569,7 @@ def validate_v43_vendor_boundary(vendor_control: dict[str, Any]) -> dict[str, An
         or "maailmanarvo not_computed-tilassa" not in public_status_fi
         or "EI PISTEYTETTY" not in public_status_fi
     ):
-        raise ValueError("Reviewed v43 Germany extract and 1/6 vendor-gate boundary differs")
+        raise ValueError("Reviewed v43 component snapshot Germany extract and 1/6 vendor-gate boundary differs")
     return euromonitor
 
 
@@ -589,7 +590,7 @@ def build_context() -> dict[str, Any]:
         or release.get("version") != RELEASE_VERSION
         or as_of != RELEASE_DATE
     ):
-        raise ValueError("Public inputs are not locked to the reviewed v43 release")
+        raise ValueError("Public inputs are not locked to the reviewed v44 release")
     if market.get("meta", {}).get("asOf", market.get("asOf")) != as_of:
         raise ValueError("Current market inputs do not share the changelog as-of date")
     for label, data in (
@@ -604,7 +605,7 @@ def build_context() -> dict[str, Any]:
     method_summary = method_control.get("summary", {})
     if (
         global_base.get("schemaVersion") != "1.1"
-        or method_control.get("version") != RELEASE_VERSION
+        or method_control.get("version") != COMPONENT_SNAPSHOT_VERSION
         or method_summary.get("countryCount") != 195
         or method_summary.get("reviewedMethodPlanCount") != 28
         or method_summary.get("reviewedSourceLeadCount") != 0
@@ -616,7 +617,7 @@ def build_context() -> dict[str, Any]:
         or global_base.get("globalRetailSales", {}).get("currency") is not None
         or global_base.get("globalRetailSales", {}).get("eligibleObservationCount") != 0
     ):
-        raise ValueError("Global base is not locked to the reviewed v43 method-control boundary")
+        raise ValueError("Global base is not locked to the reviewed v43 component snapshot")
 
     euromonitor = validate_v43_vendor_boundary(vendor_control)
 

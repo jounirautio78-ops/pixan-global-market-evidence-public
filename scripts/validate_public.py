@@ -90,6 +90,10 @@ from validate_investor_disclosure_control import (
     validate_experience as validate_investor_disclosure_experience,
     validate_files as validate_investor_disclosure_files,
 )
+from validate_patent_valuation_control import (
+    validate_control as validate_patent_valuation_control,
+    validate_files as validate_patent_valuation_files,
+)
 
 
 ATLAS_PATH = OUTPUT_DIR / "atlas.json"
@@ -271,6 +275,7 @@ EXPECTED_SITE_FILES = {
     "site/schemas/country-scenarios.schema.json",
     "site/schemas/fx-rates.schema.json",
     "site/schemas/global-base-layer.schema.json",
+    "site/schemas/patent-valuation-control.schema.json",
     "site/schemas/us-independent-benchmark-sample.schema.json",
     "site/schemas/open-official-extraction-wave.schema.json",
     "site/schemas/investor-disclosure-control.schema.json",
@@ -3260,10 +3265,47 @@ def validate_patent_history(
     monetisation = source.get("monetisation")
     if public.get("monetisation") != monetisation:
         errors.append("patent public monetisation must match the reviewed source exactly")
-    required_monetisation_keys = {"positioning", "readinessChecks", "countryScoring", "revenueRoutes", "sequence", "guardrails"}
+    required_monetisation_keys = {
+        "valuationControl",
+        "territorialExpansionBoundary",
+        "positioning",
+        "readinessChecks",
+        "countryScoring",
+        "revenueRoutes",
+        "sequence",
+        "guardrails",
+    }
     if not isinstance(monetisation, dict) or set(monetisation) != required_monetisation_keys:
         errors.append("patent monetisation must use the exact reviewed schema")
         monetisation = {}
+    expansion = monetisation.get("territorialExpansionBoundary", {})
+    timeline_dates_by_id = {
+        item.get("eventId"): item.get("date")
+        for item in timeline
+        if isinstance(item, dict)
+    }
+    if (
+        expansion.get("status") != "NO_CURRENT_EVIDENCE_SUPPORTS_ADDING_MISSING_COUNTRIES"
+        or expansion.get("rightsAreTerritorial") is not True
+        or expansion.get("ordinaryPctNationalPhaseWindowStatus") != "LONG_PAST"
+        or expansion.get("ordinaryEpPostGrantValidationWindowStatus") != "LONG_PAST"
+        or expansion.get("priorityDate") != patent.get("earliestPriorityDate")
+        or expansion.get("priorityDate") != timeline_dates_by_id.get("FI-PRIORITY-2013")
+        or expansion.get("pctFilingDate") != timeline_dates_by_id.get("PCT-FILING-2014")
+        or expansion.get("epGrantDate") != timeline_dates_by_id.get("EP-B1-GRANT-2019")
+        or expansion.get("publicationCount") != 22
+        or expansion.get("nationalPublicationCount") != 20
+        or expansion.get("epPublicationCount") != 1
+        or expansion.get("woPublicationCount") != 1
+        or expansion.get("formalCountryRowCount") != 28
+        or expansion.get("formalCountryRowsAreConfirmedLiveRights") is not False
+        or expansion.get("confirmedLiveRightCount") is not None
+        or expansion.get("valuationOpenGateCount") != 7
+        or not all(isinstance(expansion.get(key), str) and expansion[key].strip() for key in (
+            "statementEn", "statementFi", "countBoundaryEn", "countBoundaryFi"
+        ))
+    ):
+        errors.append("patent territorial-expansion boundary differs from the reviewed fail-closed record")
     weights = [item.get("weightPercent") for item in monetisation.get("countryScoring", []) if isinstance(item, dict)]
     if not weights or any(not isinstance(value, int) or isinstance(value, bool) or value <= 0 for value in weights) or sum(weights) != 100:
         errors.append("patent country-scoring weights must be positive integers summing to 100")
@@ -3288,6 +3330,11 @@ def validate_patent_history(
     positioning = monetisation.get("positioning")
     if not isinstance(positioning, dict) or not isinstance(positioning.get("sourceIds"), list) or set(positioning.get("sourceIds", [])) - set(sources_by_id):
         errors.append("patent monetisation.positioning must reference known sources")
+    validate_patent_valuation_control(
+        monetisation.get("valuationControl"),
+        errors,
+        known_source_ids=set(sources_by_id),
+    )
 
     summary = public.get("summary")
     expected_summary = {
@@ -3884,6 +3931,7 @@ def main() -> None:
 
     errors.extend(validate_review_experience(ROOT))
     errors.extend(validate_fx_rates(ROOT))
+    errors.extend(validate_patent_valuation_files(ROOT))
     try:
         global_base_config = load_json(GLOBAL_BASE_CONFIG_PATH)
         global_base_observations = load_json(GLOBAL_BASE_OBSERVATIONS_PATH)

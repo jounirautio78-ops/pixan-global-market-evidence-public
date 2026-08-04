@@ -3,6 +3,35 @@
   "asOf": "2026-08-03",
   "releases": [
     {
+      "id": "2026-08-03-patent-valuation-pivot-v44",
+      "version": "2026.08.03-44",
+      "publishedAt": "2026-08-03T23:35:00+03:00",
+      "titleEn": "Patent-value objective and fail-closed valuation control",
+      "titleFi": "Patenttiarvotavoite ja fail-closed-arvonmäärityskontrolli",
+      "items": [
+        {
+          "category": "patent",
+          "textEn": "Reset the primary objective to estimate defensible, premise-specific patent-value ranges. Seven separate, non-additive outputs remain null/NOT_COMPUTED: market-participant patent/family value, owner-specific strategic/investment value, RFR/direct-use value, third-party licensing value, past enforcement-claim NPV, exit/transaction indication and collateral-recovery value. The legacy ultimatePatentValueEUR field is enforced only as a null sentinel and is never a target or model output. This release does not state a company, collateral or patent value.",
+          "textFi": "Ensisijaiseksi tavoitteeksi asetettiin puolustettavissa olevien, perustekohtaisten patenttiarvon vaihteluvälien arviointi. Seitsemän erillistä, ei-yhteenlaskettavaa tulosta pysyvät null/NOT_COMPUTED-tilassa: markkinaosapuolen patentti-/patenttiperhearvo, omistajakohtainen strateginen/investointiarvo, RFR- tai oman käytön arvo, kolmannen osapuolen lisensointiarvo, aiemman täytäntöönpanovaatimuksen nykyarvo, exit-/transaktioindikaatio ja vakuuden realisaatioarvo. Vanha ultimatePatentValueEUR-kenttä on vain null-varmistuskenttä eikä tavoite tai mallin tulos. Tämä julkaisu ei esitä yrityksen, vakuuden tai patentin arvoa."
+        },
+        {
+          "category": "method",
+          "textEn": "Added a seven-step, branch-safe method: market evidence -> scope-key reconciliation -> potentially covered sales -> route-specific economic benefit -> probability-weighted dated cash flows -> non-overlapping risk/cost/tax and present value -> separate non-additive output. After covered sales, prospective RFR/direct use, third-party licensing, past enforcement/damages and strategic option/barrier value remain distinct; potentially infringing sales are used only in the past-enforcement branch. All seven output-specific gates remain open. BASIS-AND-SUBJECT first locks the subject, premise, intended use and gross/net/tax basis. Missing is not zero and no output, risk or time factor is counted twice.",
+          "textFi": "Lisättiin seitsemänvaiheinen haarautuva menetelmä: markkinaevidenssi -> scope key -täsmäytys -> suojan piiriin mahdollisesti kuuluva myynti -> reittikohtainen taloudellinen hyöty -> todennäköisyyspainotetut päivätyt kassavirrat -> päällekkäisyydettömät riski-/kulu-/vero- ja nykyarvo-oikaisut -> erillinen ei-yhteenlaskettava tulos. Katetun myynnin jälkeen ennakoiva RFR/oma käyttö, kolmannen osapuolen lisensointi, mennyt täytäntöönpano/vahingonkorvaus ja strateginen optio-/estearvo pysyvät erillään; mahdollisesti loukkaavaa myyntiä käytetään vain menneen täytäntöönpanon haarassa. Kaikki seitsemän tuloskohtaista porttia ovat avoinna. BASIS-AND-SUBJECT lukitsee ensin kohteen, perusteen, käyttötarkoituksen ja brutto-/netto-/verokäsittelyn. Puuttuva ei ole nolla eikä tulosta, riskiä tai aikatekijää lasketa kahdesti."
+        },
+        {
+          "category": "diligence",
+          "textEn": "Market evidence is an input only and donor readiness remains 0/3 rather than the final valuation objective. Germany is only possible case-specific evidence for the adjudicated product and claim; any transfer requires current counsel mapping and procedural-status review. IFRS 13 is cited solely for the market-participant, measurement-date exit-price basis and does not classify owner-specific, licensing, enforcement, transaction or collateral premises as IFRS fair value. No licensed vendor values, exact deviations, quotes, terms or private material enter this public release.",
+          "textFi": "Markkinaevidenssi on vain syöte ja donor-valmius pysyy 0/3:ssa eikä ole arvonmäärityksen lopputavoite. Saksa on vain mahdollista tapauskohtaista evidenssiä ratkaistusta tuotteesta ja vaatimuksesta; siirto edellyttää ajantasaista asiantuntijan vaatimusvertailua ja prosessitilan tarkastusta. IFRS 13:een viitataan vain markkinaosapuolen mittauspäivän exit price -perusteen määrittelyssä eikä se luokittele omistajakohtaisia, lisensointi-, täytäntöönpano-, transaktio- tai vakuuslähtökohtia IFRS-käyväksi arvoksi. Julkaisuun ei sisälly lisensoituja toimittaja-arvoja, tarkkoja poikkeamia, tarjouksia, ehtoja tai yksityistä aineistoa."
+        },
+        {
+          "category": "usability",
+          "textEn": "Replaced the dashboard, four decks and two Evidence Registers together as release 2026.08.03-44. V44 is an exceptional same-day alignment replacement of v43; normal once-daily Asia/Nicosia cadence resumes thereafter.",
+          "textFi": "Dashboard, neljä dekkiä ja kaksi Evidence Registeriä korvattiin yhdessä julkaisuna 2026.08.03-44. V44 on poikkeuksellinen saman päivän yhdenmukaistusjulkaisu, joka korvaa v43:n; normaali kerran päivässä Asia/Nicosia-rytmi jatkuu sen jälkeen."
+        }
+      ]
+    },
+    {
       "id": "2026-08-03-germany-vendor-audit-v43",
       "version": "2026.08.03-43",
       "publishedAt": "2026-08-03T17:50:00+03:00",

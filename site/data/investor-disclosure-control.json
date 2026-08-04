@@ -181,6 +181,20 @@
       "mustNotBeOmitted": true
     },
     {
+      "factId": "patent-value-not-computed",
+      "titleEn": "Patent value remains not computed",
+      "titleFi": "Patentin arvoa ei ole laskettu",
+      "statementEn": "The purpose is to estimate defensible, premise-specific patent-value ranges. As of 2026-08-03, seven separate non-additive outputs remain null/NOT_COMPUTED: market-participant patent/family value; owner-specific strategic/investment value; RFR/direct-use value; third-party licensing value; past enforcement-claim NPV; exit/transaction indication; and collateral-recovery value. The legacy ultimatePatentValueEUR field is a null sentinel only and is never a target or model output. All seven output-specific valuation gates are open. BASIS-AND-SUBJECT must lock exact rights, claims, territories, separately evidenced know-how, measurement date, premise, intended use and gross/net/tax basis. The branch-safe method is market evidence -> scope-key reconciliation -> potentially covered sales -> route-specific economic benefit -> probability-weighted dated cash flows -> non-overlapping risk/cost/tax and present value -> separate non-additive output. RFR/direct use, third-party licensing, past enforcement/damages and strategic option/barrier value are distinct; potentially infringing sales are used only in the past-enforcement branch. Each risk maps once, scenario probabilities must sum to one, independent review is post-computation assurance and collateral recovery is a separate recovery case rather than value times a generic haircut. Germany is only possible case-specific evidence for the adjudicated product and claim; transfer requires current counsel mapping and procedural-status review. IFRS 13 (https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/) is cited solely for the market-participant, measurement-date exit-price basis; no other premise is classified as IFRS fair value. No licensed vendor values are included.",
+      "statementFi": "Tarkoitus on arvioida puolustettavissa olevia, perustekohtaisia patenttiarvon vaihteluvälejä. Tilanteessa 3.8.2026 seitsemän erillistä, ei-yhteenlaskettavaa tulosta pysyvät null/NOT_COMPUTED-tilassa: markkinaosapuolen patentti-/patenttiperhearvo; omistajakohtainen strateginen/investointiarvo; RFR- tai oman käytön arvo; kolmannen osapuolen lisensointiarvo; aiemman täytäntöönpanovaatimuksen nykyarvo; exit-/transaktioindikaatio; ja vakuuden realisaatioarvo. Vanha ultimatePatentValueEUR-kenttä on vain null-varmistuskenttä eikä koskaan tavoite tai mallin tulos. Kaikki seitsemän tuloskohtaista arvonmääritysporttia ovat avoinna. BASIS-AND-SUBJECT lukitsee täsmälliset oikeudet, vaatimukset, alueet, erikseen todennetun know-how'n, mittauspäivän, perusteen, käyttötarkoituksen ja brutto-/netto-/verokäsittelyn. Haarautuva menetelmä on markkinaevidenssi -> scope key -täsmäytys -> suojan piiriin mahdollisesti kuuluva myynti -> reittikohtainen taloudellinen hyöty -> todennäköisyyspainotetut päivätyt kassavirrat -> päällekkäisyydettömät riski-/kulu-/vero- ja nykyarvo-oikaisut -> erillinen ei-yhteenlaskettava tulos. RFR/oma käyttö, kolmannen osapuolen lisensointi, mennyt täytäntöönpano/vahingonkorvaus ja strateginen optio-/estearvo ovat erillisiä; mahdollisesti loukkaavaa myyntiä käytetään vain menneen täytäntöönpanon haarassa. Kukin riski kohdistetaan kerran, skenaariotodennäköisyyksien on summauduttava yhteen, riippumaton tarkastus on laskennan jälkeinen varmennus ja vakuuden realisaatio on erillinen tapaus eikä arvo kertaa yleinen leikkuri. Saksa on vain mahdollista tapauskohtaista evidenssiä ratkaistusta tuotteesta ja vaatimuksesta; siirto edellyttää ajantasaista asiantuntijan mappingia ja prosessitilan tarkastusta. IFRS 13:een (https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/) viitataan vain markkinaosapuolen mittauspäivän exit price -perusteen määrittelyssä; muita perusteita ei luokitella IFRS-käyväksi arvoksi. Lisensoituja toimittaja-arvoja ei sisällytetä.",
+      "publicEvidencePaths": [
+        "site/data/patent-history.json",
+        "site/data/donor-cockpit.json",
+        "site/data/changelog.json"
+      ],
+      "minimumDisclosureTier": "public",
+      "mustNotBeOmitted": true
+    },
+    {
       "factId": "proxies-not-retail-sales",
       "titleEn": "Transaction stages remain separate",
       "titleFi": "Tapahtumavaiheet pidetään erillään",
@@ -250,8 +264,8 @@
       "factId": "dashboard-package-version-separation",
       "titleEn": "Dashboard and downloads are independently versioned",
       "titleFi": "Dashboard ja lataukset versioidaan erikseen",
-      "statementEn": "The public dashboard and all six downloadable lender-package files are release 2026.08.03-43. The package is generated at most once per Asia/Nicosia calendar day; later same-day dashboard releases may retain an earlier visible daily package snapshot.",
-      "statementFi": "Julkinen dashboard ja kaikki kuusi ladattavaa rahoittajapaketin tiedostoa ovat julkaisua 2026.08.03-43. Paketti muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä; myöhempi saman päivän dashboard-julkaisu voi säilyttää aiemman näkyvän päiväpakettisnapshotin.",
+      "statementEn": "The public dashboard and all six downloadable lender-package files are release 2026.08.03-44. V44 is an exceptional same-day alignment replacement of v43; normal once-daily Asia/Nicosia package cadence resumes thereafter.",
+      "statementFi": "Julkinen dashboard ja kaikki kuusi ladattavaa rahoittajapaketin tiedostoa ovat julkaisua 2026.08.03-44. V44 on poikkeuksellinen saman päivän yhdenmukaistusjulkaisu, joka korvaa v43:n; normaali kerran päivässä Asia/Nicosia-pakettirytmi jatkuu sen jälkeen.",
       "publicEvidencePaths": [
         "site/data/changelog.json",
         "site/data/bank-package-manifest.json"
@@ -462,7 +476,7 @@
       "paths": [
         "site/index.html"
       ],
-      "versionOrAsOf": "2026.08.03-43",
+      "versionOrAsOf": "2026.08.03-44",
       "publicUseEn": "Initial lender, buyer, funder and adviser screening with bilingual navigation and visible limitations.",
       "publicUseFi": "Lainanantajan, ostajan, rahoittajan ja neuvonantajan alkuarvio kaksikielisellä navigaatiolla ja näkyvillä rajauksilla.",
       "limitationsEn": "Use the page's current version and source-linked qualifications; it is independent research, not Pixan's official position.",
@@ -476,7 +490,7 @@
       "paths": [
         "site/data/changelog.json"
       ],
-      "versionOrAsOf": "2026.08.03-43",
+      "versionOrAsOf": "2026.08.03-44",
       "publicUseEn": "Shows what changed, when it changed and whether the dashboard or daily package was affected.",
       "publicUseFi": "Näyttää, mitä muuttui, milloin muutos tapahtui ja vaikuttiko se dashboardiin vai päiväpakettiin.",
       "limitationsEn": "A change-log entry is a research status record, not independent proof of the underlying claim.",
@@ -490,11 +504,11 @@
       "paths": [
         "site/data/bank-package-manifest.json"
       ],
-      "versionOrAsOf": "2026.08.03-43",
+      "versionOrAsOf": "2026.08.03-44",
       "publicUseEn": "Verifies the six bilingual downloadable artifacts, build boundary, file sizes and SHA-256 hashes.",
       "publicUseFi": "Varmistaa kuusi kaksikielistä ladattavaa aineistoa, muodostusrajan, tiedostokoot ja SHA-256-tiivisteet.",
-      "limitationsEn": "Verify the visible package version, build date, file size and SHA-256 before relying on a download; a later same-day dashboard release may retain an earlier daily package snapshot.",
-      "limitationsFi": "Varmista näkyvä pakettiversio, muodostuspäivä, tiedostokoko ja SHA-256 ennen lataukseen tukeutumista; myöhempi saman päivän dashboard-julkaisu voi säilyttää aiemman päiväpakettisnapshotin."
+      "limitationsEn": "Verify the visible package version, build date, file size and SHA-256 before relying on a download. V44 is an exceptional same-day alignment replacement of v43; normal once-daily Asia/Nicosia cadence resumes thereafter.",
+      "limitationsFi": "Varmista näkyvä pakettiversio, muodostuspäivä, tiedostokoko ja SHA-256 ennen lataukseen tukeutumista. V44 on poikkeuksellinen saman päivän yhdenmukaistusjulkaisu, joka korvaa v43:n; normaali kerran päivässä Asia/Nicosia-rytmi jatkuu sen jälkeen."
     },
     {
       "assetGroupId": "bilingual-decks",
@@ -507,7 +521,7 @@
         "site/downloads/pixan-bank-deck-large-en.pptx",
         "site/downloads/pixan-bank-deck-large-fi.pptx"
       ],
-      "versionOrAsOf": "2026.08.03-43",
+      "versionOrAsOf": "2026.08.03-44",
       "publicUseEn": "Six-slide initial brief and 30-slide diligence presentation in English and Finnish.",
       "publicUseFi": "Kuuden dian alkuinfo ja 30 dian tarkastusesitys englanniksi ja suomeksi.",
       "limitationsEn": "Claims must be read with the same-version Evidence Register and public disclaimer.",
@@ -522,7 +536,7 @@
         "site/downloads/pixan-bank-evidence-register-en.xlsx",
         "site/downloads/pixan-bank-evidence-register-fi.xlsx"
       ],
-      "versionOrAsOf": "2026.08.03-43",
+      "versionOrAsOf": "2026.08.03-44",
       "publicUseEn": "Traceable claim-level source, calculation, assumption, confidence and gap review.",
       "publicUseFi": "Jäljitettävä väitekohtainen lähde-, laskenta-, oletus-, luottamus- ja puuteanalyysi.",
       "limitationsEn": "A registered claim may still be supported, assumed or missing; inclusion is not confirmation.",
@@ -563,10 +577,10 @@
         "site/data/patent-family.csv"
       ],
       "versionOrAsOf": "review dates embedded in the assets",
-      "publicUseEn": "Source-linked patent timeline, family publications, proceedings and stated diligence limitations.",
-      "publicUseFi": "Lähteistetty patenttiaikajana, perhejulkaisut, menettelyt ja ilmoitetut tarkastusrajaukset.",
-      "limitationsEn": "Not a legal opinion, claim construction, infringement finding or substitute for current national-register and counsel review.",
-      "limitationsFi": "Ei oikeudellinen lausunto, patenttivaatimusten tulkinta, loukkausratkaisu tai kansallisten rekisterien ja oikeudellisen neuvonantajan ajantasaisen tarkastuksen korvike."
+      "publicUseEn": "Source-linked patent timeline, family publications, proceedings and fail-closed patent-valuation control.",
+      "publicUseFi": "Lähteistetty patenttiaikajana, perhejulkaisut, menettelyt ja fail-closed-patenttiarvokontrolli.",
+      "limitationsEn": "Every formula-stage EUR value and all seven non-additive output cases remain null/NOT_COMPUTED while their output-specific valuation gates are open. This is not a legal opinion, claim construction, infringement finding or substitute for current national-register and counsel review.",
+      "limitationsFi": "Jokainen kaavan EUR-vaihe ja kaikki seitsemän ei-yhteenlaskettavaa tulostapausta pysyvät null/NOT_COMPUTED-tilassa niiden tuloskohtaisten arvonmääritysporttien ollessa avoinna. Tämä ei ole oikeudellinen lausunto, patenttivaatimusten tulkinta, loukkausratkaisu tai kansallisten rekisterien ja oikeudellisen neuvonantajan ajantasaisen tarkastuksen korvike."
     },
     {
       "assetGroupId": "public-vendor-control",

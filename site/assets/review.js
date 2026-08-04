@@ -14,15 +14,15 @@ const REVIEW_DIMENSIONS = {
 };
 
 const REVIEW_BLOCKER_TRANSLATIONS = {
-  "Useimmista maista puuttuu virallinen vuosittainen laite- ja nestemyynti": "Most countries still lack a verified annual official series for device and e-liquid sales.",
-  "Markkinaevidenssiä ei ole vielä sidottu maakohtaiseen patenttistatukseen ja claim charteihin": "Market evidence has not yet been reconciled with country-level patent status and product claim charts.",
-  "Aineisto ei sisällä riippumatonta IVS-arvonmääritystä eikä realisoitunutta lisenssi- tai vahingonkorvauskassavirtaa": "The dataset does not include an independent IVS valuation or realised licensing or damages cash flow."
+  "Kansalliset oikeudet, omistus, sovellettavat vaatimukset ja jäljellä oleva suoja-aika ovat vielä vahvistamatta koko kohdeportfoliossa": "National rights, title, operative claims and remaining term are not yet verified across the target portfolio.",
+  "Suojan piiriin mahdollisesti kuuluvaa ja mahdollisesti loukkaavaa myyntiä ei ole vielä kohdistettu maittain, tuotteittain ja vaatimuksittain": "Potentially covered and potentially infringing sales are not yet attributed by country, product and claim.",
+  "Rojalti-, vahingonkorvaus- tai lisenssikassavirtaa sekä riski-, kulu-, vero- ja aikaoikaisuja ei ole vielä vahvistettu": "Royalty, damages or licensing cash flows and risk, cost, tax and time adjustments are not yet verified."
 };
 
 const REVIEW_BLOCKER_FI = {
-  "Useimmista maista puuttuu virallinen vuosittainen laite- ja nestemyynti": "Useimmista maista puuttuu edelleen vahvistettu virallinen vuosittainen laite- ja e-nestemyyntisarja.",
-  "Markkinaevidenssiä ei ole vielä sidottu maakohtaiseen patenttistatukseen ja claim charteihin": "Markkinaevidenssiä ei ole vielä täsmäytetty maakohtaiseen patenttistatukseen ja tuotekohtaisiin claim charteihin.",
-  "Aineisto ei sisällä riippumatonta IVS-arvonmääritystä eikä realisoitunutta lisenssi- tai vahingonkorvauskassavirtaa": "Aineisto ei sisällä riippumatonta IVS-arvonmääritystä eikä toteutunutta lisenssi- tai vahingonkorvauskassavirtaa."
+  "Kansalliset oikeudet, omistus, sovellettavat vaatimukset ja jäljellä oleva suoja-aika ovat vielä vahvistamatta koko kohdeportfoliossa": "Kansalliset oikeudet, omistus, sovellettavat vaatimukset ja jäljellä oleva suoja-aika ovat vielä vahvistamatta koko kohdeportfoliossa.",
+  "Suojan piiriin mahdollisesti kuuluvaa ja mahdollisesti loukkaavaa myyntiä ei ole vielä kohdistettu maittain, tuotteittain ja vaatimuksittain": "Suojan piiriin mahdollisesti kuuluvaa ja mahdollisesti loukkaavaa myyntiä ei ole vielä kohdistettu maittain, tuotteittain ja vaatimuksittain.",
+  "Rojalti-, vahingonkorvaus- tai lisenssikassavirtaa sekä riski-, kulu-, vero- ja aikaoikaisuja ei ole vielä vahvistettu": "Rojalti-, vahingonkorvaus- tai lisenssikassavirtaa sekä riski-, kulu-, vero- ja aikaoikaisuja ei ole vielä vahvistettu."
 };
 
 const REVIEW_LEGAL_SUMMARIES = {
@@ -291,6 +291,360 @@ function assessReviewDonorLedger(market = reviewMarketData) {
   };
 }
 
+function assessReviewPatentValuationControl(patent = reviewPatentData) {
+  const control = patent?.monetisation?.valuationControl;
+  const fail = (reason) => ({ valid: false, reason, control: null, steps: [], gates: [], outputs: [], routes: [] });
+  if (!control || typeof control !== "object") return fail("control_missing");
+
+  const steps = Array.isArray(control.formulaBridge?.steps) ? control.formulaBridge.steps : [];
+  const gates = Array.isArray(control.hardGates) ? control.hardGates : [];
+  const range = control.valueRangeEUR;
+  const marketRole = control.marketEvidenceRole;
+  const donor = control.donorGateSnapshot;
+  const germany = control.germanyRole;
+  const guardrails = control.guardrails;
+  const outputs = Array.isArray(control.outputCases) ? control.outputCases : [];
+  const routes = Array.isArray(control.routeBranches) ? control.routeBranches : [];
+  const scenario = control.scenarioControl;
+  const collateral = control.collateralRecoveryCase;
+  const presentValue = control.presentValueConvention;
+  const allocation = control.allocationControls;
+  const independentReview = control.independentReview;
+  const dependency = control.dependencyControl;
+  const outputIds = outputs.map((output) => output?.outputId);
+  const routeIds = routes.map((route) => route?.routeId);
+  const stepIds = steps.map((step) => step?.stepId);
+  const gateIds = gates.map((gate) => gate?.gateId);
+  const exactStepOrder = steps.length > 0
+    && new Set(stepIds).size === steps.length
+    && steps.every((step, index) => (
+      String(step?.stepId || "").trim()
+      && step.sequence === index + 1
+      && step.status === "NOT_COMPUTED"
+      && step.valueEUR === null
+      && String(step.titleEn || "").trim()
+      && String(step.titleFi || "").trim()
+      && String(step.requirementEn || "").trim()
+      && String(step.requirementFi || "").trim()
+    ));
+  const exactGateOrder = gates.length > 0
+    && new Set(gateIds).size === gates.length
+    && gates.every((gate) => (
+      String(gate?.gateId || "").trim()
+      && gate.status === "OPEN"
+      && gate.blocksComputation === true
+      && String(gate.titleEn || "").trim()
+      && String(gate.titleFi || "").trim()
+      && String(gate.evidenceNeededEn || "").trim()
+      && String(gate.evidenceNeededFi || "").trim()
+    ));
+  const validOutputs = outputs.length > 0
+    && new Set(outputIds).size === outputs.length
+    && outputs.every((output) => (
+      String(output?.outputId || "").trim()
+      && String(output.premise || "").trim()
+      && String(output.titleEn || "").trim()
+      && String(output.titleFi || "").trim()
+      && output.valueEUR === null
+      && output.probabilityWeightedValueEUR === null
+      && output.status === "NOT_COMPUTED"
+      && output.nonAdditive === true
+      && output.valueRangeEUR?.low === null
+      && output.valueRangeEUR?.central === null
+      && output.valueRangeEUR?.high === null
+    ));
+  const knownOutputIds = new Set(outputIds);
+  const validRoutes = routes.length > 0
+    && new Set(routeIds).size === routes.length
+    && routes.every((route) => (
+      String(route?.routeId || "").trim()
+      && String(route.titleEn || "").trim()
+      && String(route.titleFi || "").trim()
+      && typeof route.requiresPotentiallyInfringingSales === "boolean"
+      && route.valueEUR === null
+      && route.status === "NOT_COMPUTED"
+      && Array.isArray(route.usedInOutputs)
+      && route.usedInOutputs.length > 0
+      && route.usedInOutputs.every((outputId) => knownOutputIds.has(outputId))
+    ));
+
+  if (control.purposeEn !== "Estimate defensible patent value range"
+    || control.purposeFi !== "Arvioida puolustettavissa oleva patentin arvon vaihteluväli"
+    || control.status !== "NOT_COMPUTED"
+    || control.ultimatePatentValueEUR !== null
+    || control.decision !== "HOLD"
+    || control.gateLogic !== "OUTPUT_SPECIFIC_DEPENDENCIES_MUST_PASS") return fail("outcome_boundary_invalid");
+  if (!range || range.low !== null || range.central !== null || range.high !== null) return fail("value_range_not_null");
+  if (!exactStepOrder) return fail("formula_bridge_invalid");
+  if (!exactGateOrder) return fail("mandatory_gates_invalid");
+  if (!validOutputs) return fail("output_cases_invalid");
+  if (!validRoutes) return fail("route_branches_invalid");
+  if (control.ultimateScalarPermitted !== false
+    || !String(control.ultimateScalarRoleEn || "").trim()
+    || !String(control.ultimateScalarRoleFi || "").trim()) return fail("ultimate_scalar_boundary_invalid");
+  if (control.valuationBasis?.status !== "NOT_DEFINED"
+    || control.valuationBasis?.otherPremisesAreIfrsFairValue !== false
+    || control.valuationBasis?.grossNetTaxBasis !== "NOT_DEFINED") return fail("valuation_basis_invalid");
+  if (!Array.isArray(control.scopeKeyControl?.requiredKeys)
+    || !control.scopeKeyControl.requiredKeys.length
+    || new Set(control.scopeKeyControl.requiredKeys).size !== control.scopeKeyControl.requiredKeys.length
+    || control.scopeKeyControl.requiredKeys.some((key) => !String(key || "").trim())
+    || control.scopeKeyControl.allKeysMustReconcileBeforeUse !== true
+    || control.scopeKeyControl.missingKeyIsZero !== false) return fail("scope_key_control_invalid");
+  if (!scenario
+    || scenario.status !== "NOT_DEFINED"
+    || !Array.isArray(scenario.scenarioProbabilities)
+    || scenario.scenarioProbabilities.length !== 0
+    || scenario.probabilitiesMustSumToOne !== true
+    || !Number.isFinite(scenario.sumTolerance)
+    || scenario.sumTolerance <= 0
+    || scenario.probabilitySum !== null
+    || scenario.probabilityWeightedValueEUR !== null
+    || scenario.sumToOneQaStatus !== "NOT_COMPUTED") return fail("scenario_control_invalid");
+  if (!collateral
+    || collateral.status !== "NOT_COMPUTED"
+    || collateral.valueEUR !== null
+    || collateral.probabilityWeightedValueEUR !== null
+    || collateral.simpleValueTimesHaircutPermitted !== false
+    || collateral.lenderHaircutsApplyOnlyHere !== true
+    || !collateral.requiredInputs
+    || Object.values(collateral.requiredInputs).some((value) => value !== null)) return fail("collateral_recovery_invalid");
+  if (!presentValue
+    || presentValue.status !== "NOT_DEFINED"
+    || presentValue.cashFlowBasis !== "PROBABILITY_WEIGHTED_DATED_CASH_FLOWS"
+    || presentValue.discountRateExcludesSeparatelyModelledRisks !== true
+    || presentValue.eachRiskMappedExactlyOnce !== true
+    || presentValue.separateTimeDiscountFactorPermitted !== false
+    || presentValue.probabilityWeightedValueEUR !== null) return fail("present_value_control_invalid");
+  if (!allocation
+    || allocation.rightsAndTerm !== "BOOLEAN_COUNTRY_RIGHT_AND_TIME_MASKS"
+    || allocation.productSales !== "MEASURED_SKU_SALES_ALLOCATION"
+    || allocation.claimState !== "COUNSEL_REVIEWED_CLAIM_STATE"
+    || allocation.economicAdjustment !== "ONE_DISTINCT_APPORTIONMENT_OR_PROBABILITY_PER_RISK"
+    || allocation.overlappingHaircutsPermitted !== false) return fail("allocation_control_invalid");
+  if (!independentReview
+    || independentReview.role !== "POST_COMPUTATION_RELEASE_AND_ASSURANCE_GATE"
+    || independentReview.usedAsComputationInput !== false
+    || independentReview.status !== "NOT_STARTED") return fail("independent_review_invalid");
+  const dependencyOutputs = Array.isArray(dependency?.outputs) ? dependency.outputs : [];
+  const dependencyOutputIds = dependencyOutputs.map((item) => item?.outputId);
+  const knownGateIds = new Set(gateIds);
+  if (!dependency
+    || dependency.globalCircularBlock !== false
+    || dependency.gateDependenciesAreOutputSpecific !== true
+    || dependency.sourceDependenciesAreOutputSpecific !== true
+    || dependencyOutputs.length !== outputs.length
+    || new Set(dependencyOutputIds).size !== outputs.length
+    || dependencyOutputs.some((item) => (
+      !knownOutputIds.has(item?.outputId)
+      || !Array.isArray(item.requiredGateIds)
+      || !item.requiredGateIds.length
+      || item.requiredGateIds.some((gateId) => !knownGateIds.has(gateId))
+    ))) return fail("dependency_control_invalid");
+  if (!marketRole
+    || marketRole.role !== "INPUT_ONLY"
+    || marketRole.maySetCoveredSales !== false
+    || marketRole.maySetPotentiallyInfringingSales !== false
+    || marketRole.maySetRoyaltyOrDamages !== false
+    || marketRole.maySetLicensingCashFlow !== false
+    || marketRole.maySetPatentValue !== false) return fail("market_role_invalid");
+  if (!donor
+    || donor.accepted !== 0
+    || donor.required !== 3
+    || donor.status !== "OPEN"
+    || !String(donor.roleEn || "").includes("not the final valuation objective")
+    || !String(donor.roleFi || "").includes("ei arvonmäärityksen lopputavoite")) return fail("donor_snapshot_invalid");
+  if (!germany
+    || germany.role !== "CALIBRATION_AND_TECHNICAL_LEVERAGE_ONLY"
+    || germany.mayEstablishGlobalCoverage !== false
+    || germany.mayEstablishGlobalInfringement !== false
+    || germany.mayEstablishGlobalDamages !== false
+    || germany.maySetPatentValue !== false
+    || !String(germany.statementEn || "").includes("adjudicated")
+    || !String(germany.statementEn || "").includes("current counsel")
+    || String(germany.statementEn || "").includes("materially comparable")) return fail("germany_boundary_invalid");
+  if (!guardrails
+    || guardrails.noDoubleCounting !== true
+    || guardrails.outputsAreNonAdditive !== true
+    || guardrails.scopeKeysMustReconcile !== true
+    || guardrails.overlappingHaircutsPermitted !== false
+    || guardrails.missingIsZero !== false
+    || guardrails.marketEqualsPatentValue !== false
+    || guardrails.ultimateScalarPermitted !== false
+    || guardrails.independentReviewIsComputationInput !== false
+    || guardrails.lenderHaircutsOutsideCollateralCasePermitted !== false
+    || guardrails.licensedVendorValuesIncluded !== false
+    || guardrails.independentResearchNotPixanPosition !== true) return fail("guardrails_invalid");
+
+  return { valid: true, reason: "verified_control", control, steps, gates, outputs, routes };
+}
+
+function renderPatentValuationMetric(label, value, note) {
+  const card = reviewNode("article", "metric-card patent-valuation-metric");
+  card.append(reviewNode("span", "", label), reviewNode("strong", "", value), reviewNode("small", "", note));
+  return card;
+}
+
+function renderReviewPatentValuationControl() {
+  const root = reviewById("patent-valuation-control");
+  const title = reviewById("patent-valuation-title");
+  const intro = reviewById("patent-valuation-intro");
+  const boundaryTitle = reviewById("patent-valuation-boundary-title");
+  const boundary = reviewById("patent-valuation-boundary");
+  const metrics = reviewById("patent-valuation-metrics");
+  const formula = reviewById("patent-valuation-formula");
+  const gatesHost = reviewById("patent-valuation-gates");
+  const status = reviewById("patent-valuation-status");
+  if (!root || !title || !intro || !boundaryTitle || !boundary || !metrics || !formula || !gatesHost || !status) return;
+
+  const assessment = assessReviewPatentValuationControl();
+  const boundaryMark = root.querySelector(".bankability-boundary-mark");
+  metrics.replaceChildren();
+  formula.replaceChildren();
+  gatesHost.replaceChildren();
+
+  if (!assessment.valid) {
+    root.dataset.valuationState = "data_missing";
+    if (boundaryMark) boundaryMark.textContent = "DATA_MISSING";
+    title.textContent = reviewL("Patentin arvonmäärityskontrolli ei ole saatavilla", "Patent-valuation control unavailable");
+    intro.textContent = reviewL(
+      "Lähdekontrolli puuttuu tai ei läpäissyt fail-closed-tarkistusta. Arvoa, välivaiheita tai avoimien porttien määrää ei päätellä.",
+      "The source control is missing or failed its fail-closed check. No value, intermediate step or gate count is inferred."
+    );
+    boundaryTitle.textContent = reviewL("Yhden luvun sentinel: DATA_MISSING", "Single-value sentinel: DATA_MISSING");
+    boundary.textContent = reviewL(
+      "Puuttuva kontrolli ei ole nolla eikä lupa laskea markkinasta patenttiarvoa.",
+      "A missing control is not zero and does not authorise calculating patent value from market size."
+    );
+    metrics.append(
+      renderPatentValuationMetric(reviewL("Kontrollin tila", "Control state"), "DATA_MISSING", reviewL("Laskenta estetty", "Computation blocked")),
+      renderPatentValuationMetric(reviewL("Arvonmäärityksen tulokset", "Valuation outputs"), "DATA_MISSING", reviewL("Ei päätelty", "Not inferred"))
+    );
+    formula.append(reviewNode("li", "patent-valuation-empty", reviewL("Kaavaketjua ei voitu vahvistaa lähdeaineistosta.", "The formula bridge could not be verified from the source dataset.")));
+    gatesHost.append(reviewNode("p", "patent-valuation-empty", reviewL("Pakollisia portteja ei voitu vahvistaa lähdeaineistosta.", "Mandatory gates could not be verified from the source dataset.")));
+    status.textContent = `DATA_MISSING · ${assessment.reason}`;
+    root.setAttribute("aria-busy", "false");
+    return;
+  }
+
+  const { control, steps, gates, outputs, routes } = assessment;
+  const openGateCount = gates.filter((gate) => gate.status === "OPEN").length;
+  root.dataset.valuationState = "not_computed";
+  if (boundaryMark) boundaryMark.textContent = control.status;
+  title.textContent = patentText(control, "purpose");
+  intro.textContent = `${patentText(control.marketEvidenceRole, "statement")} ${patentText(control.scopeKeyControl, "statement")}`;
+  boundaryTitle.textContent = reviewL("Ei yhtä lopullista lukua · erilliset tulokset NOT_COMPUTED", "No single ultimate scalar · separate outputs NOT_COMPUTED");
+  boundary.textContent = `${reviewL("Riippumaton tutkimus; ei Pixanin virallinen kanta.", "Independent research; not Pixan's official position.")} ${patentText(control, "ultimateScalarRole")} ${patentText(control.guardrails, "statement")} ${patentText(control.germanyRole, "statement")}`;
+  metrics.append(
+    renderPatentValuationMetric(reviewL("Arvonmäärityksen tila", "Valuation status"), control.status, reviewL("Kaikki EUR-arvot ovat null", "All EUR values are null")),
+    renderPatentValuationMetric(reviewL("Yksi lopullinen luku", "Single ultimate scalar"), reviewL("EI SALLITTU", "NOT PERMITTED"), reviewL("Vanha null-kenttä on vain sentinel", "Legacy null field is a sentinel only")),
+    renderPatentValuationMetric(reviewL("Erilliset tulostapaukset", "Separate output cases"), outputs.length, reviewL("Ei summata keskenään", "Non-additive")),
+    renderPatentValuationMetric(reviewL("Pakolliset portit", "Mandatory gates"), `${openGateCount} / ${gates.length} OPEN`, reviewL("Jokainen avoin portti estää laskennan", "Every open gate blocks computation")),
+    renderPatentValuationMetric(reviewL("Donor-valmius", "Donor readiness"), `${control.donorGateSnapshot.accepted} / ${control.donorGateSnapshot.required}`, patentText(control.donorGateSnapshot, "role")),
+    renderPatentValuationMetric(reviewL("Skenaarioiden QA", "Scenario QA"), control.scenarioControl.sumToOneQaStatus, reviewL("Todennäköisyyssumma: null", "Probability sum: null")),
+    renderPatentValuationMetric(reviewL("Vakuuden realisaatio", "Collateral recovery"), control.collateralRecoveryCase.status, reviewL("Erillinen rahoittajakohtainen tapaus", "Separate lender-specific case"))
+  );
+
+  for (const step of steps) {
+    const item = reviewNode("li", "patent-valuation-step");
+    const heading = reviewNode("div", "patent-valuation-step-heading");
+    heading.append(
+      reviewNode("span", "patent-valuation-sequence", String(step.sequence).padStart(2, "0")),
+      reviewNode("strong", "", patentText(step, "title")),
+      reviewNode("span", "patent-valuation-state", step.status)
+    );
+    item.append(
+      heading,
+      reviewNode("p", "", patentText(step, "requirement")),
+      reviewNode("small", "", reviewL("EUR-arvo: null", "EUR value: null"))
+    );
+    formula.append(item);
+  }
+
+  const routeSection = reviewNode("li", "patent-valuation-branch-section");
+  routeSection.append(reviewNode("h4", "", reviewL("Erilliset kassavirtareitit", "Separate cash-flow routes")));
+  const routeGrid = reviewNode("div", "patent-valuation-branch-grid");
+  for (const route of routes) {
+    const routeCard = reviewNode("article", "patent-valuation-branch");
+    routeCard.append(
+      reviewNode("strong", "", patentText(route, "title")),
+      reviewNode("span", "patent-valuation-state", route.status),
+      reviewNode("p", "", reviewL(
+        `Mahdollisesti loukkaava myynti vaaditaan: ${route.requiresPotentiallyInfringingSales ? "kyllä" : "ei"}`,
+        `Potentially infringing sales required: ${route.requiresPotentiallyInfringingSales ? "yes" : "no"}`
+      )),
+      reviewNode("small", "", `${reviewL("Tulokset", "Outputs")}: ${route.usedInOutputs.join(" · ")} · EUR null`)
+    );
+    routeGrid.append(routeCard);
+  }
+  routeSection.append(routeGrid);
+  formula.append(routeSection);
+
+  for (const gate of gates) {
+    const card = reviewNode("article", "patent-valuation-gate");
+    const heading = reviewNode("div", "patent-valuation-gate-heading");
+    heading.append(
+      reviewNode("code", "", gate.gateId),
+      reviewNode("span", "patent-valuation-state patent-valuation-state-open", gate.status)
+    );
+    card.append(
+      heading,
+      reviewNode("h4", "", patentText(gate, "title")),
+      reviewNode("p", "", patentText(gate, "evidenceNeeded")),
+      reviewNode("small", "", reviewL("Estää laskennan", "Blocks computation"))
+    );
+    gatesHost.append(card);
+  }
+  const outputSection = reviewNode("section", "patent-valuation-output-section");
+  outputSection.append(reviewNode("h4", "", reviewL("Erilliset, keskenään ei-summattavat tulostapaukset", "Separate, non-additive output cases")));
+  const outputGrid = reviewNode("div", "patent-valuation-output-grid");
+  for (const output of outputs) {
+    const outputCard = reviewNode("article", "patent-valuation-output");
+    outputCard.append(
+      reviewNode("span", "patent-valuation-state", output.status),
+      reviewNode("strong", "", patentText(output, "title")),
+      reviewNode("code", "", output.premise),
+      reviewNode("small", "", reviewL("EUR-arvo ja vaihteluväli: null · ei summata", "EUR value and range: null · non-additive"))
+    );
+    outputGrid.append(outputCard);
+  }
+  outputSection.append(outputGrid);
+  gatesHost.append(outputSection);
+  const controlGrid = reviewNode("section", "patent-valuation-special-controls");
+  const scenarioCard = reviewNode("article", "patent-valuation-special-control");
+  scenarioCard.append(
+    reviewNode("span", "patent-valuation-state", control.scenarioControl.sumToOneQaStatus),
+    reviewNode("strong", "", reviewL("Skenaario- ja todennäköisyys-QA", "Scenario and probability QA")),
+    reviewNode("p", "", patentText(control.scenarioControl, "statement"))
+  );
+  const collateralCard = reviewNode("article", "patent-valuation-special-control");
+  collateralCard.append(
+    reviewNode("span", "patent-valuation-state", control.collateralRecoveryCase.status),
+    reviewNode("strong", "", reviewL("Vakuuden realisaatioarvo · ei yleistä leikkuria", "Collateral recovery value · no generic haircut")),
+    reviewNode("p", "", patentText(control.collateralRecoveryCase, "statement")),
+    reviewNode("small", "", `${reviewL("Vaaditut syötteet", "Required inputs")}: ${Object.keys(control.collateralRecoveryCase.requiredInputs).join(" · ")} · null`)
+  );
+  const assuranceCard = reviewNode("article", "patent-valuation-special-control");
+  assuranceCard.append(
+    reviewNode("span", "patent-valuation-state", control.independentReview.status),
+    reviewNode("strong", "", reviewL("Riippumaton tarkastus", "Independent review")),
+    reviewNode("p", "", patentText(control.independentReview, "statement"))
+  );
+  controlGrid.append(scenarioCard, collateralCard, assuranceCard);
+  gatesHost.append(controlGrid);
+  const germany = reviewNode("aside", "patent-valuation-germany");
+  germany.append(
+    reviewNode("strong", "", reviewL("Saksa · tapauskohtainen näyttö tuomiossa käsitellystä tuotteesta ja vaatimuksesta", "Germany · case-specific evidence for the adjudicated product and claim")),
+    reviewNode("p", "", patentText(control.germanyRole, "statement"))
+  );
+  gatesHost.append(germany);
+  status.textContent = reviewL(
+    `NOT_COMPUTED · ${openGateCount}/${gates.length} pakollista porttia avoinna · donor 0/3 on vain evidenssivalmiuden syöte`,
+    `NOT_COMPUTED · ${openGateCount}/${gates.length} mandatory gates open · donor 0/3 is an evidence-readiness input only`
+  );
+  root.setAttribute("aria-busy", "false");
+}
+
 function reviewRequestSummary() {
   const routes = Array.isArray(reviewRequestData?.routes) ? reviewRequestData.routes : [];
   const sent = routes.filter((route) => route.status === "sent").length;
@@ -360,13 +714,13 @@ function renderDecisionCockpit(data) {
   ).length;
   const evidenceCount = Array.isArray(data.evidence) ? data.evidence.length : null;
   const familyCount = reviewPatentData?.summary?.familyRecordCount;
-  const blockers = Array.isArray(data.readiness?.blockers) ? data.readiness.blockers.slice(0, 3) : [];
-  const lenderReady = data.readiness?.lenderReady === true;
+  const valuationAssessment = assessReviewPatentValuationControl();
+  const blockers = valuationAssessment.valid ? valuationAssessment.gates.slice(0, 3) : [];
 
-  state.dataset.state = lenderReady ? "review" : "hold";
-  state.textContent = lenderReady
-    ? reviewL("VALMIS RIIPPUMATTOMAAN TARKASTUKSEEN", "READY FOR INDEPENDENT REVIEW")
-    : reviewL("HOLD · tutkimusaineisto, ei arvonmääritys", "HOLD · research dataset, not a valuation");
+  state.dataset.state = valuationAssessment.valid ? "hold" : "unavailable";
+  state.textContent = valuationAssessment.valid
+    ? reviewL("HOLD · arvonmäärityksen tulokset NOT_COMPUTED", "HOLD · valuation outputs NOT_COMPUTED")
+    : reviewL("DATA_MISSING · arvonmäärityskontrolli hylätty", "DATA_MISSING · valuation control rejected");
 
   const supported = [
     reviewL(
@@ -391,6 +745,12 @@ function renderDecisionCockpit(data) {
         `${familyCount ?? "—"} patent-family records and ${nationalRights} nationally verified status records, kept separate from proceeding and value claims.`
       )
       : reviewL("Patenttihistorian tukiaineisto ei ole saatavilla.", "The patent-history supporting dataset is unavailable."),
+    valuationAssessment.valid
+      ? reviewL(
+        `Julkinen kontrolli pitää vanhan yhden luvun kentän null-sentineltilassa, erottaa ${valuationAssessment.outputs.length} keskenään ei-summattavaa tulostapausta ja kirjaa ${valuationAssessment.gates.length} pakollista porttia avoimeksi; tämä on tarkistettava rajaus, ei arvioluku.`,
+        `The public control keeps the legacy single-number field as a null sentinel, separates ${valuationAssessment.outputs.length} non-additive output cases and records all ${valuationAssessment.gates.length} mandatory gates as open; this is a reviewable boundary, not an estimate.`
+      )
+      : reviewL("Patentin arvonmäärityskontrolli ei läpäissyt fail-closed-tarkistusta.", "The patent-valuation control did not pass its fail-closed check."),
     reviewRequestData
       ? reviewL(
         `${request.routes} viranomaisreittiä: ${request.sent} lähetetty, ${request.drafts} luonnosta, ${request.supplements} täydentävää reittiä Saksassa ja Puolassa, ${request.processResponses} vain prosessivastausta, ${request.availabilityResponses} virallista saatavuusvastausta ilman markkinadataa, ${request.officialMethodResponses} virallinen menetelmätäsmennys ilman uutta myyntiarvoa, ${request.officialStructuralResponses} virallinen rakennevastaus, ${request.tradeProxyResponses} tullikaupan proxyvastaus ja ${request.salesResponses} myyntidatavastausta.`,
@@ -410,32 +770,28 @@ function renderDecisionCockpit(data) {
 
   gatesHost.replaceChildren();
   if (blockers.length === 3) {
-    for (const blocker of blockers) {
-      const label = reviewIsFi()
-        ? REVIEW_BLOCKER_FI[blocker] || blocker
-        : REVIEW_BLOCKER_TRANSLATIONS[blocker] || reviewL("Avoin evidenssiportti.", "Open evidence gate.");
-      gatesHost.append(reviewNode("li", "", label));
+    for (const gate of blockers) {
+      gatesHost.append(reviewNode("li", "", `${patentText(gate, "title")} · ${patentText(gate, "evidenceNeeded")}`));
     }
   } else {
-    gatesHost.append(reviewNode("li", "", reviewL("Valmiusportteja ei voitu vahvistaa aineistosta.", "Readiness gates could not be verified from the dataset.")));
+    gatesHost.append(reviewNode("li", "", reviewL("Patenttiarvon portteja ei voitu vahvistaa aineistosta.", "Patent-value gates could not be verified from the dataset.")));
   }
 
   const meta = reviewById("cockpit-meta");
   if (meta) {
-    const donorAssessment = assessReviewDonorLedger();
-    const donors = donorAssessment.protocolValid ? donorAssessment.accepted.length : 0;
-    const required = reviewMarketData?.meta?.modelReadiness?.minimumRequiredDonors;
-    meta.textContent = reviewMarketData
+    meta.textContent = valuationAssessment.valid
       ? reviewL(
-        `Maailmanestimaatin luovuttajaportti ${donors}/${required} · maailmanestimaattia ei julkaistu`,
-        `Global-estimate donor gate ${donors}/${required} · no global estimate published`
+        `Donor-valmius ${valuationAssessment.control.donorGateSnapshot.accepted}/${valuationAssessment.control.donorGateSnapshot.required} on vain markkinaevidenssin syöte · arvonmäärityksen tulokset NOT_COMPUTED`,
+        `Donor readiness ${valuationAssessment.control.donorGateSnapshot.accepted}/${valuationAssessment.control.donorGateSnapshot.required} is a market-evidence input only · valuation outputs NOT_COMPUTED`
       )
-      : reviewL("Luovuttajaportti ei ole saatavilla.", "Donor gate unavailable.");
+      : reviewL("Arvonmäärityksen kontrolli ja donor-valmius eivät ole saatavilla.", "Valuation control and donor readiness are unavailable.");
   }
 
   root.setAttribute("aria-busy", "false");
   const live = reviewById("decision-cockpit-status");
-  if (live) live.textContent = reviewL("Päätöksentekonäkymä päivitetty tarkistetusta aineistosta.", "Decision Cockpit updated from the reviewed dataset.");
+  if (live) live.textContent = valuationAssessment.valid
+    ? reviewL("Päätöksentekonäkymä päivitetty: arvonmäärityksen tulokset NOT_COMPUTED.", "Decision Cockpit updated: valuation outputs NOT_COMPUTED.")
+    : reviewL("Päätöksentekonäkymä fail-closed-tilassa: DATA_MISSING.", "Decision Cockpit is fail closed: DATA_MISSING.");
 }
 
 function renderResearchOperationsOverview() {
@@ -2177,6 +2533,7 @@ function renderReview(data) {
   applyReviewView();
   renderReviewMeta(data);
   renderDecisionCockpit(data);
+  renderReviewPatentValuationControl();
   renderResearchOperationsOverview();
   renderReviewMetrics(data);
   renderReviewGrades(data);

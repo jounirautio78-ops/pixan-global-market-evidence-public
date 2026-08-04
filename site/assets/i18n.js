@@ -3,37 +3,32 @@
 (() => {
   const STORAGE_KEY = "pixan-global-market-evidence-language";
   const SUPPORTED = new Set(["en", "fi"]);
-  const UI_RELEASE_V43 = Object.freeze({
-    id: "2026-08-03-germany-vendor-audit-v43",
-    version: "2026.08.03-43",
-    publishedAt: "2026-08-03T17:50:00+03:00",
-    titleEn: "Germany vendor audit and daily lender-package refresh",
-    titleFi: "Saksan toimittaja-auditointi ja päivittäinen rahoittajapaketin päivitys",
+  const UI_RELEASE_V44 = Object.freeze({
+    id: "2026-08-03-patent-valuation-pivot-v44",
+    version: "2026.08.03-44",
+    publishedAt: "2026-08-03T23:35:00+03:00",
+    titleEn: "Patent-value objective and fail-closed valuation control",
+    titleFi: "Patenttiarvotavoite ja fail-closed-arvonmäärityskontrolli",
     items: Object.freeze([
       Object.freeze({
-        category: "market_data",
-        textEn: "Activated the previously prepared public-official Spain, Japan and New Zealand controls. The public dataset now contains 174 observations from 54 sources: 152 official observations split into 116 market measures across nine countries and 36 Swedish registration-structure records. Tax, customs and CPI records remain non-retail controls and do not enter the global roll-up.",
-        textFi: "Aktivoitiin aiemmin valmistellut Espanjan, Japanin ja Uuden-Seelannin julkiset viranomaiskontrollit. Julkisessa aineistossa on nyt 174 havaintoa 54 lähteestä: 152 virallista havaintoa jakautuvat 116 markkinamittariin yhdeksässä maassa ja 36 Ruotsin rekisterirakennetietueeseen. Vero-, tulli- ja CPI-tietueet pysyvät muina kuin vähittäismyyntikontrolleina eivätkä mene maailman roll-upiin."
-      }),
-      Object.freeze({
-        category: "diligence",
-        textEn: "A full 19-tab Germany vendor extract was received and audited privately. The preregistered 2023, 2024 and combined numerical liquid-volume proximity tests all passed. Licensed values and exact deviations remain private. The result supports numerical coherence, not final accuracy or full scope equivalence.",
-        textFi: "Saksan täysi 19 välilehden toimittajaote saatiin ja auditoitiin yksityisesti. Ennalta rekisteröidyt vuosien 2023 ja 2024 sekä yhdistetty nestemäärän numeerinen läheisyystesti läpäistiin. Lisensoidut arvot ja tarkat poikkeamat pysyvät yksityisinä. Tulos tukee numeerista johdonmukaisuutta, ei lopullista tarkkuutta tai täydellistä rajausvastaavuutta."
+        category: "patent",
+        textEn: "Reset the primary objective to estimate defensible, premise-specific patent-value ranges. Seven separate non-additive outputs remain null/NOT_COMPUTED: market-participant patent/family, owner-specific strategic/investment, RFR/direct-use, third-party licensing, past enforcement-claim NPV, exit/transaction indication and collateral recovery. The legacy ultimatePatentValueEUR field is a null sentinel only, never a target or model output. This release states no company, collateral or patent value.",
+        textFi: "Ensisijaiseksi tavoitteeksi asetettiin puolustettavissa olevien, perustekohtaisten patenttiarvon vaihteluvälien arviointi. Seitsemän erillistä, ei-yhteenlaskettavaa tulosta pysyvät null/NOT_COMPUTED-tilassa: markkinaosapuolen patentti-/patenttiperhearvo, omistajakohtainen strateginen/investointiarvo, RFR- tai oman käytön arvo, kolmannen osapuolen lisensointiarvo, aiemman täytäntöönpanovaatimuksen nykyarvo, exit-/transaktioindikaatio ja vakuuden realisaatioarvo. Vanha ultimatePatentValueEUR-kenttä on vain null-varmistuskenttä eikä tavoite tai mallin tulos. Julkaisu ei esitä yrityksen, vakuuden tai patentin arvoa."
       }),
       Object.freeze({
         category: "method",
-        textEn: "Euromonitor vendor gate G1 now passes. G2, G3, G5 and G6 fail and G4 remains not testable because source lineage, observed/reported/modelled status, product/tax/channel/transaction-stage comparability, rights and complete terms remain open. The vendor remains NOT SCORED; Germany remains NOT ACCEPTED, donor gate 0/3 and global value null/not_computed.",
-        textFi: "Euromonitorin toimittajaportti G1 läpäisee nyt. G2, G3, G5 ja G6 hylätään ja G4 ei ole testattavissa, koska lähdelinja, havaittu/raportoitu/mallinnettu-tila, tuote-/vero-/kanava-/tapahtumavaiheen vertailukelpoisuus, oikeudet ja täydelliset ehdot ovat avoinna. Toimittaja pysyy EI PISTEYTETTY -tilassa, Saksa EI HYVÄKSYTTY -tilassa, donor-portti 0/3:ssa ja maailmanarvo null/not_computed-tilassa."
+        textEn: "Added a seven-step, branch-safe method from market evidence and scope-key reconciliation through covered sales, route-specific benefits, weighted dated cash flows and single-use risk/PV adjustments to separate outputs. Potentially infringing sales are used only in the past-enforcement branch; RFR/direct use and third-party licensing remain distinct non-infringement routes. All seven output-specific gates remain open. Missing is not zero and no output, time factor or risk is counted twice.",
+        textFi: "Lisättiin seitsemänvaiheinen haarautuva menetelmä markkinaevidenssistä ja scope key -täsmäytyksestä katettuun myyntiin, reittikohtaisiin hyötyihin, painotettuihin päivättyihin kassavirtoihin ja kertaluonteisiin riski-/nykyarvo-oikaisuihin sekä erillisiin tuloksiin. Mahdollisesti loukkaavaa myyntiä käytetään vain menneen täytäntöönpanon haarassa; RFR/oma käyttö ja kolmannen osapuolen lisensointi pysyvät erillisinä reitteinä ilman loukkausvaatimusta. Kaikki seitsemän tuloskohtaista porttia ovat avoinna. Puuttuva ei ole nolla eikä tulosta, aikatekijää tai riskiä lasketa kahdesti."
       }),
       Object.freeze({
         category: "diligence",
-        textEn: "The delivered one-country Germany extract is recorded as accepted and received. Any wider 25/50/78-country subscription remains HOLD and is not authorised pending written scope, method, rights and all-in commercial clarifications.",
-        textFi: "Toimitettu yhden maan Saksa-ote kirjataan hyväksytyksi ja vastaanotetuksi. Laajempi 25/50/78 maan tilaus pysyy HOLD-tilassa eikä sitä ole valtuutettu ennen kirjallisia rajaus-, menetelmä-, oikeus- ja kokonaiskustannustäsmennyksiä."
+        textEn: "Market evidence is an input only and donor readiness remains 0/3 rather than the final valuation objective. Germany is only possible case-specific evidence for the adjudicated product and claim; any transfer requires current counsel mapping and procedural-status review. IFRS 13 is cited solely for the market-participant, measurement-date exit-price basis and does not classify owner-specific, licensing, enforcement, transaction or collateral premises as IFRS fair value. No licensed vendor values, exact deviations, quotes, terms or private material enter this public release.",
+        textFi: "Markkinaevidenssi on vain syöte ja donor-valmius pysyy 0/3:ssa eikä ole arvonmäärityksen lopputavoite. Saksa on vain mahdollista tapauskohtaista evidenssiä ratkaistusta tuotteesta ja vaatimuksesta; siirto edellyttää ajantasaista asiantuntijan vaatimusvertailua ja prosessitilan tarkastusta. IFRS 13:een viitataan vain markkinaosapuolen mittauspäivän exit price -perusteen määrittelyssä eikä se luokittele omistajakohtaisia, lisensointi-, täytäntöönpano-, transaktio- tai vakuuslähtökohtia IFRS-käyväksi arvoksi. Julkaisuun ei sisälly lisensoituja toimittaja-arvoja, tarkkoja poikkeamia, tarjouksia, ehtoja tai yksityistä aineistoa."
       }),
       Object.freeze({
         category: "usability",
-        textEn: "Refreshed the English and Finnish 6-slide briefs, 30-slide diligence decks and two Evidence Registers as the single 2026-08-03 daily package. No licensed vendor values or reconstructable derivatives enter the public dashboard or downloads.",
-        textFi: "Päivitettiin englannin- ja suomenkieliset 6 dian tiivistelmät, 30 dian tarkistusdekit ja kaksi Evidence Registeriä päivän 3.8.2026 ainoaksi päiväpaketiksi. Julkiseen dashboardiin tai latauksiin ei viedä lisensoituja toimittaja-arvoja tai niistä palautettavia johdannaisia."
+        textEn: "Replaced the dashboard, four decks and two Evidence Registers together as release 2026.08.03-44. V44 is an exceptional same-day alignment replacement of v43; normal once-daily Asia/Nicosia cadence resumes thereafter.",
+        textFi: "Dashboard, neljä dekkiä ja kaksi Evidence Registeriä korvattiin yhdessä julkaisuna 2026.08.03-44. V44 on poikkeuksellinen saman päivän yhdenmukaistusjulkaisu, joka korvaa v43:n; normaali kerran päivässä Asia/Nicosia-rytmi jatkuu sen jälkeen."
       })
     ])
   });
@@ -151,6 +146,24 @@
     ["Hakua vastaavaa evidenssiä ei löytynyt.", "No evidence matches the search."],
     ["EP3032975 · julkinen prosessitieto", "EP3032975 · public procedural record"],
     ["Patentti- ja Saksa-seuranta", "Patent and Germany tracker"],
+    ["Puolustettavissa oleva patenttiarvon vaihteluväli — ei markkinakokoväite.", "A defensible patent-value range—not a market-size promise."],
+    ["Ensisijainen tavoite on arvioida puolustettavissa oleva patentin arvon vaihteluväli. Markkinaevidenssi on yksi syöte pidemmässä oikeus-, loukkaus-, kassavirta- ja riskisillassa; patentin arvo pysyy NOT_COMPUTED-tilassa, kunnes jokainen pakollinen portti on todennettu.", "The primary objective is to estimate a defensible patent-value range. Market evidence is one input in a longer rights, infringement, cash-flow and risk bridge; the patent value remains NOT_COMPUTED until every mandatory gate is evidenced."],
+    ["Ensisijainen lopputulos · fail-closed-arvonmäärityskontrolli", "Primary outcome · fail-closed valuation control"],
+    ["Arvioi puolustettavissa oleva patentin arvon vaihteluväli", "Estimate defensible patent value range"],
+    ["Markkinaevidenssi on vain syöte. Patentin arvo lasketaan vasta, kun oikeudet, tuote- ja vaatimusvertailu, kohdistettava myynti, taloudelliset kassavirrat ja riskioikaisut ovat tarkistettavissa.", "Market evidence is an input only. Patent value is computed only after rights, product and claim mapping, attributable sales, economic cash flows and risk adjustments are reviewable."],
+    ["Patenttiarvon raja", "Patent valuation boundary"],
+    ["Vanha yhden luvun kenttä: vain null-sentinel", "Legacy single-value field: null sentinel only"],
+    ["Puuttuva evidenssi ei ole nolla. Markkinan koko ei ole patentin arvo. Saksan tuomio on vain kalibrointia ja teknistä neuvotteluvoimaa — ei maailmanlaajuista suojaa tai loukkausta.", "Missing evidence is not zero. Market size is not patent value. The German judgment is calibration and technical leverage only—not worldwide coverage or infringement."],
+    ["Kaavasilta", "Formula bridge"],
+    ["Markkinaevidenssistä erillisiin ei-yhteenlaskettaviin tuloksiin", "From market evidence to separate non-additive outputs"],
+    ["Jokainen EUR-välivaihe pysyy null-arvona", "Every intermediate EUR value remains null"],
+    ["Seitsemän pakollista porttia", "Seven mandatory gates"],
+    ["Kaikki pysyvät avoinna ja estävät laskennan", "All remain open and block computation"],
+    ["Lataa kontrollin skeema", "Download control schema"],
+    ["Tarkistetaan patenttiarvokontrollia…", "Checking the patent-valuation control…"],
+    ["Arvonmäärityksen ensisijainen lopputulos", "Primary valuation outcome"],
+    ["Puolustettavissa oleva patentin arvon vaihteluväli", "Defensible patent value range"],
+    ["Markkinaevidenssi on vain syöte. Puuttuva evidenssi ei ole nolla, markkina ei ole patenttiarvo eikä Saksan tuomio osoita maailmanlaajuista suojaa tai loukkausta.", "Market evidence is an input only. Missing evidence is not zero, market size is not patent value and the German judgment does not establish worldwide coverage or infringement."],
     ["Oikeudellinen näyttö kertoo oikeudesta ja prosessitilasta. Se ei itsessään todista rahaksi muuttunutta korvausta tai vakuusarvoa.", "Legal evidence establishes rights and procedural status. It does not by itself establish realised compensation or collateral value."],
     ["Prosessitila", "Procedural status"],
     ["Vahvistetut tapahtumat", "Verified events"],
@@ -762,7 +775,7 @@
     localizeLinks,
     languageUrl
   };
-  window.PixanUiRelease = UI_RELEASE_V43;
+  window.PixanUiRelease = UI_RELEASE_V44;
 
   init();
 })();

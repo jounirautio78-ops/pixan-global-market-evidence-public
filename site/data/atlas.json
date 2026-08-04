@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "Pixan Global Market Evidence Atlas",
-    "version": "0.1.0",
-    "asOf": "2026-07-24",
-    "generatedAt": "2026-07-23T22:03:44Z",
+    "title": "Pixan Patent Value Evidence Center",
+    "version": "0.2.0",
+    "asOf": "2026-08-03",
+    "generatedAt": "2026-08-03T20:35:00Z",
     "legacySourceCommit": "7ab0c99c7146cac76ce01fa1e1f0a70d43092e1f",
     "disclaimer": "Tämä julkinen aineisto on riippumattomasti jäsennelty lähde- ja markkinaevidenssin kooste. Se ei edusta Pixan Oy:n virallista kantaa. Se ei ole tilintarkastettu markkina- tai yritysarvio, oikeudellinen lausunto, patentin pätevyyttä tai loukkausta koskeva lausunto, sijoitus- tai lainasuositus eikä näyttö Pixan Oy:n osakkeiden tai patenttien vakuusarvosta. Tulli-, vero-, toimitus-, rekisteri- ja malliluvut säilytetään eri mittareina. Jokainen rahoitus-, arvostus- ja oikeudellinen johtopäätös vaatii erillisen ammatillisen tarkastuksen.",
     "independenceStatement": "Marnetin julkisesta dashboard-snapshotista allowlistattuun baselineen siirretyt tiedot ovat lähteistettyä tausta-aineistoa. Migraatio ei itsessään varmista niiden ajantasaisuutta tai muuta niitä riippumattomasti vahvistetuiksi markkinaluvuiksi. Täyttä upstream-snapshotia ei säilytetä tässä repositoriossa."
@@ -4993,17 +4993,18 @@
     "instruction": "Voit toimittaa alkuperäistä aineistoa. Aineisto käsitellään yksityisesti, eikä sitä julkaista automaattisesti. Julkaisua varten sisältö tarkistetaan erikseen."
   },
   "readiness": {
-    "status": "research_dataset_not_valuation",
+    "status": "patent_valuation_not_computed",
     "lenderReady": false,
     "completed": [
       "195 maan muuttumaton master-universumi",
       "Legacy-lähteiden whitelistattu public-importti",
-      "Virallinen, proxy- ja mallinäyttö erotettu toisistaan"
+      "Virallinen, proxy- ja mallinäyttö erotettu toisistaan",
+      "Patentin arvon kaavasilta, komponentit ja kuusi kovaa porttia erotettu markkinaevidenssistä"
     ],
     "blockers": [
-      "Useimmista maista puuttuu virallinen vuosittainen laite- ja nestemyynti",
-      "Markkinaevidenssiä ei ole vielä sidottu maakohtaiseen patenttistatukseen ja claim charteihin",
-      "Aineisto ei sisällä riippumatonta IVS-arvonmääritystä eikä realisoitunutta lisenssi- tai vahingonkorvauskassavirtaa"
+      "Kansalliset oikeudet, omistus, sovellettavat vaatimukset ja jäljellä oleva suoja-aika ovat vielä vahvistamatta koko kohdeportfoliossa",
+      "Suojan piiriin mahdollisesti kuuluvaa ja mahdollisesti loukkaavaa myyntiä ei ole vielä kohdistettu maittain, tuotteittain ja vaatimuksittain",
+      "Rojalti-, vahingonkorvaus- tai lisenssikassavirtaa sekä riski-, kulu-, vero- ja aikaoikaisuja ei ole vielä vahvistettu"
     ]
   },
   "sourceAttribution": [

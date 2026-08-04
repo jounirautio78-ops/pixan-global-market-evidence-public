@@ -176,9 +176,9 @@ const READINESS_EN = {
   "195 maan muuttumaton master-universumi": "Fixed 195-country master universe",
   "Legacy-lähteiden whitelistattu public-importti": "Allowlisted public import of legacy sources",
   "Virallinen, proxy- ja mallinäyttö erotettu toisistaan": "Official, proxy and model evidence kept separate",
-  "Useimmista maista puuttuu virallinen vuosittainen laite- ja nestemyynti": "Most countries still lack a verified annual official series for device and e-liquid sales.",
-  "Markkinaevidenssiä ei ole vielä sidottu maakohtaiseen patenttistatukseen ja claim charteihin": "Market evidence has not yet been reconciled with country-level patent status and product claim charts.",
-  "Aineisto ei sisällä riippumatonta IVS-arvonmääritystä eikä realisoitunutta lisenssi- tai vahingonkorvauskassavirtaa": "The dataset does not include an independent IVS valuation or realised licensing or damages cash flow."
+  "Kansalliset oikeudet, omistus, sovellettavat vaatimukset ja jäljellä oleva suoja-aika ovat vielä vahvistamatta koko kohdeportfoliossa": "National rights, title, operative claims and remaining term are not yet verified across the target portfolio.",
+  "Suojan piiriin mahdollisesti kuuluvaa ja mahdollisesti loukkaavaa myyntiä ei ole vielä kohdistettu maittain, tuotteittain ja vaatimuksittain": "Potentially covered and potentially infringing sales are not yet attributed by country, product and claim.",
+  "Rojalti-, vahingonkorvaus- tai lisenssikassavirtaa sekä riski-, kulu-, vero- ja aikaoikaisuja ei ole vielä vahvistettu": "Royalty, damages or licensing cash flows and risk, cost, tax and time adjustments are not yet verified."
 };
 
 const MEASURE_LABELS = {
@@ -2645,6 +2645,301 @@ function patentText(item, key) {
   return isFi() ? item[`${key}Fi`] || item[key] || item[`${key}En`] || "" : item[`${key}En`] || item[key] || item[`${key}Fi`] || "";
 }
 
+function assessPatentValuationControl(patent = state.patentData) {
+  const control = patent?.monetisation?.valuationControl;
+  const fail = (reason) => ({ valid: false, reason, control: null, steps: [], gates: [], outputs: [], routes: [] });
+  if (!control || typeof control !== "object") return fail("control_missing");
+
+  const steps = Array.isArray(control.formulaBridge?.steps) ? control.formulaBridge.steps : [];
+  const gates = Array.isArray(control.hardGates) ? control.hardGates : [];
+  const range = control.valueRangeEUR;
+  const marketRole = control.marketEvidenceRole;
+  const donor = control.donorGateSnapshot;
+  const germany = control.germanyRole;
+  const guardrails = control.guardrails;
+  const outputs = Array.isArray(control.outputCases) ? control.outputCases : [];
+  const routes = Array.isArray(control.routeBranches) ? control.routeBranches : [];
+  const scenario = control.scenarioControl;
+  const collateral = control.collateralRecoveryCase;
+  const presentValue = control.presentValueConvention;
+  const allocation = control.allocationControls;
+  const independentReview = control.independentReview;
+  const dependency = control.dependencyControl;
+  const outputIds = outputs.map((output) => output?.outputId);
+  const routeIds = routes.map((route) => route?.routeId);
+  const stepIds = steps.map((step) => step?.stepId);
+  const gateIds = gates.map((gate) => gate?.gateId);
+  const validSteps = steps.length > 0
+    && new Set(stepIds).size === steps.length
+    && steps.every((step, index) => (
+      String(step?.stepId || "").trim()
+      && step.sequence === index + 1
+      && step.status === "NOT_COMPUTED"
+      && step.valueEUR === null
+      && String(step.titleEn || "").trim()
+      && String(step.titleFi || "").trim()
+      && String(step.requirementEn || "").trim()
+      && String(step.requirementFi || "").trim()
+    ));
+  const validGates = gates.length > 0
+    && new Set(gateIds).size === gates.length
+    && gates.every((gate) => (
+      String(gate?.gateId || "").trim()
+      && gate.status === "OPEN"
+      && gate.blocksComputation === true
+      && String(gate.titleEn || "").trim()
+      && String(gate.titleFi || "").trim()
+      && String(gate.evidenceNeededEn || "").trim()
+      && String(gate.evidenceNeededFi || "").trim()
+    ));
+  const validOutputs = outputs.length > 0
+    && new Set(outputIds).size === outputs.length
+    && outputs.every((output) => (
+      String(output?.outputId || "").trim()
+      && String(output.premise || "").trim()
+      && String(output.titleEn || "").trim()
+      && String(output.titleFi || "").trim()
+      && output.valueEUR === null
+      && output.probabilityWeightedValueEUR === null
+      && output.status === "NOT_COMPUTED"
+      && output.nonAdditive === true
+      && output.valueRangeEUR?.low === null
+      && output.valueRangeEUR?.central === null
+      && output.valueRangeEUR?.high === null
+    ));
+  const knownOutputIds = new Set(outputIds);
+  const validRoutes = routes.length > 0
+    && new Set(routeIds).size === routes.length
+    && routes.every((route) => (
+      String(route?.routeId || "").trim()
+      && String(route.titleEn || "").trim()
+      && String(route.titleFi || "").trim()
+      && typeof route.requiresPotentiallyInfringingSales === "boolean"
+      && route.valueEUR === null
+      && route.status === "NOT_COMPUTED"
+      && Array.isArray(route.usedInOutputs)
+      && route.usedInOutputs.length > 0
+      && route.usedInOutputs.every((outputId) => knownOutputIds.has(outputId))
+    ));
+
+  if (control.purposeEn !== "Estimate defensible patent value range"
+    || control.purposeFi !== "Arvioida puolustettavissa oleva patentin arvon vaihteluväli"
+    || control.status !== "NOT_COMPUTED"
+    || control.ultimatePatentValueEUR !== null
+    || control.decision !== "HOLD"
+    || control.gateLogic !== "OUTPUT_SPECIFIC_DEPENDENCIES_MUST_PASS") return fail("outcome_boundary_invalid");
+  if (!range || range.low !== null || range.central !== null || range.high !== null) return fail("value_range_not_null");
+  if (!validSteps) return fail("formula_bridge_invalid");
+  if (!validGates) return fail("mandatory_gates_invalid");
+  if (!validOutputs) return fail("output_cases_invalid");
+  if (!validRoutes) return fail("route_branches_invalid");
+  if (control.ultimateScalarPermitted !== false
+    || !String(control.ultimateScalarRoleEn || "").trim()
+    || !String(control.ultimateScalarRoleFi || "").trim()) return fail("ultimate_scalar_boundary_invalid");
+  if (control.valuationBasis?.status !== "NOT_DEFINED"
+    || control.valuationBasis?.otherPremisesAreIfrsFairValue !== false
+    || control.valuationBasis?.grossNetTaxBasis !== "NOT_DEFINED") return fail("valuation_basis_invalid");
+  if (!Array.isArray(control.scopeKeyControl?.requiredKeys)
+    || !control.scopeKeyControl.requiredKeys.length
+    || new Set(control.scopeKeyControl.requiredKeys).size !== control.scopeKeyControl.requiredKeys.length
+    || control.scopeKeyControl.requiredKeys.some((key) => !String(key || "").trim())
+    || control.scopeKeyControl.allKeysMustReconcileBeforeUse !== true
+    || control.scopeKeyControl.missingKeyIsZero !== false) return fail("scope_key_control_invalid");
+  if (!scenario
+    || scenario.status !== "NOT_DEFINED"
+    || !Array.isArray(scenario.scenarioProbabilities)
+    || scenario.scenarioProbabilities.length !== 0
+    || scenario.probabilitiesMustSumToOne !== true
+    || !Number.isFinite(scenario.sumTolerance)
+    || scenario.sumTolerance <= 0
+    || scenario.probabilitySum !== null
+    || scenario.probabilityWeightedValueEUR !== null
+    || scenario.sumToOneQaStatus !== "NOT_COMPUTED") return fail("scenario_control_invalid");
+  if (!collateral
+    || collateral.status !== "NOT_COMPUTED"
+    || collateral.valueEUR !== null
+    || collateral.probabilityWeightedValueEUR !== null
+    || collateral.simpleValueTimesHaircutPermitted !== false
+    || collateral.lenderHaircutsApplyOnlyHere !== true
+    || !collateral.requiredInputs
+    || Object.values(collateral.requiredInputs).some((value) => value !== null)) return fail("collateral_recovery_invalid");
+  if (!presentValue
+    || presentValue.status !== "NOT_DEFINED"
+    || presentValue.cashFlowBasis !== "PROBABILITY_WEIGHTED_DATED_CASH_FLOWS"
+    || presentValue.discountRateExcludesSeparatelyModelledRisks !== true
+    || presentValue.eachRiskMappedExactlyOnce !== true
+    || presentValue.separateTimeDiscountFactorPermitted !== false
+    || presentValue.probabilityWeightedValueEUR !== null) return fail("present_value_control_invalid");
+  if (!allocation
+    || allocation.rightsAndTerm !== "BOOLEAN_COUNTRY_RIGHT_AND_TIME_MASKS"
+    || allocation.productSales !== "MEASURED_SKU_SALES_ALLOCATION"
+    || allocation.claimState !== "COUNSEL_REVIEWED_CLAIM_STATE"
+    || allocation.economicAdjustment !== "ONE_DISTINCT_APPORTIONMENT_OR_PROBABILITY_PER_RISK"
+    || allocation.overlappingHaircutsPermitted !== false) return fail("allocation_control_invalid");
+  if (!independentReview
+    || independentReview.role !== "POST_COMPUTATION_RELEASE_AND_ASSURANCE_GATE"
+    || independentReview.usedAsComputationInput !== false
+    || independentReview.status !== "NOT_STARTED") return fail("independent_review_invalid");
+  const dependencyOutputs = Array.isArray(dependency?.outputs) ? dependency.outputs : [];
+  const dependencyOutputIds = dependencyOutputs.map((item) => item?.outputId);
+  const knownGateIds = new Set(gateIds);
+  if (!dependency
+    || dependency.globalCircularBlock !== false
+    || dependency.gateDependenciesAreOutputSpecific !== true
+    || dependency.sourceDependenciesAreOutputSpecific !== true
+    || dependencyOutputs.length !== outputs.length
+    || new Set(dependencyOutputIds).size !== outputs.length
+    || dependencyOutputs.some((item) => (
+      !knownOutputIds.has(item?.outputId)
+      || !Array.isArray(item.requiredGateIds)
+      || !item.requiredGateIds.length
+      || item.requiredGateIds.some((gateId) => !knownGateIds.has(gateId))
+    ))) return fail("dependency_control_invalid");
+  if (!marketRole
+    || marketRole.role !== "INPUT_ONLY"
+    || marketRole.maySetCoveredSales !== false
+    || marketRole.maySetPotentiallyInfringingSales !== false
+    || marketRole.maySetRoyaltyOrDamages !== false
+    || marketRole.maySetLicensingCashFlow !== false
+    || marketRole.maySetPatentValue !== false) return fail("market_role_invalid");
+  if (!donor
+    || donor.accepted !== 0
+    || donor.required !== 3
+    || donor.status !== "OPEN"
+    || !String(donor.roleEn || "").includes("not the final valuation objective")
+    || !String(donor.roleFi || "").includes("ei arvonmäärityksen lopputavoite")) return fail("donor_snapshot_invalid");
+  if (!germany
+    || germany.role !== "CALIBRATION_AND_TECHNICAL_LEVERAGE_ONLY"
+    || germany.mayEstablishGlobalCoverage !== false
+    || germany.mayEstablishGlobalInfringement !== false
+    || germany.mayEstablishGlobalDamages !== false
+    || germany.maySetPatentValue !== false
+    || !String(germany.statementEn || "").includes("adjudicated")
+    || !String(germany.statementEn || "").includes("current counsel")
+    || String(germany.statementEn || "").includes("materially comparable")) return fail("germany_boundary_invalid");
+  if (!guardrails
+    || guardrails.noDoubleCounting !== true
+    || guardrails.outputsAreNonAdditive !== true
+    || guardrails.scopeKeysMustReconcile !== true
+    || guardrails.overlappingHaircutsPermitted !== false
+    || guardrails.missingIsZero !== false
+    || guardrails.marketEqualsPatentValue !== false
+    || guardrails.ultimateScalarPermitted !== false
+    || guardrails.independentReviewIsComputationInput !== false
+    || guardrails.lenderHaircutsOutsideCollateralCasePermitted !== false
+    || guardrails.licensedVendorValuesIncluded !== false
+    || guardrails.independentResearchNotPixanPosition !== true) return fail("guardrails_invalid");
+
+  return { valid: true, reason: "verified_control", control, steps, gates, outputs, routes };
+}
+
+function renderPatentValuationSummary(patent = state.patentData) {
+  const root = byId("patent-valuation-summary");
+  const title = byId("patent-valuation-summary-title");
+  const status = byId("patent-valuation-summary-status");
+  const boundary = byId("patent-valuation-summary-boundary");
+  const formula = byId("patent-valuation-summary-formula");
+  const gatesHost = byId("patent-valuation-summary-gates");
+  if (!root || !title || !status || !boundary || !formula || !gatesHost) return;
+
+  const assessment = assessPatentValuationControl(patent);
+  formula.replaceChildren();
+  gatesHost.replaceChildren();
+  if (!assessment.valid) {
+    root.dataset.valuationState = "data_missing";
+    status.dataset.state = "missing";
+    status.textContent = "DATA_MISSING";
+    title.textContent = l("Patentin arvonmäärityskontrolli ei ole saatavilla", "Patent-valuation control unavailable");
+    boundary.textContent = l(
+      "Lähdekontrolli puuttuu tai ei läpäissyt fail-closed-tarkistusta. Arvoa, välivaiheita tai avoimien porttien määrää ei päätellä.",
+      "The source control is missing or failed its fail-closed check. No value, intermediate step or gate count is inferred."
+    );
+    formula.append(node("p", "patent-valuation-empty", l("Kaavaketju: DATA_MISSING", "Formula bridge: DATA_MISSING")));
+    gatesHost.append(node("p", "patent-valuation-empty", l("Pakolliset portit: DATA_MISSING", "Mandatory gates: DATA_MISSING")));
+    return;
+  }
+
+  const { control, steps, gates, outputs, routes } = assessment;
+  const openGateCount = gates.filter((gate) => gate.status === "OPEN").length;
+  root.dataset.valuationState = "not_computed";
+  status.dataset.state = "hold";
+  status.textContent = control.status;
+  title.textContent = patentText(control, "purpose");
+  boundary.textContent = `${l("Riippumaton tutkimus; ei Pixanin virallinen kanta.", "Independent research; not Pixan's official position.")} ${patentText(control, "ultimateScalarRole")} ${patentText(control.marketEvidenceRole, "statement")} ${patentText(control.scopeKeyControl, "statement")} ${patentText(control.guardrails, "statement")} ${patentText(control.germanyRole, "statement")}`;
+
+  for (const step of steps) {
+    const item = node("article", "patent-valuation-step patent-valuation-step-compact");
+    item.append(
+      node("span", "patent-valuation-sequence", String(step.sequence).padStart(2, "0")),
+      node("strong", "", patentText(step, "title")),
+      node("small", "", l("EUR-arvo: null", "EUR value: null"))
+    );
+    formula.append(item);
+  }
+  const routeSection = node("section", "patent-valuation-branch-section");
+  routeSection.append(node("h4", "", l("Erilliset kassavirtareitit", "Separate cash-flow routes")));
+  const routeGrid = node("div", "patent-valuation-branch-grid");
+  for (const route of routes) {
+    const routeCard = node("article", "patent-valuation-branch");
+    routeCard.append(
+      node("strong", "", patentText(route, "title")),
+      node("span", "patent-valuation-state", route.status),
+      node("small", "", `${l("Tulokset", "Outputs")}: ${route.usedInOutputs.join(" · ")} · EUR null`)
+    );
+    routeGrid.append(routeCard);
+  }
+  routeSection.append(routeGrid);
+  formula.append(routeSection);
+
+  for (const gate of gates) {
+    const item = node("article", "patent-valuation-gate patent-valuation-gate-compact");
+    item.append(
+      node("span", "patent-valuation-state patent-valuation-state-open", gate.status),
+      node("strong", "", patentText(gate, "title")),
+      node("small", "", patentText(gate, "evidenceNeeded"))
+    );
+    gatesHost.append(item);
+  }
+  const outputSection = node("section", "patent-valuation-output-section");
+  outputSection.append(node("h4", "", l(
+    `${outputs.length} erillistä, keskenään ei-summattavaa tulostapausta`,
+    `${outputs.length} separate, non-additive output cases`
+  )));
+  const outputGrid = node("div", "patent-valuation-output-grid");
+  for (const output of outputs) {
+    const outputCard = node("article", "patent-valuation-output");
+    outputCard.append(
+      node("span", "patent-valuation-state", output.status),
+      node("strong", "", patentText(output, "title")),
+      node("small", "", l("EUR-arvo ja vaihteluväli: null", "EUR value and range: null"))
+    );
+    outputGrid.append(outputCard);
+  }
+  outputSection.append(outputGrid);
+  gatesHost.append(outputSection);
+  const controlGrid = node("section", "patent-valuation-special-controls");
+  const scenarioCard = node("article", "patent-valuation-special-control");
+  scenarioCard.append(
+    node("span", "patent-valuation-state", control.scenarioControl.sumToOneQaStatus),
+    node("strong", "", l("Skenaario- ja todennäköisyys-QA", "Scenario and probability QA")),
+    node("p", "", patentText(control.scenarioControl, "statement"))
+  );
+  const collateralCard = node("article", "patent-valuation-special-control");
+  collateralCard.append(
+    node("span", "patent-valuation-state", control.collateralRecoveryCase.status),
+    node("strong", "", l("Vakuuden realisaatio · ei yleistä leikkuria", "Collateral recovery · no generic haircut")),
+    node("p", "", patentText(control.collateralRecoveryCase, "statement"))
+  );
+  controlGrid.append(scenarioCard, collateralCard);
+  gatesHost.append(controlGrid);
+  const donor = node("aside", "patent-valuation-donor");
+  donor.append(
+    node("strong", "", `${l("Portit", "Gates")} ${openGateCount}/${gates.length} OPEN · ${l("donor-valmius", "donor readiness")} ${control.donorGateSnapshot.accepted}/${control.donorGateSnapshot.required}`),
+    node("p", "", patentText(control.donorGateSnapshot, "role"))
+  );
+  gatesHost.append(donor);
+}
+
 function normalizePatentSearch(value) {
   return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
@@ -2772,6 +3067,7 @@ function renderPatentFallback() {
 
 function renderLegal() {
   const data = state.patentData;
+  renderPatentValuationSummary(data);
   if (!data) {
     renderPatentFallback();
     return;

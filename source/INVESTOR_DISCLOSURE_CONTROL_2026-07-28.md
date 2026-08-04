@@ -1,7 +1,7 @@
 # Investor / buyer disclosure control
 # Sijoittaja- ja ostajatiedonantokontrolli
 
-**As of / Tilanne:** 2026-08-02
+**As of / Tilanne:** 2026-08-03
 **State / Tila:** `fail_closed`
 **Machine-readable source / Koneluettava lähde:** `source/investor-disclosure-control.json`
 **Public data copy / Julkinen datakopio:** `site/data/investor-disclosure-control.json`
@@ -29,6 +29,21 @@ recommendation or lending recommendation.
 Julkaistu evidenssikeskus on riippumatonta tutkimusta. Se ei ole Pixan Oy:n
 virallinen kanta eikä tilintarkastus, arvonmääritys, oikeudellinen lausunto,
 sijoitussuositus tai lainasuositus.
+
+The current analytical purpose is to **estimate defensible, premise-specific
+patent-value ranges**, not to relabel market size as patent value. The public
+control is fail-closed: every formula-stage EUR value and all seven separately
+stated output cases remain `null/NOT_COMPUTED` and may not be added together.
+The legacy `ultimatePatentValueEUR` field remains only as a null sentinel and
+is never a target or model output.
+
+Nykyinen analyyttinen tarkoitus on **arvioida puolustettavissa olevia,
+perustekohtaisia patenttiarvon vaihteluvälejä**, ei nimetä markkinan kokoa
+patentin arvoksi. Julkinen kontrolli toimii fail-closed-periaatteella: jokainen
+kaavan EUR-vaihe ja kaikki seitsemän erikseen esitettävää tulostapausta pysyvät
+`null/NOT_COMPUTED`-tilassa eikä niitä saa laskea yhteen. Vanha
+`ultimatePatentValueEUR`-kenttä pysyy vain null-varmistuskenttänä eikä ole
+koskaan tavoite tai mallin tulos.
 
 ## Four access tiers / Neljä pääsytasoa
 
@@ -68,27 +83,84 @@ nykyiset julkaistut faktat ovat julkisen tiedonannon vähimmäistaso:
    investment recommendation or lending recommendation.
    Paketti ei ole tilintarkastus, yritys- tai vakuusarvon määritys,
    oikeudellinen lausunto, sijoitussuositus tai lainasuositus.
-3. As of 2026-08-02, the donor gate is **0/3** and the global vaping retail
+3. As of 2026-08-03, the donor gate is **0/3** and the global vaping retail
    value is **`null/not_computed`**.
-   Tilanteessa 2.8.2026 donor-portti on **0/3** ja maailman
+   Tilanteessa 3.8.2026 donor-portti on **0/3** ja maailman
    sähkötupakkavähittäisarvo on **`null/not_computed`**.
-4. Tax, customs, shipment, registration, structural, modelled and proxy
+4. The valuation purpose is to estimate defensible, premise-specific patent-
+   value ranges. Seven separate, non-additive outputs remain
+   `null/NOT_COMPUTED`: market-participant patent/family value; owner-specific
+   strategic/investment value; RFR/direct-use value; third-party licensing
+   value; past enforcement-claim NPV; exit/transaction indication; and
+   collateral-recovery value. The legacy `ultimatePatentValueEUR` field is a
+   null sentinel only, never a target or model output. All seven output-specific
+   valuation gates are open. `BASIS-AND-SUBJECT` must first lock the
+   exact rights, operative claims, territories, separately evidenced know-how,
+   measurement date, premise, intended use, market-participant versus
+   owner-specific basis and gross/net/tax treatment. The branch-safe method is
+   market evidence → scope-key reconciliation → potentially covered sales →
+   route-specific economic benefit → probability-weighted dated cash flows →
+   non-overlapping risk/cost/tax and present value → separate non-additive
+   output. RFR/direct use, third-party licensing, past enforcement/damages and
+   strategic option/barrier value stay distinct. Potentially infringing sales
+   are used only in the past-enforcement branch. Market evidence is an input
+   only. Germany is only possible
+   case-specific evidence for the adjudicated product and claim; any transfer
+   requires current counsel mapping and procedural-status review and does not
+   establish worldwide coverage, infringement, damages or patent value.
+   [IFRS 13](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/)
+   is cited solely for the market-participant, measurement-date exit-price
+   basis. Owner-specific, licensing, enforcement, transaction and collateral
+   premises are not classified as IFRS fair value. No licensed vendor values
+   are included.
+   Arvonmäärityksen tarkoitus on arvioida puolustettavissa olevia,
+   perustekohtaisia patenttiarvon vaihteluvälejä. Seitsemän erillistä,
+   ei-yhteenlaskettavaa tulosta pysyvät `null/NOT_COMPUTED`-tilassa:
+   markkinaosapuolen patentti-/patenttiperhearvo; omistajakohtainen
+   strateginen/investointiarvo; RFR- tai oman käytön arvo; kolmannen osapuolen
+   lisensointiarvo; aiemman täytäntöönpanovaatimuksen nykyarvo;
+   exit-/transaktioindikaatio; ja vakuuden realisaatioarvo. Vanha
+   `ultimatePatentValueEUR`-kenttä on vain null-varmistuskenttä eikä tavoite tai
+   mallin tulos. Kaikki seitsemän tuloskohtaista arvonmääritysporttia ovat
+   avoinna. `BASIS-AND-SUBJECT`-portin on
+   ensin lukittava täsmälliset oikeudet, sovellettavat vaatimukset, alueet,
+   erikseen todennettu know-how, mittauspäivä, lähtökohta, käyttötarkoitus,
+   markkinaosapuoli- tai omistajakohtainen perusta sekä
+   brutto-/netto-/verokäsittely. Haarautuva menetelmä on markkinaevidenssi →
+   scope key -täsmäytys → suojan piiriin mahdollisesti kuuluva myynti →
+   reittikohtainen taloudellinen hyöty → todennäköisyyspainotetut päivätyt
+   kassavirrat → päällekkäisyydettömät riski-/kulu-/vero- ja
+   nykyarvo-oikaisut → erillinen ei-yhteenlaskettava tulos. RFR/oma käyttö,
+   kolmannen osapuolen lisensointi, mennyt täytäntöönpano/vahingonkorvaus ja
+   strateginen optio-/estearvo pysyvät erillään. Mahdollisesti loukkaavaa
+   myyntiä käytetään vain menneen täytäntöönpanon haarassa. Markkinaevidenssi
+   on vain syöte.
+   Saksa on vain mahdollista tapauskohtaista evidenssiä ratkaistusta tuotteesta
+   ja vaatimuksesta; siirto edellyttää ajantasaista asiantuntijan
+   vaatimusvertailua ja prosessitilan tarkastusta eikä osoita maailmanlaajuista
+   suojaa, loukkausta, vahingonkorvausta tai patentin arvoa.
+   [IFRS 13:een](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/)
+   viitataan vain markkinaosapuolen mittauspäivän exit price -perusteen
+   määrittelyssä. Omistajakohtaista, lisensointi-, täytäntöönpano-, transaktio-
+   tai vakuuslähtökohtaa ei luokitella IFRS-käyväksi arvoksi.
+   Lisensoituja toimittaja-arvoja ei sisällytetä.
+5. Tax, customs, shipment, registration, structural, modelled and proxy
    observations are not observed consumer-retail sales. Missing evidence is not
    zero.
    Vero-, tulli-, toimitus-, rekisteri-, rakenne-, mallinnettu ja proxy-evidenssi
    ei ole havaittua kuluttajavähittäismyyntiä. Puuttuva evidenssi ei ole nolla.
-5. The EPO central record says the patent was maintained as amended, while
+6. The EPO central record says the patent was maintained as amended, while
    national validation, renewal, operative claims, title and enforceability are
    country-specific. A family-record count is not a current-country count.
    EPO:n keskitetyn rekisterin mukaan patentti pysytettiin muutettuna, mutta
    kansallinen validointi, vuosimaksut, sovellettavat vaatimukset, omistus ja
    täytäntöönpanokelpoisuus ovat maakohtaisia. Patenttiperheen tietuemäärä ei ole
    nykyisten patenttimaiden määrä.
-6. A decision or technical finding in one country does not itself establish
+7. A decision or technical finding in one country does not itself establish
    validity, infringement, damages or enforceability elsewhere.
    Yhden maan ratkaisu tai tekninen havainto ei yksin osoita pätevyyttä,
    loukkausta, vahingonkorvausta tai täytäntöönpanokelpoisuutta muualla.
-7. As of 2026-08-03, no tracked vendor is scored. Euromonitor's one-country
+8. As of 2026-08-03, no tracked vendor is scored. Euromonitor's one-country
    Germany extract was accepted, delivered and audited privately; G1 passes,
    the vendor remains NOT SCORED at 1/6 and no wider 25/50/78-country purchase
    is authorised. Receipt and numerical proximity do not prove complete scope,
@@ -99,13 +171,14 @@ nykyiset julkaistut faktat ovat julkisen tiedonannon vähimmäistaso:
    1/6 eikä laajempaa 25/50/78 maan ostoa ole valtuutettu. Vastaanotto ja
    numeerinen läheisyys eivät osoita täydellistä rajausta, menetelmän laatua tai
    luovutusoikeuksia.
-8. The dashboard and six downloadable files are release **2026.08.03-43**. The downloadable
-   package is generated at most once per Asia/Nicosia calendar day, and each
-   surface retains its own visible version.
-   Dashboard ja kuusi ladattavaa tiedostoa ovat julkaisua **2026.08.03-43**. Ladattava paketti
-   muodostetaan enintään kerran Asia/Nicosia-kalenteripäivässä, ja kumpikin
-   pinta säilyttää oman näkyvän versionsa.
-9. Failed gates, lapses, challenges, unresolved proceedings, conflicts and later
+9. The dashboard and six downloadable files are release **2026.08.03-44**.
+   V44 is an exceptional same-day alignment replacement of v43; normal
+   once-daily Asia/Nicosia package cadence resumes thereafter.
+   Dashboard ja kuusi ladattavaa tiedostoa ovat julkaisua
+   **2026.08.03-44**. V44 on poikkeuksellinen saman päivän
+   yhdenmukaistusjulkaisu, joka korvaa v43:n; normaali kerran päivässä
+   Asia/Nicosia-pakettirytmi jatkuu sen jälkeen.
+10. Failed gates, lapses, challenges, unresolved proceedings, conflicts and later
    corrections travel with favourable evidence.
    Hylätyt portit, raukeamiset, riitautukset, ratkaisemattomat menettelyt,
    ristiriidat ja myöhemmät korjaukset esitetään myönteisen evidenssin rinnalla.
@@ -123,13 +196,13 @@ tai rajaa päätöspaketti.
 
 | Asset group / Aineistoryhmä | Public paths / Julkiset polut | Version or boundary / Versio tai raja |
 | --- | --- | --- |
-| Dashboard / Dashboard | `site/index.html` | `2026.08.03-43` |
-| Change log / Muutosloki | `site/data/changelog.json` | `2026.08.03-43` |
-| Daily manifest / Päivämanifesti | `site/data/bank-package-manifest.json` | `2026.08.03-43` |
-| Concise and extended decks / Suppeat ja laajat dekit | `site/downloads/pixan-bank-deck-short-en.pptx`, `...-fi.pptx`, `site/downloads/pixan-bank-deck-large-en.pptx`, `...-fi.pptx` | `2026.08.03-43` |
-| Evidence Registers / Evidence Registerit | `site/downloads/pixan-bank-evidence-register-en.xlsx`, `...-fi.xlsx` | `2026.08.03-43` |
+| Dashboard / Dashboard | `site/index.html` | `2026.08.03-44` |
+| Change log / Muutosloki | `site/data/changelog.json` | `2026.08.03-44` |
+| Daily manifest / Päivämanifesti | `site/data/bank-package-manifest.json` | `2026.08.03-44` |
+| Concise and extended decks / Suppeat ja laajat dekit | `site/downloads/pixan-bank-deck-short-en.pptx`, `...-fi.pptx`, `site/downloads/pixan-bank-deck-large-en.pptx`, `...-fi.pptx` | `2026.08.03-44` |
+| Evidence Registers / Evidence Registerit | `site/downloads/pixan-bank-evidence-register-en.xlsx`, `...-fi.xlsx` | `2026.08.03-44` |
 | Structured market controls / Rakenteiset markkinakontrollit | `site/data/atlas.json`, `countries.csv`, `evidence.csv`, `market-values.*`, `evidence-lanes.json`, `donor-cockpit.json`, `country-scenarios.json`, `global-base-layer.*`, `fx-rates.json`, `third-donor-screen.json` | Each asset's own `asOf` / Kunkin aineiston oma `asOf` |
-| Patent record / Patenttitietue | `site/data/patent-history.json`, `site/data/patent-family.csv` | Embedded review dates / Sisäiset tarkistuspäivät |
+| Patent record and valuation control / Patenttitietue ja arvonmäärityskontrolli | `site/data/patent-history.json`, `site/data/patent-family.csv` | Formula stages and seven non-additive outputs are `null/NOT_COMPUTED`; seven output-specific gates open / Kaavan vaiheet ja seitsemän ei-yhteenlaskettavaa tulosta ovat `null/NOT_COMPUTED`; seitsemän tuloskohtaista porttia avoinna |
 | Vendor control / Toimittajakontrolli | `site/data/vendor-response-control.json`, `.csv` | `2026-08-03` |
 | Request routes and templates / Pyyntöreitit ja -mallit | `site/data/top20-data-request-routes.*`, `site/downloads/data-request-template-en.txt`, `...-fi.txt` | Embedded status dates / Sisäiset tilapäivät |
 | Paid-data procurement guide / Maksullisen datan hankintaopas | `site/downloads/pixan-paid-data-procurement-fi-en.xlsx` | Current published workbook / Nykyinen julkaistu työkirja |

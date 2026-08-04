@@ -265,15 +265,15 @@
       "Not complete national consumer-retail value or an accepted donor; an open POS or consumer-sales series and tax basis are required."
     ],
     [
-      "Germany's private DE-BLIND-1.0.0 audit passed the 2023 and 2024 annual caps and the combined cap; vendor values and exact deviations remain withheld.",
-      "Market size / Germany",
-      "The final official anchors and preregistered annual and combined numerical caps were publicly locked before the licensed extract was reviewed privately. All three numerical tests passed.",
-      "https://genesis.destatis.de/datenbank/online/statistic/73411/table/73411-0003/ ; source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md ; source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
+      "The published German judgment is possible case-specific evidence for the adjudicated product and claim only; it does not establish worldwide coverage, infringement or patent value.",
+      "Patent valuation / Germany",
+      "Transfer to another product, counterparty, period or country requires current patent-counsel-reviewed claim mapping and procedural-status verification.",
+      "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-14206 ; site/data/patent-history.json (monetisation.valuationControl.germanyRole)",
       "2026-08-03",
-      "Annual deviation = |vendor litres / official litres − 1|; combined deviation = |vendor two-year sum / 2,525,000 − 1|.",
-      "A numeric match alone does not establish matching product, tax basis, channel, event stage or source lineage. Thresholds were not tuned to private values.",
-      "Supported",
-      "A public reader cannot reproduce the licensed-vendor comparison. Germany is not a donor, Euromonitor is 1/6 and NOT SCORED, the wider package is HOLD and Germany's retail value remains not_computed."
+      "No numerical extrapolation. The judgment is used only as source-linked case-specific evidence and every transfer is treated as a new output-specific dependency.",
+      "Publication alone does not confirm finality, current procedural status, another product's claim mapping, sales, royalty, damages or value.",
+      "Confirmed",
+      "Current procedural-status review, national-right evidence, preserved product evidence and counsel claim mapping are required before use in another case."
     ],
     [
       "The public site separates three evidence lanes and blocks a global total while the accepted-donor gate is 0/3.",
@@ -659,6 +659,28 @@
       "Official lower bounds and external benchmarks remain useful cross-checks but are not counted as accepted donors.",
       "Confirmed",
       "Do not publish a single global value before the methodology gates are met."
+    ],
+    [
+      "Seven premise-specific patent-value outputs are separate, non-additive and null/NOT_COMPUTED; all seven output-specific gates are open.",
+      "Patent valuation",
+      "Market-participant patent/family value, owner-specific strategic value, RFR/direct-use value, third-party licensing value, past-enforcement NPV, transaction indication and collateral recovery remain separate. BASIS-AND-SUBJECT fixes subject, intended use and premise before the other gates.",
+      "site/data/patent-history.json (monetisation.valuationControl) ; site/schemas/patent-valuation-control.schema.json ; https://www.wipo.int/en/web/ip-financing ; https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/",
+      "2026-08-03",
+      "Each output may be computed only after its own source and gate dependencies close. Current state: 7/7 OPEN; all seven outputCases values and their probability-weighted values are null.",
+      "IFRS 13 is used only to define the market-participant measurement-date exit-price premise; no other output is labelled IFRS fair value. Missing is not zero and outputs are never added.",
+      "Confirmed",
+      "A signed basis/subject schedule, national-rights matrix, covered-use/claim mapping, allocated SKU sales, route-specific economic model, probability-sum QA and a separate collateral recovery case are required."
+    ],
+    [
+      "The seven-step method branches after covered sales into RFR/direct use, third-party licensing, past enforcement or strategic option value; only enforcement requires potentially infringing sales.",
+      "Patent valuation / method",
+      "Each route produces probability-weighted dated cash flows; the discount rate excludes separately modelled risks and each risk maps once. Donor 0/3 is only a market-model evidence-readiness input.",
+      "site/data/patent-history.json (monetisation.valuationControl) ; https://www.wipo.int/en/web/ip-financing",
+      "2026-08-03",
+      "Reconcile product, country, counterparty, period and economic benefit; use Boolean/time masks, measured SKU allocation and counsel claim state without overlapping haircuts.",
+      "The German judgment is possible case-specific evidence for the adjudicated product and claim only; transfer requires current counsel mapping and procedural-status review. Collateral value is not value multiplied by a generic haircut.",
+      "Confirmed",
+      "All intermediate steps, seven outputs and probabilityWeightedValueEUR remain null/NOT_COMPUTED until output-specific dependencies close with source-linked evidence."
     ],
     [
       "A high-confidence financing package requires a closed data room alongside the public package.",

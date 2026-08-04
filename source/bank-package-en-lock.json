@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
   "release": {
-    "id": "2026-08-03-germany-vendor-audit-v43",
-    "version": "2026.08.03-43",
-    "publishedAt": "2026-08-03T17:50:00+03:00"
+    "id": "2026-08-03-patent-valuation-pivot-v44",
+    "version": "2026.08.03-44",
+    "publishedAt": "2026-08-03T23:35:00+03:00"
   },
   "asOf": "2026-08-03",
   "reviewedInputs": [
     {
       "path": "scripts/artifact-build/build_bank_package_artifacts.mjs",
-      "sha256": "a4f6a9c0b950e17cc4fa40573a39120c654443d25d708bd46f44b58721154ebb"
+      "sha256": "23e9f619b5ab54be5b36eb68adf354e166edca2b9db0a77bcf6aa7d1042eabfa"
     },
     {
       "path": "scripts/build_global_base.py",
@@ -49,11 +49,11 @@
     },
     {
       "path": "site/data/atlas.json",
-      "sha256": "5d67b627963e4edf5a00ef44cb228aa97376f84f50216d4533b7046632d4547a"
+      "sha256": "ebbe0dda2bc7861a9b006351996e088256ce438dc24564678436487eb94c7afb"
     },
     {
       "path": "site/data/changelog.json",
-      "sha256": "600c0ae860cc391b15e4055a6f4344e6152d4c6248d42cdc917979cd3402894c"
+      "sha256": "d302b79b6713f25820f7b2f03c63d1e7742383f66fdf78c478b4cb64de77adc1"
     },
     {
       "path": "site/data/global-base-layer.json",
@@ -69,7 +69,11 @@
     },
     {
       "path": "site/data/patent-history.json",
-      "sha256": "7e806582a7c7b6a295dcca0f1e2c11d4dee5be41ad80fb3bbcbd5738de2be927"
+      "sha256": "dbbbfd893fe265432d5b4543f360e2fd7dabf1c234d9b37225ff9ad0d6f26a79"
+    },
+    {
+      "path": "site/schemas/patent-valuation-control.schema.json",
+      "sha256": "735c64ab37e94f58abf069f19626ac70297c8280c451363ac7ab23a60b2337a2"
     },
     {
       "path": "site/data/donor-cockpit.json",
@@ -113,7 +117,7 @@
     },
     {
       "path": "source/bank-evidence-register-en.json",
-      "sha256": "4fc23d0008bf7953783470065aca27014344307ba3871a8fd8f967e7b7e28d82"
+      "sha256": "6660fcf2284f2d57eccc54e058aff0c1fbdce6ff451dc8b0c61240e073234bba"
     },
     {
       "path": "source/fx-rates.json",
@@ -126,6 +130,14 @@
     {
       "path": "source/global-base-observations.json",
       "sha256": "89a6727050bfb727912652778bb7eb8ae0507951a1443d050af5593821d04ae2"
+    },
+    {
+      "path": "source/patent-history.json",
+      "sha256": "9243f0f723fb192ad9e575183638bff12750dcf30d41ba86e703dbbb2fc2a2a5"
+    },
+    {
+      "path": "source/schemas/patent-valuation-control.schema.json",
+      "sha256": "735c64ab37e94f58abf069f19626ac70297c8280c451363ac7ab23a60b2337a2"
     },
     {
       "path": "source/country-method-route-config.json",
@@ -240,10 +252,6 @@
       "sha256": "090f79ecc65a95560e1e7340debf4fd9bb23149fb07eabb629bf03c0aef3e4a0"
     },
     {
-      "path": "source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
-      "sha256": "9753e0023e22904d50b32732b2ead45eb68640f5b1b90ee3663a3bf4f323e018"
-    },
-    {
       "path": "source/THIRD_DONOR_SCREEN_2026-07-27.md",
       "sha256": "2e74e3b290318ea8a394276fafdd035da3de8eeb48ad1318c8e810cd265d0622"
     },
@@ -274,8 +282,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-short-en.pptx",
-      "sha256": "16c32b59d38b87e8e3fc5dcdcfb718cf558eb21e237f7f9f0061a9d4c2cbbaf8",
-      "bytes": 61837,
+      "sha256": "fc86e96fab0506dea8312abc1fb2cc9bc9a8c563f0d8846eacf209d55b627855",
+      "bytes": 61797,
       "slideCount": 6
     },
     {
@@ -283,8 +291,8 @@
       "kind": "pptx",
       "language": "en",
       "path": "site/downloads/pixan-bank-deck-large-en.pptx",
-      "sha256": "781c060f4b97c3187f037a49925a9c178fe9e1d4a1c651d8de08d73999d7fd90",
-      "bytes": 197440,
+      "sha256": "89548ba2530738517e399dc06f2d00d98d6251b8de865464b065c3bb2345a78b",
+      "bytes": 197396,
       "slideCount": 30
     },
     {
@@ -292,17 +300,17 @@
       "kind": "xlsx",
       "language": "en",
       "path": "site/downloads/pixan-bank-evidence-register-en.xlsx",
-      "sha256": "a113f5770b2e0be7e26ed0c78e4b84875d129a47d5922651db16cba0883026b0",
-      "bytes": 46320,
-      "rowCount": 60
+      "sha256": "9d62d88aaebcab3b2e46631d4b0fdb1b3522a7e54934d86d0006ead4d6258ea3",
+      "bytes": 47165,
+      "rowCount": 62
     },
     {
       "id": "short-deck-fi",
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-short-fi.pptx",
-      "sha256": "b33c546fbf0943c645753d80cff4d1540d82191426f7845ce6a2d96448dfcee2",
-      "bytes": 62181,
+      "sha256": "ad77ec488dc8882482a05391e56e9990d7b22190db7f41e1e3cf7edeb26e1b4d",
+      "bytes": 62156,
       "slideCount": 6
     },
     {
@@ -310,8 +318,8 @@
       "kind": "pptx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-deck-large-fi.pptx",
-      "sha256": "5bde41f6128cb4e284f70962b0a4124fb9f79de1f6b58720698982ca74ba85b4",
-      "bytes": 199209,
+      "sha256": "f02fb12067c74c0d5c732ecb5e951a77e6287ae4f1ac0c02edcc707a2a0adfcc",
+      "bytes": 199237,
       "slideCount": 30
     },
     {
@@ -319,9 +327,9 @@
       "kind": "xlsx",
       "language": "fi",
       "path": "site/downloads/pixan-bank-evidence-register-fi.xlsx",
-      "sha256": "14adfcf652932391d60e7047f01f0dcee16df346889d3650427ad1b920f5909f",
-      "bytes": 47787,
-      "rowCount": 60
+      "sha256": "05f32ad0789d04206a93bc4c3518dd79285b2964c2d703160cba555e61f5a70b",
+      "bytes": 48887,
+      "rowCount": 62
     }
   ],
   "generatedBy": {
@@ -355,7 +363,7 @@
         "sha256": "ef23c86886f53ca69e151d76a47c5f08b8f5a1a2b2ad90903f437551a2b7de87"
       }
     ],
-    "executionNote": "Both language versions were authored and rendered from reviewed public aggregates. The 60-row bilingual registers and 174-observation, 54-source market dataset share one release boundary. The 152 official observations remain separated into 116 market measures across nine countries and 36 Swedish FHM register-structure counts. The 195-country method control separates 28 reviewed country plans, 0 reviewed source leads, 15 regional EU TPD reporting patterns and 152 country-unscoped proxy routes; all remain ineligible for the global roll-up. Canada remains not accepted at 7/10: the RCS frame ends at NAICS 459993 while official classification examples place vape specialist retail in excluded NAICS 459999, exact NAPCS 5619122 quality metrics are unavailable and the D10 bridge remains open. New Zealand remains not accepted at 7/10: selected 2024 border controls produce NZD 183,370,681 and NZD 197,070,322 net-import proxies, with candidate-to-proxy ratios of 1.495224911 and 1.391282094; these are diagnostic customs-stage controls, not retail values, margins, uplifts or uncertainty ranges. Germany's private DE-BLIND-1.0.0 audit passed the preregistered 2023 and 2024 annual caps and the combined cap; licensed vendor values and exact deviations remain withheld. Numerical proximity does not close the product, tax, channel, transaction-stage, lineage, record-status or data-room-rights bridges. Germany remains not accepted as a donor. Poland's 2025 device-tax bridge remains bounded to a broad statutory group and creates no Poland country-year retail value or donor score. The one-country Germany extract was delivered and audited privately. Euromonitor has one of six mandatory gates passing and remains NOT SCORED; every wider 25/50/78-country package remains on HOLD and is not authorised. The donor gate remains 0/3 and the global estimate remains not_computed.",
+    "executionNote": "Both language versions were authored and rendered from the same reviewed public release boundary. The bilingual registers contain 62 evidence rows. The patent-valuation control contains seven premise-specific, non-additive outputs, seven formula steps and seven output-specific hard gates; all values remain null/NOT_COMPUTED and all gates remain OPEN. Market evidence branches only after potentially covered sales; potentially infringing sales are used only in the past-enforcement branch. The German judgment remains possible case-specific evidence for the adjudicated product and claim, not proof of worldwide rights, infringement, damages or value. The territorial boundary records that ordinary PCT national-phase and EP post-grant validation windows are long past and that 22 publications plus 28 formal country rows do not prove live rights. The accepted-donor gate remains 0/3 and the global market estimate remains not_computed. Licensed or private vendor values, deviations, quotes, commercial terms and file identifiers are excluded from this public package.",
     "qualityAssurance": {
       "exactRegisterRowsAfterReopen": true,
       "summaryFormulasAfterReopen": true,

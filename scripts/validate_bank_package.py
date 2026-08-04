@@ -43,14 +43,15 @@ SOURCE_FX_PATH = ROOT / "source" / "fx-rates.json"
 PUBLIC_FX_SCHEMA_PATH = ROOT / "site" / "schemas" / "fx-rates.schema.json"
 SOURCE_FX_SCHEMA_PATH = ROOT / "source" / "schemas" / "fx-rates.schema.json"
 ARTIFACT_BUILDER_PATH = ROOT / "scripts" / "artifact-build" / "build_bank_package_artifacts.mjs"
-RELEASE_ID = "2026-08-03-germany-vendor-audit-v43"
-RELEASE_VERSION = "2026.08.03-43"
+RELEASE_ID = "2026-08-03-patent-valuation-pivot-v44"
+RELEASE_VERSION = "2026.08.03-44"
 RELEASE_DATE = "2026-08-03"
+COMPONENT_SNAPSHOT_VERSION = "2026.08.03-43"
 LOCK_RELATIVE_PATH = "source/bank-package-en-lock.json"
-# The reviewed v43 lock is written only by the once-daily artifact build. Keep
+# The reviewed v44 lock is written only by the once-daily artifact build. Keep
 # the last reviewed hash here until that build has completed, then replace it
 # with the new lock SHA-256 before the release validator is run.
-EXPECTED_LOCK_SHA256 = "914692c51205e72282b315a5cd69b580292fe22dc31146d6708fd611c5176ffe"
+EXPECTED_LOCK_SHA256 = "02057bbdd7090eaef801026fe32a11440eed7aad381094295d05f962435d6011"
 PACKAGE_TIME_ZONE = "Asia/Nicosia"
 EXPECTED_PACKAGE_CADENCE = {
     "frequency": "once_daily",
@@ -104,16 +105,16 @@ EUR_EQUIVALENT_HEADERS = {
     "fi": [
         "Tietuetyyppi",
         "Tunniste",
-        "Erä / komponentti",
+        "Erätunniste / komponentti",
         "Maa / maantiede",
         "Vuosi",
-        "Periodi",
+        "Jakso",
         "Alkuperäinen määrä",
         "Valuutta",
-        "ECB-kurssi (valuuttayksikköä / EUR)",
+        "EKP-kurssi (valuuttayksikköä / EUR)",
         "EUR-vasta-arvo (täysi tarkkuus)",
-        "Rate ID",
-        "ECB-lähde URL",
+        "Kurssitunniste",
+        "EKP-lähteen URL",
         "Tila",
         "Syy / menetelmä",
     ],
@@ -140,6 +141,90 @@ EXPECTED_LOCKED_EUR_STATUS_COUNTS = {
     "computed": 48,
     "already_eur": 29,
     "not_computed": 7,
+}
+
+FI_EUR_DISPLAY_TO_CANONICAL = {
+    1: {
+        "markkinahavainto": "market_observation",
+        "skenaariokomponentti": "scenario_component",
+        "malli": "model",
+    },
+    3: {
+        "valmistajien ja maahantuojien toimitusarvo": "manufacturer_importer_shipments_value",
+        "Statistics Canadan sähkötupakkavähittäismyynti": "statcan_rcs_vaping_retail_sales",
+        "virallisesti ilmoitettu liikevaihto, sekalaiset toimitusvaiheet": "official_reported_revenue_mixed_supply_stages",
+        "erikoisvähittäiskaupan virallinen myynnin alaraja": "official_specialist_retail_sales_lower_bound",
+        "virallisten työkirjojen johdettu myynnin raakasumma": "derived_official_workbook_sales_raw_sum",
+        "tunnistettujen sähkötupakkatuotteiden johdettu myynnin raakasumma": "derived_identified_vaping_product_sales_raw_sum",
+        "institutionaalinen markkina-arvon vertailuarvo": "institutional_market_value_benchmark",
+        "korvaavien tuotteiden valmisteverotuotto": "substitutes_excise_receipts",
+        "WZ 47.26 -tupakkaerikoiskaupan verollinen liikevaihto": "wz4726_tobacco_specialist_taxable_supplies_and_services_turnover",
+        "nikotiinillisten e-nesteiden valmisteverotuotto": "nicotine_e_liquid_excise_receipts",
+        "e-nesteiden valmisteverotuotto": "e_liquid_excise_receipts",
+        "laajan höyrystyslaiteryhmän valmisteveron määrä": "vaporisation_device_broad_group_excise_amount",
+        "laajan höyrystyslaitteiden osasarjaryhmän valmisteveron määrä": "vaporisation_device_component_sets_broad_group_excise_amount",
+        "kaupallinen markkina-arvio": "commercial_market_estimate",
+        "FTC:n ilmoittama kasetti- ja kertakäyttötuotteiden myynti": "ftc_reported_cartridge_and_disposable_sales",
+        "kotitalouskulutuksen arvio": "household_expenditure_estimate",
+        "institutionaalinen kanava-arvon vertailuarvo": "institutional_channel_value_benchmark",
+        "PRODCOM 20595980: myydyn tuotannon arvo": "prodcom_20595980_sold_production_value",
+        "PRODCOM 20595980: tuonnin arvo": "prodcom_20595980_import_value",
+        "PRODCOM 20595980: viennin arvo": "prodcom_20595980_export_value",
+        "PRODCOM 27901152: myydyn tuotannon arvo": "prodcom_27901152_sold_production_value",
+        "PRODCOM 27901152: tuonnin arvo": "prodcom_27901152_import_value",
+        "PRODCOM 27901152: viennin arvo": "prodcom_27901152_export_value",
+        "PRODCOM 20595980: näennäisen tarjonnan arvo": "prodcom_20595980_apparent_supply_value",
+        "PRODCOM 27901152: näennäisen tarjonnan arvo": "prodcom_27901152_apparent_supply_value",
+        "yhdistetty PRODCOM-näennäisen tarjonnan arvo": "combined_prodcom_apparent_supply_value",
+        "mekaaninen näennäisen tarjonnan valmistevero- ja ALV-silta": "mechanical_apparent_supply_excise_vat_bridge",
+        "kaupallinen kertakäyttöisten sähkötupakoiden vähittäismyyntiarvo": "commercial_disposable_e_cigarette_retail_sales_value",
+        "kertynyt valmisteverovelka": "accrued_excise_liability",
+        "valmisteveron bruttokassakertymä": "gross_excise_cash_receipts",
+        "valmisteveron nettokassakertymä": "net_excise_cash_receipts",
+        "sähkötupakkalaitteiden tullituonnin CIF-arvo": "e_cigarette_device_customs_import_cif_value",
+        "ala: erikoisvähittäiskauppa, NZD": "low.specialistRetailNzd",
+        "ala: yleisvähittäiskaupan RPS-malli, NZD": "low.generalRetailRpsNzd",
+        "ala: yhdistetty, NZD": "low.combinedNzd",
+        "perus: erikoisvähittäiskauppa, NZD": "base.specialistRetailNzd",
+        "perus: yleisvähittäiskaupan RPS-malli, NZD": "base.generalRetailRpsNzd",
+        "perus: yhdistetty, NZD": "base.combinedNzd",
+        "ylä: erikoisvähittäiskauppa, NZD": "high.specialistRetailNzd",
+        "ylä: yleisvähittäiskaupan RPS-malli, NZD": "high.generalRetailRpsNzd",
+        "ylä: yhdistetty, NZD": "high.combinedNzd",
+        "ala": "low",
+        "keskitaso": "central",
+        "ylä": "high",
+    },
+    4: {
+        "Kanada": "Canada",
+        "Uusi-Seelanti": "New Zealand",
+        "Euroopan unioni": "European Union",
+        "Saksa": "Germany",
+        "Suomi": "Finland",
+        "Puola": "Poland",
+        "Ruotsi": "Sweden",
+        "Maailma": "Global",
+        "Yhdysvallat": "United States",
+        "Espanja": "Spain",
+        "Japani": "Japan",
+    },
+    6: {
+        "kalenterivuosi": "calendar_year",
+        "tutkimuksen viitejakso toukokuussa 2015": "study_reference_period_may_2015",
+        "kalenterivuoden arvio": "calendar_year_estimate",
+        "kesäkuussa päättynyt vuosi": "year_ended_june",
+        "vuoden 2026 ensimmäinen puolisko": "2026_h1",
+    },
+    13: {
+        "laskettu": "computed",
+        "valmiiksi euroina": "already_eur",
+        "ei laskettu": "not_computed",
+    },
+    14: {
+        "alkuperäinen määrä jaettuna EKP:n vuotuisella keskikurssilla": "original_amount_divided_by_ecb_annual_average",
+        "alkuperäinen valuutta on jo euro": "original_currency_already_eur",
+        "jakso ei ole yhteensopiva vuotuisen keskikurssin kanssa": "period_not_compatible_with_annual_average",
+    },
 }
 EXPECTED_TEMPLATE_INPUTS = {
     "scripts/artifact-build/seeds/v17/pixan-bank-deck-short-en.pptx",
@@ -171,12 +256,14 @@ EXPECTED_INPUTS = {
     "site/data/vendor-response-control.csv",
     "site/schemas/fx-rates.schema.json",
     "site/schemas/global-base-layer.schema.json",
+    "site/schemas/patent-valuation-control.schema.json",
     "site/schemas/third-donor-screen.schema.json",
     "source/bank-evidence-register-en.json",
     "source/bank-package-en-lock.json",
     "source/fx-rates.json",
     "source/global-base-config.json",
     "source/global-base-observations.json",
+    "source/patent-history.json",
     "source/country-method-route-config.json",
     "source/COUNTRY_METHOD_ROUTE_MAP.md",
     "source/FIVE_COUNTRY_METHOD_SPRINT_2026-07-27.md",
@@ -188,6 +275,7 @@ EXPECTED_INPUTS = {
     "source/vendor-response-control.json",
     "source/schemas/fx-rates.schema.json",
     "source/schemas/global-base-layer.schema.json",
+    "source/schemas/patent-valuation-control.schema.json",
     "source/schemas/third-donor-screen.schema.json",
     "source/NZ_2023_ANNUAL_RETURNS_FAIL_CLOSED.md",
     "source/NZ_2024_ANNUAL_RETURNS_RECONCILIATION.md",
@@ -204,7 +292,6 @@ EXPECTED_INPUTS = {
     "source/CANADA_2024_D5_D7_D10_OFFICIAL_SOURCE_AUDIT.md",
     "source/CANADA_INDEPENDENT_D5_D7_D10_ROUTE_MAP_2026-07-31.md",
     "source/NZ_CA_DE_DONOR_CONTROL_SPRINT_2026-08-02.md",
-    "source/GERMANY_VENDOR_AUDIT_BOUNDARY_2026-08-03.md",
     "source/THIRD_DONOR_SCREEN_2026-07-27.md",
     "source/POLAND_2020_2025_RECONSTRUCTION.md",
     "source/POLAND_D1_D10_PREASSESSMENT_2026-07-31.md",
@@ -730,7 +817,7 @@ def validate_v43_vendor_and_global_boundary(errors: list[str]) -> None:
     if (
         vendor_control.get("schemaVersion") != 3
         or vendor_control.get("asOf") != RELEASE_DATE
-        or vendor_control.get("version") != RELEASE_VERSION
+        or vendor_control.get("version") != COMPONENT_SNAPSHOT_VERSION
         or vendor_control.get("status")
         != "public_status_only_germany_extract_received_wider_package_not_authorised"
         or not isinstance(benchmark, dict)
@@ -773,7 +860,7 @@ def validate_v43_vendor_and_global_boundary(errors: list[str]) -> None:
         or "maailmanarvo not_computed-tilassa" not in public_status_fi
         or "EI PISTEYTETTY" not in public_status_fi
     ):
-        errors.append("v43 Germany extract and 1/6 vendor-gate boundary differs")
+        errors.append("v43 component snapshot Germany extract and 1/6 vendor-gate boundary differs")
 
     germany_candidate = next(
         (
@@ -806,7 +893,7 @@ def validate_v43_vendor_and_global_boundary(errors: list[str]) -> None:
         or method_summary.get("donorAcceptedCount") != 0
     ):
         errors.append(
-            "v43 must keep Germany outside the donor set, donor gate 0/3 and global value not_computed"
+            "v43 component snapshot must keep Germany outside the donor set, donor gate 0/3 and global value not_computed"
         )
 
 
@@ -1397,6 +1484,13 @@ def read_register_csv(
     return data_rows
 
 
+def canonical_eur_display_value(language: str, column: int, value: Any) -> str:
+    text = "" if value is None else str(value)
+    if language != "fi":
+        return text
+    return FI_EUR_DISPLAY_TO_CANONICAL.get(column, {}).get(text, text)
+
+
 def validate_eur_equivalent_sheet(
     workbook: Any,
     language: str,
@@ -1431,14 +1525,17 @@ def validate_eur_equivalent_sheet(
     seen_keys: set[tuple[str, str, str]] = set()
     status_counts: dict[str, int] = {}
     for index, cells in enumerate(actual_rows, start=2):
-        key = tuple(str(cells[column - 1].value or "") for column in (1, 2, 3))
+        key = tuple(
+            canonical_eur_display_value(language, column, cells[column - 1].value)
+            for column in (1, 2, 3)
+        )
         if any(not value for value in key):
             errors.append(f"{label}: {sheet_name} row {index} lacks a complete record key")
         elif key in seen_keys:
             errors.append(f"{label}: {sheet_name} row {index} duplicates record key {key!r}")
         seen_keys.add(key)
 
-        status = str(cells[12].value or "")
+        status = canonical_eur_display_value(language, 13, cells[12].value)
         status_counts[status] = status_counts.get(status, 0) + 1
         original_amount = decimal_value(cells[6].value)
         rate_value = decimal_value(cells[8].value)
@@ -1514,8 +1611,8 @@ def validate_eur_equivalent_sheet(
             14: expected["reason"],
         }
         for column, value in expected_text.items():
-            actual = cells[column - 1].value
-            if ("" if actual is None else str(actual)) != ("" if value is None else str(value)):
+            actual = canonical_eur_display_value(language, column, cells[column - 1].value)
+            if actual != ("" if value is None else str(value)):
                 errors.append(
                     f"{label}: {sheet_name}!{cells[column - 1].coordinate} "
                     "differs from the reviewed FX row"
@@ -1785,8 +1882,8 @@ def validate_manifest(errors: list[str]) -> None:
         "fi": read_register_csv(REGISTER_CSV_PATH, REGISTER_HEADERS, ALLOWED_STATUSES, errors),
         "en": read_register_csv(EN_REGISTER_CSV_PATH, EN_REGISTER_HEADERS, EN_ALLOWED_STATUSES, errors),
     }
-    if any(len(rows) != 60 for rows in csv_rows_by_language.values()):
-        errors.append("both v43 Evidence Registers must contain exactly 60 reviewed rows")
+    if any(len(rows) != 62 for rows in csv_rows_by_language.values()):
+        errors.append("both v44 Evidence Registers must contain exactly 62 reviewed rows")
     register_markers = {
         "fi": (
             "280 684 512,81",
@@ -1840,14 +1937,9 @@ def validate_manifest(errors: list[str]) -> None:
             "eivät ole myyntiä",
             "26 000 litraa",
             "80 000 000 SEK",
-            "DE-BLIND-1.0.0",
-            "Kaikki kolme numeerista testiä läpäistiin",
-            "toimittaja-arvot ja tarkat poikkeamat pidetään salassa",
-            "Saksa ei ole donor",
-            "Euromonitor on 1/6",
-            "EI PISTEYTETTY",
-            "laajempi paketti HOLD",
-            "retail-arvo not_computed",
+            "Seitsemän perustekohtaista patenttiarvon tulosta",
+            "kaikki seitsemän tulostapausarvoa",
+            "vain täytäntöönpanon haara vaatii loukkausmyyntiä",
         ),
         "en": (
             "280,684,512.81",
@@ -1901,21 +1993,16 @@ def validate_manifest(errors: list[str]) -> None:
             "are not sales",
             "26,000 litres",
             "SEK 80,000,000",
-            "DE-BLIND-1.0.0",
-            "All three numerical tests passed",
-            "vendor values and exact deviations remain withheld",
-            "Germany is not a donor",
-            "Euromonitor is 1/6",
-            "NOT SCORED",
-            "wider package is HOLD",
-            "retail value remains not_computed",
+            "Seven premise-specific patent-value outputs",
+            "all seven outputCases values",
+            "only enforcement requires potentially infringing sales",
         ),
     }
     for language, rows in csv_rows_by_language.items():
         joined = "\n".join("\t".join(row) for row in rows)
         for marker in register_markers[language]:
             if marker not in joined:
-                errors.append(f"{language} Evidence Register lacks v43 marker {marker!r}")
+                errors.append(f"{language} Evidence Register lacks v44 marker {marker!r}")
     errors.extend(
         validate_register_parity(
             csv_rows_by_language["fi"],
@@ -1977,145 +2064,80 @@ def validate_manifest(errors: list[str]) -> None:
                 errors.append(f"{relative}: public-boundary disclosure is missing")
             release_deck_markers = (
                 (
-                    "274,180 milj. nzd",
-                    "116 markkinamittaria",
-                    "36 ruotsin fhm",
-                    "578 wb-havaintoa",
-                    "28 / 0 / 15 / 152",
-                    "0/3",
-                    "7/10",
-                    "1,219160 mrd cad",
-                    "uusi-seelanti",
-                    "euromonitor",
-                    "1/6",
-                    "hold",
-                    "de-blind",
-                    "ei pisteytetty",
-                    "arvot salassa",
+                    "seitsemän perustekohtaista",
+                    "null/not_computed",
+                    "kaikki seitsemän",
+                    "markkinaevidenssi",
+                    "saksan ratkaisu",
+                    "pct",
                     RELEASE_DATE,
                     RELEASE_VERSION,
                 )
                 if not is_english
                 else (
-                    "nzd 274.180m",
-                    "116 market measures",
-                    "36 swedish fhm register",
-                    "578 wb records",
-                    "28 / 0 / 15 / 152",
-                    "0/3",
-                    "7/10",
-                    "cad 1.219160bn",
-                    "new zealand",
-                    "euromonitor",
-                    "1/6",
-                    "hold",
-                    "de-blind",
-                    "not scored",
-                    "values remain withheld",
+                    "seven premise-specific",
+                    "null/not_computed",
+                    "all seven",
+                    "market evidence",
+                    "german judgment",
+                    "ordinary pct",
                     RELEASE_DATE,
                     RELEASE_VERSION,
                 )
             )
-            (
-                nz_observed_fx_marker,
-                nz_model_fx_marker,
-                ftc_fx_marker,
-                canada_retail_fx_marker,
-                canada_shipments_fx_marker,
-            ) = deck_fx_markers(
-                expected_eur_rows,
-                "en" if is_english else "fi",
-            )
-            release_deck_markers = (
-                *release_deck_markers,
-                nz_observed_fx_marker,
-                canada_retail_fx_marker,
-                canada_shipments_fx_marker,
-            )
             if expected["slideCount"] == 30:
                 release_deck_markers = (
                     *release_deck_markers,
-                    "2,763 mrd usd" if not is_english else "usd 2.763bn",
-                    "4,99 mrd eur" if not is_english else "eur 4.99bn",
-                    "4 382 500" if not is_english else "4,382,500",
-                    "62 500" if not is_english else "62,500",
                     (
-                        "laajan höyrystyslaiteryhmän"
+                        "ladattava paketti päivitetään enintään kerran asia/nicosia-kalenteripäivässä"
                         if not is_english
-                        else "broad vaporisation-device-group"
-                    ),
-                    (
-                        "ei sähkötupakkakohtainen"
-                        if not is_english
-                        else "not e-cigarette-only"
-                    ),
-                    "puola" if not is_english else "poland",
-                    "euromonitor",
-                    ftc_fx_marker,
-                    nz_model_fx_marker,
-                    "nzd 533.7–731.2m" if is_english else "533,7–731,2 milj. nzd",
-                    (
-                        "päiväpaketti muodostetaan enintään kerran asia/nicosia-kalenteripäivässä"
-                        if not is_english
-                        else "the daily package is generated at most once per asia/nicosia calendar day"
+                        else "the downloadable package is refreshed at most once per asia/nicosia calendar day"
                     ),
                 )
             for marker in release_deck_markers:
                 if marker not in combined:
-                    errors.append(f"{relative}: v43 market marker is missing: {marker!r}")
+                    errors.append(f"{relative}: v44 patent-value marker is missing: {marker!r}")
             if expected["slideCount"] == 6:
                 short_only_markers = (
                     (
-                        "nz:n rajaproxyt eivät ole retail-arvoja",
-                        "yksityinen de-blind-audit",
-                        "vuosien 2023 ja 2024 vuosirajat sekä yhteisrajan",
-                        "arvot salassa",
-                        "1/6",
-                        "ei pisteytetty",
-                        "hold",
+                        "vain täytäntöönpano vaatii loukkausmyyntiä",
+                        "oikeudet ovat alueellisia",
+                        "seitsemän avointa porttia",
                     )
                     if not is_english
                     else (
-                        "nz border proxies are not retail values",
-                        "private de-blind audit",
-                        "2023, 2024 and combined caps",
-                        "values remain withheld",
-                        "1/6",
-                        "not scored",
-                        "hold",
+                        "only the past-enforcement branch does",
+                        "rights are territorial",
+                        "seven open gates",
                     )
                 )
                 for marker in short_only_markers:
                     if marker not in combined:
                         errors.append(
-                            f"{relative}: v43 concise-deck marker is missing: {marker!r}"
+                            f"{relative}: v44 concise-deck marker is missing: {marker!r}"
                         )
             if expected["slideCount"] == 30:
                 large_only_markers = (
                     (
-                        "d8 on suljettu virallisella veroperustalla",
-                        "183,371/197,070 milj. nzd:n nettorajaproxyt ovat vain d10-diagnostiikkaa",
-                        "lisensoitu vuosien 2022–2025 saksa-ote vastaanotettiin",
-                        "vuoden 2023 ja 2024 vuosirajat sekä kahden vuoden yhteisrajan",
-                        "toimittaja-arvot ja tarkat poikkeamat pidetään salassa",
-                        "saksa ei ole donor",
-                        "laajempi 25/50/78 maan paketti hold",
+                        "22 julkaisua",
+                        "28 muodollista maariviä",
+                        "rfr-/oma käyttö",
+                        "kolmannen lisensointi",
+                        "seitsemän arvotulosta alkaa null-tilasta",
                     )
                     if not is_english
                     else (
-                        "official tax evidence closes d8",
-                        "nzd 183.371m/197.070m net border proxies are d10 diagnostics only",
-                        "licensed germany 2022–2025 extract was received",
-                        "2023 and 2024 annual caps and the two-year combined cap",
-                        "vendor values and exact deviations remain withheld",
-                        "germany is not a donor",
-                        "wider 25/50/78-country package hold",
+                        "22 publications",
+                        "28 formal country rows",
+                        "rfr/direct-use",
+                        "third-party licensing",
+                        "seven distinct patent-value outputs start at null",
                     )
                 )
                 for marker in large_only_markers:
                     if marker not in combined:
                         errors.append(
-                            f"{relative}: v43 extended-deck marker is missing: {marker!r}"
+                            f"{relative}: v44 extended-deck marker is missing: {marker!r}"
                         )
         else:
             csv_rows = csv_rows_by_language[expected["language"]]
